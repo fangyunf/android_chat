@@ -1,0 +1,453 @@
+// Copyright (c) 2022 NetEase, Inc. All rights reserved.
+// Use of this source code is governed by a MIT license that can be
+// found in the LICENSE file.
+
+package com.netease.yunxin.kit.conversationkit.ui.fun.page;
+
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.RequestCallback;
+import com.netease.nimlib.sdk.msg.MessageBuilder;
+import com.netease.nimlib.sdk.msg.MsgService;
+import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
+import com.netease.nimlib.sdk.msg.model.CustomMessageConfig;
+import com.netease.nimlib.sdk.msg.model.IMMessage;
+import com.netease.yunxin.kit.chatkit.model.ConversationInfo;
+import com.netease.yunxin.kit.common.ui.widgets.ContentListPopView;
+import com.netease.yunxin.kit.common.ui.widgets.TitleBarView;
+import com.netease.yunxin.kit.common.utils.SizeUtils;
+import com.netease.yunxin.kit.conversationkit.ui.ConversationKitClient;
+import com.netease.yunxin.kit.conversationkit.ui.ConversationUIConfig;
+import com.netease.yunxin.kit.conversationkit.ui.ConversationUIConstant;
+import com.netease.yunxin.kit.conversationkit.ui.R;
+import com.netease.yunxin.kit.conversationkit.ui.databinding.FunConversationFragmentBinding;
+import com.netease.yunxin.kit.conversationkit.ui.fun.FunPopItemFactory;
+import com.netease.yunxin.kit.conversationkit.ui.fun.FunViewHolderFactory;
+import com.netease.yunxin.kit.conversationkit.ui.fun.page.Bean.ConversationCustomInfoBean;
+import com.netease.yunxin.kit.conversationkit.ui.model.ConversationBean;
+import com.netease.yunxin.kit.conversationkit.ui.page.ConversationBaseFragment;
+import com.netease.yunxin.kit.corekit.im.IMKitClient;
+import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
+import com.netease.yunxin.kit.corekit.route.XKitRouter;
+import com.yaoxin.appbase.model.NetData;
+import com.yaoxin.appbase.model.RegisterBean;
+import com.yaoxin.appbase.net.CommonCallback;
+import com.yaoxin.appbase.net.HttpUtil;
+import com.yaoxin.appbase.utils.BarUtils;
+import com.yaoxin.appbase.utils.BaseEvent;
+import com.yaoxin.appbase.utils.DataUtil;
+import com.yaoxin.appbase.utils.StatusBarUtils;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Response;
+
+public class FunConversationFragment extends ConversationBaseFragment {
+
+  private FunConversationFragmentBinding viewBinding;
+
+  @Override
+  public View initViewAndGetRootView(
+      @NonNull LayoutInflater inflater,
+      @Nullable ViewGroup container,
+      @Nullable Bundle savedInstanceState) {
+    viewBinding = FunConversationFragmentBinding.inflate(inflater, container, false);
+    initView();
+    StatusBarUtils.setStatusBarLightMode(getActivity(), true, true);
+
+    return viewBinding.getRoot();
+  }
+
+  @Override
+  protected void finishLoadData() {
+    super.finishLoadData();
+    _requestData();
+  }
+
+  void _requestData() {
+
+    HttpUtil.apiW().customer_systemAppUser(new RegisterBean())
+            .enqueue(new CommonCallback<NetData>() {
+              @Override
+              public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+
+                String  kefuId = body.data.toString().replace("\"","");
+                String  xiaozhushouId = "10086";
+                DataUtil.putKeFuId(kefuId);
+                DataUtil.putXiaoZhuShouId(xiaozhushouId);
+
+                boolean hasKefu = false;
+                boolean hasXiaoZhushou = false;
+
+                for (ConversationBean tempBean :
+                        conversationList) {
+                  if (tempBean.infoData.getContactId().equals(kefuId)) {
+                    hasKefu = true;
+
+                  }
+                }
+                for (ConversationBean tempBean :
+                        conversationList) {
+                  if (tempBean.infoData.getContactId().equals(xiaozhushouId)) {
+                    hasXiaoZhushou = true;
+
+                  }
+                }
+                if (!hasKefu) {
+                  sendMessage(kefuId);
+                }
+                if (!hasXiaoZhushou) {
+                  sendMessage(xiaozhushouId);
+                }
+              }
+
+              @Override
+              public void Failure(Call<NetData> call, Throwable t) {
+
+              }
+            });
+  }
+
+  private void sendMessage(String account) {
+    // 自定义消息内容
+//    Map<String, Object> content = new HashMap<>();
+//    content.put("type", "custom");
+//    content.put("data", "这是自定义会话记录的内容");
+
+    // 设置自定义消息配置
+    CustomMessageConfig config = new CustomMessageConfig();
+    config.enableUnreadCount = false; // 自定义消息不计入未读数
+
+    // 构建自定义消息
+    IMMessage message = MessageBuilder.createCustomMessage(account, SessionTypeEnum.P2P, null,
+            null, config, null);
+
+
+    message.setConfig(config);
+
+    // 保存自定义消息
+    NIMClient.getService(MsgService.class).saveMessageToLocal(message, true).setCallback(new RequestCallback<Void>() {
+      @Override
+      public void onSuccess(Void param) {
+        NIMClient.getService(MsgService.class).clearChattingHistory(account,SessionTypeEnum.P2P);
+        // 保存成功
+      }
+
+      @Override
+      public void onFailed(int code) {
+        // 保存失败
+      }
+
+      @Override
+      public void onException(Throwable exception) {
+        // 保存异常
+      }
+    });
+  }
+  // 发送消息的方法
+//  public void sendMessage(String account, String messageText) {
+//    // 创建一个文本消息
+//    IMMessage message = MessageBuilder.createTextMessage(
+//            account,               // 对方帐号
+//            SessionTypeEnum.P2P,   // 会话类型：P2P (单聊) 或 Team (群聊)
+//            messageText            // 消息文本内容
+//    );
+//
+//
+//    // 发送消息
+//    NIMClient.getService(MsgService.class).sendMessage(message, false).setCallback(new RequestCallback<Void>() {
+//      @Override
+//      public void onSuccess(Void param) {
+//        // 发送成功
+//      }
+//
+//      @Override
+//      public void onFailed(int code) {
+//        // 发送失败
+//      }
+//
+//      @Override
+//      public void onException(Throwable exception) {
+//        // 发送异常
+//      }
+//    });
+//  }
+
+  private void initView() {
+    conversationView = viewBinding.conversationView;
+    titleBarView = viewBinding.titleBar;
+    networkErrorView = viewBinding.errorTv;
+    emptyView = viewBinding.emptyLayout;
+    viewBinding.titleBar.getRight2ImageView().setVisibility(View.GONE);
+
+    setViewHolderFactory(new FunViewHolderFactory());
+    viewBinding.conversationView.addItemDecoration(getItemDecoration());
+    viewBinding.titleBar.setRightImageClick(
+        v -> {
+          if (ConversationKitClient.getConversationUIConfig() != null
+              && ConversationKitClient.getConversationUIConfig().titleBarRightClick != null) {
+            ConversationKitClient.getConversationUIConfig().titleBarRightClick.onClick(v);
+            return;
+          }
+          if (IMKitClient.getConfigCenter().getTeamEnable()) {
+            Context context = getContext();
+            int memberLimit = ConversationUIConstant.MAX_TEAM_MEMBER;
+            ContentListPopView contentListPopView =
+                new ContentListPopView.Builder(context)
+                        .addItem(FunPopItemFactory.getCreateAdvancedTeamItem(context, memberLimit))
+                    .addItem(FunPopItemFactory.getDivideLineItem(context))
+                        .addItem(FunPopItemFactory.getAddFriendItem(context))
+                    .addItem(FunPopItemFactory.getDivideLineItem(context))
+                        .addItem(FunPopItemFactory.getScanItem(context))
+                    .enableShadow(false)
+                    .backgroundRes(R.drawable.fun_conversation_view_pop_bg)
+                    .build();
+            contentListPopView.showAsDropDown(
+                v, (int) requireContext().getResources().getDimension(R.dimen.pop_margin_right), 0);
+          } else {
+            XKitRouter.withKey(RouterConstant.PATH_FUN_ADD_FRIEND_PAGE)
+                .withContext(requireContext())
+                .navigate();
+          }
+        });
+
+
+    LinearLayout.LayoutParams params =
+            (LinearLayout.LayoutParams) viewBinding.titleBar.getLayoutParams();
+    params.height = params.height + BarUtils.getStatusBarHeight();
+    viewBinding.titleBar.setLayoutParams(params);
+    viewBinding.titleBar.setPadding(0, BarUtils.getStatusBarHeight(), 0, 0);
+
+
+    _initHeadCell();
+    loadUIConfig();
+    _initTopStatus(0);
+  }
+
+  private void _initHeadCell() {
+    viewBinding.funConversationFragmentHeadAll.viewConversationHeadItemIv.setImageResource(R.drawable.conversation_index_all_chat);
+    viewBinding.funConversationFragmentHeadAll.viewConversationHeadItemTv.setText("全部");
+    viewBinding.funConversationFragmentHeadAll.viewConversationHeadItemLl.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        _initTopStatus(0);
+        conversationView.setData(conversationList);
+      }
+    });
+
+    viewBinding.funConversationFragmentHeadSingle.viewConversationHeadItemIv.setImageResource(R.drawable.conversation_index_single_chat);
+    viewBinding.funConversationFragmentHeadSingle.viewConversationHeadItemTv.setText("单聊");
+    viewBinding.funConversationFragmentHeadSingle.viewConversationHeadItemLl.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        _initTopStatus(1);
+        ArrayList<ConversationBean> tempArr = new ArrayList<>();
+        for (ConversationBean tempBean:
+             conversationList) {
+          if (tempBean.viewType == 1) {
+            tempArr.add(tempBean);
+          }
+        }
+        conversationView.setData(tempArr);
+      }
+    });
+
+    viewBinding.funConversationFragmentHeadGroup.viewConversationHeadItemIv.setImageResource(R.drawable.conversation_index_chat_group);
+    viewBinding.funConversationFragmentHeadGroup.viewConversationHeadItemTv.setText("群聊");
+    viewBinding.funConversationFragmentHeadGroup.viewConversationHeadItemLl.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        _initTopStatus(2);
+        ArrayList<ConversationBean> tempArr = new ArrayList<>();
+        for (ConversationBean tempBean:
+                conversationList) {
+          if (tempBean.viewType == 2) {
+            tempArr.add(tempBean);
+          }
+        }
+        conversationView.setData(tempArr);
+      }
+    });
+
+    viewBinding.funConversationFragmentHeadNotice.viewConversationHeadItemIv.setImageResource(R.drawable.conversation_index_notice);
+    viewBinding.funConversationFragmentHeadNotice.viewConversationHeadItemTv.setText("系统");
+    viewBinding.funConversationFragmentHeadNotice.viewConversationHeadItemLl.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        _initTopStatus(3);
+
+        ArrayList<ConversationBean> tempArr = new ArrayList<>();
+        for (ConversationBean tempBean:
+                conversationList) {
+          if (DataUtil.getKeFuId() != null && tempBean.param != null) {
+            String param = (String) tempBean.param;
+            if (DataUtil.getKeFuId().equals(param) || DataUtil.getXiaoZhuShouId().equals(param)) {
+              tempArr.add(tempBean);
+            }
+          }
+        }
+        conversationView.setData(tempArr);
+      }
+    });
+
+  }
+
+  void _initTopStatus(int index) {
+    viewBinding.funConversationFragmentHeadNotice.viewConversationHeadItemTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.black));
+    viewBinding.funConversationFragmentHeadGroup.viewConversationHeadItemTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.black));
+    viewBinding.funConversationFragmentHeadSingle.viewConversationHeadItemTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.black));
+    viewBinding.funConversationFragmentHeadAll.viewConversationHeadItemTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.black));
+    switch (index) {
+      case 0:
+        viewBinding.funConversationFragmentHeadAll.viewConversationHeadItemTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.color_8B5FD8));
+        break;
+      case 1:
+        viewBinding.funConversationFragmentHeadSingle.viewConversationHeadItemTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.color_8B5FD8));
+        break;
+      case 2:
+        viewBinding.funConversationFragmentHeadGroup.viewConversationHeadItemTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.color_8B5FD8));
+        break;
+      case 3:
+        viewBinding.funConversationFragmentHeadNotice.viewConversationHeadItemTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.color_8B5FD8));
+        break;
+      default:
+        break;
+    }
+
+  }
+  public RecyclerView.ItemDecoration getItemDecoration() {
+    return new RecyclerView.ItemDecoration() {
+      final int topPadding = SizeUtils.dp2px(0.25f);
+      final int indent = SizeUtils.dp2px(76);
+
+      @Override
+      public void onDrawOver(
+          @NonNull Canvas canvas, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
+        int left = parent.getPaddingLeft() + indent;
+        int right = parent.getWidth() - parent.getPaddingRight();
+
+        int childCount = parent.getChildCount();
+        for (int i = 0; i < childCount - 1; i++) {
+          View child = parent.getChildAt(i);
+
+          RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
+
+          int top = child.getBottom() + params.bottomMargin;
+          int bottom = top + topPadding;
+
+          Paint paint = new Paint();
+          paint.setColor(
+              parent.getResources().getColor(R.color.fun_conversation_item_divide_line_color));
+          canvas.drawRect(left, top, right, bottom, paint);
+        }
+      }
+    };
+  }
+
+  private void loadUIConfig() {
+    if (ConversationKitClient.getConversationUIConfig() == null) {
+      return;
+    }
+    ConversationUIConfig config = ConversationKitClient.getConversationUIConfig();
+
+    viewBinding.titleBar.setLeftImageClick(
+        v -> {
+          if (config.titleBarLeftClick != null) {
+            config.titleBarLeftClick.onClick(v);
+          }
+        });
+
+    if (config.conversationComparator != null) {
+      setComparator(config.conversationComparator);
+    }
+
+    if (config.conversationFactory != null) {
+      setViewHolderFactory(config.conversationFactory);
+    }
+
+    if (!config.showTitleBar) {
+      titleBarView.setVisibility(View.GONE);
+    } else {
+      titleBarView.setVisibility(View.VISIBLE);
+      titleBarView.setHeadImageVisible(config.showTitleBarLeftIcon ? View.VISIBLE : View.GONE);
+      titleBarView.showRightImageView(config.showTitleBarRightIcon);
+
+      if (config.titleBarTitle != null) {
+        titleBarView.setTitle(config.titleBarTitle);
+      }
+
+      if (config.titleBarTitleColor != null) {
+        titleBarView.setTitleColor(config.titleBarTitleColor);
+      }
+
+      if (config.titleBarLeftRes != null) {
+        titleBarView.setLeftImageRes(config.titleBarLeftRes);
+      }
+
+      if (config.titleBarLeftRes != null) {
+        titleBarView.setLeftImageRes(config.titleBarLeftRes);
+      }
+
+      if (config.titleBarRightRes != null) {
+        titleBarView.setRightImageRes(config.titleBarRightRes);
+      }
+    }
+
+    if (config.customLayout != null) {
+      config.customLayout.customizeConversationLayout(this);
+    }
+  }
+
+  public TitleBarView getTitleBar() {
+    return viewBinding.titleBar;
+  }
+
+  public LinearLayout getTopLayout() {
+    return viewBinding.topLayout;
+  }
+
+  public LinearLayout getBodyLayout() {
+    return viewBinding.bodyLayout;
+  }
+
+  public FrameLayout getBottomLayout() {
+    return viewBinding.bottomLayout;
+  }
+
+  public FrameLayout getBodyTopLayout() {
+    return viewBinding.bodyTopLayout;
+  }
+
+  public TextView getErrorTextView() {
+    return viewBinding.errorTv;
+  }
+
+  public void setEmptyViewVisible(int visible) {
+    viewBinding.emptyLayout.setVisibility(visible);
+  }
+
+  public View getEmptyView() {
+    return viewBinding.emptyLayout;
+  }
+}

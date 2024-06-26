@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tl="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_F6F6F6"
+    android:orientation="vertical">
+
+    <com.yaoxin.appbase.navbar.NavToolbar
+        android:id="@+id/activity_mine_account_detail_nav"
+        style="@style/WhiteFontToolbar"
+        android:background="@color/white"
+        app:back_icon="@mipmap/temp_ic_back"
+        app:enable_under_divider="true"
+        app:support_translucent_status_bar="false"
+        app:title="个人账号"
+        app:title_text_color="@color/color_333333"
+        app:under_divider_color="@color/color_d5d5d5" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+        <RelativeLayout
+            android:id="@+id/activity_mine_account_detail_modify_head_iv_rl"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_58_dp"
+            android:background="@color/white"
+            android:paddingHorizontal="@dimen/dimen_14_dp"
+            >
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:riv_corner_radius="25dp"
+                android:scaleType="centerCrop"
+                android:layout_centerVertical="true"
+                android:id="@+id/activity_mine_account_detail_head_iv"
+                />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+android:gravity="center_vertical"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="22dp"
+                    android:text="修改头像"
+                    android:textColor="#ff999999"
+                    android:textSize="16sp"
+                    />
+                <ImageView
+                    android:layout_marginLeft="@dimen/dimen_4_dp"
+                    android:layout_width="6dp"
+                    android:layout_height="@dimen/dimen_12_dp"
+                    android:src="@mipmap/mine_fragment_purse_pwd_manager_arrow"
+                    />
+            </LinearLayout>
+        </RelativeLayout>
+        <include
+            android:layout_marginTop="@dimen/dimen_1_dp"
+            android:id="@+id/activity_mine_account_detail_account_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/view_title_arrow"
+            />
+
+        <include
+            android:layout_marginTop="@dimen/dimen_1_dp"
+            android:id="@+id/activity_mine_account_detail_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/view_title_arrow"
+            />
+
+        <include
+            android:layout_marginTop="@dimen/dimen_1_dp"
+            android:id="@+id/activity_mine_account_detail_phone_num"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/view_title_arrow"
+            />
+
+
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/view_title_arrow_ll"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/color_white"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="@dimen/dimen_18_dp"
+        android:paddingVertical="@dimen/dimen_16_dp"
+        >
+
+        <TextView
+            android:id="@+id/view_title_arrow_tv"
+            android:layout_width="0dp"
+            android:layout_height="22dp"
+            android:text="设置支付密码"
+            android:textColor="#ff000000"
+            android:textSize="16sp"
+            android:layout_weight="1"
+            />
+        <TextView
+            android:id="@+id/view_title_arrow_right_tv"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="22dp"
+            android:text=""
+            android:textColor="#ff999999"
+            android:textSize="16sp"
+            />
+
+        <ImageView
+            android:id="@+id/view_title_arrow_arrow_iv"
+            android:layout_width="6dp"
+            android:layout_height="@dimen/dimen_12_dp"
+            android:src="@mipmap/common_right_arrow"
+            />
+        <ImageView
+            android:id="@+id/view_title_arrow_right_tv_switch"
+            android:layout_width="@dimen/dimen_45_dp"
+            android:layout_height="@dimen/dimen_28_dp"
+            android:visibility="gone"
+            android:src="@drawable/fun_common_switch_track_selector" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_F2F2F2"
+        android:layout_marginHorizontal="16dp"
+        />
+</LinearLayout>

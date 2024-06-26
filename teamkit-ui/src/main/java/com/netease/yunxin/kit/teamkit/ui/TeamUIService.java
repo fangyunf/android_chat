@@ -1,0 +1,373 @@
+// Copyright (c) 2022 NetEase, Inc. All rights reserved.
+// Use of this source code is governed by a MIT license that can be
+// found in the LICENSE file.
+
+package com.netease.yunxin.kit.teamkit.ui;
+
+import static com.netease.yunxin.kit.corekit.im.utils.RouterConstant.KEY_REQUEST_SELECTOR_NAME;
+import static com.netease.yunxin.kit.corekit.im.utils.RouterConstant.KEY_TEAM_FIELDS;
+import static com.netease.yunxin.kit.corekit.im.utils.RouterConstant.KEY_TEAM_ICON;
+import static com.netease.yunxin.kit.corekit.im.utils.RouterConstant.KEY_TEAM_NAME;
+import static com.netease.yunxin.kit.corekit.im.utils.RouterConstant.PATH_CREATE_ADVANCED_TEAM_ACTION;
+import static com.netease.yunxin.kit.corekit.im.utils.RouterConstant.PATH_CREATE_NORMAL_TEAM_ACTION;
+import static com.netease.yunxin.kit.corekit.im.utils.RouterConstant.PATH_FUN_CREATE_ADVANCED_TEAM_ACTION;
+import static com.netease.yunxin.kit.corekit.im.utils.RouterConstant.PATH_FUN_CREATE_NORMAL_TEAM_ACTION;
+import static com.netease.yunxin.kit.corekit.im.utils.RouterConstant.PATH_FUN_TEAM_SETTING_PAGE;
+import static com.netease.yunxin.kit.corekit.im.utils.RouterConstant.PATH_TEAM_INVITE_ACTION;
+import static com.netease.yunxin.kit.corekit.im.utils.RouterConstant.PATH_TEAM_SETTING_PAGE;
+import static com.netease.yunxin.kit.corekit.im.utils.RouterConstant.REQUEST_CONTACT_SELECTOR_KEY;
+
+import android.content.Context;
+
+import androidx.annotation.Keep;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.google.gson.Gson;
+import com.netease.nimlib.sdk.team.constant.TeamBeInviteModeEnum;
+import com.netease.nimlib.sdk.team.constant.TeamExtensionUpdateModeEnum;
+import com.netease.nimlib.sdk.team.constant.TeamFieldEnum;
+import com.netease.nimlib.sdk.team.constant.TeamInviteModeEnum;
+import com.netease.nimlib.sdk.team.constant.TeamUpdateModeEnum;
+import com.netease.nimlib.sdk.team.constant.VerifyTypeEnum;
+import com.netease.nimlib.sdk.team.model.CreateTeamResult;
+import com.netease.yunxin.kit.alog.ALog;
+import com.netease.yunxin.kit.chatkit.ChatService;
+import com.netease.yunxin.kit.chatkit.repo.TeamRepo;
+import com.netease.yunxin.kit.corekit.im.provider.FetchCallback;
+import com.netease.yunxin.kit.corekit.im.utils.IMKitConstant;
+import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
+import com.netease.yunxin.kit.corekit.model.ErrorMsg;
+import com.netease.yunxin.kit.corekit.model.ResultInfo;
+import com.netease.yunxin.kit.corekit.route.XKitRouter;
+import com.netease.yunxin.kit.corekit.startup.Initializer;
+import com.netease.yunxin.kit.teamkit.ui.fun.activity.FunTeamSettingNewActivity;
+import com.netease.yunxin.kit.teamkit.ui.normal.activity.TeamSettingActivity;
+import com.yaoxin.appbase.utils.TeamIconUtils;
+import com.netease.yunxin.kit.teamkit.ui.utils.TeamUtils;
+import com.yaoxin.appbase.model.CustomMsgBean;
+import com.yaoxin.appbase.model.NetData;
+import com.yaoxin.appbase.model.RegisterBean;
+import com.yaoxin.appbase.net.CommonCallback;
+import com.yaoxin.appbase.net.HttpUtil;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.json.JSONObject;
+
+import retrofit2.Call;
+import retrofit2.Response;
+
+/**
+ * launch service when app start the TeamUIService will be created it need to config in manifest
+ */
+@Keep
+public class TeamUIService extends ChatService {
+
+    private static final String TAG = "TeamUIService";
+
+    @NonNull
+    @Override
+    public String getServiceName() {
+        return "TeamUIKit";
+    }
+
+    @NonNull
+    @Override
+    public String getVersionName() {
+        return BuildConfig.versionName;
+    }
+
+    @Nullable
+    @Override
+    public Object onMethodCall(@NonNull String method, @Nullable Map<String, ?> param) {
+        return null;
+    }
+
+    @NonNull
+    @Override
+    public ChatService create(@NonNull Context context) {
+        XKitRouter.registerRouter(PATH_TEAM_SETTING_PAGE, TeamSettingActivity.class);
+        registerCreateNormalTeamRouter(
+                context, PATH_CREATE_NORMAL_TEAM_ACTION, () -> TeamIconUtils.getDefaultRandomIconUrl(true));
+        registerCreateAdvanceTeamRouter(
+                context,
+                PATH_CREATE_ADVANCED_TEAM_ACTION,
+                () -> TeamIconUtils.getDefaultRandomIconUrl(true));
+//        XKitRouter.registerRouter(PATH_FUN_TEAM_SETTING_PAGE, FunTeamSettingActivity.class);
+        XKitRouter.registerRouter(PATH_FUN_TEAM_SETTING_PAGE, FunTeamSettingNewActivity.class);
+        registerCreateAdvanceTeamRouter(
+                context,
+                PATH_FUN_CREATE_ADVANCED_TEAM_ACTION,
+                () -> TeamIconUtils.getDefaultRandomIconUrl(false));
+        registerCreateNormalTeamRouter(
+                context,
+                PATH_FUN_CREATE_NORMAL_TEAM_ACTION,
+                () -> TeamIconUtils.getDefaultRandomIconUrl(false));
+        registerInviteUser();
+        return this;
+    }
+
+    @NonNull
+    @Override
+    public List<Class<? extends Initializer<?>>> dependencies() {
+        return Collections.emptyList();
+    }
+
+    // 将创建讨论组注册到路由器，可通过路由触发
+    @SuppressWarnings("unchecked")
+    public void registerCreateNormalTeamRouter(
+            Context context, String path, RandomUrlProvider provider) {
+        XKitRouter.registerRouter(
+                path,
+                new XKitRouter.RouterValue(
+                        path,
+                        (value, params, observer) -> {
+                            Map<String, Object> customParam = params;
+                            if (TeamKitClient.getTeamCustom() != null) {
+                                customParam = TeamKitClient.getTeamCustom().customCreateTeam(params);
+                            }
+                            try {
+
+                                List<String> nameList =
+                                        customParam.get(KEY_REQUEST_SELECTOR_NAME) != null
+                                                ? (List<String>) customParam.get(KEY_REQUEST_SELECTOR_NAME)
+                                                : new ArrayList<>();
+                                List<String> accIdList =
+                                        customParam.get(REQUEST_CONTACT_SELECTOR_KEY) != null
+                                                ? (List<String>) customParam.get(REQUEST_CONTACT_SELECTOR_KEY)
+                                                : new ArrayList<>();
+
+                                Map<TeamFieldEnum, Serializable> fieldMap =
+                                        customParam.get(KEY_TEAM_FIELDS) != null
+                                                ? (Map<TeamFieldEnum, Serializable>) customParam.get(KEY_TEAM_FIELDS)
+                                                : new HashMap<>();
+                                String teamName =
+                                        customParam.get(KEY_TEAM_NAME) != null
+                                                ? String.valueOf(customParam.get(KEY_TEAM_NAME))
+                                                : TeamUtils.generateNameFromAccIdList(
+                                                nameList, context.getString(R.string.group_team));
+                                String iconUrl =
+                                        customParam.get(KEY_TEAM_ICON) != null
+                                                ? String.valueOf(customParam.get(KEY_TEAM_ICON))
+                                                : provider.getRandomUrl();
+
+                                if (fieldMap == null) {
+                                    fieldMap = new HashMap<>();
+                                }
+
+                                fieldMap.put(TeamFieldEnum.BeInviteMode, TeamBeInviteModeEnum.NoAuth);
+                                fieldMap.put(TeamFieldEnum.InviteMode, TeamInviteModeEnum.All);
+                                fieldMap.put(TeamFieldEnum.VerifyType, VerifyTypeEnum.Free);
+                                fieldMap.put(TeamFieldEnum.TeamUpdateMode, TeamUpdateModeEnum.All);
+                                fieldMap.put(
+                                        TeamFieldEnum.TeamExtensionUpdateMode, TeamExtensionUpdateModeEnum.All);
+                                if (fieldMap.containsKey(TeamFieldEnum.Extension)) {
+                                    Object extension = fieldMap.get(TeamFieldEnum.Extension);
+                                    if (extension instanceof Map) {
+                                        try {
+                                            ((Map<String, Serializable>) extension)
+                                                    .put(IMKitConstant.TEAM_GROUP_TAG, true);
+                                        } catch (Exception e) {
+                                            ALog.e(
+                                                    TeamKitClient.LIB_TAG,
+                                                    TAG,
+                                                    "createNormalTeam exception:" + e.getMessage());
+                                            JSONObject extJson = new JSONObject();
+                                            extJson.put(IMKitConstant.TEAM_GROUP_TAG, true);
+                                            fieldMap.put(TeamFieldEnum.Extension, extJson.toString());
+                                        }
+
+                                    } else {
+                                        String extensionStr =
+                                                extension
+                                                        + IMKitConstant.TEAM_EXTENSION_SPLIT_TAG
+                                                        + IMKitConstant.TEAM_GROUP_TAG;
+                                        fieldMap.put(TeamFieldEnum.Extension, extensionStr);
+                                    }
+
+                                } else {
+                                    JSONObject extJson = new JSONObject();
+                                    extJson.put(IMKitConstant.TEAM_GROUP_TAG, true);
+                                    fieldMap.put(TeamFieldEnum.Extension, extJson.toString());
+                                }
+
+                                if (accIdList == null) {
+                                    accIdList = new ArrayList<>();
+                                }
+
+                                TeamRepo.createAdvanceTeam(
+                                        teamName,
+                                        iconUrl,
+                                        accIdList,
+                                        fieldMap,
+                                        new FetchCallback<CreateTeamResult>() {
+                                            @Override
+                                            public void onSuccess(@Nullable CreateTeamResult param) {
+                                                if (observer != null) {
+                                                    observer.onResult(new ResultInfo<>(param, true));
+                                                }
+                                                ALog.e(TeamKitClient.LIB_TAG, TAG, "createNormalTeam onSuccess");
+                                            }
+
+                                            @Override
+                                            public void onFailed(int code) {
+                                                if (observer != null) {
+                                                    observer.onResult(new ResultInfo<>(null, false, new ErrorMsg(code)));
+                                                }
+                                                ALog.e(TeamKitClient.LIB_TAG, TAG, "createNormalTeam onFailed:" + code);
+                                            }
+
+                                            @Override
+                                            public void onException(@Nullable Throwable exception) {
+                                                if (observer != null) {
+                                                    observer.onResult(
+                                                            new ResultInfo<>(
+                                                                    null, false, new ErrorMsg(-1, "onException", exception)));
+                                                }
+                                                ALog.e(TeamKitClient.LIB_TAG, TAG, "createNormalTeam onException:");
+                                            }
+                                        });
+                            } catch (Exception exception) {
+                                ALog.e(
+                                        TeamKitClient.LIB_TAG,
+                                        TAG,
+                                        "createNormalTeam exception:" + exception.getMessage());
+                            }
+
+                            return true;
+                        }));
+    }
+
+    // 将创建高级群注册到路由器，可通过路由触发
+    @SuppressWarnings("unchecked")
+    public void registerCreateAdvanceTeamRouter(
+            Context context, String path, RandomUrlProvider provider) {
+
+        XKitRouter.registerRouter(
+                path,
+                new XKitRouter.RouterValue(
+                        path,
+                        (value, params, observer) -> {
+                            Map<String, Object> customParam = params;
+                            if (TeamKitClient.getTeamCustom() != null) {
+                                customParam = TeamKitClient.getTeamCustom().customCreateTeam(params);
+                            }
+                            List<String> nameList =
+                                    customParam.get(KEY_REQUEST_SELECTOR_NAME) != null
+                                            ? (List<String>) customParam.get(KEY_REQUEST_SELECTOR_NAME)
+                                            : new ArrayList<>();
+                            List<String> accIdList =
+                                    customParam.get(REQUEST_CONTACT_SELECTOR_KEY) != null
+                                            ? (List<String>) customParam.get(REQUEST_CONTACT_SELECTOR_KEY)
+                                            : new ArrayList<>();
+
+                            Map<TeamFieldEnum, Serializable> fieldMap =
+                                    customParam.get(KEY_TEAM_FIELDS) != null
+                                            ? (Map<TeamFieldEnum, Serializable>) customParam.get(KEY_TEAM_FIELDS)
+                                            : new HashMap<>();
+                            String teamName =
+                                    customParam.get(KEY_TEAM_NAME) != null
+                                            ? String.valueOf(customParam.get(KEY_TEAM_NAME))
+                                            : TeamUtils.generateNameFromAccIdList(
+                                            nameList, context.getString(R.string.advanced_team));
+                            String iconUrl =
+                                    customParam.get(KEY_TEAM_ICON) != null
+                                            ? String.valueOf(customParam.get(KEY_TEAM_ICON))
+                                            : provider.getRandomUrl();
+
+                            if (fieldMap != null && !fieldMap.containsKey(TeamFieldEnum.BeInviteMode)) {
+                                fieldMap.put(TeamFieldEnum.BeInviteMode, TeamBeInviteModeEnum.NoAuth);
+                            }
+                            RegisterBean bean = new RegisterBean();
+                            bean.members = accIdList;
+                            bean.groupName = teamName;
+                            bean.groupHead = iconUrl;
+                            HttpUtil.apiW().group_createGroup(bean)
+                                    .enqueue(new CommonCallback<NetData>() {
+                                        @Override
+                                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+//                                        CreateTeamResult result = new  CreateTeamResult();
+                                            CustomMsgBean bean1 = new Gson().fromJson(body.data.toString(),CustomMsgBean.class);
+                                            if (observer != null) {
+                                                observer.onResult(new ResultInfo<>(bean1, true));
+                                            }
+
+                                        }
+
+                                        @Override
+                                        public void Failure(Call<NetData> call, Throwable t) {
+                        observer.onResult(
+                                new ResultInfo<>(
+                                        null, false, new ErrorMsg(-1, "onException", t)));
+                                        }
+                                    });
+//              TeamRepo.createAdvanceTeam(
+//                  teamName,
+//                  iconUrl,
+//                  accIdList,
+//                  fieldMap,
+//                  new FetchCallback<CreateTeamResult>() {
+//                    @Override
+//                    public void onSuccess(@Nullable CreateTeamResult param) {
+//                      if (observer != null) {
+//                        observer.onResult(new ResultInfo<>(param, true));
+//                      }
+//                      ALog.e(TeamKitClient.LIB_TAG, TAG, "createNormalTeam onSuccess");
+//                    }
+//
+//                    @Override
+//                    public void onFailed(int code) {
+//                      if (observer != null) {
+//                        observer.onResult(new ResultInfo<>(null, false, new ErrorMsg(code)));
+//                      }
+//                      ALog.e(TeamKitClient.LIB_TAG, TAG, "createNormalTeam onFailed:" + code);
+//                    }
+//
+//                    @Override
+//                    public void onException(@Nullable Throwable exception) {
+//                      if (observer != null) {
+//                        observer.onResult(
+//                            new ResultInfo<>(
+//                                null, false, new ErrorMsg(-1, "onException", exception)));
+//                      }
+//                      ALog.e(TeamKitClient.LIB_TAG, TAG, "createNormalTeam onException:");
+//                    }
+//                  });
+
+                            return true;
+                        }));
+    }
+
+    public void registerInviteUser() {
+        XKitRouter.registerRouter(
+                PATH_TEAM_INVITE_ACTION,
+                new XKitRouter.RouterValue(
+                        PATH_TEAM_INVITE_ACTION,
+                        (value, params, observer) -> {
+                            Map<String, Object> customParam = params;
+                            List<String> accIdList =
+                                    customParam.get(REQUEST_CONTACT_SELECTOR_KEY) != null
+                                            ? (List<String>) customParam.get(REQUEST_CONTACT_SELECTOR_KEY)
+                                            : new ArrayList<>();
+                            Object teamIdObject = customParam.get(RouterConstant.KEY_TEAM_ID);
+                            if (teamIdObject != null && accIdList != null && accIdList.size() > 0) {
+                                String teamId = teamIdObject.toString();
+                                TeamRepo.inviteUser(teamId, accIdList, null);
+                                return true;
+                            }
+
+                            return false;
+                        }));
+    }
+
+    interface RandomUrlProvider {
+        String getRandomUrl();
+    }
+
+}

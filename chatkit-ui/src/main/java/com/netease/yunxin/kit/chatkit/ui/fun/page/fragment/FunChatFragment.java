@@ -1,0 +1,174 @@
+// Copyright (c) 2022 NetEase, Inc. All rights reserved.
+// Use of this source code is governed by a MIT license that can be
+// found in the LICENSE file.
+
+package com.netease.yunxin.kit.chatkit.ui.fun.page.fragment;
+
+import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.google.gson.Gson;
+import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
+import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
+import com.netease.yunxin.kit.chatkit.model.IMMessageInfo;
+import com.netease.yunxin.kit.chatkit.ui.R;
+import com.netease.yunxin.kit.chatkit.ui.common.ChatMsgCache;
+import com.netease.yunxin.kit.chatkit.ui.common.ChatUtils;
+import com.netease.yunxin.kit.chatkit.ui.custom.MultiForwardAttachment;
+import com.netease.yunxin.kit.chatkit.ui.databinding.FunChatFragmentBinding;
+import com.netease.yunxin.kit.chatkit.ui.dialog.ChatBaseForwardSelectDialog;
+import com.netease.yunxin.kit.chatkit.ui.fun.FunChatForwardSelectDialog;
+import com.netease.yunxin.kit.chatkit.ui.fun.FunChatMessageForwardConfirmDialog;
+import com.netease.yunxin.kit.chatkit.ui.fun.page.FunRedPacketResultActivity;
+import com.netease.yunxin.kit.chatkit.ui.model.ChatMessageBean;
+import com.netease.yunxin.kit.chatkit.ui.page.fragment.ChatBaseFragment;
+import com.netease.yunxin.kit.chatkit.ui.view.input.ActionConstants;
+import com.netease.yunxin.kit.common.utils.NetworkUtils;
+import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
+import com.netease.yunxin.kit.corekit.route.XKitRouter;
+import com.yaoxin.appbase.model.CustomMsgBean;
+import com.yaoxin.appbase.model.NetData;
+import com.yaoxin.appbase.model.RegisterBean;
+import com.yaoxin.appbase.net.CommonCallback;
+import com.yaoxin.appbase.net.HttpUtil;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import retrofit2.Call;
+import retrofit2.Response;
+
+/**
+ * Fun皮肤聊天界面Fragment，继承自ChatBaseFragment Fun皮肤下的差异化UI在这里实现，基础功能在父类中实现
+ */
+public abstract class FunChatFragment extends ChatBaseFragment {
+
+    FunChatFragmentBinding viewBinding;
+
+    @Override
+    public View initViewAndGetRootView(
+            @NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
+        viewBinding = FunChatFragmentBinding.inflate(inflater, container, false);
+        chatView = viewBinding.chatView;
+        return viewBinding.getRoot();
+    }
+
+    @Override
+    public Integer getReplayMessageClickPreviewDialogBgRes() {
+        return R.color.color_ededed;
+    }
+
+    @Override
+    public String getUserInfoRoutePath() {
+        return RouterConstant.PATH_FUN_USER_INFO_PAGE;
+    }
+
+    protected ChatBaseForwardSelectDialog getForwardSelectDialog() {
+        return new FunChatForwardSelectDialog();
+    }
+
+    @Override
+    protected void forwardP2P() {
+        ChatUtils.startP2PSelector(
+                getContext(), RouterConstant.PATH_FUN_CONTACT_SELECTOR_PAGE, null, forwardP2PLauncher);
+    }
+
+    @Override
+    protected void forwardTeam() {
+        ChatUtils.startTeamList(
+                getContext(), RouterConstant.PATH_FUN_MY_TEAM_PAGE, forwardTeamLauncher);
+    }
+
+    @Override
+    public void showForwardConfirmDialog(SessionTypeEnum type, ArrayList<String> sessionIds) {
+        FunChatMessageForwardConfirmDialog confirmDialog =
+                FunChatMessageForwardConfirmDialog.createForwardConfirmDialog(
+                        type, sessionIds, getSessionName(), true, forwardAction);
+        confirmDialog.setCallback(
+                (inputMsg) -> {
+                    if (!NetworkUtils.isConnected()) {
+                        Toast.makeText(getContext(), R.string.chat_network_error_tip, Toast.LENGTH_SHORT)
+                                .show();
+                        return;
+                    }
+                    if (TextUtils.equals(forwardAction, ActionConstants.POP_ACTION_TRANSMIT)) {
+                        ChatMessageBean msg = getForwardMessage();
+                        if (msg != null) {
+                            for (String accId : sessionIds) {
+                                viewModel.sendForwardMessage(msg, inputMsg, accId, type);
+                            }
+                        }
+                    } else if (TextUtils.equals(forwardAction, ActionConstants.ACTION_TYPE_MULTI_FORWARD)) {
+                        viewModel.sendMultiForwardMessage(
+                                getSessionName(), inputMsg, sessionIds, type, ChatMsgCache.getMessageList());
+                        clearMessageMultiSelectStatus();
+                    } else if (TextUtils.equals(forwardAction, ActionConstants.ACTION_TYPE_SINGLE_FORWARD)) {
+                        viewModel.sendForwardMessages(
+                                getSessionName(), inputMsg, sessionIds, type, ChatMsgCache.getMessageList());
+                        clearMessageMultiSelectStatus();
+                    }
+                });
+        confirmDialog.show(getParentFragmentManager(), FunChatMessageForwardConfirmDialog.TAG);
+    }
+
+    public String getSessionName() {
+        return sessionID;
+    }
+
+    @Override
+    protected void clickMessage(IMMessageInfo messageInfo, boolean isReply) {
+        if (messageInfo.getMessage().getMsgType() == MsgTypeEnum.custom) {
+            if (messageInfo.getMessage().getAttachment() instanceof MultiForwardAttachment) {
+                XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_FORWARD_PAGE)
+                        .withContext(getContext())
+                        .withParam(RouterConstant.KEY_MESSAGE, messageInfo)
+                        .navigate();
+                return;
+            }
+            if (!messageInfo.getMessage().getAttachStr().isEmpty()) {
+                CustomMsgBean msgBean = new Gson().fromJson(messageInfo.getMessage().getAttachStr(), CustomMsgBean.class);
+                msgBean.result = new Gson().fromJson(msgBean.data, CustomMsgBean.class);
+                RegisterBean bean = new RegisterBean();
+                bean.redpacketId = msgBean.result.id;
+                HttpUtil.apiW().red_checkRedpacet(bean)
+                        .enqueue(new CommonCallback<NetData>() {
+                            @Override
+                            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                                CustomMsgBean redBean = new Gson().fromJson(body.data.toString(), CustomMsgBean.class);
+                                if (redBean.type == 1 || redBean.type == 2 || redBean.type == 3) {
+                                    //可领取
+                                    if (redBean.type == 1) {
+                                        redBean.redPacketId = bean.redpacketId;
+                                    }
+
+                                    FunOpenRedPacketFragment.showV(getParentFragmentManager(), bean.redpacketId,redBean.type,sessionID);
+                                }
+                                if (redBean.type == 4 || redBean.type == 5) {
+                                    /// 当前用户领取已领取过当前红包，展示领取详细信息
+                                    ///当红包是个人/专属，当前非目标领取用户，直接显示查看领取详情
+                                    HashMap map = new HashMap();
+                                    map.put("redpacketId",bean.redpacketId);
+                                    FunRedPacketResultActivity.start(FunRedPacketResultActivity.class,getContext(),map);
+
+                                }
+
+                            }
+
+                            @Override
+                            public void Failure(Call<NetData> call, Throwable t) {
+
+                            }
+                        });
+
+                return;
+            }
+        }
+        super.clickMessage(messageInfo, isReply);
+    }
+}

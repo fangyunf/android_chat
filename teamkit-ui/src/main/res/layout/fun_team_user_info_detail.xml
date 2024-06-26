@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.yaoxin.appbase.navbar.NavToolbar
+        android:id="@+id/fun_team_user_info_detail_nav"
+        style="@style/WhiteFontToolbar"
+        android:background="@color/color_white"
+        app:back_icon="@mipmap/temp_ic_back"
+        app:enable_under_divider="true"
+        app:support_translucent_status_bar="false"
+        app:title="好友资料"
+        app:title_text_color="@color/color_333333"
+        app:under_divider_color="@color/color_d5d5d5" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dimen_16_dp"
+        android:gravity="center_vertical"
+        >
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            app:riv_corner_radius="30dp"
+            android:scaleType="centerCrop"
+            android:id="@+id/fun_team_user_info_detail_head_iv"
+            />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="@dimen/dimen_18_dp"
+            >
+            <TextView
+                android:id="@+id/fun_team_user_info_detail_name_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="会飞的洋芋"
+                android:textColor="#ff000000"
+                android:textSize="22sp"
+                />
+            <TextView
+                android:id="@+id/fun_team_user_info_detail_account_tv"
+                android:layout_marginTop="@dimen/dimen_8_dp"
+                android:layout_width="wrap_content"
+                android:layout_height="22dp"
+                android:text="ID:87988656"
+                android:textColor="#ff999999"
+                android:textSize="16sp"
+                />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        >
+        <include
+            android:id="@+id/fun_team_user_info_detail_yaoqingren"
+            layout="@layout/view_title_arrow_template"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <include
+            android:id="@+id/fun_team_user_info_detail_beizhuming"
+            layout="@layout/view_title_arrow_template"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <include
+            android:id="@+id/fun_team_user_info_detail_jinzhi"
+            layout="@layout/view_title_arrow_template"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <include
+            android:id="@+id/fun_team_user_info_detail_tichu"
+            layout="@layout/view_title_arrow_template"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/fun_team_user_info_detail_bottom_tv"
+        android:layout_width="301dp"
+        android:layout_height="44dp"
+        android:text="加好友"
+        android:layout_marginBottom="@dimen/dimen_40_dp"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/fun_bg_purple_rounded_22"
+        android:textColor="#ffffffff"
+        android:textSize="16sp" />
+
+</LinearLayout>

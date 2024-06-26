@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tl="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_F6F6F6"
+    android:orientation="vertical">
+
+    <com.yaoxin.appbase.navbar.NavToolbar
+        android:id="@+id/activity_mine_purse_pwd_manager_set_nav"
+        style="@style/WhiteFontToolbar"
+        android:background="@color/white"
+        app:back_icon="@mipmap/temp_ic_back"
+        app:enable_under_divider="true"
+        app:support_translucent_status_bar="false"
+        app:title="设置支付密码"
+        app:title_text_color="@color/color_333333"
+        app:under_divider_color="@color/color_d5d5d5" />
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:orientation="vertical"
+    android:layout_weight="1"
+    >
+
+    <include
+        android:id="@+id/activity_mine_purse_pwd_manager_set_phone"
+        layout="@layout/view_title_tf_without_bg"
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content" />
+    <include
+        android:id="@+id/activity_mine_purse_pwd_manager_get_code"
+        layout="@layout/view_title_tf_without_bg"
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content" />
+
+    <include
+        android:id="@+id/activity_mine_purse_pwd_manager_set_set_pwd"
+        layout="@layout/view_title_tf_without_bg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <include
+        android:id="@+id/activity_mine_purse_pwd_manager_set_confirm_pwd"
+        layout="@layout/view_title_tf_without_bg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/activity_mine_purse_pwd_manager_set_forget_pwd_tv"
+        android:layout_marginTop="@dimen/dimen_20_dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="22dp"
+        android:text="忘记支付密码？"
+        android:textColor="#ff8b5fd8"
+        android:textSize="16sp"
+        />
+</LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/activity_mine_address_add_save_rl"
+        android:layout_width="301dp"
+        android:layout_height="@dimen/dimen_44_dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/dimen_40_dp"
+        android:layout_marginBottom="@dimen/dimen_40_dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@mipmap/mine_fragment_address_list_btn_bg" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="确定"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

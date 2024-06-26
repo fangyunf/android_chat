@@ -1,0 +1,617 @@
+// Copyright (c) 2022 NetEase, Inc. All rights reserved.
+// Use of this source code is governed by a MIT license that can be
+// found in the LICENSE file.
+
+package com.netease.yunxin.kit.teamkit.ui.fun.activity;
+
+import static com.netease.yunxin.kit.corekit.im.utils.RouterConstant.KEY_TEAM_ID;
+import static com.netease.yunxin.kit.corekit.im.utils.RouterConstant.REQUEST_CONTACT_SELECTOR_KEY;
+
+import android.app.Activity;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.View;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
+import com.chad.library.adapter4.BaseQuickAdapter;
+import com.google.gson.Gson;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.RequestCallback;
+import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
+import com.netease.nimlib.sdk.msg.model.StickTopSessionInfo;
+import com.netease.nimlib.sdk.team.TeamService;
+import com.netease.nimlib.sdk.team.constant.TeamMessageNotifyTypeEnum;
+import com.netease.yunxin.kit.alog.ALog;
+import com.netease.yunxin.kit.chatkit.model.TeamWithCurrentMember;
+import com.netease.yunxin.kit.chatkit.repo.ConversationRepo;
+import com.netease.yunxin.kit.chatkit.repo.TeamRepo;
+import com.netease.yunxin.kit.common.ui.dialog.ChoiceListener;
+import com.netease.yunxin.kit.common.ui.dialog.CommonChoiceDialog;
+import com.netease.yunxin.kit.corekit.im.IMKitClient;
+import com.netease.yunxin.kit.corekit.im.provider.FetchCallback;
+import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
+import com.netease.yunxin.kit.corekit.model.ErrorMsg;
+import com.netease.yunxin.kit.corekit.model.ResultInfo;
+import com.netease.yunxin.kit.corekit.route.XKitRouter;
+import com.netease.yunxin.kit.teamkit.ui.R;
+import com.netease.yunxin.kit.teamkit.ui.activity.BaseTeamMemberListActivity;
+import com.netease.yunxin.kit.teamkit.ui.activity.BaseTeamSettingActivity;
+import com.netease.yunxin.kit.teamkit.ui.databinding.FunTeamSettingNewActivityBinding;
+import com.netease.yunxin.kit.teamkit.ui.fun.activity.adapter.TeamSettingUserInfoAdapter;
+import com.netease.yunxin.kit.teamkit.ui.utils.TeamUtils;
+import com.yaoxin.appbase.activity.BaseActivity;
+import com.yaoxin.appbase.model.GroupInfoBean;
+import com.yaoxin.appbase.model.NetData;
+import com.yaoxin.appbase.model.RegisterBean;
+import com.yaoxin.appbase.model.UserBean;
+import com.yaoxin.appbase.net.CommonCallback;
+import com.yaoxin.appbase.net.Constant;
+import com.yaoxin.appbase.net.HttpUtil;
+import com.yaoxin.appbase.utils.BaseEvent;
+import com.yaoxin.appbase.utils.CommonCallBack;
+import com.yaoxin.appbase.utils.DataUtil;
+import com.yaoxin.appbase.utils.GlideUtil;
+import com.yaoxin.appbase.utils.ToastUtils;
+import com.yaoxin.appbase.utils.UploadUtil;
+import com.zhihu.matisse.GifSizeFilter;
+import com.zhihu.matisse.Matisse;
+import com.zhihu.matisse.MimeType;
+import com.zhihu.matisse.engine.impl.GlideEngine;
+import com.zhihu.matisse.filter.Filter;
+import com.zhihu.matisse.internal.entity.CaptureStrategy;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
+
+import retrofit2.Call;
+import retrofit2.Response;
+
+/**
+ * team setting activity
+ */
+public class FunTeamSettingNewActivity extends BaseActivity implements View.OnClickListener {
+
+    private static final int REQUEST_CODE_CHOOSE = 23;
+    FunTeamSettingNewActivityBinding binding;
+    String groupId;
+    GroupInfoBean groupInfoBean = new GroupInfoBean();
+    TeamSettingUserInfoAdapter adapter;// = new TeamSettingUserInfoAdapter(true, new ArrayList<>());
+
+    protected ActivityResultLauncher<Intent> launcher;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        Intent intent = getIntent();
+        groupId = intent.getStringExtra(KEY_TEAM_ID);
+        super.onCreate(savedInstanceState);
+        binding =
+                FunTeamSettingNewActivityBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        _initView();
+
+        EventBus.getDefault().register(this);
+        launcher =
+                registerForActivityResult(
+                        new ActivityResultContracts.StartActivityForResult(),
+                        result -> {
+                            if (result.getResultCode() != RESULT_OK || result.getData() == null) {
+                                return;
+                            }
+                            Intent intent1 = result.getData();
+                            ArrayList<String> memberList =
+                                    intent1.getStringArrayListExtra(REQUEST_CONTACT_SELECTOR_KEY);
+                            String opt_type = intent1.getStringExtra("opt_type");
+                            if ("1".equals(opt_type)) {
+                                RegisterBean bean = new RegisterBean();
+                                bean.groupId = groupId;
+                                bean.members = memberList;
+                                HttpUtil.apiW().group_pullPeopleGroup(bean)
+                                        .enqueue(new CommonCallback<NetData>() {
+                                            @Override
+                                            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+
+                                                ToastUtils.toastMsg(body.msg);
+                                                _requestData();
+                                            }
+
+                                            @Override
+                                            public void Failure(Call<NetData> call, Throwable t) {
+
+                                            }
+                                        });
+                            }
+                        });
+
+    }
+
+    @Override
+    protected void _initView() {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        binding.funTeamSettingNewActivityMemberRv.setLayoutManager(layoutManager);
+        binding.editIcon.setOnClickListener(this);
+        binding.funTeamSettingNewActivityTeamIcon.setOnClickListener(this);
+        binding.funTeamSettingNewActivitySeeAllMemberLl.setOnClickListener(this);
+        binding.funTeamSettingNewActivityQuite.setOnClickListener(this);
+        binding.funTeamSettingNewActivityNav.addCloseImageButton().setOnClickListener(this);
+
+        binding.funTeamSettingNewActivityNicheng.viewTitleArrowTv.setText("我在本群昵称");
+        binding.funTeamSettingNewActivityNicheng.viewTitleArrowRightTv.setVisibility(View.VISIBLE);
+        binding.funTeamSettingNewActivityNicheng.viewTitleArrowLl.setOnClickListener(this);
+
+        binding.funTeamSettingNewActivitySetGonggao.viewTitleArrowTv.setText("设置群公告");
+        binding.funTeamSettingNewActivitySetGonggao.viewTitleArrowLl.setOnClickListener(this);
+        binding.funTeamSettingNewActivityManagerTeam.viewTitleArrowTv.setText("群管理");
+        binding.funTeamSettingNewActivityManagerTeam.viewTitleArrowLl.setOnClickListener(this);
+
+        binding.funTeamSettingNewActivityZhiding.viewTitleArrowTv.setText("置顶聊天");
+        binding.funTeamSettingNewActivityZhiding.viewTitleArrowArrowIv.setVisibility(View.GONE);
+        binding.funTeamSettingNewActivityZhiding.viewTitleArrowRightTvSwitch.setVisibility(View.VISIBLE);
+        binding.funTeamSettingNewActivityZhiding.viewTitleArrowRightTvSwitch.setOnClickListener(this);
+
+
+        binding.funTeamSettingNewActivityMiandarao.viewTitleArrowTv.setText("消息免打扰");
+        binding.funTeamSettingNewActivityMiandarao.viewTitleArrowArrowIv.setVisibility(View.GONE);
+        binding.funTeamSettingNewActivityMiandarao.viewTitleArrowRightTvSwitch.setVisibility(View.VISIBLE);
+        binding.funTeamSettingNewActivityMiandarao.viewTitleArrowRightTvSwitch.setOnClickListener(this);
+
+
+        binding.funTeamSettingNewActivityDelteRecord.viewTitleArrowTv.setText("清除聊天记录");
+        binding.funTeamSettingNewActivityDelteRecord.viewTitleArrowLl.setOnClickListener(this);
+        binding.funTeamSettingNewActivityTousu.viewTitleArrowTv.setText("投诉");
+        binding.funTeamSettingNewActivityTousu.viewTitleArrowLl.setOnClickListener(this);
+
+
+        binding.funTeamSettingNewActivityManagerTeam.viewTitleArrowLl.setVisibility(View.GONE);
+        binding.funTeamSettingNewActivitySetGonggao.viewTitleArrowLl.setVisibility(View.GONE);
+        binding.editIcon.setVisibility(View.GONE);
+
+    }
+
+    @Override
+    protected void _requestData() {
+//        RegisterBean bean = new RegisterBean();
+//        bean.groupId = groupId;
+        HttpUtil.apiW().group_groupHomeInfo(groupId)
+                .enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+
+                        groupInfoBean = new Gson().fromJson(body.data.toString(),GroupInfoBean.class);
+                        requestYunXin();
+                        updateUI();
+                    }
+
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
+
+                    }
+                });
+    }
+
+    private void requestYunXin() {
+        TeamRepo.queryTeamWithMember(
+                groupId,
+                Objects.requireNonNull(IMKitClient.account()),
+                new FetchCallback<TeamWithCurrentMember>() {
+                    @Override
+                    public void onSuccess(@Nullable TeamWithCurrentMember param) {
+
+                        binding.funTeamSettingNewActivityZhiding.viewTitleArrowRightTvSwitch.setSelected(param.isStickTop());
+                        binding.funTeamSettingNewActivityMiandarao.viewTitleArrowRightTvSwitch.setSelected(param.getTeam().getMessageNotifyType() == TeamMessageNotifyTypeEnum.Mute);
+                    }
+
+                    @Override
+                    public void onFailed(int code) {
+                    }
+
+                    @Override
+                    public void onException(@Nullable Throwable exception) {
+                    }
+                });
+    }
+    void updateUI() {
+        GlideUtil.yh_loadImageRoundedCorner(this,binding.funTeamSettingNewActivityTeamIcon,groupInfoBean.head,30);
+
+        binding.tvName.setText(groupInfoBean.name + "(" +groupInfoBean.userInfos.size()+"人)");
+        binding.funTeamSettingNewActivityIdTv.setText("ID: " + groupInfoBean.groupId);
+        adapter = new TeamSettingUserInfoAdapter(groupInfoBean.rankState == 1,groupInfoBean.userInfos);
+
+        binding.funTeamSettingNewActivityMemberRv.setAdapter(adapter);
+        Context that = this;
+        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener<GroupInfoBean>() {
+            @Override
+            public void onClick(@NonNull BaseQuickAdapter<GroupInfoBean, ?> baseQuickAdapter, @NonNull View view, int i) {
+
+                if (i == groupInfoBean.userInfos.size()) {
+                    XKitRouter.withKey(Constant.FunSelected_User_ActivityKey)
+                            .withParam("type","2")
+                            .withParam("groupId",groupId)
+                            .withParam("groupInfo",new Gson().toJson(groupInfoBean))
+                            .withContext(that)
+                            .navigate();
+//                    XKitRouter.withKey(RouterConstant.PATH_FUN_CONTACT_SELECTOR_PAGE)
+//                            .withParam(
+//                                    RouterConstant.SELECTOR_CONTACT_FILTER_KEY,
+//                                    getTeamUserIds())
+//                            .withParam("title","邀请成员")
+//                            .withParam("opt_type","1")
+//                            // max count of the team is 200， 199 exclude self.
+//                            .withParam(
+//                                    RouterConstant.KEY_CONTACT_SELECTOR_MAX_COUNT,
+//                                    200)
+//                            .withParam(
+//                                    RouterConstant.KEY_CONTACT_SELECTOR_FINAL_CHECK_COUNT_ENABLE, true)
+//                            .withContext(FunTeamSettingNewActivity.this)
+//                            .navigate(launcher);
+                } else if (i == groupInfoBean.userInfos.size() + 1) {
+
+                    XKitRouter.withKey(Constant.FunSelected_User_ActivityKey)
+                            .withParam("type","3")
+                            .withParam("groupId",groupId)
+                            .withParam("groupInfo",new Gson().toJson(groupInfoBean))
+                            .withContext(that)
+                            .navigate();
+//                    XKitRouter.withKey(RouterConstant.PATH_FUN_CONTACT_SELECTOR_PAGE)
+//                            .withParam(
+//                                    RouterConstant.SELECTOR_CONTACT_FILTER_KEY,
+//                                    new ArrayList<>())
+//                            .withParam("title","移除成员")
+//                            .withParam("opt_type","2")
+//                            // max count of the team is 200， 199 exclude self.
+//                            .withParam(
+//                                    RouterConstant.KEY_CONTACT_SELECTOR_MAX_COUNT,
+//                                    200)
+//                            .withParam(
+//                                    RouterConstant.KEY_CONTACT_SELECTOR_FINAL_CHECK_COUNT_ENABLE, true)
+//                            .withContext(FunTeamSettingNewActivity.this)
+//                            .navigate(launcher);
+                } else {
+                    HashMap map = new HashMap<>();
+                    map.put("groupId",groupId);
+                    map.put("rankState",groupInfoBean.rankState + "");
+                    map.put("result",new Gson().toJson(groupInfoBean.userInfos.get(i)));
+                    FunTeamUserInfoDetailActivity.start(FunTeamUserInfoDetailActivity.class,that,map);
+                }
+            }
+        });
+        binding.funTeamSettingNewActivityGonggaoTv.setText(groupInfoBean.announcement == null?"暂无公告":groupInfoBean.announcement);
+
+//        binding.funTeamSettingNewActivityMiandarao.viewTitleArrowRightTvSwitch.setSelected(groupInfoBean.noDisturbingState == 1);
+//        binding.funTeamSettingNewActivityZhiding.viewTitleArrowRightTvSwitch.setSelected(groupInfoBean.topState == 1);
+
+        binding.funTeamSettingNewActivityNicheng.viewTitleArrowRightTv.setText(groupInfoBean.getSelfRemarkName());
+
+
+        if (groupInfoBean.rankState == 1) {
+
+            binding.funTeamSettingNewActivityManagerTeam.viewTitleArrowLl.setVisibility(View.VISIBLE);
+            binding.funTeamSettingNewActivitySetGonggao.viewTitleArrowLl.setVisibility(View.VISIBLE);
+            binding.editIcon.setVisibility(View.VISIBLE);
+        }
+
+    }
+
+    ArrayList<String> getTeamUserIds() {
+        ArrayList<String> list = new ArrayList();
+        for (GroupInfoBean temp :
+                groupInfoBean.userInfos) {
+            list.add(temp.userId);
+        }
+        return list;
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view == binding.funTeamSettingNewActivityNav.addCloseImageButton()) {
+            finish();
+        } else if (view == binding.funTeamSettingNewActivityMiandarao.viewTitleArrowRightTvSwitch) {
+            boolean isOpen = binding.funTeamSettingNewActivityMiandarao.viewTitleArrowRightTvSwitch.isSelected();
+            // 以设置 “仅管理员消息提醒” 为例
+            TeamMessageNotifyTypeEnum type = TeamMessageNotifyTypeEnum.All;
+            if (!isOpen) {
+                type = TeamMessageNotifyTypeEnum.Mute;
+            }
+            NIMClient.getService(TeamService.class).muteTeam(groupId, type).setCallback(new RequestCallback<Void>() {
+                @Override
+                public void onSuccess(Void param) {
+                    // 设置成功
+                    binding.funTeamSettingNewActivityMiandarao.viewTitleArrowRightTvSwitch.setSelected(!binding.funTeamSettingNewActivityMiandarao.viewTitleArrowRightTvSwitch.isSelected());
+                }
+
+                @Override
+                public void onFailed(int code) {
+                    // 设置失败
+                }
+
+                @Override
+                public void onException(Throwable exception) {
+                    // 错误
+                }
+            });
+
+//            ConversationRepo.setNotify(
+//                    groupId,
+//                    SessionTypeEnum.Team,
+//                    false,
+//                    new FetchCallback<Void>() {
+//                        @Override
+//                        public void onSuccess(@Nullable Void param) {
+//                            binding.funTeamSettingNewActivityMiandarao.viewTitleArrowRightTvSwitch.setSelected(!binding.funTeamSettingNewActivityMiandarao.viewTitleArrowRightTvSwitch.isSelected());
+//                        }
+//
+//                        @Override
+//                        public void onFailed(int code) {
+//                        }
+//
+//                        @Override
+//                        public void onException(@Nullable Throwable exception) {
+//                        }
+//                    });
+        } else if (view == binding.funTeamSettingNewActivityZhiding.viewTitleArrowRightTvSwitch) {
+            configStick(groupId,!binding.funTeamSettingNewActivityZhiding.viewTitleArrowRightTvSwitch.isSelected());
+        } else if (view == binding.funTeamSettingNewActivityQuite) {
+            CommonChoiceDialog dialog = new CommonChoiceDialog();
+            dialog
+                    .setTitleStr("温馨提示")
+                    .setContentStr("确定退出群聊吗?")
+                    .setNegativeStr("取消")
+                    .setPositiveStr("确定")
+                    .setConfirmListener(
+                            new ChoiceListener() {
+                                @Override
+                                public void onPositive() {
+
+                                    RegisterBean bean = new RegisterBean();
+                                    bean.groupId = groupId;
+                                    bean.userId = DataUtil.getUserid();
+                                    HttpUtil.apiW().group_quitGroup(bean)
+                                            .enqueue(new CommonCallback<NetData>() {
+                                                @Override
+                                                public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                                                    ToastUtils.toastMsg(body.msg);
+                                                    finish();
+                                                }
+
+                                                @Override
+                                                public void Failure(Call<NetData> call, Throwable t) {
+
+                                                }
+                                            });
+                                }
+
+                                @Override
+                                public void onNegative() {}
+                            })
+                    .show(getSupportFragmentManager());
+            
+        } else if (view == binding.editIcon) {
+
+            Intent intent = new Intent(this, ModifyInfoActivity.class);
+            intent.putExtra("title","修改群名");
+            intent.putExtra("type","1");
+            activityResultLauncher.launch(intent);
+        } else if (view == binding.funTeamSettingNewActivityNicheng.viewTitleArrowLl) {
+
+            Intent intent = new Intent(this, ModifyInfoActivity.class);
+            intent.putExtra("title","修改在本群昵称");
+            intent.putExtra("type","2");
+            activityResultLauncher.launch(intent);
+        } else if (view == binding.funTeamSettingNewActivitySetGonggao.viewTitleArrowLl) {
+
+            Intent intent = new Intent(this, ModifyInfoActivity.class);
+            intent.putExtra("title","修改群公告");
+            intent.putExtra("type","3");
+            activityResultLauncher.launch(intent);
+        } else if (view == binding.funTeamSettingNewActivityManagerTeam.viewTitleArrowLl) {
+            HashMap map = new HashMap();
+            map.put("groupId",groupId);
+            FunTeamSetting_GroupManagerActivity.start(FunTeamSetting_GroupManagerActivity.class,this,map);
+        } else if (view == binding.funTeamSettingNewActivitySeeAllMemberLl) {
+            HashMap map = new HashMap();
+            map.put("groupId",groupId);
+            FunTeamSettingNew_TeamUsersActivity.start(FunTeamSettingNew_TeamUsersActivity.class,this,map);
+
+        } else if (view == binding.funTeamSettingNewActivityTeamIcon) {
+            UploadUtil.openPhotoLibrary(this, Constant.REQUEST_CODE_CHOOSE);
+//            Matisse.from(FunTeamSettingNewActivity.this)
+//                    .choose(MimeType.ofImage(), false)
+//                    .countable(true)
+//                    .capture(true)
+//                    .captureStrategy(
+//                            new CaptureStrategy(true, "com.zhihu.matisse.sample.fileprovider", "test"))
+//                    .maxSelectable(1)
+//                    .addFilter(new GifSizeFilter(320, 320, 5 * Filter.K * Filter.K))
+//                    .gridExpectedSize(
+//                            getResources().getDimensionPixelSize(com.zhihu.matisse.R.dimen.grid_expected_size))
+//                    .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+//                    .thumbnailScale(0.85f)
+//                    .imageEngine(new GlideEngine())
+//                    .showSingleMediaType(true)
+//                    .originalEnable(true)
+//                    .maxOriginalSize(10)
+//                    .autoHideToolbarOnSingleTap(true)
+//                    .forResult(REQUEST_CODE_CHOOSE);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Constant.REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
+            List<Uri> uris = Matisse.obtainResult(data);
+            List<String> strings = Matisse.obtainPathResult(data);
+            if (!strings.isEmpty()) {
+                UploadUtil.uploadImage(strings.get(0), "", new CommonCallBack() {
+                    @Override
+                    public void onCallBackUserBean(UserBean userBean) {
+                        RegisterBean bean = new RegisterBean();
+                        bean.groupId = groupId;
+                        bean.head = userBean.url;
+                        HttpUtil.apiW().group_updateGroupInfo(bean)
+                                .enqueue(new CommonCallback<NetData>() {
+                                    @Override
+                                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+
+                                        ToastUtils.toastMsg(body.msg);
+                                        _requestData();
+                                    }
+
+                                    @Override
+                                    public void Failure(Call<NetData> call, Throwable t) {
+
+                                    }
+                                });
+                    }
+                });
+            }
+        }
+    }
+    @Override
+    protected void callBackResult(Intent data) {
+        super.callBackResult(data);
+        String result = data.getStringExtra("result");
+        String type = data.getStringExtra("type");
+        if ("1".equals(type)) {
+            RegisterBean bean = new RegisterBean();
+            bean.groupId = groupId;
+            bean.groupName = result;
+            HttpUtil.apiW().group_updateGroupInfo(bean)
+                    .enqueue(new CommonCallback<NetData>() {
+                        @Override
+                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+
+                            ToastUtils.toastMsg(body.msg);
+                            _requestData();
+                        }
+
+                        @Override
+                        public void Failure(Call<NetData> call, Throwable t) {
+
+                        }
+                    });
+        } else if ("2".equals(type)) {
+
+            RegisterBean bean = new RegisterBean();
+            bean.groupId = groupId;
+            bean.nickName = result;
+            HttpUtil.apiW().groupMember_installGroupNickName(bean)
+                    .enqueue(new CommonCallback<NetData>() {
+                        @Override
+                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+
+                            ToastUtils.toastMsg(body.msg);
+                            _requestData();
+                        }
+
+                        @Override
+                        public void Failure(Call<NetData> call, Throwable t) {
+
+                        }
+                    });
+        } else if ("3".equals(type)) {
+
+            RegisterBean bean = new RegisterBean();
+            bean.groupId = groupId;
+            bean.announcement = result;
+            HttpUtil.apiW().group_updateGroupInfo(bean)
+                    .enqueue(new CommonCallback<NetData>() {
+                        @Override
+                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+
+                            ToastUtils.toastMsg(body.msg);
+                            _requestData();
+                        }
+
+                        @Override
+                        public void Failure(Call<NetData> call, Throwable t) {
+
+                        }
+                    });
+        }
+
+    }
+
+    public void configStick(String sessionId, boolean stick) {
+        if (TextUtils.isEmpty(sessionId)) {
+            return;
+        }
+        if (stick) {
+            ConversationRepo.addStickTop(
+                    sessionId,
+                    SessionTypeEnum.Team,
+                    "",
+                    new FetchCallback<StickTopSessionInfo>() {
+                        @Override
+                        public void onSuccess(@Nullable StickTopSessionInfo param) {
+                            ConversationRepo.notifyStickTop(sessionId, SessionTypeEnum.Team);
+                            binding.funTeamSettingNewActivityZhiding.viewTitleArrowRightTvSwitch.setSelected(!binding.funTeamSettingNewActivityZhiding.viewTitleArrowRightTvSwitch.isSelected());
+
+                        }
+
+                        @Override
+                        public void onFailed(int code) {
+                        }
+
+                        @Override
+                        public void onException(@Nullable Throwable exception) {
+                        }
+                    });
+        } else {
+            ConversationRepo.removeStickTop(
+                    sessionId,
+                    SessionTypeEnum.Team,
+                    "",
+                    new FetchCallback<Void>() {
+                        @Override
+                        public void onSuccess(@Nullable Void param) {
+                            ConversationRepo.notifyStickTop(sessionId, SessionTypeEnum.Team);
+                            binding.funTeamSettingNewActivityZhiding.viewTitleArrowRightTvSwitch.setSelected(!binding.funTeamSettingNewActivityZhiding.viewTitleArrowRightTvSwitch.isSelected());
+
+                        }
+
+                        @Override
+                        public void onFailed(int code) {
+                        }
+
+                        @Override
+                        public void onException(@Nullable Throwable exception) {
+                        }
+                    });
+        }
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(BaseEvent event) {
+        if ("reloadTeamSettingData".equals(event.getTag())) {
+            _requestData();
+        }
+    }
+}

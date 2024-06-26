@@ -1,0 +1,228 @@
+package com.turunsi.yaoxin.main.mine.purse.tixian;
+
+import android.os.Bundle;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.TextWatcher;
+import android.text.method.DigitsKeyListener;
+import android.view.View;
+
+import androidx.annotation.Nullable;
+
+import com.google.gson.Gson;
+import com.yaoxin.appbase.activity.BaseActivity;
+import com.turunsi.yaoxin.databinding.ActivityMinePurseTixianBinding;
+import com.yaoxin.appbase.model.NetData;
+import com.yaoxin.appbase.model.RegisterBean;
+import com.yaoxin.appbase.model.UserBean;
+import com.yaoxin.appbase.net.CommonCallback;
+import com.yaoxin.appbase.net.HttpUtil;
+import com.yaoxin.appbase.utils.DialogAlertUtil;
+import com.yaoxin.appbase.utils.NumberUtil;
+import com.yaoxin.appbase.utils.ToastUtils;
+import com.yaoxin.appbase.view.pwdkeyboard.Keyboard;
+import com.yaoxin.appbase.view.pwdkeyboard.PayEditText;
+
+import java.util.HashMap;
+
+import retrofit2.Call;
+import retrofit2.Response;
+
+public class PurseTiXianActivity extends BaseActivity implements View.OnClickListener {
+    ActivityMinePurseTixianBinding binding;
+    UserBean accountBean;
+    String  accountMoeny;
+    private static final String[] KEY = new String[] {
+            "1", "2", "3",
+            "4", "5", "6",
+            "7", "8", "9",
+            "<<", "0", "完成"
+    };
+
+    private PayEditText payEditText;
+    private Keyboard keyboard;
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        binding = ActivityMinePurseTixianBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        binding.activityMinePurseTixianNav.addCloseImageButton().setOnClickListener(this);
+//        binding.
+
+        binding.activityMinePurseTixianMoneyEt.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        binding.activityMinePurseTixianMoneyEt.setKeyListener(DigitsKeyListener.getInstance("0123456789."));
+
+        binding.activityMinePurseTixianMoneyEt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                String input = s.toString();
+                int dotCount = input.length() - input.replace(".", "").length();
+                if (dotCount > 1) {
+                    // 找到第一个小数点的位置
+                    int firstDotIndex = input.indexOf(".");
+                    // 移除第一个小数点之后的所有小数点
+                    StringBuilder cleanedInput = new StringBuilder(input.substring(0, firstDotIndex + 1));
+                    for (int i = firstDotIndex + 1; i < input.length(); i++) {
+                        if (input.charAt(i) != '.') {
+                            cleanedInput.append(input.charAt(i));
+                        }
+                    }
+                    // 设置过滤后的文本
+                    binding.activityMinePurseTixianMoneyEt.setText(cleanedInput.toString());
+                    binding.activityMinePurseTixianMoneyEt.setSelection(cleanedInput.length());
+                }
+            }
+        });
+
+        binding.activityMinePurseTixianTixianTypeLl.setOnClickListener(this);
+        binding.activityMinePurseTixianAllTixianTv.setOnClickListener(this);
+        binding.activityMinePurseTixianTixianBtn.setOnClickListener(this);
+        payEditText = binding.PayEditTextPay;
+        keyboard = binding.KeyboardViewPay;
+        keyboard.setKeyboardKeys(KEY);
+        keyboard.setOnClickKeyboardListener(new Keyboard.OnClickKeyboardListener() {
+            @Override
+            public void onKeyClick(int position, String value) {
+                if (position < 11 && position != 9) {
+                    payEditText.add(value);
+                } else if (position == 9) {
+                    payEditText.remove();
+                }else if (position == 11) {
+                    binding.activityFunSendRedPacketKeybordRl.setVisibility(View.GONE);
+
+                }
+            }
+        });
+
+        /**
+         * 当密码输入完成时的回调
+         */
+        payEditText.setOnInputFinishedListener(new PayEditText.OnInputFinishedListener() {
+            @Override
+            public void onInputFinished(String password) {
+                tiXianClick(payEditText.getText());
+                payEditText.remove();
+                binding.activityFunSendRedPacketKeybordRl.setVisibility(View.GONE);
+            }
+        });
+    }
+    void tiXianClick(String pwd) {
+        String inputMoney = getTextStr(binding.activityMinePurseTixianMoneyEt);
+
+        if (inputMoney.isEmpty()) {
+            ToastUtils.toastMsg("请输入金额");
+            return;
+        }
+
+        RegisterBean bean = new RegisterBean();
+        bean.payPassword = pwd;
+        bean.amount = NumberUtil.formartUploadMoney(inputMoney);
+        bean.type = 2;
+        bean.zfbNo = accountBean.zfb;
+        bean.name = accountBean.name;
+        HttpUtil.apiW().withdraw_withdrawDeposit(bean)
+                .enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                        ToastUtils.toastMsg("提现成功");
+                        finish();
+                    }
+
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
+
+                    }
+                });
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        _requestData();
+    }
+
+    @Override
+    protected void _requestData() {
+        HttpUtil.apiW().home_balance()
+                .enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                        UserBean bean = new Gson().fromJson(body.data.toString(),UserBean.class);
+                        accountMoeny = NumberUtil.formartMoney(bean.balance);
+                        binding.activityMinePurseTixianAccoutTv.setText("¥"+ NumberUtil.formartMoney(bean.balance));
+                    }
+
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
+
+                    }
+                });
+        HttpUtil.apiW().bindCard_userZFB(new RegisterBean())
+                .enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                        accountBean = new Gson().fromJson(body.data.toString(),UserBean.class);
+                    }
+
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
+
+                    }
+                });
+    }
+    @Override
+    public void onClick(View v) {
+        if (v == binding.activityMinePurseTixianNav.addCloseImageButton()) {
+            finish();
+        } else if (v == binding.activityMinePurseTixianTixianTypeLl) {
+//            String[] strings = {"支付宝", "银行卡"};
+//            DialogAlertUtil.showSheetView(this, getSupportFragmentManager(), new String[]{"支付宝", "银行卡"}, new DialogAlertUtil.DialogAlertUtilCallBack() {
+//                @Override
+//                public void clickType(int type) {
+//
+//                    if (type == 1) {
+//                        binding.activityMinePurseTixianTixianTypeTv.setText(strings[type - 1]);
+//                        tiXianType = type;
+//                        binding.activityMinePurseTixianToAccoutTv.setText("支付宝账号");
+//                        binding.activityMinePurseTixianToAccoutEt.setHint("请输入支付宝号");
+//                    } else if (type == 2) {
+//                        binding.activityMinePurseTixianTixianTypeTv.setText(strings[type - 1]);
+//                        tiXianType = type;
+//                        binding.activityMinePurseTixianToAccoutTv.setText("银行卡账号");
+//                        binding.activityMinePurseTixianToAccoutEt.setHint("请输入银行卡号");
+//                    }
+//                }
+//            });
+
+        } else if (v == binding.activityMinePurseTixianTixianBtn) {
+            if (accountBean == null || accountBean.name.isEmpty() || accountBean.phone.isEmpty() || accountBean.zfb.isEmpty()) {
+                String inputMoney = getTextStr(binding.activityMinePurseTixianMoneyEt);
+
+                if (inputMoney.isEmpty()) {
+                    ToastUtils.toastMsg("请输入金额");
+                    return;
+                }
+
+                HashMap map = new HashMap<>();
+                map.put("inputMoney",inputMoney);
+                PurseTiXianAddAccountActivity.start(PurseTiXianAddAccountActivity.class,this,map);
+            } else {
+                binding.activityFunSendRedPacketKeybordRl.setVisibility(View.VISIBLE);
+            }
+        } else if (v == binding.activityMinePurseTixianAllTixianTv) {
+            binding.activityMinePurseTixianMoneyEt.setText(accountMoeny);
+        }
+    }
+
+}

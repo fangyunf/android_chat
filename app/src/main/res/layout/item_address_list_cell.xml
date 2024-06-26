@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+
+    android:background="@color/color_F6F6F6"
+    android:layout_marginTop="@dimen/dimen_14_dp"
+    android:paddingHorizontal="@dimen/dimen_16_dp"
+    android:paddingVertical="@dimen/dimen_12_dp"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="陈圆圆"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_16" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dimen_8_dp"
+            android:text="173******55"
+            android:textColor="@color/color_9D9D9D"
+            android:textSize="@dimen/text_size_12" />
+
+        <RelativeLayout
+            android:layout_width="@dimen/dimen_36_dp"
+            android:layout_height="@dimen/dimen_18_dp"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                android:src="@mipmap/mine_fragment_address_list_moren_icon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginHorizontal="@dimen/dimen_8_dp"
+                android:text="默认"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_10" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity=""
+            android:text="删除"
+            android:textColor="@color/color_9D9D9D"
+            android:textSize="@dimen/text_size_10" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_4_dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="四川省 成都市 高新区 天府一街369号 两江国际菜鸟驿站"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_16"
+android:layout_weight="1"
+            android:layout_marginEnd="@dimen/dimen_40_dp"
+            />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/mine_fragment_address_list_edit" />
+
+    </LinearLayout>
+
+</LinearLayout>

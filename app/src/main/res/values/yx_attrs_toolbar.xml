@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="back_icon" format="reference" />
+    <attr name="close_icon" format="reference" />
+    <attr name="action_icon" format="reference" />
+    <attr name="enable_under_divider" format="boolean" />
+    <attr name="under_divider_color" format="color" />
+    <attr name="under_divider_height" format="dimension" />
+    <attr name="support_translucent_status_bar" format="boolean" />
+    <attr name="menu_text_size" format="dimension" />
+    <attr name="menu_text_color" format="color" />
+
+    <attr name="title" format="string" />
+    <attr name="sub_title" format="string" />
+    <attr name="title_text_size" format="dimension" />
+    <attr name="title_text_color" format="color" />
+    <attr name="sub_title_text_size" format="dimension" />
+    <attr name="sub_title_text_color" format="color" />
+    <attr name="action_text" format="string" />
+
+    <declare-styleable name="PascToolbar">
+        <attr name="title" />
+        <attr name="sub_title" />
+        <attr name="title_text_size" />
+        <attr name="title_text_color" />
+        <attr name="sub_title_text_size" />
+        <attr name="sub_title_text_color" />
+        <attr name="menu_text_size" />
+        <attr name="menu_text_color" />
+        <attr name="back_icon" />
+        <attr name="close_icon" />
+        <attr name="action_icon" />
+        <attr name="action_text" />
+        <attr name="enable_under_divider" />
+        <attr name="under_divider_color" />
+        <attr name="under_divider_height" />
+        <attr name="support_translucent_status_bar" />
+        <attr name="android:height" />
+    </declare-styleable>
+
+    <declare-styleable name="PascSearchBar">
+        <attr name="android:height" />
+        <attr name="android:textSize" />
+        <attr name="android:textColor" />
+        <attr name="android:hint" />
+        <attr name="android:textColorHint" />
+        <attr name="menu_text_size" />
+        <attr name="menu_text_color" />
+        <attr name="back_icon" />
+        <attr name="enable_under_divider" />
+        <attr name="under_divider_color" />
+        <attr name="under_divider_height" />
+        <attr name="support_translucent_status_bar" />
+        <attr name="search_content" format="string" />
+        <attr name="pascMode" format="enum">
+            <enum name="edit_model" value="0" />
+            <enum name="clickable_model" value="1" />
+        </attr>
+        <attr name="enable_close_button" format="boolean" />
+    </declare-styleable>
+
+</resources>
