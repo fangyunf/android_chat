@@ -167,7 +167,7 @@ public class SettingNewActivity extends BaseActivity implements View.OnClickList
       showLogin();
 
     } else if (v == viewBinding.activityMineSetNewExchangeAcountLl) {
-
+        showLogin();
     } else if (v == viewBinding.activityMineSetNewNav.addCloseImageButton()) {
       finish();
 

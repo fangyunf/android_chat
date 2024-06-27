@@ -41,18 +41,14 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
     }
     private void _initCell() {
         binding.activityMinePurseRechargeRechargeMoney.viewTitleTfWithoutBgEt.setBackgroundColor(getResources().getColor(R.color.color_white));
-        binding.activityMinePurseRechargeRechargeChoose.viewTitleTfWithoutBgEt.setBackgroundColor(getResources().getColor(R.color.color_white));
         binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt.setBackgroundColor(getResources().getColor(R.color.color_white));
 
         binding.activityMinePurseRechargeRechargeMoney.viewTitleTfWithoutBgLl.setBackgroundColor(getResources().getColor(R.color.color_white));
-        binding.activityMinePurseRechargeRechargeChoose.viewTitleTfWithoutBgLl.setBackgroundColor(getResources().getColor(R.color.color_white));
         binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgLl.setBackgroundColor(getResources().getColor(R.color.color_white));
 
         binding.activityMinePurseRechargeRechargeMoney.viewTitleTfWithoutBgEt.setHint("请输入充值金额");
         binding.activityMinePurseRechargeRechargeMoney.viewTitleTfWithoutBgTv.setText("充值金额");
 
-        binding.activityMinePurseRechargeRechargeChoose.viewTitleTfWithoutBgTv.setText("充值选择");
-        binding.activityMinePurseRechargeRechargeChoose.viewTitleTfWithoutBgArrowIv.setVisibility(View.VISIBLE);
 
         binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgTv.setText("充值方式");
         binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgArrowIv.setVisibility(View.VISIBLE);
@@ -60,8 +56,6 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
 
         binding.activityMinePurseRechargeRechargeMoney.viewTitleTfWithoutBgEt.setGravity(gravity);
         binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt.setGravity(gravity);
-        binding.activityMinePurseRechargeRechargeChoose.viewTitleTfWithoutBgEt.setGravity(gravity);
-        binding.activityMinePurseRechargeRechargeChoose.viewTitleTfWithoutBgLl.setVisibility(View.GONE);
         binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt.setText("支付宝");
         binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgArrowIv.setVisibility(View.GONE);
 
@@ -102,10 +96,15 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
         });
 
 
-        binding.activityMinePurseRechargeRechargeChoose.viewTitleTfWithoutBgEt.setEnabled(false);
         binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt.setEnabled(false);
 
         binding.activityMinePurseRechargeRechargeRl.setOnClickListener(this);
+        binding.activityMinePurseRechargeMoney100.setOnClickListener(this);
+        binding.activityMinePurseRechargeMoney300.setOnClickListener(this);
+        binding.activityMinePurseRechargeMoney500.setOnClickListener(this);
+        binding.activityMinePurseRechargeMoney1000.setOnClickListener(this);
+        binding.activityMinePurseRechargeMoney3000.setOnClickListener(this);
+        binding.activityMinePurseRechargeMoney5000.setOnClickListener(this);
 
     }
     @Override
@@ -134,24 +133,38 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
                 ToastUtils.toastMsg("请输入金额");
                 return;
             }
-
-            RegisterBean registerBean = new RegisterBean();
-            registerBean.amount = NumberUtil.formartUploadMoney(inputMoney);
-            HttpUtil.apiW().pay_jhzs(registerBean)
-                    .enqueue(new CommonCallback<NetData>() {
-                        @Override
-                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                            UserBean userBean = new Gson().fromJson(body.data.toString(),UserBean.class);
-                            startAlipayPayment(userBean.qrCode);
-                        }
-
-                        @Override
-                        public void Failure(Call<NetData> call, Throwable t) {
-
-                        }
-                    });
+            rechargeMoney(inputMoney);
+        } else if (v == binding.activityMinePurseRechargeMoney100) {
+            rechargeMoney("100");
+        } else if (v == binding.activityMinePurseRechargeMoney300) {
+            rechargeMoney("300");
+        } else if (v == binding.activityMinePurseRechargeMoney500) {
+            rechargeMoney("500");
+        } else if (v == binding.activityMinePurseRechargeMoney1000) {
+            rechargeMoney("1000");
+        } else if (v == binding.activityMinePurseRechargeMoney3000) {
+            rechargeMoney("3000");
+        } else if (v == binding.activityMinePurseRechargeMoney5000) {
+            rechargeMoney("5000");
         }
 
+    }
+    void rechargeMoney(String inputMoney) {
+        RegisterBean registerBean = new RegisterBean();
+        registerBean.amount = NumberUtil.formartUploadMoney(inputMoney);
+        HttpUtil.apiW().pay_jhzs(registerBean)
+                .enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                        UserBean userBean = new Gson().fromJson(body.data.toString(),UserBean.class);
+                        startAlipayPayment(userBean.qrCode);
+                    }
+
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
+
+                    }
+                });
     }
     private void startAlipayPayment(String url) {
         // 支付宝支付请求 URL

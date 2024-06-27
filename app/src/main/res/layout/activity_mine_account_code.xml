@@ -86,4 +86,15 @@
             android:layout_width="170dp"
             android:layout_height="173dp"/>
     </RelativeLayout>
+    <TextView
+        android:id="@+id/activity_mine_account_code_save_photo"
+        android:layout_marginTop="20dp"
+        android:layout_width="194dp"
+        android:layout_height="38dp"
+        android:text="保存至相册"
+        android:textColor="#ffffffff"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:background="#B591F5"
+        />
 </LinearLayout>

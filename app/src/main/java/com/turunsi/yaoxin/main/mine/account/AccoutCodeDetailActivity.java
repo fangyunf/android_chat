@@ -29,6 +29,7 @@ import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.GlideUtil;
+import com.yaoxin.appbase.utils.ImageUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
 import com.zhihu.matisse.GifSizeFilter;
 import com.zhihu.matisse.Matisse;
@@ -50,26 +51,28 @@ import retrofit2.Response;
 
 public class AccoutCodeDetailActivity extends BaseActivity implements View.OnClickListener {
 
-  private static final int REQUEST_CODE_CHOOSE = 23;
-  private ActivityMineAccountCodeBinding viewBinding;
+    private static final int REQUEST_CODE_CHOOSE = 23;
+    private ActivityMineAccountCodeBinding viewBinding;
 
     private ExecutorService executor = Executors.newSingleThreadExecutor();
-  @Override
-  protected void onCreate(@Nullable Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 //    changeStatusBarColor(R.color.color_e9eff5);
-    viewBinding = ActivityMineAccountCodeBinding.inflate(getLayoutInflater());
-    setContentView(viewBinding.getRoot());
-    initView();
-  }
+        viewBinding = ActivityMineAccountCodeBinding.inflate(getLayoutInflater());
+        setContentView(viewBinding.getRoot());
+        initView();
+    }
 
 
     private void initView() {
 
-    viewBinding.activityMineAccountCodeNav.addCloseImageButton().setOnClickListener(this);
-    GlideUtil.yh_loadImageRoundedCorner(this,viewBinding.activityMineAccountCodeHeadIv,DataUtil.getUserInfo().avatar,25);
-      viewBinding.activityMineAccountCodeIdTv.setText(DataUtil.getUserInfo().memberCode);//.setVisibility(View.VISIBLE);
-    viewBinding.activityMineAccountCodeNameTv.setText(DataUtil.getUserInfo().username);
+        viewBinding.activityMineAccountCodeNav.addCloseImageButton().setOnClickListener(this);
+        viewBinding.activityMineAccountCodeSavePhoto.setOnClickListener(this);
+        GlideUtil.yh_loadImageRoundedCorner(this, viewBinding.activityMineAccountCodeHeadIv, DataUtil.getUserInfo().avatar, 25);
+        viewBinding.activityMineAccountCodeIdTv.setText(DataUtil.getUserInfo().memberCode);//.setVisibility(View.VISIBLE);
+        viewBinding.activityMineAccountCodeNameTv.setText(DataUtil.getUserInfo().username);
 
         Bitmap bitmap = generateQRCode(DataUtil.getUserInfo().memberCode);
         if (bitmap != null) {
@@ -77,6 +80,7 @@ public class AccoutCodeDetailActivity extends BaseActivity implements View.OnCli
         }
 
     }
+
     private Bitmap generateQRCode(String text) {
         QRCodeWriter writer = new QRCodeWriter();
         try {
@@ -95,12 +99,15 @@ public class AccoutCodeDetailActivity extends BaseActivity implements View.OnCli
         }
         return null;
     }
-  @Override
-  public void onClick(View v) {
-      if (v == viewBinding.activityMineAccountCodeNav.addCloseImageButton()) {
-      finish();
 
+    @Override
+    public void onClick(View v) {
+        if (v == viewBinding.activityMineAccountCodeNav.addCloseImageButton()) {
+            finish();
+
+        } else if (v == viewBinding.activityMineAccountCodeSavePhoto) {
+            ImageUtil.saveImageViewToGallery(this, viewBinding.activityMineAccountCodeCodeIv);
+        }
     }
-  }
 
 }

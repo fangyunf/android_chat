@@ -135,7 +135,7 @@ public class FunTeamSetting_GroupManagerActivity extends BaseActivity implements
 
     void updateUI() {
 
-        binding.funTeamSettingGroupManagerActivityYaoqing.viewTitleDetailArrowTemplateSwitch.setSelected(groupInfoBean.inviteState == 1);
+        binding.funTeamSettingGroupManagerActivityYaoqing.viewTitleDetailArrowTemplateSwitch.setSelected(groupInfoBean.inviteState == 0);
         binding.funTeamSettingGroupManagerActivityChengyuanJinyan.viewTitleDetailArrowTemplateSwitch.setSelected(groupInfoBean.shutupState == 1);
         binding.funTeamSettingGroupManagerActivityJinzhiLingquGouwuquan.viewTitleDetailArrowTemplateSwitch.setSelected(groupInfoBean.nonCollectionState == 1);
         binding.funTeamSettingGroupManagerActivityQunchengyuanBaohu.viewTitleDetailArrowTemplateSwitch.setSelected(groupInfoBean.addFriendsState == 1);
@@ -261,7 +261,7 @@ public class FunTeamSetting_GroupManagerActivity extends BaseActivity implements
         RegisterBean bean = new RegisterBean();
         bean.groupId = groupId;
         if (type == 0) {
-            bean.inviteState = binding.funTeamSettingGroupManagerActivityYaoqing.viewTitleDetailArrowTemplateSwitch.isSelected() ? "0" : "1";
+            bean.inviteState = binding.funTeamSettingGroupManagerActivityYaoqing.viewTitleDetailArrowTemplateSwitch.isSelected() ? "1" : "0";
         }
         if (type == 1) {
             bean.shutupState = binding.funTeamSettingGroupManagerActivityChengyuanJinyan.viewTitleDetailArrowTemplateSwitch.isSelected() ? "0" : "1";

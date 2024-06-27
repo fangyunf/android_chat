@@ -67,6 +67,7 @@ public class FunConversationFragment extends ConversationBaseFragment {
 
   private FunConversationFragmentBinding viewBinding;
 
+  private int topIndex;
   @Override
   public View initViewAndGetRootView(
       @NonNull LayoutInflater inflater,
@@ -76,7 +77,14 @@ public class FunConversationFragment extends ConversationBaseFragment {
     initView();
     StatusBarUtils.setStatusBarLightMode(getActivity(), true, true);
 
+    EventBus.getDefault().register(this);
     return viewBinding.getRoot();
+  }
+  @Subscribe(threadMode = ThreadMode.MAIN)
+  public void onMessageEvent(BaseEvent event) {
+    if (event.getTag().equals("refreshConversationList")) {
+      doOptWithIndex(topIndex);
+    }
   }
 
   @Override
@@ -245,6 +253,41 @@ public class FunConversationFragment extends ConversationBaseFragment {
     _initTopStatus(0);
   }
 
+  void doOptWithIndex(int index) {
+    if (index == 0) {
+      conversationView.setData(conversationList);
+    } else if (index == 1) {
+      ArrayList<ConversationBean> tempArr = new ArrayList<>();
+      for (ConversationBean tempBean:
+              conversationList) {
+        if (tempBean.viewType == 1) {
+          tempArr.add(tempBean);
+        }
+      }
+      conversationView.setData(tempArr);
+    } else if (index == 2) {
+      ArrayList<ConversationBean> tempArr = new ArrayList<>();
+      for (ConversationBean tempBean:
+              conversationList) {
+        if (tempBean.viewType == 2) {
+          tempArr.add(tempBean);
+        }
+      }
+      conversationView.setData(tempArr);
+    } else if (index == 3) {
+      ArrayList<ConversationBean> tempArr = new ArrayList<>();
+      for (ConversationBean tempBean:
+              conversationList) {
+        if (DataUtil.getKeFuId() != null && tempBean.param != null) {
+          String param = (String) tempBean.param;
+          if (DataUtil.getKeFuId().equals(param) || DataUtil.getXiaoZhuShouId().equals(param)) {
+            tempArr.add(tempBean);
+          }
+        }
+      }
+      conversationView.setData(tempArr);
+    }
+  }
   private void _initHeadCell() {
     viewBinding.funConversationFragmentHeadAll.viewConversationHeadItemIv.setImageResource(R.drawable.conversation_index_all_chat);
     viewBinding.funConversationFragmentHeadAll.viewConversationHeadItemTv.setText("全部");
@@ -252,7 +295,7 @@ public class FunConversationFragment extends ConversationBaseFragment {
       @Override
       public void onClick(View v) {
         _initTopStatus(0);
-        conversationView.setData(conversationList);
+        doOptWithIndex(0);
       }
     });
 
@@ -262,14 +305,7 @@ public class FunConversationFragment extends ConversationBaseFragment {
       @Override
       public void onClick(View v) {
         _initTopStatus(1);
-        ArrayList<ConversationBean> tempArr = new ArrayList<>();
-        for (ConversationBean tempBean:
-             conversationList) {
-          if (tempBean.viewType == 1) {
-            tempArr.add(tempBean);
-          }
-        }
-        conversationView.setData(tempArr);
+        doOptWithIndex(1);
       }
     });
 
@@ -279,14 +315,7 @@ public class FunConversationFragment extends ConversationBaseFragment {
       @Override
       public void onClick(View v) {
         _initTopStatus(2);
-        ArrayList<ConversationBean> tempArr = new ArrayList<>();
-        for (ConversationBean tempBean:
-                conversationList) {
-          if (tempBean.viewType == 2) {
-            tempArr.add(tempBean);
-          }
-        }
-        conversationView.setData(tempArr);
+        doOptWithIndex(2);
       }
     });
 
@@ -297,23 +326,14 @@ public class FunConversationFragment extends ConversationBaseFragment {
       public void onClick(View v) {
         _initTopStatus(3);
 
-        ArrayList<ConversationBean> tempArr = new ArrayList<>();
-        for (ConversationBean tempBean:
-                conversationList) {
-          if (DataUtil.getKeFuId() != null && tempBean.param != null) {
-            String param = (String) tempBean.param;
-            if (DataUtil.getKeFuId().equals(param) || DataUtil.getXiaoZhuShouId().equals(param)) {
-              tempArr.add(tempBean);
-            }
-          }
-        }
-        conversationView.setData(tempArr);
+        doOptWithIndex(3);
       }
     });
 
   }
 
   void _initTopStatus(int index) {
+    topIndex = index;
     viewBinding.funConversationFragmentHeadNotice.viewConversationHeadItemTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.black));
     viewBinding.funConversationFragmentHeadGroup.viewConversationHeadItemTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.black));
     viewBinding.funConversationFragmentHeadSingle.viewConversationHeadItemTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.black));

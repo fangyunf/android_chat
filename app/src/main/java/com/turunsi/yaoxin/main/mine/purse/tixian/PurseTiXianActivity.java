@@ -206,13 +206,14 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
 //            });
 
         } else if (v == binding.activityMinePurseTixianTixianBtn) {
+            String textStr = getTextStr(binding.activityMinePurseTixianMoneyEt);
+            if (textStr.isEmpty() && Integer.parseInt(textStr) < 100) {
+                ToastUtils.toastMsg("金额必须大于100");
+                return;
+            }
             if (accountBean == null || accountBean.name.isEmpty() || accountBean.phone.isEmpty() || accountBean.zfb.isEmpty()) {
                 String inputMoney = getTextStr(binding.activityMinePurseTixianMoneyEt);
 
-                if (inputMoney.isEmpty()) {
-                    ToastUtils.toastMsg("请输入金额");
-                    return;
-                }
 
                 HashMap map = new HashMap<>();
                 map.put("inputMoney",inputMoney);

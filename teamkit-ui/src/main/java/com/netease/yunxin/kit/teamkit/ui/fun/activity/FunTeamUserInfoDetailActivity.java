@@ -62,12 +62,16 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
         binding.funTeamUserInfoDetailJinzhi.viewTitleArrowTv.setText("禁止领取购物券");
         binding.funTeamUserInfoDetailTichu.viewTitleArrowTv.setText("踢出群聊");
 
+        binding.funTeamUserInfoDetailYaoqingren.viewTitleArrowLl.setVisibility(View.GONE);
         binding.funTeamUserInfoDetailYaoqingren.viewTitleArrowArrowIv.setVisibility(View.GONE);
         binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowLl.setVisibility(View.GONE);
         binding.funTeamUserInfoDetailJinzhi.viewTitleArrowLl.setVisibility(View.GONE);
         binding.funTeamUserInfoDetailTichu.viewTitleArrowLl.setVisibility(View.GONE);
         binding.funTeamUserInfoDetailBottomTv.setVisibility(View.GONE);
+        binding.funTeamUserInfoDetailAccountTv.setVisibility(View.GONE);
         if (rankState == 1 || rankState == 2) {
+            binding.funTeamUserInfoDetailAccountTv.setVisibility(View.VISIBLE);
+            binding.funTeamUserInfoDetailYaoqingren.viewTitleArrowLl.setVisibility(View.VISIBLE);
             binding.funTeamUserInfoDetailJinzhi.viewTitleArrowLl.setVisibility(View.VISIBLE);
             binding.funTeamUserInfoDetailTichu.viewTitleArrowLl.setVisibility(View.VISIBLE);
 

@@ -24,6 +24,10 @@ import com.netease.yunxin.kit.conversationkit.ui.model.ConversationBean;
 import com.netease.yunxin.kit.conversationkit.ui.page.DefaultViewHolderFactory;
 import com.netease.yunxin.kit.corekit.im.model.FriendInfo;
 import com.netease.yunxin.kit.corekit.im.model.UserInfo;
+import com.yaoxin.appbase.utils.BaseEvent;
+
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -73,6 +77,7 @@ public class ConversationAdapter extends RecyclerView.Adapter<BaseViewHolder> {
       int position = conversationList.size();
       conversationList.addAll(data);
       notifyItemInserted(position);
+      EventBus.getDefault().post(new BaseEvent("refreshConversationList"));
     }
   }
 
@@ -94,17 +99,22 @@ public class ConversationAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     }
     ALog.d(LIB_TAG, TAG, "update, removeIndex:" + removeIndex);
     if (removeIndex > -1) {
-      conversationList.remove(removeIndex);
-      int insertIndex = searchComparatorIndex(data);
-      ALog.d(
-          LIB_TAG,
-          TAG,
-          "update, insertIndex:" + insertIndex + "unread:" + data.infoData.getUnreadCount());
-      conversationList.add(insertIndex, data);
-      if (isShow) {
-        notifyItemMoved(removeIndex, insertIndex);
-        notifyItemChanged(insertIndex);
+      if (data.infoData.isStickTop()) {
+//        conversationList.remove(removeIndex);
+//        conversationList.add(removeIndex, data);
+        if (isShow) {
+          notifyItemChanged(removeIndex);
+        }
+      } else {
+        conversationList.remove(removeIndex);
+        int insertIndex = searchComparatorIndex(data);
+        conversationList.add(insertIndex, data);
+        if (isShow) {
+          notifyItemMoved(removeIndex, insertIndex);
+          notifyItemChanged(insertIndex);
+        }
       }
+
     } else {
       int insertIndex = searchComparatorIndex(data);
       conversationList.add(insertIndex, data);
@@ -112,6 +122,8 @@ public class ConversationAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         notifyItemInserted(insertIndex);
       }
     }
+
+    EventBus.getDefault().post(new BaseEvent("refreshConversationList"));
     layoutManager.scrollToPosition(position);
   }
 
