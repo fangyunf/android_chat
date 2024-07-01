@@ -115,10 +115,15 @@ public class FunConversationFragment extends ConversationBaseFragment {
                       @Override
                       public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                         GroupInfoBean groupInfoBean = new Gson().fromJson(body.data.toString(),GroupInfoBean.class);
-                        String message = groupInfoBean.content;
-                        if (message != null && !message.isEmpty()) {
-                          viewBinding.marqueeView.startWithText(message);
-                          viewBinding.marqueeView.startWithText(message, com.sunfusheng.marqueeview.R.anim.anim_bottom_in, com.sunfusheng.marqueeview.R.anim.anim_top_out);
+                        if (groupInfoBean != null && groupInfoBean.content != null) {
+
+                          String message = groupInfoBean.content;
+                          if (message != null && !message.isEmpty()) {
+                            viewBinding.marqueeView.startWithText(message);
+                            viewBinding.marqueeView.startWithText(message, com.sunfusheng.marqueeview.R.anim.anim_bottom_in, com.sunfusheng.marqueeview.R.anim.anim_top_out);
+                          } else {
+                            viewBinding.marqueeViewBgLl.setVisibility(View.GONE);
+                          }
                         } else {
                           viewBinding.marqueeViewBgLl.setVisibility(View.GONE);
                         }
