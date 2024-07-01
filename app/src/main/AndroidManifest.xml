@@ -177,6 +177,8 @@
         <activity
             android:name=".login.LoginActivity" />
         <activity
+            android:name=".main.mine.setting.ExchangeAccountActivity" />
+        <activity
             android:name=".main.mine.purse.bill.BillDetailListActivity" />
         <activity
             android:name=".main.conversation.XiaoZhuShouActivity" />

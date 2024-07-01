@@ -3,9 +3,16 @@ package com.yaoxin.appbase.model;
 import com.nanchen.wavesidebar.FirstLetterUtil;
 import com.yaoxin.appbase.utils.DataUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GroupInfoBean {
+    public String money;
+    public String payTerm;
+    public String payMsg;
+    public String msg;
+    public String createTime;
+    public int state;
     public int check;
     public int phoneAdd;
     public int idAdd;
@@ -15,6 +22,8 @@ public class GroupInfoBean {
     public int addGroupState;
     public int friendApplyNum;
     public int groupApplyNum;
+    public String content;
+    public String remark;
     public String groupId;
     public List<GroupInfoBean> data;
     public String avatar;
@@ -28,7 +37,7 @@ public class GroupInfoBean {
 //    1是群主，2是管理员，3是普通成员
     public int rankState;
     public int opt_rankState;
-    public List<GroupInfoBean> userInfos;
+    public ArrayList<GroupInfoBean> userInfos;
     public String head;
     public String announcement;
     public int noDisturbingState;

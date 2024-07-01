@@ -29,10 +29,14 @@ import com.netease.nimlib.sdk.avsignalling.constant.ChannelType;
 import com.netease.yunxin.kit.contactkit.ui.fun.addfriend.FunAddFriendVerifyActivity;
 import com.netease.yunxin.kit.contactkit.ui.normal.contact.ContactNewFragment;
 import com.turunsi.yaoxin.AppSkinConfig;
+import com.turunsi.yaoxin.BuildConfig;
 import com.turunsi.yaoxin.CustomConfig;
+import com.turunsi.yaoxin.IMApplication;
 import com.turunsi.yaoxin.R;
 import com.turunsi.yaoxin.databinding.ActivityMainBinding;
+import com.turunsi.yaoxin.login.LoginActivity;
 import com.turunsi.yaoxin.main.mine.MineFragment;
+import com.turunsi.yaoxin.main.mine.setting.SettingNewActivity;
 import com.turunsi.yaoxin.utils.Constant;
 import com.turunsi.yaoxin.utils.DataUtils;
 import com.turunsi.yaoxin.welcome.WelcomeActivity;
@@ -59,10 +63,13 @@ import com.netease.yunxin.nertc.ui.CallKitNotificationConfig;
 import com.netease.yunxin.nertc.ui.CallKitUI;
 import com.netease.yunxin.nertc.ui.CallKitUIOptions;
 import com.yaoxin.appbase.model.NetData;
+import com.yaoxin.appbase.model.ParamsBean;
 import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
+import com.yaoxin.appbase.update.ycupdatelib.UpdateFragment;
+import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
 import com.yzq.zxinglibrary.android.CaptureActivity;
@@ -125,6 +132,28 @@ public class MainActivity extends BaseActivity {
     EventCenter.registerEventNotify(skinNotify);
 
     EventBus.getDefault().register(this);
+    _update();
+  }
+
+  void _update() {
+    HttpUtil.apiW().customer_versionCkeck("AOS",BuildConfig.VERSION_NAME)
+            .enqueue(new CommonCallback<NetData>() {
+              @Override
+              public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+
+                if (body.data != null) {
+                  ParamsBean updateBean = new Gson().fromJson(body.data.toString(),ParamsBean.class);
+
+                  UpdateFragment.showFragment(MainActivity.this,
+                          true,updateBean.downloadUrl,"华尔街",updateBean.upMsg, BuildConfig.APPLICATION_ID,null);
+                }
+              }
+
+              @Override
+              public void Failure(Call<NetData> call, Throwable t) {
+
+              }
+            });
   }
 
   private void initData() {
@@ -319,6 +348,21 @@ public class MainActivity extends BaseActivity {
             (Observer<StatusCode>) statusCode -> {
               if (statusCode == StatusCode.LOGOUT) {
                 CallKitUI.destroy();
+              }
+              if (statusCode.wontAutoLogin()) {
+                // 处理被顶号的情况
+                if (statusCode == StatusCode.KICKOUT) {
+                  // 被顶号
+//                  handleKickout();
+                  ToastUtils.toastMsg("您的账号在其他设备登录");
+                  if (getApplicationContext() instanceof IMApplication) {
+                    ((IMApplication) getApplicationContext())
+                            .clearActivity(MainActivity.this);
+                  }
+                  DataUtil.deleteData();
+                  startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                  finish();
+                }
               }
             },
             true);

@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout
         android:layout_width="274dp"
@@ -20,11 +20,15 @@
             android:orientation="vertical"
             android:gravity="center_horizontal"
             >
-            <ImageView
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:layout_marginTop="72dp"
                 android:id="@+id/fragment_open_red_packet_dialog_head_iv"
                 android:layout_width="@dimen/dimen_48_dp"
-                android:layout_marginTop="72dp"
-                android:layout_height="@dimen/dimen_48_dp"/>
+                android:layout_height="@dimen/dimen_48_dp"
+                app:riv_corner_radius="24dp"
+                android:scaleType="centerCrop"
+
+                />
 
             <LinearLayout
                 android:layout_width="wrap_content"

@@ -28,7 +28,7 @@
             android:id="@+id/view_title_arrow_right_tv"
             android:visibility="gone"
             android:layout_width="wrap_content"
-            android:layout_height="22dp"
+            android:layout_height="wrap_content"
             android:text="+86 18298986543"
             android:textColor="#ff999999"
             android:textSize="16sp"

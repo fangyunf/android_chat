@@ -20,6 +20,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.collection.ArraySet;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -31,6 +32,7 @@ import com.netease.nimlib.sdk.msg.model.StickTopSessionInfo;
 import com.netease.yunxin.kit.chatkit.repo.ConversationRepo;
 import com.netease.yunxin.kit.common.utils.SizeUtils;
 import com.netease.yunxin.kit.corekit.im.provider.FetchCallback;
+import com.netease.yunxin.kit.corekit.route.XKitRouter;
 import com.netease.yunxin.kit.teamkit.ui.databinding.FunTeamSettingNewActivityBinding;
 import com.netease.yunxin.kit.teamkit.ui.databinding.FunTeamSettingNewTeamUsersActivityBinding;
 import com.netease.yunxin.kit.teamkit.ui.fun.activity.adapter.TeamSettingUserInfoAdapter;
@@ -41,8 +43,10 @@ import com.yaoxin.appbase.model.GroupInfoBean;
 import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.net.CommonCallback;
+import com.yaoxin.appbase.net.Constant;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.BaseEvent;
+import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.GlideUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
 import com.yaoxin.appbase.view.CommonGridSpacingItemDecoration;
@@ -65,7 +69,12 @@ public class FunTeamSettingNew_TeamUsersActivity extends BaseActivity implements
     String groupId;
     String opt_type;
     TeamSettingUserListAdapter adapter = new TeamSettingUserListAdapter();
+    GroupInfoBean selfBean;
+    ArraySet selectSet = new ArraySet<>();
+    ArraySet unSelectSet = new ArraySet<>();
 
+    ArrayList selectArray = new ArrayList<>();
+    ArrayList unSelectArray = new ArrayList<>();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
 
@@ -92,6 +101,7 @@ public class FunTeamSettingNew_TeamUsersActivity extends BaseActivity implements
             adapter.opt_type = Integer.parseInt(opt_type);
         }
 
+        _requestData(1);
     }
 
     @Override
@@ -108,6 +118,15 @@ public class FunTeamSettingNew_TeamUsersActivity extends BaseActivity implements
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener<GroupInfoBean>() {
             @Override
             public void onClick(@NonNull BaseQuickAdapter<GroupInfoBean, ?> baseQuickAdapter, @NonNull View view, int i) {
+                if (opt_type == null) {
+                    if (selfBean.rankState == 1 || selfBean.rankState == 2) {
+                        XKitRouter.withKey(Constant.FunTeamUserInfoDetailActivityKey)
+                                .withParam("groupId",groupId)
+                                .withParam("userId",baseQuickAdapter.getItem(i).userId)
+                                .withContext(view.getContext())
+                                .navigate();
+                    }
+                }
                 if ("1".equals(opt_type)) {
                     for (Object tempBean:dataList) {
                         GroupInfoBean bean = (GroupInfoBean)tempBean;
@@ -117,6 +136,18 @@ public class FunTeamSettingNew_TeamUsersActivity extends BaseActivity implements
                     adapter.notifyDataSetChanged();
                 }
                 if ("2".equals(opt_type)) {
+                    GroupInfoBean item = baseQuickAdapter.getItem(i);
+                    if (item.rankState == 2) {
+                        unSelectArray.add(item.userId);
+                        if (selectArray.contains(item.userId)) {
+                            selectArray.remove(item.userId);
+                        }
+                    } else if (item.rankState == 3) {
+                        selectArray.add(item.userId);
+                        if (unSelectArray.contains(item.userId)) {
+                            unSelectArray.remove(item.userId);
+                        }
+                    }
                     baseQuickAdapter.getItem(i).rankState = baseQuickAdapter.getItem(i).rankState == 2? 3 : 2;
                     adapter.notifyDataSetChanged();
                 }
@@ -124,19 +155,26 @@ public class FunTeamSettingNew_TeamUsersActivity extends BaseActivity implements
         });
     }
 
-    @Override
-    protected void _requestData() {
+    protected void _requestData(int page) {
         RegisterBean bean = new RegisterBean();
         bean.groupId = groupId;
-        bean.page = "1";
+        bean.page = page + "";
+        bean.pageNo ="100";
         HttpUtil.apiW().group_groupUserListPost(bean)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
                         Type type = new TypeToken<List<GroupInfoBean>>(){}.getType();
-                        dataList = new Gson().fromJson(body.data.toString(),type);
+                        List<GroupInfoBean> tempList = new Gson().fromJson(body.data.toString(), type);
+                        if (!tempList.isEmpty()) {
+                            dataList.addAll(tempList);
+                            if (tempList.size() == 100) {
+                                _requestData((page + 1));
+                                return;
+                            }
 
+                        }
                         if (opt_type != null) {
                             for (int i = dataList.size() - 1; i >= 0; i--) {
                                 GroupInfoBean tempBean = (GroupInfoBean) dataList.get(i);
@@ -146,13 +184,22 @@ public class FunTeamSettingNew_TeamUsersActivity extends BaseActivity implements
                                     }
                                 }
                                 if ("2".equals(opt_type)) {
-                                    if (tempBean.rankState == 2 || tempBean.rankState == 1) {
+                                    if ( tempBean.rankState == 1) {
                                         dataList.remove(i);
                                     }
                                 }
                             }
+                        } else {
+                            for (Object tempBean : dataList) {
+                                GroupInfoBean tempBean1 = (GroupInfoBean) tempBean;
+                                if (tempBean1.userId.equals(DataUtil.getUserid())) {
+                                    selfBean = tempBean1;
+                                    break;
+                                }
+                            }
                         }
                         updateUI();
+
                     }
 
                     @Override
@@ -175,18 +222,24 @@ adapter.notifyDataSetChanged();
             finish();
         } else if (view == binding.funTeamSettingNewTeamUsersActivityConfirmTv) {
             ArrayList<String> list = new ArrayList<>();
+            Intent intent = new Intent();
             for (Object temObj : dataList) {
                 GroupInfoBean tempBean = (GroupInfoBean)temObj;
                 if ("1".equals(opt_type) && tempBean.rankState == 1) {
                     list.add(tempBean.userId);
                 }
-                if ("2".equals(opt_type) && tempBean.rankState == 2) {
-                    list.add(tempBean.userId);
-                }
+//                if ("2".equals(opt_type) && tempBean.rankState == 2) {
+//                    list.add(tempBean.userId);
+//                }
             }
 
-            Intent intent = new Intent();
-            intent.putExtra("userIds",list);
+            if ("2".equals(opt_type)) {
+
+                intent.putExtra("userIds",selectArray);
+                intent.putExtra("un_userIds",unSelectArray);
+            } else {
+                intent.putExtra("userIds",list);
+            }
             intent.putExtra("opt_type",opt_type);
             setResult(RESULT_OK,intent);
             EventBus.getDefault().post(new BaseEvent("reloadTeamSettingData"));

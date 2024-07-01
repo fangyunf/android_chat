@@ -728,8 +728,8 @@ public class MessageBottomLayout extends FrameLayout
       mBinding.inputAudioRb.setAlpha(mute ? 0.5f : 1f);
       mBinding.inputEmojiRb.setEnabled(!mute);
       mBinding.inputEmojiRb.setAlpha(mute ? 0.5f : 1f);
-      mBinding.inputMoreRb.setEnabled(!mute);
-      mBinding.inputMoreRb.setAlpha(mute ? 0.5f : 1f);
+//      mBinding.inputMoreRb.setEnabled(!mute);
+//      mBinding.inputMoreRb.setAlpha(mute ? 0.5f : 1f);
     }
   }
 

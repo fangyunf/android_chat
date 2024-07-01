@@ -5,6 +5,15 @@ import java.util.HashMap;
 public class BaseEvent {
   private HashMap<String, String> params;
   private String tag;
+  private String text;
+
+  public String getText() {
+    return text;
+  }
+
+  public void setText(String text) {
+    this.text = text;
+  }
 
   public BaseEvent() {
   }

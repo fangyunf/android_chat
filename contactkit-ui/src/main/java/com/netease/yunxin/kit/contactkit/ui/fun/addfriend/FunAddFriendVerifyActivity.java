@@ -52,9 +52,9 @@ public class FunAddFriendVerifyActivity extends BaseActivity implements View.OnC
 
             GlideUtil.yh_loadImageRoundedCorner(this,binding.funAddFriendVerifyActivityHeadIv,userBean.avatar, DensityUtils.dp2px(30));
             binding.funAddFriendVerifyActivityNameTv.setText(userBean.name);
-            binding.funAddFriendVerifyActivityAccountTv.setText("ID:"+userBean.userId);
+            binding.funAddFriendVerifyActivityAccountTv.setText("ID:"+userBean.memberCode);
             if (userBean.page_type == 100) {
-                binding.funAddFriendVerifyActivityAccountTv.setText(userBean.applyUserId);
+                binding.funAddFriendVerifyActivityAccountTv.setText("ID:"+userBean.memberCode);
                 binding.funAddFriendVerifyActivityNav.getTitleView().setText("好友验证");
                 binding.funAddFriendVerifyActivitySendRl.setVisibility(View.GONE);
                 binding.funAddFriendVerifyActivityTwoOptLl.setVisibility(View.VISIBLE);

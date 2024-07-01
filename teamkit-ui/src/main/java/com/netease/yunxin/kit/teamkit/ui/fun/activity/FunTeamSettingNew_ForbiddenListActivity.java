@@ -71,6 +71,7 @@ public class FunTeamSettingNew_ForbiddenListActivity extends BaseActivity implem
         setContentView(binding.getRoot());
         _initView();
 
+        _requestData(1);
 
     }
 
@@ -163,26 +164,11 @@ public class FunTeamSettingNew_ForbiddenListActivity extends BaseActivity implem
         });
     }
 
-    @Override
-    protected void _requestData() {
-//        RegisterBean bean = new RegisterBean();
-//        bean.groupId = groupId;
-//        bean.pageNo = "1";
-//        HttpUtil.apiW().groupMember_queryGroupMemberBanneds(bean)
-//                        .enqueue(new CommonCallback<NetData>() {
-//                            @Override
-//                            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-//
-//                            }
-//
-//                            @Override
-//                            public void Failure(Call<NetData> call, Throwable t) {
-//
-//                            }
-//                        });
+    protected void _requestData(int page) {
         RegisterBean bean = new RegisterBean();
         bean.groupId = groupId;
-        bean.page = "1";
+        bean.page = page + "";
+        bean.pageNo ="100";
         HttpUtil.apiW().group_groupUserListPost(bean)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
@@ -190,8 +176,18 @@ public class FunTeamSettingNew_ForbiddenListActivity extends BaseActivity implem
 
                         Type type = new TypeToken<List<GroupInfoBean>>() {
                         }.getType();
-                        mContactModels = new Gson().fromJson(body.data.toString(), type);
+                        List<GroupInfoBean> tempList = new Gson().fromJson(body.data.toString(), type);
+
+                        if (!tempList.isEmpty()) {
+                            mContactModels.addAll(tempList);
+                            if (tempList.size() == 100) {
+                                _requestData((page + 1));
+                                return;
+                            }
+
+                        }
                         updateUI();
+
                     }
 
                     @Override

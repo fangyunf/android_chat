@@ -3,6 +3,7 @@ package com.yaoxin.appbase.net;
 
 
 import com.yaoxin.appbase.model.NetData;
+import com.yaoxin.appbase.model.ParamsBean;
 import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.ServiceBase;
@@ -206,6 +207,17 @@ public interface ServiceW {
     );
 
     //  修改群头像昵称
+    @POST("/group/userGroups")
+    Call<NetData> group_userGroups(
+            @Body RegisterBean userBean
+    );
+    //  修改群头像昵称
+    @POST("/aideNews/scroll")
+    Call<NetData> aideNews_scroll(
+            @Body RegisterBean userBean
+    );
+
+    //  修改群头像昵称
     @POST("/customer/systemAppUser")
     Call<NetData> customer_systemAppUser(
             @Body RegisterBean userBean
@@ -214,6 +226,14 @@ public interface ServiceW {
     @POST("/group/transferGroup")
     Call<NetData> group_transferGroup(
             @Body RegisterBean userBean
+    );
+    //   转让群主
+    @GET("/customer/versionCkeck")
+    Call<NetData> customer_versionCkeck(
+                        @Query("type") String type ,
+                        @Query("version") String version
+
+
     );
     //   转让群主
     @POST("/home/changeSecurityPrivacy")
@@ -305,6 +325,9 @@ public interface ServiceW {
     Call<NetData> aideNews_aideMsg(
             @Body RegisterBean userBean
     );
+    //  好友列表
+    @GET("/customer/notice")
+    Call<NetData> customer_notice();
     //  好友列表
 //
 //    @POST("assets/fInventoryPlan/list")

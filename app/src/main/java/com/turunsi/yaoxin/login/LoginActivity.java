@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 
 import com.google.gson.Gson;
 import com.netease.yunxin.kit.corekit.route.XKitRouter;
+import com.turunsi.yaoxin.BuildConfig;
 import com.turunsi.yaoxin.utils.IMUtil;
 import com.yaoxin.appbase.activity.BaseActivity;
 import com.turunsi.yaoxin.databinding.ActivityLoginBinding;
@@ -25,6 +26,7 @@ import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.net.NetServerException;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
+import com.yaoxin.appbase.view.LoadingDialog;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -50,8 +52,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         binding.activityLoginTf1.viewTitleTfTv.setText("手机号");
         binding.activityLoginTf2.viewTitleTfTv.setText("密码");
         binding.activityLoginTf1.viewTitleTfEt.setInputType(InputType.TYPE_CLASS_NUMBER);
-//        binding.activityLoginTf1.viewTitleTfEt.setText("18616821287");
-//        binding.activityLoginTf2.viewTitleTfEt.setText("12345678a");
+        if (BuildConfig.DEBUG) {
+
+        binding.activityLoginTf1.viewTitleTfEt.setText("13761543036");
+        binding.activityLoginTf2.viewTitleTfEt.setText("fyf825811");
+        }
     }
 
     @Override
@@ -94,6 +99,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             bean.phoneNo = phone;
             bean.password = pwd;
             Activity that = this;
+            LoadingDialog.showDialog(getSupportFragmentManager(),"登陆中");
             HttpUtil.apiW().customer_login(bean)
                     .enqueue(new CommonCallback<NetData>() {
                         @Override
@@ -101,17 +107,27 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                             UserBean userBean = new Gson().fromJson((String) body.data,UserBean.class);
                             DataUtil.putUserInfo(userBean);
                             DataUtil.putToken(userBean.token);
+                            DataUtil.addLoginUserInfoList(userBean);
                             IMUtil.loginIM(that,userBean.userId,userBean.imToken);
                         }
 
                         @Override
                         public void Failure(Call<NetData> call, Throwable t) {
-                            NetServerException exception = (NetServerException) t;
-                            if (exception.getErrCode() == 601) {
+                            if (t instanceof NetServerException) {
 
-                                OtherPlaceLoginFragment fragment = new OtherPlaceLoginFragment();
-                                fragment.showNow(getSupportFragmentManager(),"OtherPlaceLoginFragment");
+                                NetServerException exception = (NetServerException) t;
+                                if (exception.getErrCode() == 601) {
+
+                                    OtherPlaceLoginFragment fragment = new OtherPlaceLoginFragment();
+                                    fragment.showNow(getSupportFragmentManager(),"OtherPlaceLoginFragment");
+                                }
                             }
+                        }
+
+                        @Override
+                        public void end() {
+                            super.end();
+                            LoadingDialog.dismissDialog();
                         }
                     });
 

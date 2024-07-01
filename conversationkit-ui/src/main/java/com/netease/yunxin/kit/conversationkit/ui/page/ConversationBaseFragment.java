@@ -502,7 +502,7 @@ public abstract class ConversationBaseFragment extends BaseFragment implements I
     return contentList;
   }
 
-  private void doCallback() {
+  public void doCallback() {
     long currentTime = System.currentTimeMillis();
     ALog.d(LIB_TAG, TAG, "doCallback");
     if (viewModel != null && currentTime - msgUnreadCountTime > MSG_UNREAD_COUNT_INTERVAL) {

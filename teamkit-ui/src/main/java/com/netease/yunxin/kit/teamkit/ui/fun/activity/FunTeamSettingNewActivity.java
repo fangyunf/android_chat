@@ -29,8 +29,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.chad.library.adapter4.BaseQuickAdapter;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
+import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.StickTopSessionInfo;
 import com.netease.nimlib.sdk.team.TeamService;
@@ -64,6 +66,7 @@ import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.BaseEvent;
 import com.yaoxin.appbase.utils.CommonCallBack;
 import com.yaoxin.appbase.utils.DataUtil;
+import com.yaoxin.appbase.utils.DialogAlertUtil;
 import com.yaoxin.appbase.utils.GlideUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
 import com.yaoxin.appbase.utils.UploadUtil;
@@ -78,6 +81,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -188,6 +192,40 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
 
     }
 
+    void _requestPeople(int page) {
+        RegisterBean bean = new RegisterBean();
+        bean.groupId = groupId;
+        bean.page = page +"";
+        bean.pageNo ="100";
+
+        HttpUtil.apiW().group_groupUserListPost(bean)
+                .enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+
+                        Type type = new TypeToken<List<GroupInfoBean>>() {
+                        }.getType();
+                        List<GroupInfoBean> tempList = new Gson().fromJson(body.data.toString(), type);
+                        if (!tempList.isEmpty()) {
+                            groupInfoBean.userInfos.addAll(tempList);
+                            if (tempList.size() == 100) {
+                                _requestPeople((page + 1));
+                                return;
+                            }
+                        }
+
+                        requestYunXin();
+                        updateUI();
+
+
+                    }
+
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
+
+                    }
+                });
+    }
     @Override
     protected void _requestData() {
 //        RegisterBean bean = new RegisterBean();
@@ -198,8 +236,9 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
                         groupInfoBean = new Gson().fromJson(body.data.toString(),GroupInfoBean.class);
-                        requestYunXin();
-                        updateUI();
+                        groupInfoBean.userInfos.clear();
+                        _requestPeople(1);
+
                     }
 
                     @Override
@@ -234,6 +273,14 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
         GlideUtil.yh_loadImageRoundedCorner(this,binding.funTeamSettingNewActivityTeamIcon,groupInfoBean.head,30);
 
         binding.tvName.setText(groupInfoBean.name + "(" +groupInfoBean.userInfos.size()+"人)");
+
+        if (groupInfoBean.userInfos.size() > 3) {
+            ArrayList<GroupInfoBean> maxList = new ArrayList<>();
+            for (int i = 0; i < 3; i++) {
+                maxList.add(groupInfoBean.userInfos.get(i));
+            }
+            groupInfoBean.userInfos = maxList;
+        }
         binding.funTeamSettingNewActivityIdTv.setText("ID: " + groupInfoBean.groupId);
         adapter = new TeamSettingUserInfoAdapter(groupInfoBean.rankState == 1,groupInfoBean.userInfos);
 
@@ -287,11 +334,16 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
 //                            .withContext(FunTeamSettingNewActivity.this)
 //                            .navigate(launcher);
                 } else {
-                    HashMap map = new HashMap<>();
-                    map.put("groupId",groupId);
-                    map.put("rankState",groupInfoBean.rankState + "");
-                    map.put("result",new Gson().toJson(groupInfoBean.userInfos.get(i)));
-                    FunTeamUserInfoDetailActivity.start(FunTeamUserInfoDetailActivity.class,that,map);
+                    XKitRouter.withKey(Constant.FunTeamUserInfoDetailActivityKey)
+                            .withParam("groupId",groupId)
+                            .withParam("userId",groupInfoBean.userInfos.get(i).userId)
+                            .withContext(view.getContext())
+                            .navigate();
+//                    HashMap map = new HashMap<>();
+//                    map.put("groupId",groupId);
+//                    map.put("rankState",groupInfoBean.rankState + "");
+//                    map.put("result",new Gson().toJson(groupInfoBean.userInfos.get(i)));
+//                    FunTeamUserInfoDetailActivity.start(FunTeamUserInfoDetailActivity.class,that,map);
                 }
             }
         });
@@ -303,7 +355,7 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
         binding.funTeamSettingNewActivityNicheng.viewTitleArrowRightTv.setText(groupInfoBean.getSelfRemarkName());
 
 
-        if (groupInfoBean.rankState == 1) {
+        if (groupInfoBean.rankState == 1 || groupInfoBean.rankState == 2) {
 
             binding.funTeamSettingNewActivityManagerTeam.viewTitleArrowLl.setVisibility(View.VISIBLE);
             binding.funTeamSettingNewActivitySetGonggao.viewTitleArrowLl.setVisibility(View.VISIBLE);
@@ -370,6 +422,18 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
 //                    });
         } else if (view == binding.funTeamSettingNewActivityZhiding.viewTitleArrowRightTvSwitch) {
             configStick(groupId,!binding.funTeamSettingNewActivityZhiding.viewTitleArrowRightTvSwitch.isSelected());
+        } else if (view == binding.funTeamSettingNewActivityDelteRecord.viewTitleArrowLl) {
+//            configStick(groupId,!binding.funTeamSettingNewActivityZhiding.viewTitleArrowRightTvSwitch.isSelected());
+            DialogAlertUtil.showAlert("确认删除聊天记录吗？", new DialogAlertUtil.DialogAlertUtilCallBack() {
+                @Override
+                public void clickType(int type) {
+                    if (type == 1) {
+                        NIMClient.getService(MsgService.class).clearChattingHistory(groupId,SessionTypeEnum.Team);
+
+                        EventBus.getDefault().post(new BaseEvent("clearTeamMessageList"));
+                    }
+                }
+            },getSupportFragmentManager());
         } else if (view == binding.funTeamSettingNewActivityQuite) {
             CommonChoiceDialog dialog = new CommonChoiceDialog();
             dialog
@@ -426,6 +490,7 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
         } else if (view == binding.funTeamSettingNewActivityManagerTeam.viewTitleArrowLl) {
             HashMap map = new HashMap();
             map.put("groupId",groupId);
+            map.put("rankState",groupInfoBean.rankState + "");
             FunTeamSetting_GroupManagerActivity.start(FunTeamSetting_GroupManagerActivity.class,this,map);
         } else if (view == binding.funTeamSettingNewActivitySeeAllMemberLl) {
             HashMap map = new HashMap();

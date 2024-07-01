@@ -66,7 +66,7 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
     ArrayList<GroupInfoBean> mContactModels = new ArrayList<>();
     ContactUserListAdapter adapter = new ContactUserListAdapter();
     protected IContactCallback contactCallback;
-
+    GroupInfoBean applyNumBean = new GroupInfoBean();
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -150,7 +150,7 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                        GroupInfoBean applyNumBean = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
+                        applyNumBean = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
                         if (applyNumBean.friendApplyNum > 0) {
                             binding.contactNewFragmentNewFriendTv.setText(applyNumBean.friendApplyNum + "");
                             binding.contactNewFragmentNewFriendTv.setVisibility(View.VISIBLE);
@@ -163,6 +163,7 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
                         } else {
                             binding.contactNewFragmentGroupNoticeTv.setVisibility(View.GONE);
                         }
+                        contactCallback.updateUnreadCount(applyNumBean.friendApplyNum+applyNumBean.groupApplyNum);
                     }
 
                     @Override
@@ -254,6 +255,6 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
 
     public void setContactCallback(IContactCallback contactCallback) {
         this.contactCallback = contactCallback;
-        this.contactCallback.updateUnreadCount(0);
+        this.contactCallback.updateUnreadCount(applyNumBean.friendApplyNum+applyNumBean.groupApplyNum);
     }
 }

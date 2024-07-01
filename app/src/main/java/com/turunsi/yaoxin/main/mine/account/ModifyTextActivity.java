@@ -22,8 +22,11 @@ import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
+import com.yaoxin.appbase.utils.BaseEvent;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -72,6 +75,10 @@ public class ModifyTextActivity extends BaseActivity implements View.OnClickList
                 UserBean userInfo = DataUtil.getUserInfo();
                 userInfo.username = name;
                 DataUtil.putUserInfo(userInfo);
+                DataUtil.updateLoginUserInfoList(userInfo);
+                BaseEvent refreshUserInfo = new BaseEvent("refreshUserInfo");
+                refreshUserInfo.setText(name);
+                EventBus.getDefault().post(refreshUserInfo);
                 finish();
               }
 

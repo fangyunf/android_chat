@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_F6F6F6"
+    android:id="@+id/activity_mine_purse_tixian_ll"
     android:orientation="vertical">
 
     <com.yaoxin.appbase.navbar.NavToolbar
@@ -80,7 +81,7 @@
                     android:gravity="center_vertical"
                     >
                     <TextView
-                        android:layout_width="22dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="50dp"
                         android:text="¥"
                         android:textColor="#ff000000"
@@ -224,8 +225,8 @@
             </LinearLayout>
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="86dp"
-                android:text="充值说明：\n1.工作日内两小时内到账\n2.提现未到账情况联系客服处理\n3.单笔最大限额5000元"
+                android:layout_height="wrap_content"
+                android:text="提现说明：\n1..提现未到账情况咲系客服处理\n2.单笔最小限额100元"
                 android:textColor="#ff000000"
                 android:textSize="14sp"
                 android:layout_marginLeft="@dimen/dimen_16_dp"

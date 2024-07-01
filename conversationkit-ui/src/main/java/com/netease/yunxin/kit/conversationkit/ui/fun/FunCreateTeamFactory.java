@@ -12,6 +12,7 @@ import static com.netease.yunxin.kit.corekit.im.utils.RouterConstant.KEY_REQUEST
 import static com.netease.yunxin.kit.corekit.im.utils.RouterConstant.KEY_SESSION_ID;
 import static com.netease.yunxin.kit.corekit.im.utils.RouterConstant.KEY_TEAM_CREATED_TIP;
 import static com.netease.yunxin.kit.corekit.im.utils.RouterConstant.KEY_TEAM_ID;
+import static com.netease.yunxin.kit.corekit.im.utils.RouterConstant.KEY_TEAM_NAME;
 import static com.netease.yunxin.kit.corekit.im.utils.RouterConstant.PATH_CHAT_SEND_TEAM_TIP_ACTION;
 import static com.netease.yunxin.kit.corekit.im.utils.RouterConstant.PATH_FUN_CHAT_TEAM_PAGE;
 import static com.netease.yunxin.kit.corekit.im.utils.RouterConstant.PATH_FUN_CONTACT_SELECTOR_PAGE;
@@ -63,17 +64,17 @@ public class FunCreateTeamFactory {
         context,
         requestCode,
         (activity, integer) -> {
-            XKitRouter.withKey(Constant.FunSelected_User_ActivityKey)
-                    .withContext(activity)
-                    .withParam("type","1")
-                    .navigate();
-//          XKitRouter.withKey(PATH_FUN_CONTACT_SELECTOR_PAGE)
-//              .withParam(KEY_CONTACT_SELECTOR_MAX_COUNT, memberLimit)
-//              .withParam(KEY_REQUEST_SELECTOR_NAME_ENABLE, true)
-//              .withParam(RouterConstant.SELECTOR_CONTACT_FILTER_KEY, filterList)
-//              .withContext(activity)
-//              .withRequestCode(integer)
-//              .navigate();
+//            XKitRouter.withKey(Constant.FunSelected_User_ActivityKey)
+//                    .withContext(activity)
+//                    .withParam("type","1")
+//                    .navigate();
+          XKitRouter.withKey(PATH_FUN_CONTACT_SELECTOR_PAGE)
+              .withParam(KEY_CONTACT_SELECTOR_MAX_COUNT, memberLimit)
+              .withParam(KEY_REQUEST_SELECTOR_NAME_ENABLE, true)
+              .withParam(RouterConstant.SELECTOR_CONTACT_FILTER_KEY, filterList)
+              .withContext(activity)
+              .withRequestCode(integer)
+              .navigate();
           return null;
         },
         intentResultInfo -> {
@@ -98,6 +99,9 @@ public class FunCreateTeamFactory {
                   .withParam(
                           REQUEST_CONTACT_SELECTOR_KEY,
                   data.getStringArrayListExtra(REQUEST_CONTACT_SELECTOR_KEY))
+                  .withParam(
+                          KEY_TEAM_NAME,
+                  data.getStringExtra(KEY_TEAM_NAME))
 
               .navigate(
                   res -> {

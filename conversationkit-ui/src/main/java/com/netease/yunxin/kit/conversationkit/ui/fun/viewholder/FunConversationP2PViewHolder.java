@@ -4,11 +4,14 @@
 
 package com.netease.yunxin.kit.conversationkit.ui.fun.viewholder;
 
+import android.view.View;
+
 import androidx.annotation.NonNull;
 import com.netease.yunxin.kit.common.ui.utils.AvatarColor;
 import com.netease.yunxin.kit.conversationkit.ui.R;
 import com.netease.yunxin.kit.conversationkit.ui.databinding.FunConversationViewHolderBinding;
 import com.netease.yunxin.kit.conversationkit.ui.model.ConversationBean;
+import com.yaoxin.appbase.utils.AppProxy;
 import com.yaoxin.appbase.utils.DataUtil;
 
 public class FunConversationP2PViewHolder extends FunConversationBaseViewHolder {
@@ -20,6 +23,7 @@ public class FunConversationP2PViewHolder extends FunConversationBaseViewHolder 
   @Override
   public void onBindData(ConversationBean data, int position) {
     super.onBindData(data, position);
+
     if (data.param.equals(DataUtil.getKeFuId())) {
 
       String name = "客服";

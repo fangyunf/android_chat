@@ -13,6 +13,8 @@ import com.netease.yunxin.kit.conversationkit.ui.common.ConversationConstant;
 import com.netease.yunxin.kit.conversationkit.ui.common.ConversationHelper;
 import com.netease.yunxin.kit.conversationkit.ui.databinding.FunConversationViewHolderBinding;
 import com.netease.yunxin.kit.conversationkit.ui.model.ConversationBean;
+import com.yaoxin.appbase.utils.AppProxy;
+import com.yaoxin.appbase.utils.DataUtil;
 
 public class FunConversationTeamViewHolder extends FunConversationBaseViewHolder {
 
@@ -24,6 +26,7 @@ public class FunConversationTeamViewHolder extends FunConversationBaseViewHolder
   @Override
   public void onBindData(ConversationBean data, int position) {
     super.onBindData(data, position);
+
     if (data.infoData.getTeamInfo() != null) {
       Team teamInfo = data.infoData.getTeamInfo();
       viewBinding.avatarView.setData(

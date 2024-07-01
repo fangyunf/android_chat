@@ -96,6 +96,7 @@ import com.netease.yunxin.kit.corekit.im.model.UserInfo;
 import com.netease.yunxin.kit.corekit.im.provider.FetchCallback;
 import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
 import com.netease.yunxin.kit.corekit.route.XKitRouter;
+import com.yaoxin.appbase.model.GroupInfoBean;
 import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.net.CommonCallback;
@@ -721,17 +722,25 @@ public abstract class ChatBaseFragment extends BaseFragment {
         public boolean onUserIconClick(View view, int position, ChatMessageBean messageBean) {
           if (delegateListener == null
               || !delegateListener.onUserIconClick(view, position, messageBean)) {
-//            if (sessionType == SessionTypeEnum.Team) {
-//
-//            } else {
-//
-//            }
-            XKitRouter.withKey(getUserInfoRoutePath())
-                .withContext(view.getContext())
-                .withParam(
-                    RouterConstant.KEY_ACCOUNT_ID_KEY,
-                    messageBean.getMessageData().getMessage().getFromAccount())
-                .navigate();
+            if (sessionType == SessionTypeEnum.Team) {
+              XKitRouter.withKey(Constant.FunTeamUserInfoDetailActivityKey)
+                      .withParam("groupId",sessionID)
+                      .withParam("userId",messageBean.getMessageData().getFromUser().getAccount())
+                      .withContext(view.getContext())
+                      .navigate();
+
+              return true;
+            }
+            XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_SETTING_PAGE)
+                    .withParam(RouterConstant.CHAT_ID_KRY, sessionID)
+                    .withContext(view.getContext())
+                    .navigate();
+//            XKitRouter.withKey(getUserInfoRoutePath())
+//                .withContext(view.getContext())
+//                .withParam(
+//                    RouterConstant.KEY_ACCOUNT_ID_KEY,
+//                    messageBean.getMessageData().getMessage().getFromAccount())
+//                .navigate();
           }
           return true;
         }

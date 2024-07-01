@@ -2,6 +2,8 @@ package com.turunsi.yaoxin.main.mine.purse.tixian;
 
 
 import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,6 +11,7 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.text.method.DigitsKeyListener;
+import android.view.Gravity;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -24,6 +27,8 @@ import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.Constant;
 import com.yaoxin.appbase.net.HttpUtil;
+import com.yaoxin.appbase.pswkeyboard.OnPasswordInputFinish;
+import com.yaoxin.appbase.pswkeyboard.widget.PopEnterPassword;
 import com.yaoxin.appbase.utils.CommonCallBack;
 import com.yaoxin.appbase.utils.DialogAlertUtil;
 import com.yaoxin.appbase.utils.NumberUtil;
@@ -101,6 +106,7 @@ public class PurseTiXianAddAccountActivity extends BaseActivity implements View.
             @Override
             public void onInputFinished(String password) {
                 tiXianClick(payEditText.getText());
+                payEditText.remove();
                 binding.activityFunSendRedPacketKeybordRl.setVisibility(View.GONE);
             }
         });
@@ -217,12 +223,25 @@ public class PurseTiXianAddAccountActivity extends BaseActivity implements View.
         bean.phone = zhanghao;
         bean.name = shiming;
         bean.zfb = qrcodeImgUrl;
+        Activity that = this;
         HttpUtil.apiW().bindCard_createUptadeZFB(bean)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                         ToastUtils.toastMsg("绑定成功");
-                        binding.activityFunSendRedPacketKeybordRl.setVisibility(View.VISIBLE);
+//                        binding.activityFunSendRedPacketKeybordRl.setVisibility(View.VISIBLE);
+                        PopEnterPassword popEnterPassword = new PopEnterPassword(that, new OnPasswordInputFinish() {
+                            @Override
+                            public void inputFinish(String password) {
+//                        sendRedWithPwd(password);
+                                tiXianClick(password);
+
+                            }
+
+                        },inputMoney);
+                        // 显示窗口
+                        popEnterPassword.showAtLocation(binding.activityPurseTixianAddAccountRootLl,
+                                Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); // 设置layout在PopupWindow中显示的位置
                     }
 
                     @Override

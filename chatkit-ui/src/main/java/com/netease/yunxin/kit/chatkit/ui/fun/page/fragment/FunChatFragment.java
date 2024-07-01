@@ -14,8 +14,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.gson.Gson;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.RequestCallback;
+import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
+import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.yunxin.kit.chatkit.model.IMMessageInfo;
 import com.netease.yunxin.kit.chatkit.ui.R;
 import com.netease.yunxin.kit.chatkit.ui.common.ChatMsgCache;
@@ -56,9 +60,13 @@ public abstract class FunChatFragment extends ChatBaseFragment {
             @NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
         viewBinding = FunChatFragmentBinding.inflate(inflater, container, false);
         chatView = viewBinding.chatView;
+
         return viewBinding.getRoot();
     }
 
+    void _updateMessageCell(IMMessage message) {
+        chatView.getMessageListView().updateMessage(message,null);
+    }
     @Override
     public Integer getReplayMessageClickPreviewDialogBgRes() {
         return R.color.color_ededed;
@@ -147,7 +155,12 @@ public abstract class FunChatFragment extends ChatBaseFragment {
                                         redBean.redPacketId = bean.redpacketId;
                                     }
 
-                                    FunOpenRedPacketFragment.showV(getParentFragmentManager(), bean.redpacketId,redBean.type,sessionID);
+                                    FunOpenRedPacketFragment.showV(getParentFragmentManager(), bean.redpacketId, redBean.type, sessionID, msgBean, messageInfo.getMessage(), new FunOpenRedPacketFragment.OpenRedPacketBlock() {
+                                        @Override
+                                        public void hasOpen(IMMessage message) {
+                                            _updateMessageCell(message);
+                                        }
+                                    });
                                 }
                                 if (redBean.type == 4 || redBean.type == 5) {
                                     /// 当前用户领取已领取过当前红包，展示领取详细信息

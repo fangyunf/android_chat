@@ -7,6 +7,7 @@ package com.netease.yunxin.kit.conversationkit.ui.view;
 import static com.netease.yunxin.kit.conversationkit.ui.common.ConversationConstant.LIB_TAG;
 
 import android.text.TextUtils;
+import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,13 +19,16 @@ import com.netease.yunxin.kit.alog.ALog;
 import com.netease.yunxin.kit.chatkit.model.ConversationInfo;
 import com.netease.yunxin.kit.common.ui.viewholder.BaseViewHolder;
 import com.netease.yunxin.kit.common.ui.viewholder.ViewHolderClickListener;
+import com.netease.yunxin.kit.common.utils.SizeUtils;
 import com.netease.yunxin.kit.conversationkit.ui.IConversationFactory;
 import com.netease.yunxin.kit.conversationkit.ui.common.DataUtils;
 import com.netease.yunxin.kit.conversationkit.ui.model.ConversationBean;
 import com.netease.yunxin.kit.conversationkit.ui.page.DefaultViewHolderFactory;
 import com.netease.yunxin.kit.corekit.im.model.FriendInfo;
 import com.netease.yunxin.kit.corekit.im.model.UserInfo;
+import com.yaoxin.appbase.utils.AppProxy;
 import com.yaoxin.appbase.utils.BaseEvent;
+import com.yaoxin.appbase.utils.DataUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -77,7 +81,6 @@ public class ConversationAdapter extends RecyclerView.Adapter<BaseViewHolder> {
       int position = conversationList.size();
       conversationList.addAll(data);
       notifyItemInserted(position);
-      EventBus.getDefault().post(new BaseEvent("refreshConversationList"));
     }
   }
 
@@ -99,22 +102,12 @@ public class ConversationAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     }
     ALog.d(LIB_TAG, TAG, "update, removeIndex:" + removeIndex);
     if (removeIndex > -1) {
-      if (data.infoData.isStickTop()) {
-//        conversationList.remove(removeIndex);
-//        conversationList.add(removeIndex, data);
-        if (isShow) {
-          notifyItemChanged(removeIndex);
-        }
-      } else {
-        conversationList.remove(removeIndex);
-        int insertIndex = searchComparatorIndex(data);
-        conversationList.add(insertIndex, data);
-        if (isShow) {
-          notifyItemMoved(removeIndex, insertIndex);
-          notifyItemChanged(insertIndex);
-        }
+      conversationList.remove(removeIndex);
+      conversationList.add(removeIndex, data);
+      if (isShow) {
+        notifyItemChanged(removeIndex);
+        EventBus.getDefault().post(new BaseEvent("refreshConversationList"));
       }
-
     } else {
       int insertIndex = searchComparatorIndex(data);
       conversationList.add(insertIndex, data);
@@ -122,8 +115,6 @@ public class ConversationAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         notifyItemInserted(insertIndex);
       }
     }
-
-    EventBus.getDefault().post(new BaseEvent("refreshConversationList"));
     layoutManager.scrollToPosition(position);
   }
 
@@ -332,24 +323,112 @@ public class ConversationAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
   @Override
   public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {
-    holder.onBindData(conversationList.get(position), position);
+    holder.onBindData(optData().get(position), position);
+    ConversationBean conversationBean = conversationList.get(position);
+    String param = (String) conversationBean.param;
+    ViewGroup.LayoutParams params = holder.itemView.getLayoutParams();
+    if(AppProxy.getInstance().showType == 0) {
+      params.height = SizeUtils.dp2px(72);
+    } else if (AppProxy.getInstance().showType == 1 && conversationBean.viewType == 1) {
+      params.height = SizeUtils.dp2px(72);
+    } else if (AppProxy.getInstance().showType == 2 && conversationBean.viewType == 2) {
+      params.height = SizeUtils.dp2px(72);
+    } else if (AppProxy.getInstance().showType == 3 && (DataUtil.getKeFuId().equals(param) || DataUtil.getXiaoZhuShouId().equals(param))) {
+      params.height = SizeUtils.dp2px(72);
+    } else {
+      params.height = SizeUtils.dp2px(0);
+    }
+
+
+    holder.itemView.setLayoutParams(params);
+
     holder.setItemOnClickListener(clickListener);
   }
 
   @Override
   public int getItemViewType(int position) {
-    return viewHolderFactory.getItemViewType(conversationList.get(position));
+    return viewHolderFactory.getItemViewType(optData().get(position));
   }
 
+  public List<ConversationBean> optData() {
+    return conversationList;
+//    ArrayList<ConversationBean> tempArr = new ArrayList<>();
+//    for (ConversationBean tempBean: conversationList) {
+//      if (AppProxy.getInstance().showType == 0) {
+//        return conversationList;
+//      } else if (AppProxy.getInstance().showType == 1) {
+//        if (tempBean.viewType == 1) {
+//          tempArr.add(tempBean);
+//        }
+//      } else if (AppProxy.getInstance().showType == 2) {
+//        if (tempBean.viewType == 2) {
+//          tempArr.add(tempBean);
+//        }
+//      } else if (AppProxy.getInstance().showType == 3) {
+//        if (DataUtil.getKeFuId() != null && tempBean.param != null) {
+//          String param = (String) tempBean.param;
+//          if (DataUtil.getKeFuId().equals(param) || DataUtil.getXiaoZhuShouId().equals(param)) {
+//            tempArr.add(tempBean);
+//          }
+//        }
+//      }
+//    }
+//    return tempArr;
+  }
   @Override
   public int getItemCount() {
-    return conversationList.size();
+    return optData().size();
+//    ArrayList<ConversationBean> tempArr = new ArrayList<>();
+//    for (ConversationBean tempBean: conversationList) {
+//      if (AppProxy.getInstance().showType == 0) {
+//        return conversationList.size();
+//        } else if (AppProxy.getInstance().showType == 1) {
+//          if (tempBean.viewType == 1) {
+//            tempArr.add(tempBean);
+//          }
+//        } else if (AppProxy.getInstance().showType == 2) {
+//        if (tempBean.viewType == 2) {
+//          tempArr.add(tempBean);
+//        }
+//        } else if (AppProxy.getInstance().showType == 3) {
+//        if (DataUtil.getKeFuId() != null && tempBean.param != null) {
+//          String param = (String) tempBean.param;
+//          if (DataUtil.getKeFuId().equals(param) || DataUtil.getXiaoZhuShouId().equals(param)) {
+//            tempArr.add(tempBean);
+//          }
+//        }
+//        }
+//    }
+//    return tempArr.size();
   }
 
   public ConversationBean getData(int index) {
-    if (index >= 0 && index < conversationList.size()) {
-      return conversationList.get(index);
-    }
-    return null;
+    return optData().get(index);
+//    ArrayList<ConversationBean> tempArr = new ArrayList<>();
+//    for (ConversationBean tempBean: conversationList) {
+//      if (AppProxy.getInstance().showType == 0) {
+//        return conversationList.get(index);
+//      } else if (AppProxy.getInstance().showType == 1) {
+//        if (tempBean.viewType == 1) {
+//          tempArr.add(tempBean);
+//        }
+//      } else if (AppProxy.getInstance().showType == 2) {
+//        if (tempBean.viewType == 2) {
+//          tempArr.add(tempBean);
+//        }
+//      } else if (AppProxy.getInstance().showType == 3) {
+//        if (DataUtil.getKeFuId() != null && tempBean.param != null) {
+//          String param = (String) tempBean.param;
+//          if (DataUtil.getKeFuId().equals(param) || DataUtil.getXiaoZhuShouId().equals(param)) {
+//            tempArr.add(tempBean);
+//          }
+//        }
+//      }
+//    }
+//    return tempArr.get(index);
+//    if (index >= 0 && index < conversationList.size()) {
+//      return conversationList.get(index);
+//    }
+//    return null;
   }
 }

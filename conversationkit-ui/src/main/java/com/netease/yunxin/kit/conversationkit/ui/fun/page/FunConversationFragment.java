@@ -19,6 +19,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.msg.MessageBuilder;
@@ -43,10 +45,13 @@ import com.netease.yunxin.kit.conversationkit.ui.page.ConversationBaseFragment;
 import com.netease.yunxin.kit.corekit.im.IMKitClient;
 import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
 import com.netease.yunxin.kit.corekit.route.XKitRouter;
+import com.sunfusheng.marqueeview.IMarqueeItem;
+import com.yaoxin.appbase.model.GroupInfoBean;
 import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
+import com.yaoxin.appbase.utils.AppProxy;
 import com.yaoxin.appbase.utils.BarUtils;
 import com.yaoxin.appbase.utils.BaseEvent;
 import com.yaoxin.appbase.utils.DataUtil;
@@ -56,8 +61,10 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -82,9 +89,17 @@ public class FunConversationFragment extends ConversationBaseFragment {
   }
   @Subscribe(threadMode = ThreadMode.MAIN)
   public void onMessageEvent(BaseEvent event) {
-    if (event.getTag().equals("refreshConversationList")) {
+//    if (event.getTag().equals("refreshConversationList")) {
+//      if (event.conversationList != null) {
+//        ArrayList<ConversationBean> tempList = new ArrayList<>();
+//        for (Object obj :
+//                event.conversationList) {
+//          tempList.add((ConversationBean) obj);
+//        }
+//        conversationList = tempList;
+//      }
       doOptWithIndex(topIndex);
-    }
+//    }
   }
 
   @Override
@@ -95,6 +110,55 @@ public class FunConversationFragment extends ConversationBaseFragment {
 
   void _requestData() {
 
+    HttpUtil.apiW().customer_notice()
+                    .enqueue(new CommonCallback<NetData>() {
+                      @Override
+                      public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                        GroupInfoBean groupInfoBean = new Gson().fromJson(body.data.toString(),GroupInfoBean.class);
+                        String message = groupInfoBean.content;
+                        if (message != null && !message.isEmpty()) {
+                          viewBinding.marqueeView.startWithText(message);
+                          viewBinding.marqueeView.startWithText(message, com.sunfusheng.marqueeview.R.anim.anim_bottom_in, com.sunfusheng.marqueeview.R.anim.anim_top_out);
+                        } else {
+                          viewBinding.marqueeViewBgLl.setVisibility(View.GONE);
+                        }
+                      }
+
+                      @Override
+                      public void Failure(Call<NetData> call, Throwable t) {
+
+                      }
+                    });
+
+    HttpUtil.apiW().group_userGroups(new RegisterBean())
+                    .enqueue(new CommonCallback<NetData>() {
+                      @Override
+                      public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+
+                        Type type = new TypeToken<List<GroupInfoBean>>() {}.getType();
+
+                        List<GroupInfoBean> dataList = new Gson().fromJson(body.data.toString(),type);
+
+                        for (GroupInfoBean tempGroupInfo : dataList) {
+                          boolean hasConversation = false;
+                          for (ConversationBean tempCoversation : conversationList) {
+
+                            if (tempGroupInfo.groupId.equals((String) tempCoversation.param)) {
+                              hasConversation = true;
+                              break;
+                            }
+                          }
+                          if (!hasConversation) {
+                            sendGroupMessage(tempGroupInfo.groupId);
+                          }
+                        }
+                      }
+
+                      @Override
+                      public void Failure(Call<NetData> call, Throwable t) {
+
+                      }
+                    });
     HttpUtil.apiW().customer_systemAppUser(new RegisterBean())
             .enqueue(new CommonCallback<NetData>() {
               @Override
@@ -159,6 +223,42 @@ public class FunConversationFragment extends ConversationBaseFragment {
       @Override
       public void onSuccess(Void param) {
         NIMClient.getService(MsgService.class).clearChattingHistory(account,SessionTypeEnum.P2P);
+        // 保存成功
+      }
+
+      @Override
+      public void onFailed(int code) {
+        // 保存失败
+      }
+
+      @Override
+      public void onException(Throwable exception) {
+        // 保存异常
+      }
+    });
+  }
+  private void sendGroupMessage(String account) {
+    // 自定义消息内容
+//    Map<String, Object> content = new HashMap<>();
+//    content.put("type", "custom");
+//    content.put("data", "这是自定义会话记录的内容");
+
+    // 设置自定义消息配置
+    CustomMessageConfig config = new CustomMessageConfig();
+    config.enableUnreadCount = false; // 自定义消息不计入未读数
+
+    // 构建自定义消息
+    IMMessage message = MessageBuilder.createCustomMessage(account, SessionTypeEnum.Team, null,
+            null, config, null);
+//    IMMessage message1 = MessageBuilder.createEmptyMessage()
+
+    message.setConfig(config);
+
+    // 保存自定义消息
+    NIMClient.getService(MsgService.class).saveMessageToLocal(message, true).setCallback(new RequestCallback<Void>() {
+      @Override
+      public void onSuccess(Void param) {
+        NIMClient.getService(MsgService.class).clearChattingHistory(account,SessionTypeEnum.Team);
         // 保存成功
       }
 
@@ -251,42 +351,52 @@ public class FunConversationFragment extends ConversationBaseFragment {
     _initHeadCell();
     loadUIConfig();
     _initTopStatus(0);
+    conversationView.setData(conversationList);
   }
 
   void doOptWithIndex(int index) {
-    if (index == 0) {
-      conversationView.setData(conversationList);
-    } else if (index == 1) {
-      ArrayList<ConversationBean> tempArr = new ArrayList<>();
-      for (ConversationBean tempBean:
-              conversationList) {
-        if (tempBean.viewType == 1) {
-          tempArr.add(tempBean);
-        }
-      }
-      conversationView.setData(tempArr);
-    } else if (index == 2) {
-      ArrayList<ConversationBean> tempArr = new ArrayList<>();
-      for (ConversationBean tempBean:
-              conversationList) {
-        if (tempBean.viewType == 2) {
-          tempArr.add(tempBean);
-        }
-      }
-      conversationView.setData(tempArr);
-    } else if (index == 3) {
-      ArrayList<ConversationBean> tempArr = new ArrayList<>();
-      for (ConversationBean tempBean:
-              conversationList) {
-        if (DataUtil.getKeFuId() != null && tempBean.param != null) {
-          String param = (String) tempBean.param;
-          if (DataUtil.getKeFuId().equals(param) || DataUtil.getXiaoZhuShouId().equals(param)) {
-            tempArr.add(tempBean);
-          }
-        }
-      }
-      conversationView.setData(tempArr);
-    }
+    AppProxy.getInstance().showType = index;
+    conversationView.adapter.notifyDataSetChanged();
+//    List<ConversationBean> tempList = new ArrayList<>();
+////    if (isFirst) {
+////      isFirst = false;
+//      tempList = conversationList;
+////    } else {
+////      tempList = conversationView.adapter.conversationList;
+////    }
+//    if (index == 0) {
+//      conversationView.setData(tempList);
+//    } else if (index == 1) {
+//      ArrayList<ConversationBean> tempArr = new ArrayList<>();
+//      for (ConversationBean tempBean:
+//              tempList) {
+//        if (tempBean.viewType == 1) {
+//          tempArr.add(tempBean);
+//        }
+//      }
+//      conversationView.setData(tempArr);
+//    } else if (index == 2) {
+//      ArrayList<ConversationBean> tempArr = new ArrayList<>();
+//      for (ConversationBean tempBean:
+//              tempList) {
+//        if (tempBean.viewType == 2) {
+//          tempArr.add(tempBean);
+//        }
+//      }
+//      conversationView.setData(tempArr);
+//    } else if (index == 3) {
+//      ArrayList<ConversationBean> tempArr = new ArrayList<>();
+//      for (ConversationBean tempBean:
+//              tempList) {
+//        if (DataUtil.getKeFuId() != null && tempBean.param != null) {
+//          String param = (String) tempBean.param;
+//          if (DataUtil.getKeFuId().equals(param) || DataUtil.getXiaoZhuShouId().equals(param)) {
+//            tempArr.add(tempBean);
+//          }
+//        }
+//      }
+//      conversationView.setData(tempArr);
+//    }
   }
   private void _initHeadCell() {
     viewBinding.funConversationFragmentHeadAll.viewConversationHeadItemIv.setImageResource(R.drawable.conversation_index_all_chat);
@@ -329,9 +439,31 @@ public class FunConversationFragment extends ConversationBaseFragment {
         doOptWithIndex(3);
       }
     });
+//    initMar();
 
   }
 
+  void initMar() {
+
+    List<String> messages = new ArrayList<>();
+    messages.add("欢迎大家使用华尔街");
+    viewBinding.marqueeView.startWithList(messages);
+
+// 或者设置自定义的Model数据类型
+//    class CustomModel implements IMarqueeItem {
+//      @Override
+//      public CharSequence marqueeMessage() {
+//        return "...";
+//      }
+//    }
+//
+//    List<CustomModel> messages1 = new ArrayList<>();
+//    viewBinding.marqueeView.startWithList(messages1);
+
+// 在代码里设置自己的动画
+    viewBinding.marqueeView.startWithList(messages, com.sunfusheng.marqueeview.R.anim.anim_bottom_in, com.sunfusheng.marqueeview.R.anim.anim_top_out);
+
+  }
   void _initTopStatus(int index) {
     topIndex = index;
     viewBinding.funConversationFragmentHeadNotice.viewConversationHeadItemTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.black));

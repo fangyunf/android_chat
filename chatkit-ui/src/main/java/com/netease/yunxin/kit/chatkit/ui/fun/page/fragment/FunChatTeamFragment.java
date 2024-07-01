@@ -13,7 +13,9 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,10 +39,17 @@ import com.netease.yunxin.kit.chatkit.ui.page.viewmodel.ChatTeamViewModel;
 import com.netease.yunxin.kit.chatkit.ui.view.ait.AitManager;
 import com.netease.yunxin.kit.common.ui.viewmodel.FetchResult;
 import com.netease.yunxin.kit.common.ui.viewmodel.LoadStatus;
+import com.netease.yunxin.kit.common.utils.SizeUtils;
 import com.netease.yunxin.kit.corekit.im.IMKitClient;
 import com.netease.yunxin.kit.corekit.im.utils.IMKitConstant;
 import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
 import com.netease.yunxin.kit.corekit.route.XKitRouter;
+import com.yaoxin.appbase.utils.BaseEvent;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -84,6 +93,11 @@ public class FunChatTeamFragment extends FunChatFragment {
                   .navigate();
             });
 
+    ImageView actionImageView = chatView.getTitleBar().getActionImageView();
+    ViewGroup.LayoutParams layoutParams = actionImageView.getLayoutParams();
+    layoutParams.width = SizeUtils.dp2px(40);
+    layoutParams.height = SizeUtils.dp2px(40);
+    actionImageView.setLayoutParams(layoutParams);
     aitManager = new AitManager(getContext(), sessionID);
     aitManager.setUIStyle(AitManager.STYLE_FUN);
     aitManager.updateTeamInfo(teamInfo);
@@ -134,8 +148,16 @@ public class FunChatTeamFragment extends FunChatFragment {
     if (chatConfig != null && chatConfig.messageProperties != null) {
       viewModel.setShowReadStatus(chatConfig.messageProperties.showTeamMessageStatus);
     }
+
+    EventBus.getDefault().register(this);
   }
 
+  @Subscribe(threadMode = ThreadMode.MAIN)
+  public void onMessageEvent(BaseEvent event) {
+    if (event.getTag().equals("clearTeamMessageList")) {
+      chatView.clearMessageList();
+    }
+  }
   @Override
   public void onStart() {
     super.onStart();
@@ -151,6 +173,7 @@ public class FunChatTeamFragment extends FunChatFragment {
     ((ChatTeamViewModel) viewModel)
         .getTeamMessageReceiptLiveData()
         .removeObserver(teamReceiptObserver);
+    EventBus.getDefault().unregister(this);
   }
 
   @Override

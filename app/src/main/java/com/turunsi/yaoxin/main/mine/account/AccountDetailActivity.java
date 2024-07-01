@@ -24,6 +24,7 @@ import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.Constant;
 import com.yaoxin.appbase.net.HttpUtil;
+import com.yaoxin.appbase.utils.BaseEvent;
 import com.yaoxin.appbase.utils.CommonCallBack;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.GlideUtil;
@@ -35,6 +36,10 @@ import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
 import com.zhihu.matisse.filter.Filter;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -59,9 +64,23 @@ public class AccountDetailActivity extends BaseActivity implements View.OnClickL
     viewBinding = ActivityMineAccountDetailBinding.inflate(getLayoutInflater());
     setContentView(viewBinding.getRoot());
     initView();
+      EventBus.getDefault().register(this);
   }
 
-  private void initView() {
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(BaseEvent event) {
+        if (event.getTag().equals("refreshUserInfo")) {
+            viewBinding.activityMineAccountDetailUsername.viewTitleArrowRightTv.setText(event.getText());
+        }
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    private void initView() {
 
     viewBinding.activityMineAccountDetailNav.addCloseImageButton().setOnClickListener(this);
     viewBinding.activityMineAccountDetailUsername.viewTitleArrowLl.setOnClickListener(this);
@@ -136,6 +155,8 @@ public class AccountDetailActivity extends BaseActivity implements View.OnClickL
               UserBean userInfo = DataUtil.getUserInfo();
               userInfo.avatar = userBean.url;
               DataUtil.putUserInfo(userInfo);
+              DataUtil.updateLoginUserInfoList(userInfo);
+              GlideUtil.yh_loadImage(viewBinding.activityMineAccountDetailHeadIv.getContext(),viewBinding.activityMineAccountDetailHeadIv, userBean.url);
               updatePersonInfo(userBean.url,"");
           }
       });

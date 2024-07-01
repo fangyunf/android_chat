@@ -16,7 +16,16 @@
         android:text="@string/chat_message_signal"
         android:layout_weight="1"
         android:textColor="@color/color_666666"
-        android:textSize="@dimen/text_size_12"/>
+        android:textSize="@dimen/text_size_14"/>
+
+    <TextView
+        android:id="@+id/right_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:visibility="gone"
+        android:textColor="@color/color_666666"
+        android:textSize="@dimen/text_size_14"/>
     <ImageView
         android:id="@+id/fun_title_tf_arrow_view_switch"
         android:layout_width="@dimen/dimen_45_dp"

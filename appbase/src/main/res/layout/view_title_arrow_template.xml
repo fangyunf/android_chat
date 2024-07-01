@@ -19,7 +19,7 @@
             android:id="@+id/view_title_arrow_tv"
             android:layout_width="0dp"
             android:layout_height="22dp"
-            android:text="设置支付密码"
+            android:text=""
             android:textColor="#ff000000"
             android:textSize="16sp"
             android:layout_weight="1"

@@ -28,7 +28,7 @@ public class ContactUserListAdapter extends BaseQuickAdapter<GroupInfoBean, Quic
         ImageView iv = quickViewHolder.getView(R.id.cell_fun_team_setting_users_mingdan_head_iv);
 
         TextView tv = quickViewHolder.getView(R.id.cell_fun_team_setting_users_mingdan_tv_index);
-        quickViewHolder.setText(R.id.cell_fun_team_setting_users_mingdan_name_tv, infoBean.name);
+        quickViewHolder.setText(R.id.cell_fun_team_setting_users_mingdan_name_tv, (infoBean.remark != null && !infoBean.remark.isEmpty() ) ? infoBean.remark : infoBean.name);
         GlideUtil.yh_loadImageRoundedCorner(getContext(), iv, infoBean.avatar, 22);
         if (position == 0 || !contacts.get(position-1).getIndex().equals(infoBean.getIndex())) {
             tv.setVisibility(View.VISIBLE);

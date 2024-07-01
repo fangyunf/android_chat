@@ -41,9 +41,9 @@ public class TeamSettingUserInfoAdapter extends BaseQuickAdapter<GroupInfoBean, 
             tv.setVisibility(View.GONE);
             quickViewHolder.setText(R.id.cell_fun_team_setting_users_name_tv, "");
             if (i == userInfoList.size()) {
-                iv.setImageResource(R.drawable.team_setting_add_user);
+                iv.setImageResource(com.yaoxin.appbase.R.drawable.team_setting_add_user);
             } else {
-                iv.setImageResource(R.drawable.team_setting_delete_user);
+                iv.setImageResource(com.yaoxin.appbase.R.drawable.team_setting_delete_user);
             }
         } else {
             GroupInfoBean infoBean = userInfoList.get(i);

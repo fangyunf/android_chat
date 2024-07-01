@@ -20,8 +20,11 @@ import com.netease.yunxin.kit.chatkit.ui.databinding.FunChatMessageRedPacketView
 import com.netease.yunxin.kit.chatkit.ui.databinding.FunChatMessageRichTextViewHolderBinding;
 import com.netease.yunxin.kit.chatkit.ui.model.ChatMessageBean;
 import com.yaoxin.appbase.model.CustomMsgBean;
+import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.NumberUtil;
 import com.yaoxin.appbase.utils.TimeUtil;
+
+import java.util.Map;
 
 public class ChatRedPacketMessageViewHolder extends FunChatBaseMessageViewHolder {
 
@@ -45,10 +48,21 @@ public class ChatRedPacketMessageViewHolder extends FunChatBaseMessageViewHolder
     if (message != null
             && message.getMessageData() != null
             && !message.getMessageData().getMessage().getAttachStr().isEmpty()){
+      Map<String, Object> localExtension = message.getMessageData().getMessage().getLocalExtension();
+      boolean hasDraw = false;
+      if (localExtension != null && DataUtil.getUserid().equals(localExtension.get("userId"))) {
+        hasDraw = true;
+      }
 
       CustomMsgBean bean = new Gson().fromJson(message.getMessageData().getMessage().getAttachStr(), CustomMsgBean.class);
       bean.result = new Gson().fromJson(bean.data, CustomMsgBean.class);
-      viewBinding.funChatMessageRedPacketViewHolderBgIv.setImageResource( (bean.type == 21) ? R.drawable.chat_redpacket_purple_bg_no_open:R.drawable.chat_red_packet_cell_bg_no_open);
+      if (hasDraw) {
+        viewBinding.funChatMessageRedPacketViewHolderBgIv.setImageResource( (bean.type == 21) ? R.drawable.chat_redpacket_purple_bg_is_open:R.drawable.chat_red_packet_cell_bg_is_open);
+
+      } else {
+
+        viewBinding.funChatMessageRedPacketViewHolderBgIv.setImageResource( (bean.type == 21) ? R.drawable.chat_redpacket_purple_bg_no_open:R.drawable.chat_red_packet_cell_bg_no_open);
+      }
       viewBinding.funChatMessageRedPacketViewHolderGreetingTv.setText(bean.result.title);
       viewBinding.funChatMessageRedPacketViewHolderTimeTv.setText(TimeUtil.stampToDate(bean.result.createTime));
       viewBinding.funChatMessageRedPacketViewHolderMoneyTv.setText(NumberUtil.formartMoney(bean.result.amount));

@@ -62,10 +62,8 @@ public class XiaoZhuShouActivity extends BaseActivity implements View.OnClickLis
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                         GroupInfoBean tempBean = new Gson().fromJson(body.data.toString(),GroupInfoBean.class);
-
-                        Type type = new TypeToken<List<GroupInfoBean>>() {
-                        }.getType();
-//                        dataList = new Gson().fromJson(tempBean.data, type);
+                        adapter.setItems(tempBean.data);
+                        adapter.notifyDataSetChanged();
                     }
 
                     @Override

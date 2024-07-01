@@ -5,6 +5,7 @@
 package com.netease.yunxin.kit.conversationkit.ui.fun;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
@@ -17,6 +18,7 @@ import com.netease.yunxin.kit.conversationkit.ui.fun.viewholder.FunConversationP
 import com.netease.yunxin.kit.conversationkit.ui.fun.viewholder.FunConversationTeamViewHolder;
 import com.netease.yunxin.kit.conversationkit.ui.model.ConversationBean;
 import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
+import com.yaoxin.appbase.utils.AppProxy;
 
 /** conversation view holder factory to create view holder in recyclerview */
 public class FunViewHolderFactory implements IConversationFactory {
@@ -54,6 +56,7 @@ public class FunViewHolderFactory implements IConversationFactory {
     FunConversationViewHolderBinding binding =
         FunConversationViewHolderBinding.inflate(
             LayoutInflater.from(parent.getContext()), parent, false);
+
     if (viewType == ConversationConstant.ViewType.TEAM_VIEW) {
       return new FunConversationTeamViewHolder(binding);
     } else {

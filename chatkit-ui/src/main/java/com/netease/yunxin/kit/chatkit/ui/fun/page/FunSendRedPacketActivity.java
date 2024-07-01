@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.DigitsKeyListener;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -19,6 +20,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.yunxin.kit.alog.ALog;
 import com.netease.yunxin.kit.chatkit.ui.databinding.ActivityFunSendRedPacketBinding;
@@ -33,6 +35,8 @@ import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.Constant;
 import com.yaoxin.appbase.net.HttpUtil;
+import com.yaoxin.appbase.pswkeyboard.OnPasswordInputFinish;
+import com.yaoxin.appbase.pswkeyboard.widget.PopEnterPassword;
 import com.yaoxin.appbase.utils.AppProxy;
 import com.yaoxin.appbase.utils.GlideUtil;
 import com.yaoxin.appbase.utils.NumberUtil;
@@ -41,7 +45,9 @@ import com.yaoxin.appbase.view.actionsheet.ActionSheet;
 import com.yaoxin.appbase.view.pwdkeyboard.Keyboard;
 import com.yaoxin.appbase.view.pwdkeyboard.PayEditText;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -67,6 +73,8 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
     private Keyboard keyboard;
 
     private GroupInfoBean groupInfoBean;
+
+    ArrayList<GroupInfoBean> userList = new ArrayList<>();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -118,14 +126,50 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
         _updateUI();
     }
 
+    void _requestPeople(int page) {
+        RegisterBean bean = new RegisterBean();
+        bean.groupId = sessionId;
+        bean.page = page +"";
+        bean.pageNo ="100";
+
+        HttpUtil.apiW().group_groupUserListPost(bean)
+                .enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+
+                        Type type = new TypeToken<List<GroupInfoBean>>() {
+                        }.getType();
+                        List<GroupInfoBean> tempList = new Gson().fromJson(body.data.toString(), type);
+                        if (!tempList.isEmpty()) {
+                            userList.addAll(tempList);
+                            if (tempList.size() == 100) {
+                                _requestPeople((page + 1));
+                                return;
+                            }
+                        }
+                        binding.activityFunSendRedPacketTeamMemberCountTv.setText("本群共"+userList.size()+"人");
+
+
+
+                    }
+
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
+
+                    }
+                });
+    }
     void _requestDataGroup() {
+
+
+
         HttpUtil.apiW().group_groupHomeInfo(sessionId)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
                         groupInfoBean = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
-                        binding.activityFunSendRedPacketTeamMemberCountTv.setText("本群共"+groupInfoBean.userInfos.size()+"人");
+                        _requestPeople(1);
                     }
 
                     @Override
@@ -231,6 +275,7 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
             public void onInputFinished(String password) {
 //                Toast.makeText(getApplication(), "您的密码是：" + password, Toast.LENGTH_SHORT).show();
                 sendRedWithPwd(password);
+                payEditText.remove();
                 binding.activityFunSendRedPacketKeybordRl.setVisibility(View.GONE);
             }
         });
@@ -288,9 +333,22 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
                         }
                     }).show();
         } else if (v == binding.activityFunSendRedPacketSendTv) {
+            String moneyStr = getTextStr(binding.activityFunSendRedPacketMoneyEt);
 
-            binding.activityFunSendRedPacketKeybordRl.setVisibility(View.VISIBLE);
-
+            if (moneyStr.isEmpty()) {
+                ToastUtils.toastMsg("请输入金额");
+                return;
+            }
+//            binding.activityFunSendRedPacketKeybordRl.setVisibility(View.VISIBLE);
+            PopEnterPassword popEnterPassword = new PopEnterPassword(this, new OnPasswordInputFinish() {
+                @Override
+                public void inputFinish(String password) {
+                    sendRedWithPwd(password);
+                }
+            },moneyStr);
+            // 显示窗口
+            popEnterPassword.showAtLocation(binding.activityFunSendRedPacketLl,
+                    Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); // 设置layout在PopupWindow中显示的位置
 
 
         } else if (v == binding.activityFunSendRedPacketToPeopleLl) {
@@ -316,7 +374,7 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
 
         int amout = 0;
         if (!moneyStr.isEmpty()) {
-            amout = Integer.parseInt(moneyStr) * 100;
+            amout = NumberUtil.formartUploadMoney(moneyStr);
         }
 
         if (amout <= 0) {

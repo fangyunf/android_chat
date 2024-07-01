@@ -42,7 +42,9 @@ import com.netease.yunxin.kit.corekit.model.ResultInfo;
 import com.netease.yunxin.kit.corekit.route.XKitRouter;
 import com.netease.yunxin.kit.corekit.startup.Initializer;
 import com.netease.yunxin.kit.teamkit.ui.fun.activity.FunTeamSettingNewActivity;
+import com.netease.yunxin.kit.teamkit.ui.fun.activity.FunTeamUserInfoDetailActivity;
 import com.netease.yunxin.kit.teamkit.ui.normal.activity.TeamSettingActivity;
+import com.yaoxin.appbase.net.Constant;
 import com.yaoxin.appbase.utils.TeamIconUtils;
 import com.netease.yunxin.kit.teamkit.ui.utils.TeamUtils;
 import com.yaoxin.appbase.model.CustomMsgBean;
@@ -101,6 +103,7 @@ public class TeamUIService extends ChatService {
                 () -> TeamIconUtils.getDefaultRandomIconUrl(true));
 //        XKitRouter.registerRouter(PATH_FUN_TEAM_SETTING_PAGE, FunTeamSettingActivity.class);
         XKitRouter.registerRouter(PATH_FUN_TEAM_SETTING_PAGE, FunTeamSettingNewActivity.class);
+        XKitRouter.registerRouter(Constant.FunTeamUserInfoDetailActivityKey, FunTeamUserInfoDetailActivity.class);
         registerCreateAdvanceTeamRouter(
                 context,
                 PATH_FUN_CREATE_ADVANCED_TEAM_ACTION,

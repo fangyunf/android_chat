@@ -27,7 +27,7 @@ public class FunVerifyFriendListAdapter extends BaseQuickAdapter<UserBean, Quick
 
         } else {
             quickViewHolder.setText(R.id.fun_verify_friend_list_cell_name_tv, userInfo.name)
-                    .setText(R.id.fun_verify_friend_list_cell_id_tv, "ID:"+ userInfo.userId)
+                    .setText(R.id.fun_verify_friend_list_cell_id_tv, userInfo.userId)
                     .setText(R.id.fun_verify_friend_list_cell_verify_content, userInfo.leaveMessage)
                     .setText(R.id.fun_verify_friend_list_cell_verify_msg, "");
             GlideUtil.yh_loadImage(getContext(), quickViewHolder.getView(R.id.fun_verify_friend_list_cell_head_iv), userInfo.avatar);

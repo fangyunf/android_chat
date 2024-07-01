@@ -167,7 +167,8 @@ public class SettingNewActivity extends BaseActivity implements View.OnClickList
       showLogin();
 
     } else if (v == viewBinding.activityMineSetNewExchangeAcountLl) {
-        showLogin();
+//        showLogin();
+        ExchangeAccountActivity.start(ExchangeAccountActivity.class,this,null);
     } else if (v == viewBinding.activityMineSetNewNav.addCloseImageButton()) {
       finish();
 
@@ -192,6 +193,7 @@ public class SettingNewActivity extends BaseActivity implements View.OnClickList
                   ((IMApplication) getApplicationContext())
                           .clearActivity(SettingNewActivity.this);
                 }
+                  DataUtil.deleteLoginUserInfoList(DataUtil.getUserInfo());
                 DataUtil.deleteData();
                 startActivity(new Intent(SettingNewActivity.this, LoginActivity.class));
                 finish();

@@ -5,6 +5,7 @@
 package com.netease.yunxin.kit.contactkit.ui.fun.selector;
 
 import static com.netease.yunxin.kit.corekit.im.utils.RouterConstant.KEY_REQUEST_SELECTOR_NAME;
+import static com.netease.yunxin.kit.corekit.im.utils.RouterConstant.KEY_TEAM_NAME;
 import static com.netease.yunxin.kit.corekit.im.utils.RouterConstant.REQUEST_CONTACT_SELECTOR_KEY;
 
 import android.content.Intent;
@@ -26,7 +27,9 @@ import com.netease.yunxin.kit.contactkit.ui.databinding.FunContactSelectorActivi
 import com.netease.yunxin.kit.contactkit.ui.fun.contact.FunContactDefaultFactory;
 import com.netease.yunxin.kit.contactkit.ui.selector.BaseContactSelectorActivity;
 import com.netease.yunxin.kit.contactkit.ui.selector.BaseSelectedListAdapter;
+import com.yaoxin.appbase.net.Constant;
 import com.yaoxin.appbase.utils.BarUtils;
+import com.yaoxin.appbase.utils.DialogAlertUtil;
 import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
 
@@ -82,23 +85,30 @@ public class FunContactSelectorActivity extends BaseContactSelectorActivity {
                     ToastUtils.toastMsg("请选择成员");
                     return;
                 }
-                if (selectedListAdapter.getItemCount() >= maxSelectCount
-                        && selectFinalCheckCountEnable) {
-                    ToastUtils.toastMsg("超出人数限制");
-                    return;
-                }
-                Intent result = new Intent();
-                if (!selectedListAdapter.getSelectedFriends().isEmpty()) {
-                    result.putExtra(REQUEST_CONTACT_SELECTOR_KEY, getSelectedAccount());
-                    if (opt_type != null) {
-                        result.putExtra("opt_type", opt_type);
+                DialogAlertUtil.showInputAlert(v.getContext(),"温馨提示","请输入群聊名称", new DialogAlertUtil.InputAlertCallBack() {
+                    @Override
+                    public void inputText(String text) {
+                        Intent result = new Intent();
+                        if (!selectedListAdapter.getSelectedFriends().isEmpty()) {
+                            result.putExtra(REQUEST_CONTACT_SELECTOR_KEY, getSelectedAccount());
+                            result.putExtra(KEY_TEAM_NAME, text);
+                            if (opt_type != null) {
+                                result.putExtra("opt_type", opt_type);
+                            }
+                            if (enableReturnName) {
+                                result.putExtra(KEY_REQUEST_SELECTOR_NAME, getSelectedName());
+                            }
+                        }
+                        setResult(RESULT_OK, result);
+                        finish();
                     }
-                    if (enableReturnName) {
-                        result.putExtra(KEY_REQUEST_SELECTOR_NAME, getSelectedName());
-                    }
-                }
-                setResult(RESULT_OK, result);
-                finish();
+                });
+//                if (selectedListAdapter.getItemCount() >= maxSelectCount
+//                        && selectFinalCheckCountEnable) {
+//                    ToastUtils.toastMsg("超出人数限制");
+//                    return;
+//                }
+
             }
         }
     });

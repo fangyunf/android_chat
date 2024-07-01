@@ -44,4 +44,7 @@
     <color name="color_nav_theme_color">#F6F6F6</color>
     <color name="black_50_transparent">#80000000</color>
 
+    <color name="color_ffe935">#ffe935</color>
+    <color name="color_ff666666">#ff666666</color>
+
 </resources>

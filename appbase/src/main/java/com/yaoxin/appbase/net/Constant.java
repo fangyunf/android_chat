@@ -13,8 +13,10 @@ public class Constant {
     public static final String ENCODE_KEY = "wesecretpaddingg";
     public static final String clientType = "Android";
     public static final String RealName_Router = "RealName_Router";
+    public static final String Create_Group_Name = "Create_Group_Name";
     public static final String FunAddFriendVerifyActivityKey = "FunAddFriendVerifyActivityKey";
     public static final String FunSelected_User_ActivityKey = "FunSelected_User_ActivityKey";
+    public static final String FunTeamUserInfoDetailActivityKey = "FunTeamUserInfoDetailActivityKey";
     public static final String TeamMemberListActivity_Router = "TeamMemberListActivity_Router";
     public static final String AccountDetailActivityKey = "AccountDetailActivityKey";
     public static final String BaseWebViewActivityKey = "BaseWebViewActivityKey";

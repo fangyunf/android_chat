@@ -29,7 +29,12 @@ import com.netease.yunxin.kit.corekit.im.model.FriendInfo;
 import com.netease.yunxin.kit.corekit.im.model.UserInfo;
 import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
 import com.netease.yunxin.kit.corekit.route.XKitRouter;
+import com.yaoxin.appbase.utils.BaseEvent;
 import com.yaoxin.appbase.utils.DataUtil;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 /**
  * Fun皮肤单聊聊天界面Fragment，继承自FunChatFragment
@@ -89,6 +94,14 @@ public class FunChatP2PFragment extends FunChatFragment {
                   .navigate();
             });
     }
+    EventBus.getDefault().register(this);
+  }
+
+  @Subscribe(threadMode = ThreadMode.MAIN)
+  public void onMessageEvent(BaseEvent event) {
+    if (event.getTag().equals("clearP2PMessageList")) {
+      chatView.clearMessageList();
+    }
   }
 
   public void refreshView() {
@@ -102,6 +115,8 @@ public class FunChatP2PFragment extends FunChatFragment {
       chatView.getTitleBar().setTitle("客服");
       chatView
               .getTitleBar().getActionImageView().setVisibility(View.GONE);
+    } else {
+      chatView.getTitleBar().setTitle(name);
     }
   }
 
@@ -131,6 +146,7 @@ public class FunChatP2PFragment extends FunChatFragment {
   public void onDestroyView() {
     super.onDestroyView();
     ((ChatP2PViewModel) viewModel).getMessageReceiptLiveData().removeObserver(p2pReceiptObserver);
+    EventBus.getDefault().unregister(this);
   }
 
   @Override

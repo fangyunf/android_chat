@@ -29,6 +29,33 @@
 
 
         <LinearLayout
+            android:id="@+id/marqueeView_bg_ll"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_36_dp"
+            android:background="#F6F6F6"
+            android:paddingHorizontal="@dimen/dimen_18_dp"
+            android:gravity="center_vertical"
+            >
+
+            <ImageView
+                android:layout_width="13dp"
+                android:layout_height="15dp"
+                android:src="@drawable/chat_conversation_notice_icon"
+                />
+            <com.sunfusheng.marqueeview.MarqueeView
+                android:id="@+id/marqueeView"
+                android:layout_marginLeft="@dimen/dimen_10_dp"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                app:mvAnimDuration="1000"
+                app:mvDirection="bottom_to_top"
+                app:mvInterval="3000"
+                app:mvTextColor="@color/black"
+                app:mvTextSize="14sp"
+                app:mvSingleLine="true"/>
+            
+        </LinearLayout>
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dimen_12_dp"

@@ -22,6 +22,8 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.gson.Gson;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.StickTopSessionInfo;
 import com.netease.yunxin.kit.alog.ALog;
@@ -52,8 +54,11 @@ import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
+import com.yaoxin.appbase.utils.BaseEvent;
 import com.yaoxin.appbase.utils.DialogAlertUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
@@ -118,14 +123,21 @@ public class FunChatSettingActivity extends BaseActivity {
         registerResult();
     }
 
-    private void initRequest() {
+    void _reuestInfo() {
         RegisterBean bean = new RegisterBean();
         bean.userId = accId;
         HttpUtil.apiW().friends_searchByUserIdF(bean)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                         userBean = new Gson().fromJson(body.data.toString(),UserBean.class);
+                        userBean = new Gson().fromJson(body.data.toString(),UserBean.class);
+                        binding.funChatSettingActivityId.setText("ID: "+ userBean.memberCode);
+                        binding.nameTv.setText(userBean.name);
+                        if (userBean.remark != null && !userBean.remark.isEmpty())
+                        {
+                            binding.funChatSettingActivityMemo.rightTv.setText(userBean.remark);
+                            binding.funChatSettingActivityMemo.rightTv.setVisibility(View.VISIBLE);
+                        }
                     }
 
                     @Override
@@ -133,6 +145,9 @@ public class FunChatSettingActivity extends BaseActivity {
 
                     }
                 });
+    }
+    private void initRequest() {
+
         viewModel1 = new ViewModelProvider(this).get(UserInfoViewModel.class);
         viewModel1.init(accId);
         viewModel1
@@ -231,7 +246,17 @@ public class FunChatSettingActivity extends BaseActivity {
         binding.funChatSettingActivityClearHistory.funTitleTfArrowViewLl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ALog.d("123");
+//                ALog.d("123");
+                DialogAlertUtil.showAlert("确认删除聊天记录吗？", new DialogAlertUtil.DialogAlertUtilCallBack() {
+                    @Override
+                    public void clickType(int type) {
+                        if (type == 1) {
+                            NIMClient.getService(MsgService.class).clearChattingHistory(userBean.userId,SessionTypeEnum.P2P);
+
+                            EventBus.getDefault().post(new BaseEvent("clearP2PMessageList"));
+                        }
+                    }
+                },getSupportFragmentManager());
             }
         });
 
@@ -333,23 +358,23 @@ public class FunChatSettingActivity extends BaseActivity {
                                         result.getData().getStringExtra(BaseCommentActivity.REQUEST_COMMENT_NAME_KEY);
                                 userInfoData.friendInfo.setAlias(comment);
                                 viewModel1.updateAlias(userInfoData.data.getAccount(), comment);
-//                                if (userBean != null) {
-//                                RegisterBean bean = new RegisterBean();
-//                                    bean.memberCode = userBean.memberCode;
-//                                    bean.alias = comment;
-//                                    HttpUtil.apiW().friends_updateRemark(bean)
-//                                            .enqueue(new CommonCallback<NetData>() {
-//                                                @Override
-//                                                public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-//
-//                                                }
-//
-//                                                @Override
-//                                                public void Failure(Call<NetData> call, Throwable t) {
-//
-//                                                }
-//                                            });
-//                                }
+                                if (userBean != null) {
+                                RegisterBean bean = new RegisterBean();
+                                    bean.memberCode = userBean.memberCode;
+                                    bean.alias = comment;
+                                    HttpUtil.apiW().friends_updateRemark(bean)
+                                            .enqueue(new CommonCallback<NetData>() {
+                                                @Override
+                                                public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                                                    ToastUtils.toastMsg(body.msg);
+                                                }
+
+                                                @Override
+                                                public void Failure(Call<NetData> call, Throwable t) {
+
+                                                }
+                                            });
+                                }
 
                             }
                         });
@@ -362,7 +387,7 @@ public class FunChatSettingActivity extends BaseActivity {
                     friendInfo.getAvatarName(),
                     AvatarColor.avatarColor(friendInfo.getAccount()));
             binding.nameTv.setText(friendInfo.getName());
-            binding.funChatSettingActivityId.setText(friendInfo.getAccount());
+            binding.funChatSettingActivityId.setText("ID:" + friendInfo.getAccount());
 //      binding.noTeamNameTv.setText(friendInfo.getName());
         } else if (userInfo == null) {
             binding.funChatSettingActivityAvatarView.setData(null, accId, AvatarColor.avatarColor(accId));
@@ -378,6 +403,8 @@ public class FunChatSettingActivity extends BaseActivity {
             binding.funChatSettingActivityAvatarView.setData(
                     userInfo.getAvatar(), name, AvatarColor.avatarColor(userInfo.getAccount()));
             binding.nameTv.setText(name);
+            binding.funChatSettingActivityMemo.rightTv.setText(TextUtils.isEmpty(userInfo.getComment()) ? "" : userInfo.getComment());
+            binding.funChatSettingActivityMemo.rightTv.setVisibility(View.VISIBLE);
 //      binding.noTeamNameTv.setText(name);
         }
     }
@@ -392,6 +419,7 @@ public class FunChatSettingActivity extends BaseActivity {
                             if (result.getLoadStatus() == LoadStatus.Success) {
                                 friendInfo = result.getData();
                                 refreshView();
+                                _reuestInfo();
                             }
                         });
         viewModel.getUserInfo(accId);

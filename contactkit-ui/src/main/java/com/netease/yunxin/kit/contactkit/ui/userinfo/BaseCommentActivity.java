@@ -43,8 +43,7 @@ public abstract class BaseCommentActivity extends BaseActivity {
   }
 
   private void initView() {
-    String comment = getIntent().getStringExtra(REQUEST_COMMENT_NAME_KEY);
-    comment = comment == null ? "" : comment;
+    String comment = getIntent().getStringExtra(REQUEST_COMMENT_NAME_KEY);comment = comment == null ? "" : comment;
     edtComment.setText(comment);
     int textLength = edtComment.getBinding().editText.length();
     edtComment.getBinding().editText.setSelection(textLength);

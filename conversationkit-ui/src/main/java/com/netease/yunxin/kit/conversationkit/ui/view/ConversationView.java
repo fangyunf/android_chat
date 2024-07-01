@@ -33,7 +33,7 @@ public class ConversationView extends FrameLayout {
 
   private final String TAG = "ConversationView";
   private RecyclerView recyclerView;
-  private ConversationAdapter adapter;
+  public ConversationAdapter adapter;
   private ILoadListener loadMoreListener;
   private final int LOAD_MORE_DIFF = 5;
 

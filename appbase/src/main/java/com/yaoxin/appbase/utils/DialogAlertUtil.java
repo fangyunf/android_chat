@@ -1,8 +1,11 @@
 package com.yaoxin.appbase.utils;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.widget.EditText;
 
 import androidx.fragment.app.FragmentManager;
 
@@ -18,6 +21,9 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 public class DialogAlertUtil {
+    public interface InputAlertCallBack {
+        public void inputText(String text);
+    }
     public static void showAlert(String content, DialogAlertUtilCallBack callBack, FragmentManager fragmentManager) {
         CommonChoiceDialog dialog = new CommonChoiceDialog();
         dialog
@@ -62,5 +68,35 @@ public class DialogAlertUtil {
 
                     }
                 }).show();
+    }
+
+    public static void showInputAlert(Context context,String title,String message, InputAlertCallBack callBack) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(title == null ? "温馨提示":title);
+        builder.setMessage(message == null ? "":message);
+
+        final EditText input = new EditText(context);
+        builder.setView(input);
+
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String name = input.getText().toString();
+                callBack.inputText(name);
+                // 处理输入的名字，例如显示在Toast中
+
+            }
+        });
+
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }

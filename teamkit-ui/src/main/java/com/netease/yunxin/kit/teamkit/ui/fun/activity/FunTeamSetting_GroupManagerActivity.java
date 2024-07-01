@@ -38,9 +38,12 @@ import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
+import com.yaoxin.appbase.utils.BaseEvent;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.GlideUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -56,6 +59,7 @@ public class FunTeamSetting_GroupManagerActivity extends BaseActivity implements
 
     FunTeamSettingGroupManagerActivityBinding binding;
     String groupId;
+    int rankState;
     GroupInfoBean groupInfoBean = new GroupInfoBean();
     TeamSettingUserInfoAdapter adapter;// = new TeamSettingUserInfoAdapter(true, new ArrayList<>());
 
@@ -67,9 +71,18 @@ public class FunTeamSetting_GroupManagerActivity extends BaseActivity implements
         if (extras != null && extras.get("groupId") != null) {
             groupId = (String) extras.get("groupId");
         }
+        if (extras != null && extras.get("rankState") != null) {
+            String rankS1 = (String) extras.get("rankState");
+            rankState = Integer.parseInt(rankS1);
+        }
         super.onCreate(savedInstanceState);
         binding =
                 FunTeamSettingGroupManagerActivityBinding.inflate(getLayoutInflater());
+        if (rankState == 2) {
+            binding.funTeamSettingGroupManagerActivityQunzhuZhuanrang.viewTitleArrowLl.setVisibility(View.GONE);
+            binding.funTeamSettingGroupManagerActivityGuanliyuanSet.viewTitleArrowLl.setVisibility(View.GONE);
+            binding.funTeamSettingGroupManagerActivityJiesanTv.setVisibility(View.GONE);
+        }
         setContentView(binding.getRoot());
         _initView();
 
@@ -136,9 +149,9 @@ public class FunTeamSetting_GroupManagerActivity extends BaseActivity implements
     void updateUI() {
 
         binding.funTeamSettingGroupManagerActivityYaoqing.viewTitleDetailArrowTemplateSwitch.setSelected(groupInfoBean.inviteState == 0);
-        binding.funTeamSettingGroupManagerActivityChengyuanJinyan.viewTitleDetailArrowTemplateSwitch.setSelected(groupInfoBean.shutupState == 1);
-        binding.funTeamSettingGroupManagerActivityJinzhiLingquGouwuquan.viewTitleDetailArrowTemplateSwitch.setSelected(groupInfoBean.nonCollectionState == 1);
-        binding.funTeamSettingGroupManagerActivityQunchengyuanBaohu.viewTitleDetailArrowTemplateSwitch.setSelected(groupInfoBean.addFriendsState == 1);
+        binding.funTeamSettingGroupManagerActivityChengyuanJinyan.viewTitleDetailArrowTemplateSwitch.setSelected(groupInfoBean.shutupState == 0);
+        binding.funTeamSettingGroupManagerActivityJinzhiLingquGouwuquan.viewTitleDetailArrowTemplateSwitch.setSelected(groupInfoBean.nonCollectionState == 0);
+        binding.funTeamSettingGroupManagerActivityQunchengyuanBaohu.viewTitleDetailArrowTemplateSwitch.setSelected(groupInfoBean.addFriendsState == 0);
 
     }
 
@@ -216,6 +229,7 @@ public class FunTeamSetting_GroupManagerActivity extends BaseActivity implements
         super.callBackResult(data);
 
         ArrayList<String> userIds = data.getStringArrayListExtra("userIds");
+
         String opt_type = data.getStringExtra("opt_type");
 
         RegisterBean bean = new RegisterBean();
@@ -229,6 +243,7 @@ public class FunTeamSetting_GroupManagerActivity extends BaseActivity implements
                         public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
                             ToastUtils.toastMsg(body.msg);
+                            EventBus.getDefault().post(new BaseEvent("reloadTeamSettingData"));
                         }
 
                         @Override
@@ -237,20 +252,44 @@ public class FunTeamSetting_GroupManagerActivity extends BaseActivity implements
                         }
                     });
         } else if ("2".equals(opt_type)) {
-            bean.members = userIds;
-            HttpUtil.apiW().group_installAdmin(bean)
-                    .enqueue(new CommonCallback<NetData>() {
-                        @Override
-                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+            ArrayList<String> unuserIds = data.getStringArrayListExtra("un_userIds");
+            if (userIds.size() > 0) {
+                bean.members = userIds;
+                HttpUtil.apiW().group_installAdmin(bean)
+                        .enqueue(new CommonCallback<NetData>() {
+                            @Override
+                            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                            ToastUtils.toastMsg(body.msg);
-                        }
+                                ToastUtils.toastMsg(body.msg);
+                                EventBus.getDefault().post(new BaseEvent("reloadTeamSettingData"));
+                            }
 
-                        @Override
-                        public void Failure(Call<NetData> call, Throwable t) {
+                            @Override
+                            public void Failure(Call<NetData> call, Throwable t) {
 
-                        }
-                    });
+                            }
+                        });
+            }
+            if (unuserIds.size() > 0) {
+
+                bean.members = unuserIds;
+                bean.state = 1;
+                HttpUtil.apiW().group_installAdmin(bean)
+                        .enqueue(new CommonCallback<NetData>() {
+                            @Override
+                            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+
+                                ToastUtils.toastMsg(body.msg);
+                                EventBus.getDefault().post(new BaseEvent("reloadTeamSettingData"));
+                            }
+
+                            @Override
+                            public void Failure(Call<NetData> call, Throwable t) {
+
+                            }
+                        });
+            }
+
         }
 
     }
@@ -264,13 +303,13 @@ public class FunTeamSetting_GroupManagerActivity extends BaseActivity implements
             bean.inviteState = binding.funTeamSettingGroupManagerActivityYaoqing.viewTitleDetailArrowTemplateSwitch.isSelected() ? "1" : "0";
         }
         if (type == 1) {
-            bean.shutupState = binding.funTeamSettingGroupManagerActivityChengyuanJinyan.viewTitleDetailArrowTemplateSwitch.isSelected() ? "0" : "1";
+            bean.shutupState = binding.funTeamSettingGroupManagerActivityChengyuanJinyan.viewTitleDetailArrowTemplateSwitch.isSelected() ? "1" : "0";
         }
         if (type == 2) {
-            bean.nonCollectionState = binding.funTeamSettingGroupManagerActivityJinzhiLingquGouwuquan.viewTitleDetailArrowTemplateSwitch.isSelected() ? "0" : "1";
+            bean.nonCollectionState = binding.funTeamSettingGroupManagerActivityJinzhiLingquGouwuquan.viewTitleDetailArrowTemplateSwitch.isSelected() ? "1" : "0";
         }
         if (type == 3) {
-            bean.addFriendsState = binding.funTeamSettingGroupManagerActivityQunchengyuanBaohu.viewTitleDetailArrowTemplateSwitch.isSelected() ?"0" : "1";
+            bean.addFriendsState = binding.funTeamSettingGroupManagerActivityQunchengyuanBaohu.viewTitleDetailArrowTemplateSwitch.isSelected() ?"1" : "0";
         }
 
         HttpUtil.apiW().groupMember_invitationGroupConfirmed(bean)

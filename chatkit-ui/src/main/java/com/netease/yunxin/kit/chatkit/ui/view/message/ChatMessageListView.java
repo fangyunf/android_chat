@@ -315,9 +315,20 @@ public class ChatMessageListView extends RecyclerView implements IMessageData {
     if (messageAdapter != null) {
       int itemCount = messageAdapter.getItemCount();
       if (itemCount > 0) {
-        post(() -> scrollToPosition(itemCount - 1));
+        if (isRecyclerViewAtBottom()) {
+          post(() -> scrollToPosition(itemCount - 1));
+        } else {
+
+        }
+
       }
     }
+  }
+  private boolean isRecyclerViewAtBottom() {
+    LinearLayoutManager layoutManager = (LinearLayoutManager) getLayoutManager();
+    int lastVisiblePosition = layoutManager.findLastCompletelyVisibleItemPosition() + 1;
+    int itemCount = getAdapter().getItemCount() - 1;
+    return lastVisiblePosition >= itemCount;
   }
 
   public ChatMessageBean searchMessage(String messageId) {
