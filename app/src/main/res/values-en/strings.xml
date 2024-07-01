@@ -5,7 +5,7 @@
   -->
 
 <resources>
-    <string name="app_name">华尔街</string>
+    <string name="app_name">慎语</string>
     <string name="yunxin_name">Netease CommsEase</string>
     <string name="yunxin_desc">Stable instant messaging service</string>
 

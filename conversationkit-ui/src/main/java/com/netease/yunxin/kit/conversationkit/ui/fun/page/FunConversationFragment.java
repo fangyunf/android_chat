@@ -446,7 +446,7 @@ public class FunConversationFragment extends ConversationBaseFragment {
   void initMar() {
 
     List<String> messages = new ArrayList<>();
-    messages.add("欢迎大家使用华尔街");
+    messages.add("欢迎大家使用慎语");
     viewBinding.marqueeView.startWithList(messages);
 
 // 或者设置自定义的Model数据类型

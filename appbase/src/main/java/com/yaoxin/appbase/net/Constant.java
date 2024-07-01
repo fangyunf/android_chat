@@ -9,8 +9,8 @@ package com.yaoxin.appbase.net;
  */
 public class Constant {
     public static final Boolean DEBUG = true;
-    public static final String BASE_URL = "http://139.196.224.171/";
-    public static final String ENCODE_KEY = "wesecretpaddingg";
+    public static final String BASE_URL = "http://frx.sxweinizx.com/";
+    public static final String ENCODE_KEY = "frxsecretpadding";
     public static final String clientType = "Android";
     public static final String RealName_Router = "RealName_Router";
     public static final String Create_Group_Name = "Create_Group_Name";
