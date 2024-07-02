@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2022 NetEase, Inc. All rights reserved.
+  ~ Use of this source code is governed by a MIT license that can be
+  ~ found in the LICENSE file.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <com.yaoxin.appbase.navbar.NavToolbar
+
+        android:id="@+id/activity_account_anquan_manager_nav"
+        style="@style/WhiteFontToolbar"
+        android:background="#ffffff"
+        app:back_icon="@mipmap/temp_ic_back"
+        app:enable_under_divider="true"
+        app:support_translucent_status_bar="false"
+        app:title="账号与安全"
+        app:title_text_color="@color/color_333333"
+        app:under_divider_color="@color/transparent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_marginHorizontal="15dp"
+        android:background="@drawable/bg_f2f2f2_rounded_10"
+        android:layout_height="wrap_content">
+
+        <include
+            android:id="@+id/activity_mine_set_new_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/view_title_arrow"
+            />
+
+        <include
+            android:id="@+id/activity_mine_set_new_modify_pwd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/view_title_arrow"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

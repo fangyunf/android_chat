@@ -25,6 +25,7 @@ import com.netease.yunxin.kit.corekit.route.XKitRouter;
 import com.turunsi.yaoxin.AppSkinConfig;
 import com.turunsi.yaoxin.R;
 import com.turunsi.yaoxin.databinding.FragmentMineBinding;
+import com.turunsi.yaoxin.login.RealNameSetActivity;
 import com.turunsi.yaoxin.main.mine.account.AccountAnQuanManagerActivity;
 import com.turunsi.yaoxin.main.mine.account.AccountDetailActivity;
 import com.turunsi.yaoxin.main.mine.account.AccoutCodeDetailActivity;
@@ -32,6 +33,7 @@ import com.turunsi.yaoxin.main.mine.address.AddressListActivity;
 import com.turunsi.yaoxin.main.mine.collection.CollectionListActivity;
 import com.turunsi.yaoxin.main.mine.order.OrderListActivity;
 import com.turunsi.yaoxin.main.mine.purse.PurseIndexActivity;
+import com.turunsi.yaoxin.main.mine.setting.Mine_Account_Anquan_Activity;
 import com.turunsi.yaoxin.main.mine.setting.SettingActivity;
 import com.turunsi.yaoxin.main.mine.setting.SettingNewActivity;
 import com.turunsi.yaoxin.main.mine.setting.SettingNotifyActivity;
@@ -231,11 +233,13 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
     public void onClick(View v) {
         Context context = getContext();
         if (v == binding.fragmentMineSmrzView) {
-
+            RealNameSetActivity.start(RealNameSetActivity.class,context,null);
         } else if (v == binding.fragmentMineAqysView) {
 
-        } else if (v == binding.fragmentMineZhaqView) {
             AccountAnQuanManagerActivity.start(AccountAnQuanManagerActivity.class,context,null);
+        } else if (v == binding.fragmentMineZhaqView) {
+
+            Mine_Account_Anquan_Activity.start(Mine_Account_Anquan_Activity.class,context,null);
         } else if (v == binding.fragmentMineXsqxView) {
             startActivity(new Intent(getContext(), SettingNotifyActivity.class));
         } else if (v == binding.fragmentMineSzView) {

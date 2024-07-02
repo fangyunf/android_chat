@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_ededed"
+    android:background="@color/color_white"
     android:gravity="center_horizontal"
     >
 
@@ -18,7 +18,7 @@
         app:support_translucent_status_bar="false"
         app:title="查看群成员"
         app:title_text_color="@color/color_333333"
-        app:under_divider_color="@color/color_d5d5d5" />
+        app:under_divider_color="@color/transparent" />
     <EditText
         android:id="@+id/fun_team_setting_new_team_users_activity_search_et"
         android:layout_margin="@dimen/dimen_14_dp"
@@ -29,7 +29,7 @@
         android:hint="搜索"
         android:textColorHint="@color/color_999999"
         android:textColor="@color/black"
-        android:background="@color/color_white"
+        android:background="@color/color_F2F2F2"
         android:cursorVisible="true"
         android:focusable="true"
         android:focusableInTouchMode="true"

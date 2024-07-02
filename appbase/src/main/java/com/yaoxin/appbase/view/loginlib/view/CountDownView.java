@@ -73,7 +73,7 @@ public class CountDownView extends androidx.appcompat.widget.AppCompatButton imp
 
     @Override
     public void onClick(View v) {
-        if (!checkUser()) return;
+//        if (!checkUser()) return;
         if (mMyCountTimer == null) {
             mMyCountTimer = new MyCountTimer(DEFAULT_COUNT_DOWN_TIME * 1000, 1000);
         }

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?><!-- Copyright (c) 2022 NetEase, Inc. All rights reserved. -->
+<!-- Use of this source code is governed by a MIT license that can be -->
+<!-- found in the LICENSE file. -->
+
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@mipmap/login_activity_checked" android:state_selected="true" />
+
+    <item android:drawable="@mipmap/login_activity_normal" android:state_selected="false" />
+
+</selector>

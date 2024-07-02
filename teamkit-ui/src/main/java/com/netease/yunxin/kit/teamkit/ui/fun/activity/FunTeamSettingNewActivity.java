@@ -195,13 +195,32 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
 
         binding.funTeamSettingNewActivityDelteRecord.viewTitleArrowTv.setText("清除聊天记录");
         binding.funTeamSettingNewActivityDelteRecord.viewTitleArrowLl.setOnClickListener(this);
-        binding.funTeamSettingNewActivityTousu.viewTitleArrowTv.setText("投诉");
-        binding.funTeamSettingNewActivityTousu.viewTitleArrowLl.setOnClickListener(this);
+//        binding.funTeamSettingNewActivityTousu.viewTitleArrowTv.setText("投诉");
+//        binding.funTeamSettingNewActivityTousu.viewTitleArrowLl.setOnClickListener(this);
 
 
         binding.funTeamSettingNewActivityManagerTeam.viewTitleArrowLl.setVisibility(View.GONE);
         binding.funTeamSettingNewActivitySetGonggao.viewTitleArrowLl.setVisibility(View.GONE);
         binding.editIcon.setVisibility(View.GONE);
+
+        binding.funTeamSettingNewActivityZhiding.viewTitleArrowTemplateLeftIv.setVisibility(View.VISIBLE);
+        binding.funTeamSettingNewActivityZhiding.viewTitleArrowTemplateLeftIv.setImageResource(R.drawable.team_setting_cell_zd);
+
+        binding.funTeamSettingNewActivityMiandarao.viewTitleArrowTemplateLeftIv.setVisibility(View.VISIBLE);
+        binding.funTeamSettingNewActivityMiandarao.viewTitleArrowTemplateLeftIv.setImageResource(R.drawable.team_setting_miandarao);
+
+        binding.funTeamSettingNewActivityNicheng.viewTitleArrowTemplateLeftIv.setVisibility(View.VISIBLE);
+        binding.funTeamSettingNewActivityNicheng.viewTitleArrowTemplateLeftIv.setImageResource(R.drawable.team_setting_cell_edit_name);
+
+        binding.funTeamSettingNewActivitySetGonggao.viewTitleArrowTemplateLeftIv.setVisibility(View.VISIBLE);
+        binding.funTeamSettingNewActivitySetGonggao.viewTitleArrowTemplateLeftIv.setImageResource(R.drawable.team_setting_cell_edit_name);
+
+        binding.funTeamSettingNewActivityManagerTeam.viewTitleArrowTemplateLeftIv.setVisibility(View.VISIBLE);
+        binding.funTeamSettingNewActivityManagerTeam.viewTitleArrowTemplateLeftIv.setImageResource(R.drawable.team_setting_cell_qgl);
+
+        binding.funTeamSettingNewActivityDelteRecord.viewTitleArrowTemplateLeftIv.setVisibility(View.VISIBLE);
+        binding.funTeamSettingNewActivityDelteRecord.viewTitleArrowTemplateLeftIv.setImageResource(R.drawable.team_setting_cell_ql);
+
 
     }
 

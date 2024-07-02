@@ -36,6 +36,8 @@ import com.yaoxin.appbase.view.LoadingDialog;
 import com.yaoxin.appbase.view.loginlib.utils.LoginLoader;
 import com.yaoxin.appbase.view.loginlib.view.CountDownView;
 
+import java.util.HashMap;
+
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -199,8 +201,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                     NetServerException exception = (NetServerException) t;
                                     if (exception.getErrCode() == 601) {
 
-                                        OtherPlaceLoginFragment fragment = new OtherPlaceLoginFragment();
-                                        fragment.showNow(getSupportFragmentManager(),"OtherPlaceLoginFragment");
+                                        HashMap map = new HashMap<>();
+                                        map.put("type","0");
+                                        map.put("phone",phone);
+                                        OtherPlaceLoginActivity.start(OtherPlaceLoginActivity.class,that,map);
+//                                        OtherPlaceLoginFragment fragment = new OtherPlaceLoginFragment();
+//                                        fragment.showNow(getSupportFragmentManager(),"OtherPlaceLoginFragment");
                                     }
                                 }
                             }

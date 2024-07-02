@@ -1,19 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/color_F2F2F2"
+    >
+
+    <ImageView
+        android:scaleType="fitXY"
+        android:layout_width="match_parent"
+        android:layout_height="215dp"
+        android:src="@drawable/team_setting_top_bg"
+        />
+<LinearLayout
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <com.yaoxin.appbase.navbar.NavToolbar
         android:id="@+id/fun_team_user_info_detail_nav"
         style="@style/WhiteFontToolbar"
-        android:background="@color/color_white"
-        app:back_icon="@mipmap/temp_ic_back"
+        android:background="@android:color/transparent"
+        app:back_icon="@mipmap/temp_ic_back_white"
         app:enable_under_divider="true"
         app:support_translucent_status_bar="false"
         app:title="好友资料"
-        app:title_text_color="@color/color_333333"
-        app:under_divider_color="@color/color_d5d5d5" />
+        app:title_text_color="@color/color_white"
+        app:under_divider_color="@android:color/transparent" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,7 +40,7 @@
         <com.makeramen.roundedimageview.RoundedImageView
             android:layout_width="60dp"
             android:layout_height="60dp"
-            app:riv_corner_radius="30dp"
+            app:riv_corner_radius="5dp"
             android:scaleType="centerCrop"
             android:id="@+id/fun_team_user_info_detail_head_iv"
             />
@@ -40,8 +55,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:text=""
-                android:textColor="#ff000000"
-                android:textSize="22sp"
+                android:textColor="@color/color_white"
+                android:textSize="17sp"
                 />
             <TextView
                 android:id="@+id/fun_team_user_info_detail_account_tv"
@@ -49,8 +64,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="22dp"
                 android:text=""
-                android:textColor="#ff999999"
-                android:textSize="16sp"
+                android:textColor="@color/color_white"
+                android:textSize="11sp"
                 />
         </LinearLayout>
     </LinearLayout>
@@ -58,28 +73,36 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:layout_marginTop="45dp"
         android:orientation="vertical"
+        android:layout_marginHorizontal="15dp"
         >
-        <include
-            android:id="@+id/fun_team_user_info_detail_yaoqingren"
-            layout="@layout/view_title_arrow_template"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <include
-            android:id="@+id/fun_team_user_info_detail_beizhuming"
-            layout="@layout/view_title_arrow_template"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <include
-            android:id="@+id/fun_team_user_info_detail_jinzhi"
-            layout="@layout/view_title_arrow_template"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <include
-            android:id="@+id/fun_team_user_info_detail_tichu"
-            layout="@layout/view_title_arrow_template"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:orientation="vertical"
+            android:background="@drawable/bg_white_rounded_12"
+            android:layout_height="wrap_content">
+            <include
+                android:id="@+id/fun_team_user_info_detail_yaoqingren"
+                layout="@layout/view_title_arrow_template"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <include
+                android:id="@+id/fun_team_user_info_detail_beizhuming"
+                layout="@layout/view_title_arrow_template"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <include
+                android:id="@+id/fun_team_user_info_detail_jinzhi"
+                layout="@layout/view_title_arrow_template"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <include
+                android:id="@+id/fun_team_user_info_detail_tichu"
+                layout="@layout/view_title_arrow_template"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -92,8 +115,9 @@
         android:layout_marginBottom="@dimen/dimen_40_dp"
         android:gravity="center"
         android:layout_gravity="center_horizontal"
-        android:background="@drawable/fun_bg_purple_rounded_22"
+        android:background="@color/app_theme_color"
         android:textColor="#ffffffff"
         android:textSize="16sp" />
 
 </LinearLayout>
+</RelativeLayout>

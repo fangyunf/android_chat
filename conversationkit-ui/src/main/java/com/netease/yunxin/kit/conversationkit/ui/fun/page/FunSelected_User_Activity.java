@@ -158,7 +158,21 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
                     finish();
                     return;
                 }
+
                 baseQuickAdapter.getItem(i).isSelected = !baseQuickAdapter.getItem(i).isSelected;
+                int count = 0;
+                for (GroupInfoBean tempInfoBean : baseQuickAdapter.getItems()) {
+                    if (tempInfoBean.isSelected) {
+                        count ++;
+                    }
+
+                }
+                if (count > 0) {
+                    binding.activityFunSelectedUserConfirmTv.setText("确定  " + count);
+                } else  {
+
+                    binding.activityFunSelectedUserConfirmTv.setText("确定");
+                }
                 adapter.notifyDataSetChanged();
             }
         });

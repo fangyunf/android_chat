@@ -93,8 +93,9 @@ public class FunRedPacketRecordListActivity extends BaseActivity implements View
             binding.activityFunRedPacketRecordListReceivceTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.black));
             binding.activityFunRedPacketRecordListSendTv.setTextColor(getResources().getColor(com.netease.yunxin.kit.contactkit.ui.R.color.color_666666));
 
-            binding.activityFunRedPacketRecordListReceivceLineView.setVisibility(View.VISIBLE);
-            binding.activityFunRedPacketRecordListSendLineView.setVisibility(View.GONE);
+            binding.activityFunRedPacketRecordListReceivceLl.setSelected(true);
+            binding.activityFunRedPacketRecordListSendLl.setSelected(false);
+
 
         } else {
             if (!sendList.isEmpty()) {
@@ -104,8 +105,9 @@ public class FunRedPacketRecordListActivity extends BaseActivity implements View
             binding.activityFunRedPacketRecordListSendTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.black));
             binding.activityFunRedPacketRecordListReceivceTv.setTextColor(getResources().getColor(com.netease.yunxin.kit.contactkit.ui.R.color.color_666666));
 
-            binding.activityFunRedPacketRecordListReceivceLineView.setVisibility(View.GONE);
-            binding.activityFunRedPacketRecordListSendLineView.setVisibility(View.VISIBLE);
+
+            binding.activityFunRedPacketRecordListReceivceLl.setSelected(false);
+            binding.activityFunRedPacketRecordListSendLl.setSelected(true);
 
         }
     }

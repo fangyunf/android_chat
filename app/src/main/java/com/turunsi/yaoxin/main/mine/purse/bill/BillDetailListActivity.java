@@ -59,6 +59,7 @@ public class BillDetailListActivity extends BaseActivity implements View.OnClick
         setContentView(binding.getRoot());
         binding.activityMineBankBillDetailListNav.addCloseImageButton().setOnClickListener(this);
 
+        transtStatusBar(binding.activityMineBankBillDetailListNav);
         binding.activityMineBankBillDetailListShaixuanLl.setOnClickListener(this);
         binding.activityMineBankBillDetailListDateLl.setOnClickListener(this);
 
@@ -117,8 +118,10 @@ public class BillDetailListActivity extends BaseActivity implements View.OnClick
                     tempBean.isSelected = false;
                 }
                 shaixuanList.get(i).isSelected = true;
+                binding.activityMineBankBillDetailListShaixuanTv.setText(shaixuanList.get(i).title);
                 moudleType = baseQuickAdapter.getItem(i).type;
                 binding.activityMineBankBillDetailListGrayRl.setVisibility(View.GONE);
+                shaiXuanAdapter.notifyDataSetChanged();
                 _requestData();
             }
         });

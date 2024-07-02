@@ -26,13 +26,18 @@
         android:gravity="center_vertical"
         android:paddingHorizontal="@dimen/dimen_16_dp"
         >
-    
+        <ImageView
+            android:id="@+id/cell_fun_selected_user_list_selected_iv"
+            android:layout_marginRight="6dp"
+            android:src="@drawable/person_choose_icon_selector"
+            android:layout_width="@dimen/dimen_18_dp"
+            android:layout_height="@dimen/dimen_18_dp"/>
 
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/cell_fun_selected_user_list_head_iv"
             android:layout_width="@dimen/dimen_44_dp"
             android:layout_height="@dimen/dimen_44_dp"
-            app:riv_corner_radius="22dp"
+            app:riv_corner_radius="3dp"
             android:scaleType="centerCrop"
             />
         <TextView
@@ -45,12 +50,7 @@
             android:textColor="#ff000000"
             android:textSize="16sp"
             />
-        <ImageView
-            android:id="@+id/cell_fun_selected_user_list_selected_iv"
 
-            android:src="@mipmap/friend_selected_icon"
-            android:layout_width="@dimen/dimen_18_dp"
-            android:layout_height="@dimen/dimen_18_dp"/>
     </LinearLayout>
     <View
         android:layout_width="match_parent"

@@ -49,6 +49,7 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
         setContentView(binding.getRoot());
         binding.funTeamUserInfoDetailNav.addCloseImageButton().setOnClickListener(this);
 
+        transtStatusBar(binding.funTeamUserInfoDetailNav);
         groupId = getIntent().getStringExtra("groupId");
         String userId = getIntent().getStringExtra("userId");
         requestDataWith(groupId,userId);
@@ -212,7 +213,7 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
 
                                             GroupInfoBean tempBean = new Gson().fromJson(body.data.toString(),GroupInfoBean.class);
 
-                                            if (tempBean.addFriendsState == 0) {
+                                            if (tempBean.addFriendsState == 1) {
                                                 if (!isFriend) {
                                                     binding.funTeamUserInfoDetailBottomTv.setVisibility(View.VISIBLE);
                                                 }

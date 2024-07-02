@@ -40,29 +40,31 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
         _initCell();
     }
     private void _initCell() {
-        binding.activityMinePurseRechargeRechargeMoney.viewTitleTfWithoutBgEt.setBackgroundColor(getResources().getColor(R.color.color_white));
+//        binding.activityMinePurseRechargeRechargeMoney.viewTitleTfWithoutBgEt.setBackgroundColor(getResources().getColor(R.color.color_white));
         binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt.setBackgroundColor(getResources().getColor(R.color.color_white));
 
-        binding.activityMinePurseRechargeRechargeMoney.viewTitleTfWithoutBgLl.setBackgroundColor(getResources().getColor(R.color.color_white));
+//        binding.activityMinePurseRechargeRechargeMoney.viewTitleTfWithoutBgLl.setBackgroundColor(getResources().getColor(R.color.color_white));
         binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgLl.setBackgroundColor(getResources().getColor(R.color.color_white));
 
-        binding.activityMinePurseRechargeRechargeMoney.viewTitleTfWithoutBgEt.setHint("请输入充值金额");
-        binding.activityMinePurseRechargeRechargeMoney.viewTitleTfWithoutBgTv.setText("充值金额");
+//        binding.activityMinePurseRechargeRechargeMoney.viewTitleTfWithoutBgEt.setHint("请输入充值金额");
+//        binding.activityMinePurseRechargeRechargeMoney.viewTitleTfWithoutBgTv.setText("充值金额");
 
 
+        binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgLl.setBackground(getResources().getDrawable(com.yaoxin.appbase.R.drawable.bg_f2f2f2_rounded_10));
+        binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt.setBackground(getResources().getDrawable(R.color.transparent));
         binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgTv.setText("充值方式");
         binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgArrowIv.setVisibility(View.VISIBLE);
         int gravity = Gravity.END | Gravity.CENTER_VERTICAL; // 组合重力
 
-        binding.activityMinePurseRechargeRechargeMoney.viewTitleTfWithoutBgEt.setGravity(gravity);
+//        binding.activityMinePurseRechargeRechargeMoney.viewTitleTfWithoutBgEt.setGravity(gravity);
         binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt.setGravity(gravity);
         binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt.setText("支付宝");
         binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgArrowIv.setVisibility(View.GONE);
 
-        binding.activityMinePurseRechargeRechargeMoney.viewTitleTfWithoutBgEt.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
-        binding.activityMinePurseRechargeRechargeMoney.viewTitleTfWithoutBgEt.setKeyListener(DigitsKeyListener.getInstance("0123456789."));
+        binding.activityMinePurseRechargeEt.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        binding.activityMinePurseRechargeEt.setKeyListener(DigitsKeyListener.getInstance("0123456789."));
 
-        binding.activityMinePurseRechargeRechargeMoney.viewTitleTfWithoutBgEt.addTextChangedListener(new TextWatcher() {
+        binding.activityMinePurseRechargeEt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -89,8 +91,8 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
                         }
                     }
                     // 设置过滤后的文本
-                    binding.activityMinePurseRechargeRechargeMoney.viewTitleTfWithoutBgEt.setText(cleanedInput.toString());
-                    binding.activityMinePurseRechargeRechargeMoney.viewTitleTfWithoutBgEt.setSelection(cleanedInput.length());
+                    binding.activityMinePurseRechargeEt.setText(cleanedInput.toString());
+                    binding.activityMinePurseRechargeEt.setSelection(cleanedInput.length());
                 }
             }
         });
@@ -114,7 +116,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                         UserBean bean = new Gson().fromJson(body.data.toString(),UserBean.class);
-                        binding.activityMinePurseRechargeAccountTv.setText("¥"+NumberUtil.formartMoney(bean.balance));
+//                        binding.activityMinePurseRechargeAccountTv.setText("¥"+NumberUtil.formartMoney(bean.balance));
                     }
 
                     @Override
@@ -128,7 +130,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
         if (v == binding.activityMinePurseRechargeNav.addCloseImageButton()) {
             finish();
         } else if (v == binding.activityMinePurseRechargeRechargeRl) {
-            String inputMoney = getTextStr(binding.activityMinePurseRechargeRechargeMoney.viewTitleTfWithoutBgEt);
+            String inputMoney = getTextStr(binding.activityMinePurseRechargeEt);
             if (inputMoney.isEmpty()) {
                 ToastUtils.toastMsg("请输入金额");
                 return;

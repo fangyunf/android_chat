@@ -109,23 +109,23 @@ public class FunTeamSettingNew_TeamUsersActivity extends BaseActivity implements
         binding.funTeamSettingNewTeamUsersActivityNav.addCloseImageButton().setOnClickListener(this);
 
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 5);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 6);
         binding.funTeamSettingNewTeamUsersActivityRv.setLayoutManager(gridLayoutManager);
         CommonGridSpacingItemDecoration gridSpacingItemDecoration =
-                new CommonGridSpacingItemDecoration(5, SizeUtils.dp2px(10), false);
+                new CommonGridSpacingItemDecoration(6, SizeUtils.dp2px(10), false);
         binding.funTeamSettingNewTeamUsersActivityRv.addItemDecoration(gridSpacingItemDecoration);
         binding.funTeamSettingNewTeamUsersActivityRv.setAdapter(adapter);
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener<GroupInfoBean>() {
             @Override
             public void onClick(@NonNull BaseQuickAdapter<GroupInfoBean, ?> baseQuickAdapter, @NonNull View view, int i) {
                 if (opt_type == null) {
-                    if (selfBean.rankState == 1 || selfBean.rankState == 2) {
+//                    if (selfBean.rankState == 1 || selfBean.rankState == 2) {
                         XKitRouter.withKey(Constant.FunTeamUserInfoDetailActivityKey)
                                 .withParam("groupId",groupId)
                                 .withParam("userId",baseQuickAdapter.getItem(i).userId)
                                 .withContext(view.getContext())
                                 .navigate();
-                    }
+//                    }
                 }
                 if ("1".equals(opt_type)) {
                     for (Object tempBean:dataList) {

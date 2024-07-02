@@ -31,6 +31,7 @@ public class FunAddFriendVerifyActivity extends BaseActivity implements View.OnC
         setContentView(binding.getRoot());
         binding.funAddFriendVerifyActivityNav.addCloseImageButton().setOnClickListener(this);
 
+        transtStatusBar(binding.funAddFriendVerifyActivityNav);
         binding.funAddFriendVerifyActivitySendRl.setOnClickListener(this);
 
         String result = getIntent().getStringExtra("user");

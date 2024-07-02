@@ -35,15 +35,6 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
     ActivityMinePurseTixianBinding binding;
     UserBean accountBean;
     String  accountMoeny;
-    private static final String[] KEY = new String[] {
-            "1", "2", "3",
-            "4", "5", "6",
-            "7", "8", "9",
-            "<<", "0", "完成"
-    };
-
-    private PayEditText payEditText;
-    private Keyboard keyboard;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,37 +79,9 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
             }
         });
 
-        binding.activityMinePurseTixianTixianTypeLl.setOnClickListener(this);
+//        binding.activityMinePurseTixianTixianTypeLl.setOnClickListener(this);
         binding.activityMinePurseTixianAllTixianTv.setOnClickListener(this);
         binding.activityMinePurseTixianTixianBtn.setOnClickListener(this);
-        payEditText = binding.PayEditTextPay;
-        keyboard = binding.KeyboardViewPay;
-        keyboard.setKeyboardKeys(KEY);
-        keyboard.setOnClickKeyboardListener(new Keyboard.OnClickKeyboardListener() {
-            @Override
-            public void onKeyClick(int position, String value) {
-                if (position < 11 && position != 9) {
-                    payEditText.add(value);
-                } else if (position == 9) {
-                    payEditText.remove();
-                }else if (position == 11) {
-                    binding.activityFunSendRedPacketKeybordRl.setVisibility(View.GONE);
-
-                }
-            }
-        });
-
-        /**
-         * 当密码输入完成时的回调
-         */
-        payEditText.setOnInputFinishedListener(new PayEditText.OnInputFinishedListener() {
-            @Override
-            public void onInputFinished(String password) {
-                tiXianClick(payEditText.getText());
-                payEditText.remove();
-                binding.activityFunSendRedPacketKeybordRl.setVisibility(View.GONE);
-            }
-        });
     }
     void tiXianClick(String pwd) {
         String inputMoney = getTextStr(binding.activityMinePurseTixianMoneyEt);
@@ -163,7 +126,7 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                         UserBean bean = new Gson().fromJson(body.data.toString(),UserBean.class);
                         accountMoeny = NumberUtil.formartMoney(bean.balance);
-                        binding.activityMinePurseTixianAccoutTv.setText("¥"+ NumberUtil.formartMoney(bean.balance));
+//                        binding.activityMinePurseTixianAccoutTv.setText("¥"+ NumberUtil.formartMoney(bean.balance));
                     }
 
                     @Override
@@ -188,7 +151,8 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
     public void onClick(View v) {
         if (v == binding.activityMinePurseTixianNav.addCloseImageButton()) {
             finish();
-        } else if (v == binding.activityMinePurseTixianTixianTypeLl) {
+        }
+//        else if (v == binding.activityMinePurseTixianTixianTypeLl) {
 //            String[] strings = {"支付宝", "银行卡"};
 //            DialogAlertUtil.showSheetView(this, getSupportFragmentManager(), new String[]{"支付宝", "银行卡"}, new DialogAlertUtil.DialogAlertUtilCallBack() {
 //                @Override
@@ -207,9 +171,13 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
 //                    }
 //                }
 //            });
-
-        } else if (v == binding.activityMinePurseTixianTixianBtn) {
+//        }
+        else if (v == binding.activityMinePurseTixianTixianBtn) {
             String textStr = getTextStr(binding.activityMinePurseTixianMoneyEt);
+            if (textStr.isEmpty()) {
+                ToastUtils.toastMsg("请输入金额");
+                return;
+            }
             if (textStr.isEmpty() && Integer.parseInt(textStr) < 100) {
                 ToastUtils.toastMsg("金额必须大于100");
                 return;
