@@ -10,7 +10,6 @@ import androidx.annotation.Nullable;
 import com.alipay.face.api.ZIMFacade;
 import com.google.gson.Gson;
 import com.netease.yunxin.kit.alog.ALog;
-import com.turunsi.yaoxin.BuildConfig;
 import com.turunsi.yaoxin.R;
 import com.turunsi.yaoxin.databinding.ActivityMinePursePwdManagerSetBinding;
 import com.turunsi.yaoxin.databinding.ActivityMineRealNameSetBinding;
@@ -34,6 +33,7 @@ import retrofit2.Response;
 
 public class RealNameSetActivity extends BaseActivity implements View.OnClickListener {
     ActivityMineRealNameSetBinding binding;
+    private static boolean isActivityRunning;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,15 +54,16 @@ public class RealNameSetActivity extends BaseActivity implements View.OnClickLis
         binding.activityMineRealNameSetIdentityNum.viewTitleTfWithoutBgEt.setHint("请输入身份证号");
         binding.activityMineRealNameSetIdentityNum.viewTitleTfWithoutBgEt.setBackgroundColor(getResources().getColor(R.color.color_white));
         binding.activityMineRealNameSetIdentityNum.viewTitleTfWithoutBgLl.setBackgroundColor(getResources().getColor(R.color.color_white));
+        isActivityRunning = true;
 
-        if (BuildConfig.DEBUG) {
-            binding.activityMineRealNameSetName.viewTitleTfWithoutBgEt.setText("万运浩");
-            binding.activityMineRealNameSetIdentityNum.viewTitleTfWithoutBgEt.setText("320911199304010018");
-
-        }
 
     }
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // 清除Activity正在运行的标志
+        isActivityRunning = false;
+    }
     @Override
     public void onClick(View v) {
         if (v == binding.activityMineRealNameSetNav.addCloseImageButton()) {
@@ -101,5 +102,8 @@ public class RealNameSetActivity extends BaseActivity implements View.OnClickLis
                         }
                     });
         }
+    }
+    public static boolean isActivityRunning() {
+        return isActivityRunning;
     }
 }

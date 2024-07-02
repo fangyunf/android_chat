@@ -71,7 +71,9 @@ public class IMUtil {
                             NetServerException exception = (NetServerException) t;
                             if (exception.getErrCode() == 777) {
                                 ToastUtils.toastMsg(exception.getMessage());
-                                RealNameSetActivity.start(RealNameSetActivity.class,context,null);
+                                if (!RealNameSetActivity.isActivityRunning()) {
+                                    RealNameSetActivity.start(RealNameSetActivity.class,context,null);
+                                }
                             }
                         }
                     }

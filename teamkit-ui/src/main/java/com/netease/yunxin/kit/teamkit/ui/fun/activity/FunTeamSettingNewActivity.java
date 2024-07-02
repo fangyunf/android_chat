@@ -287,12 +287,14 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
 
         binding.tvName.setText(groupInfoBean.name + "(" +groupInfoBean.userInfos.size()+"人)");
 
+        ArrayList<GroupInfoBean> maxList = new ArrayList<>();
         if (groupInfoBean.userInfos.size() > 3) {
-            ArrayList<GroupInfoBean> maxList = new ArrayList<>();
             for (int i = 0; i < 3; i++) {
                 maxList.add(groupInfoBean.userInfos.get(i));
             }
-            groupInfoBean.userInfos = maxList;
+        } else {
+            maxList.addAll(groupInfoBean.userInfos);
+
         }
         binding.funTeamSettingNewActivityIdTv.setText("ID: " + groupInfoBean.groupId);
         adapter = new TeamSettingUserInfoAdapter(groupInfoBean.rankState == 1,groupInfoBean.userInfos);
@@ -303,7 +305,7 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
             @Override
             public void onClick(@NonNull BaseQuickAdapter<GroupInfoBean, ?> baseQuickAdapter, @NonNull View view, int i) {
 
-                if (i == groupInfoBean.userInfos.size()) {
+                if (i == maxList.size()) {
                     XKitRouter.withKey(Constant.FunSelected_User_ActivityKey)
                             .withParam("type","2")
                             .withParam("groupId",groupId)
@@ -324,7 +326,7 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
 //                                    RouterConstant.KEY_CONTACT_SELECTOR_FINAL_CHECK_COUNT_ENABLE, true)
 //                            .withContext(FunTeamSettingNewActivity.this)
 //                            .navigate(launcher);
-                } else if (i == groupInfoBean.userInfos.size() + 1) {
+                } else if (i == maxList.size() + 1) {
 
                     XKitRouter.withKey(Constant.FunSelected_User_ActivityKey)
                             .withParam("type","3")
@@ -349,7 +351,7 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
                 } else {
                     XKitRouter.withKey(Constant.FunTeamUserInfoDetailActivityKey)
                             .withParam("groupId",groupId)
-                            .withParam("userId",groupInfoBean.userInfos.get(i).userId)
+                            .withParam("userId",maxList.get(i).userId)
                             .withContext(view.getContext())
                             .navigate();
 //                    HashMap map = new HashMap<>();
