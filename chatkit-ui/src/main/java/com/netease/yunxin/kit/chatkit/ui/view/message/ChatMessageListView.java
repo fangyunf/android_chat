@@ -53,6 +53,7 @@ public class ChatMessageListView extends RecyclerView implements IMessageData {
   private OnListViewEventListener onListViewEventListener;
   private GestureDetector gestureDetector;
   private boolean isScroll = false;
+  private boolean isStartScroll = false;
 
   private boolean hasMoreForwardMessages;
 
@@ -102,6 +103,8 @@ public class ChatMessageListView extends RecyclerView implements IMessageData {
                     onListViewEventListener.onListViewStartScroll();
                   }
                   isScroll = true;
+                  isStartScroll = true;
+
                 }
                 return true;
               }
@@ -315,12 +318,13 @@ public class ChatMessageListView extends RecyclerView implements IMessageData {
     if (messageAdapter != null) {
       int itemCount = messageAdapter.getItemCount();
       if (itemCount > 0) {
-        if (isRecyclerViewAtBottom()) {
-          post(() -> scrollToPosition(itemCount - 1));
+        if (isStartScroll) {
+          if (isRecyclerViewAtBottom()) {
+            post(() -> scrollToPosition(itemCount - 1));
+          }
         } else {
-
+          post(() -> scrollToPosition(itemCount - 1));
         }
-
       }
     }
   }

@@ -34,6 +34,7 @@ import com.turunsi.yaoxin.main.mine.order.OrderListActivity;
 import com.turunsi.yaoxin.main.mine.purse.PurseIndexActivity;
 import com.turunsi.yaoxin.main.mine.setting.SettingActivity;
 import com.turunsi.yaoxin.main.mine.setting.SettingNewActivity;
+import com.turunsi.yaoxin.main.mine.setting.SettingNotifyActivity;
 import com.turunsi.yaoxin.utils.Constant;
 import com.netease.yunxin.kit.alog.ALog;
 import com.netease.yunxin.kit.common.ui.fragments.BaseFragment;
@@ -129,7 +130,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                         UserBean bean = new Gson().fromJson(body.data.toString(),UserBean.class);
-                        binding.mineFragmentPacketMoneyDetailTv.setText("￥ " + NumberUtil.formartMoney(bean.balance));
+//                        binding.mineFragmentPacketMoneyDetailTv.setText("￥ " + NumberUtil.formartMoney(bean.balance));
                     }
 
                     @Override
@@ -140,30 +141,38 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
     }
 
     private void _initItems() {
-        binding.mineFragmentMyManagerItem1.viewMineFragmentItemCellCl.setOnClickListener(this);
-        binding.mineFragmentMyManagerItem2.viewMineFragmentItemCellCl.setOnClickListener(this);
-        binding.mineFragmentMyManagerItem3.viewMineFragmentItemCellCl.setOnClickListener(this);
-        binding.mineFragmentMyManagerItem4.viewMineFragmentItemCellCl.setOnClickListener(this);
-        binding.mineFragmentMyManagerItem5.viewMineFragmentItemCellCl.setOnClickListener(this);
-        binding.mineFragmentMyManagerItem6.viewMineFragmentItemCellCl.setOnClickListener(this);
-        binding.mineFragmentMyManagerItem7.viewMineFragmentItemCellCl.setOnClickListener(this);
+        binding.fragmentMineSmrzView.setOnClickListener(this);
+        binding.fragmentMineAqysView.setOnClickListener(this);
+        binding.fragmentMineZhaqView.setOnClickListener(this);
+        binding.fragmentMineXsqxView.setOnClickListener(this);
+        binding.fragmentMineSzView.setOnClickListener(this);
         binding.fragmentMineQrcodeIv.setOnClickListener(this);
+        binding.fragmentMineEditIv.setOnClickListener(this);
 
-        binding.mineFragmentMyManagerItem1.viewMineFragmentItemCellTitle.setText("我的订单");
-        binding.mineFragmentMyManagerItem2.viewMineFragmentItemCellTitle.setText("地址管理");
-        binding.mineFragmentMyManagerItem3.viewMineFragmentItemCellTitle.setText("下载地址");
-        binding.mineFragmentMyManagerItem4.viewMineFragmentItemCellTitle.setText("我的收藏");
-        binding.mineFragmentMyManagerItem5.viewMineFragmentItemCellTitle.setText("设置");
-        binding.mineFragmentMyManagerItem6.viewMineFragmentItemCellTitle.setText("账号与安全");
-        binding.mineFragmentMyManagerItem7.viewMineFragmentItemCellTitle.setText("帮助中心");
-
-        binding.mineFragmentMyManagerItem1.viewMineFragmentItemCellIcon.setImageResource(R.mipmap.mine_fragment_index_cell_icon_order);
-        binding.mineFragmentMyManagerItem2.viewMineFragmentItemCellIcon.setImageResource(R.mipmap.mine_fragment_index_cell_icon_location);
-        binding.mineFragmentMyManagerItem3.viewMineFragmentItemCellIcon.setImageResource(R.mipmap.mine_fragment_index_cell_icon_download);
-        binding.mineFragmentMyManagerItem4.viewMineFragmentItemCellIcon.setImageResource(R.mipmap.mine_fragment_index_cell_icon_collection);
-        binding.mineFragmentMyManagerItem5.viewMineFragmentItemCellIcon.setImageResource(R.mipmap.mine_fragment_index_cell_icon_setting);
-        binding.mineFragmentMyManagerItem6.viewMineFragmentItemCellIcon.setImageResource(R.mipmap.mine_fragment_index_cell_icon_account);
-        binding.mineFragmentMyManagerItem7.viewMineFragmentItemCellIcon.setImageResource(R.mipmap.mine_fragment_index_cell_icon_kefu);
+//        binding.mineFragmentMyManagerItem1.viewMineFragmentItemCellCl.setOnClickListener(this);
+//        binding.mineFragmentMyManagerItem2.viewMineFragmentItemCellCl.setOnClickListener(this);
+//        binding.mineFragmentMyManagerItem3.viewMineFragmentItemCellCl.setOnClickListener(this);
+//        binding.mineFragmentMyManagerItem4.viewMineFragmentItemCellCl.setOnClickListener(this);
+//        binding.mineFragmentMyManagerItem5.viewMineFragmentItemCellCl.setOnClickListener(this);
+//        binding.mineFragmentMyManagerItem6.viewMineFragmentItemCellCl.setOnClickListener(this);
+//        binding.mineFragmentMyManagerItem7.viewMineFragmentItemCellCl.setOnClickListener(this);
+//        binding.fragmentMineQrcodeIv.setOnClickListener(this);
+//
+//        binding.mineFragmentMyManagerItem1.viewMineFragmentItemCellTitle.setText("我的订单");
+//        binding.mineFragmentMyManagerItem2.viewMineFragmentItemCellTitle.setText("地址管理");
+//        binding.mineFragmentMyManagerItem3.viewMineFragmentItemCellTitle.setText("下载地址");
+//        binding.mineFragmentMyManagerItem4.viewMineFragmentItemCellTitle.setText("我的收藏");
+//        binding.mineFragmentMyManagerItem5.viewMineFragmentItemCellTitle.setText("设置");
+//        binding.mineFragmentMyManagerItem6.viewMineFragmentItemCellTitle.setText("账号与安全");
+//        binding.mineFragmentMyManagerItem7.viewMineFragmentItemCellTitle.setText("帮助中心");
+//
+//        binding.mineFragmentMyManagerItem1.viewMineFragmentItemCellIcon.setImageResource(R.mipmap.mine_fragment_index_cell_icon_order);
+//        binding.mineFragmentMyManagerItem2.viewMineFragmentItemCellIcon.setImageResource(R.mipmap.mine_fragment_index_cell_icon_location);
+//        binding.mineFragmentMyManagerItem3.viewMineFragmentItemCellIcon.setImageResource(R.mipmap.mine_fragment_index_cell_icon_download);
+//        binding.mineFragmentMyManagerItem4.viewMineFragmentItemCellIcon.setImageResource(R.mipmap.mine_fragment_index_cell_icon_collection);
+//        binding.mineFragmentMyManagerItem5.viewMineFragmentItemCellIcon.setImageResource(R.mipmap.mine_fragment_index_cell_icon_setting);
+//        binding.mineFragmentMyManagerItem6.viewMineFragmentItemCellIcon.setImageResource(R.mipmap.mine_fragment_index_cell_icon_account);
+//        binding.mineFragmentMyManagerItem7.viewMineFragmentItemCellIcon.setImageResource(R.mipmap.mine_fragment_index_cell_icon_kefu);
 
         binding.cavIcon.setOnClickListener(this);
     }
@@ -221,35 +230,46 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         Context context = getContext();
-        if (v == binding.mineFragmentMyManagerItem5.viewMineFragmentItemCellCl) {
-//            startActivity(new Intent(getContext(), SettingActivity.class));
+        if (v == binding.fragmentMineSmrzView) {
+
+        } else if (v == binding.fragmentMineAqysView) {
+
+        } else if (v == binding.fragmentMineZhaqView) {
+            AccountAnQuanManagerActivity.start(AccountAnQuanManagerActivity.class,context,null);
+        } else if (v == binding.fragmentMineXsqxView) {
+            startActivity(new Intent(getContext(), SettingNotifyActivity.class));
+        } else if (v == binding.fragmentMineSzView) {
             SettingNewActivity.start(SettingNewActivity.class,getContext(),null);
         }
-        if (v == binding.mineFragmentMyManagerItem7.viewMineFragmentItemCellCl) {
-//            startActivity(new Intent(getContext(), SettingActivity.class));
-            XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_P2P_PAGE)
-                    .withParam(RouterConstant.CHAT_ID_KRY, DataUtil.getKeFuId())
-                    .withContext(getContext())
-                    .navigate();
-        }
-        if (v == binding.mineFragmentMyManagerItem1.viewMineFragmentItemCellCl) {
-//            OrderListActivity.start(OrderListActivity.class,context,null);
-        }
-        if (v == binding.mineFragmentMyManagerItem2.viewMineFragmentItemCellCl) {
-//            AddressListActivity.start(AddressListActivity.class,context,null);
-        }
-        if (v == binding.mineFragmentMyManagerItem4.viewMineFragmentItemCellCl) {
-            CollectionListActivity.start(CollectionListActivity.class,context,null);
-//            XKitRouter.withKey(RouterConstant.PATH_FUN_COLLECTION_PAGE).withContext(this.requireContext()).navigate();
-        }
-        if (v == binding.mineFragmentMyManagerItem6.viewMineFragmentItemCellCl) {
-            AccountAnQuanManagerActivity.start(AccountAnQuanManagerActivity.class,context,null);
-//            XKitRouter.withKey(RouterConstant.PATH_FUN_COLLECTION_PAGE).withContext(this.requireContext()).navigate();
-        }
+//        if (v == binding.mineFragmentMyManagerItem5.viewMineFragmentItemCellCl) {
+////            startActivity(new Intent(getContext(), SettingActivity.class));
+//            SettingNewActivity.start(SettingNewActivity.class,getContext(),null);
+//        }
+//        if (v == binding.mineFragmentMyManagerItem7.viewMineFragmentItemCellCl) {
+////            startActivity(new Intent(getContext(), SettingActivity.class));
+//            XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_P2P_PAGE)
+//                    .withParam(RouterConstant.CHAT_ID_KRY, DataUtil.getKeFuId())
+//                    .withContext(getContext())
+//                    .navigate();
+//        }
+//        if (v == binding.mineFragmentMyManagerItem1.viewMineFragmentItemCellCl) {
+////            OrderListActivity.start(OrderListActivity.class,context,null);
+//        }
+//        if (v == binding.mineFragmentMyManagerItem2.viewMineFragmentItemCellCl) {
+////            AddressListActivity.start(AddressListActivity.class,context,null);
+//        }
+//        if (v == binding.mineFragmentMyManagerItem4.viewMineFragmentItemCellCl) {
+//            CollectionListActivity.start(CollectionListActivity.class,context,null);
+////            XKitRouter.withKey(RouterConstant.PATH_FUN_COLLECTION_PAGE).withContext(this.requireContext()).navigate();
+//        }
+//        if (v == binding.mineFragmentMyManagerItem6.viewMineFragmentItemCellCl) {
+
+////            XKitRouter.withKey(RouterConstant.PATH_FUN_COLLECTION_PAGE).withContext(this.requireContext()).navigate();
+//        }
         if (v == binding.mineFragmentPacketMoneyCl) {
             PurseIndexActivity.start(PurseIndexActivity.class,context,null);
         }
-        if (v == binding.cavIcon) {
+        if (v == binding.cavIcon || v == binding.fragmentMineEditIv) {
             AccountDetailActivity.start(AccountDetailActivity.class,getContext(),null);
         }
         if (v ==  binding.fragmentMineQrcodeIv) {
