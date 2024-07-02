@@ -4,7 +4,7 @@
             "outputFile": "com.turunsi.yaoxin.app-mergeDebugResources-66:/values-night-v29/values-night-v29.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Administrator\\.gradle\\caches\\transforms-3\\b941d21d0d23e50fa896d1d827ebc944\\transformed\\jetified-ui-6.3.0.303\\res\\values-night-v29\\values-night-v29.xml",
+                    "source": "/Users/ahao/.gradle/caches/transforms-3/b941d21d0d23e50fa896d1d827ebc944/transformed/jetified-ui-6.3.0.303/res/values-night-v29/values-night-v29.xml",
                     "from": {
                         "startLines": "2,3,4",
                         "startColumns": "4,4,4",
@@ -14,7 +14,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Administrator\\.gradle\\caches\\transforms-3\\a8ecdd1bfc69d751cc788255ed08558d\\transformed\\jetified-update-4.0.1.300\\res\\values-night-v29\\values-night-v29.xml",
+                    "source": "/Users/ahao/.gradle/caches/transforms-3/a8ecdd1bfc69d751cc788255ed08558d/transformed/jetified-update-4.0.1.300/res/values-night-v29/values-night-v29.xml",
                     "from": {
                         "startLines": "2,3,4",
                         "startColumns": "4,4,4",

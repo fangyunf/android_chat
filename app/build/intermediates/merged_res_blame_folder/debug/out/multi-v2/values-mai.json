@@ -4,7 +4,7 @@
             "outputFile": "com.turunsi.yaoxin.app-mergeDebugResources-66:/values-mai/values-mai.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Administrator\\.gradle\\caches\\transforms-3\\51ec6db53023929e0dc485f601b45c33\\transformed\\jetified-push-6.3.0.302\\res\\values-mai\\values-mai.xml",
+                    "source": "/Users/ahao/.gradle/caches/transforms-3/51ec6db53023929e0dc485f601b45c33/transformed/jetified-push-6.3.0.302/res/values-mai/values-mai.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -21,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Administrator\\.gradle\\caches\\transforms-3\\a8ecdd1bfc69d751cc788255ed08558d\\transformed\\jetified-update-4.0.1.300\\res\\values-mai\\values-mai.xml",
+                    "source": "/Users/ahao/.gradle/caches/transforms-3/a8ecdd1bfc69d751cc788255ed08558d/transformed/jetified-update-4.0.1.300/res/values-mai/values-mai.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -38,7 +38,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Administrator\\.gradle\\caches\\transforms-3\\b941d21d0d23e50fa896d1d827ebc944\\transformed\\jetified-ui-6.3.0.303\\res\\values-mai\\values-mai.xml",
+                    "source": "/Users/ahao/.gradle/caches/transforms-3/b941d21d0d23e50fa896d1d827ebc944/transformed/jetified-ui-6.3.0.303/res/values-mai/values-mai.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",

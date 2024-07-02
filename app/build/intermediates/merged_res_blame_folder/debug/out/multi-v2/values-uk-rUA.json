@@ -4,7 +4,7 @@
             "outputFile": "com.turunsi.yaoxin.app-mergeDebugResources-66:/values-uk-rUA/values-uk-rUA.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Administrator\\.gradle\\caches\\transforms-3\\ff27d96e07b72ac088a6a99edfeaf6eb\\transformed\\jetified-push-3.0.0\\res\\values-uk-rUA\\values-uk-rUA.xml",
+                    "source": "/Users/ahao/.gradle/caches/transforms-3/ff27d96e07b72ac088a6a99edfeaf6eb/transformed/jetified-push-3.0.0/res/values-uk-rUA/values-uk-rUA.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

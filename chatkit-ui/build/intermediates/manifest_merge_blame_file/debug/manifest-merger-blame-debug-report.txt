@@ -9,273 +9,273 @@
 9    package="com.netease.yunxin.kit.chatkit.ui" >
 10
 11    <uses-sdk android:minSdkVersion="21" />
-11-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml
+11-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml
 12
 13    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-13-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:11:5-79
-13-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:11:22-76
+13-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:11:5-79
+13-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:11:22-76
 14    <!-- 获取运营商信息，用于支持提供运营商信息相关的接口 -->
 15    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-15-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:11:5-79
-15-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:11:22-76
+15-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:11:5-79
+15-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:11:22-76
 16    <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位 -->
 17    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-17-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:15:5-75
-17-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:15:22-73
+17-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:15:5-75
+17-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:15:22-73
 18    <!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
 19    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-19-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:17:5-75
-19-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:17:22-73
+19-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:17:5-75
+19-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:17:22-73
 20    <!-- 请求网络 -->
 21    <uses-permission android:name="android.permission.INTERNET" />
-21-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:18:19-80
-21-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:18:36-78
+21-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:18:19-80
+21-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:18:36-78
 22    <!-- 用于进行网络定位 -->
 23    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-23-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:20:5-80
-23-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:20:22-78
+23-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:20:5-80
+23-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:20:22-78
 24    <!-- 可以提高室内定位的精确度 -->
 25    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-25-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:22:5-73
-25-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:22:22-71
+25-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:22:5-73
+25-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:22:22-71
 26    <!-- 可以提高室内定位的精确度 -->
 27    <uses-permission android:name="android.permission.BLUETOOTH" />
-27-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:24:5-67
-27-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:24:22-65
+27-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:24:5-67
+27-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:24:22-65
 28    <!-- 用于访问GPS定位 -->
 29    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-29-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:26:5-78
-29-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:26:22-76
+29-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:26:5-78
+29-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:26:22-76
 30    <!-- 用于提高GPS定位速度 -->
 31    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
-31-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:28:5-88
-31-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:28:22-86
+31-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:28:5-88
+31-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:28:22-86
 32    <!-- 写入扩展存储，向扩展卡写入数据，用于写入缓存定位数据 -->
 33    <uses-permission
-33-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:30:5-31:40
+33-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:30:5-31:40
 34        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-34-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:30:22-78
+34-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:30:22-78
 35        tools:ignore="ScopedStorage" />
-35-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:31:9-37
+35-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:31:9-37
 36    <!-- 读取缓存数据 -->
 37    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-37-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:33:5-80
-37-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:33:22-77
+37-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:33:5-80
+37-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:33:22-77
 38    <!-- android 33 image -->
 39    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
-39-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:35:5-75
-39-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:35:22-73
+39-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:35:5-75
+39-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:35:22-73
 40    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
-40-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:36:5-74
-40-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:36:22-72
+40-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:36:5-74
+40-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:36:22-72
 41    <!-- 用于读取手机当前的状态 -->
 42    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-42-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:38:5-75
-42-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:38:22-72
+42-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:38:5-75
+42-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:38:22-72
 43
 44    <application>
-44-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:39:5-165:19
+44-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:39:5-165:19
 45        <provider
-45-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:40:9-48:20
+45-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:40:9-48:20
 46            android:name="com.netease.yunxin.kit.corekit.startup.InitializationProvider"
-46-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:41:13-89
+46-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:41:13-89
 47            android:authorities="${applicationId}.xkit-startup"
-47-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:42:13-64
+47-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:42:13-64
 48            android:exported="false"
-48-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:43:13-37
+48-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:43:13-37
 49            tools:node="merge" >
-49-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:44:13-31
+49-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:44:13-31
 50            <meta-data
-50-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:45:13-47:48
+50-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:45:13-47:48
 51                android:name="com.netease.yunxin.kit.chatkit.ui.ChatUIService"
-51-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:46:17-79
+51-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:46:17-79
 52                android:value="xkit.startup" />
-52-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:47:17-45
+52-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:47:17-45
 53        </provider>
 54
 55        <activity
-55-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:50:9-54:15
+55-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:50:9-54:15
 56            android:name="com.netease.yunxin.kit.chatkit.ui.normal.page.ChatP2PActivity"
-56-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:51:13-89
+56-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:51:13-89
 57            android:launchMode="singleTask"
-57-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:53:13-44
+57-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:53:13-44
 58            android:screenOrientation="portrait" />
-58-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:52:13-49
+58-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:52:13-49
 59        <activity
-59-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:56:9-60:15
+59-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:56:9-60:15
 60            android:name="com.netease.yunxin.kit.chatkit.ui.normal.page.ChatTeamActivity"
-60-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:57:13-90
+60-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:57:13-90
 61            android:launchMode="singleTask"
-61-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:59:13-44
+61-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:59:13-44
 62            android:screenOrientation="portrait" />
-62-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:58:13-49
+62-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:58:13-49
 63        <activity
-63-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:62:9-66:15
+63-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:62:9-66:15
 64            android:name="com.netease.yunxin.kit.chatkit.ui.normal.page.ChatSettingActivity"
-64-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:63:13-93
+64-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:63:13-93
 65            android:launchMode="singleTop"
-65-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:65:13-43
+65-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:65:13-43
 66            android:screenOrientation="portrait" />
-66-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:64:13-49
+66-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:64:13-49
 67        <activity
-67-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:68:9-72:15
+67-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:68:9-72:15
 68            android:name="com.netease.yunxin.kit.chatkit.ui.normal.page.ChatReaderActivity"
-68-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:69:13-92
+68-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:69:13-92
 69            android:launchMode="singleTop"
-69-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:71:13-43
+69-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:71:13-43
 70            android:screenOrientation="portrait" />
-70-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:70:13-49
+70-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:70:13-49
 71        <activity
-71-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:74:9-78:15
+71-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:74:9-78:15
 72            android:name="com.netease.yunxin.kit.chatkit.ui.normal.page.ChatSearchActivity"
-72-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:75:13-92
+72-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:75:13-92
 73            android:launchMode="singleTop"
-73-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:77:13-43
+73-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:77:13-43
 74            android:screenOrientation="portrait" />
-74-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:76:13-49
+74-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:76:13-49
 75        <activity
-75-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:80:9-83:16
+75-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:80:9-83:16
 76            android:name="com.netease.yunxin.kit.chatkit.ui.page.WatchImageActivity"
-76-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:81:13-85
+76-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:81:13-85
 77            android:screenOrientation="portrait" />
-77-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:82:13-49
+77-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:82:13-49
 78        <activity
-78-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:84:9-87:16
+78-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:84:9-87:16
 79            android:name="com.netease.yunxin.kit.chatkit.ui.fun.page.FunRedPacketRecordListActivity"
-79-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:85:13-68
+79-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:85:13-68
 80            android:screenOrientation="portrait" />
-80-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:86:13-49
+80-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:86:13-49
 81        <activity
-81-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:89:9-92:16
+81-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:89:9-92:16
 82            android:name="com.netease.yunxin.kit.chatkit.ui.fun.page.FunRedPacketResultActivity"
-82-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:90:13-64
+82-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:90:13-64
 83            android:screenOrientation="portrait" />
-83-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:91:13-49
+83-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:91:13-49
 84        <activity
-84-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:94:9-97:16
+84-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:94:9-97:16
 85            android:name="com.netease.yunxin.kit.chatkit.ui.page.WatchVideoActivity"
-85-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:95:13-85
+85-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:95:13-85
 86            android:screenOrientation="portrait" />
-86-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:96:13-49
+86-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:96:13-49
 87        <activity
-87-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:98:9-101:16
+87-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:98:9-101:16
 88            android:name="com.netease.yunxin.kit.chatkit.ui.fun.page.FunSendRedPacketActivity"
-88-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:99:13-62
+88-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:99:13-62
 89            android:screenOrientation="portrait" />
-89-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:100:13-49
+89-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:100:13-49
 90        <activity
-90-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:103:9-107:48
+90-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:103:9-107:48
 91            android:name="com.netease.yunxin.kit.chatkit.ui.page.LocationPageActivity"
-91-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:104:13-87
+91-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:104:13-87
 92            android:finishOnTaskLaunch="true"
-92-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:107:13-46
+92-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:107:13-46
 93            android:screenOrientation="portrait"
-93-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:105:13-49
+93-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:105:13-49
 94            android:windowSoftInputMode="adjustResize" />
-94-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:106:13-55
+94-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:106:13-55
 95        <activity
-95-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:108:9-111:57
+95-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:108:9-111:57
 96            android:name="com.netease.yunxin.kit.chatkit.ui.normal.page.ChatPinActivity"
-96-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:109:13-89
+96-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:109:13-89
 97            android:screenOrientation="portrait"
-97-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:110:13-49
+97-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:110:13-49
 98            android:windowSoftInputMode="adjustResize" />
-98-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:111:13-55
+98-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:111:13-55
 99        <activity
-99-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:113:9-116:44
+99-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:113:9-116:44
 100            android:name="com.netease.yunxin.kit.chatkit.ui.normal.page.ChatForwardActivity"
-100-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:113:19-66
+100-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:113:19-66
 101            android:launchMode="standard"
-101-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:116:13-42
+101-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:116:13-42
 102            android:screenOrientation="portrait"
-102-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:114:13-49
+102-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:114:13-49
 103            android:windowSoftInputMode="adjustResize" />
-103-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:115:13-55
+103-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:115:13-55
 104
 105        <!-- Fun -->
 106        <activity
-106-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:119:9-122:46
+106-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:119:9-122:46
 107            android:name="com.netease.yunxin.kit.chatkit.ui.fun.page.FunChatP2PActivity"
-107-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:119:19-62
+107-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:119:19-62
 108            android:launchMode="singleTask"
-108-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:122:13-44
+108-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:122:13-44
 109            android:screenOrientation="portrait"
-109-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:120:13-49
+109-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:120:13-49
 110            android:windowSoftInputMode="adjustResize" />
-110-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:121:13-55
+110-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:121:13-55
 111        <activity
-111-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:124:9-127:57
+111-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:124:9-127:57
 112            android:name="com.netease.yunxin.kit.chatkit.ui.fun.page.FunChatTeamActivity"
-112-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:124:19-63
+112-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:124:19-63
 113            android:launchMode="singleTask"
-113-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:126:13-44
+113-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:126:13-44
 114            android:screenOrientation="portrait"
-114-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:125:13-49
+114-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:125:13-49
 115            android:windowSoftInputMode="adjustResize" />
-115-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:127:13-55
+115-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:127:13-55
 116        <activity
-116-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:129:9-131:57
+116-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:129:9-131:57
 117            android:name="com.netease.yunxin.kit.chatkit.ui.fun.page.FunChatPinActivity"
-117-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:129:19-62
+117-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:129:19-62
 118            android:screenOrientation="portrait"
-118-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:130:13-49
+118-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:130:13-49
 119            android:windowSoftInputMode="adjustResize" />
-119-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:131:13-55
+119-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:131:13-55
 120        <activity
-120-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:133:9-135:57
+120-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:133:9-135:57
 121            android:name="com.netease.yunxin.kit.chatkit.ui.fun.page.FunChatSettingActivity"
-121-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:133:19-66
+121-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:133:19-66
 122            android:screenOrientation="portrait"
-122-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:134:13-49
+122-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:134:13-49
 123            android:windowSoftInputMode="adjustResize" />
-123-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:135:13-55
+123-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:135:13-55
 124        <activity
-124-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:137:9-141:15
+124-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:137:9-141:15
 125            android:name="com.netease.yunxin.kit.chatkit.ui.fun.page.FunChatSearchActivity"
-125-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:138:13-92
+125-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:138:13-92
 126            android:launchMode="singleTop"
-126-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:140:13-43
+126-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:140:13-43
 127            android:screenOrientation="portrait" />
-127-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:139:13-49
+127-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:139:13-49
 128        <activity
-128-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:142:9-146:15
+128-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:142:9-146:15
 129            android:name="com.netease.yunxin.kit.chatkit.ui.fun.page.FunChatReaderActivity"
-129-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:143:13-92
+129-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:143:13-92
 130            android:launchMode="singleTop"
-130-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:145:13-43
+130-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:145:13-43
 131            android:screenOrientation="portrait" />
-131-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:144:13-49
+131-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:144:13-49
 132        <activity
-132-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:148:9-151:44
+132-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:148:9-151:44
 133            android:name="com.netease.yunxin.kit.chatkit.ui.fun.page.FunChatForwardActivity"
-133-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:148:19-66
+133-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:148:19-66
 134            android:launchMode="standard"
-134-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:151:13-42
+134-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:151:13-42
 135            android:screenOrientation="portrait"
-135-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:149:13-49
+135-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:149:13-49
 136            android:windowSoftInputMode="adjustResize" />
-136-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:150:13-55
+136-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:150:13-55
 137
 138        <provider
-138-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:153:9-164:20
+138-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:153:9-164:20
 139            android:name="com.netease.yunxin.kit.common.utils.CommonFileProvider"
-139-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:154:13-82
+139-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:154:13-82
 140            android:authorities="${applicationId}.IMKitFileProvider"
-140-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:155:13-69
+140-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:155:13-69
 141            android:exported="false"
-141-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:156:13-37
+141-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:156:13-37
 142            android:grantUriPermissions="true"
-142-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:158:13-47
+142-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:158:13-47
 143            tools:replace="name,authorities,exported,grantUriPermissions" >
-143-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:157:13-74
+143-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:157:13-74
 144            <meta-data
-144-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:159:13-162:51
+144-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:159:13-162:51
 145                android:name="android.support.FILE_PROVIDER_PATHS"
-145-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:160:17-67
+145-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:160:17-67
 146                android:resource="@xml/file_paths"
-146-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:161:17-51
+146-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:161:17-51
 147                tools:replace="android:resource" />
-147-->E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:162:17-49
+147-->/Users/ahao/Desktop/code/proj/shenyu/chatkit-ui/src/main/AndroidManifest.xml:162:17-49
 148        </provider>
 149    </application>
 150

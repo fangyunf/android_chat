@@ -4,7 +4,7 @@
             "outputFile": "com.turunsi.yaoxin.app-mergeDebugResources-66:/values-watch-v20/values-watch-v20.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Administrator\\.gradle\\caches\\transforms-3\\52fee1b0ba22d0761f1e5a1826370b55\\transformed\\appcompat-1.4.2\\res\\values-watch-v20\\values-watch-v20.xml",
+                    "source": "/Users/ahao/.gradle/caches/transforms-3/52fee1b0ba22d0761f1e5a1826370b55/transformed/appcompat-1.4.2/res/values-watch-v20/values-watch-v20.xml",
                     "from": {
                         "startLines": "2,5,8",
                         "startColumns": "4,4,4",

@@ -4,7 +4,7 @@ package com.turunsi.yaoxin.databinding;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,22 +18,28 @@ import java.lang.String;
 
 public final class ActivityMinePurseIndexBinding implements ViewBinding {
   @NonNull
-  private final LinearLayout rootView;
+  private final RelativeLayout rootView;
 
   @NonNull
   public final TextView activityMinePurseIndexBalanceTv;
 
   @NonNull
-  public final ViewPurseIconTitleBinding activityMinePurseIndexCell1;
+  public final ItemPurseIndexCellBinding activityMinePurseIndexCell1;
 
   @NonNull
-  public final ViewPurseIconTitleBinding activityMinePurseIndexCell2;
+  public final ItemPurseIndexCellBinding activityMinePurseIndexCell2;
 
   @NonNull
-  public final ViewPurseIconTitleBinding activityMinePurseIndexCell3;
+  public final ItemPurseIndexCellBinding activityMinePurseIndexCell3;
 
   @NonNull
-  public final ViewPurseIconTitleBinding activityMinePurseIndexCell4;
+  public final ItemPurseIndexCellBinding activityMinePurseIndexCell4;
+
+  @NonNull
+  public final ItemPurseIndexCellBinding activityMinePurseIndexCell5;
+
+  @NonNull
+  public final ItemPurseIndexCellBinding activityMinePurseIndexCell6;
 
   @NonNull
   public final NavToolbar activityMinePurseIndexNav;
@@ -44,12 +50,14 @@ public final class ActivityMinePurseIndexBinding implements ViewBinding {
   @NonNull
   public final TextView activityMinePurseIndexTixianTv;
 
-  private ActivityMinePurseIndexBinding(@NonNull LinearLayout rootView,
+  private ActivityMinePurseIndexBinding(@NonNull RelativeLayout rootView,
       @NonNull TextView activityMinePurseIndexBalanceTv,
-      @NonNull ViewPurseIconTitleBinding activityMinePurseIndexCell1,
-      @NonNull ViewPurseIconTitleBinding activityMinePurseIndexCell2,
-      @NonNull ViewPurseIconTitleBinding activityMinePurseIndexCell3,
-      @NonNull ViewPurseIconTitleBinding activityMinePurseIndexCell4,
+      @NonNull ItemPurseIndexCellBinding activityMinePurseIndexCell1,
+      @NonNull ItemPurseIndexCellBinding activityMinePurseIndexCell2,
+      @NonNull ItemPurseIndexCellBinding activityMinePurseIndexCell3,
+      @NonNull ItemPurseIndexCellBinding activityMinePurseIndexCell4,
+      @NonNull ItemPurseIndexCellBinding activityMinePurseIndexCell5,
+      @NonNull ItemPurseIndexCellBinding activityMinePurseIndexCell6,
       @NonNull NavToolbar activityMinePurseIndexNav,
       @NonNull TextView activityMinePurseIndexRechargeTv,
       @NonNull TextView activityMinePurseIndexTixianTv) {
@@ -59,6 +67,8 @@ public final class ActivityMinePurseIndexBinding implements ViewBinding {
     this.activityMinePurseIndexCell2 = activityMinePurseIndexCell2;
     this.activityMinePurseIndexCell3 = activityMinePurseIndexCell3;
     this.activityMinePurseIndexCell4 = activityMinePurseIndexCell4;
+    this.activityMinePurseIndexCell5 = activityMinePurseIndexCell5;
+    this.activityMinePurseIndexCell6 = activityMinePurseIndexCell6;
     this.activityMinePurseIndexNav = activityMinePurseIndexNav;
     this.activityMinePurseIndexRechargeTv = activityMinePurseIndexRechargeTv;
     this.activityMinePurseIndexTixianTv = activityMinePurseIndexTixianTv;
@@ -66,7 +76,7 @@ public final class ActivityMinePurseIndexBinding implements ViewBinding {
 
   @Override
   @NonNull
-  public LinearLayout getRoot() {
+  public RelativeLayout getRoot() {
     return rootView;
   }
 
@@ -102,28 +112,42 @@ public final class ActivityMinePurseIndexBinding implements ViewBinding {
       if (activityMinePurseIndexCell1 == null) {
         break missingId;
       }
-      ViewPurseIconTitleBinding binding_activityMinePurseIndexCell1 = ViewPurseIconTitleBinding.bind(activityMinePurseIndexCell1);
+      ItemPurseIndexCellBinding binding_activityMinePurseIndexCell1 = ItemPurseIndexCellBinding.bind(activityMinePurseIndexCell1);
 
       id = R.id.activity_mine_purse_index_cell2;
       View activityMinePurseIndexCell2 = ViewBindings.findChildViewById(rootView, id);
       if (activityMinePurseIndexCell2 == null) {
         break missingId;
       }
-      ViewPurseIconTitleBinding binding_activityMinePurseIndexCell2 = ViewPurseIconTitleBinding.bind(activityMinePurseIndexCell2);
+      ItemPurseIndexCellBinding binding_activityMinePurseIndexCell2 = ItemPurseIndexCellBinding.bind(activityMinePurseIndexCell2);
 
       id = R.id.activity_mine_purse_index_cell3;
       View activityMinePurseIndexCell3 = ViewBindings.findChildViewById(rootView, id);
       if (activityMinePurseIndexCell3 == null) {
         break missingId;
       }
-      ViewPurseIconTitleBinding binding_activityMinePurseIndexCell3 = ViewPurseIconTitleBinding.bind(activityMinePurseIndexCell3);
+      ItemPurseIndexCellBinding binding_activityMinePurseIndexCell3 = ItemPurseIndexCellBinding.bind(activityMinePurseIndexCell3);
 
       id = R.id.activity_mine_purse_index_cell4;
       View activityMinePurseIndexCell4 = ViewBindings.findChildViewById(rootView, id);
       if (activityMinePurseIndexCell4 == null) {
         break missingId;
       }
-      ViewPurseIconTitleBinding binding_activityMinePurseIndexCell4 = ViewPurseIconTitleBinding.bind(activityMinePurseIndexCell4);
+      ItemPurseIndexCellBinding binding_activityMinePurseIndexCell4 = ItemPurseIndexCellBinding.bind(activityMinePurseIndexCell4);
+
+      id = R.id.activity_mine_purse_index_cell5;
+      View activityMinePurseIndexCell5 = ViewBindings.findChildViewById(rootView, id);
+      if (activityMinePurseIndexCell5 == null) {
+        break missingId;
+      }
+      ItemPurseIndexCellBinding binding_activityMinePurseIndexCell5 = ItemPurseIndexCellBinding.bind(activityMinePurseIndexCell5);
+
+      id = R.id.activity_mine_purse_index_cell6;
+      View activityMinePurseIndexCell6 = ViewBindings.findChildViewById(rootView, id);
+      if (activityMinePurseIndexCell6 == null) {
+        break missingId;
+      }
+      ItemPurseIndexCellBinding binding_activityMinePurseIndexCell6 = ItemPurseIndexCellBinding.bind(activityMinePurseIndexCell6);
 
       id = R.id.activity_mine_purse_index_nav;
       NavToolbar activityMinePurseIndexNav = ViewBindings.findChildViewById(rootView, id);
@@ -143,10 +167,11 @@ public final class ActivityMinePurseIndexBinding implements ViewBinding {
         break missingId;
       }
 
-      return new ActivityMinePurseIndexBinding((LinearLayout) rootView,
+      return new ActivityMinePurseIndexBinding((RelativeLayout) rootView,
           activityMinePurseIndexBalanceTv, binding_activityMinePurseIndexCell1,
           binding_activityMinePurseIndexCell2, binding_activityMinePurseIndexCell3,
-          binding_activityMinePurseIndexCell4, activityMinePurseIndexNav,
+          binding_activityMinePurseIndexCell4, binding_activityMinePurseIndexCell5,
+          binding_activityMinePurseIndexCell6, activityMinePurseIndexNav,
           activityMinePurseIndexRechargeTv, activityMinePurseIndexTixianTv);
     }
     String missingId = rootView.getResources().getResourceName(id);

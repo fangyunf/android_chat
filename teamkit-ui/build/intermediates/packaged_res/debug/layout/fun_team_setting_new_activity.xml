@@ -185,6 +185,12 @@
                 android:background="@drawable/bg_f2f2f2_rounded_10"
                 android:orientation="vertical">
 
+<!--                <com.yaoxin.appbase.view.templateview.ViewTitleArrowTemplate-->
+
+<!--                    android:id="@+id/fun_team_setting_new_activity_miandarao"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    app:leftImg="@drawable/team_setting_miandarao"-->
+<!--                    android:layout_height="wrap_content"/>-->
                 <include
                     android:id="@+id/fun_team_setting_new_activity_zhiding"
                     layout="@layout/view_title_arrow_template"

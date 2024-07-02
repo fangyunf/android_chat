@@ -106,13 +106,12 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.NFC" />
 
     <uses-feature
         android:name="android.hardware.nfc"
-        android:required="true" />
-
-    <uses-permission android:name="android.permission.RECORD_AUDIO" /> <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位 -->
+        android:required="true" /> <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位 -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" /> <!-- 用于进行网络定位 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 可以提高室内定位的精确度 -->
@@ -437,53 +436,14 @@
         <!-- 高德地图定位 -->
         <service android:name="com.amap.api.location.APSService" />
 
-        <activity
-            android:name="com.dtf.face.ui.PortFaceLoadingActivity"
-            android:configChanges="screenSize|smallestScreenSize|screenLayout"
-            android:exported="false"
-            android:resizeableActivity="false"
-            android:screenOrientation="portrait"
-            android:theme="@style/DtfToygerLoadingAppTheme" />
-        <activity
-            android:name="com.dtf.face.ui.LandFaceLoadingActivity"
-            android:configChanges="screenSize|smallestScreenSize|screenLayout"
-            android:exported="false"
-            android:resizeableActivity="false"
-            android:screenOrientation="landscape"
-            android:theme="@style/DtfToygerLoadingAppTheme" />
+        <!-- 该字段大于等于480，则表示支持点击消息直接打开应用activity，优化启动慢问题。 -->
+        <meta-data
+            android:name="sdk_version_vivo"
+            android:value="484" />
+        <meta-data
+            android:name="local_iv"
+            android:value="MzMsMzQsMzUsMzYsMzcsMzgsMzksNDAsNDEsMzIsMzgsMzcsMzYsMzUsMzQsMzMsI0AzNCwzMiwzMywzNywzMywzNCwzMiwzMywzMywzMywzNCw0MSwzNSwzNSwzMiwzMiwjQDMzLDM0LDM1LDM2LDM3LDM4LDM5LDQwLDQxLDMyLDM4LDM3LDMzLDM1LDM0LDMzLCNAMzQsMzIsMzMsMzcsMzMsMzQsMzIsMzMsMzMsMzMsMzQsNDEsMzUsMzIsMzIsMzI" />
 
-        <uses-library
-            android:name="org.apache.http.legacy"
-            android:required="false" />
-
-        <activity
-            android:name="com.dtf.face.ui.ToygerLandActivity"
-            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
-            android:exported="false"
-            android:resizeableActivity="false"
-            android:screenOrientation="landscape"
-            android:theme="@style/DtfToygerAppTheme" />
-        <activity
-            android:name="com.dtf.face.ui.ToygerPortActivity"
-            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
-            android:exported="false"
-            android:resizeableActivity="false"
-            android:screenOrientation="portrait"
-            android:theme="@style/DtfToygerAppTheme" />
-        <activity
-            android:name="com.dtf.face.nfc.ui.NfcReadActivity"
-            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
-            android:exported="false"
-            android:resizeableActivity="false"
-            android:screenOrientation="portrait"
-            android:theme="@style/DtfAppTheme" />
-        <activity
-            android:name="com.dtf.face.nfc.ui.NfcInfoInputActivity"
-            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
-            android:exported="false"
-            android:resizeableActivity="false"
-            android:screenOrientation="portrait"
-            android:theme="@style/DtfAppTheme" />
         <activity
             android:name="com.dtf.face.ocr.ui.OcrGuideFaceActivity"
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
@@ -524,15 +484,58 @@
             android:exported="false"
             android:foregroundServiceType="mediaProjection" />
 
+        <activity
+            android:name="com.dtf.face.ui.PortFaceLoadingActivity"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout"
+            android:exported="false"
+            android:resizeableActivity="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/DtfToygerLoadingAppTheme" />
+        <activity
+            android:name="com.dtf.face.ui.LandFaceLoadingActivity"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout"
+            android:exported="false"
+            android:resizeableActivity="false"
+            android:screenOrientation="landscape"
+            android:theme="@style/DtfToygerLoadingAppTheme" />
+
         <meta-data
             android:name="sdkVersion"
-            android:value="3000" /> <!-- 该字段大于等于480，则表示支持点击消息直接打开应用activity，优化启动慢问题。 -->
-        <meta-data
-            android:name="sdk_version_vivo"
-            android:value="484" />
-        <meta-data
-            android:name="local_iv"
-            android:value="MzMsMzQsMzUsMzYsMzcsMzgsMzksNDAsNDEsMzIsMzgsMzcsMzYsMzUsMzQsMzMsI0AzNCwzMiwzMywzNywzMywzNCwzMiwzMywzMywzMywzNCw0MSwzNSwzNSwzMiwzMiwjQDMzLDM0LDM1LDM2LDM3LDM4LDM5LDQwLDQxLDMyLDM4LDM3LDMzLDM1LDM0LDMzLCNAMzQsMzIsMzMsMzcsMzMsMzQsMzIsMzMsMzMsMzMsMzQsNDEsMzUsMzIsMzIsMzI" />
+            android:value="3000" />
+
+        <activity
+            android:name="com.dtf.face.nfc.ui.NfcReadActivity"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
+            android:exported="false"
+            android:resizeableActivity="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/DtfAppTheme" />
+        <activity
+            android:name="com.dtf.face.nfc.ui.NfcInfoInputActivity"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
+            android:exported="false"
+            android:resizeableActivity="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/DtfAppTheme" />
+
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+
+        <activity
+            android:name="com.dtf.face.ui.ToygerLandActivity"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
+            android:exported="false"
+            android:resizeableActivity="false"
+            android:screenOrientation="landscape"
+            android:theme="@style/DtfToygerAppTheme" />
+        <activity
+            android:name="com.dtf.face.ui.ToygerPortActivity"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
+            android:exported="false"
+            android:resizeableActivity="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/DtfToygerAppTheme" />
 
         <provider
             android:name="com.netease.yunxin.kit.corekit.startup.InitializationProvider"

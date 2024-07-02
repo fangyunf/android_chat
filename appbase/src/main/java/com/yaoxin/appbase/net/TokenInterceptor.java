@@ -29,7 +29,7 @@ public class TokenInterceptor implements Interceptor {
 //        if (originalBody.contentType().subtype().equals("form-data")) {
 //            return chain.proceed(original);
 //        }
-        if (originalBody != null && !originalBody.contentType().subtype().equals("form-data")) {
+        if (originalBody != null && originalBody.contentType() != null && !originalBody.contentType().subtype().equals("form-data")) {
             // 将请求体转换为字符串
             okio.Buffer buffer = new okio.Buffer();
             originalBody.writeTo(buffer);

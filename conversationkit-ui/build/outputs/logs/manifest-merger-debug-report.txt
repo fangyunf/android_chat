@@ -1,77 +1,77 @@
 -- Merging decision tree log ---
 manifest
-ADDED from E:\code\proj\android\android_shenyu\conversationkit-ui\src\main\AndroidManifest.xml:8:1-34:12
-INJECTED from E:\code\proj\android\android_shenyu\conversationkit-ui\src\main\AndroidManifest.xml:8:1-34:12
-INJECTED from E:\code\proj\android\android_shenyu\conversationkit-ui\src\main\AndroidManifest.xml:8:1-34:12
+ADDED from /Users/ahao/Desktop/code/proj/shenyu/conversationkit-ui/src/main/AndroidManifest.xml:8:1-34:12
+INJECTED from /Users/ahao/Desktop/code/proj/shenyu/conversationkit-ui/src/main/AndroidManifest.xml:8:1-34:12
+INJECTED from /Users/ahao/Desktop/code/proj/shenyu/conversationkit-ui/src/main/AndroidManifest.xml:8:1-34:12
 	package
-		ADDED from E:\code\proj\android\android_shenyu\conversationkit-ui\src\main\AndroidManifest.xml:10:5-56
-		INJECTED from E:\code\proj\android\android_shenyu\conversationkit-ui\src\main\AndroidManifest.xml
-		INJECTED from E:\code\proj\android\android_shenyu\conversationkit-ui\src\main\AndroidManifest.xml
+		ADDED from /Users/ahao/Desktop/code/proj/shenyu/conversationkit-ui/src/main/AndroidManifest.xml:10:5-56
+		INJECTED from /Users/ahao/Desktop/code/proj/shenyu/conversationkit-ui/src/main/AndroidManifest.xml
+		INJECTED from /Users/ahao/Desktop/code/proj/shenyu/conversationkit-ui/src/main/AndroidManifest.xml
 	xmlns:tools
-		ADDED from E:\code\proj\android\android_shenyu\conversationkit-ui\src\main\AndroidManifest.xml:9:5-51
+		ADDED from /Users/ahao/Desktop/code/proj/shenyu/conversationkit-ui/src/main/AndroidManifest.xml:9:5-51
 	xmlns:android
-		ADDED from E:\code\proj\android\android_shenyu\conversationkit-ui\src\main\AndroidManifest.xml:8:11-69
+		ADDED from /Users/ahao/Desktop/code/proj/shenyu/conversationkit-ui/src/main/AndroidManifest.xml:8:11-69
 uses-permission#android.permission.ACCESS_NETWORK_STATE
-ADDED from E:\code\proj\android\android_shenyu\conversationkit-ui\src\main\AndroidManifest.xml:12:5-79
+ADDED from /Users/ahao/Desktop/code/proj/shenyu/conversationkit-ui/src/main/AndroidManifest.xml:12:5-79
 	android:name
-		ADDED from E:\code\proj\android\android_shenyu\conversationkit-ui\src\main\AndroidManifest.xml:12:22-76
+		ADDED from /Users/ahao/Desktop/code/proj/shenyu/conversationkit-ui/src/main/AndroidManifest.xml:12:22-76
 application
-ADDED from E:\code\proj\android\android_shenyu\conversationkit-ui\src\main\AndroidManifest.xml:13:5-32:19
+ADDED from /Users/ahao/Desktop/code/proj/shenyu/conversationkit-ui/src/main/AndroidManifest.xml:13:5-32:19
 provider#com.netease.yunxin.kit.corekit.startup.InitializationProvider
-ADDED from E:\code\proj\android\android_shenyu\conversationkit-ui\src\main\AndroidManifest.xml:14:9-22:20
+ADDED from /Users/ahao/Desktop/code/proj/shenyu/conversationkit-ui/src/main/AndroidManifest.xml:14:9-22:20
 	tools:node
-		ADDED from E:\code\proj\android\android_shenyu\conversationkit-ui\src\main\AndroidManifest.xml:18:13-31
+		ADDED from /Users/ahao/Desktop/code/proj/shenyu/conversationkit-ui/src/main/AndroidManifest.xml:18:13-31
 	android:authorities
-		ADDED from E:\code\proj\android\android_shenyu\conversationkit-ui\src\main\AndroidManifest.xml:16:13-64
+		ADDED from /Users/ahao/Desktop/code/proj/shenyu/conversationkit-ui/src/main/AndroidManifest.xml:16:13-64
 	android:exported
-		ADDED from E:\code\proj\android\android_shenyu\conversationkit-ui\src\main\AndroidManifest.xml:17:13-37
+		ADDED from /Users/ahao/Desktop/code/proj/shenyu/conversationkit-ui/src/main/AndroidManifest.xml:17:13-37
 	android:name
-		ADDED from E:\code\proj\android\android_shenyu\conversationkit-ui\src\main\AndroidManifest.xml:15:13-89
+		ADDED from /Users/ahao/Desktop/code/proj/shenyu/conversationkit-ui/src/main/AndroidManifest.xml:15:13-89
 meta-data#com.netease.yunxin.kit.conversationkit.ui.ConversationUIService
-ADDED from E:\code\proj\android\android_shenyu\conversationkit-ui\src\main\AndroidManifest.xml:19:13-21:48
+ADDED from /Users/ahao/Desktop/code/proj/shenyu/conversationkit-ui/src/main/AndroidManifest.xml:19:13-21:48
 	android:value
-		ADDED from E:\code\proj\android\android_shenyu\conversationkit-ui\src\main\AndroidManifest.xml:21:17-45
+		ADDED from /Users/ahao/Desktop/code/proj/shenyu/conversationkit-ui/src/main/AndroidManifest.xml:21:17-45
 	android:name
-		ADDED from E:\code\proj\android\android_shenyu\conversationkit-ui\src\main\AndroidManifest.xml:20:17-95
+		ADDED from /Users/ahao/Desktop/code/proj/shenyu/conversationkit-ui/src/main/AndroidManifest.xml:20:17-95
 activity#com.netease.yunxin.kit.conversationkit.ui.normal.page.ConversationSelectActivity
-ADDED from E:\code\proj\android\android_shenyu\conversationkit-ui\src\main\AndroidManifest.xml:23:9-24:76
+ADDED from /Users/ahao/Desktop/code/proj/shenyu/conversationkit-ui/src/main/AndroidManifest.xml:23:9-24:76
 	android:screenOrientation
-		ADDED from E:\code\proj\android\android_shenyu\conversationkit-ui\src\main\AndroidManifest.xml:24:13-49
+		ADDED from /Users/ahao/Desktop/code/proj/shenyu/conversationkit-ui/src/main/AndroidManifest.xml:24:13-49
 	android:exported
-		ADDED from E:\code\proj\android\android_shenyu\conversationkit-ui\src\main\AndroidManifest.xml:24:50-74
+		ADDED from /Users/ahao/Desktop/code/proj/shenyu/conversationkit-ui/src/main/AndroidManifest.xml:24:50-74
 	android:name
-		ADDED from E:\code\proj\android\android_shenyu\conversationkit-ui\src\main\AndroidManifest.xml:23:19-73
+		ADDED from /Users/ahao/Desktop/code/proj/shenyu/conversationkit-ui/src/main/AndroidManifest.xml:23:19-73
 activity#com.netease.yunxin.kit.conversationkit.ui.normal.page.ConversationActivity
-ADDED from E:\code\proj\android\android_shenyu\conversationkit-ui\src\main\AndroidManifest.xml:25:9-27:39
+ADDED from /Users/ahao/Desktop/code/proj/shenyu/conversationkit-ui/src/main/AndroidManifest.xml:25:9-27:39
 	android:screenOrientation
-		ADDED from E:\code\proj\android\android_shenyu\conversationkit-ui\src\main\AndroidManifest.xml:26:13-49
+		ADDED from /Users/ahao/Desktop/code/proj/shenyu/conversationkit-ui/src/main/AndroidManifest.xml:26:13-49
 	android:exported
-		ADDED from E:\code\proj\android\android_shenyu\conversationkit-ui\src\main\AndroidManifest.xml:27:13-37
+		ADDED from /Users/ahao/Desktop/code/proj/shenyu/conversationkit-ui/src/main/AndroidManifest.xml:27:13-37
 	android:name
-		ADDED from E:\code\proj\android\android_shenyu\conversationkit-ui\src\main\AndroidManifest.xml:25:19-67
+		ADDED from /Users/ahao/Desktop/code/proj/shenyu/conversationkit-ui/src/main/AndroidManifest.xml:25:19-67
 activity#com.netease.yunxin.kit.conversationkit.ui.fun.page.FunConversationActivity
-ADDED from E:\code\proj\android\android_shenyu\conversationkit-ui\src\main\AndroidManifest.xml:28:9-30:39
+ADDED from /Users/ahao/Desktop/code/proj/shenyu/conversationkit-ui/src/main/AndroidManifest.xml:28:9-30:39
 	android:screenOrientation
-		ADDED from E:\code\proj\android\android_shenyu\conversationkit-ui\src\main\AndroidManifest.xml:29:13-49
+		ADDED from /Users/ahao/Desktop/code/proj/shenyu/conversationkit-ui/src/main/AndroidManifest.xml:29:13-49
 	android:exported
-		ADDED from E:\code\proj\android\android_shenyu\conversationkit-ui\src\main\AndroidManifest.xml:30:13-37
+		ADDED from /Users/ahao/Desktop/code/proj/shenyu/conversationkit-ui/src/main/AndroidManifest.xml:30:13-37
 	android:name
-		ADDED from E:\code\proj\android\android_shenyu\conversationkit-ui\src\main\AndroidManifest.xml:28:19-67
+		ADDED from /Users/ahao/Desktop/code/proj/shenyu/conversationkit-ui/src/main/AndroidManifest.xml:28:19-67
 activity#com.netease.yunxin.kit.conversationkit.ui.fun.page.FunSelected_User_Activity
-ADDED from E:\code\proj\android\android_shenyu\conversationkit-ui\src\main\AndroidManifest.xml:31:9-71
+ADDED from /Users/ahao/Desktop/code/proj/shenyu/conversationkit-ui/src/main/AndroidManifest.xml:31:9-71
 	android:name
-		ADDED from E:\code\proj\android\android_shenyu\conversationkit-ui\src\main\AndroidManifest.xml:31:19-69
+		ADDED from /Users/ahao/Desktop/code/proj/shenyu/conversationkit-ui/src/main/AndroidManifest.xml:31:19-69
 uses-sdk
-INJECTED from E:\code\proj\android\android_shenyu\conversationkit-ui\src\main\AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from E:\code\proj\android\android_shenyu\conversationkit-ui\src\main\AndroidManifest.xml
-INJECTED from E:\code\proj\android\android_shenyu\conversationkit-ui\src\main\AndroidManifest.xml
-INJECTED from E:\code\proj\android\android_shenyu\conversationkit-ui\src\main\AndroidManifest.xml
-INJECTED from E:\code\proj\android\android_shenyu\conversationkit-ui\src\main\AndroidManifest.xml
+INJECTED from /Users/ahao/Desktop/code/proj/shenyu/conversationkit-ui/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/ahao/Desktop/code/proj/shenyu/conversationkit-ui/src/main/AndroidManifest.xml
+INJECTED from /Users/ahao/Desktop/code/proj/shenyu/conversationkit-ui/src/main/AndroidManifest.xml
+INJECTED from /Users/ahao/Desktop/code/proj/shenyu/conversationkit-ui/src/main/AndroidManifest.xml
+INJECTED from /Users/ahao/Desktop/code/proj/shenyu/conversationkit-ui/src/main/AndroidManifest.xml
 	android:targetSdkVersion
-		INJECTED from E:\code\proj\android\android_shenyu\conversationkit-ui\src\main\AndroidManifest.xml
-		ADDED from E:\code\proj\android\android_shenyu\conversationkit-ui\src\main\AndroidManifest.xml
-		INJECTED from E:\code\proj\android\android_shenyu\conversationkit-ui\src\main\AndroidManifest.xml
+		INJECTED from /Users/ahao/Desktop/code/proj/shenyu/conversationkit-ui/src/main/AndroidManifest.xml
+		ADDED from /Users/ahao/Desktop/code/proj/shenyu/conversationkit-ui/src/main/AndroidManifest.xml
+		INJECTED from /Users/ahao/Desktop/code/proj/shenyu/conversationkit-ui/src/main/AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from E:\code\proj\android\android_shenyu\conversationkit-ui\src\main\AndroidManifest.xml
-		ADDED from E:\code\proj\android\android_shenyu\conversationkit-ui\src\main\AndroidManifest.xml
-		INJECTED from E:\code\proj\android\android_shenyu\conversationkit-ui\src\main\AndroidManifest.xml
+		INJECTED from /Users/ahao/Desktop/code/proj/shenyu/conversationkit-ui/src/main/AndroidManifest.xml
+		ADDED from /Users/ahao/Desktop/code/proj/shenyu/conversationkit-ui/src/main/AndroidManifest.xml
+		INJECTED from /Users/ahao/Desktop/code/proj/shenyu/conversationkit-ui/src/main/AndroidManifest.xml

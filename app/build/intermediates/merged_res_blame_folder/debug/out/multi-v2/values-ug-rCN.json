@@ -4,7 +4,7 @@
             "outputFile": "com.turunsi.yaoxin.app-mergeDebugResources-66:/values-ug-rCN/values-ug-rCN.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Administrator\\.gradle\\caches\\transforms-3\\ff27d96e07b72ac088a6a99edfeaf6eb\\transformed\\jetified-push-3.0.0\\res\\values-ug-rCN\\values-ug-rCN.xml",
+                    "source": "/Users/ahao/.gradle/caches/transforms-3/ff27d96e07b72ac088a6a99edfeaf6eb/transformed/jetified-push-3.0.0/res/values-ug-rCN/values-ug-rCN.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

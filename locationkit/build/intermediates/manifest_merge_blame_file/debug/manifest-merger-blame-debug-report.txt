@@ -6,17 +6,17 @@
 6    package="com.netease.yunxin.kit.locationkit" >
 7
 8    <uses-sdk android:minSdkVersion="21" />
-8-->E:\code\proj\android\android_shenyu\locationkit\src\main\AndroidManifest.xml
+8-->/Users/ahao/Desktop/code/proj/shenyu/locationkit/src/main/AndroidManifest.xml
 9
 10    <queries>
-10-->E:\code\proj\android\android_shenyu\locationkit\src\main\AndroidManifest.xml:9:5-11:15
+10-->/Users/ahao/Desktop/code/proj/shenyu/locationkit/src/main/AndroidManifest.xml:9:5-11:15
 11        <package android:name="com.autonavi.minimap" />
-11-->E:\code\proj\android\android_shenyu\locationkit\src\main\AndroidManifest.xml:10:9-55
-11-->E:\code\proj\android\android_shenyu\locationkit\src\main\AndroidManifest.xml:10:18-53
+11-->/Users/ahao/Desktop/code/proj/shenyu/locationkit/src/main/AndroidManifest.xml:10:9-55
+11-->/Users/ahao/Desktop/code/proj/shenyu/locationkit/src/main/AndroidManifest.xml:10:18-53
 12    </queries>
 13
 14    <application android:allowNativeHeapPointerTagging="false" />
-14-->E:\code\proj\android\android_shenyu\locationkit\src\main\AndroidManifest.xml:12:5-65
-14-->E:\code\proj\android\android_shenyu\locationkit\src\main\AndroidManifest.xml:12:18-63
+14-->/Users/ahao/Desktop/code/proj/shenyu/locationkit/src/main/AndroidManifest.xml:12:5-65
+14-->/Users/ahao/Desktop/code/proj/shenyu/locationkit/src/main/AndroidManifest.xml:12:18-63
 15
 16</manifest>

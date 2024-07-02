@@ -14,6 +14,7 @@ import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
 import com.netease.yunxin.kit.common.ui.widgets.ContactAvatarView;
 import com.turunsi.yaoxin.R;
+import com.yaoxin.appbase.view.IconTitleArrowTemplate;
 import java.lang.NullPointerException;
 import java.lang.Override;
 import java.lang.String;
@@ -26,46 +27,28 @@ public final class FragmentMineBinding implements ViewBinding {
   public final ContactAvatarView cavIcon;
 
   @NonNull
+  public final IconTitleArrowTemplate fragmentMineAqysView;
+
+  @NonNull
+  public final ImageView fragmentMineEditIv;
+
+  @NonNull
   public final ImageView fragmentMineQrcodeIv;
 
   @NonNull
-  public final ViewMineFragmentItemCellBinding mineFragmentMyManagerItem1;
+  public final IconTitleArrowTemplate fragmentMineSmrzView;
 
   @NonNull
-  public final ViewMineFragmentItemCellBinding mineFragmentMyManagerItem2;
+  public final IconTitleArrowTemplate fragmentMineSzView;
 
   @NonNull
-  public final ViewMineFragmentItemCellBinding mineFragmentMyManagerItem3;
+  public final IconTitleArrowTemplate fragmentMineXsqxView;
 
   @NonNull
-  public final ViewMineFragmentItemCellBinding mineFragmentMyManagerItem4;
+  public final IconTitleArrowTemplate fragmentMineZhaqView;
 
   @NonNull
-  public final ViewMineFragmentItemCellBinding mineFragmentMyManagerItem5;
-
-  @NonNull
-  public final ViewMineFragmentItemCellBinding mineFragmentMyManagerItem6;
-
-  @NonNull
-  public final ViewMineFragmentItemCellBinding mineFragmentMyManagerItem7;
-
-  @NonNull
-  public final ViewMineFragmentItemCellBinding mineFragmentMyManagerItem8;
-
-  @NonNull
-  public final LinearLayout mineFragmentMyManagerLl;
-
-  @NonNull
-  public final ImageView mineFragmentPacketMoneyBg;
-
-  @NonNull
-  public final ConstraintLayout mineFragmentPacketMoneyCl;
-
-  @NonNull
-  public final TextView mineFragmentPacketMoneyDetailTv;
-
-  @NonNull
-  public final TextView mineFragmentPacketMoneyTitle;
+  public final LinearLayout mineFragmentPacketMoneyCl;
 
   @NonNull
   public final TextView tvAccount;
@@ -74,36 +57,24 @@ public final class FragmentMineBinding implements ViewBinding {
   public final TextView tvName;
 
   private FragmentMineBinding(@NonNull ConstraintLayout rootView,
-      @NonNull ContactAvatarView cavIcon, @NonNull ImageView fragmentMineQrcodeIv,
-      @NonNull ViewMineFragmentItemCellBinding mineFragmentMyManagerItem1,
-      @NonNull ViewMineFragmentItemCellBinding mineFragmentMyManagerItem2,
-      @NonNull ViewMineFragmentItemCellBinding mineFragmentMyManagerItem3,
-      @NonNull ViewMineFragmentItemCellBinding mineFragmentMyManagerItem4,
-      @NonNull ViewMineFragmentItemCellBinding mineFragmentMyManagerItem5,
-      @NonNull ViewMineFragmentItemCellBinding mineFragmentMyManagerItem6,
-      @NonNull ViewMineFragmentItemCellBinding mineFragmentMyManagerItem7,
-      @NonNull ViewMineFragmentItemCellBinding mineFragmentMyManagerItem8,
-      @NonNull LinearLayout mineFragmentMyManagerLl, @NonNull ImageView mineFragmentPacketMoneyBg,
-      @NonNull ConstraintLayout mineFragmentPacketMoneyCl,
-      @NonNull TextView mineFragmentPacketMoneyDetailTv,
-      @NonNull TextView mineFragmentPacketMoneyTitle, @NonNull TextView tvAccount,
+      @NonNull ContactAvatarView cavIcon, @NonNull IconTitleArrowTemplate fragmentMineAqysView,
+      @NonNull ImageView fragmentMineEditIv, @NonNull ImageView fragmentMineQrcodeIv,
+      @NonNull IconTitleArrowTemplate fragmentMineSmrzView,
+      @NonNull IconTitleArrowTemplate fragmentMineSzView,
+      @NonNull IconTitleArrowTemplate fragmentMineXsqxView,
+      @NonNull IconTitleArrowTemplate fragmentMineZhaqView,
+      @NonNull LinearLayout mineFragmentPacketMoneyCl, @NonNull TextView tvAccount,
       @NonNull TextView tvName) {
     this.rootView = rootView;
     this.cavIcon = cavIcon;
+    this.fragmentMineAqysView = fragmentMineAqysView;
+    this.fragmentMineEditIv = fragmentMineEditIv;
     this.fragmentMineQrcodeIv = fragmentMineQrcodeIv;
-    this.mineFragmentMyManagerItem1 = mineFragmentMyManagerItem1;
-    this.mineFragmentMyManagerItem2 = mineFragmentMyManagerItem2;
-    this.mineFragmentMyManagerItem3 = mineFragmentMyManagerItem3;
-    this.mineFragmentMyManagerItem4 = mineFragmentMyManagerItem4;
-    this.mineFragmentMyManagerItem5 = mineFragmentMyManagerItem5;
-    this.mineFragmentMyManagerItem6 = mineFragmentMyManagerItem6;
-    this.mineFragmentMyManagerItem7 = mineFragmentMyManagerItem7;
-    this.mineFragmentMyManagerItem8 = mineFragmentMyManagerItem8;
-    this.mineFragmentMyManagerLl = mineFragmentMyManagerLl;
-    this.mineFragmentPacketMoneyBg = mineFragmentPacketMoneyBg;
+    this.fragmentMineSmrzView = fragmentMineSmrzView;
+    this.fragmentMineSzView = fragmentMineSzView;
+    this.fragmentMineXsqxView = fragmentMineXsqxView;
+    this.fragmentMineZhaqView = fragmentMineZhaqView;
     this.mineFragmentPacketMoneyCl = mineFragmentPacketMoneyCl;
-    this.mineFragmentPacketMoneyDetailTv = mineFragmentPacketMoneyDetailTv;
-    this.mineFragmentPacketMoneyTitle = mineFragmentPacketMoneyTitle;
     this.tvAccount = tvAccount;
     this.tvName = tvName;
   }
@@ -141,95 +112,51 @@ public final class FragmentMineBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.fragment_mine_aqys_view;
+      IconTitleArrowTemplate fragmentMineAqysView = ViewBindings.findChildViewById(rootView, id);
+      if (fragmentMineAqysView == null) {
+        break missingId;
+      }
+
+      id = R.id.fragment_mine_edit_iv;
+      ImageView fragmentMineEditIv = ViewBindings.findChildViewById(rootView, id);
+      if (fragmentMineEditIv == null) {
+        break missingId;
+      }
+
       id = R.id.fragment_mine_qrcode_iv;
       ImageView fragmentMineQrcodeIv = ViewBindings.findChildViewById(rootView, id);
       if (fragmentMineQrcodeIv == null) {
         break missingId;
       }
 
-      id = R.id.mine_fragment_my_manager_item1;
-      View mineFragmentMyManagerItem1 = ViewBindings.findChildViewById(rootView, id);
-      if (mineFragmentMyManagerItem1 == null) {
-        break missingId;
-      }
-      ViewMineFragmentItemCellBinding binding_mineFragmentMyManagerItem1 = ViewMineFragmentItemCellBinding.bind(mineFragmentMyManagerItem1);
-
-      id = R.id.mine_fragment_my_manager_item2;
-      View mineFragmentMyManagerItem2 = ViewBindings.findChildViewById(rootView, id);
-      if (mineFragmentMyManagerItem2 == null) {
-        break missingId;
-      }
-      ViewMineFragmentItemCellBinding binding_mineFragmentMyManagerItem2 = ViewMineFragmentItemCellBinding.bind(mineFragmentMyManagerItem2);
-
-      id = R.id.mine_fragment_my_manager_item3;
-      View mineFragmentMyManagerItem3 = ViewBindings.findChildViewById(rootView, id);
-      if (mineFragmentMyManagerItem3 == null) {
-        break missingId;
-      }
-      ViewMineFragmentItemCellBinding binding_mineFragmentMyManagerItem3 = ViewMineFragmentItemCellBinding.bind(mineFragmentMyManagerItem3);
-
-      id = R.id.mine_fragment_my_manager_item4;
-      View mineFragmentMyManagerItem4 = ViewBindings.findChildViewById(rootView, id);
-      if (mineFragmentMyManagerItem4 == null) {
-        break missingId;
-      }
-      ViewMineFragmentItemCellBinding binding_mineFragmentMyManagerItem4 = ViewMineFragmentItemCellBinding.bind(mineFragmentMyManagerItem4);
-
-      id = R.id.mine_fragment_my_manager_item5;
-      View mineFragmentMyManagerItem5 = ViewBindings.findChildViewById(rootView, id);
-      if (mineFragmentMyManagerItem5 == null) {
-        break missingId;
-      }
-      ViewMineFragmentItemCellBinding binding_mineFragmentMyManagerItem5 = ViewMineFragmentItemCellBinding.bind(mineFragmentMyManagerItem5);
-
-      id = R.id.mine_fragment_my_manager_item6;
-      View mineFragmentMyManagerItem6 = ViewBindings.findChildViewById(rootView, id);
-      if (mineFragmentMyManagerItem6 == null) {
-        break missingId;
-      }
-      ViewMineFragmentItemCellBinding binding_mineFragmentMyManagerItem6 = ViewMineFragmentItemCellBinding.bind(mineFragmentMyManagerItem6);
-
-      id = R.id.mine_fragment_my_manager_item7;
-      View mineFragmentMyManagerItem7 = ViewBindings.findChildViewById(rootView, id);
-      if (mineFragmentMyManagerItem7 == null) {
-        break missingId;
-      }
-      ViewMineFragmentItemCellBinding binding_mineFragmentMyManagerItem7 = ViewMineFragmentItemCellBinding.bind(mineFragmentMyManagerItem7);
-
-      id = R.id.mine_fragment_my_manager_item8;
-      View mineFragmentMyManagerItem8 = ViewBindings.findChildViewById(rootView, id);
-      if (mineFragmentMyManagerItem8 == null) {
-        break missingId;
-      }
-      ViewMineFragmentItemCellBinding binding_mineFragmentMyManagerItem8 = ViewMineFragmentItemCellBinding.bind(mineFragmentMyManagerItem8);
-
-      id = R.id.mine_fragment_my_manager_ll;
-      LinearLayout mineFragmentMyManagerLl = ViewBindings.findChildViewById(rootView, id);
-      if (mineFragmentMyManagerLl == null) {
+      id = R.id.fragment_mine_smrz_view;
+      IconTitleArrowTemplate fragmentMineSmrzView = ViewBindings.findChildViewById(rootView, id);
+      if (fragmentMineSmrzView == null) {
         break missingId;
       }
 
-      id = R.id.mine_fragment_packet_money_bg;
-      ImageView mineFragmentPacketMoneyBg = ViewBindings.findChildViewById(rootView, id);
-      if (mineFragmentPacketMoneyBg == null) {
+      id = R.id.fragment_mine_sz_view;
+      IconTitleArrowTemplate fragmentMineSzView = ViewBindings.findChildViewById(rootView, id);
+      if (fragmentMineSzView == null) {
         break missingId;
       }
 
-      id = R.id.mine_fragment_packet_money_cl;
-      ConstraintLayout mineFragmentPacketMoneyCl = ViewBindings.findChildViewById(rootView, id);
+      id = R.id.fragment_mine_xsqx_view;
+      IconTitleArrowTemplate fragmentMineXsqxView = ViewBindings.findChildViewById(rootView, id);
+      if (fragmentMineXsqxView == null) {
+        break missingId;
+      }
+
+      id = R.id.fragment_mine_zhaq_view;
+      IconTitleArrowTemplate fragmentMineZhaqView = ViewBindings.findChildViewById(rootView, id);
+      if (fragmentMineZhaqView == null) {
+        break missingId;
+      }
+
+      id = R.id.mineFragmentPacketMoneyCl;
+      LinearLayout mineFragmentPacketMoneyCl = ViewBindings.findChildViewById(rootView, id);
       if (mineFragmentPacketMoneyCl == null) {
-        break missingId;
-      }
-
-      id = R.id.mine_fragment_packet_money_detail_tv;
-      TextView mineFragmentPacketMoneyDetailTv = ViewBindings.findChildViewById(rootView, id);
-      if (mineFragmentPacketMoneyDetailTv == null) {
-        break missingId;
-      }
-
-      id = R.id.mine_fragment_packet_money_title;
-      TextView mineFragmentPacketMoneyTitle = ViewBindings.findChildViewById(rootView, id);
-      if (mineFragmentPacketMoneyTitle == null) {
         break missingId;
       }
 
@@ -245,13 +172,9 @@ public final class FragmentMineBinding implements ViewBinding {
         break missingId;
       }
 
-      return new FragmentMineBinding((ConstraintLayout) rootView, cavIcon, fragmentMineQrcodeIv,
-          binding_mineFragmentMyManagerItem1, binding_mineFragmentMyManagerItem2,
-          binding_mineFragmentMyManagerItem3, binding_mineFragmentMyManagerItem4,
-          binding_mineFragmentMyManagerItem5, binding_mineFragmentMyManagerItem6,
-          binding_mineFragmentMyManagerItem7, binding_mineFragmentMyManagerItem8,
-          mineFragmentMyManagerLl, mineFragmentPacketMoneyBg, mineFragmentPacketMoneyCl,
-          mineFragmentPacketMoneyDetailTv, mineFragmentPacketMoneyTitle, tvAccount, tvName);
+      return new FragmentMineBinding((ConstraintLayout) rootView, cavIcon, fragmentMineAqysView,
+          fragmentMineEditIv, fragmentMineQrcodeIv, fragmentMineSmrzView, fragmentMineSzView,
+          fragmentMineXsqxView, fragmentMineZhaqView, mineFragmentPacketMoneyCl, tvAccount, tvName);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

@@ -32,11 +32,11 @@ public class ViewTitleArrowTemplate extends LinearLayout {
             TextView textView = findViewById(R.id.view_title_arrow_tv);
             textView.setText(customText);
 
-            int customImageResId = a.getResourceId(R.styleable.ViewTitleArrowTemplate_leftImg, -1);
+//            int customImageResId = a.getResourceId(R.styleable.ViewTitleArrowTemplate_leftImg, -1);
             ImageView imageView = findViewById(R.id.view_title_arrow_template_left_iv);
-            if (customImageResId != -1) {
-                imageView.setImageResource(customImageResId);
-            }
+//            if (customImageResId != -1) {
+//                imageView.setImageResource(customImageResId);
+//            }
         } finally {
             a.recycle();
         }

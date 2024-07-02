@@ -120,7 +120,7 @@ public class MainActivity extends BaseActivity {
     super.onCreate(savedInstanceState);
     ALog.d(Constant.PROJECT_TAG, "MainActivity:onCreate");
     if (TextUtils.isEmpty(IMKitClient.account())) {
-      Intent intent = new Intent(this, WelcomeActivity.class);
+      Intent intent = new Intent(this, LoginActivity.class);
       startActivity(intent);
       finish();
       return;
