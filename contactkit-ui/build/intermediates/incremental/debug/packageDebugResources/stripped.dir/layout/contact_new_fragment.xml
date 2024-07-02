@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2022 NetEase, Inc. All rights reserved.
+  ~ Use of this source code is governed by a MIT license that can be
+  ~ found in the LICENSE file.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <com.netease.yunxin.kit.common.ui.widgets.TitleBarView
+        android:id="@+id/contact_title_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_52_dp"
+        app:head_title="@string/contact_title"
+        app:head_img_visible="gone"
+        android:background="@color/color_white"
+        app:head_title_color="@color/title_color"/>
+
+
+<!--    &lt;!&ndash;搜索框&ndash;&gt;-->
+<!--    <com.nanchen.wavesidebar.SearchEditText-->
+<!--        android:id="@+id/contact_new_fragment_et"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="40dp"-->
+<!--        android:layout_marginLeft="15dp"-->
+<!--        android:layout_marginRight="15dp"-->
+<!--        android:layout_marginTop="5dp"-->
+<!--        android:background="@drawable/search_edit_bg"-->
+<!--        android:drawableLeft="@drawable/icon_search"-->
+<!--        android:drawablePadding="5dp"-->
+<!--        android:drawableStart="@drawable/icon_search"-->
+<!--        android:gravity="center_vertical"-->
+<!--        android:hint="搜索"-->
+<!--        android:imeOptions="actionSearch"-->
+<!--        android:maxLines="1"-->
+<!--        android:padding="5dp"-->
+<!--        android:textSize="16sp"-->
+<!--        app:drawableDel="@drawable/edit_delete"/>-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_white"
+        >
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            >
+
+            <RelativeLayout
+                android:id="@+id/contact_new_fragment_new_friend_rl"
+                android:layout_centerInParent="true"
+                android:layout_width="95dp"
+                android:layout_height="65dp"
+                >
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/contact_fragment_top_view_item_new_friend"
+                    />
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/contact_new_fragment_new_friend_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dimen_18_dp"
+                    android:minWidth="@dimen/dimen_18_dp"
+                    android:paddingHorizontal="5dp"
+                    android:background="@drawable/fun_bg_red_rounded_9"
+                    android:gravity="center"
+                    android:text="1"
+                    android:textColor="#ffffffff"
+                    android:textSize="12sp"
+                    android:layout_alignParentEnd="true"
+                    />
+            </RelativeLayout>
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            >
+
+            <RelativeLayout
+                android:id="@+id/contact_new_fragment_group_notice_rl"
+                android:layout_centerInParent="true"
+                android:layout_width="95dp"
+                android:layout_height="65dp"
+                >
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/contact_fragment_top_view_item_group_notice"
+                    />
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/contact_new_fragment_group_notice_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dimen_18_dp"
+                    android:minWidth="@dimen/dimen_18_dp"
+                    android:paddingHorizontal="5dp"
+                    android:background="@drawable/fun_bg_red_rounded_9"
+                    android:gravity="center"
+                    android:text="1"
+                    android:textColor="#ffffffff"
+                    android:textSize="12sp"
+                    android:layout_alignParentEnd="true"
+                    />
+            </RelativeLayout>
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            >
+
+            <RelativeLayout
+                android:id="@+id/contact_new_fragment_black_list"
+                android:layout_centerInParent="true"
+                android:layout_width="95dp"
+                android:layout_height="65dp"
+                >
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/contact_fragment_top_view_item_black_list"
+                    />
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/main_search">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/contact_new_fragment_rv"
+            android:background="@color/color_white"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
+        <!--字母导航栏-->
+        <com.nanchen.wavesidebar.WaveSideBarView
+            android:id="@+id/contact_new_fragment_main_side_bar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="8dp"
+            app:sidebar_lazy_respond="false"
+            app:sidebar_text_color="@color/black"/>
+
+    </FrameLayout>
+
+</LinearLayout>

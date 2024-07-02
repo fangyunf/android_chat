@@ -1,6 +1,7 @@
 package com.netease.yunxin.kit.teamkit.ui.fun.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -39,7 +40,7 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
     int rankState;
     int addFriendsState;
     boolean isFriend = false;
-
+    GroupInfoBean friendBean;
     ArrayList<GroupInfoBean> members = new ArrayList<>();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -102,7 +103,7 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
             binding.funTeamUserInfoDetailYaoqingren.viewTitleArrowLl.setVisibility(View.VISIBLE);
             binding.funTeamUserInfoDetailJinzhi.viewTitleArrowLl.setVisibility(View.VISIBLE);
             binding.funTeamUserInfoDetailTichu.viewTitleArrowLl.setVisibility(View.VISIBLE);
-
+            binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowLl.setOnClickListener(this);
             binding.funTeamUserInfoDetailJinzhi.viewTitleArrowRightTvSwitch.setVisibility(View.VISIBLE);
             binding.funTeamUserInfoDetailJinzhi.viewTitleArrowArrowIv.setVisibility(View.GONE);
             binding.funTeamUserInfoDetailJinzhi.viewTitleArrowRightTvSwitch.setOnClickListener(this);
@@ -186,6 +187,7 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
                                 userList) {
                             if (tempBean.userId.equals(groupInfoBean.userId)) {
                                 isFriend = true;
+                                friendBean = tempBean;
 //                                binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowLl.setVisibility(View.VISIBLE);
                                 binding.funTeamUserInfoDetailBottomTv.setText("发消息");
                                 binding.funTeamUserInfoDetailBottomTv.setVisibility(View.VISIBLE);
@@ -194,6 +196,13 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
                             }
                         }
                         if (rankState == 1 || rankState == 2) {
+                            if (isFriend) {
+                                binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowRightTv.setVisibility(View.VISIBLE);
+                                if (friendBean != null) {
+                                    binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowRightTv.setText(friendBean.remark);
+                                }
+                                binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowLl.setVisibility(View.VISIBLE);
+                            }
                             binding.funTeamUserInfoDetailBottomTv.setVisibility(View.VISIBLE);
                         } else {
                             HttpUtil.apiW().group_groupManage(groupId)
@@ -277,7 +286,14 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
                     });
         } else if (v == binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowLl) {
 
+            Intent intent = new Intent(this, ModifyInfoActivity.class);
+            intent.putExtra("title","修改备注");
+            intent.putExtra("type","4");
+            if (friendBean != null && friendBean.remark != null) {
 
+                intent.putExtra("hint",friendBean.remark);
+            }
+            activityResultLauncher.launch(intent);
         } else if (v == binding.funTeamUserInfoDetailTichu.viewTitleArrowLl) {
             RegisterBean registerBean = new RegisterBean();
             registerBean.groupId = groupId;
@@ -299,5 +315,31 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
                         }
                     });
         }
+    }
+
+    @Override
+    protected void callBackResult(Intent data) {
+        super.callBackResult(data);
+        String result = data.getStringExtra("result");
+        RegisterBean bean = new RegisterBean();
+        bean.memberCode = groupInfoBean.memberCode;
+        bean.alias = result;
+        HttpUtil.apiW().friends_updateRemark(bean)
+                .enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                        ToastUtils.toastMsg(body.msg);
+                        binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowRightTv.setVisibility(View.VISIBLE);
+                        if (friendBean != null) {
+                            friendBean.remark = result;
+                            binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowRightTv.setText(result);
+                        }
+                    }
+
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
+
+                    }
+                });
     }
 }

@@ -19,6 +19,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -63,11 +65,13 @@ import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.Constant;
 import com.yaoxin.appbase.net.HttpUtil;
+import com.yaoxin.appbase.utils.BarUtils;
 import com.yaoxin.appbase.utils.BaseEvent;
 import com.yaoxin.appbase.utils.CommonCallBack;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.DialogAlertUtil;
 import com.yaoxin.appbase.utils.GlideUtil;
+import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
 import com.yaoxin.appbase.utils.UploadUtil;
 import com.zhihu.matisse.GifSizeFilter;
@@ -107,10 +111,19 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         Intent intent = getIntent();
         groupId = intent.getStringExtra(KEY_TEAM_ID);
+
         super.onCreate(savedInstanceState);
         binding =
                 FunTeamSettingNewActivityBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        binding.funTeamSettingNewActivityNav.enableUnderDivider(false);
+        StatusBarUtils.setStatusBarLightMode(this, true, true);
+        LinearLayout.LayoutParams params =
+                (LinearLayout.LayoutParams) binding.funTeamSettingNewActivityNav.getLayoutParams();
+        params.height = params.height + BarUtils.getStatusBarHeight();
+        binding.funTeamSettingNewActivityNav.setLayoutParams(params);
+        binding.funTeamSettingNewActivityNav.setPadding(0, BarUtils.getStatusBarHeight(), 0, 0);
         _initView();
 
         EventBus.getDefault().register(this);

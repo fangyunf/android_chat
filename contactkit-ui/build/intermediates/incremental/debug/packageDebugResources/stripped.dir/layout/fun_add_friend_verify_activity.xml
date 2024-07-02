@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.yaoxin.appbase.navbar.NavToolbar
+        android:id="@+id/fun_add_friend_verify_activity_nav"
+        style="@style/WhiteFontToolbar"
+        android:background="@color/color_white"
+        app:back_icon="@mipmap/temp_ic_back"
+        app:enable_under_divider="true"
+        app:support_translucent_status_bar="false"
+        app:title="添加好友"
+        app:title_text_color="@color/color_333333"
+        app:under_divider_color="@color/color_d5d5d5" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dimen_16_dp"
+        android:gravity="center_vertical"
+        >
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/fun_add_friend_verify_activity_head_iv"
+            android:layout_width="@dimen/dimen_60_dp"
+            android:layout_height="@dimen/dimen_60_dp"
+
+            app:riv_corner_radius="30dp"
+            android:scaleType="centerCrop"
+            />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="@dimen/dimen_18_dp"
+            >
+            <TextView
+                android:id="@+id/fun_add_friend_verify_activity_name_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="会飞的洋芋"
+                android:textColor="#ff000000"
+                android:textSize="22sp"
+                />
+            <TextView
+                android:id="@+id/fun_add_friend_verify_activity_account_tv"
+                android:layout_marginTop="@dimen/dimen_8_dp"
+                android:layout_width="wrap_content"
+                android:layout_height="22dp"
+                android:text="ID:87988656"
+                android:textColor="#ff999999"
+                android:textSize="16sp"
+                />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/dimen_16_dp"
+        >
+        <TextView
+            android:id="@+id/fun_add_friend_verify_activity_et_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:text="验证信息"
+            android:textColor="#ff666666"
+            android:textSize="14sp"
+            />
+        <EditText
+            android:id="@+id/fun_add_friend_verify_activity_et"
+            android:layout_marginTop="@dimen/dimen_8_dp"
+            android:layout_width="match_parent"
+            android:layout_height="86dp"
+            android:textSize="@dimen/text_size_16"
+            android:hint="请输入"
+            android:textColorHint="@color/color_999999"
+            android:textColor="@color/black"
+            android:background="@color/color_F6F6F6"
+            android:cursorVisible="true"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:padding="@dimen/dimen_12_dp"
+            android:gravity="top|start"
+            />
+
+    </LinearLayout>
+    <RelativeLayout
+        android:id="@+id/fun_add_friend_verify_activity_send_rl"
+        android:layout_width="301dp"
+        android:layout_height="@dimen/dimen_44_dp"
+        android:layout_marginBottom="@dimen/dimen_40_dp"
+        android:background="@drawable/fun_bg_purple_rounded_22"
+        android:layout_gravity="center_horizontal"
+
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="22dp"
+            android:layout_centerInParent="true"
+            android:text="发送"
+            android:textColor="#ffffffff"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/fun_add_friend_verify_activity_two_opt_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/dimen_40_dp"
+        >
+
+        <RelativeLayout
+            android:id="@+id/fun_add_friend_verify_activity_refuse_rl"
+            android:layout_width="160dp"
+            android:layout_height="@dimen/dimen_44_dp"
+            android:background="@drawable/fun_bg_eadeff_rounded_22"
+            android:layout_gravity="center_horizontal"
+
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="22dp"
+                android:layout_centerInParent="true"
+                android:text="拒绝"
+                android:textColor="#000000"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/fun_add_friend_verify_activity_aggre_rl"
+            android:layout_width="160dp"
+            android:layout_height="@dimen/dimen_44_dp"
+            android:background="@drawable/fun_bg_purple_rounded_22"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="@dimen/dimen_23_dp"
+
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="22dp"
+                android:layout_centerInParent="true"
+                android:text="同意"
+                android:textColor="#ffffffff"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

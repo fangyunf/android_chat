@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="choice_dialog_title">#333333</color>
+    <string name="location_amap_nav_title">高德地图</string>
+    <string name="location_tencent_nav_title">腾讯地图</string>
+</resources>

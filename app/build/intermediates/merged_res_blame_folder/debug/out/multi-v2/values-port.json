@@ -1,0 +1,36 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.turunsi.yaoxin.app-mergeDebugResources-66:/values-port/values-port.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\Administrator\\.gradle\\caches\\transforms-3\\52fee1b0ba22d0761f1e5a1826370b55\\transformed\\appcompat-1.4.2\\res\\values-port\\values-port.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "55",
+                        "endOffsets": "106"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Administrator\\.gradle\\caches\\transforms-3\\319fe5d26aa50a2af3d9720a9f714e12\\transformed\\jetified-aliyun-face-2.3.19.240529193306\\res\\values-port\\values-port.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6",
+                        "startColumns": "4,4,4,4,4",
+                        "startOffsets": "55,125,194,260,324",
+                        "endColumns": "69,68,65,63,74",
+                        "endOffsets": "120,189,255,319,394"
+                    },
+                    "to": {
+                        "startLines": "3,4,5,6,7",
+                        "startColumns": "4,4,4,4,4",
+                        "startOffsets": "111,181,250,316,380",
+                        "endColumns": "69,68,65,63,74",
+                        "endOffsets": "176,245,311,375,450"
+                    }
+                }
+            ]
+        }
+    ]
+}

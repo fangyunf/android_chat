@@ -1,0 +1,35 @@
+-- Merging decision tree log ---
+manifest
+ADDED from E:\code\proj\android\android_shenyu\locationkit\src\main\AndroidManifest.xml:6:1-13:12
+INJECTED from E:\code\proj\android\android_shenyu\locationkit\src\main\AndroidManifest.xml:6:1-13:12
+INJECTED from E:\code\proj\android\android_shenyu\locationkit\src\main\AndroidManifest.xml:6:1-13:12
+	package
+		ADDED from E:\code\proj\android\android_shenyu\locationkit\src\main\AndroidManifest.xml:7:5-49
+		INJECTED from E:\code\proj\android\android_shenyu\locationkit\src\main\AndroidManifest.xml
+		INJECTED from E:\code\proj\android\android_shenyu\locationkit\src\main\AndroidManifest.xml
+	xmlns:android
+		ADDED from E:\code\proj\android\android_shenyu\locationkit\src\main\AndroidManifest.xml:6:11-69
+queries
+ADDED from E:\code\proj\android\android_shenyu\locationkit\src\main\AndroidManifest.xml:9:5-11:15
+package#com.autonavi.minimap
+ADDED from E:\code\proj\android\android_shenyu\locationkit\src\main\AndroidManifest.xml:10:9-55
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\locationkit\src\main\AndroidManifest.xml:10:18-53
+application
+ADDED from E:\code\proj\android\android_shenyu\locationkit\src\main\AndroidManifest.xml:12:5-65
+	android:allowNativeHeapPointerTagging
+		ADDED from E:\code\proj\android\android_shenyu\locationkit\src\main\AndroidManifest.xml:12:18-63
+uses-sdk
+INJECTED from E:\code\proj\android\android_shenyu\locationkit\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from E:\code\proj\android\android_shenyu\locationkit\src\main\AndroidManifest.xml
+INJECTED from E:\code\proj\android\android_shenyu\locationkit\src\main\AndroidManifest.xml
+INJECTED from E:\code\proj\android\android_shenyu\locationkit\src\main\AndroidManifest.xml
+INJECTED from E:\code\proj\android\android_shenyu\locationkit\src\main\AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from E:\code\proj\android\android_shenyu\locationkit\src\main\AndroidManifest.xml
+		ADDED from E:\code\proj\android\android_shenyu\locationkit\src\main\AndroidManifest.xml
+		INJECTED from E:\code\proj\android\android_shenyu\locationkit\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from E:\code\proj\android\android_shenyu\locationkit\src\main\AndroidManifest.xml
+		ADDED from E:\code\proj\android\android_shenyu\locationkit\src\main\AndroidManifest.xml
+		INJECTED from E:\code\proj\android\android_shenyu\locationkit\src\main\AndroidManifest.xml

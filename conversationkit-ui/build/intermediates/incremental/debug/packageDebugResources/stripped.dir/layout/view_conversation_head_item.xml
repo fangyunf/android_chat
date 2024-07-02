@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:id="@+id/view_conversation_head_item_ll"
+    >
+    <ImageView
+        android:id="@+id/view_conversation_head_item_iv"
+        android:layout_width="@dimen/dimen_45_dp"
+        android:layout_height="@dimen/dimen_45_dp"
+        android:src="@drawable/conversation_index_all_chat"
+        android:scaleType="fitXY"
+        />
+    <TextView
+        android:id="@+id/view_conversation_head_item_tv"
+        android:layout_marginTop="@dimen/dimen_4_dp"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:text="全部"
+        android:textColor="#ff8b5fd8"
+        android:textSize="14sp"
+        />
+</LinearLayout>

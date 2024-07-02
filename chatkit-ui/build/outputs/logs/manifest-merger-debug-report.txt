@@ -1,0 +1,283 @@
+-- Merging decision tree log ---
+manifest
+ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:7:1-167:12
+INJECTED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:7:1-167:12
+INJECTED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:7:1-167:12
+	package
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:9:5-48
+		INJECTED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml
+		INJECTED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml
+	xmlns:tools
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:8:5-51
+	xmlns:android
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:7:11-69
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:11:5-79
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:11:22-76
+uses-permission#android.permission.ACCESS_WIFI_STATE
+ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:15:5-75
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:15:22-73
+uses-permission#android.permission.CHANGE_WIFI_STATE
+ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:17:5-75
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:17:22-73
+uses-permission#android.permission.INTERNET
+ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:18:19-80
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:18:36-78
+uses-permission#android.permission.ACCESS_COARSE_LOCATION
+ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:20:5-80
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:20:22-78
+uses-permission#android.permission.BLUETOOTH_ADMIN
+ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:22:5-73
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:22:22-71
+uses-permission#android.permission.BLUETOOTH
+ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:24:5-67
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:24:22-65
+uses-permission#android.permission.ACCESS_FINE_LOCATION
+ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:26:5-78
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:26:22-76
+uses-permission#android.permission.ACCESS_LOCATION_EXTRA_COMMANDS
+ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:28:5-88
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:28:22-86
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:30:5-31:40
+	tools:ignore
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:31:9-37
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:30:22-78
+uses-permission#android.permission.READ_EXTERNAL_STORAGE
+ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:33:5-80
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:33:22-77
+uses-permission#android.permission.READ_MEDIA_IMAGES
+ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:35:5-75
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:35:22-73
+uses-permission#android.permission.READ_MEDIA_VIDEO
+ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:36:5-74
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:36:22-72
+uses-permission#android.permission.READ_PHONE_STATE
+ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:38:5-75
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:38:22-72
+application
+ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:39:5-165:19
+provider#com.netease.yunxin.kit.corekit.startup.InitializationProvider
+ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:40:9-48:20
+	tools:node
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:44:13-31
+	android:authorities
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:42:13-64
+	android:exported
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:43:13-37
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:41:13-89
+meta-data#com.netease.yunxin.kit.chatkit.ui.ChatUIService
+ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:45:13-47:48
+	android:value
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:47:17-45
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:46:17-79
+activity#com.netease.yunxin.kit.chatkit.ui.normal.page.ChatP2PActivity
+ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:50:9-54:15
+	android:screenOrientation
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:52:13-49
+	android:launchMode
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:53:13-44
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:51:13-89
+activity#com.netease.yunxin.kit.chatkit.ui.normal.page.ChatTeamActivity
+ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:56:9-60:15
+	android:screenOrientation
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:58:13-49
+	android:launchMode
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:59:13-44
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:57:13-90
+activity#com.netease.yunxin.kit.chatkit.ui.normal.page.ChatSettingActivity
+ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:62:9-66:15
+	android:screenOrientation
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:64:13-49
+	android:launchMode
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:65:13-43
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:63:13-93
+activity#com.netease.yunxin.kit.chatkit.ui.normal.page.ChatReaderActivity
+ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:68:9-72:15
+	android:screenOrientation
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:70:13-49
+	android:launchMode
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:71:13-43
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:69:13-92
+activity#com.netease.yunxin.kit.chatkit.ui.normal.page.ChatSearchActivity
+ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:74:9-78:15
+	android:screenOrientation
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:76:13-49
+	android:launchMode
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:77:13-43
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:75:13-92
+activity#com.netease.yunxin.kit.chatkit.ui.page.WatchImageActivity
+ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:80:9-83:16
+	android:screenOrientation
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:82:13-49
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:81:13-85
+activity#com.netease.yunxin.kit.chatkit.ui.fun.page.FunRedPacketRecordListActivity
+ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:84:9-87:16
+	android:screenOrientation
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:86:13-49
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:85:13-68
+activity#com.netease.yunxin.kit.chatkit.ui.fun.page.FunRedPacketResultActivity
+ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:89:9-92:16
+	android:screenOrientation
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:91:13-49
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:90:13-64
+activity#com.netease.yunxin.kit.chatkit.ui.page.WatchVideoActivity
+ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:94:9-97:16
+	android:screenOrientation
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:96:13-49
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:95:13-85
+activity#com.netease.yunxin.kit.chatkit.ui.fun.page.FunSendRedPacketActivity
+ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:98:9-101:16
+	android:screenOrientation
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:100:13-49
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:99:13-62
+activity#com.netease.yunxin.kit.chatkit.ui.page.LocationPageActivity
+ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:103:9-107:48
+	android:screenOrientation
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:105:13-49
+	android:windowSoftInputMode
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:106:13-55
+	android:finishOnTaskLaunch
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:107:13-46
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:104:13-87
+activity#com.netease.yunxin.kit.chatkit.ui.normal.page.ChatPinActivity
+ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:108:9-111:57
+	android:screenOrientation
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:110:13-49
+	android:windowSoftInputMode
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:111:13-55
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:109:13-89
+activity#com.netease.yunxin.kit.chatkit.ui.normal.page.ChatForwardActivity
+ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:113:9-116:44
+	android:screenOrientation
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:114:13-49
+	android:launchMode
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:116:13-42
+	android:windowSoftInputMode
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:115:13-55
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:113:19-66
+activity#com.netease.yunxin.kit.chatkit.ui.fun.page.FunChatP2PActivity
+ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:119:9-122:46
+	android:screenOrientation
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:120:13-49
+	android:launchMode
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:122:13-44
+	android:windowSoftInputMode
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:121:13-55
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:119:19-62
+activity#com.netease.yunxin.kit.chatkit.ui.fun.page.FunChatTeamActivity
+ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:124:9-127:57
+	android:screenOrientation
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:125:13-49
+	android:launchMode
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:126:13-44
+	android:windowSoftInputMode
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:127:13-55
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:124:19-63
+activity#com.netease.yunxin.kit.chatkit.ui.fun.page.FunChatPinActivity
+ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:129:9-131:57
+	android:screenOrientation
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:130:13-49
+	android:windowSoftInputMode
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:131:13-55
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:129:19-62
+activity#com.netease.yunxin.kit.chatkit.ui.fun.page.FunChatSettingActivity
+ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:133:9-135:57
+	android:screenOrientation
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:134:13-49
+	android:windowSoftInputMode
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:135:13-55
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:133:19-66
+activity#com.netease.yunxin.kit.chatkit.ui.fun.page.FunChatSearchActivity
+ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:137:9-141:15
+	android:screenOrientation
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:139:13-49
+	android:launchMode
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:140:13-43
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:138:13-92
+activity#com.netease.yunxin.kit.chatkit.ui.fun.page.FunChatReaderActivity
+ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:142:9-146:15
+	android:screenOrientation
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:144:13-49
+	android:launchMode
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:145:13-43
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:143:13-92
+activity#com.netease.yunxin.kit.chatkit.ui.fun.page.FunChatForwardActivity
+ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:148:9-151:44
+	android:screenOrientation
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:149:13-49
+	android:launchMode
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:151:13-42
+	android:windowSoftInputMode
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:150:13-55
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:148:19-66
+provider#com.netease.yunxin.kit.common.utils.CommonFileProvider
+ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:153:9-164:20
+	android:grantUriPermissions
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:158:13-47
+	android:authorities
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:155:13-69
+	android:exported
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:156:13-37
+	tools:replace
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:157:13-74
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:154:13-82
+meta-data#android.support.FILE_PROVIDER_PATHS
+ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:159:13-162:51
+	android:resource
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:161:17-51
+	tools:replace
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:162:17-49
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml:160:17-67
+uses-sdk
+INJECTED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml
+INJECTED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml
+INJECTED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml
+INJECTED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml
+		INJECTED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml
+		ADDED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml
+		INJECTED from E:\code\proj\android\android_shenyu\chatkit-ui\src\main\AndroidManifest.xml

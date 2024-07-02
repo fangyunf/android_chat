@@ -1,0 +1,201 @@
+-- Merging decision tree log ---
+manifest
+ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:7:1-122:12
+INJECTED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:7:1-122:12
+INJECTED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:7:1-122:12
+	package
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:9:5-51
+		INJECTED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml
+		INJECTED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml
+	xmlns:tools
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:8:5-51
+	xmlns:android
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:7:11-69
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:11:5-78
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:11:22-76
+application
+ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:13:5-120:19
+provider#com.netease.yunxin.kit.corekit.startup.InitializationProvider
+ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:14:9-22:20
+	tools:node
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:18:13-31
+	android:authorities
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:16:13-64
+	android:exported
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:17:13-37
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:15:13-89
+meta-data#com.netease.yunxin.kit.contactkit.ui.ContactUIService
+ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:19:13-21:48
+	android:value
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:21:17-45
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:20:17-85
+activity#com.netease.yunxin.kit.contactkit.ui.normal.contact.ContactActivity
+ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:24:9-27:52
+	android:screenOrientation
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:27:13-49
+	android:exported
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:26:13-37
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:25:13-59
+activity#com.netease.yunxin.kit.contactkit.ui.normal.addfriend.AddFriendActivity
+ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:29:9-32:52
+	android:screenOrientation
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:32:13-49
+	android:exported
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:31:13-37
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:30:13-63
+activity#com.netease.yunxin.kit.contactkit.ui.normal.blacklist.BlackListActivity
+ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:35:9-38:52
+	android:screenOrientation
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:38:13-49
+	android:launchMode
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:37:13-43
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:36:13-63
+activity#com.netease.yunxin.kit.contactkit.ui.normal.team.TeamListActivity
+ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:40:9-43:52
+	android:screenOrientation
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:43:13-49
+	android:launchMode
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:42:13-43
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:41:13-57
+activity#com.netease.yunxin.kit.contactkit.ui.fun.addfriend.FunAddFriendVerifyActivity
+ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:44:9-47:52
+	android:screenOrientation
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:47:13-49
+	android:launchMode
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:46:13-43
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:45:13-69
+activity#com.netease.yunxin.kit.contactkit.ui.normal.verify.VerifyListActivity
+ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:49:9-52:52
+	android:screenOrientation
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:52:13-49
+	android:launchMode
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:51:13-43
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:50:13-61
+activity#com.netease.yunxin.kit.contactkit.ui.normal.userinfo.UserInfoActivity
+ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:54:9-57:52
+	android:screenOrientation
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:57:13-49
+	android:launchMode
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:56:13-43
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:55:13-61
+activity#com.netease.yunxin.kit.contactkit.ui.normal.userinfo.CommentActivity
+ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:59:9-62:52
+	android:screenOrientation
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:62:13-49
+	android:launchMode
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:61:13-43
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:60:13-60
+activity#com.netease.yunxin.kit.contactkit.ui.normal.selector.ContactSelectorActivity
+ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:64:9-67:52
+	android:screenOrientation
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:67:13-49
+	android:launchMode
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:66:13-43
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:65:13-68
+activity#com.netease.yunxin.kit.contactkit.ui.normal.search.GlobalSearchActivity
+ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:68:9-71:52
+	android:screenOrientation
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:71:13-49
+	android:exported
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:70:13-37
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:69:13-63
+activity#com.netease.yunxin.kit.contactkit.ui.fun.contact.FunContactActivity
+ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:75:9-78:52
+	android:screenOrientation
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:78:13-49
+	android:exported
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:77:13-37
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:76:13-59
+activity#com.netease.yunxin.kit.contactkit.ui.fun.addfriend.FunAddFriendActivity
+ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:80:9-83:52
+	android:screenOrientation
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:83:13-49
+	android:exported
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:82:13-37
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:81:13-63
+activity#com.netease.yunxin.kit.contactkit.ui.fun.blacklist.FunBlackListActivity
+ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:86:9-89:52
+	android:screenOrientation
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:89:13-49
+	android:launchMode
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:88:13-43
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:87:13-63
+activity#com.netease.yunxin.kit.contactkit.ui.fun.team.FunTeamListActivity
+ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:91:9-94:52
+	android:screenOrientation
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:94:13-49
+	android:launchMode
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:93:13-43
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:92:13-57
+activity#com.netease.yunxin.kit.contactkit.ui.fun.verify.FunVerifyListActivity
+ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:96:9-99:52
+	android:screenOrientation
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:99:13-49
+	android:launchMode
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:98:13-43
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:97:13-61
+activity#com.netease.yunxin.kit.contactkit.ui.fun.userinfo.FunUserInfoActivity
+ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:101:9-104:52
+	android:screenOrientation
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:104:13-49
+	android:launchMode
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:103:13-43
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:102:13-61
+activity#com.netease.yunxin.kit.contactkit.ui.fun.userinfo.FunCommentActivity
+ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:106:9-109:52
+	android:screenOrientation
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:109:13-49
+	android:launchMode
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:108:13-43
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:107:13-60
+activity#com.netease.yunxin.kit.contactkit.ui.fun.selector.FunContactSelectorActivity
+ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:111:9-114:52
+	android:screenOrientation
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:114:13-49
+	android:launchMode
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:113:13-43
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:112:13-68
+activity#com.netease.yunxin.kit.contactkit.ui.fun.search.FunSearchActivity
+ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:115:9-118:52
+	android:screenOrientation
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:118:13-49
+	android:exported
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:117:13-37
+	android:name
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml:116:13-57
+uses-sdk
+INJECTED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml
+INJECTED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml
+INJECTED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml
+INJECTED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml
+		INJECTED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml
+		ADDED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml
+		INJECTED from E:\code\proj\android\android_shenyu\contactkit-ui\src\main\AndroidManifest.xml

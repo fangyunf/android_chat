@@ -346,9 +346,9 @@ public class MainActivity extends BaseActivity {
 //    CallKitUI.init(getApplicationContext(), options);
     IMKitClient.getAuthServiceObserver().observeOnlineStatus(
             (Observer<StatusCode>) statusCode -> {
-              if (statusCode == StatusCode.LOGOUT) {
-                CallKitUI.destroy();
-              }
+//              if (statusCode == StatusCode.LOGOUT) {
+//                CallKitUI.destroy();
+//              }
               if (statusCode.wontAutoLogin()) {
                 // 处理被顶号的情况
                 if (statusCode == StatusCode.KICKOUT) {

@@ -1,0 +1,722 @@
+[
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_ic_copy.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\ic_copy.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_mine_tabbar_txl_sel.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\mine_tabbar_txl_sel.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\layout_item_address_list_cell.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\layout\\item_address_list_cell.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\layout_activity_exchange_account.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\layout\\activity_exchange_account.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_mine_fragment_packet_money_bg.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\mine_fragment_packet_money_bg.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\drawable_ic_qchat_unchecked.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\drawable\\ic_qchat_unchecked.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_mine_tabbar_msg_normal.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\mine_tabbar_msg_normal.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\layout_activity_mine_bank_bill_detail_list_detail.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\layout\\activity_mine_bank_bill_detail_list_detail.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\layout_activity_mine_setting.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\layout\\activity_mine_setting.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\drawable_fun_setting_bg_switch_thumb_off.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\drawable\\fun_setting_bg_switch_thumb_off.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\drawable_ic_select_blue.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\drawable\\ic_select_blue.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_mine_fragment_address_list_add.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\mine_fragment_address_list_add.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_ic_conversation_tab_checked_fun.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\ic_conversation_tab_checked_fun.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\layout_activity_register.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\layout\\activity_register.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_temp_ic_back.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\temp_ic_back.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\layout_activity_account_anquan_manager.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\layout\\activity_account_anquan_manager.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\drawable_app_white_round_bg.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\drawable\\app_white_round_bg.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_yaoxin_icon.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\yaoxin_icon.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\layout_activity_mine_bank_bill_detail_list.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\layout\\activity_mine_bank_bill_detail_list.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_ic_logo.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\ic_logo.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\layout_view_title_arrow.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\layout\\view_title_arrow.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\layout_activity_mine_collect.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\layout\\activity_mine_collect.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\anim_in.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\anim\\in.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\layout_activity_xiaozhushou.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\layout\\activity_xiaozhushou.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_other_place_login_fragment_bg.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\other_place_login_fragment_bg.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_mine_fragment_address_list_moren_icon.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\mine_fragment_address_list_moren_icon.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_mine_tabbar_msg_sel.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\mine_tabbar_msg_sel.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\layout_activity_about.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\layout\\activity_about.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\layout_activity_mine_set_new_aboutus.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\layout\\activity_mine_set_new_aboutus.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\layout_item_collection_list_cell.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\layout\\item_collection_list_cell.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_mine_fragment_index_cell_icon_order.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\mine_fragment_index_cell_icon_order.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_ic_mine_tab_unchecked.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\ic_mine_tab_unchecked.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_mine_accout_code_bg.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\mine_accout_code_bg.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\drawable_ic_select_white.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\drawable\\ic_select_white.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\layout_item_purse_bank_card_list_add_cell.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\layout\\item_purse_bank_card_list_add_cell.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\drawable_app_radio_green_selector.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\drawable\\app_radio_green_selector.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\layout_activity_mine_purse_bank_list_add.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\layout\\activity_mine_purse_bank_list_add.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\layout_activity_clear_cache.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\layout\\activity_clear_cache.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_ic_mine_tab_checked_fun.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\ic_mine_tab_checked_fun.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_mine_tabbar_mine_sel.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\mine_tabbar_mine_sel.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\layout_chat_message_sticker_view.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\layout\\chat_message_sticker_view.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_mine_purse_bill_detail_list_geren_coupon.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\mine_purse_bill_detail_list_geren_coupon.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\layout_item_order_list_cell.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\layout\\item_order_list_cell.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\layout_activity_mine_set_new.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\layout\\activity_mine_set_new.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_ic_logo_bottom.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\ic_logo_bottom.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\drawable-anydpi-v24_ic_launcher_foreground.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-pngs-63:\\drawable-anydpi-v24\\ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\layout_activity_mine_address_list.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\layout\\activity_mine_address_list.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\layout_activity_mine_order_list.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\layout\\activity_mine_order_list.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\layout_activity_purse_tixian_add_account.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\layout\\activity_purse_tixian_add_account.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\drawable_bg_f6f6f6_rounded_20.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\drawable\\bg_f6f6f6_rounded_20.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_mine_fragment_purse_bank_card_list_unbind_bg.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\mine_fragment_purse_bank_card_list_unbind_bg.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_ic_contact_tab_checked.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\ic_contact_tab_checked.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\drawable_fun_setting_bg_switch_track_off.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\drawable\\fun_setting_bg_switch_track_off.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_mine_fragment_purse_bank_card_list_add.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\mine_fragment_purse_bank_card_list_add.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_mine_fragment_purse_index_recharge_btn_bg.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\mine_fragment_purse_index_recharge_btn_bg.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\drawable_ic_user_setting.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\drawable\\ic_user_setting.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\layout_view_title_tf_without_bg.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\layout\\view_title_tf_without_bg.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\layout_activity_mine_bank_card_list.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\layout\\activity_mine_bank_card_list.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\drawable_switch_thumb_selector.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\drawable\\switch_thumb_selector.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\layout_item_xiaozhushou_list.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\layout\\item_xiaozhushou_list.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_mine_fragment_purse_recharge_bg.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\mine_fragment_purse_recharge_bg.png"
+    },
+    {
+        "merged": "com.turunsi.yaoxin.app-merged_res-68:/layout_fragment_mine.xml.flat",
+        "source": "com.turunsi.yaoxin.app-main-70:/layout/fragment_mine.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\layout_server_config_activity.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\layout\\server_config_activity.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\drawable_fun_setting_bg_switch_thumb_on.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\drawable\\fun_setting_bg_switch_thumb_on.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\drawable_ic_launcher_background.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\drawable\\ic_launcher_background.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\drawable_ic_qchat_checked.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\drawable\\ic_qchat_checked.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\drawable_app_chat_message_self_bg.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\drawable\\app_chat_message_self_bg.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_ic_notification_avatar_default.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\ic_notification_avatar_default.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_mine_fragment_purse_index_assets_bg.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\mine_fragment_purse_index_assets_bg.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_mine_fragment_index_cell_icon_setting.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\mine_fragment_index_cell_icon_setting.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\layout_activity_main.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\layout\\activity_main.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_mine_fragment_purse_index_bankcard_manager.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\mine_fragment_purse_index_bankcard_manager.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\drawable_app_skin_base.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\drawable\\app_skin_base.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_mine_purse_bill_detail_list_arrow_bottom.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\mine_purse_bill_detail_list_arrow_bottom.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\layout_activity_forget_pwd.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\layout\\activity_forget_pwd.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\layout_view_title_tf_without_bg_template.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\layout\\view_title_tf_without_bg_template.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\layout_activity_mine_about_us_new.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\layout\\activity_mine_about_us_new.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\drawable_app_radio_button_select.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\drawable\\app_radio_button_select.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\layout_activity_splash.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\layout\\activity_splash.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_mine_purse_bill_detail_list_send_zhuanshu.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\mine_purse_bill_detail_list_send_zhuanshu.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\layout_activity_mine_purse_recharge.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\layout\\activity_mine_purse_recharge.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_ic_notification_avatar_group.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\ic_notification_avatar_group.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\drawable_ic_frame_mine_right_arrow.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\drawable\\ic_frame_mine_right_arrow.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\drawable_fun_setting_bg_switch_track_selector.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\drawable\\fun_setting_bg_switch_track_selector.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_mine_fragment_index_cell_icon_download.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\mine_fragment_index_cell_icon_download.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_lanuch_bg.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\lanuch_bg.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\drawable_ic_frame.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\drawable\\ic_frame.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_register_activity_back.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\register_activity_back.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_mine_fragment_index_cell_icon_collection.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\mine_fragment_index_cell_icon_collection.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_ic_launcher.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\layout_activity_mine_purse_pwd_manager_set.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\layout\\activity_mine_purse_pwd_manager_set.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_mine_purse_bill_detail_list_shopping.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\mine_purse_bill_detail_list_shopping.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\drawable_fun_setting_bg_switch_track_on.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\drawable\\fun_setting_bg_switch_track_on.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\drawable-v24_bg_b591f5_rounded_4.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\drawable-v24\\bg_b591f5_rounded_4.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_mine_fragment_index_cell_icon_account.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\mine_fragment_index_cell_icon_account.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\drawable_bg_shape_red_dot.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\drawable\\bg_shape_red_dot.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\drawable_ic_about.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\drawable\\ic_about.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_ic_conversation_tab_unchecked.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\ic_conversation_tab_unchecked.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\layout_activity_welcome.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\layout\\activity_welcome.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\layout_fragment_mine.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\layout\\fragment_mine.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_mine_fragment_packet_money_title_line.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\mine_fragment_packet_money_title_line.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\drawable_agree_switch_selector.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\drawable\\agree_switch_selector.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\layout_activity_mine_address_add.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\layout\\activity_mine_address_add.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\layout_view_title_tf.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\layout\\view_title_tf.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\layout_item_purse_bill_detail_shaixuan_list.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\layout\\item_purse_bill_detail_shaixuan_list.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_mine_purse_bill_detail_list_bohui.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\mine_purse_bill_detail_list_bohui.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_mine_fragment_address_list_edit.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\mine_fragment_address_list_edit.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\raw_msg.wav.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\raw\\msg.wav"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\drawable_app_radio_button_green_not_selected.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\drawable\\app_radio_button_green_not_selected.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\layout_activity_skin_setting.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\layout\\activity_skin_setting.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_ic_yunxin.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\ic_yunxin.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_ic_yunxin_bottom.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\ic_yunxin_bottom.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_ic_stat_notify_msg.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\ic_stat_notify_msg.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_ic_back_black.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\ic_back_black.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\layout_activity_mine_account_code.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\layout\\activity_mine_account_code.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\drawable_bg_clear_color_rounded_20.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\drawable\\bg_clear_color_rounded_20.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\layout_item_set_user_exchange_account_add_cell.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\layout\\item_set_user_exchange_account_add_cell.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\layout_activity_mine_setting_notify.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\layout\\activity_mine_setting_notify.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_login_activity_checked.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\login_activity_checked.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\drawable_app_radio_blue_selector.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\drawable\\app_radio_blue_selector.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\drawable_app_radio_button_selected.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\drawable\\app_radio_button_selected.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\layout_activity_mine_info.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\layout\\activity_mine_info.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_ic_contact_tab_checked_fun.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\ic_contact_tab_checked_fun.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_login_activity_normal.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\login_activity_normal.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_mine_fragment_purse_index_realname_manager.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\mine_fragment_purse_index_realname_manager.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_mine_fragment_purse_bank_card_list_bg.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\mine_fragment_purse_bank_card_list_bg.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\drawable_rectangle_white_reduce_bg.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\drawable\\rectangle_white_reduce_bg.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\layout_activity_mine_account_detail.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\layout\\activity_mine_account_detail.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\drawable_app_radio_button_green_selected.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\drawable\\app_radio_button_green_selected.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\layout_item_set_exchange_account_list_cell.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\layout\\item_set_exchange_account_list_cell.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_ic_launcher_desc.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\ic_launcher_desc.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\layout_view_mine_fragment_item_cell.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\layout\\view_mine_fragment_item_cell.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\layout_activity_mine_purse_tixian.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\layout\\activity_mine_purse_tixian.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\drawable_fun_setting_bg_switch_thumb_selector.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\drawable\\fun_setting_bg_switch_thumb_selector.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\layout_item_purse_bill_detail_list.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\layout\\item_purse_bill_detail_list.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_mine_purse_bill_detail_list_arrow_top.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\mine_purse_bill_detail_list_arrow_top.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_mine_fragment_purse_index_pwd_manager.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\mine_fragment_purse_index_pwd_manager.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\layout_type_select_activity.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\layout\\type_select_activity.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_ic_contact_tab_unchecked.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\ic_contact_tab_unchecked.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\layout_activity_mine_real_name_set.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\layout\\activity_mine_real_name_set.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\drawable_user_setting_add_user.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\drawable\\user_setting_add_user.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\layout_activity_mine_collection_list.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\layout\\activity_mine_collection_list.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\drawable_bg_login_button.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\drawable\\bg_login_button.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\drawable_app_skin_common.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\drawable\\app_skin_common.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\drawable-v24_border_cccccc_1_rounded_4.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\drawable-v24\\border_cccccc_1_rounded_4.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\drawable_app_radio_button_not_selected.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\drawable\\app_radio_button_not_selected.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_mine_fragment_purse_index_bill_manager.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\mine_fragment_purse_index_bill_manager.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_mine_fragment_purse_index_tixian_btn_bg.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\mine_fragment_purse_index_tixian_btn_bg.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_mine_tabbar_home_sel.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\mine_tabbar_home_sel.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_mine_tabbar_home_normal.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\mine_tabbar_home_normal.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\xml_network_security_config.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\xml\\network_security_config.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_ic_conversation_tab_checked.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\ic_conversation_tab_checked.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_ic_mine_tab_checked.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\ic_mine_tab_checked.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\drawable_switch_thumb_on.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\drawable\\switch_thumb_on.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_mine_fragment_index_cell_icon_kefu.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\mine_fragment_index_cell_icon_kefu.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\layout_activity_mine_purse_pwd_manager.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\layout\\activity_mine_purse_pwd_manager.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\drawable_ic_collect.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\drawable\\ic_collect.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\layout_activity_edit_nickname.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\layout\\activity_edit_nickname.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\layout_activity_mine_purse_index.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\layout\\activity_mine_purse_index.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\anim_out.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\anim\\out.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\drawable_shape_bg_loading_radius.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\drawable\\shape_bg_loading_radius.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\layout_activity_mine_account_modify.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\layout\\activity_mine_account_modify.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\drawable_switch_thumb_off.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\drawable\\switch_thumb_off.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_mine_purse_bill_detail_list_tixian.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\mine_purse_bill_detail_list_tixian.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_mine_fragment_purse_pwd_manager_arrow.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\mine_fragment_purse_pwd_manager_arrow.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_mine_tabbar_txl_normal.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\mine_tabbar_txl_normal.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_login_btn_bg.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\login_btn_bg.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_mine_fragment_address_list_btn_bg.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\mine_fragment_address_list_btn_bg.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\layout_fragment_other_place_login.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\layout\\fragment_other_place_login.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_mine_purse_bill_detail_list_tuihui.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\mine_purse_bill_detail_list_tuihui.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\layout_activity_login.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\layout\\activity_login.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\drawable_selector_button_common.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\drawable\\selector_button_common.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_login_bg.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\login_bg.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\layout_view_purse_icon_title.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\layout\\view_purse_icon_title.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_mine_fragment_index_cell_icon_location.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\mine_fragment_index_cell_icon_location.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_mine_tabbar_mine_normal.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\mine_tabbar_mine_normal.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_mine_purse_bill_detail_list_chongzhi.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\mine_purse_bill_detail_list_chongzhi.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\layout_item_purse_bank_card_list_cell.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\layout\\item_purse_bank_card_list_cell.xml"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_mine_index_qcode_icon.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\mine_index_qcode_icon.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-merged_res-68:\\mipmap-xxhdpi_mine_purse_bill_detail_list_lingqu_coupon.png.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\daemon\\7.5\\com.turunsi.yaoxin.app-main-70:\\mipmap-xxhdpi\\mine_purse_bill_detail_list_lingqu_coupon.png"
+    }
+]

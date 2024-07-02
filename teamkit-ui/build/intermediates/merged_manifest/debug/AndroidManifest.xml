@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2022 NetEase, Inc. All rights reserved.
+  ~ Use of this source code is governed by a MIT license that can be
+  ~ found in the LICENSE file.
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.netease.yunxin.kit.teamkit.ui" >
+
+    <uses-sdk android:minSdkVersion="21" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application>
+        <provider
+            android:name="com.netease.yunxin.kit.corekit.startup.InitializationProvider"
+            android:authorities="${applicationId}.xkit-startup"
+            android:exported="false"
+            tools:node="merge" >
+            <meta-data
+                android:name="com.netease.yunxin.kit.teamkit.ui.TeamUIService"
+                android:value="xkit.startup" />
+        </provider>
+
+        <activity
+            android:name="com.netease.yunxin.kit.teamkit.ui.normal.activity.TeamSettingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.netease.yunxin.kit.teamkit.ui.fun.activity.FunTeamForbiddenMemberListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.netease.yunxin.kit.teamkit.ui.normal.activity.TeamInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.netease.yunxin.kit.teamkit.ui.normal.activity.TeamUpdateNicknameActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.netease.yunxin.kit.teamkit.ui.normal.activity.TeamMemberListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.netease.yunxin.kit.teamkit.ui.normal.activity.TeamUpdateIconActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.netease.yunxin.kit.teamkit.ui.normal.activity.TeamUpdateNameActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.netease.yunxin.kit.teamkit.ui.normal.activity.TeamUpdateIntroduceActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.netease.yunxin.kit.teamkit.ui.normal.activity.TeamManagerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.netease.yunxin.kit.teamkit.ui.normal.activity.TeamManagerListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.netease.yunxin.kit.teamkit.ui.normal.activity.TeamMemberSelectActivity"
+            android:screenOrientation="portrait" />
+
+        <!-- fun版 Activity注册 -->
+        <activity
+            android:name="com.netease.yunxin.kit.teamkit.ui.fun.activity.FunTeamSettingActivity"
+            android:screenOrientation="portrait" />
+        <!-- fun版 Activity注册 -->
+        <activity
+            android:name="com.netease.yunxin.kit.teamkit.ui.fun.activity.FunTeamSettingNewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.netease.yunxin.kit.teamkit.ui.fun.activity.FunTeamInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.netease.yunxin.kit.teamkit.ui.fun.activity.FunTeamUpdateNicknameActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.netease.yunxin.kit.teamkit.ui.fun.activity.FunTeamMemberListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.netease.yunxin.kit.teamkit.ui.fun.activity.FunTeamUpdateIconActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.netease.yunxin.kit.teamkit.ui.fun.activity.FunTeamUpdateNameActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.netease.yunxin.kit.teamkit.ui.fun.activity.FunTeamUpdateIntroduceActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.netease.yunxin.kit.teamkit.ui.fun.activity.FunTeamManagerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.netease.yunxin.kit.teamkit.ui.fun.activity.FunTeamManagerListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.netease.yunxin.kit.teamkit.ui.fun.activity.FunTeamMemberSelectActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.netease.yunxin.kit.teamkit.ui.fun.activity.ModifyInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.netease.yunxin.kit.teamkit.ui.fun.activity.FunTeamSettingNew_TeamUsersActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.netease.yunxin.kit.teamkit.ui.fun.activity.FunTeamSetting_GroupManagerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.netease.yunxin.kit.teamkit.ui.fun.activity.FunTeamSettingNew_ForbiddenListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.netease.yunxin.kit.teamkit.ui.fun.activity.FunTeamUserInfoDetailActivity"
+            android:screenOrientation="portrait" />
+    </application>
+
+</manifest>

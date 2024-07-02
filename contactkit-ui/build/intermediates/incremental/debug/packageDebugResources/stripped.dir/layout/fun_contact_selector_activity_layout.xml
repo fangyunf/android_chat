@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2022 NetEase, Inc. All rights reserved.
+  ~ Use of this source code is governed by a MIT license that can be
+  ~ found in the LICENSE file.
+  -->
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:background="@color/color_ededed"
+        android:orientation="vertical">
+
+        <!--    <com.netease.yunxin.kit.common.ui.widgets.BackTitleBar-->
+        <!--        android:id="@+id/title"-->
+        <!--        android:layout_width="match_parent"-->
+        <!--        android:layout_height="wrap_content" />-->
+        <com.yaoxin.appbase.navbar.NavToolbar
+
+            android:id="@+id/fun_contact_selector_activity_nav"
+            style="@style/WhiteFontToolbar"
+            android:background="#ffffff"
+            app:back_icon="@mipmap/temp_ic_back"
+            app:enable_under_divider="true"
+            app:support_translucent_status_bar="false"
+            app:title="发起群聊"
+            app:title_text_color="@color/color_333333"
+            app:under_divider_color="@color/color_d5d5d5"
+
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_selected"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen_8_dp"
+            android:layout_marginEnd="@dimen/dimen_8_dp"
+            android:layout_marginBottom="@dimen/dimen_6_dp"
+            android:background="@drawable/fun_selected_user_bg"
+            android:paddingHorizontal="@dimen/dimen_20_dp" />
+
+        <com.netease.yunxin.kit.contactkit.ui.view.ContactListView
+            android:id="@+id/contact_listView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:showSelector="true" />
+
+        <LinearLayout android:id="@+id/empty_layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_188_dp"
+            android:layout_marginTop="@dimen/dimen_150_dp"
+            android:visibility="gone"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="@dimen/dimen_118_dp"
+                android:layout_height="@dimen/dimen_96_dp"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/fun_ic_contact_empty"/>
+
+            <TextView android:id="@+id/empty_tv"
+                android:layout_width="@dimen/dimen_118_dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:text="@string/selector_friend_empty"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/fun_contact_selector_activity_layout_created"
+        android:layout_width="301dp"
+        android:layout_height="@dimen/dimen_44_dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/fun_bg_purple_rounded_22"
+        android:layout_marginBottom="@dimen/dimen_40_dp"
+        >
+        <TextView
+            android:id="@+id/fun_contact_selector_activity_layout_created_tv"
+
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="22dp"
+            android:text="立即创建"
+            android:textColor="#ffffffff"
+            android:textSize="16sp"
+            />
+
+    </RelativeLayout>
+</RelativeLayout>

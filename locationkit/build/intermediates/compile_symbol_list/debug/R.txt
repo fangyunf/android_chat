@@ -1,0 +1,6 @@
+int color choice_dialog_title 0x0
+int drawable ic_location_marker 0x0
+int drawable ic_my_location_in 0x0
+int drawable ic_my_location_to 0x0
+int string location_amap_nav_title 0x0
+int string location_tencent_nav_title 0x0

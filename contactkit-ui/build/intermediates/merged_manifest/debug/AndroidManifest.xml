@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2022 NetEase, Inc. All rights reserved.
+  ~ Use of this source code is governed by a MIT license that can be
+  ~ found in the LICENSE file.
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.netease.yunxin.kit.contactkit.ui" >
+
+    <uses-sdk android:minSdkVersion="21" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application>
+        <provider
+            android:name="com.netease.yunxin.kit.corekit.startup.InitializationProvider"
+            android:authorities="${applicationId}.xkit-startup"
+            android:exported="false"
+            tools:node="merge" >
+            <meta-data
+                android:name="com.netease.yunxin.kit.contactkit.ui.ContactUIService"
+                android:value="xkit.startup" />
+        </provider>
+
+        <activity
+            android:name="com.netease.yunxin.kit.contactkit.ui.normal.contact.ContactActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.netease.yunxin.kit.contactkit.ui.normal.addfriend.AddFriendActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.netease.yunxin.kit.contactkit.ui.normal.blacklist.BlackListActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.netease.yunxin.kit.contactkit.ui.normal.team.TeamListActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.netease.yunxin.kit.contactkit.ui.fun.addfriend.FunAddFriendVerifyActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.netease.yunxin.kit.contactkit.ui.normal.verify.VerifyListActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.netease.yunxin.kit.contactkit.ui.normal.userinfo.UserInfoActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.netease.yunxin.kit.contactkit.ui.normal.userinfo.CommentActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.netease.yunxin.kit.contactkit.ui.normal.selector.ContactSelectorActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.netease.yunxin.kit.contactkit.ui.normal.search.GlobalSearchActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+        <!-- fun style activity -->
+        <activity
+            android:name="com.netease.yunxin.kit.contactkit.ui.fun.contact.FunContactActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.netease.yunxin.kit.contactkit.ui.fun.addfriend.FunAddFriendActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.netease.yunxin.kit.contactkit.ui.fun.blacklist.FunBlackListActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.netease.yunxin.kit.contactkit.ui.fun.team.FunTeamListActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.netease.yunxin.kit.contactkit.ui.fun.verify.FunVerifyListActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.netease.yunxin.kit.contactkit.ui.fun.userinfo.FunUserInfoActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.netease.yunxin.kit.contactkit.ui.fun.userinfo.FunCommentActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.netease.yunxin.kit.contactkit.ui.fun.selector.FunContactSelectorActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.netease.yunxin.kit.contactkit.ui.fun.search.FunSearchActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+    </application>
+
+</manifest>

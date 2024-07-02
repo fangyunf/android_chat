@@ -1,0 +1,8 @@
+R_DEF: Internal format may change without notice
+local
+color choice_dialog_title
+drawable ic_location_marker
+drawable ic_my_location_in
+drawable ic_my_location_to
+string location_amap_nav_title
+string location_tencent_nav_title
