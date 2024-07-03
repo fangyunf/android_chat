@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="102dp"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingHorizontal="@dimen/dimen_16_dp"
     android:paddingVertical="@dimen/dimen_14_dp">
@@ -64,6 +64,17 @@
             android:textColor="#ff999999"
             android:textSize="14sp"
             />
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/fun_verify_friend_list_cell_invite_tv"
+            android:layout_marginTop="@dimen/dimen_5_dp"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:text=""
+            android:textColor="#ff999999"
+            android:textSize="14sp"
+            />
+
     </LinearLayout>
 </LinearLayout>
     <RelativeLayout

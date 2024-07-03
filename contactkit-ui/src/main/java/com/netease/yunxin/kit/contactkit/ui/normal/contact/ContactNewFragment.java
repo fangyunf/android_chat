@@ -47,6 +47,7 @@ import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.Constant;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.BarUtils;
+import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.PinnedHeaderDecoration;
 
 import java.lang.reflect.Type;
@@ -134,6 +135,15 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
                         Type type = new TypeToken<List<GroupInfoBean>>() {
                         }.getType();
                         mContactModels = new Gson().fromJson(body.data.toString(), type);
+                        for (GroupInfoBean tempBean :
+                                mContactModels) {
+                            if (tempBean.userId.equals(DataUtil.getKeFuId())) {
+                                mContactModels.remove(tempBean);
+                                break;
+                            }
+
+                        }
+
                         adapter.contacts = mContactModels;
                         adapter.setItems(mContactModels);
                         adapter.notifyDataSetChanged();

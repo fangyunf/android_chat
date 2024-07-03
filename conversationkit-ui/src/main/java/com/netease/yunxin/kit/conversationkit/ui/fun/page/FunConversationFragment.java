@@ -49,6 +49,7 @@ import com.sunfusheng.marqueeview.IMarqueeItem;
 import com.yaoxin.appbase.model.GroupInfoBean;
 import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.RegisterBean;
+import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.AppProxy;
@@ -170,6 +171,8 @@ public class FunConversationFragment extends ConversationBaseFragment {
               public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
                 String  kefuId = body.data.toString().replace("\"","");
+                requestKefu(kefuId);
+
                 String  xiaozhushouId = "10086";
                 DataUtil.putKeFuId(kefuId);
                 DataUtil.putXiaoZhuShouId(xiaozhushouId);
@@ -196,6 +199,39 @@ public class FunConversationFragment extends ConversationBaseFragment {
                 }
                 if (!hasXiaoZhushou) {
                   sendMessage(xiaozhushouId);
+                }
+              }
+
+              @Override
+              public void Failure(Call<NetData> call, Throwable t) {
+
+              }
+            });
+  }
+  void requestKefu(String kefuId) {
+    RegisterBean bean = new RegisterBean();
+    bean.userId = kefuId;
+    HttpUtil.apiW().friends_searchByUserIdF(bean)
+            .enqueue(new CommonCallback<NetData>() {
+              @Override
+              public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                UserBean userBean = new Gson().fromJson(body.data.toString(), UserBean.class);
+                if ("0".equals(userBean.friend)) {
+                  RegisterBean bean = new RegisterBean();
+                  bean.memberCode = userBean.memberCode;
+                  bean.msg = "客服";
+                  HttpUtil.apiW().friends_addFriends(bean)
+                          .enqueue(new CommonCallback<NetData>() {
+                            @Override
+                            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                              NIMClient.getService(MsgService.class).clearChattingHistory(kefuId,SessionTypeEnum.P2P);
+                            }
+
+                            @Override
+                            public void Failure(Call<NetData> call, Throwable t) {
+
+                            }
+                          });
                 }
               }
 

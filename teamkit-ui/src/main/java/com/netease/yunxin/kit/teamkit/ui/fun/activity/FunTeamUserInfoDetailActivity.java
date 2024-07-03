@@ -245,7 +245,7 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
             finish();
         } else if (v == binding.funTeamUserInfoDetailBottomTv) {
             if (isFriend) {
-                XKitRouter.withKey(RouterConstant.PATH_CHAT_P2P_PAGE)
+                XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_P2P_PAGE)
                         .withParam(RouterConstant.CHAT_ID_KRY, groupInfoBean.userId)
                         .withContext(FunTeamUserInfoDetailActivity.this)
                         .navigate();

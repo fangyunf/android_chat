@@ -1,7 +1,9 @@
 package com.netease.yunxin.kit.contactkit.ui.fun.verify.adapter;
 
 import android.content.Context;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,6 +21,10 @@ public class FunVerifyFriendListAdapter extends BaseQuickAdapter<UserBean, Quick
     protected void onBindViewHolder(@NonNull QuickViewHolder quickViewHolder, int i, @Nullable UserBean userInfo) {
 
         if (business_type == 1) {
+            TextView view = quickViewHolder.getView(R.id.fun_verify_friend_list_cell_invite_tv);
+            view.setVisibility(View.VISIBLE);
+            view.setText("邀请人: " + userInfo.inviteName);
+
             quickViewHolder.setText(R.id.fun_verify_friend_list_cell_name_tv, userInfo.userName)
                     .setText(R.id.fun_verify_friend_list_cell_id_tv, "ID:"+userInfo.userMemberCode)
                     .setText(R.id.fun_verify_friend_list_cell_verify_content, "申请加入"+userInfo.groupName)

@@ -13,7 +13,9 @@ import static com.netease.yunxin.kit.teamkit.ui.activity.BaseTeamUpdateNicknameA
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -109,6 +111,37 @@ public class FunTeamSettingNew_TeamUsersActivity extends BaseActivity implements
         binding.funTeamSettingNewTeamUsersActivityNav.addCloseImageButton().setOnClickListener(this);
 
 
+        binding.funTeamSettingNewTeamUsersActivitySearchEt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String string = s.toString();
+                if (string.isEmpty()) {
+                    adapter.setItems(dataList);
+                    adapter.notifyDataSetChanged();
+                } else {
+                    ArrayList<GroupInfoBean> tempArr = new ArrayList<>();
+                    for (Object tempObj :
+                            dataList) {
+                        GroupInfoBean temp = (GroupInfoBean) tempObj;
+                        if (temp.name.contains(string)) {
+                            tempArr.add(temp);
+                        }
+                    }
+                    adapter.setItems(tempArr);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        });
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 6);
         binding.funTeamSettingNewTeamUsersActivityRv.setLayoutManager(gridLayoutManager);
         CommonGridSpacingItemDecoration gridSpacingItemDecoration =
