@@ -9,6 +9,7 @@ import com.netease.nimlib.sdk.msg.attachment.NetCallAttachment;
 import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 import com.netease.yunxin.kit.chatkit.model.ConversationInfo;
 import com.netease.yunxin.kit.corekit.im.model.AttachmentContent;
+import com.yaoxin.appbase.utils.AESUtil;
 
 public class ConversationCustom {
 
@@ -19,7 +20,14 @@ public class ConversationCustom {
         case notification:
           return context.getString(R.string.msg_type_notification);
         case text:
-          return conversationInfo.getContent();
+//          return conversationInfo.getContent();
+          String content = conversationInfo.getContent();
+          try {
+            content = AESUtil.msgAseDecrypt(content);
+          } catch (Exception e) {
+
+          }
+          return content;
         case audio:
           return context.getString(R.string.msg_type_audio);
         case video:

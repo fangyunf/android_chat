@@ -64,6 +64,7 @@ import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
+import com.yaoxin.appbase.utils.AESUtil;
 import com.yaoxin.appbase.utils.AppProxy;
 
 import java.io.File;
@@ -407,6 +408,15 @@ public class MessageBottomLayout extends FrameLayout
   public void sendText(ChatMessageBean replyMessage) {
 
     String msg = mBinding.inputEt.getEditableText().toString();
+    if (msg.isEmpty()) {
+
+      return;
+    }
+    try {
+      msg = AESUtil.msgAesEncrypt(msg);
+    } catch (Exception exception) {
+
+    }
     String title = mBinding.chatRichEt.getEditableText().toString();
     if (mProxy != null) {
       if (!TextUtils.isEmpty(title) && TextUtils.getTrimmedLength(title) > 0) {

@@ -57,6 +57,8 @@ import com.netease.yunxin.kit.corekit.im.custom.CustomAttachment;
 import com.netease.yunxin.kit.corekit.im.model.UserInfo;
 import com.netease.yunxin.kit.corekit.im.provider.FetchCallback;
 import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
+import com.yaoxin.appbase.utils.AESUtil;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -401,7 +403,11 @@ public class MessageHelper {
     if (TextUtils.isEmpty(value)) {
       value = "";
     }
+    try {
+      value = AESUtil.msgAseDecrypt(value);
+    } catch (Exception e) {
 
+    }
     SpannableString mSpannableString = new SpannableString(value);
     Matcher matcher = EmojiManager.getPattern().matcher(value);
     while (matcher.find()) {
