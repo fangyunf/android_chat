@@ -29,6 +29,8 @@ import com.netease.yunxin.kit.contactkit.ui.model.ContactFriendBean;
 import com.netease.yunxin.kit.contactkit.ui.model.IViewTypeConstant;
 import com.netease.yunxin.kit.contactkit.ui.view.ContactListView;
 import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
+import com.yaoxin.appbase.utils.DataUtil;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -195,9 +197,24 @@ public abstract class BaseContactSelectorActivity extends BaseActivity {
             this,
             contactBeansResult -> {
               if (contactBeansResult.getLoadStatus() == LoadStatus.Success) {
-                List<ContactFriendBean> accountList = filterUser(contactBeansResult.getData());
-                contactListView.onFriendDataSourceChanged(accountList);
-                showEmptyView(accountList == null || accountList.size() < 1);
+//                List<ContactFriendBean> accountList = filterUser(contactBeansResult.getData());
+//                contactListView.onFriendDataSourceChanged(accountList);
+//                showEmptyView(accountList == null || accountList.size() < 1);
+                  ArrayList<ContactFriendBean> tempArr = new ArrayList<>();
+                  tempArr.addAll(filterUser(contactBeansResult.getData()));
+                  for (ContactFriendBean tempBean :
+                          tempArr) {
+
+                      if (tempBean.data.getAccount().equals(DataUtil.getKeFuId())) {
+                          tempArr.remove(tempBean);
+                          break;
+                      }
+
+
+                  }
+                  contactListView.onFriendDataSourceChanged(tempArr);
+                  showEmptyView(tempArr == null || tempArr.size() < 1);
+
               }
             });
     viewModel.fetchContactList();

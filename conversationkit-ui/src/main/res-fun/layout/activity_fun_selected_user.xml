@@ -9,6 +9,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/color_e9eff5"
+
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
@@ -26,6 +28,23 @@
         app:under_divider_color="@color/transparent"
 
         />
+    <EditText
+        android:id="@+id/activity_fun_selected_user_search_et"
+        android:layout_margin="@dimen/dimen_14_dp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_40_dp"
+        android:paddingHorizontal="@dimen/dimen_14_dp"
+        android:textSize="15sp"
+        android:hint="搜索"
+        android:textColorHint="@color/color_999999"
+        android:textColor="@color/black"
+        android:background="@color/color_white"
+        android:cursorVisible="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+
+        />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">

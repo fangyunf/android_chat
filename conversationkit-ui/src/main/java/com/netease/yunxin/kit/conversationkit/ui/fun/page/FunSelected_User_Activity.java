@@ -3,6 +3,8 @@ package com.netease.yunxin.kit.conversationkit.ui.fun.page;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -29,6 +31,7 @@ import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.AppProxy;
 import com.yaoxin.appbase.utils.BaseEvent;
+import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.PinnedHeaderDecoration;
 import com.yaoxin.appbase.utils.TeamIconUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
@@ -104,6 +107,14 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
                         Type type = new TypeToken<List<GroupInfoBean>>() {
                         }.getType();
                         mContactModels = new Gson().fromJson(body.data.toString(), type);
+                        for (GroupInfoBean tempBean :
+                                mContactModels) {
+                            if (tempBean.userId.equals(DataUtil.getKeFuId())) {
+                                mContactModels.remove(tempBean);
+                                break;
+                            }
+
+                        }
 
                         if (page_type == 2) {
                             ArrayList<GroupInfoBean> tempArray = new ArrayList<>();
@@ -190,6 +201,38 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
                 }
             }
         });
+
+        binding.activityFunSelectedUserSearchEt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String string = s.toString();
+                if (string.isEmpty()) {
+                    adapter.setItems(mContactModels);
+                    adapter.notifyDataSetChanged();
+                } else {
+                    ArrayList<GroupInfoBean> tempArr = new ArrayList<>();
+                    for (GroupInfoBean temp :
+                            mContactModels) {
+                        if (temp.name.contains(string)) {
+                            tempArr.add(temp);
+                        }
+                    }
+                    adapter.setItems(tempArr);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        });
+
     }
 
 

@@ -28,6 +28,7 @@ import com.netease.nimlib.sdk.StatusCode;
 import com.netease.nimlib.sdk.avsignalling.constant.ChannelType;
 import com.netease.yunxin.kit.contactkit.ui.fun.addfriend.FunAddFriendVerifyActivity;
 import com.netease.yunxin.kit.contactkit.ui.normal.contact.ContactNewFragment;
+import com.netease.yunxin.kit.corekit.route.XKitRouter;
 import com.turunsi.yaoxin.AppSkinConfig;
 import com.turunsi.yaoxin.BuildConfig;
 import com.turunsi.yaoxin.CustomConfig;
@@ -415,7 +416,14 @@ public class MainActivity extends BaseActivity {
 
       Intent intent = new Intent(this, CaptureActivity.class);
       startActivityForResult(intent, REQUEST_CODE_SCAN);
+    } else if ("gotoCreate".equals(event.getTag())) {
+      XKitRouter.withKey(com.yaoxin.appbase.net.Constant.FunSelected_User_ActivityKey)
+              .withContext(this)
+              .withParam("type","1")
+              .navigate();
+
     }
+
   }
 
   @Override
