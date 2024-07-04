@@ -118,4 +118,11 @@ public class DataUtil {
         DataUtil.putUserInfo(null);
     }
 
+    public static void setStringValue(String jsonStr,String key) {
+        Hawk.put(key, jsonStr);
+    }
+    public static String getStringValue(String key) {
+        return Hawk.get(key);
+    }
+
 }

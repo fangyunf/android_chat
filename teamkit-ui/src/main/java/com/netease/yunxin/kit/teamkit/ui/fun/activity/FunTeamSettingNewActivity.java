@@ -242,12 +242,12 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
                             groupInfoBean.userInfos.addAll(tempList);
                             if (tempList.size() == 100) {
                                 _requestPeople((page + 1));
-                                return;
+                            } else {
+                                requestYunXin();
+                                updateUI();
                             }
                         }
 
-                        requestYunXin();
-                        updateUI();
 
 
                     }
@@ -325,10 +325,11 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
             public void onClick(@NonNull BaseQuickAdapter<GroupInfoBean, ?> baseQuickAdapter, @NonNull View view, int i) {
 
                 if (i == maxList.size()) {
+                    DataUtil.setStringValue(new Gson().toJson(groupInfoBean),"groupInfo");
+
                     XKitRouter.withKey(Constant.FunSelected_User_ActivityKey)
                             .withParam("type","2")
                             .withParam("groupId",groupId)
-                            .withParam("groupInfo",new Gson().toJson(groupInfoBean))
                             .withContext(that)
                             .navigate();
 //                    XKitRouter.withKey(RouterConstant.PATH_FUN_CONTACT_SELECTOR_PAGE)
@@ -347,10 +348,11 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
 //                            .navigate(launcher);
                 } else if (i == maxList.size() + 1) {
 
+                    DataUtil.setStringValue(new Gson().toJson(groupInfoBean),"groupInfo");
+
                     XKitRouter.withKey(Constant.FunSelected_User_ActivityKey)
                             .withParam("type","3")
                             .withParam("groupId",groupId)
-                            .withParam("groupInfo",new Gson().toJson(groupInfoBean))
                             .withContext(that)
                             .navigate();
 //                    XKitRouter.withKey(RouterConstant.PATH_FUN_CONTACT_SELECTOR_PAGE)

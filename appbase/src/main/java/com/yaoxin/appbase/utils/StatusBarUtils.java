@@ -12,9 +12,12 @@ import android.view.Window;
 import android.view.WindowInsets;
 import android.view.WindowInsetsController;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.Toolbar;
 
 import androidx.core.view.ViewCompat;
+
+import com.yaoxin.appbase.navbar.NavToolbar;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -27,6 +30,14 @@ public class StatusBarUtils {
 
     private static final String TAG = "StatusBarUtils";
 
+    public static void transtStatusBar(Activity activity, NavToolbar navToolbar) {
+        StatusBarUtils.setStatusBarLightMode(activity, true, true);
+        LinearLayout.LayoutParams params =
+                (LinearLayout.LayoutParams) navToolbar.getLayoutParams();
+        params.height = params.height + BarUtils.getStatusBarHeight();
+        navToolbar.setLayoutParams(params);
+        navToolbar.setPadding(0, BarUtils.getStatusBarHeight(), 0, 0);
+    }
     /**
      * 是否开启沉浸式状态栏
      */

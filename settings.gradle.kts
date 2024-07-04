@@ -36,7 +36,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "im-uikit"
+rootProject.name = "shenyu"
 include(":app")
 include(":conversationkit-ui")
 include(":teamkit-ui")

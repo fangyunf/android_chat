@@ -8,8 +8,8 @@
     >
     <ImageView
         android:id="@+id/view_conversation_head_item_iv"
-        android:layout_width="@dimen/dimen_45_dp"
-        android:layout_height="@dimen/dimen_45_dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:src="@drawable/conversation_index_all_chat"
         android:scaleType="fitXY"
         />

@@ -10,16 +10,15 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.yaoxin.appbase.navbar.NavToolbar
+
+        android:id="@+id/contact_new_fragment_nav"
+        style="@style/WhiteFontToolbar"
+        android:background="@drawable/conversation_list_index_nav_bg"
+        app:title="朋友"
+        app:title_text_color="@color/color_white" />
 
 
-    <com.netease.yunxin.kit.common.ui.widgets.TitleBarView
-        android:id="@+id/contact_title_layout"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_52_dp"
-        app:head_title="@string/contact_title"
-        app:head_img_visible="gone"
-        android:background="@color/color_white"
-        app:head_title_color="@color/title_color"/>
 
 
 <!--    &lt;!&ndash;搜索框&ndash;&gt;-->

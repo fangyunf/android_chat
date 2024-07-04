@@ -49,6 +49,7 @@ import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.BarUtils;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.PinnedHeaderDecoration;
+import com.yaoxin.appbase.utils.StatusBarUtils;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -77,13 +78,8 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
         binding.contactNewFragmentBlackList.setOnClickListener(this);
 
 
-        LinearLayout.LayoutParams params =
-                (LinearLayout.LayoutParams) binding.contactTitleLayout.getLayoutParams();
-        params.height = params.height + BarUtils.getStatusBarHeight();
-        binding.contactTitleLayout.setLayoutParams(params);
-        binding.contactTitleLayout.setPadding(0, BarUtils.getStatusBarHeight(), 0, 0);
-
-
+        StatusBarUtils.transtStatusBar(getActivity(),binding.contactNewFragmentNav);
+        binding.contactNewFragmentNav.clearLeftMenu();
         _initViews();
         _requestData();
         return binding.getRoot();
@@ -173,7 +169,10 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
                         } else {
                             binding.contactNewFragmentGroupNoticeTv.setVisibility(View.GONE);
                         }
-                        contactCallback.updateUnreadCount(applyNumBean.friendApplyNum+applyNumBean.groupApplyNum);
+                        if (contactCallback != null) {
+                            contactCallback.updateUnreadCount(applyNumBean.friendApplyNum+applyNumBean.groupApplyNum);
+                        }
+
                     }
 
                     @Override

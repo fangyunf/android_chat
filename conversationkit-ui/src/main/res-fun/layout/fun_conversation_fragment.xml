@@ -19,42 +19,14 @@
         android:orientation="vertical"
         tools:ignore="MissingConstraints">
 
-        <com.netease.yunxin.kit.common.ui.widgets.TitleBarView
-            android:id="@+id/titleBar"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_52_dp"
-            app:head_img_visible="gone"
-            app:head_title="消息"
-            app:head_title_color="@color/color_black" />
+        <com.yaoxin.appbase.navbar.NavToolbar
 
+            android:id="@+id/fun_conversation_fragment_nav"
+            style="@style/WhiteFontToolbar"
+            android:background="@drawable/conversation_list_index_nav_bg"
+            app:title="消息"
+            app:title_text_color="@color/color_white" />
 
-        <LinearLayout
-            android:id="@+id/marqueeView_bg_ll"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_36_dp"
-            android:background="#F6F6F6"
-            android:paddingHorizontal="@dimen/dimen_18_dp"
-            android:gravity="center_vertical"
-            >
-
-            <ImageView
-                android:layout_width="13dp"
-                android:layout_height="15dp"
-                android:src="@drawable/chat_conversation_notice_icon"
-                />
-            <com.sunfusheng.marqueeview.MarqueeView
-                android:id="@+id/marqueeView"
-                android:layout_marginLeft="@dimen/dimen_10_dp"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                app:mvAnimDuration="1000"
-                app:mvDirection="bottom_to_top"
-                app:mvInterval="3000"
-                app:mvTextColor="@color/black"
-                app:mvTextSize="14sp"
-                app:mvSingleLine="true"/>
-            
-        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -89,6 +61,34 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
         </LinearLayout>
+        <LinearLayout
+            android:id="@+id/marqueeView_bg_ll"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/conversation_list_index_notice_bg"
+            android:paddingHorizontal="@dimen/dimen_18_dp"
+            android:gravity="center_vertical"
+            >
+
+            <ImageView
+                android:layout_width="37dp"
+                android:layout_height="20dp"
+                android:src="@drawable/conversation_list_index_notice_icon"
+                />
+            <com.sunfusheng.marqueeview.MarqueeView
+                android:id="@+id/marqueeView"
+                android:layout_marginLeft="@dimen/dimen_10_dp"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                app:mvAnimDuration="1000"
+                app:mvDirection="bottom_to_top"
+                app:mvInterval="3000"
+                app:mvTextColor="@color/color_white"
+                app:mvTextSize="14sp"
+                app:mvSingleLine="true"/>
+
+        </LinearLayout>
+
     </LinearLayout>
 
     <FrameLayout

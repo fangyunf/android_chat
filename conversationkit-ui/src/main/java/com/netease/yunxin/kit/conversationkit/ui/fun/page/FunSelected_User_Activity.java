@@ -59,7 +59,8 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         String type1 = getIntent().getStringExtra("type");
-        String temp = getIntent().getStringExtra("groupInfo");
+        String temp = DataUtil.getStringValue("groupInfo");
+
         if (temp != null) {
             groupInfoBean = new Gson().fromJson(temp,GroupInfoBean.class);
         }
@@ -88,6 +89,11 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
         }
         _requestData1();
         _initView();
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        DataUtil.setStringValue("","groupInfo");
     }
 
 
