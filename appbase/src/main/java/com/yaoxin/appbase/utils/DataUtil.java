@@ -52,7 +52,7 @@ public class DataUtil {
     }
     public static List<UserBean> getLoginUserInfoList() {
         ArrayList<UserBean> arrayList = Hawk.get(USERInfoList);
-        if (arrayList == null) {
+        if (arrayList == null || arrayList.isEmpty()) {
 //            arrayList = new ArrayList<>();
             addLoginUserInfoList(DataUtil.getUserInfo());
             arrayList = Hawk.get(USERInfoList);

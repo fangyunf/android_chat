@@ -137,8 +137,9 @@ public class FunRedPacketResultActivity extends BaseActivity implements View.OnC
     @Override
     protected void _initView() {
 
-        binding.activityFunRedPacketResultDetailBackLl.setOnClickListener(this);
-        binding.activityFunRedPacketResultDetailRedPacketRecordTv.setOnClickListener(this);
+        binding.activityFunRedPacketResultDetailNav.addCloseImageButton().setOnClickListener(this);
+//        binding.activityFunRedPacketResultDetailRedPacketRecordTv.setOnClickListener(this);
+//        binding.activityFunRedPacketResultDetailNav.setActionText("红包记录");
         binding.activityFunRedPacketResultDetailRv.setLayoutManager(new LinearLayoutManager(this));
         binding.activityFunRedPacketResultDetailRv.setAdapter(adapter);
 
@@ -147,11 +148,12 @@ public class FunRedPacketResultActivity extends BaseActivity implements View.OnC
 
     @Override
     public void onClick(View v) {
-        if (v == binding.activityFunRedPacketResultDetailBackLl) {
+        if (v == binding.activityFunRedPacketResultDetailNav.addCloseImageButton()) {
             finish();
-        } else if (v == binding.activityFunRedPacketResultDetailRedPacketRecordTv) {
-            FunRedPacketRecordListActivity.start(FunRedPacketRecordListActivity.class,this,null);
         }
+//        else if (v == binding.activityFunRedPacketResultDetailRedPacketRecordTv) {
+//            FunRedPacketRecordListActivity.start(FunRedPacketRecordListActivity.class,this,null);
+//        }
 //        else if (v == binding.activityFunSendRedPacketPinChangeTypeLl) {
 //        }
     }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -39,32 +40,43 @@ public class ExchangeAccountAdapter extends BaseQuickAdapter<UserBean, QuickView
 
     @Override
     protected void onBindViewHolder(@NonNull QuickViewHolder quickViewHolder, int i, @Nullable UserBean orderListBean) {
+        TextView addTv = quickViewHolder.getView(R.id.item_set_exchange_account_list_cell_add_tv);
+        LinearLayout infoLl = quickViewHolder.getView(R.id.item_set_exchange_account_list_cell_info_ll);
         if (getItemViewType(i) == TYPE_FOOTER) {
 
+            infoLl.setVisibility(View.GONE);
+            //exchange_account_add
+            RoundedImageView iv = quickViewHolder.getView(R.id.item_set_exchange_account_list_cell_head_iv);
+            iv.setImageResource(R.mipmap.exchange_account_add);
+            RoundedImageView status_iv = quickViewHolder.getView(R.id.item_set_exchange_account_list_cell_status_iv);
+
+            status_iv.setBackgroundColor(getContext().getResources().getColor(R.color.color_white));
+addTv.setVisibility(View.VISIBLE);
         } else {
+            infoLl.setVisibility(View.VISIBLE);
             quickViewHolder.setText(R.id.item_set_exchange_account_list_cell_name_tv,orderListBean.username)
                     .setText(R.id.item_set_exchange_account_list_cell_id_tv, "ID：" + orderListBean.memberCode);
-            TextView view1 = quickViewHolder.getView(R.id.item_set_exchange_account_list_cell_current_tv);
-            TextView view2 = quickViewHolder.getView(R.id.item_set_exchange_account_list_cell_delete_tv);
+//            TextView view1 = quickViewHolder.getView(R.id.item_set_exchange_account_list_cell_current_tv);
+//            TextView view2 = quickViewHolder.getView(R.id.item_set_exchange_account_list_cell_delete_tv);
             RoundedImageView iv = quickViewHolder.getView(R.id.item_set_exchange_account_list_cell_head_iv);
+            RoundedImageView status_iv = quickViewHolder.getView(R.id.item_set_exchange_account_list_cell_status_iv);
             GlideUtil.yh_loadImage(iv.getContext(),iv,orderListBean.avatar);
             if (orderListBean.userId.equals(DataUtil.getUserid())) {
-
-                view2.setVisibility(View.GONE);
-                view1.setVisibility(View.VISIBLE);
+                status_iv.setBackgroundColor(getContext().getResources().getColor(R.color.color_00C00E));
             } else {
-                view1.setVisibility(View.GONE);
-                view2.setVisibility(View.VISIBLE);
+                status_iv.setBackgroundColor(getContext().getResources().getColor(R.color.color_white));
+
             }
+            addTv.setVisibility(View.GONE);
         }
     }
 
     @NonNull
     @Override
     protected QuickViewHolder onCreateViewHolder(@NonNull Context context, @NonNull ViewGroup viewGroup, int i) {
-        if (i == TYPE_FOOTER) {
-            return new QuickViewHolder(R.layout.item_set_user_exchange_account_add_cell, viewGroup);
-        }
+//        if (i == TYPE_FOOTER) {
+//            return new QuickViewHolder(R.layout.item_set_user_exchange_account_add_cell, viewGroup);
+//        }
         return new QuickViewHolder(R.layout.item_set_exchange_account_list_cell, viewGroup);
     }
 }

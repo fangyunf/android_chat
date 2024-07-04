@@ -71,7 +71,7 @@ public class AccountDetailActivity extends BaseActivity implements View.OnClickL
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(BaseEvent event) {
         if (event.getTag().equals("refreshUserInfo")) {
-//            viewBinding.activityMineAccountDetailUsername.viewTitleArrowRightTv.setText(event.getText());
+            viewBinding.activityMineAccountDetailNameTv.setText(event.getText());
         }
     }
     @Override
@@ -101,10 +101,11 @@ public class AccountDetailActivity extends BaseActivity implements View.OnClickL
 //    viewBinding.activityMineAccountDetailPhoneNum.viewTitleArrowRightTv.setVisibility(View.VISIBLE);
 //
 //    viewBinding.activityMineAccountDetailPhoneNum.viewTitleArrowRightTv.setText("+86 "+DataUtil.getUserInfo().phoneNo);
-//    viewBinding.activityMineAccountDetailAccountId.viewTitleArrowRightTv.setText("ID：" + DataUtil.getUserInfo().memberCode);
-//    GlideUtil.yh_loadImageRoundedCorner(this,viewBinding.activityMineAccountDetailHeadIv,DataUtil.getUserInfo().avatar,25);
+    viewBinding.activityMineAccountDetailIdTv.setText("ID：" + DataUtil.getUserInfo().memberCode);
+    GlideUtil.yh_loadImageRoundedCorner(this,viewBinding.activityMineAccountDetailHeadIv,DataUtil.getUserInfo().avatar,25);
 //      viewBinding.activityMineAccountDetailUsername.viewTitleArrowRightTv.setVisibility(View.VISIBLE);
-//    viewBinding.activityMineAccountDetailUsername.viewTitleArrowRightTv.setText(DataUtil.getUserInfo().username);
+    viewBinding.activityMineAccountDetailNameTv.setText(DataUtil.getUserInfo().username);
+
   }
 
   @Override

@@ -99,6 +99,9 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
 
     protected void _requestData1() {
         if (page_type == 3 || page_type == 4) {
+            if (groupInfoBean == null ) {
+                return;
+            }
             mContactModels.addAll(groupInfoBean.userInfos);
             adapter.contacts = mContactModels;
             adapter.setItems(mContactModels);

@@ -7,7 +7,6 @@
     android:gravity="center_vertical"
     android:paddingHorizontal="@dimen/dimen_16_dp"
     android:id="@+id/fun_title_tf_arrow_view_ll"
-    android:background="@color/color_white"
     >
     <TextView
         android:id="@+id/tit_tv"
