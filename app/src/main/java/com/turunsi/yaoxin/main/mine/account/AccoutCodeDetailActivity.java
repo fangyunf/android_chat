@@ -61,7 +61,9 @@ public class AccoutCodeDetailActivity extends BaseActivity implements View.OnCli
         super.onCreate(savedInstanceState);
 //    changeStatusBarColor(R.color.color_e9eff5);
         viewBinding = ActivityMineAccountCodeBinding.inflate(getLayoutInflater());
+
         setContentView(viewBinding.getRoot());
+        transtStatusBar(viewBinding.activityMineAccountCodeNav);
         initView();
     }
 
@@ -71,7 +73,6 @@ public class AccoutCodeDetailActivity extends BaseActivity implements View.OnCli
         viewBinding.activityMineAccountCodeNav.addCloseImageButton().setOnClickListener(this);
         viewBinding.activityMineAccountCodeSavePhoto.setOnClickListener(this);
         GlideUtil.yh_loadImageRoundedCorner(this, viewBinding.activityMineAccountCodeHeadIv, DataUtil.getUserInfo().avatar, 25);
-        viewBinding.activityMineAccountCodeIdTv.setText("ID: " + DataUtil.getUserInfo().memberCode);//.setVisibility(View.VISIBLE);
         viewBinding.activityMineAccountCodeNameTv.setText(DataUtil.getUserInfo().username);
 
         Bitmap bitmap = generateQRCode(DataUtil.getUserInfo().memberCode);

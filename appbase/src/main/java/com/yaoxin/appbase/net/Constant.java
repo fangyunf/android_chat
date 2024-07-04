@@ -11,7 +11,7 @@ public class Constant {
     public static final Boolean DEBUG = true;
     public static final String BASE_URL = "http://frx.sxweinizx.com/";
     public static final String ENCODE_KEY = "frxsecretpadding";
-    public static final String MSG_ENCODE_KEY = "wallstreetimchat";
+    public static final String MSG_ENCODE_KEY = "carefullanimchat";
     public static final String clientType = "Android";
     public static final String RealName_Router = "RealName_Router";
     public static final String Create_Group_Name = "Create_Group_Name";
@@ -32,5 +32,10 @@ public class Constant {
     public static final int REQUEST_VIDEO_PERMISSION = 2;
     public static final int REQUEST_READ_EXTERNAL_STORAGE_PERMISSION_ALBUM = 3;
     private static final int REQUEST_READ_EXTERNAL_STORAGE_PERMISSION_FILE = 4;
+
+
+    public static final int RECYCLE_VIEW_HEADER = 0;
+    public static final int RECYCLE_VIEW_ITEM = 1;
+    public static final int RECYCLE_VIEW_FOOTER = 2;
 
 }

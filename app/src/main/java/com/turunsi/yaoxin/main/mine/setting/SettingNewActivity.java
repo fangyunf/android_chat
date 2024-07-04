@@ -28,6 +28,7 @@ import com.turunsi.yaoxin.R;
 import com.turunsi.yaoxin.databinding.ActivityMineSetNewBinding;
 import com.turunsi.yaoxin.databinding.ActivityMineSettingBinding;
 import com.turunsi.yaoxin.login.LoginActivity;
+import com.turunsi.yaoxin.main.mine.DownLoadActivity;
 import com.turunsi.yaoxin.register.ForgetPwdActivity;
 import com.turunsi.yaoxin.welcome.WelcomeActivity;
 import com.yaoxin.appbase.activity.BaseActivity;
@@ -60,42 +61,33 @@ public class SettingNewActivity extends BaseActivity implements View.OnClickList
   private void initView() {
 
     viewBinding.activityMineSetNewNav.addCloseImageButton().setOnClickListener(this);
-    viewBinding.activityMineSetNewPhone.viewTitleArrowLl.setOnClickListener(this);
-      viewBinding.activityMineSetNewPhone.viewTitleArrowArrowIv.setVisibility(View.GONE);
-      viewBinding.activityMineSetNewPhone.viewTitleArrowRightTv.setText(DataUtil.getUserInfo().phoneNo);
-    viewBinding.activityMineSetNewModifyPwd.viewTitleArrowLl.setOnClickListener(this);
-    viewBinding.activityMineSetNewFontChange.viewTitleArrowLl.setOnClickListener(this);
     viewBinding.activityMineSetNewNoticeVoice.viewTitleArrowLl.setOnClickListener(this);
     viewBinding.activityMineSetNewDeleteCache.viewTitleArrowLl.setOnClickListener(this);
     viewBinding.activityMineSetNewDeleteRecord.viewTitleArrowLl.setOnClickListener(this);
     viewBinding.activityMineSetNewAboutUs.viewTitleArrowLl.setOnClickListener(this);
-    viewBinding.activityMineSetNewZhuxiaoAcountLl.setOnClickListener(this);
-    viewBinding.activityMineSetNewTuichuAcountLl.setOnClickListener(this);
-    viewBinding.activityMineSetNewExchangeAcountLl.setOnClickListener(this);
+    viewBinding.activityMineSetNewDownload.viewTitleArrowLl.setOnClickListener(this);
+
+    viewBinding.activityMineSetNewLoginOut.viewTitleArrowLl.setOnClickListener(this);
+    viewBinding.activityMineSetNewExchangeAcount.viewTitleArrowLl.setOnClickListener(this);
 
 
-    viewBinding.activityMineSetNewPhone.viewTitleArrowTv.setText("当前手机号码");
-      viewBinding.activityMineSetNewPhone.viewTitleArrowRightTv.setVisibility(View.VISIBLE);
-      viewBinding.activityMineSetNewPhone.viewTitleArrowRightTv.setText(DataUtil.getUserInfo().phoneNo);
-    viewBinding.activityMineSetNewModifyPwd.viewTitleArrowTv.setText("修改登录密码");
-    viewBinding.activityMineSetNewFontChange.viewTitleArrowTv.setText("字体调节");
-      viewBinding.activityMineSetNewFontChange.viewTitleArrowLl.setVisibility(View.GONE);
     viewBinding.activityMineSetNewNoticeVoice.viewTitleArrowTv.setText("通知声音");
     viewBinding.activityMineSetNewDeleteCache.viewTitleArrowTv.setText("清空缓存");
     viewBinding.activityMineSetNewDeleteRecord.viewTitleArrowTv.setText("清空所有聊天记录");
     viewBinding.activityMineSetNewAboutUs.viewTitleArrowTv.setText("关于我们");
+
+      viewBinding.activityMineSetNewDownload.viewTitleArrowTv.setText("下载地址");
+      viewBinding.activityMineSetNewLoginOut.viewTitleArrowTv.setText("退出登录");
+      viewBinding.activityMineSetNewExchangeAcount.viewTitleArrowTv.setText("切换账号");
+
+      viewBinding.activityMineSetNewLoginOut.viewTitleArrowTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.app_theme_red_color));
+      viewBinding.activityMineSetNewExchangeAcount.viewTitleArrowTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.app_theme_red_color));
+
   }
 
   @Override
   public void onClick(View v) {
-    if (v == viewBinding.activityMineSetNewPhone.viewTitleArrowLl) {
-
-    } else if (v == viewBinding.activityMineSetNewModifyPwd.viewTitleArrowLl) {
-      ForgetPwdActivity.start(ForgetPwdActivity.class, this, null);
-
-    } else if (v == viewBinding.activityMineSetNewFontChange.viewTitleArrowLl) {
-
-    } else if (v == viewBinding.activityMineSetNewNoticeVoice.viewTitleArrowLl) {
+    if (v == viewBinding.activityMineSetNewNoticeVoice.viewTitleArrowLl) {
       startActivity(new Intent(SettingNewActivity.this, SettingNotifyActivity.class));
     } else if (v == viewBinding.activityMineSetNewDeleteCache.viewTitleArrowLl) {
       startActivity(new Intent(SettingNewActivity.this, ClearCacheActivity.class));
@@ -131,47 +123,17 @@ public class SettingNewActivity extends BaseActivity implements View.OnClickList
     } else if (v == viewBinding.activityMineSetNewAboutUs.viewTitleArrowLl) {
 
         AboutUsNewActivity.start(AboutUsNewActivity.class,this,null);
-    } else if (v == viewBinding.activityMineSetNewZhuxiaoAcountLl) {
-      CommonChoiceDialog dialog = new CommonChoiceDialog();
-      dialog
-              .setTitleStr("温馨提示")
-              .setContentStr("确定注销账号吗?")
-              .setNegativeStr("取消")
-              .setPositiveStr("确定")
-              .setConfirmListener(
-                      new ChoiceListener() {
-                        @Override
-                        public void onPositive() {
-
-                          HttpUtil.apiW().home_logout()
-                                  .enqueue(new CommonCallback<NetData>() {
-                                    @Override
-                                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                                      ToastUtils.toastMsg(body.msg);
-                                      showLogin();
-                                    }
-
-                                    @Override
-                                    public void Failure(Call<NetData> call, Throwable t) {
-
-                                    }
-                                  });
-                        }
-
-                        @Override
-                        public void onNegative() {}
-                      })
-              .show(getSupportFragmentManager());
-
-    } else if (v == viewBinding.activityMineSetNewTuichuAcountLl) {
+    }  else if (v == viewBinding.activityMineSetNewLoginOut.viewTitleArrowLl) {
       showLogin();
 
-    } else if (v == viewBinding.activityMineSetNewExchangeAcountLl) {
+    } else if (v == viewBinding.activityMineSetNewExchangeAcount.viewTitleArrowLl) {
 //        showLogin();
         ExchangeAccountActivity.start(ExchangeAccountActivity.class,this,null);
     } else if (v == viewBinding.activityMineSetNewNav.addCloseImageButton()) {
       finish();
 
+    } else if (v == viewBinding.activityMineSetNewDownload.viewTitleArrowLl) {
+        DownLoadActivity.start(DownLoadActivity.class,this,null);
     }
   }
 

@@ -32,27 +32,6 @@
         android:background="@drawable/bg_f2f2f2_rounded_10"
         >
         <include
-            android:id="@+id/activity_mine_set_new_phone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            layout="@layout/view_title_arrow"
-            />
-
-        <include
-            android:id="@+id/activity_mine_set_new_modify_pwd"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            layout="@layout/view_title_arrow"
-            />
-
-        <include
-            android:id="@+id/activity_mine_set_new_font_change"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            layout="@layout/view_title_arrow"
-            />
-
-        <include
             android:id="@+id/activity_mine_set_new_notice_voice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -73,84 +52,31 @@
             layout="@layout/view_title_arrow"
             />
 
+
         <include
             android:id="@+id/activity_mine_set_new_about_us"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             layout="@layout/view_title_arrow"
             />
-        <LinearLayout
-            android:id="@+id/activity_mine_set_new_exchange_acount_ll"
+        <include
+            android:id="@+id/activity_mine_set_new_download"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_58_dp"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:background="@color/white"
-            >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="57dp"
-                android:gravity="center"
-                android:text="切换账号"
-                android:textColor="#ff8b5fd8"
-                android:textSize="16sp"
-                />
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen_1_dp"
-                android:background="#F2F2F2"
-                android:layout_gravity="end"
-                />
-
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/activity_mine_set_new_zhuxiao_acount_ll"
+            android:layout_height="wrap_content"
+            layout="@layout/view_title_arrow"
+            />
+        <include
+            android:id="@+id/activity_mine_set_new_exchange_acount"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_58_dp"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:background="@color/white"
-            >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="57dp"
-                android:gravity="center"
-                android:text="注销账号"
-                android:textColor="#ff8b5fd8"
-                android:textSize="16sp"
-                />
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen_1_dp"
-                android:background="#F2F2F2"
-                android:layout_gravity="end"
-                />
-
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/activity_mine_set_new_tuichu_acount_ll"
+            android:layout_height="wrap_content"
+            layout="@layout/view_title_arrow"
+            />
+        <include
+            android:id="@+id/activity_mine_set_new_login_out"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_58_dp"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:background="@color/white"
-            >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="57dp"
-                android:gravity="center"
-                android:text="退出登录"
-                android:textColor="#ff8b5fd8"
-                android:textSize="16sp"
-                />
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen_1_dp"
-                android:background="#F2F2F2"
-                android:layout_gravity="end"
-                />
-
-        </LinearLayout>
+            android:layout_height="wrap_content"
+            layout="@layout/view_title_arrow"
+            />
 
     </LinearLayout>
 </ScrollView>

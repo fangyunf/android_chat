@@ -28,4 +28,5 @@ public class Constant {
   public static final int OVERSEA_CONFIG = 1;
 
   public static final int NETWORK_ERROR_CODE = 415;
+
 }

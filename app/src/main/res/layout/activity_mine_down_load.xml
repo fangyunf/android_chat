@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tl="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <com.yaoxin.appbase.navbar.NavToolbar
+        android:id="@+id/activity_mine_down_load_nav"
+        style="@style/WhiteFontToolbar"
+        android:background="@color/white"
+        app:back_icon="@mipmap/temp_ic_back"
+        app:enable_under_divider="true"
+        app:support_translucent_status_bar="false"
+        app:title="下载分享"
+        app:title_text_color="@color/color_333333"
+        app:under_divider_color="@color/color_d5d5d5" />
+
+    <TextView
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="苹果官方下载地址:"
+        android:textColor="@color/black"
+        />
+    <TextView
+        android:id="@+id/activity_mine_down_load_ios"
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="https://testflight.apple.com/join/GHdU8rAJ"
+        android:textColor="#ff8b5fd8"
+        />
+    <TextView
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="安卓官方下载地址:"
+        android:textColor="@color/black"
+        />
+    <TextView
+        android:id="@+id/activity_mine_down_load_android"
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="https://www.pgyer.com/whtXPofX"
+        android:textColor="#ff8b5fd8"
+        />
+
+</LinearLayout>

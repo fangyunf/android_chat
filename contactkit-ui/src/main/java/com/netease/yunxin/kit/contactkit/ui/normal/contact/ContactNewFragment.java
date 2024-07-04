@@ -73,9 +73,9 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = ContactNewFragmentBinding.inflate(inflater, container, false);
-        binding.contactNewFragmentGroupNoticeRl.setOnClickListener(this);
-        binding.contactNewFragmentNewFriendRl.setOnClickListener(this);
-        binding.contactNewFragmentBlackList.setOnClickListener(this);
+//        binding.contactNewFragmentGroupNoticeRl.setOnClickListener(this);
+//        binding.contactNewFragmentNewFriendRl.setOnClickListener(this);
+//        binding.contactNewFragmentBlackList.setOnClickListener(this);
 
 
         StatusBarUtils.transtStatusBar(getActivity(),binding.contactNewFragmentNav);
@@ -85,34 +85,6 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
         return binding.getRoot();
     }
 
-//    private void createNotificationChannel() {
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            CharSequence name = "MyChannel";
-//            String description = "Channel for my notifications";
-//            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-//            NotificationChannel channel = new NotificationChannel("MY_CHANNEL_ID", name, importance);
-//            channel.setDescription(description);
-//            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-//            notificationManager.createNotificationChannel(channel);
-//        }
-//    }
-//    private void sendNotification(String message) {
-//        NotificationManager notificationManager = (NotificationManager) getSystemService(getContext(),getActivity().getClass());
-//
-//        Intent intent = new Intent(this, getContext());
-//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
-//
-//        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "MY_CHANNEL_ID")
-//                .setSmallIcon(R.drawable.ic_notification)
-//                .setContentTitle("My Notification")
-//                .setContentText(message)
-//                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-//                .setContentIntent(pendingIntent)
-//                .setAutoCancel(true);
-//
-//        notificationManager.notify(0, builder.build());
-//    }
 
 
     @Override
@@ -157,18 +129,18 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
                         applyNumBean = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
-                        if (applyNumBean.friendApplyNum > 0) {
-                            binding.contactNewFragmentNewFriendTv.setText(applyNumBean.friendApplyNum + "");
-                            binding.contactNewFragmentNewFriendTv.setVisibility(View.VISIBLE);
-                        } else {
-                            binding.contactNewFragmentNewFriendTv.setVisibility(View.GONE);
-                        }
-                        if (applyNumBean.groupApplyNum > 0) {
-                            binding.contactNewFragmentGroupNoticeTv.setText(applyNumBean.groupApplyNum + "");
-                            binding.contactNewFragmentGroupNoticeTv.setVisibility(View.VISIBLE);
-                        } else {
-                            binding.contactNewFragmentGroupNoticeTv.setVisibility(View.GONE);
-                        }
+//                        if (applyNumBean.friendApplyNum > 0) {
+//                            binding.contactNewFragmentNewFriendTv.setText(applyNumBean.friendApplyNum + "");
+//                            binding.contactNewFragmentNewFriendTv.setVisibility(View.VISIBLE);
+//                        } else {
+//                            binding.contactNewFragmentNewFriendTv.setVisibility(View.GONE);
+//                        }
+//                        if (applyNumBean.groupApplyNum > 0) {
+//                            binding.contactNewFragmentGroupNoticeTv.setText(applyNumBean.groupApplyNum + "");
+//                            binding.contactNewFragmentGroupNoticeTv.setVisibility(View.VISIBLE);
+//                        } else {
+//                            binding.contactNewFragmentGroupNoticeTv.setVisibility(View.GONE);
+//                        }
                         if (contactCallback != null) {
                             contactCallback.updateUnreadCount(applyNumBean.friendApplyNum+applyNumBean.groupApplyNum);
                         }
@@ -200,10 +172,55 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener<GroupInfoBean>() {
             @Override
             public void onClick(@NonNull BaseQuickAdapter<GroupInfoBean, ?> baseQuickAdapter, @NonNull View view, int i) {
-                XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_SETTING_PAGE)
-                        .withParam(RouterConstant.CHAT_ID_KRY, baseQuickAdapter.getItem(i).userId)
-                        .withParam("type", "1")
-                        .withContext(requireActivity())
+                if (baseQuickAdapter.getItemViewType(i) == Constant.RECYCLE_VIEW_ITEM) {
+                    XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_SETTING_PAGE)
+                            .withParam(RouterConstant.CHAT_ID_KRY, baseQuickAdapter.getItem(i - 1).userId)
+                            .withParam("type", "1")
+                            .withContext(requireActivity())
+                            .navigate();
+                }
+            }
+        });
+
+        adapter.addOnItemChildClickListener(R.id.contact_index_headview_1_ll, new BaseQuickAdapter.OnItemChildClickListener<GroupInfoBean>() {
+            @Override
+            public void onItemClick(@NonNull BaseQuickAdapter<GroupInfoBean, ?> baseQuickAdapter, @NonNull View view, int i) {
+                XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_P2P_PAGE)
+                        .withParam(RouterConstant.CHAT_ID_KRY, DataUtil.getKeFuId())
+                        .withContext(getContext())
+                        .navigate();
+            }
+        });
+        adapter.addOnItemChildClickListener(R.id.contact_index_headview_2_ll, new BaseQuickAdapter.OnItemChildClickListener<GroupInfoBean>() {
+            @Override
+            public void onItemClick(@NonNull BaseQuickAdapter<GroupInfoBean, ?> baseQuickAdapter, @NonNull View view, int i) {
+                XKitRouter.withKey(RouterConstant.PATH_FUN_MY_BLACK_PAGE)
+                        .withContext(requireContext())
+                        .navigate();
+            }
+        });
+        adapter.addOnItemChildClickListener(R.id.contact_index_headview_3_ll, new BaseQuickAdapter.OnItemChildClickListener<GroupInfoBean>() {
+            @Override
+            public void onItemClick(@NonNull BaseQuickAdapter<GroupInfoBean, ?> baseQuickAdapter, @NonNull View view, int i) {
+            XKitRouter.withKey(RouterConstant.PATH_FUN_MY_NOTIFICATION_PAGE)
+                    .withContext(requireContext())
+                    .navigate();
+            }
+        });
+        adapter.addOnItemChildClickListener(R.id.contact_index_headview_4_ll, new BaseQuickAdapter.OnItemChildClickListener<GroupInfoBean>() {
+            @Override
+            public void onItemClick(@NonNull BaseQuickAdapter<GroupInfoBean, ?> baseQuickAdapter, @NonNull View view, int i) {
+            XKitRouter.withKey(RouterConstant.PATH_FUN_MY_NOTIFICATION_PAGE)
+                    .withParam("type","1")
+                    .withContext(requireContext())
+                    .navigate();
+            }
+        });
+        adapter.addOnItemChildClickListener(R.id.contact_index_headview_5_ll, new BaseQuickAdapter.OnItemChildClickListener<GroupInfoBean>() {
+            @Override
+            public void onItemClick(@NonNull BaseQuickAdapter<GroupInfoBean, ?> baseQuickAdapter, @NonNull View view, int i) {
+                XKitRouter.withKey(Constant.XiaoZhuShouActivityKey)
+                        .withContext(requireContext())
                         .navigate();
             }
         });
@@ -222,19 +239,6 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
             }
         });
 
-        binding.contactTitleLayout.showRight2ImageView(false);
-        binding
-                .contactTitleLayout
-                .setRightImageClick(
-                        v ->
-//                                XKitRouter.withKey(PATH_ADD_FRIEND_PAGE)
-//                                        .withContext(getContext())
-//                                        .navigate()
-                                XKitRouter.withKey(RouterConstant.PATH_GLOBAL_SEARCH_PAGE)
-                                        .withContext(requireContext())
-                                        .navigate()
-                );
-
     }
 
     protected void loadTitle() {
@@ -244,21 +248,19 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        if (v == binding.contactNewFragmentGroupNoticeRl) {
-            XKitRouter.withKey(RouterConstant.PATH_FUN_MY_NOTIFICATION_PAGE)
-                    .withParam("type","1")
-                    .withContext(requireContext())
-                    .navigate();
-        } else if (v == binding.contactNewFragmentNewFriendRl) {
+//        if (v == binding.contactNewFragmentGroupNoticeRl) {
+//            XKitRouter.withKey(RouterConstant.PATH_FUN_MY_NOTIFICATION_PAGE)
+//                    .withParam("type","1")
+//                    .withContext(requireContext())
+//                    .navigate();
+//        } else if (v == binding.contactNewFragmentNewFriendRl) {
+//
+//            XKitRouter.withKey(RouterConstant.PATH_FUN_MY_NOTIFICATION_PAGE)
+//                    .withContext(requireContext())
+//                    .navigate();
+//        } else if (v == binding.contactNewFragmentBlackList) {
 
-            XKitRouter.withKey(RouterConstant.PATH_FUN_MY_NOTIFICATION_PAGE)
-                    .withContext(requireContext())
-                    .navigate();
-        } else if (v == binding.contactNewFragmentBlackList) {
-            XKitRouter.withKey(RouterConstant.PATH_FUN_MY_BLACK_PAGE)
-                    .withContext(requireContext())
-                    .navigate();
-        }
+//        }
         //
     }
 

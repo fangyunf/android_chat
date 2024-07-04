@@ -47,6 +47,7 @@
     <color name="color_ffe935">#ffe935</color>
     <color name="color_ff666666">#ff666666</color>
     <color name="app_theme_color">#3339FF</color>
+    <color name="app_theme_red_color">#FF0000</color>
     <color name="app_theme_aplha_color">#657ED3</color>
 
 </resources>

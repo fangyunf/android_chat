@@ -192,6 +192,8 @@
         <activity
             android:name=".register.ForgetPwdActivity" />
         <activity
+            android:name=".main.mine.DownLoadActivity" />
+        <activity
             android:name=".main.mine.order.OrderListActivity" />
         <activity
             android:name=".main.mine.address.AddressListActivity" />
