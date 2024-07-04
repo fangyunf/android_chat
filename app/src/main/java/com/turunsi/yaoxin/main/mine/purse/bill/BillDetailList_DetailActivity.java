@@ -31,6 +31,7 @@ import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
+import com.yaoxin.appbase.utils.NumberUtil;
 import com.yaoxin.appbase.utils.TimeUtil;
 import com.yaoxin.appbase.utils.TimeUtils;
 
@@ -64,7 +65,7 @@ public class BillDetailList_DetailActivity extends BaseActivity implements View.
     @Override
     protected void _initView() {
         binding.activityMineBankBillDetailListDetailTitleTv.setText(detailBean.remark);
-        binding.activityMineBankBillDetailListDetailMoneyTv.setText((detailBean.amount > 0 ? "+": "") +detailBean.amount);
+        binding.activityMineBankBillDetailListDetailMoneyTv.setText((detailBean.amount > 0 ? "+": "-") + NumberUtil.formartMoney(Math.abs(detailBean.amount) + "") );
 
         binding.activityMineBankBillDetailListDetailCell2DetailTv.setOnClickListener(this);
         /*

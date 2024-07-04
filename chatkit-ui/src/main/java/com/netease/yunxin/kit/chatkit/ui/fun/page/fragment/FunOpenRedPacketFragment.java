@@ -1,6 +1,7 @@
 package com.netease.yunxin.kit.chatkit.ui.fun.page.fragment;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -141,7 +142,12 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
         if (v == binding.fragmentOpenRedPacketDialogDetailRl) {
             HashMap map = new HashMap();
             map.put("redpacketId",redPacketId);
-            FunRedPacketResultActivity.start(FunRedPacketResultActivity.class,getContext(),map);
+            Context context = getContext();
+            if (context == null) {
+                context = AppProxy.getInstance().getContext();
+            }
+            FunRedPacketResultActivity.start(FunRedPacketResultActivity.class,context,map);
+
         } else if (v == binding.fragmentOpenRedPacketDialogOpenRl) {
             RegisterBean bean = new RegisterBean();
             bean.redpacketId = redPacketId;
@@ -223,7 +229,11 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
         ToastUtils.toastMsg("领取成功");
         HashMap map = new HashMap();
         map.put("redpacketId",redPacketId);
-        FunRedPacketResultActivity.start(FunRedPacketResultActivity.class,getContext(),map);
+        Context context = getContext();
+        if (context == null) {
+            context = AppProxy.getInstance().getContext();
+        }
+        FunRedPacketResultActivity.start(FunRedPacketResultActivity.class,context,map);
         dismiss();
     }
 }
