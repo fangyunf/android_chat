@@ -61,6 +61,10 @@ public class AESUtil {
     }
 
     public static String msgAseDecrypt(String strToDecrypt) throws Exception {
+        if (containsChineseCharacters(strToDecrypt)) {
+            return strToDecrypt;
+        }
+
         Cipher cipher = Cipher.getInstance(CipherMode);
         byte[] raw = Constant.MSG_ENCODE_KEY.getBytes("UTF-8");
         SecretKeySpec skeySpec = new SecretKeySpec(raw, CipherMode);
@@ -69,4 +73,26 @@ public class AESUtil {
         byte[] decrypted = cipher.doFinal(decodedBytes);
         return new String(decrypted, StandardCharsets.UTF_8);
     }
+    public static boolean isChineseCharacter(char c) {
+        Character.UnicodeBlock ub = Character.UnicodeBlock.of(c);
+        return ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS
+                || ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS_EXTENSION_A
+                || ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS_EXTENSION_B
+                || ub == Character.UnicodeBlock.CJK_COMPATIBILITY_IDEOGRAPHS
+                || ub == Character.UnicodeBlock.CJK_COMPATIBILITY_IDEOGRAPHS_SUPPLEMENT;
+    }
+
+    public static boolean containsChineseCharacters(String str) {
+        if (str == null || str.isEmpty()) {
+            return false;
+        }
+
+        for (char c : str.toCharArray()) {
+            if (isChineseCharacter(c)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

@@ -307,8 +307,15 @@ public class MessageHelper {
         for (AitBlock.AitSegment segment : block.segments) {
           if (segment.start >= 0 && segment.end > segment.start && segment.end < content.length()) {
             ForegroundColorSpan colorSpan = new ForegroundColorSpan(color);
-            spannableString.setSpan(
-                colorSpan, segment.start, segment.end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//            spannableString.setSpan(
+//                colorSpan, segment.start, segment.end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            try {
+              spannableString.setSpan(
+                      colorSpan, segment.start, segment.end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            } catch (Exception e) {
+
+            }
+
           }
         }
       }
@@ -519,20 +526,32 @@ public class MessageHelper {
             IMKitClient.getApplicationContext().getSystemService(Context.CLIPBOARD_SERVICE);
     ClipData clipData = null;
     if (messageInfo.getMessage().getMsgType() == MsgTypeEnum.text) {
-      clipData = ClipData.newPlainText(null, messageInfo.getMessage().getContent());
-    } else if (messageInfo.getMessage().getMsgType() == MsgTypeEnum.custom) {
-      CustomAttachment attachment = (CustomAttachment) messageInfo.getMessage().getAttachment();
-      if (attachment instanceof RichTextAttachment) {
-        String data = ((RichTextAttachment) attachment).body;
-        if (TextUtils.isEmpty(data)) {
-          data = ((RichTextAttachment) attachment).title;
-        }
-        clipData = ClipData.newPlainText(null, data);
+//      clipData = ClipData.newPlainText(null, messageInfo.getMessage().getContent());
+      String content = messageInfo.getMessage().getContent();
+      try {
+        content = AESUtil.msgAseDecrypt(content);
+      } catch (Exception e) {
+
       }
-    }
-    cmb.setPrimaryClip(clipData);
-    if (showToast) {
-      ToastX.showShortToast(R.string.chat_message_action_copy_success);
+      clipData = ClipData.newPlainText(null, content);
+      cmb.setPrimaryClip(clipData);
+      if (showToast) {
+        ToastX.showShortToast(R.string.chat_message_action_copy_success);
+      }
+
+      cmb.setPrimaryClip(clipData);
+      if (showToast) {
+        ToastX.showShortToast(R.string.chat_message_action_copy_success);
+      }
+    } else if (messageInfo.getMessage().getMsgType() == MsgTypeEnum.custom) {
+//      CustomAttachment attachment = (CustomAttachment) messageInfo.getMessage().getAttachment();
+//      if (attachment instanceof RichTextAttachment) {
+//        String data = ((RichTextAttachment) attachment).body;
+//        if (TextUtils.isEmpty(data)) {
+//          data = ((RichTextAttachment) attachment).title;
+//        }
+//        clipData = ClipData.newPlainText(null, data);
+//      }
     }
   }
 
