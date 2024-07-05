@@ -86,6 +86,7 @@ public class OtherPlaceLoginActivity extends BaseActivity implements View.OnClic
                 }
             });
             CountDownView mCountDownView = binding.activityOtherPlaceLoginBtnCaptcha;
+            mCountDownView.needVerify = false;
             mCountDownView.setCountDownTime(60);
             mCountDownView.setCaptchaListener(new LoginLoader.CaptchaListener() {
                 @Override

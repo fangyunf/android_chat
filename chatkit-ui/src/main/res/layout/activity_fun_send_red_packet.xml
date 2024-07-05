@@ -49,7 +49,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="20dp"
                         android:text="拼手气红包"
-                        android:textColor="#ffd09124"
+                        android:textColor="@color/app_theme_color"
                         android:textSize="14sp"
                         />
                     <ImageView
@@ -105,16 +105,11 @@
                         android:background="@drawable/bg_f2f2f2_rounded_10"
                         >
 
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/chat_red_packet_send_icon"
-                            />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_marginLeft="@dimen/dimen_3_dp"
                             android:layout_height="22dp"
-                            android:text="购物券个数"
+                            android:text="红包个数"
                             android:textColor="#ff000000"
                             android:textSize="16sp"
                             />

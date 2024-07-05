@@ -97,8 +97,8 @@ public class PurseIndexActivity extends BaseActivity implements View.OnClickList
         binding.activityMinePurseIndexCell2.itemPurseIndexCellTitleTv.setText("USDT地址");
         binding.activityMinePurseIndexCell3.itemPurseIndexCellTitleTv.setText("支付宝绑定");
         binding.activityMinePurseIndexCell4.itemPurseIndexCellTitleTv.setText("银行卡");
-        binding.activityMinePurseIndexCell5.itemPurseIndexCellTitleTv.setText("忘记密码");
-        binding.activityMinePurseIndexCell6.itemPurseIndexCellTitleTv.setText("修改密码");
+        binding.activityMinePurseIndexCell5.itemPurseIndexCellTitleTv.setText("设置支付密码");
+        binding.activityMinePurseIndexCell6.itemPurseIndexCellTitleTv.setText("修改支付密码");
 
         binding.activityMinePurseIndexCell1.itemPurseIndexCellRl.setOnClickListener(this);
         binding.activityMinePurseIndexCell2.itemPurseIndexCellRl.setOnClickListener(this);
@@ -128,7 +128,7 @@ public class PurseIndexActivity extends BaseActivity implements View.OnClickList
             BankCardListActivity.start(BankCardListActivity.class,this,null);
         } else if (v == binding.activityMinePurseIndexCell5.itemPurseIndexCellRl) {
             HashMap map = new HashMap();
-            map.put("type","2");
+            map.put("type","0");
             PursePwdManagerSetActivity.start(PursePwdManagerSetActivity.class,this,map);
         } else if (v == binding.activityMinePurseIndexCell6.itemPurseIndexCellRl) {
             HashMap map = new HashMap();

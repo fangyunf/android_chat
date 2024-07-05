@@ -38,6 +38,7 @@ import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.pswkeyboard.OnPasswordInputFinish;
 import com.yaoxin.appbase.pswkeyboard.widget.PopEnterPassword;
 import com.yaoxin.appbase.utils.AppProxy;
+import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.GlideUtil;
 import com.yaoxin.appbase.utils.NumberUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
@@ -353,10 +354,10 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
 
         } else if (v == binding.activityFunSendRedPacketToPeopleLl) {
 
+            DataUtil.setStringValue(new Gson().toJson(groupInfoBean),"groupInfo");
             XKitRouter.withKey(Constant.FunSelected_User_ActivityKey)
                     .withParam("type","4")
                     .withParam("groupId",sessionId)
-                    .withParam("groupInfo",new Gson().toJson(groupInfoBean))
                     .withContext(this)
                     .navigate(forwardTeamLauncher);
 //            XKitRouter.withKey(Constant.TeamMemberListActivity_Router)

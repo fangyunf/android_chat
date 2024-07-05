@@ -7,6 +7,8 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -28,6 +30,7 @@ import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.Constant;
 import com.yaoxin.appbase.net.HttpUtil;
+import com.yaoxin.appbase.utils.BarUtils;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.GlideUtil;
 import com.yaoxin.appbase.utils.NumberUtil;
@@ -55,8 +58,14 @@ public class FunRedPacketResultActivity extends BaseActivity implements View.OnC
         _requestData();
         binding = ActivityFunRedPacketResultDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        StatusBarUtils.setStatusBarLightMode(this, true, true);
         _initView();
+
+        StatusBarUtils.setStatusBarLightMode(this, true, true);
+        RelativeLayout.LayoutParams params =
+                (RelativeLayout.LayoutParams) binding.activityFunRedPacketResultDetailNav.getLayoutParams();
+        params.height = params.height + BarUtils.getStatusBarHeight();
+        binding.activityFunRedPacketResultDetailNav.setLayoutParams(params);
+        binding.activityFunRedPacketResultDetailNav.setPadding(0, BarUtils.getStatusBarHeight(), 0, 0);
     }
 
     @Override

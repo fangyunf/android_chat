@@ -68,15 +68,20 @@ public class AitManager implements TextWatcher {
   }
 
   public void setTeamMembers(List<UserInfoWithTeam> userInfoWithTeams) {
-    this.teamMemberList.clear();
-    for (UserInfoWithTeam member : userInfoWithTeams) {
-      if (!TextUtils.equals(IMKitClient.account(), member.getTeamInfo().getAccount())) {
-        this.teamMemberList.add(member);
-      } else {
-        curTeamMember = member.getTeamInfo();
+    try {
+      this.teamMemberList.clear();
+      for (UserInfoWithTeam member : userInfoWithTeams) {
+        if (!TextUtils.equals(IMKitClient.account(), member.getTeamInfo().getAccount())) {
+          this.teamMemberList.add(member);
+        } else {
+          curTeamMember = member.getTeamInfo();
+        }
       }
+      Collections.sort(teamMemberList, ChatUtils.teamManagerComparator());
+
+    } catch (Exception e) {
+
     }
-    Collections.sort(teamMemberList, ChatUtils.teamManagerComparator());
   }
 
   public void updateTeamInfo(Team team) {
