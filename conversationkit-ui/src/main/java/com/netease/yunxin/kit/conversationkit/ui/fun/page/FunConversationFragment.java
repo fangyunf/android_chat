@@ -462,26 +462,26 @@ public class FunConversationFragment extends ConversationBaseFragment {
 
   void _initTopStatus(int index) {
     topIndex = index;
-    viewBinding.funConversationFragmentHeadNotice.viewConversationHeadItemTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.black));
-    viewBinding.funConversationFragmentHeadGroup.viewConversationHeadItemTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.black));
-    viewBinding.funConversationFragmentHeadSingle.viewConversationHeadItemTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.black));
-    viewBinding.funConversationFragmentHeadAll.viewConversationHeadItemTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.black));
-    switch (index) {
-      case 0:
-        viewBinding.funConversationFragmentHeadAll.viewConversationHeadItemTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.color_8B5FD8));
-        break;
-      case 1:
-        viewBinding.funConversationFragmentHeadSingle.viewConversationHeadItemTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.color_8B5FD8));
-        break;
-      case 2:
-        viewBinding.funConversationFragmentHeadGroup.viewConversationHeadItemTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.color_8B5FD8));
-        break;
-      case 3:
-        viewBinding.funConversationFragmentHeadNotice.viewConversationHeadItemTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.color_8B5FD8));
-        break;
-      default:
-        break;
-    }
+//    viewBinding.funConversationFragmentHeadNotice.viewConversationHeadItemTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.black));
+//    viewBinding.funConversationFragmentHeadGroup.viewConversationHeadItemTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.black));
+//    viewBinding.funConversationFragmentHeadSingle.viewConversationHeadItemTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.black));
+//    viewBinding.funConversationFragmentHeadAll.viewConversationHeadItemTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.black));
+//    switch (index) {
+//      case 0:
+//        viewBinding.funConversationFragmentHeadAll.viewConversationHeadItemTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.color_8B5FD8));
+//        break;
+//      case 1:
+//        viewBinding.funConversationFragmentHeadSingle.viewConversationHeadItemTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.color_8B5FD8));
+//        break;
+//      case 2:
+//        viewBinding.funConversationFragmentHeadGroup.viewConversationHeadItemTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.color_8B5FD8));
+//        break;
+//      case 3:
+//        viewBinding.funConversationFragmentHeadNotice.viewConversationHeadItemTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.color_8B5FD8));
+//        break;
+//      default:
+//        break;
+//    }
 
   }
   public RecyclerView.ItemDecoration getItemDecoration() {

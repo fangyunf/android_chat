@@ -28,15 +28,24 @@
             android:layout_marginEnd="@dimen/dimen_10_dp"
             android:layout_marginBottom="@dimen/dimen_4_dp">
 
-            <RadioButton
-                android:id="@+id/inputAudioRb"
+            <RelativeLayout
+
                 android:layout_width="@dimen/dimen_32_dp"
                 android:layout_height="@dimen/dimen_32_dp"
-                android:layout_gravity="bottom"
-                android:background="@drawable/chat_fragment_toolbar_sound_icon"
-                android:button="@null"
-                android:checked="false"
-                android:clickable="false" />
+                android:background="@color/app_theme_color"
+                >
+                <RadioButton
+                    android:id="@+id/inputAudioRb"
+                    android:layout_gravity="bottom"
+                    android:layout_width="15dp"
+                    android:layout_height="20dp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/chat_fragment_toolbar_sound_icon"
+                    android:button="@null"
+                    android:checked="false"
+                    android:clickable="false" />
+            </RelativeLayout>
+
         </FrameLayout>
 
         <LinearLayout
@@ -115,20 +124,20 @@
                     android:visibility="gone" />
 
 
-                <FrameLayout
-                    android:id="@+id/chatMsgInputSwitchLayout"
-                    android:layout_width="@dimen/dimen_32_dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="end">
+<!--                <FrameLayout-->
+<!--                    android:id="@+id/chatMsgInputSwitchLayout"-->
+<!--                    android:layout_width="@dimen/dimen_32_dp"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_gravity="end">-->
 
-                    <ImageView
-                        android:id="@+id/chatMsgInputSwitch"
-                        android:layout_width="@dimen/dimen_20_dp"
-                        android:layout_height="@dimen/dimen_20_dp"
-                        android:layout_marginTop="@dimen/dimen_10_dp"
-                        android:layout_marginEnd="@dimen/dimen_10_dp"
-                        android:src="@drawable/ic_chat_open_rich_text" />
-                </FrameLayout>
+<!--                    <ImageView-->
+<!--                        android:id="@+id/chatMsgInputSwitch"-->
+<!--                        android:layout_width="@dimen/dimen_20_dp"-->
+<!--                        android:layout_height="@dimen/dimen_20_dp"-->
+<!--                        android:layout_marginTop="@dimen/dimen_10_dp"-->
+<!--                        android:layout_marginEnd="@dimen/dimen_10_dp"-->
+<!--                        android:src="@drawable/ic_chat_open_rich_text" />-->
+<!--                </FrameLayout>-->
 
                 <TextView
                     android:id="@+id/inputMuteTv"
@@ -188,21 +197,30 @@
             android:layout_marginEnd="@dimen/dimen_10_dp"
             android:layout_marginBottom="@dimen/dimen_4_dp">
 
-            <RadioButton
-                android:id="@+id/inputEmojiRb"
+            <RelativeLayout
+
                 android:layout_width="@dimen/dimen_32_dp"
                 android:layout_height="@dimen/dimen_32_dp"
-                android:layout_gravity="bottom"
-                android:background="@drawable/chat_fragment_toolbar_emoji"
-                android:button="@null"
-                android:checked="false"
-                android:clickable="false" />
+                android:background="@color/app_theme_color"
+                >
+                <RadioButton
+
+                    android:layout_width="21dp"
+                    android:layout_height="21dp"
+                    android:id="@+id/inputEmojiRb"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="bottom"
+                    android:background="@drawable/chat_fragment_toolbar_emoji"
+                    android:button="@null"
+                    android:checked="false"
+                    android:clickable="false" />
+            </RelativeLayout>
 
             <RadioButton
                 android:id="@+id/inputMoreRb"
                 android:layout_width="@dimen/dimen_32_dp"
                 android:layout_height="@dimen/dimen_32_dp"
-                android:layout_gravity="bottom"
+
                 android:layout_marginStart="@dimen/dimen_46_dp"
                 android:background="@drawable/chat_fragment_toolbar_add"
                 android:button="@null"

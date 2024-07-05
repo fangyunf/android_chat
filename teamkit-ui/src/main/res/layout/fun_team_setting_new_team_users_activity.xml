@@ -50,7 +50,7 @@
         android:text="确定"
         android:layout_marginBottom="@dimen/dimen_40_dp"
 android:gravity="center"
-        android:background="@drawable/fun_bg_purple_rounded_22"
+        android:background="@drawable/fun_bg_app_theme_color_rounded_22"
         android:textColor="#ffffffff"
         android:textSize="16sp" />
 </LinearLayout>

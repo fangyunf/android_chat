@@ -9,6 +9,7 @@ import static com.netease.yunxin.kit.chatkit.ui.ChatKitUIConstant.LIB_TAG;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.text.Editable;
@@ -66,6 +67,7 @@ import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.AESUtil;
 import com.yaoxin.appbase.utils.AppProxy;
+import com.yaoxin.appbase.utils.DialogAlertUtil;
 
 import java.io.File;
 import java.util.HashMap;
@@ -468,7 +470,7 @@ public class MessageBottomLayout extends FrameLayout
   }
 
   public void setRichTextSwitchListener(OnClickListener listener) {
-    mBinding.chatMsgInputSwitchLayout.setOnClickListener(listener);
+//    mBinding.chatMsgInputSwitchLayout.setOnClickListener(listener);
   }
 
   // 获取富文本标题
@@ -538,7 +540,7 @@ public class MessageBottomLayout extends FrameLayout
   public void recordShow(boolean show, long delay) {
     mBinding.inputAudioTv.setVisibility(show ? VISIBLE : GONE);
     mBinding.inputEt.setVisibility(show ? GONE : VISIBLE);
-    mBinding.chatMsgInputSwitchLayout.setVisibility(show ? GONE : VISIBLE);
+//    mBinding.chatMsgInputSwitchLayout.setVisibility(show ? GONE : VISIBLE);
   }
 
   public void switchEmoji() {
@@ -717,6 +719,7 @@ public class MessageBottomLayout extends FrameLayout
   }
 
   public void sendRedPacket() {
+//    DialogAlertUtil.showSheetView(getContext(),get);
     HashMap map = new HashMap();
     map.put("sessionId",mProxy.getSessionId());
     map.put("sessionType",mProxy.getSessionType().getValue() +"");
