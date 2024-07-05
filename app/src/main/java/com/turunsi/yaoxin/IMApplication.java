@@ -14,9 +14,15 @@ import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.multidex.MultiDexApplication;
+
+import com.google.gson.Gson;
 import com.heytap.msp.push.HeytapPushManager;
 import com.huawei.hms.support.common.ActivityMgr;
+import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.SDKOptions;
+import com.netease.nimlib.sdk.msg.MsgService;
+import com.netease.nimlib.sdk.msg.model.IMMessage;
+import com.netease.nimlib.sdk.team.model.IMMessageFilter;
 import com.netease.yunxin.kit.teamkit.ui.fun.activity.FunTeamMemberListActivity;
 import com.netease.yunxin.kit.teamkit.ui.normal.activity.TeamMemberListActivity;
 import com.orhanobut.hawk.Hawk;
@@ -53,7 +59,9 @@ import com.netease.yunxin.kit.locationkit.LocationKitClient;
 import com.vivo.push.PushClient;
 import com.vivo.push.util.VivoPushException;
 import com.yaoxin.appbase.activity.BaseWebViewActivity;
+import com.yaoxin.appbase.model.CustomMsgBean;
 import com.yaoxin.appbase.utils.AppProxy;
+import com.yaoxin.appbase.utils.DataUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -131,6 +139,40 @@ public class IMApplication extends MultiDexApplication {
       }
       IMKitClient.toggleNotification(SettingRepo.isPushNotify());
       IMKitClient.registerMixPushMessageHandler(new PushMessageHandler());
+        // 在 Application启动时注册，保证漫游、离线消息也能够回调此过滤器进行过滤。注意，过滤器的实现不要有耗时操作。
+        NIMClient.getService(MsgService.class).registerIMMessageFilter(new IMMessageFilter() {
+            @Override
+            public boolean shouldIgnore(IMMessage message) {
+                if (message.getAttachStr() != null) {
+                    try {
+                        CustomMsgBean msgBean = new Gson().fromJson(message.getAttachStr(), CustomMsgBean.class);
+                        msgBean.result = new Gson().fromJson(msgBean.data, CustomMsgBean.class);
+                        if (msgBean.type == 21) {
+                            if (DataUtil.getUserid().equals(msgBean.result.toUserId) || DataUtil.getUserid().equals(msgBean.result.fromUserId) || msgBean.result.adminIds.contains(DataUtil.getUserid())) {
+                                return false;
+                            }
+                            return true;
+
+                        }
+
+                    }catch (Exception e) {
+
+                    }
+                }
+//                if (UserPreferences.getMsgIgnore() && message.getAttachment() != null) {
+//                    if (message.getAttachment() instanceof UpdateTeamAttachment) {
+//                        UpdateTeamAttachment attachment = (UpdateTeamAttachment) message.getAttachment();
+//                        for (Map.Entry<TeamFieldEnum, Object> field : attachment.getUpdatedFields().entrySet()) {
+//                            if (field.getKey() == TeamFieldEnum.ICON) {
+//                                return true; // 过滤
+//                            }
+//                        }
+//                    }
+//                }
+                return false; // 不过滤
+            }
+        });
+
     }
   }
 

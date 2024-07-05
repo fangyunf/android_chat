@@ -43,6 +43,7 @@ public interface IMessageProxy {
   void videoCall();
 
   void audioCall();
+  void sendRedPacket();
 
   String getSessionId();
 

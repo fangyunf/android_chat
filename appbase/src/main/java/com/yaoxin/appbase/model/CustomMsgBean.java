@@ -23,7 +23,6 @@ public class CustomMsgBean {
     public String title;
     public String toUserId;
     public String toUserName;
-    public List adminIds;
     public String redPacketId;
     public String sendAmount;
     public String totalNum;
@@ -35,6 +34,7 @@ public class CustomMsgBean {
     public String reciveAmount;
     public String lootAll;
     public String sendLevel;
+    public List<String> adminIds;
 
     //type == 21 专属 || type == 22 个人 || type == 23 群
     public int redpacketType;

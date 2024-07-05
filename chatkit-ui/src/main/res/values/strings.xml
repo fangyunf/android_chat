@@ -61,7 +61,7 @@
     <string name="chat_message_camera_unavailable">相机不可用</string>
     <string name="chat_message_location">位置</string>
     <string name="chat_message_file">文件</string>
-    <string name="chat_message_shopping_coupon">购物券</string>
+    <string name="chat_message_shopping_coupon">红包</string>
     <string name="chat_message_location_distance">%.0fm内&#160;|&#160;%s</string>
     <string name="chat_message_video_call">音视频通话</string>
     <string name="chat_message_video_call_action">视频通话</string>

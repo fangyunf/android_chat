@@ -719,11 +719,7 @@ public class MessageBottomLayout extends FrameLayout
   }
 
   public void sendRedPacket() {
-//    DialogAlertUtil.showSheetView(getContext(),get);
-    HashMap map = new HashMap();
-    map.put("sessionId",mProxy.getSessionId());
-    map.put("sessionType",mProxy.getSessionType().getValue() +"");
-    FunSendRedPacketActivity.start(FunSendRedPacketActivity.class,getContext(),map);
+    mProxy.sendRedPacket();
 
   }
   public void setMute(boolean mute) {
