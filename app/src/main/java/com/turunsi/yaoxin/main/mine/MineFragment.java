@@ -150,6 +150,8 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         binding.fragmentMineSzView.setOnClickListener(this);
         binding.fragmentMineQrcodeIv.setOnClickListener(this);
         binding.fragmentMineEditIv.setOnClickListener(this);
+        binding.fragmentMineChoujiang.setOnClickListener(this);
+        binding.fragmentMineLianghao.setOnClickListener(this);
 
 //        binding.mineFragmentMyManagerItem1.viewMineFragmentItemCellCl.setOnClickListener(this);
 //        binding.mineFragmentMyManagerItem2.viewMineFragmentItemCellCl.setOnClickListener(this);
@@ -244,6 +246,22 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
             startActivity(new Intent(getContext(), SettingNotifyActivity.class));
         } else if (v == binding.fragmentMineSzView) {
             SettingNewActivity.start(SettingNewActivity.class,getContext(),null);
+        } else if (v == binding.fragmentMineLianghao) {
+
+
+            XKitRouter.withKey(com.yaoxin.appbase.net.Constant.BaseWebViewActivityKey)
+                    .withParam("type","3")
+                    .withParam("title","靓号")
+                    .withParam("url",com.yaoxin.appbase.net.Constant.BASE_URL_H5 + ":8087/app/account")
+                    .withContext(getContext())
+                    .navigate();
+        } else if (v == binding.fragmentMineChoujiang) {
+            XKitRouter.withKey(com.yaoxin.appbase.net.Constant.BaseWebViewActivityKey)
+                    .withParam("type","3")
+                    .withParam("title","抽奖")
+                    .withParam("url",com.yaoxin.appbase.net.Constant.BASE_URL_H5 + ":8087/activity/draw")
+                    .withContext(getContext())
+                    .navigate();
         }
 //        if (v == binding.mineFragmentMyManagerItem5.viewMineFragmentItemCellCl) {
 ////            startActivity(new Intent(getContext(), SettingActivity.class));
