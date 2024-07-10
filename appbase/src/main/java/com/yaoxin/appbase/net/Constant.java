@@ -9,7 +9,9 @@ package com.yaoxin.appbase.net;
  */
 public class Constant {
     public static final Boolean DEBUG = true;
+    public static Boolean isRunningRealName = false;
     public static final String BASE_URL = "http://sy.sxweinizx.com/";
+    public static final String BASE_URL_H5 = "http://sy.sxweinizx.com";
     public static final String ENCODE_KEY = "frxsecretpadding";
     public static final String MSG_ENCODE_KEY = "carefullanimchat";
     public static final String clientType = "Android";

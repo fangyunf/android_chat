@@ -347,6 +347,9 @@ public class ConversationAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     } else {
       params.height = SizeUtils.dp2px(0);
     }
+    if (param.equals(DataUtil.getUserid())) {
+      params.height = SizeUtils.dp2px(0);
+    }
 
 
     holder.itemView.setLayoutParams(params);

@@ -8,6 +8,7 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.gson.Gson;
 import com.netease.nimlib.sdk.auth.LoginInfo;
 import com.netease.yunxin.kit.alog.ALog;
 import com.netease.yunxin.kit.common.ui.utils.ToastX;
@@ -19,10 +20,12 @@ import com.turunsi.yaoxin.login.RealNameSetActivity;
 import com.turunsi.yaoxin.main.MainActivity;
 import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.RegisterBean;
+import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.net.NetServerException;
 import com.yaoxin.appbase.utils.AppProxy;
+import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
 
 import retrofit2.Call;
@@ -30,7 +33,7 @@ import retrofit2.Response;
 
 public class IMUtil {
     public static void loginIM(Activity context, String account, String token) {
-        IMUtil.getToken(context,token);
+
         LoginInfo loginInfo =
                 LoginInfo.LoginInfoBuilder.loginInfoDefault(account, token)
                         .withAppKey(DataUtils.readAppKey(context))
@@ -55,27 +58,29 @@ public class IMUtil {
                     }
                 });
     }
-    public static void getToken(Context context ,String token) {
+    public static void getToken() {
         RegisterBean bean = new RegisterBean();
-        bean.token = token;
+//        bean.token = token;
         HttpUtil.apiW().home_getUserByToken(bean)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-
+                        UserBean userBean = new Gson().fromJson((String) body.data,UserBean.class);
+                        DataUtil.putUserInfo(userBean);
+                        DataUtil.putToken(userBean.token);
                     }
 
                     @Override
                     public void Failure(Call<NetData> call, Throwable t) {
-                        if (t instanceof NetServerException) {
-                            NetServerException exception = (NetServerException) t;
-                            if (exception.getErrCode() == 777) {
-                                ToastUtils.toastMsg(exception.getMessage());
-                                if (!RealNameSetActivity.isActivityRunning()) {
-                                    RealNameSetActivity.start(RealNameSetActivity.class,context,null);
-                                }
-                            }
-                        }
+//                        if (t instanceof NetServerException) {
+//                            NetServerException exception = (NetServerException) t;
+//                            if (exception.getErrCode() == 777) {
+//                                ToastUtils.toastMsg(exception.getMessage());
+//                                if (!RealNameSetActivity.isActivityRunning()) {
+//                                    RealNameSetActivity.start(RealNameSetActivity.class,context,null);
+//                                }
+//                            }
+//                        }
                     }
                 });
     }
@@ -85,5 +90,6 @@ public class IMUtil {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         context.startActivity(intent);
         context.finish();
+        IMUtil.getToken();
     }
 }
