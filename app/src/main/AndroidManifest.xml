@@ -237,6 +237,8 @@
             android:name=".main.mine.setting.SettingNewActivity" />
 <activity
             android:name=".main.mine.account.AccountDetailActivity" />
+<activity
+            android:name=".main.mine.purse.alipay.BindAlipayActivity" />
 
         <!-- 云信 NIM SDK 进程间通信provider-->
         <provider

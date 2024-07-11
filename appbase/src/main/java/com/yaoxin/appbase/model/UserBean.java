@@ -18,6 +18,7 @@ public class UserBean {
     public String phone;
     public String url;
     public String qrCode;
+    public String payUrl;
     public String username;
     public String balance;
     public String userId;

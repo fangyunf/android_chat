@@ -159,7 +159,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                         UserBean userBean = new Gson().fromJson(body.data.toString(),UserBean.class);
-                        startAlipayPayment(userBean.qrCode);
+                        startAlipayPayment(userBean.payUrl);
                     }
 
                     @Override
@@ -169,18 +169,31 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
                 });
     }
     private void startAlipayPayment(String url) {
-        // 支付宝支付请求 URL
-        String alipayUrl = "alipayqr://platformapi/startapp?saId=10000007&qrcode="+url;
+        if ( url != null && url.startsWith("https")) {
+            try {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                // 设置URL，替换为你想打开的网页地址
+                intent.setData(Uri.parse(url));
 
-        // 创建 Intent 打开支付宝
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(alipayUrl));
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivity(intent);
+                // 启动Intent，跳转到浏览器
+                startActivity(intent);
+            } catch (Exception e) {
+            }
         } else {
-            // 支付宝未安装处理
-            // 提示用户安装支付宝或者其他处理逻辑
-            ToastUtils.toastMsg("请安装支付宝");
+            ToastUtils.toastMsg("支付失败");
         }
+        // 支付宝支付请求 URL
+//        String alipayUrl = "alipayqr://platformapi/startapp?saId=10000007&qrcode="+url;
+//
+//        // 创建 Intent 打开支付宝
+//        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(alipayUrl));
+//        if (intent.resolveActivity(getPackageManager()) != null) {
+//            startActivity(intent);
+//        } else {
+//            // 支付宝未安装处理
+//            // 提示用户安装支付宝或者其他处理逻辑
+//            ToastUtils.toastMsg("请安装支付宝");
+//        }
     }
 
 }
