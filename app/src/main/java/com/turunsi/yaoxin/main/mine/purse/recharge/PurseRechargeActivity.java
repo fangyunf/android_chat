@@ -18,6 +18,7 @@ import com.yaoxin.appbase.activity.BaseActivity;
 import com.turunsi.yaoxin.databinding.ActivityMinePurseRechargeBinding;
 import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.RegisterBean;
+import com.yaoxin.appbase.model.RequestParamsBean;
 import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
@@ -152,7 +153,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
 
     }
     void rechargeMoney(String inputMoney) {
-        RegisterBean registerBean = new RegisterBean();
+        RequestParamsBean registerBean = new RequestParamsBean();
         registerBean.amount = NumberUtil.formartUploadMoney(inputMoney);
         HttpUtil.apiW().pay_six(registerBean)
                 .enqueue(new CommonCallback<NetData>() {

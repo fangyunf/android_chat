@@ -5,6 +5,7 @@ package com.yaoxin.appbase.net;
 import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.ParamsBean;
 import com.yaoxin.appbase.model.RegisterBean;
+import com.yaoxin.appbase.model.RequestParamsBean;
 import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.ServiceBase;
 
@@ -308,7 +309,7 @@ public interface ServiceW {
     //  好友列表
     @POST("pay/six")
     Call<NetData> pay_six(
-            @Body RegisterBean userBean
+            @Body RequestParamsBean userBean
     );
     //  好友列表
     @POST("/bindCard/userZFB")
@@ -324,6 +325,12 @@ public interface ServiceW {
     @POST("/bindCard/createUptadeZFB")
     Call<NetData> bindCard_createUptadeZFB(
             @Body RegisterBean userBean
+    );
+
+    //  好友列表
+    @POST("/bindCard/createUptadeZFB")
+    Call<NetData> bindCard_createUptadeZFB1(
+            @Body RequestParamsBean userBean
     );
     //  好友列表
     @POST("/aideNews/aideMsg")

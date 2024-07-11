@@ -1,5 +1,6 @@
 package com.turunsi.yaoxin.main.mine.purse.tixian;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
@@ -11,6 +12,8 @@ import android.view.View;
 import androidx.annotation.Nullable;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.turunsi.yaoxin.main.mine.purse.alipay.BindAlipayActivity;
 import com.yaoxin.appbase.activity.BaseActivity;
 import com.turunsi.yaoxin.databinding.ActivityMinePurseTixianBinding;
 import com.yaoxin.appbase.model.NetData;
@@ -26,7 +29,9 @@ import com.yaoxin.appbase.utils.ToastUtils;
 import com.yaoxin.appbase.view.pwdkeyboard.Keyboard;
 import com.yaoxin.appbase.view.pwdkeyboard.PayEditText;
 
+import java.lang.reflect.Type;
 import java.util.HashMap;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -82,6 +87,7 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
 //        binding.activityMinePurseTixianTixianTypeLl.setOnClickListener(this);
         binding.activityMinePurseTixianAllTixianTv.setOnClickListener(this);
         binding.activityMinePurseTixianTixianBtn.setOnClickListener(this);
+        binding.activityMinePurseTixianAccoutTv.setEnabled(false);
     }
     void tiXianClick(String pwd) {
         String inputMoney = getTextStr(binding.activityMinePurseTixianMoneyEt);
@@ -95,7 +101,7 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
         bean.payPassword = pwd;
         bean.amount = NumberUtil.formartUploadMoney(inputMoney);
         bean.type = 2;
-        bean.zfbNo = accountBean.zfb;
+        bean.zfbNo = accountBean.phone;
         bean.name = accountBean.name;
         HttpUtil.apiW().withdraw_withdrawDeposit(bean)
                 .enqueue(new CommonCallback<NetData>() {
@@ -115,7 +121,7 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void onPause() {
         super.onPause();
-        _requestData();
+//        _requestData();
     }
 
     @Override
@@ -134,11 +140,24 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
 
                     }
                 });
-        HttpUtil.apiW().bindCard_userZFB(new RegisterBean())
+
+        RegisterBean bean = new RegisterBean();
+        bean.type = 2;
+        Context that = this;
+        HttpUtil.apiW().bindCard_userZFB(bean)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        accountBean = new Gson().fromJson(body.data.toString(),UserBean.class);
+                        Type type = new TypeToken<List<UserBean>>() {}.getType();
+                        List<UserBean> tempList = new Gson().fromJson(body.data.toString(), type);
+                        if (tempList != null && !tempList.isEmpty()) {
+                            accountBean = tempList.get(0);
+                            binding.activityMinePurseTixianAccoutTv.setText(accountBean.phone);
+                        } else {
+                            ToastUtils.toastMsg("请先绑定支付宝账号");
+                            finish();
+                            BindAlipayActivity.start(BindAlipayActivity.class,that,null);
+                        }
                     }
 
                     @Override
@@ -182,30 +201,31 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
                 ToastUtils.toastMsg("金额必须大于100");
                 return;
             }
-            if (accountBean == null || accountBean.name.isEmpty() || accountBean.phone.isEmpty() || accountBean.zfb.isEmpty()) {
-                String inputMoney = getTextStr(binding.activityMinePurseTixianMoneyEt);
-
-
-                HashMap map = new HashMap<>();
-                map.put("inputMoney",inputMoney);
-                PurseTiXianAddAccountActivity.start(PurseTiXianAddAccountActivity.class,this,map);
-            } else {
-//                binding.activityFunSendRedPacketKeybordRl.setVisibility(View.VISIBLE);
-                PopEnterPassword popEnterPassword = new PopEnterPassword(this, new OnPasswordInputFinish() {
-                    @Override
-                    public void inputFinish(String password) {
+            PopEnterPassword popEnterPassword = new PopEnterPassword(this, new OnPasswordInputFinish() {
+                @Override
+                public void inputFinish(String password) {
 //                        sendRedWithPwd(password);
-                        tiXianClick(password);
+                    tiXianClick(password);
 
-                    }
+                }
 
-                },textStr);
-                // 显示窗口
-                popEnterPassword.showAtLocation(binding.activityMinePurseTixianLl,
-                        Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); // 设置layout在PopupWindow中显示的位置
-
-
-            }
+            },textStr);
+            // 显示窗口
+            popEnterPassword.showAtLocation(binding.activityMinePurseTixianLl,
+                    Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); // 设置layout在PopupWindow中显示的位置
+//            if (accountBean == null || accountBean.name.isEmpty() || accountBean.phone.isEmpty() || accountBean.zfb.isEmpty()) {
+//                String inputMoney = getTextStr(binding.activityMinePurseTixianMoneyEt);
+//
+//
+//                HashMap map = new HashMap<>();
+//                map.put("inputMoney",inputMoney);
+//                PurseTiXianAddAccountActivity.start(PurseTiXianAddAccountActivity.class,this,map);
+//            } else {
+////                binding.activityFunSendRedPacketKeybordRl.setVisibility(View.VISIBLE);
+//
+//
+//
+//            }
         } else if (v == binding.activityMinePurseTixianAllTixianTv) {
             binding.activityMinePurseTixianMoneyEt.setText(accountMoeny);
         }
