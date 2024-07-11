@@ -56,18 +56,31 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     >
-                    <TextView
-                        android:id="@+id/tvName"
+                    <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:gravity="start"
-                        android:singleLine="true"
-                        android:text=""
-                        android:layout_weight="1"
-                        android:textColor="@color/white"
-                        android:textSize="18sp"
-                        tools:ignore="SpUsage" />
+                        android:gravity="center_vertical"
+                        android:layout_weight="1">
+                        <TextView
+                            android:id="@+id/tvName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:gravity="start"
+                            android:singleLine="true"
+                            android:text=""
+                            android:textColor="@color/white"
+                            android:textSize="18sp"
+                            tools:ignore="SpUsage" />
+                        <ImageView
+                            android:layout_marginLeft="10dp"
+                            android:visibility="gone"
+                            android:id="@+id/fragment_mine_grade_iv"
+                            android:layout_width="46dp"
+                            android:layout_height="18dp"/>
+                    </LinearLayout>
+
                     <ImageView
                         android:id="@+id/fragment_mine_qrcode_iv"
                         android:layout_width="@dimen/dimen_20_dp"
@@ -82,16 +95,35 @@
                         android:src="@mipmap/mine_index_bj"
                         />
                 </LinearLayout>
-                <TextView
-                    android:id="@+id/tvAccount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:gravity="start"
-                    android:singleLine="true"
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
-                    tools:ignore="SpUsage" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/tvAccount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:gravity="start"
+                        android:singleLine="true"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        tools:ignore="SpUsage" />
+                    <TextView
+                        android:visibility="gone"
+                        android:background="@drawable/grade_orange_round_13"
+                        android:paddingHorizontal="15dp"
+                        android:id="@+id/fragment_mine_grade_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="26dp"
+                        android:gravity="center"
+                        android:layout_marginTop="4dp"
+                        android:text="8级靓号用户"
+                        android:singleLine="true"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        android:layout_alignParentEnd="true"
+                        tools:ignore="SpUsage" />
+                </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
 

@@ -32,6 +32,7 @@ public class UserBean {
     public String applyState;
     public String leaveMessage;
     public String applyUserId;
+    public int grade;
     public int id;
     public int page_type;
 
