@@ -7,6 +7,8 @@ package com.turunsi.yaoxin.main.mine;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -17,6 +19,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 import com.google.gson.Gson;
 import com.netease.yunxin.kit.chatkit.ui.fun.page.FunChatSettingActivity;
@@ -48,6 +51,7 @@ import com.netease.yunxin.kit.corekit.im.model.UserInfo;
 import com.netease.yunxin.kit.corekit.im.provider.FetchCallback;
 import com.netease.yunxin.kit.corekit.im.repo.CommonRepo;
 import com.yaoxin.appbase.model.NetData;
+import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
@@ -140,6 +144,22 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 
                     }
                 });
+        HttpUtil.apiW().home_getUserByToken(new RegisterBean())
+                .enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                        UserBean userBean = new Gson().fromJson((String) body.data,UserBean.class);
+                        if (userBean != null) {
+                            DataUtil.putUserInfo(userBean);
+                            DataUtil.putToken(userBean.token);
+                            updateUI(userBean);
+                        }
+                    }
+
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
+                    }
+                });
     }
 
     private void _initItems() {
@@ -216,6 +236,28 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         binding.cavIcon.setData(
                 userInfo.getAvatar(), name, AvatarColor.avatarColor(IMKitClient.account()));
         binding.tvName.setText(name);
+    }
+    private void updateUI(UserBean userInfo) {
+        if (DataUtil.getUserInfo().grade > 0) {
+            binding.fragmentMineGradeTv.setVisibility(View.VISIBLE);
+            binding.fragmentMineGradeIv.setVisibility(View.VISIBLE);
+            binding.fragmentMineGradeTv.setText(DataUtil.getUserInfo().grade + "级靓号用户");
+            String imageName = "mine_grade_level_" + DataUtil.getUserInfo().grade;
+            Resources resources = getResources();
+            int resId = resources.getIdentifier(imageName, "mipmap", getContext().getPackageName());
+            // 如果找到了资源，则可以使用这个ID获取Drawable
+            Drawable drawable = null;
+            if (resId > 0) {
+                drawable = ContextCompat.getDrawable(getContext(), resId);
+            }
+            // 如果需要将drawable设置到ImageView中
+            if (drawable != null) {
+                binding.fragmentMineGradeIv.setImageDrawable(drawable);
+            }
+        } else {
+            binding.fragmentMineGradeTv.setVisibility(View.GONE);
+            binding.fragmentMineGradeIv.setVisibility(View.GONE);
+        }
     }
 
     @Override
