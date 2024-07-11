@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import com.google.gson.Gson;
 import com.turunsi.yaoxin.R;
 import com.turunsi.yaoxin.login.RealNameSetActivity;
+import com.turunsi.yaoxin.main.mine.purse.alipay.BindAlipayActivity;
 import com.turunsi.yaoxin.main.mine.purse.bill.BillDetailListActivity;
 import com.turunsi.yaoxin.main.mine.purse.pwdmanager.PursePwdManagerSetActivity;
 import com.turunsi.yaoxin.main.mine.purse.tixian.PurseTiXianAddAccountActivity;
@@ -121,9 +122,10 @@ public class PurseIndexActivity extends BaseActivity implements View.OnClickList
         } else if (v == binding.activityMinePurseIndexCell2.itemPurseIndexCellRl) {
 //            RealNameSetActivity.start(RealNameSetActivity.class,this,null);
         } else if (v == binding.activityMinePurseIndexCell3.itemPurseIndexCellRl) {
-            HashMap map = new HashMap<>();
-            map.put("inputMoney","0");
-            PurseTiXianAddAccountActivity.start(PurseTiXianAddAccountActivity.class,this,map);
+//            HashMap map = new HashMap<>();
+//            map.put("type","0");
+//            PurseTiXianAddAccountActivity.start(PurseTiXianAddAccountActivity.class,this,map);
+            BindAlipayActivity.start(BindAlipayActivity.class,this,null);
         } else if (v == binding.activityMinePurseIndexCell4.itemPurseIndexCellRl) {
             BankCardListActivity.start(BankCardListActivity.class,this,null);
         } else if (v == binding.activityMinePurseIndexCell5.itemPurseIndexCellRl) {
