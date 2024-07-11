@@ -127,7 +127,7 @@ public class PurseIndexActivity extends BaseActivity implements View.OnClickList
 //            PurseTiXianAddAccountActivity.start(PurseTiXianAddAccountActivity.class,this,map);
             BindAlipayActivity.start(BindAlipayActivity.class,this,null);
         } else if (v == binding.activityMinePurseIndexCell4.itemPurseIndexCellRl) {
-            BankCardListActivity.start(BankCardListActivity.class,this,null);
+//            BankCardListActivity.start(BankCardListActivity.class,this,null);
         } else if (v == binding.activityMinePurseIndexCell5.itemPurseIndexCellRl) {
             HashMap map = new HashMap();
             map.put("type","0");

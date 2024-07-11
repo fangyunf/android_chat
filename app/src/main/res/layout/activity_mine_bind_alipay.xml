@@ -60,6 +60,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <include
+            android:id="@+id/activity_mine_bind_alipay_rebind_content"
             android:layout_width="match_parent"
             android:layout_height="51dp"
             android:layout_marginHorizontal="15dp"
@@ -112,7 +113,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:visibility="visible"
+        android:visibility="gone"
         android:id="@+id/activity_mine_bind_alipay_bind_success_ll"
         android:layout_marginTop="40dp"
         android:layout_width="match_parent"
