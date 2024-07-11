@@ -4,7 +4,6 @@
     android:id="@+id/view_round_tf_ll"
     android:layout_width="match_parent"
     android:layout_height="@dimen/dimen_44_dp"
-    android:background="@drawable/bg_eaf0fb_rounded_22"
     android:gravity="center_vertical"
     android:paddingHorizontal="@dimen/dimen_18_dp"
     >
@@ -29,14 +28,14 @@
 
     <com.yaoxin.appbase.view.loginlib.view.CountDownView
         android:id="@+id/view_round_tf_btn_captcha"
-        android:layout_width="72dp"
-        android:layout_height="24dp"
+        android:layout_width="90dp"
+        android:layout_height="30dp"
         android:gravity="center"
         android:text="获取验证码"
         android:textColor="#999999"
-        android:textSize="10sp"
+        android:textSize="12sp"
         android:visibility="gone"
-        android:background="@drawable/bg_white_rounded_12"
+        android:background="@drawable/bg_fff3e6_rounded_15"
         />
 
 </LinearLayout>

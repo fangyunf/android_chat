@@ -152,7 +152,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                         if (userBean != null) {
                             DataUtil.putUserInfo(userBean);
                             DataUtil.putToken(userBean.token);
-                            updateUI(userBean);
+                            updateUIGrade();
                         }
                     }
 
@@ -237,7 +237,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                 userInfo.getAvatar(), name, AvatarColor.avatarColor(IMKitClient.account()));
         binding.tvName.setText(name);
     }
-    private void updateUI(UserBean userInfo) {
+    private void updateUIGrade() {
         if (DataUtil.getUserInfo().grade > 0) {
             binding.fragmentMineGradeTv.setVisibility(View.VISIBLE);
             binding.fragmentMineGradeIv.setVisibility(View.VISIBLE);

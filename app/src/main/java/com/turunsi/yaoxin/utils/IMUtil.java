@@ -65,22 +65,14 @@ public class IMUtil {
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        UserBean userBean = new Gson().fromJson((String) body.data,UserBean.class);
+                        UserBean userBean = new Gson().fromJson((String) body.data, UserBean.class);
                         DataUtil.putUserInfo(userBean);
                         DataUtil.putToken(userBean.token);
+
                     }
 
                     @Override
                     public void Failure(Call<NetData> call, Throwable t) {
-//                        if (t instanceof NetServerException) {
-//                            NetServerException exception = (NetServerException) t;
-//                            if (exception.getErrCode() == 777) {
-//                                ToastUtils.toastMsg(exception.getMessage());
-//                                if (!RealNameSetActivity.isActivityRunning()) {
-//                                    RealNameSetActivity.start(RealNameSetActivity.class,context,null);
-//                                }
-//                            }
-//                        }
                     }
                 });
     }

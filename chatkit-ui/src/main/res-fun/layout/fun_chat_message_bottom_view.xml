@@ -10,15 +10,16 @@
     android:id="@+id/chat_message_input_root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/fun_chat_input_bg_color">
+    android:background="@color/color_white">
 
     <LinearLayout
         android:id="@+id/inputBarLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:paddingTop="@dimen/dimen_7_dp"
-        android:paddingBottom="@dimen/dimen_20_dp">
+        android:background="@drawable/bg_f4f4f4_rounded_22"
+        android:gravity="center_horizontal"
+        android:layout_marginHorizontal="10dp">
 
         <FrameLayout
             android:id="@+id/inputLeftLayout"
@@ -31,16 +32,15 @@
             <RelativeLayout
 
                 android:layout_width="@dimen/dimen_32_dp"
-                android:layout_height="@dimen/dimen_32_dp"
-                android:background="@color/app_theme_color"
+                android:layout_height="44dp"
                 >
+
                 <RadioButton
                     android:id="@+id/inputAudioRb"
-                    android:layout_gravity="bottom"
                     android:layout_width="15dp"
                     android:layout_height="20dp"
-                    android:layout_centerInParent="true"
                     android:background="@drawable/chat_fragment_toolbar_sound_icon"
+                    android:layout_centerInParent="true"
                     android:button="@null"
                     android:checked="false"
                     android:clickable="false" />
@@ -68,13 +68,12 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/dimen_32_dp"
                     android:orientation="vertical">
 
                     <EditText
                         android:id="@+id/chatRichEt"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/dimen_40_dp"
+                        android:layout_height="match_parent"
                         android:background="@null"
                         android:ellipsize="end"
                         android:hint="@string/chat_message_rich_title_hint"
@@ -93,8 +92,8 @@
                     <EditText
                         android:id="@+id/inputEt"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/dimen_40_dp"
-                        android:background="@null"
+                        android:layout_height="44dp"
+                        android:background="#f4f4f4"
                         android:ellipsize="end"
                         android:hint="@string/fun_chat_input_hint_tips"
                         android:imeOptions="actionSend"
@@ -200,8 +199,7 @@
             <RelativeLayout
 
                 android:layout_width="@dimen/dimen_32_dp"
-                android:layout_height="@dimen/dimen_32_dp"
-                android:background="@color/app_theme_color"
+                android:layout_height="44dp"
                 >
                 <RadioButton
 
@@ -216,16 +214,23 @@
                     android:clickable="false" />
             </RelativeLayout>
 
-            <RadioButton
-                android:id="@+id/inputMoreRb"
-                android:layout_width="@dimen/dimen_32_dp"
-                android:layout_height="@dimen/dimen_32_dp"
+            <RelativeLayout
 
                 android:layout_marginStart="@dimen/dimen_46_dp"
-                android:background="@drawable/chat_fragment_toolbar_add"
-                android:button="@null"
-                android:checked="false"
-                android:clickable="false" />
+                android:layout_width="@dimen/dimen_32_dp"
+                android:layout_height="44dp"
+                >
+                <RadioButton
+                    android:id="@+id/inputMoreRb"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/chat_fragment_toolbar_add"
+                    android:button="@null"
+                    android:checked="false"
+                    android:clickable="false" />
+            </RelativeLayout>
+
 
         </FrameLayout>
     </LinearLayout>

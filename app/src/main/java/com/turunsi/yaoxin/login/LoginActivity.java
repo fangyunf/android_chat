@@ -54,9 +54,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         setContentView(binding.getRoot());
         StatusBarUtils.setStatusBarLightMode(this, true, true);
 
-        binding.activityLoginLoginLl.setOnClickListener(this);
-        binding.activityLoginRegisterLl.setOnClickListener(this);
+//        binding.activityLoginLoginLl.setOnClickListener(this);
+//        binding.activityLoginRegisterLl.setOnClickListener(this);
         binding.activityLoginForgetTv.setOnClickListener(this);
+        binding.activityLoginRegisterTv.setOnClickListener(this);
         binding.activityLoginLoginTv.setOnClickListener(this);
         binding.activityLoginIsAgreeLl.setOnClickListener(this);
         binding.activityLoginIsCheckedTxt2.setOnClickListener(this);
@@ -94,45 +95,29 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         _type = type;
 
         if (type == 0) {
-            ViewGroup.LayoutParams lp = binding.activityLoginSwitchLl.getLayoutParams();
-            lp.height = SizeUtils.dp2px(60);
-            binding.activityLoginSwitchLl.setLayoutParams(lp);
-            binding.activityLoginSwitchLl.setVisibility(View.VISIBLE);
-            binding.activityLoginLoginTitleLineView.setVisibility(View.VISIBLE);
-            binding.activityLoginLoginTitleTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.app_theme_color));
-            binding.activityLoginRegisterTitleTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.app_theme_aplha_color));
-            binding.activityLoginLoginTitleTv.setTextSize(16);
-            binding.activityLoginRegisterTitleTv.setTextSize(14);
-            binding.activityLoginRegisterTitleLineView.setVisibility(View.GONE);
             binding.activityLoginTf2.viewRoundTfLl.setVisibility(View.GONE);
             binding.activityLoginLoginTv.setText("登录");
             binding.activityLoginForgetTv.setText("忘记密码");
             binding.activityLoginForgetTv.setVisibility(View.VISIBLE);
+            binding.activityLoginRegisterTv.setVisibility(View.VISIBLE);
+            binding.activityLoginTitleIv.setImageResource(R.mipmap.login_top_title_img_login);
         } else if (type == 1) {
-            ViewGroup.LayoutParams lp = binding.activityLoginSwitchLl.getLayoutParams();
-            lp.height = SizeUtils.dp2px(60);
-            binding.activityLoginSwitchLl.setLayoutParams(lp);
-            binding.activityLoginSwitchLl.setVisibility(View.VISIBLE);
-            binding.activityLoginLoginTitleLineView.setVisibility(View.GONE);
-            binding.activityLoginRegisterTitleTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.app_theme_color));
-            binding.activityLoginLoginTitleTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.app_theme_aplha_color));
-            binding.activityLoginLoginTitleTv.setTextSize(14);
-            binding.activityLoginRegisterTitleTv.setTextSize(16);
-            binding.activityLoginRegisterTitleLineView.setVisibility(View.VISIBLE);
             binding.activityLoginTf2.viewRoundTfLl.setVisibility(View.VISIBLE);
             binding.activityLoginTf2.viewRoundTfBtnCaptcha.setVisibility(View.VISIBLE);
             binding.activityLoginLoginTv.setText("注册");
-            binding.activityLoginForgetTv.setVisibility(View.GONE);
+            binding.activityLoginForgetTv.setText("返回登录");
+            binding.activityLoginForgetTv.setVisibility(View.VISIBLE);
+            binding.activityLoginRegisterTv.setVisibility(View.GONE);
+            binding.activityLoginTitleIv.setImageResource(R.mipmap.login_top_title_img_register);
         } else if (type == 2) {
-            ViewGroup.LayoutParams lp = binding.activityLoginSwitchLl.getLayoutParams();
-            lp.height = 0;
-            binding.activityLoginSwitchLl.setLayoutParams(lp);
             binding.activityLoginTf2.viewRoundTfLl.setVisibility(View.VISIBLE);
             binding.activityLoginTf2.viewRoundTfBtnCaptcha.setVisibility(View.VISIBLE);
             binding.activityLoginLoginTv.setText("找回密码");
             binding.activityLoginForgetTv.setVisibility(View.GONE);
             binding.activityLoginForgetTv.setText("返回登录");
             binding.activityLoginForgetTv.setVisibility(View.VISIBLE);
+            binding.activityLoginRegisterTv.setVisibility(View.GONE);
+            binding.activityLoginTitleIv.setImageResource(R.mipmap.login_top_title_img_forget);
         }
     }
     @Override
@@ -153,11 +138,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     .navigate();
         }  else if (v == binding.activityLoginForgetTv) {
 //            ForgetPwdActivity.start(ForgetPwdActivity.class, this, null);
-            changeTitleWithType(_type == 0 ? 2 : 0);
-        } else if (v == binding.activityLoginLoginLl) {
-//            ForgetPwdActivity.start(ForgetPwdActivity.class, this, null);
-            changeTitleWithType(0);
-        } else if (v == binding.activityLoginRegisterLl) {
+            if (_type == 0) {
+                changeTitleWithType(2);
+            } else if (_type == 1 || _type == 2) {
+                changeTitleWithType(0);
+            }
+//            changeTitleWithType(_type == 0 ? 2 : 0);
+        } else if (v == binding.activityLoginRegisterTv) {
 //            ForgetPwdActivity.start(ForgetPwdActivity.class, this, null);
             changeTitleWithType(1);
         } else if (v == binding.activityLoginLoginTv) {

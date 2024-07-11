@@ -52,14 +52,12 @@ public abstract class CommonCallback<T> implements Callback<T> {
 //                        }
                         break;
                     case 777:// 版本更新
-                    {
                         if (!Constant.isRunningRealName) {
                             Constant.isRunningRealName = true;
                             XKitRouter.withKey(Constant.RealName_Router)
                                     .withContext(AppProxy.getInstance().getContext())
                                     .navigate();
                         }
-                    }
 
 
                         break;

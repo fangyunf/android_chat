@@ -50,27 +50,14 @@
             android:orientation="vertical"
             android:layout_marginLeft="@dimen/dimen_18_dp"
             >
-            <LinearLayout
+            <TextView
+                android:id="@+id/fun_team_user_info_detail_name_tv"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                >
-                <TextView
-                    android:id="@+id/fun_team_user_info_detail_name_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:text=""
-                    android:textColor="@color/color_white"
-                    android:textSize="17sp"
-                    />
-                <ImageView
-                    android:visibility="gone"
-                    android:layout_marginLeft="10dp"
-                    android:id="@+id/fun_team_user_info_detail_grade_iv"
-                    android:layout_width="46dp"
-                    android:layout_height="18dp"/>
-            </LinearLayout>
-
+                android:layout_height="30dp"
+                android:text=""
+                android:textColor="@color/color_white"
+                android:textSize="17sp"
+                />
             <TextView
                 android:id="@+id/fun_team_user_info_detail_account_tv"
                 android:layout_marginTop="@dimen/dimen_8_dp"

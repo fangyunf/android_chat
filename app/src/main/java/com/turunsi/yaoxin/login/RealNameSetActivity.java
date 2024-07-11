@@ -10,7 +10,6 @@ import androidx.annotation.Nullable;
 import com.alipay.face.api.ZIMFacade;
 import com.google.gson.Gson;
 import com.netease.yunxin.kit.alog.ALog;
-import com.turunsi.yaoxin.BuildConfig;
 import com.turunsi.yaoxin.R;
 import com.turunsi.yaoxin.databinding.ActivityMinePursePwdManagerSetBinding;
 import com.turunsi.yaoxin.databinding.ActivityMineRealNameSetBinding;
@@ -34,6 +33,7 @@ import retrofit2.Response;
 
 public class RealNameSetActivity extends BaseActivity implements View.OnClickListener {
     ActivityMineRealNameSetBinding binding;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +61,7 @@ public class RealNameSetActivity extends BaseActivity implements View.OnClickLis
         super.onDestroy();
         // 清除Activity正在运行的标志
         Constant.isRunningRealName = false;
+
     }
     @Override
     public void onClick(View v) {

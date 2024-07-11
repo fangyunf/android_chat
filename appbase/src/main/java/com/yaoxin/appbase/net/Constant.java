@@ -10,10 +10,15 @@ package com.yaoxin.appbase.net;
 public class Constant {
     public static final Boolean DEBUG = true;
     public static Boolean isRunningRealName = false;
-    public static final String BASE_URL = "http://sy.sxweinizx.com/";
+
+//    public static final String BASE_URL = "http://sy.sxweinizx.com/";
+//    public static final String ENCODE_KEY = "frxsecretpadding";
+//    public static final String MSG_ENCODE_KEY = "carefullanimchat";
+
+    public static final String BASE_URL = "http://hj.sxweinizx.com:17117/";
     public static final String BASE_URL_H5 = "http://sy.sxweinizx.com";
-    public static final String ENCODE_KEY = "frxsecretpadding";
-    public static final String MSG_ENCODE_KEY = "carefullanimchat";
+    public static final String ENCODE_KEY = "wesecretpaddingg";
+    public static final String MSG_ENCODE_KEY = "wallstreetimchat";
     public static final String clientType = "Android";
     public static final String RealName_Router = "RealName_Router";
     public static final String Create_Group_Name = "Create_Group_Name";

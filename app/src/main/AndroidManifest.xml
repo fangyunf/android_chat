@@ -40,7 +40,7 @@
         android:protectionLevel="signature"/>
 
     <!-- receive SDK broadcast， replace com.turunsi.yaoxin with your package name -->
-    <uses-permission android:name="com.turunsi.shenyu.permission.RECEIVE_MSG"/>
+    <uses-permission android:name="com.turunsi.jinzita.permission.RECEIVE_MSG"/>
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.FLASHLIGHT" />
 
@@ -55,9 +55,9 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <!-- xiaomi push -->
     <permission
-        android:name="com.turunsi.shenyu.permission.MIPUSH_RECEIVE"
+        android:name="com.turunsi.jinzita.permission.MIPUSH_RECEIVE"
         android:protectionLevel="signature"/>
-    <uses-permission android:name="com.turunsi.shenyu.permission.MIPUSH_RECEIVE"/>
+    <uses-permission android:name="com.turunsi.jinzita.permission.MIPUSH_RECEIVE"/>
 
     <uses-sdk tools:overrideLibrary="com.huawei.android.hms.base,com.huawei.android.hms.push"/>
 <!--    <uses-feature-->
@@ -67,15 +67,15 @@
     <!-- down Flyme5 version -->
     <uses-permission android:name="com.meizu.flyme.push.permission.RECEIVE"/>
     <permission
-        android:name="com.turunsi.shenyu.push.permission.MESSAGE"
+        android:name="com.turunsi.jinzita.push.permission.MESSAGE"
         android:protectionLevel="signature"/>
-    <uses-permission android:name="com.turunsi.shenyu.push.permission.MESSAGE"/>
+    <uses-permission android:name="com.turunsi.jinzita.push.permission.MESSAGE"/>
     <!--  Flyme3 -->
     <uses-permission android:name="com.meizu.c2dm.permission.RECEIVE" />
     <permission
-        android:name="com.turunsi.shenyu.permission.C2D_MESSAGE"
+        android:name="com.turunsi.jinzita.permission.C2D_MESSAGE"
         android:protectionLevel="signature"/>
-    <uses-permission android:name="com.turunsi.shenyu.permission.C2D_MESSAGE"/>
+    <uses-permission android:name="com.turunsi.jinzita.permission.C2D_MESSAGE"/>
 
     <!--  oppo push-->
     <uses-permission android:name="com.coloros.mcs.permission.RECIEVE_MCS_MESSAGE"/>
@@ -93,9 +93,12 @@
         android:allowNativeHeapPointerTagging="false"
         android:networkSecurityConfig="@xml/network_security_config"
         android:theme="@style/Theme.Xkit">
+<!--        <meta-data-->
+<!--            android:name="com.netease.nim.appKey"-->
+<!--            android:value="2a6664a3c43a1fd51133b7dff030c575" />-->
         <meta-data
             android:name="com.netease.nim.appKey"
-            android:value="2a6664a3c43a1fd51133b7dff030c575" />
+            android:value="c019691160f4fd3a829333269be27436" />
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="cd71a16bb840431be756188d3a0a1931" />
@@ -237,12 +240,12 @@
 
         <!-- 云信 NIM SDK 进程间通信provider-->
         <provider
-            android:authorities="com.turunsi.shenyu.ipc.provider"
+            android:authorities="com.turunsi.jinzita.ipc.provider"
             android:exported="false"
             android:name="com.netease.nimlib.ipc.NIMContentProvider"
             android:process=":core"/>
         <provider
-            android:authorities="com.turunsi.shenyu.ipc.provider.preference"
+            android:authorities="com.turunsi.jinzita.ipc.provider.preference"
             android:exported="false"
             android:name="com.netease.nimlib.ipc.cp.provider.PreferenceContentProvider"/>
 

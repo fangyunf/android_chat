@@ -4,6 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:shape="rectangle"
     tools:ignore="ResourceName">
-  <corners android:radius="28dp"/>
-  <solid android:color="@color/app_theme_color"/>
+  <corners android:radius="15dp"/>
+  <solid android:color="#FFF3E6"/>
 </shape>
