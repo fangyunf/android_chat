@@ -47,6 +47,7 @@ public class XiaoZhuShouActivity extends BaseActivity implements View.OnClickLis
         binding = ActivityXiaozhushouBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        transtStatusBar(binding.activityXiaozhushouNav);
         binding.activityXiaozhushouNav.addCloseImageButton().setOnClickListener(this);
         binding.activityXiaozhushouRv.setLayoutManager(new LinearLayoutManager(this));
         binding.activityXiaozhushouRv.setAdapter(adapter);

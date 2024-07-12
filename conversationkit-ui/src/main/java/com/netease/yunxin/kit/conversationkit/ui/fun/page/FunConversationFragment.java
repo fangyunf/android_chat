@@ -417,46 +417,46 @@ public class FunConversationFragment extends ConversationBaseFragment {
 //    }
   }
   private void _initHeadCell() {
-    viewBinding.funConversationFragmentHeadAll.viewConversationHeadItemIv.setImageResource(R.drawable.conversation_list_index_msg_icon);
-    viewBinding.funConversationFragmentHeadAll.viewConversationHeadItemTv.setText("发起群聊");
-    viewBinding.funConversationFragmentHeadAll.viewConversationHeadItemLl.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        _initTopStatus(0);
-        doOptWithIndex(0);
-      }
-    });
-
-    viewBinding.funConversationFragmentHeadSingle.viewConversationHeadItemIv.setImageResource(R.drawable.conversation_list_index_group_icon);
-    viewBinding.funConversationFragmentHeadSingle.viewConversationHeadItemTv.setText("加入群聊");
-    viewBinding.funConversationFragmentHeadSingle.viewConversationHeadItemLl.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        _initTopStatus(1);
-        doOptWithIndex(1);
-      }
-    });
-
-    viewBinding.funConversationFragmentHeadGroup.viewConversationHeadItemIv.setImageResource(R.drawable.conversation_list_index_add_friend_icon);
-    viewBinding.funConversationFragmentHeadGroup.viewConversationHeadItemTv.setText("添加好友");
-    viewBinding.funConversationFragmentHeadGroup.viewConversationHeadItemLl.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        _initTopStatus(2);
-        doOptWithIndex(2);
-      }
-    });
-
-    viewBinding.funConversationFragmentHeadNotice.viewConversationHeadItemIv.setImageResource(R.drawable.conversation_list_index_scan_icon);
-    viewBinding.funConversationFragmentHeadNotice.viewConversationHeadItemTv.setText("扫一扫");
-    viewBinding.funConversationFragmentHeadNotice.viewConversationHeadItemLl.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        _initTopStatus(3);
-
-        doOptWithIndex(3);
-      }
-    });
+//    viewBinding.funConversationFragmentHeadAll.viewConversationHeadItemIv.setImageResource(R.drawable.conversation_list_index_msg_icon);
+//    viewBinding.funConversationFragmentHeadAll.viewConversationHeadItemTv.setText("发起群聊");
+//    viewBinding.funConversationFragmentHeadAll.viewConversationHeadItemLl.setOnClickListener(new View.OnClickListener() {
+//      @Override
+//      public void onClick(View v) {
+//        _initTopStatus(0);
+//        doOptWithIndex(0);
+//      }
+//    });
+//
+//    viewBinding.funConversationFragmentHeadSingle.viewConversationHeadItemIv.setImageResource(R.drawable.conversation_list_index_group_icon);
+//    viewBinding.funConversationFragmentHeadSingle.viewConversationHeadItemTv.setText("加入群聊");
+//    viewBinding.funConversationFragmentHeadSingle.viewConversationHeadItemLl.setOnClickListener(new View.OnClickListener() {
+//      @Override
+//      public void onClick(View v) {
+//        _initTopStatus(1);
+//        doOptWithIndex(1);
+//      }
+//    });
+//
+//    viewBinding.funConversationFragmentHeadGroup.viewConversationHeadItemIv.setImageResource(R.drawable.conversation_list_index_add_friend_icon);
+//    viewBinding.funConversationFragmentHeadGroup.viewConversationHeadItemTv.setText("添加好友");
+//    viewBinding.funConversationFragmentHeadGroup.viewConversationHeadItemLl.setOnClickListener(new View.OnClickListener() {
+//      @Override
+//      public void onClick(View v) {
+//        _initTopStatus(2);
+//        doOptWithIndex(2);
+//      }
+//    });
+//
+//    viewBinding.funConversationFragmentHeadNotice.viewConversationHeadItemIv.setImageResource(R.drawable.conversation_list_index_scan_icon);
+//    viewBinding.funConversationFragmentHeadNotice.viewConversationHeadItemTv.setText("扫一扫");
+//    viewBinding.funConversationFragmentHeadNotice.viewConversationHeadItemLl.setOnClickListener(new View.OnClickListener() {
+//      @Override
+//      public void onClick(View v) {
+//        _initTopStatus(3);
+//
+//        doOptWithIndex(3);
+//      }
+//    });
 
   }
 

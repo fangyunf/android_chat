@@ -19,11 +19,11 @@
         android:id="@+id/fun_add_friend_verify_activity_nav"
         style="@style/WhiteFontToolbar"
         android:background="@color/transparent"
-        app:back_icon="@mipmap/temp_ic_back_white"
+        app:back_icon="@mipmap/temp_ic_back"
         app:enable_under_divider="true"
         app:support_translucent_status_bar="false"
         app:title="添加好友"
-        app:title_text_color="@color/color_white"
+        app:title_text_color="@color/color_333333"
         app:under_divider_color="@color/transparent" />
 
     <LinearLayout
@@ -52,7 +52,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:text="会飞的洋芋"
-                android:textColor="@color/color_white"
+                android:textColor="@color/color_333333"
                 android:textSize="22sp"
                 />
             <TextView
@@ -61,7 +61,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="22dp"
                 android:text="ID:87988656"
-                android:textColor="@color/color_white"
+                android:textColor="@color/color_333333"
                 android:textSize="16sp"
                 />
         </LinearLayout>
@@ -78,7 +78,7 @@
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:text="验证信息"
-            android:textColor="@color/color_white"
+            android:textColor="@color/color_333333"
             android:textSize="14sp"
             />
         <EditText

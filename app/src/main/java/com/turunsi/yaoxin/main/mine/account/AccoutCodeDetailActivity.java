@@ -72,8 +72,6 @@ public class AccoutCodeDetailActivity extends BaseActivity implements View.OnCli
 
         viewBinding.activityMineAccountCodeNav.addCloseImageButton().setOnClickListener(this);
         viewBinding.activityMineAccountCodeSavePhoto.setOnClickListener(this);
-        GlideUtil.yh_loadImageRoundedCorner(this, viewBinding.activityMineAccountCodeHeadIv, DataUtil.getUserInfo().avatar, 25);
-        viewBinding.activityMineAccountCodeNameTv.setText(DataUtil.getUserInfo().username);
 
         Bitmap bitmap = generateQRCode(DataUtil.getUserInfo().memberCode);
         if (bitmap != null) {

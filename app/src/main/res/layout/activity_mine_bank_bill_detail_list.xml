@@ -20,11 +20,11 @@
         android:id="@+id/activity_mine_bank_bill_detail_list_nav"
         style="@style/WhiteFontToolbar"
         android:background="@color/transparent"
-        app:back_icon="@mipmap/temp_ic_back_white"
+        app:back_icon="@mipmap/temp_ic_back"
         app:enable_under_divider="true"
         app:support_translucent_status_bar="false"
         app:title="账单明细"
-        app:title_text_color="@color/white"
+        app:title_text_color="@color/color_333333"
         app:under_divider_color="@color/transparent" />
     <RelativeLayout
         android:layout_width="match_parent"
