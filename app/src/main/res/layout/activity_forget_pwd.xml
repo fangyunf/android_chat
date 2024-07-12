@@ -14,7 +14,7 @@
         app:support_translucent_status_bar="false"
         app:title="忘记密码"
         app:title_text_color="@color/color_333333"
-        app:under_divider_color="@color/color_d5d5d5" />
+        app:under_divider_color="@color/transparent" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -56,7 +56,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_44_dp"
             android:layout_marginTop="@dimen/dimen_16_dp"
-            android:background="@mipmap/login_btn_bg"
+            android:background="@drawable/fun_bg_app_theme_color_rounded_22"
             android:text="确定"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_16" />
