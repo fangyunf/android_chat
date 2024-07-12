@@ -307,10 +307,16 @@ public interface ServiceW {
             @Body RegisterBean userBean
     );
     //  好友列表
-    @POST("pay/six")
+    @POST("/pay/six")
     Call<NetData> pay_six(
             @Body RequestParamsBean userBean
     );
+    //  好友列表
+    @POST("/customer/about")
+    Call<NetData> customer_about(
+            @Body RegisterBean userBean
+    );
+    //  好友列表
     @POST("/bindCard/userZFB")
     Call<NetData> bindCard_userZFB(
             @Body RegisterBean userBean

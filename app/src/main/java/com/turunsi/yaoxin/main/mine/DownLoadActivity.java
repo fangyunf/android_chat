@@ -12,9 +12,17 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 
+import com.google.gson.Gson;
 import com.turunsi.yaoxin.databinding.ActivityMineDownLoadBinding;
 import com.yaoxin.appbase.activity.BaseActivity;
+import com.yaoxin.appbase.model.NetData;
+import com.yaoxin.appbase.model.RegisterBean;
+import com.yaoxin.appbase.net.CommonCallback;
+import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
+
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class DownLoadActivity extends BaseActivity implements View.OnClickListener {
 
@@ -37,6 +45,35 @@ public class DownLoadActivity extends BaseActivity implements View.OnClickListen
 
 
   }
+
+  @Override
+  protected void _requestData() {
+
+    HttpUtil.apiW().customer_about(new RegisterBean())
+            .enqueue(new CommonCallback<NetData>() {
+              @Override
+              public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+
+                DownLoadBean downLoadBean = new Gson().fromJson(body.data.toString(),DownLoadBean.class);
+                for (DownLoadBean tempBean : downLoadBean.linkUrl) {
+                  if (tempBean.appType.equals("IOS")) {
+                    viewBinding.activityMineDownLoadIos.setText(tempBean.downloadUrl);
+
+                  }
+                  if (tempBean.appType.equals("ANDROID")) {
+                    viewBinding.activityMineDownLoadAndroid.setText(tempBean.downloadUrl);
+                  }
+
+                }
+              }
+
+              @Override
+              public void Failure(Call<NetData> call, Throwable t) {
+
+              }
+            });
+  }
+
   @Override
   public void onClick(View v) {
     if (v == viewBinding.activityMineDownLoadIos) {
