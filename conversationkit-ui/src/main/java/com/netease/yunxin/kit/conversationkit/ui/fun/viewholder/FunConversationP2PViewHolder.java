@@ -49,5 +49,7 @@ public class FunConversationP2PViewHolder extends FunConversationBaseViewHolder 
               AvatarColor.avatarColor(data.infoData.getContactId()));
       viewBinding.nameTv.setText(name);
     }
+    viewBinding.rootLayout.setBackground(viewBinding.rootLayout.getContext().getDrawable(com.yaoxin.appbase.R.drawable.bg_white_rounded_12));
+
   }
 }

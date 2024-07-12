@@ -168,7 +168,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         binding.fragmentMineZhaqView.setOnClickListener(this);
         binding.fragmentMineXsqxView.setOnClickListener(this);
         binding.fragmentMineSzView.setOnClickListener(this);
-        binding.fragmentMineQrcodeIv.setOnClickListener(this);
+//        binding.fragmentMineQrcodeIv.setOnClickListener(this);
         binding.fragmentMineEditIv.setOnClickListener(this);
         binding.fragmentMineChoujiang.setOnClickListener(this);
         binding.fragmentMineLianghao.setOnClickListener(this);
@@ -239,6 +239,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
     }
     private void updateUIGrade() {
         if (DataUtil.getUserInfo().grade > 0) {
+            binding.fragmentMineGradeRl.setVisibility(View.VISIBLE);
             binding.fragmentMineGradeTv.setVisibility(View.VISIBLE);
             binding.fragmentMineGradeIv.setVisibility(View.VISIBLE);
             binding.fragmentMineGradeTv.setText(DataUtil.getUserInfo().grade + "级靓号用户");
@@ -255,6 +256,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                 binding.fragmentMineGradeIv.setImageDrawable(drawable);
             }
         } else {
+            binding.fragmentMineGradeRl.setVisibility(View.GONE);
             binding.fragmentMineGradeTv.setVisibility(View.GONE);
             binding.fragmentMineGradeIv.setVisibility(View.GONE);
         }
@@ -277,7 +279,9 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
     public void onClick(View v) {
         Context context = getContext();
         if (v == binding.fragmentMineSmrzView) {
-            RealNameSetActivity.start(RealNameSetActivity.class,context,null);
+//            RealNameSetActivity.start(RealNameSetActivity.class,context,null);
+            AccoutCodeDetailActivity.start(AccoutCodeDetailActivity.class,getContext(),null);
+
         } else if (v == binding.fragmentMineAqysView) {
 
             AccountAnQuanManagerActivity.start(AccountAnQuanManagerActivity.class,context,null);
@@ -336,9 +340,9 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         if (v == binding.cavIcon || v == binding.fragmentMineEditIv) {
             AccountDetailActivity.start(AccountDetailActivity.class,getContext(),null);
         }
-        if (v ==  binding.fragmentMineQrcodeIv) {
-            AccoutCodeDetailActivity.start(AccoutCodeDetailActivity.class,getContext(),null);
-        }
+//        if (v ==  binding.fragmentMineQrcodeIv) {
+//            AccoutCodeDetailActivity.start(AccoutCodeDetailActivity.class,getContext(),null);
+//        }
 
 
     }

@@ -9,8 +9,9 @@
     android:id="@+id/rootLayout"
     android:layout_width="match_parent"
     android:clickable="true"
+    android:layout_marginHorizontal="10dp"
+    android:layout_marginTop="5dp"
     android:layout_height="72dp"
-    android:background="@drawable/fun_conversation_view_holder_selector"
     android:focusable="true">
 
     <FrameLayout

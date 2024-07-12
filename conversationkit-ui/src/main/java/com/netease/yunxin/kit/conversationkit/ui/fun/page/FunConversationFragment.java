@@ -358,6 +358,33 @@ public class FunConversationFragment extends ConversationBaseFragment {
     loadUIConfig();
     _initTopStatus(0);
     conversationView.setData(conversationList);
+    viewBinding.funConversationFragmentSearchIv.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        XKitRouter.withKey(PATH_FUN_ADD_FRIEND_PAGE).withContext(getContext()).navigate();
+
+      }
+    });
+
+    viewBinding.funConversationFragmentMoreIv.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        Context context = getContext();
+        int memberLimit = ConversationUIConstant.MAX_TEAM_MEMBER;
+        ContentListPopView contentListPopView =
+                new ContentListPopView.Builder(context)
+                        .addItem(FunPopItemFactory.getCreateAdvancedTeamItem(context, memberLimit))
+                        .addItem(FunPopItemFactory.getDivideLineItem(context))
+                        .addItem(FunPopItemFactory.getAddFriendItem(context))
+                        .addItem(FunPopItemFactory.getDivideLineItem(context))
+                        .addItem(FunPopItemFactory.getScanItem(context))
+                        .enableShadow(false)
+                        .backgroundRes(R.drawable.fun_conversation_view_pop_bg)
+                        .build();
+        contentListPopView.showAsDropDown(
+                v, (int) requireContext().getResources().getDimension(R.dimen.pop_margin_right), 0);
+      }
+    });
   }
 
   void doOptWithIndex(int index) {

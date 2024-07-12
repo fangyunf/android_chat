@@ -2,15 +2,20 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_marginHorizontal="15dp"
+    android:background="@drawable/bg_white_rounded_12"
+    android:orientation="horizontal">
 
     <LinearLayout
         android:id="@+id/contact_index_headview_1_ll"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:paddingHorizontal="15dp"
-        android:paddingVertical="7dp">
+
+        android:orientation="vertical"
+
+        android:paddingVertical="15dp"
+        android:gravity="center_horizontal">
 
         <ImageView
             android:layout_width="@dimen/dimen_32_dp"
@@ -20,20 +25,23 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
             android:text="客服消息"
             android:textColor="#ff333333"
-            android:textSize="15sp" />
+            android:layout_marginTop="10dp"
+            android:textSize="13sp" />
 
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/contact_index_headview_2_ll"
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:paddingHorizontal="15dp"
-        android:paddingVertical="7dp">
+        android:layout_width="0dp"
+        android:layout_weight="1"
+
+        android:orientation="vertical"
+
+        android:gravity="center_horizontal"
+        android:paddingVertical="15dp">
 
         <ImageView
             android:layout_width="@dimen/dimen_32_dp"
@@ -43,20 +51,23 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
             android:text="黑名单"
             android:textColor="#ff333333"
-            android:textSize="15sp" />
+            android:layout_marginTop="10dp"
+            android:textSize="13sp" />
 
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/contact_index_headview_3_ll"
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:paddingHorizontal="15dp"
-        android:paddingVertical="7dp">
+        android:layout_width="0dp"
+        android:layout_weight="1"
+
+        android:orientation="vertical"
+
+        android:gravity="center_horizontal"
+        android:paddingVertical="15dp">
 
         <ImageView
             android:layout_width="@dimen/dimen_32_dp"
@@ -66,20 +77,23 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
             android:text="新好友"
             android:textColor="#ff333333"
-            android:textSize="15sp" />
+            android:layout_marginTop="10dp"
+            android:textSize="13sp"/>
 
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/contact_index_headview_4_ll"
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:paddingHorizontal="15dp"
-        android:paddingVertical="7dp">
+        android:layout_width="0dp"
+        android:layout_weight="1"
+
+        android:orientation="vertical"
+
+        android:gravity="center_horizontal"
+        android:paddingVertical="15dp">
 
         <ImageView
             android:layout_width="@dimen/dimen_32_dp"
@@ -89,20 +103,22 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
             android:text="群聊"
             android:textColor="#ff333333"
-            android:textSize="15sp" />
+            android:layout_marginTop="10dp"
+            android:textSize="13sp" />
 
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/contact_index_headview_5_ll"
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:paddingHorizontal="15dp"
-        android:paddingVertical="7dp">
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+
+        android:gravity="center_horizontal"
+        android:paddingVertical="15dp">
 
         <ImageView
             android:layout_width="@dimen/dimen_32_dp"
@@ -112,10 +128,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
             android:text="系统通知"
             android:textColor="#ff333333"
-            android:textSize="15sp" />
+            android:layout_marginTop="10dp"
+            android:textSize="13sp"/>
 
     </LinearLayout>
 </LinearLayout>

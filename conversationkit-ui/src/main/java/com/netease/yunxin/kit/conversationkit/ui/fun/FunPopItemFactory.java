@@ -34,7 +34,7 @@ public final class FunPopItemFactory {
     LinearLayout.LayoutParams params = getParams(context);
     return new ContentListPopView.Item.Builder()
         .configView(
-            getView(context, R.string.add_friend, R.drawable.conversation_index_pop_add_friend))
+            getView(context, R.string.add_friend, R.drawable.conversation_index_pop_add))
         .configParams(params)
         .configClickListener(
             v -> XKitRouter.withKey(PATH_FUN_ADD_FRIEND_PAGE).withContext(context).navigate())
@@ -58,12 +58,11 @@ public final class FunPopItemFactory {
     return new ContentListPopView.Item.Builder()
         .configView(
             getView(
-                context, R.string.create_advanced_team, R.drawable.conversation_index_pop_create_group))
+                context, R.string.create_advanced_team, R.drawable.conversation_index_pop_msg))
         .configParams(params)
-        .configClickListener(
-            getClickListener(
-                context, requestCode, PATH_FUN_CREATE_ADVANCED_TEAM_ACTION, memberLimit))
-        .build();
+            .configClickListener(
+                    v -> EventBus.getDefault().post(new BaseEvent("gotoCreate")))
+            .build();
   }
 
   public static ContentListPopView.Item getCreateGroupTeamItem(Context context, int memberLimit) {

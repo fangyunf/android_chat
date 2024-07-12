@@ -75,11 +75,14 @@
                     android:paddingRight="10dp"
                     android:layout_height="match_parent">
                     <ImageView
+                        android:id="@+id/fun_conversation_fragment_search_iv"
                         android:layout_marginHorizontal="10dp"
                         android:src="@drawable/conversation_index_pop_search"
                         android:layout_width="30dp"
                         android:layout_height="30dp"/>
                     <ImageView
+                        android:id="@+id/fun_conversation_fragment_more_iv"
+
                         android:src="@drawable/conversation_index_pop_more"
                         android:layout_width="30dp"
                         android:layout_height="30dp"/>
@@ -125,6 +128,7 @@
 
                 <com.netease.yunxin.kit.conversationkit.ui.view.ConversationView
                     android:id="@+id/conversationView"
+                    android:background="@color/color_F2F2F2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
 

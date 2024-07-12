@@ -115,7 +115,7 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
         binding.funChatSettingActivityNav.addCloseImageButton().setOnClickListener(this);
         binding.funChatSettingActivityNav.getTitleView().setText("聊天设置");
         if (type == 1) {
-            binding.funChatSettingActivityNav.getTitleView().setText("好友资料");
+            binding.funChatSettingActivityNav.getTitleView().setText("查看主页");
 
         }
         initView();

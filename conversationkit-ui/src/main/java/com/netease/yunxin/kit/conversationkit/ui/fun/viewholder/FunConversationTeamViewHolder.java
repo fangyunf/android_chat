@@ -9,6 +9,7 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import com.netease.nimlib.sdk.team.model.Team;
 import com.netease.yunxin.kit.common.ui.utils.AvatarColor;
+import com.netease.yunxin.kit.conversationkit.ui.R;
 import com.netease.yunxin.kit.conversationkit.ui.common.ConversationConstant;
 import com.netease.yunxin.kit.conversationkit.ui.common.ConversationHelper;
 import com.netease.yunxin.kit.conversationkit.ui.databinding.FunConversationViewHolderBinding;
@@ -40,5 +41,7 @@ public class FunConversationTeamViewHolder extends FunConversationBaseViewHolder
     } else {
       viewBinding.aitTv.setVisibility(View.GONE);
     }
+//    viewBinding.rootLayout.setBackgroundColor(viewBinding.rootLayout.getContext().getResources().getColor(com.yaoxin.appbase.R.color.app_theme_color));
+    viewBinding.rootLayout.setBackground(viewBinding.rootLayout.getContext().getDrawable(com.yaoxin.appbase.R.drawable.bg_white_rounded_12));
   }
 }
