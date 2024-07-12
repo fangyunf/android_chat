@@ -2,10 +2,13 @@ package com.netease.yunxin.kit.teamkit.ui.fun.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -21,6 +24,7 @@ import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.Constant;
 import com.yaoxin.appbase.net.HttpUtil;
+import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.DensityUtils;
 import com.yaoxin.appbase.utils.GlideUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
@@ -86,6 +90,21 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
         binding.funTeamUserInfoDetailNameTv.setText(groupInfoBean.name);
         GlideUtil.yh_loadImageRoundedCorner(this,binding.funTeamUserInfoDetailHeadIv,groupInfoBean.avatar,30);
         binding.funTeamUserInfoDetailAccountTv.setText(groupInfoBean.memberCode);
+        if (groupInfoBean.grade > 0) {
+            binding.funTeamUserInfoDetailGradeIv.setVisibility(View.VISIBLE);
+            String imageName = "mine_grade_level_" + groupInfoBean.grade;
+            Resources resources = getResources();
+            int resId = resources.getIdentifier(imageName, "mipmap", getPackageName());
+            // 如果找到了资源，则可以使用这个ID获取Drawable
+            Drawable drawable = null;
+            if (resId > 0) {
+                drawable = ContextCompat.getDrawable(this, resId);
+            }
+            // 如果需要将drawable设置到ImageView中
+            if (drawable != null) {
+                binding.funTeamUserInfoDetailGradeIv.setImageDrawable(drawable);
+            }
+        }
 
         binding.funTeamUserInfoDetailYaoqingren.viewTitleArrowTv.setText("邀请人");
         binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowTv.setText("备注名");
