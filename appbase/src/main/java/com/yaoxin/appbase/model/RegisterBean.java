@@ -8,7 +8,10 @@ import java.util.List;
 
 public class RegisterBean {
 
+    public String allDisturb;
+    public String sound;
     public String check;
+    public String shake;
     public String phoneAdd;
     public String idAdd;
     public String cardAdd;

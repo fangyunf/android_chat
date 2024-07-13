@@ -356,6 +356,16 @@ public interface ServiceW {
     @GET("/customer/notice")
     Call<NetData> customer_notice();
     //  好友列表
+    @GET("/home/selectSoundSwith")
+    Call<NetData> home_selectSoundSwith();
+
+
+    //  好友列表
+    @POST("/home/soundSwitch")
+    Call<NetData> home_soundSwitch(
+            @Body RegisterBean userBean
+    );
+    //  好友列表
 //
 //    @POST("assets/fInventoryPlan/list")
 //    Call<NetData<List<CheckPlanBean>>> assets_fInventoryPlan_list(
