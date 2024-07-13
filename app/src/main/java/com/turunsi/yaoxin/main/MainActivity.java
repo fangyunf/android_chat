@@ -327,7 +327,7 @@ public class MainActivity extends BaseActivity {
                                               ? getString(R.string.incoming_call_notify_audio)
                                               : getString(R.string.incoming_call_notify_video));
                               ALog.d("=======" + content);
-                              return new CallKitNotificationConfig(R.mipmap.ic_logo, null, null, content);
+                              return new CallKitNotificationConfig(R.mipmap.yaoxin_icon, null, null, content);
                             })
                     // 收到被叫时若 app 在后台，在恢复到前台时是否自动唤起被叫页面，默认为 true
                     .resumeBGInvitation(true)

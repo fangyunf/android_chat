@@ -166,6 +166,10 @@
             android:name=".main.mine.setting.SettingNotifyActivity"
             android:screenOrientation="portrait"
             android:exported="false" />
+        <activity
+            android:name=".main.mine.setting.SettingNotifyNewActivity"
+            android:screenOrientation="portrait"
+            android:exported="false" />
 
         <activity
             android:name=".main.mine.setting.ClearCacheActivity"

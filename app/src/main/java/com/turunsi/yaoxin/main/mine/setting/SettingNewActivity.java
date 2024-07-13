@@ -88,7 +88,7 @@ public class SettingNewActivity extends BaseActivity implements View.OnClickList
   @Override
   public void onClick(View v) {
     if (v == viewBinding.activityMineSetNewNoticeVoice.viewTitleArrowLl) {
-      startActivity(new Intent(SettingNewActivity.this, SettingNotifyActivity.class));
+      startActivity(new Intent(SettingNewActivity.this, SettingNotifyNewActivity.class));
     } else if (v == viewBinding.activityMineSetNewDeleteCache.viewTitleArrowLl) {
       startActivity(new Intent(SettingNewActivity.this, ClearCacheActivity.class));
 

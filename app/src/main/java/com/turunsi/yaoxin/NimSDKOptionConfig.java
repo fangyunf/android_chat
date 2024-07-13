@@ -88,9 +88,9 @@ public class NimSDKOptionConfig {
   public static StatusBarNotificationConfig loadStatusBarNotificationConfig() {
     StatusBarNotificationConfig config = new StatusBarNotificationConfig();
     config.notificationEntrance = MainActivity.class;
-    config.notificationSmallIconId = R.mipmap.ic_logo;
+    config.notificationSmallIconId = R.mipmap.yaoxin_icon;
     config.notificationColor = Color.parseColor("#3a9efb");
-    config.notificationSound = NOTIFY_SOUND_KEY;
+//    config.notificationSound = NOTIFY_SOUND_KEY;
     config.notificationFoldStyle = NotificationFoldStyle.ALL;
     config.downTimeEnableNotification = true;
     config.ledARGB = Color.GREEN;

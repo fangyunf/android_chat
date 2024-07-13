@@ -6,7 +6,6 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:gravity="center_horizontal"
-    android:paddingHorizontal="20dp"
     >
     <ImageView
         android:id="@+id/icon_title_arrow_template_left_iv"

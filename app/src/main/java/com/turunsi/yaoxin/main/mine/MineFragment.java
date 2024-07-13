@@ -40,6 +40,7 @@ import com.turunsi.yaoxin.main.mine.setting.Mine_Account_Anquan_Activity;
 import com.turunsi.yaoxin.main.mine.setting.SettingActivity;
 import com.turunsi.yaoxin.main.mine.setting.SettingNewActivity;
 import com.turunsi.yaoxin.main.mine.setting.SettingNotifyActivity;
+import com.turunsi.yaoxin.main.mine.setting.SettingNotifyNewActivity;
 import com.turunsi.yaoxin.utils.Constant;
 import com.netease.yunxin.kit.alog.ALog;
 import com.netease.yunxin.kit.common.ui.fragments.BaseFragment;
@@ -289,7 +290,8 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 
             Mine_Account_Anquan_Activity.start(Mine_Account_Anquan_Activity.class,context,null);
         } else if (v == binding.fragmentMineXsqxView) {
-            startActivity(new Intent(getContext(), SettingNotifyActivity.class));
+//            startActivity(new Intent(getContext(), SettingNotifyActivity.class));
+            startActivity(new Intent(getContext(), SettingNotifyNewActivity.class));
         } else if (v == binding.fragmentMineSzView) {
             SettingNewActivity.start(SettingNewActivity.class,getContext(),null);
         } else if (v == binding.fragmentMineLianghao) {
