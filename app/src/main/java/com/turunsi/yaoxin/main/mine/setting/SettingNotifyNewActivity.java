@@ -130,7 +130,7 @@ public class SettingNotifyNewActivity extends BaseActivity {
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                         ToastUtils.toastMsg(body.msg);
                         if (type == 1) {
-                            NIMClient.toggleNotification("1".equals(registerBean.allDisturb));
+//                            NIMClient.toggleNotification("1".equals(registerBean.allDisturb));
                         } else if (type == 2)  {
 
                             StatusBarNotificationConfig config = NimSDKOptionConfig.loadStatusBarNotificationConfig();

@@ -23,6 +23,7 @@ import androidx.fragment.app.Fragment;
 import com.google.gson.Gson;
 //import com.king.camera.scan.CameraScan;
 import com.netease.lava.nertc.sdk.NERtcOption;
+import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.StatusCode;
 import com.netease.nimlib.sdk.avsignalling.constant.ChannelType;
@@ -134,6 +135,7 @@ public class MainActivity extends BaseActivity {
 
     EventBus.getDefault().register(this);
     _update();
+    NIMClient.toggleNotification(false);
   }
 
   void _update() {
