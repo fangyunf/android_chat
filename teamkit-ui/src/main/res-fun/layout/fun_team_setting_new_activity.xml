@@ -71,7 +71,9 @@
 
                         <LinearLayout
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            >
 
                             <TextView
                                 android:id="@+id/tvName"
@@ -84,10 +86,10 @@
 
                             <ImageView
                                 android:id="@+id/edit_icon"
-                                android:layout_width="@dimen/dimen_16_dp"
-                                android:layout_height="@dimen/dimen_16_dp"
-                                android:layout_marginLeft="10dp"
-                                android:src="@drawable/chat_group_setting_edit"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_marginLeft="5dp"
+                                android:src="@mipmap/mine_index_bj"
                                 />
                         </LinearLayout>
 
