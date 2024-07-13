@@ -116,6 +116,8 @@
             android:name=".fun.search.FunSearchActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".fun.blacklist.FunBlackList_NewActivity"/>
 
     </application>
 

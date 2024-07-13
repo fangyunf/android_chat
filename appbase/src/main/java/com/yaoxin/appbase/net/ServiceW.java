@@ -343,6 +343,16 @@ public interface ServiceW {
             @Body RegisterBean userBean
     );
     //  好友列表
+    @POST("/friends/changeBlackState")
+    Call<NetData> friends_changeBlackState(
+            @Body RegisterBean userBean
+    );
+    //  好友列表
+    @POST("/friends/blackList")
+    Call<NetData> friends_blackList(
+            @Body RegisterBean userBean
+    );
+    //  好友列表
     @GET("/customer/notice")
     Call<NetData> customer_notice();
     //  好友列表
