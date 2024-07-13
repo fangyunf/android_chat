@@ -56,6 +56,7 @@ import com.netease.yunxin.kit.teamkit.ui.activity.BaseTeamMemberListActivity;
 import com.netease.yunxin.kit.teamkit.ui.activity.BaseTeamSettingActivity;
 import com.netease.yunxin.kit.teamkit.ui.databinding.FunTeamSettingNewActivityBinding;
 import com.netease.yunxin.kit.teamkit.ui.fun.activity.adapter.TeamSettingUserInfoAdapter;
+import com.netease.yunxin.kit.teamkit.ui.fun.dialog.TeamModifyDialog;
 import com.netease.yunxin.kit.teamkit.ui.utils.TeamUtils;
 import com.yaoxin.appbase.activity.BaseActivity;
 import com.yaoxin.appbase.model.GroupInfoBean;
@@ -394,7 +395,7 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
         if (groupInfoBean.rankState == 1 || groupInfoBean.rankState == 2) {
 
             binding.funTeamSettingNewActivityManagerTeam.viewTitleArrowLl.setVisibility(View.VISIBLE);
-            binding.funTeamSettingNewActivitySetGonggao.viewTitleArrowLl.setVisibility(View.VISIBLE);
+//            binding.funTeamSettingNewActivitySetGonggao.viewTitleArrowLl.setVisibility(View.VISIBLE);
             binding.editIcon.setVisibility(View.VISIBLE);
         }
 
@@ -507,16 +508,93 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
             
         } else if (view == binding.editIcon) {
 
-            Intent intent = new Intent(this, ModifyInfoActivity.class);
-            intent.putExtra("title","修改群名");
-            intent.putExtra("type","1");
-            activityResultLauncher.launch(intent);
+            Activity that = this;
+            DialogAlertUtil.showSheetView(this, getSupportFragmentManager(), new String[]{"修改群名称","修改公告栏","修改群头像"}, new DialogAlertUtil.DialogAlertUtilCallBack() {
+                @Override
+                public void clickType(int type) {
+                    if (type == 1) {
+                        //修改群名
+                        TeamModifyDialog.showV(getSupportFragmentManager(), type, new TeamModifyDialog.TeamModifyDialogBlock() {
+                            @Override
+                            public void returnResult(String result) {
+                                RegisterBean bean = new RegisterBean();
+                                bean.groupId = groupId;
+                                bean.groupName = result;
+                                HttpUtil.apiW().group_updateGroupInfo(bean)
+                                        .enqueue(new CommonCallback<NetData>() {
+                                            @Override
+                                            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+
+                                                ToastUtils.toastMsg(body.msg);
+                                                _requestData();
+                                            }
+
+                                            @Override
+                                            public void Failure(Call<NetData> call, Throwable t) {
+
+                                            }
+                                        });
+                            }
+                        });
+                    }
+                    if (type == 2) {
+                        //修改公告栏
+                        TeamModifyDialog.showV(getSupportFragmentManager(), type, new TeamModifyDialog.TeamModifyDialogBlock() {
+                            @Override
+                            public void returnResult(String result) {
+                                RegisterBean bean = new RegisterBean();
+                                bean.groupId = groupId;
+                                bean.announcement = result;
+                                HttpUtil.apiW().group_updateGroupInfo(bean)
+                                        .enqueue(new CommonCallback<NetData>() {
+                                            @Override
+                                            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+
+                                                ToastUtils.toastMsg(body.msg);
+                                                _requestData();
+                                            }
+
+                                            @Override
+                                            public void Failure(Call<NetData> call, Throwable t) {
+
+                                            }
+                                        });
+                            }
+                        });
+                    }
+                    if (type == 3) {
+                        UploadUtil.openPhotoLibrary(that, Constant.REQUEST_CODE_CHOOSE);
+                    }
+                }
+            });
+//            Intent intent = new Intent(this, ModifyInfoActivity.class);
+//            intent.putExtra("title","修改群名");
+//            intent.putExtra("type","1");
+//            activityResultLauncher.launch(intent);
         } else if (view == binding.funTeamSettingNewActivityNicheng.viewTitleArrowLl) {
 
-            Intent intent = new Intent(this, ModifyInfoActivity.class);
-            intent.putExtra("title","修改在本群昵称");
-            intent.putExtra("type","2");
-            activityResultLauncher.launch(intent);
+            TeamModifyDialog.showV(getSupportFragmentManager(), 3, new TeamModifyDialog.TeamModifyDialogBlock() {
+                @Override
+                public void returnResult(String result) {
+                    RegisterBean bean = new RegisterBean();
+                    bean.groupId = groupId;
+                    bean.nickName = result;
+                    HttpUtil.apiW().groupMember_installGroupNickName(bean)
+                            .enqueue(new CommonCallback<NetData>() {
+                                @Override
+                                public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+
+                                    ToastUtils.toastMsg(body.msg);
+                                    _requestData();
+                                }
+
+                                @Override
+                                public void Failure(Call<NetData> call, Throwable t) {
+
+                                }
+                            });
+                }
+            });
         } else if (view == binding.funTeamSettingNewActivitySetGonggao.viewTitleArrowLl) {
 
             Intent intent = new Intent(this, ModifyInfoActivity.class);
@@ -534,7 +612,7 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
             FunTeamSettingNew_TeamUsersActivity.start(FunTeamSettingNew_TeamUsersActivity.class,this,map);
 
         } else if (view == binding.funTeamSettingNewActivityTeamIcon) {
-            UploadUtil.openPhotoLibrary(this, Constant.REQUEST_CODE_CHOOSE);
+//            UploadUtil.openPhotoLibrary(this, Constant.REQUEST_CODE_CHOOSE);
 //            Matisse.from(FunTeamSettingNewActivity.this)
 //                    .choose(MimeType.ofImage(), false)
 //                    .countable(true)
