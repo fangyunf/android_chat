@@ -5,6 +5,7 @@
 package com.netease.yunxin.kit.chatkit.ui.fun.page.fragment;
 
 import android.content.Context;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,6 +44,7 @@ import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.AppProxy;
+import com.yaoxin.appbase.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -157,12 +159,17 @@ public abstract class FunChatFragment extends ChatBaseFragment {
                                         redBean.redPacketId = bean.redpacketId;
                                     }
 
-                                    FunOpenRedPacketFragment.showV(getParentFragmentManager(), bean.redpacketId, redBean.type, sessionID, msgBean, messageInfo.getMessage(), new FunOpenRedPacketFragment.OpenRedPacketBlock() {
-                                        @Override
-                                        public void hasOpen(IMMessage message) {
-                                            _updateMessageCell(message);
-                                        }
-                                    });
+
+                                    if (getActivity() != null) {
+                                        FunOpenRedPacketFragment.showV(getActivity().getSupportFragmentManager(), bean.redpacketId, redBean.type, sessionID, msgBean, messageInfo.getMessage(), new FunOpenRedPacketFragment.OpenRedPacketBlock() {
+                                            @Override
+                                            public void hasOpen(IMMessage message) {
+                                                _updateMessageCell(message);
+                                            }
+                                        });
+                                    } else {
+                                        ToastUtils.toastMsg("网络错误");
+                                    }
                                 }
                                 if (redBean.type == 4 || redBean.type == 5) {
                                     /// 当前用户领取已领取过当前红包，展示领取详细信息
@@ -170,11 +177,7 @@ public abstract class FunChatFragment extends ChatBaseFragment {
                                     HashMap map = new HashMap();
                                     map.put("redpacketId",bean.redpacketId);
                                     Context context = getContext();
-                                    if (context == null) {
-                                        context = AppProxy.getInstance().getContext();
-                                    }
                                     FunRedPacketResultActivity.start(FunRedPacketResultActivity.class,context,map);
-
                                 }
 
                             }

@@ -34,6 +34,7 @@ import com.scwang.smart.refresh.layout.api.RefreshHeader;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.listener.DefaultRefreshFooterCreator;
 import com.scwang.smart.refresh.layout.listener.DefaultRefreshHeaderCreator;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.turunsi.yaoxin.crash.AppCrashHandler;
 import com.turunsi.yaoxin.login.LoginActivity;
 import com.turunsi.yaoxin.login.OtherPlaceLoginActivity;
@@ -174,6 +175,8 @@ public class IMApplication extends MultiDexApplication {
         });
 
     }
+      CrashReport.initCrashReport(getApplicationContext(), "8427ba87a8", false);
+
   }
 
   private final List<Activity> activities = new ArrayList<>();
