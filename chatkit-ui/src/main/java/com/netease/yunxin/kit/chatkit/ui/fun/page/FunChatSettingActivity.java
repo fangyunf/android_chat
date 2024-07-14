@@ -353,6 +353,9 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
             @Override
             public void onClick(View v) {
                 if (type == 1) {
+                    if (userInfoData == null || userInfoData.data == null) {
+                        return;
+                    }
                     XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_P2P_PAGE)
                             .withParam(RouterConstant.CHAT_ID_KRY, userInfoData.data.getAccount())
                             .withContext(FunChatSettingActivity.this)

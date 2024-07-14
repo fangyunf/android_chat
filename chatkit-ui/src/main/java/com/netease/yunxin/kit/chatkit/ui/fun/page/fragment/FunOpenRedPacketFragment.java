@@ -140,13 +140,7 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
 
 
         if (v == binding.fragmentOpenRedPacketDialogDetailRl) {
-            HashMap map = new HashMap();
-            map.put("redpacketId",redPacketId);
-            Context context = getContext();
-            if (context == null) {
-                context = AppProxy.getInstance().getContext();
-            }
-            FunRedPacketResultActivity.start(FunRedPacketResultActivity.class,context,map);
+            gotoRedPacketDetail(false);
 
         } else if (v == binding.fragmentOpenRedPacketDialogOpenRl) {
             RegisterBean bean = new RegisterBean();
@@ -156,7 +150,7 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
                         .enqueue(new CommonCallback<NetData>() {
                             @Override
                             public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                                gotoRedPacketDetail();
+                                gotoRedPacketDetail(true);
                                 sendTipMsg(true);
                             }
 
@@ -171,7 +165,7 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
                         .enqueue(new CommonCallback<NetData>() {
                             @Override
                             public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                                gotoRedPacketDetail();
+                                gotoRedPacketDetail(true);
                                 sendTipMsg(false);
                             }
 
@@ -187,7 +181,7 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
                             @Override
                             public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                                gotoRedPacketDetail();
+                                gotoRedPacketDetail(true);
                                 sendTipMsg(true);
                             }
 
@@ -225,13 +219,17 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
         updateMessage();
     }
 
-    void gotoRedPacketDetail() {
-        ToastUtils.toastMsg("领取成功");
+    void gotoRedPacketDetail(boolean needToast) {
+        if (needToast) {
+            ToastUtils.toastMsg("领取成功");
+        }
         HashMap map = new HashMap();
         map.put("redpacketId",redPacketId);
         Context context = getContext();
         if (context == null) {
-            context = AppProxy.getInstance().getContext();
+            ToastUtils.toastMsg("请重试");
+            dismiss();
+            return;
         }
         FunRedPacketResultActivity.start(FunRedPacketResultActivity.class,context,map);
         dismiss();
