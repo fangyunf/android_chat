@@ -4,6 +4,7 @@
 
 package com.netease.yunxin.kit.chatkit.ui.fun.page.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -176,8 +177,10 @@ public abstract class FunChatFragment extends ChatBaseFragment {
                                     ///当红包是个人/专属，当前非目标领取用户，直接显示查看领取详情
                                     HashMap map = new HashMap();
                                     map.put("redpacketId",bean.redpacketId);
-                                    Context context = getContext();
-                                    FunRedPacketResultActivity.start(FunRedPacketResultActivity.class,context,map);
+                                    Activity context = getActivity();
+                                    if (context != null) {
+                                        FunRedPacketResultActivity.start(FunRedPacketResultActivity.class,context,map);
+                                    }
                                 }
 
                             }

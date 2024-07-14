@@ -225,7 +225,7 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
         }
         HashMap map = new HashMap();
         map.put("redpacketId",redPacketId);
-        Context context = getContext();
+        Activity context = getActivity();
         if (context == null) {
             ToastUtils.toastMsg("请重试");
             dismiss();
