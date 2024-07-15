@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import androidx.annotation.Nullable;
 
 import com.google.gson.Gson;
+import com.netease.yunxin.kit.chatkit.ui.fun.page.FunRedPacketRecordListActivity;
 import com.turunsi.yaoxin.R;
 import com.turunsi.yaoxin.login.RealNameSetActivity;
 import com.turunsi.yaoxin.main.mine.purse.alipay.BindAlipayActivity;
@@ -118,7 +119,8 @@ public class PurseIndexActivity extends BaseActivity implements View.OnClickList
         } else if (v == binding.activityMinePurseIndexTixianTv) {
             PurseTiXianActivity.start(PurseTiXianActivity.class,this,null);
         } else if (v == binding.activityMinePurseIndexCell1.itemPurseIndexCellRl) {
-            BillDetailListActivity.start(BillDetailListActivity.class,this,null);
+//            BillDetailListActivity.start(BillDetailListActivity.class,this,null);
+            FunRedPacketRecordListActivity.start(FunRedPacketRecordListActivity.class,this,null);
         } else if (v == binding.activityMinePurseIndexCell2.itemPurseIndexCellRl) {
 //            RealNameSetActivity.start(RealNameSetActivity.class,this,null);
         } else if (v == binding.activityMinePurseIndexCell3.itemPurseIndexCellRl) {

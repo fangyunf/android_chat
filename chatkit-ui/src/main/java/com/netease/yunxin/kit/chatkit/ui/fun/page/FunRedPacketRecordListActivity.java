@@ -23,6 +23,7 @@ import com.google.gson.reflect.TypeToken;
 import com.netease.yunxin.kit.chatkit.ui.R;
 import com.netease.yunxin.kit.chatkit.ui.databinding.ActivityFunRedPacketRecordListBinding;
 import com.netease.yunxin.kit.chatkit.ui.databinding.ActivityFunSendRedPacketBinding;
+import com.netease.yunxin.kit.chatkit.ui.fun.page.adapter.RedPacketRecordListAdapter;
 import com.netease.yunxin.kit.chatkit.ui.fun.page.adapter.RedPacketResultDetailAdapter;
 import com.netease.yunxin.kit.corekit.im.model.UserInfo;
 import com.netease.yunxin.kit.corekit.route.XKitRouter;
@@ -54,7 +55,7 @@ public class FunRedPacketRecordListActivity extends BaseActivity implements View
     List<CustomMsgBean> receiveList = new ArrayList<>();
     List<CustomMsgBean> sendList = new ArrayList<>();
     String selectedMonth = TimeUtils.getTodayDateString("yyyy-MM");
-    RedPacketResultDetailAdapter adapter = new RedPacketResultDetailAdapter();
+    RedPacketRecordListAdapter adapter = new RedPacketRecordListAdapter();
     int selectedIndex = 0;
 
     @Override
@@ -69,7 +70,7 @@ public class FunRedPacketRecordListActivity extends BaseActivity implements View
     @Override
     protected void _initView() {
         binding.activityFunRedPacketRecordListNav.addCloseImageButton().setOnClickListener(this);
-        binding.activityFunRedPacketRecordListNameTv.setText(DataUtil.getUserInfo().name);
+        binding.activityFunRedPacketRecordListNameTv.setText(DataUtil.getUserInfo().username);
         GlideUtil.yh_loadImageRoundedCorner(this, binding.activityFunRedPacketRecordListHeadIv, DataUtil.getUserInfo().avatar, 25);
         binding.activityFunRedPacketRecordListChooseDateLl.setOnClickListener(this);
         binding.activityFunRedPacketRecordListSendLl.setOnClickListener(this);
@@ -81,16 +82,17 @@ public class FunRedPacketRecordListActivity extends BaseActivity implements View
     }
 
     void selectItem(int type) {
-        if (type == selectedIndex) {
-            return;
-        }
+//        if (type == selectedIndex) {
+//            return;
+//        }
         selectedIndex = type;
         if (type == 0) {
             if (!receiveList.isEmpty()) {
+                adapter._type = 0;
                 adapter.setItems(receiveList);
                 adapter.notifyDataSetChanged();
             }
-            binding.activityFunRedPacketRecordListReceivceTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.black));
+            binding.activityFunRedPacketRecordListReceivceTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.color_white));
             binding.activityFunRedPacketRecordListSendTv.setTextColor(getResources().getColor(com.netease.yunxin.kit.contactkit.ui.R.color.color_666666));
 
             binding.activityFunRedPacketRecordListReceivceLl.setSelected(true);
@@ -99,10 +101,11 @@ public class FunRedPacketRecordListActivity extends BaseActivity implements View
 
         } else {
             if (!sendList.isEmpty()) {
+                adapter._type = 1;
                 adapter.setItems(sendList);
                 adapter.notifyDataSetChanged();
             }
-            binding.activityFunRedPacketRecordListSendTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.black));
+            binding.activityFunRedPacketRecordListSendTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.color_white));
             binding.activityFunRedPacketRecordListReceivceTv.setTextColor(getResources().getColor(com.netease.yunxin.kit.contactkit.ui.R.color.color_666666));
 
 
@@ -123,6 +126,7 @@ public class FunRedPacketRecordListActivity extends BaseActivity implements View
                             }.getType();
                             receiveList = new Gson().fromJson(body.data.toString(), userListType);
                             if (selectedIndex == 0) {
+                                adapter._type = 0;
                                 adapter.setItems(receiveList);
                                 adapter.notifyDataSetChanged();
                             }
@@ -140,6 +144,7 @@ public class FunRedPacketRecordListActivity extends BaseActivity implements View
                             }.getType();
                             sendList = new Gson().fromJson(body.data.toString(), userListType);
                             if (selectedIndex == 1) {
+                                adapter._type = 1;
                                 adapter.setItems(sendList);
                                 adapter.notifyDataSetChanged();
                             }

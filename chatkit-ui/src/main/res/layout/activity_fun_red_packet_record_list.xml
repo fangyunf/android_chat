@@ -95,7 +95,7 @@
                 android:layout_width="80dp"
                 android:layout_height="22dp"
                 android:layout_marginTop="@dimen/dimen_12_dp"
-                android:text="会飞的洋芋"
+                android:text=""
                 android:textColor="#ff000000"
                 android:textSize="16sp" />
 
