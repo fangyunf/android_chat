@@ -65,7 +65,7 @@ public class BillDetailListAdapter extends BaseQuickAdapter<BillDetailBean, Quic
     private void returnImgRes(int type) {
         /*
         *
-        String[] strs = {"全部","发送群购物券","领取群购物券","发送专属购物券","领取专属购物券","发送个人购物券","领取个人购物券","充值","提现","购物券退回","提现驳回","购物支出"};
+        String[] strs = {"全部","发送群红包","领取群红包","发送专属红包","领取专属红包","发送个人红包","领取个人红包","充值","提现","红包退回","提现驳回","购物支出"};
         int[] types = {-1,23,26,21,24,22,25,0,1,27,5,0,100};
         * */
 

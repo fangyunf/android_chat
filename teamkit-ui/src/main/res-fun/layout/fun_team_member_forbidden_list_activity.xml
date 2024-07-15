@@ -17,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:gravity="center"
-        android:text="禁止领取购物券"
+        android:text="禁止领取红包"
         android:textColor="@color/color_333333"
         android:textSize="17dp"
         android:textStyle="bold"

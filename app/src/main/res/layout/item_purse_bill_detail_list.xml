@@ -28,7 +28,7 @@
                 android:id="@+id/item_purse_bill_detail_list_title_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="22dp"
-                android:text="发送群购物券"
+                android:text="发送群红包"
                 android:textColor="#ff000000"
                 android:textSize="16sp"
                 />

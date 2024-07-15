@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="43dp"
         android:gravity="center"
-        android:text="发送群购物券"
+        android:text="发送群红包"
         android:textColor="#ffffff"
         android:textSize="14sp"
         />

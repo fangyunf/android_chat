@@ -111,8 +111,8 @@ public class FunTeamSetting_GroupManagerActivity extends BaseActivity implements
         binding.funTeamSettingGroupManagerActivityChengyuanJinyan.viewTitleDetailArrowTemplateSwitch.setOnClickListener(this);
 
 
-        binding.funTeamSettingGroupManagerActivityJinzhiLingquGouwuquan.viewTitleDetailArrowTemplateTitleTv.setText("禁止领取购物券");
-        binding.funTeamSettingGroupManagerActivityJinzhiLingquGouwuquan.viewTitleDetailArrowTemplateDetailTv.setText("启用后，群成员无法通过该群领购物券");
+        binding.funTeamSettingGroupManagerActivityJinzhiLingquGouwuquan.viewTitleDetailArrowTemplateTitleTv.setText("禁止领取红包");
+        binding.funTeamSettingGroupManagerActivityJinzhiLingquGouwuquan.viewTitleDetailArrowTemplateDetailTv.setText("启用后，群成员无法通过该群领红包");
         binding.funTeamSettingGroupManagerActivityJinzhiLingquGouwuquan.viewTitleDetailArrowTemplateSwitch.setOnClickListener(this);
 
 
@@ -121,7 +121,7 @@ public class FunTeamSetting_GroupManagerActivity extends BaseActivity implements
         binding.funTeamSettingGroupManagerActivityQunchengyuanBaohu.viewTitleDetailArrowTemplateSwitch.setOnClickListener(this);
 
         binding.funTeamSettingGroupManagerActivityJinzhiLingquMingdan.viewTitleArrowLl.setVisibility(View.GONE);
-        binding.funTeamSettingGroupManagerActivityJinzhiLingquMingdan.viewTitleArrowTv.setText("禁止领取购物券名单");
+        binding.funTeamSettingGroupManagerActivityJinzhiLingquMingdan.viewTitleArrowTv.setText("禁止领取红包名单");
         binding.funTeamSettingGroupManagerActivityJinzhiLingquMingdan.viewTitleArrowLl.setOnClickListener(this);
 
 

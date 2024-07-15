@@ -417,7 +417,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:gravity="center_vertical|start"
-                android:text="禁止领取购物券"
+                android:text="禁止领取红包"
                 android:textColor="@color/color_333333"
                 android:textSize="16dp"
                 android:visibility="gone"

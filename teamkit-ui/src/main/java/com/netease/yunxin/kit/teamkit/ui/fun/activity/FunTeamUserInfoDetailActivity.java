@@ -108,7 +108,7 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
 
         binding.funTeamUserInfoDetailYaoqingren.viewTitleArrowTv.setText("邀请人");
         binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowTv.setText("备注名");
-        binding.funTeamUserInfoDetailJinzhi.viewTitleArrowTv.setText("禁止领取购物券");
+        binding.funTeamUserInfoDetailJinzhi.viewTitleArrowTv.setText("禁止领取红包");
         binding.funTeamUserInfoDetailTichu.viewTitleArrowTv.setText("踢出群聊");
 
         binding.funTeamUserInfoDetailYaoqingren.viewTitleArrowLl.setVisibility(View.GONE);
