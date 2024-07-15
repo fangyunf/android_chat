@@ -12,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.WindowInsets;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -49,6 +51,7 @@ import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.AppProxy;
 import com.yaoxin.appbase.utils.BarUtils;
+import com.yaoxin.appbase.utils.SoftKeyboardFixerForFullscreen;
 import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
 
@@ -70,24 +73,26 @@ public abstract class FunChatFragment extends ChatBaseFragment {
             @NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
         viewBinding = FunChatFragmentBinding.inflate(inflater, container, false);
         chatView = viewBinding.chatView;
-        changeStatusBarColor(R.color.color_white);
-//        StatusBarUtils.setStatusBarLightMode(getActivity(), true, true);
-//        LinearLayout.LayoutParams params =
-//                (LinearLayout.LayoutParams) viewBinding.chatView.getTitleBarLayout().getLayoutParams();
-//        FrameLayout frameLayout = viewBinding.chatView.getTitleBarLayout();
+        StatusBarUtils.setStatusBarLightMode(getActivity(), true, true);
+        try {
 
-//        frameLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-//            @Override
-//            public void onGlobalLayout() {
-//                // 确保只调用一次
-//                frameLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-//                int height = frameLayout.getHeight();
-//                LinearLayout.LayoutParams frameLayoutParams = (LinearLayout.LayoutParams) viewBinding.chatView.getTitleBarLayout().getLayoutParams();
-//                frameLayoutParams.height = height + BarUtils.getStatusBarHeight();
-//                viewBinding.chatView.getTitleBarLayout().setLayoutParams(frameLayoutParams);
-//                viewBinding.chatView.getTitleBarLayout().setPadding(0, BarUtils.getStatusBarHeight(), 0, 0);
-//            }
-//        });
+            SoftKeyboardFixerForFullscreen.assistActivity(getActivity());
+            FrameLayout frameLayout = viewBinding.chatView.getTitleBarLayout();
+            frameLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    // 确保只调用一次
+                    frameLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    int height = frameLayout.getHeight();
+                    LinearLayout.LayoutParams frameLayoutParams = (LinearLayout.LayoutParams) viewBinding.chatView.getTitleBarLayout().getLayoutParams();
+                    frameLayoutParams.height = height + BarUtils.getStatusBarHeight();
+                    viewBinding.chatView.getTitleBarLayout().setLayoutParams(frameLayoutParams);
+                    viewBinding.chatView.getTitleBarLayout().setPadding(0, BarUtils.getStatusBarHeight(), 0, 0);
+                }
+            });
+        } catch (Exception e) {
+
+        }
 
 
 
