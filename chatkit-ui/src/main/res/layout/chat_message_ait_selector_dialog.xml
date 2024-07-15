@@ -44,6 +44,7 @@
             android:layout_margin="@dimen/dimen_14_dp"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_40_dp"
+            android:maxLines="1"
             android:paddingHorizontal="@dimen/dimen_14_dp"
             android:textSize="15sp"
             android:hint="搜索"

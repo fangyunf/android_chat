@@ -11,6 +11,9 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -45,6 +48,8 @@ import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.AppProxy;
+import com.yaoxin.appbase.utils.BarUtils;
+import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
 
 import java.util.ArrayList;
@@ -65,6 +70,27 @@ public abstract class FunChatFragment extends ChatBaseFragment {
             @NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
         viewBinding = FunChatFragmentBinding.inflate(inflater, container, false);
         chatView = viewBinding.chatView;
+        changeStatusBarColor(R.color.color_white);
+//        StatusBarUtils.setStatusBarLightMode(getActivity(), true, true);
+//        LinearLayout.LayoutParams params =
+//                (LinearLayout.LayoutParams) viewBinding.chatView.getTitleBarLayout().getLayoutParams();
+//        FrameLayout frameLayout = viewBinding.chatView.getTitleBarLayout();
+
+//        frameLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+//            @Override
+//            public void onGlobalLayout() {
+//                // 确保只调用一次
+//                frameLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+//                int height = frameLayout.getHeight();
+//                LinearLayout.LayoutParams frameLayoutParams = (LinearLayout.LayoutParams) viewBinding.chatView.getTitleBarLayout().getLayoutParams();
+//                frameLayoutParams.height = height + BarUtils.getStatusBarHeight();
+//                viewBinding.chatView.getTitleBarLayout().setLayoutParams(frameLayoutParams);
+//                viewBinding.chatView.getTitleBarLayout().setPadding(0, BarUtils.getStatusBarHeight(), 0, 0);
+//            }
+//        });
+
+
+
 
         return viewBinding.getRoot();
     }

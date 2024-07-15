@@ -83,17 +83,17 @@ public class AitContactSelectorDialog extends BottomSheetDialog {
       public void afterTextChanged(Editable s) {
         String string = s.toString();
         if (string.isEmpty()) {
-          adapter.setMembers(mContactModels);
+          adapter.setMembers(_data);
           adapter.notifyDataSetChanged();
         } else {
-          ArrayList<GroupInfoBean> tempArr = new ArrayList<>();
-          for (GroupInfoBean temp :
-                  mContactModels) {
-            if (temp.name.contains(string)) {
+          ArrayList<UserInfoWithTeam> tempArr = new ArrayList<>();
+          for (UserInfoWithTeam temp :
+                  _data) {
+            if (temp.getName().contains(string)) {
               tempArr.add(temp);
             }
           }
-          adapter.setItems(tempArr);
+          adapter.setMembers(tempArr);
           adapter.notifyDataSetChanged();
         }
       }
@@ -101,21 +101,21 @@ public class AitContactSelectorDialog extends BottomSheetDialog {
   }
 
   private void switchStyle() {
-    if (uiStyle == 0) {
-      binding.getRoot().setBackgroundResource(R.color.color_white);
-      adapter.setAitContactConfig(
-          new AitContactAdapter.AitContactConfig(
-              SizeUtils.dp2px(30),
-              getContext().getResources().getColor(R.color.color_333333),
-              R.drawable.ic_team_all));
-    } else {
+//    if (uiStyle == 0) {
+//      binding.getRoot().setBackgroundResource(R.color.color_white);
+//      adapter.setAitContactConfig(
+//          new AitContactAdapter.AitContactConfig(
+//              SizeUtils.dp2px(30),
+//              getContext().getResources().getColor(R.color.color_333333),
+//              R.drawable.ic_team_all));
+//    } else {
       binding.getRoot().setBackgroundResource(R.color.color_ededed);
       adapter.setAitContactConfig(
           new AitContactAdapter.AitContactConfig(
               SizeUtils.dp2px(4),
               getContext().getResources().getColor(R.color.color_222222),
               R.drawable.ic_chat_at_all_avatar));
-    }
+//    }
   }
 
   public void setData(List<UserInfoWithTeam> data, boolean refresh) {
