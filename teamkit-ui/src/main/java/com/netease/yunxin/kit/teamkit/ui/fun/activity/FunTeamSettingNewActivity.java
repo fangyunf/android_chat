@@ -51,11 +51,13 @@ import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
 import com.netease.yunxin.kit.corekit.model.ErrorMsg;
 import com.netease.yunxin.kit.corekit.model.ResultInfo;
 import com.netease.yunxin.kit.corekit.route.XKitRouter;
+import com.netease.yunxin.kit.teamkit.ui.BuildConfig;
 import com.netease.yunxin.kit.teamkit.ui.R;
 import com.netease.yunxin.kit.teamkit.ui.activity.BaseTeamMemberListActivity;
 import com.netease.yunxin.kit.teamkit.ui.activity.BaseTeamSettingActivity;
 import com.netease.yunxin.kit.teamkit.ui.databinding.FunTeamSettingNewActivityBinding;
 import com.netease.yunxin.kit.teamkit.ui.fun.activity.adapter.TeamSettingUserInfoAdapter;
+import com.netease.yunxin.kit.teamkit.ui.fun.dialog.TeamMaxMemberDialogFragment;
 import com.netease.yunxin.kit.teamkit.ui.fun.dialog.TeamModifyDialog;
 import com.netease.yunxin.kit.teamkit.ui.utils.TeamUtils;
 import com.yaoxin.appbase.activity.BaseActivity;
@@ -413,7 +415,16 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
     @Override
     public void onClick(View view) {
         if (view == binding.funTeamSettingNewActivityNav.addCloseImageButton()) {
+            if (BuildConfig.DEBUG) {
+                TeamMaxMemberDialogFragment.showV(getSupportFragmentManager(), new TeamMaxMemberDialogFragment.TeamMaxMemberDialogFragmentBlock() {
+                    @Override
+                    public void upGrade() {
+
+                    }
+                });
+            } else {
             finish();
+            }
         } else if (view == binding.funTeamSettingNewActivityMiandarao.viewTitleArrowRightTvSwitch) {
             boolean isOpen = binding.funTeamSettingNewActivityMiandarao.viewTitleArrowRightTvSwitch.isSelected();
             // 以设置 “仅管理员消息提醒” 为例

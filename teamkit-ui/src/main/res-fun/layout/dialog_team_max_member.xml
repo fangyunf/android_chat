@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="310dp"
+    android:layout_height="match_parent"
+    >
+
+
+    <LinearLayout
+        android:layout_marginTop="57dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:background="@drawable/bg_white_rounded_10"
+        >
+        <TextView
+            android:layout_marginTop="140dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="群聊人数已达上限，须升级\n后方可拉入新成员！"
+            android:gravity="center"
+            android:textColor="#ff000000"
+            android:textSize="15sp"
+            />
+        <TextView
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="60dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="当前您的群聊人数已超过该群聊级别，不可拉入新成员，\n须升级该群级别方可正常使用！"
+            android:gravity="center"
+            android:textColor="#ff999999"
+            android:textSize="10sp"
+            />
+
+        <TextView
+            android:id="@+id/dialog_team_max_member_upgrade_tv"
+            android:layout_width="207dp"
+            android:layout_height="52dp"
+            android:gravity="center"
+            android:background="@drawable/fun_bg_app_theme_color_rounded_26"
+            android:text="去升级"
+            android:textColor="#ffffffff"
+            android:textSize="18sp"
+            />
+
+        <TextView
+            android:id="@+id/dialog_team_max_member_dont_upgrade_tv"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="暂不升级"
+            android:textColor="#ff000000"
+            android:textSize="18sp"
+            />
+    </LinearLayout>
+    <ImageView
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/team_setting_max_memeber_bg"
+        />
+</RelativeLayout>
