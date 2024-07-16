@@ -20,7 +20,7 @@ public class FunAddFriendListAdapter extends BaseQuickAdapter<UserBean, QuickVie
     protected void onBindViewHolder(@NonNull QuickViewHolder quickViewHolder, int i, @Nullable UserBean userInfo) {
 
         quickViewHolder.setText(R.id.item_fun_addfriend_list_cell_name_tv,userInfo.name)
-                .setText(R.id.item_fun_addfriend_list_cell_id_tv,userInfo.userId);
+                .setText(R.id.item_fun_addfriend_list_cell_id_tv,userInfo.memberCode);
         GlideUtil.yh_loadImage(getContext(),quickViewHolder.getView(R.id.item_fun_addfriend_list_cell_head_iv),userInfo.avatar);
     }
 
