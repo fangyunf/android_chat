@@ -34,6 +34,7 @@ import com.turunsi.yaoxin.main.mine.account.AccountDetailActivity;
 import com.turunsi.yaoxin.main.mine.account.AccoutCodeDetailActivity;
 import com.turunsi.yaoxin.main.mine.address.AddressListActivity;
 import com.turunsi.yaoxin.main.mine.collection.CollectionListActivity;
+import com.turunsi.yaoxin.main.mine.fuhao.MyFuHaoListActivity;
 import com.turunsi.yaoxin.main.mine.order.OrderListActivity;
 import com.turunsi.yaoxin.main.mine.purse.PurseIndexActivity;
 import com.turunsi.yaoxin.main.mine.setting.Mine_Account_Anquan_Activity;
@@ -169,6 +170,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         binding.fragmentMineZhaqView.setOnClickListener(this);
         binding.fragmentMineXsqxView.setOnClickListener(this);
         binding.fragmentMineSzView.setOnClickListener(this);
+        binding.fragmentMineFuhaoView.setOnClickListener(this);
 //        binding.fragmentMineQrcodeIv.setOnClickListener(this);
         binding.fragmentMineEditIv.setOnClickListener(this);
         binding.fragmentMineChoujiang.setOnClickListener(this);
@@ -310,6 +312,8 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                     .withParam("url",com.yaoxin.appbase.net.Constant.BASE_URL_H5 + ":8087/activity/draw")
                     .withContext(getContext())
                     .navigate();
+        } else if (v == binding.fragmentMineFuhaoView) {
+            MyFuHaoListActivity.start(MyFuHaoListActivity.class,getActivity(),null);
         }
 //        if (v == binding.mineFragmentMyManagerItem5.viewMineFragmentItemCellCl) {
 ////            startActivity(new Intent(getContext(), SettingActivity.class));

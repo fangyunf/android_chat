@@ -209,6 +209,10 @@
         <activity
             android:name=".main.mine.collection.CollectionListActivity" />
         <activity
+            android:name=".main.mine.fuhao.MyFuHaoListActivity" />
+        <activity
+            android:name=".main.mine.fuhao.BuyFeatureActivity" />
+        <activity
             android:name=".main.mine.purse.PurseIndexActivity" />
         <activity
             android:name=".main.mine.purse.pwdmanager.PursePwdManagerActivity" />
