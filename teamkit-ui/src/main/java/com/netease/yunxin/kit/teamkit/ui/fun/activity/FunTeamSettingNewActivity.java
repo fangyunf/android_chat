@@ -319,7 +319,7 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
 
         }
         binding.funTeamSettingNewActivityIdTv.setText("ID: " + groupInfoBean.groupId);
-        adapter = new TeamSettingUserInfoAdapter(groupInfoBean.rankState == 1,groupInfoBean.userInfos);
+        adapter = new TeamSettingUserInfoAdapter(groupInfoBean.rankState == 1,maxList);
 
         binding.funTeamSettingNewActivityMemberRv.setAdapter(adapter);
         Context that = this;
@@ -327,6 +327,9 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
             @Override
             public void onClick(@NonNull BaseQuickAdapter<GroupInfoBean, ?> baseQuickAdapter, @NonNull View view, int i) {
 
+//                if (maxList.size() > 3 || i > 4) {
+//                    return;
+//                }
                 if (i == maxList.size()) {
                     DataUtil.setStringValue(new Gson().toJson(groupInfoBean),"groupInfo");
 
@@ -335,20 +338,6 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
                             .withParam("groupId",groupId)
                             .withContext(that)
                             .navigate();
-//                    XKitRouter.withKey(RouterConstant.PATH_FUN_CONTACT_SELECTOR_PAGE)
-//                            .withParam(
-//                                    RouterConstant.SELECTOR_CONTACT_FILTER_KEY,
-//                                    getTeamUserIds())
-//                            .withParam("title","邀请成员")
-//                            .withParam("opt_type","1")
-//                            // max count of the team is 200， 199 exclude self.
-//                            .withParam(
-//                                    RouterConstant.KEY_CONTACT_SELECTOR_MAX_COUNT,
-//                                    200)
-//                            .withParam(
-//                                    RouterConstant.KEY_CONTACT_SELECTOR_FINAL_CHECK_COUNT_ENABLE, true)
-//                            .withContext(FunTeamSettingNewActivity.this)
-//                            .navigate(launcher);
                 } else if (i == maxList.size() + 1) {
 
                     DataUtil.setStringValue(new Gson().toJson(groupInfoBean),"groupInfo");
@@ -358,31 +347,12 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
                             .withParam("groupId",groupId)
                             .withContext(that)
                             .navigate();
-//                    XKitRouter.withKey(RouterConstant.PATH_FUN_CONTACT_SELECTOR_PAGE)
-//                            .withParam(
-//                                    RouterConstant.SELECTOR_CONTACT_FILTER_KEY,
-//                                    new ArrayList<>())
-//                            .withParam("title","移除成员")
-//                            .withParam("opt_type","2")
-//                            // max count of the team is 200， 199 exclude self.
-//                            .withParam(
-//                                    RouterConstant.KEY_CONTACT_SELECTOR_MAX_COUNT,
-//                                    200)
-//                            .withParam(
-//                                    RouterConstant.KEY_CONTACT_SELECTOR_FINAL_CHECK_COUNT_ENABLE, true)
-//                            .withContext(FunTeamSettingNewActivity.this)
-//                            .navigate(launcher);
                 } else {
                     XKitRouter.withKey(Constant.FunTeamUserInfoDetailActivityKey)
                             .withParam("groupId",groupId)
                             .withParam("userId",maxList.get(i).userId)
                             .withContext(view.getContext())
                             .navigate();
-//                    HashMap map = new HashMap<>();
-//                    map.put("groupId",groupId);
-//                    map.put("rankState",groupInfoBean.rankState + "");
-//                    map.put("result",new Gson().toJson(groupInfoBean.userInfos.get(i)));
-//                    FunTeamUserInfoDetailActivity.start(FunTeamUserInfoDetailActivity.class,that,map);
                 }
             }
         });
