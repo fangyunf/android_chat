@@ -101,8 +101,7 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
         bean.payPassword = pwd;
         bean.amount = NumberUtil.formartUploadMoney(inputMoney);
         bean.type = 2;
-        bean.zfbNo = accountBean.phone;
-        bean.name = accountBean.name;
+        bean.userUsdtId = accountBean.id + "";
         HttpUtil.apiW().withdraw_withdrawDeposit(bean)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
