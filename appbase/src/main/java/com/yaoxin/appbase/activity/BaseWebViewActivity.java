@@ -56,12 +56,13 @@ public class BaseWebViewActivity extends BaseActivity{
             HashMap map = new HashMap<>();
             map.put("url", Constant.BASE_URL_H5);
             map.put("token", DataUtil.getToken());
+            map.put("phone", DataUtil.getUserInfo().phoneNo);
             String token = new Gson().toJson(map);
             try {
 
                 String aesToken = AESUtil.aesEncrypt(token);
-                String phone = DataUtil.getUserInfo().phoneNo;
-                url = url + "?token=" + aesToken +"&phone=" + phone;
+//                String phone = AESUtil.aesEncrypt(DataUtil.getUserInfo().phoneNo);
+                url = url + "?token=" + aesToken;
                 webView.loadUrl(url);
             } catch (Exception e) {
 
