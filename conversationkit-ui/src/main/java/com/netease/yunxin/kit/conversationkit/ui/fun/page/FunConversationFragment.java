@@ -126,10 +126,10 @@ public class FunConversationFragment extends ConversationBaseFragment {
                             viewBinding.marqueeView.startWithText(message);
                             viewBinding.marqueeView.startWithText(message, com.sunfusheng.marqueeview.R.anim.anim_bottom_in, com.sunfusheng.marqueeview.R.anim.anim_top_out);
                           } else {
-                            viewBinding.marqueeViewBgLl.setVisibility(View.GONE);
+//                            viewBinding.marqueeViewBgLl.setVisibility(View.GONE);
                           }
                         } else {
-                          viewBinding.marqueeViewBgLl.setVisibility(View.GONE);
+//                          viewBinding.marqueeViewBgLl.setVisibility(View.GONE);
                         }
                       }
 
