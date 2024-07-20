@@ -129,6 +129,9 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
                         applyNumBean = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
+                        adapter.friendApplyNum = applyNumBean.friendApplyNum;
+                        adapter.groupApplyNum = applyNumBean.groupApplyNum;
+                        adapter.notifyDataSetChanged();
 //                        if (applyNumBean.friendApplyNum > 0) {
 //                            binding.contactNewFragmentNewFriendTv.setText(applyNumBean.friendApplyNum + "");
 //                            binding.contactNewFragmentNewFriendTv.setVisibility(View.VISIBLE);

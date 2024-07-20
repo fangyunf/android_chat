@@ -30,6 +30,7 @@ import com.turunsi.yaoxin.databinding.ActivityMineSettingBinding;
 import com.turunsi.yaoxin.login.LoginActivity;
 import com.turunsi.yaoxin.main.mine.DownLoadActivity;
 import com.turunsi.yaoxin.register.ForgetPwdActivity;
+import com.turunsi.yaoxin.utils.IMUtil;
 import com.turunsi.yaoxin.welcome.WelcomeActivity;
 import com.yaoxin.appbase.activity.BaseActivity;
 import com.yaoxin.appbase.model.NetData;
