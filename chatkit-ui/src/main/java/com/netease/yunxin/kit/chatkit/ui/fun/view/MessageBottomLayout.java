@@ -67,7 +67,10 @@ import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.AESUtil;
 import com.yaoxin.appbase.utils.AppProxy;
+import com.yaoxin.appbase.utils.BaseEvent;
 import com.yaoxin.appbase.utils.DialogAlertUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.util.HashMap;
@@ -227,6 +230,12 @@ public class MessageBottomLayout extends FrameLayout
         break;
       case ActionConstants.ACTION_TYPE_VIDEO_CALL:
         onCallClick();
+        break;
+      case ActionConstants.ACTION_TYPE_MING_PIAN:
+        mProxy.sendMingPian();
+        break;
+      case ActionConstants.ACTION_TYPE_SHOU_CANG:
+        mProxy.sendShouCang();
         break;
       default:
         mProxy.onCustomAction(view, item.getAction());

@@ -112,6 +112,7 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
 
                         }
 
+                        DataUtil.setFriendInfoList(mContactModels);
                         adapter.contacts = mContactModels;
                         adapter.setItems(mContactModels);
                         adapter.notifyDataSetChanged();

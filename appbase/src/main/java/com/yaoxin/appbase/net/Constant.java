@@ -28,6 +28,7 @@ public class Constant {
     public static final String FunTeamUserInfoDetailActivityKey = "FunTeamUserInfoDetailActivityKey";
     public static final String TeamMemberListActivity_Router = "TeamMemberListActivity_Router";
     public static final String AccountDetailActivityKey = "AccountDetailActivityKey";
+    public static final String CollectionListActivityKey = "CollectionListActivityKey";
     public static final String BaseWebViewActivityKey = "BaseWebViewActivityKey";
     public static final String XiaoZhuShouActivityKey = "XiaoZhuShouActivityKey";
     public static final int RC_PHOTO_PICKER_PERM = 123;

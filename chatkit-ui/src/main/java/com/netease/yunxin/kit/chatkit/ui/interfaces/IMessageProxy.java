@@ -44,6 +44,8 @@ public interface IMessageProxy {
 
   void audioCall();
   void sendRedPacket();
+  void sendMingPian();
+  void sendShouCang();
 
   String getSessionId();
 

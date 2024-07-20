@@ -35,8 +35,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
 import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.StatusCode;
 import com.netease.nimlib.sdk.auth.AuthServiceObserver;
+import com.netease.nimlib.sdk.msg.MessageBuilder;
+import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.attachment.MsgAttachment;
 import com.netease.nimlib.sdk.msg.attachment.NetCallAttachment;
 import com.netease.nimlib.sdk.msg.constant.MsgStatusEnum;
@@ -59,6 +62,7 @@ import com.netease.yunxin.kit.chatkit.ui.common.ChatMsgCache;
 import com.netease.yunxin.kit.chatkit.ui.common.ChatUtils;
 import com.netease.yunxin.kit.chatkit.ui.common.MessageHelper;
 import com.netease.yunxin.kit.chatkit.ui.common.WatchTextMessageDialog;
+import com.netease.yunxin.kit.chatkit.ui.custom.MingPianAttachment;
 import com.netease.yunxin.kit.chatkit.ui.custom.RichTextAttachment;
 import com.netease.yunxin.kit.chatkit.ui.dialog.ChatBaseForwardSelectDialog;
 import com.netease.yunxin.kit.chatkit.ui.fun.page.FunSendRedPacketActivity;
@@ -99,14 +103,18 @@ import com.netease.yunxin.kit.corekit.route.XKitRouter;
 import com.yaoxin.appbase.model.GroupInfoBean;
 import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.RegisterBean;
+import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.Constant;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.BaseEvent;
+import com.yaoxin.appbase.utils.CommonCallBack;
 import com.yaoxin.appbase.utils.DialogAlertUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 import java.io.IOException;
@@ -196,7 +204,20 @@ public abstract class ChatBaseFragment extends BaseFragment {
   public String forwardAction;
 
   private String tempName;
-
+  protected ActivityResultLauncher<Intent>  custoumLauncher =
+  registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+  result -> {
+    if (result.getResultCode() != Activity.RESULT_OK || forwardMessage == null) {
+      return;
+    }
+    Intent data = result.getData();
+    if (data != null) {
+      String userInfo = data.getStringExtra("userInfo");
+      GroupInfoBean groupInfoBean = new Gson().fromJson(userInfo, GroupInfoBean.class);
+//      sendMs
+    }
+  });
   @Nullable
   @Override
   public View onCreateView(
@@ -224,6 +245,12 @@ public abstract class ChatBaseFragment extends BaseFragment {
     if (!NetworkUtils.isConnected()) {
       initToFetchData();
     }
+  }
+
+  @Override
+  public void onDestroy() {
+    super.onDestroy();
+    EventBus.getDefault().unregister(this);
   }
 
   public void setIMessageItemClickListener(IMessageItemClickListener clickListener) {
@@ -587,6 +614,63 @@ public abstract class ChatBaseFragment extends BaseFragment {
         @Override
         public void audioCall() {
           ChatUtils.startAudioCall(getContext(), sessionID);
+        }
+
+        @Override
+        public void sendMingPian() {
+          XKitRouter.withKey(Constant.FunSelected_User_ActivityKey)
+                  .withParam("type","5")
+                  .withParam("block", new CommonCallBack() {
+                    @Override
+                    public void onCallBackUserBean(UserBean userBean) {
+
+                    }
+                  })
+                  .withContext(getContext())
+                  .navigate();
+          // 创建自定义消息
+//          sendMsg();
+        }
+
+        void sendMsg() {
+          MingPianAttachment attachment = new MingPianAttachment();
+          attachment.avatar = "1";
+          attachment.name = "2";
+          attachment.memberCode = "3";
+
+          // 创建自定义消息
+          IMMessage message = MessageBuilder.createCustomMessage(
+                  messageProxy.getSessionId(),           // 接收者账号
+                  messageProxy.getSessionType(),  // 会话类型：点对点
+                  attachment        // 自定义消息附件
+          );
+
+          // 发送消息
+          NIMClient.getService(MsgService.class).sendMessage(message, false).setCallback(new RequestCallback<Void>() {
+            @Override
+            public void onSuccess(Void param) {
+              // 消息发送成功
+            }
+
+            @Override
+            public void onFailed(int code) {
+              // 消息发送失败
+            }
+
+            @Override
+            public void onException(Throwable exception) {
+              // 发生异常
+            }
+          });
+        }
+
+        @Override
+        public void sendShouCang() {
+          XKitRouter.withKey(Constant.CollectionListActivityKey)
+                  .withParam("type","5")
+//                  .withParam("groupId",groupId)
+                  .withContext(getContext())
+                  .navigate();
         }
 
         @Override

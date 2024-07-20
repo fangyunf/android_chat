@@ -1,11 +1,14 @@
 package com.yaoxin.appbase.utils;
 
+import com.yaoxin.appbase.model.GroupInfoBean;
+
 import java.util.HashMap;
 
 public class BaseEvent {
   private HashMap<String, String> params;
   private String tag;
   private String text;
+  public GroupInfoBean infoBean;
 
   public String getText() {
     return text;

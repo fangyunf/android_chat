@@ -1,6 +1,7 @@
 package com.yaoxin.appbase.utils;
 
 import com.orhanobut.hawk.Hawk;
+import com.yaoxin.appbase.model.GroupInfoBean;
 import com.yaoxin.appbase.model.UserBean;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ public class DataUtil {
     private static final String TOKEN = "token";
     private static final String USERID = "user_id";
     private static final String USERInfoList = "USERInfoList2";
+    private static final String FriendList = "FriendList";
     private static final String KEFU_ID = "kefu_id";
     private static final String XIAOZHUSHOU_ID = "xiaozhushou_id";
 
@@ -91,6 +93,14 @@ public class DataUtil {
             }
         }
     }
+
+    public static void setFriendInfoList(List<GroupInfoBean> friendInfoList) {
+        Hawk.put(FriendList, friendInfoList);
+    }
+    public static List<GroupInfoBean> getFriendInfoList() {
+        return Hawk.get(FriendList);
+    }
+
     public static void updateLoginUserInfoList(UserBean userBean) {
         ArrayList<UserBean> arrayList = Hawk.get(USERInfoList);
         if (arrayList == null) {
@@ -116,6 +126,8 @@ public class DataUtil {
     public static void deleteData() {
         DataUtil.putToken("");
         DataUtil.putUserInfo(null);
+        Hawk.put(FriendList, new ArrayList<>());
+
     }
 
     public static void setStringValue(String jsonStr,String key) {

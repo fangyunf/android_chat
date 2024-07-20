@@ -195,7 +195,7 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
                         Intent intent = new Intent();
                         intent.setClass(that, FunCommentActivity.class);
                         intent.putExtra(
-                                BaseCommentActivity.REQUEST_COMMENT_NAME_KEY, userInfoData.friendInfo.getAlias());
+                                BaseCommentActivity.REQUEST_COMMENT_NAME_KEY, userInfoData.friendInfo.getAlias().isEmpty() ? userInfoData.friendInfo.getName() : userInfoData.friendInfo.getAlias());
                         commentLauncher.launch(intent);
                     }
                 }

@@ -11,8 +11,11 @@ import com.netease.yunxin.kit.common.ui.utils.AvatarColor;
 import com.netease.yunxin.kit.conversationkit.ui.R;
 import com.netease.yunxin.kit.conversationkit.ui.databinding.FunConversationViewHolderBinding;
 import com.netease.yunxin.kit.conversationkit.ui.model.ConversationBean;
+import com.yaoxin.appbase.model.GroupInfoBean;
 import com.yaoxin.appbase.utils.AppProxy;
 import com.yaoxin.appbase.utils.DataUtil;
+
+import java.util.List;
 
 public class FunConversationP2PViewHolder extends FunConversationBaseViewHolder {
 
@@ -23,6 +26,8 @@ public class FunConversationP2PViewHolder extends FunConversationBaseViewHolder 
   @Override
   public void onBindData(ConversationBean data, int position) {
     super.onBindData(data, position);
+
+    viewBinding.funConversationViewHolderIdTv.setVisibility(View.GONE);
 
     if (data.param.equals(DataUtil.getKeFuId())) {
 
@@ -48,6 +53,17 @@ public class FunConversationP2PViewHolder extends FunConversationBaseViewHolder 
               data.infoData.getAvatarName(),
               AvatarColor.avatarColor(data.infoData.getContactId()));
       viewBinding.nameTv.setText(name);
+      List<GroupInfoBean> friendInfoList = DataUtil.getFriendInfoList();
+      if (!friendInfoList.isEmpty()) {
+        for (GroupInfoBean tempBean :friendInfoList) {
+          if (tempBean.userId.equals((String) data.param)) {
+            viewBinding.funConversationViewHolderIdTv.setVisibility(View.VISIBLE);
+            viewBinding.funConversationViewHolderIdTv.setText("ID:" + tempBean.memberCode);
+            break;
+          }
+
+        }
+      }
     }
     viewBinding.rootLayout.setBackground(viewBinding.rootLayout.getContext().getDrawable(com.yaoxin.appbase.R.drawable.bg_white_rounded_12));
 

@@ -43,6 +43,7 @@ import com.turunsi.yaoxin.main.MainActivity;
 import com.turunsi.yaoxin.main.conversation.XiaoZhuShouActivity;
 import com.turunsi.yaoxin.main.mine.MineInfoActivity;
 import com.turunsi.yaoxin.main.mine.account.AccountDetailActivity;
+import com.turunsi.yaoxin.main.mine.collection.CollectionListActivity;
 import com.turunsi.yaoxin.push.PushMessageHandler;
 import com.turunsi.yaoxin.register.ForgetPwdActivity;
 import com.turunsi.yaoxin.register.RegisterActivity;
@@ -90,6 +91,7 @@ public class IMApplication extends MultiDexApplication {
     XKitRouter.registerRouter(AccountDetailActivityKey, AccountDetailActivity.class);
     XKitRouter.registerRouter(RealName_Router,RealNameSetActivity.class);
     XKitRouter.registerRouter(com.yaoxin.appbase.net.Constant.TeamMemberListActivity_Router, FunTeamMemberListActivity.class);
+    XKitRouter.registerRouter(com.yaoxin.appbase.net.Constant.CollectionListActivityKey, CollectionListActivity.class);
     XKitRouter.registerRouter(com.yaoxin.appbase.net.Constant.BaseWebViewActivityKey, BaseWebViewActivity.class);
     XKitRouter.registerRouter(com.yaoxin.appbase.net.Constant.XiaoZhuShouActivityKey, XiaoZhuShouActivity.class);
       AppProxy.getInstance().init(this)

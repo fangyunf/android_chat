@@ -19,6 +19,7 @@ import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.yunxin.kit.alog.ALog;
 import com.netease.yunxin.kit.chatkit.ChatService;
 import com.netease.yunxin.kit.chatkit.repo.ChatRepo;
+import com.netease.yunxin.kit.chatkit.ui.custom.MingPianAttachment;
 import com.netease.yunxin.kit.chatkit.ui.custom.MultiForwardAttachment;
 import com.netease.yunxin.kit.chatkit.ui.custom.RedPacketAttachment;
 import com.netease.yunxin.kit.chatkit.ui.custom.RichTextAttachment;
@@ -99,6 +100,7 @@ public class ChatUIService extends ChatService {
         ChatMessageType.MULTI_FORWARD_ATTACHMENT, MultiForwardAttachment.class);
     ChatKitClient.addCustomAttach(ChatMessageType.RICH_TEXT_ATTACHMENT, RichTextAttachment.class);
     ChatKitClient.addCustomAttach(ChatMessageType.RedPacket_ATTACHMENT, RedPacketAttachment.class);
+    ChatKitClient.addCustomAttach(ChatMessageType.MingPian_ATTACHMENT, MingPianAttachment.class);
 
     chatKitInit(context);
     registerSendTeamTips();

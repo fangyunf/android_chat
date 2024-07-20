@@ -12,13 +12,20 @@ import com.netease.nimlib.sdk.msg.model.CollectInfo;
 import com.turunsi.yaoxin.R;
 import com.turunsi.yaoxin.main.mine.collection.bean.CollectionListBean;
 import com.turunsi.yaoxin.main.mine.order.bean.OrderListBean;
+import com.yaoxin.appbase.utils.AESUtil;
 import com.yaoxin.appbase.utils.TimeUtil;
 
 public class CollectionListAdapter extends BaseQuickAdapter<CollectInfo, QuickViewHolder> {
 
     @Override
     protected void onBindViewHolder(@NonNull QuickViewHolder quickViewHolder, int i, @Nullable CollectInfo orderListBean) {
-        quickViewHolder.setText(R.id.item_collection_list_cell_content_tv,orderListBean.getData())
+        String content = orderListBean.getData();
+        try {
+            content = AESUtil.msgAseDecrypt(content);
+        }catch (Exception e) {
+
+        }
+        quickViewHolder.setText(R.id.item_collection_list_cell_content_tv,content)
                 .setText(R.id.item_collection_list_cell_date_tv, TimeUtil.stampToDate(orderListBean.getCreateTime() +""));
 //                .setText(R.id.item_collection_list_cell_user_tv,orderListBean.)
     }

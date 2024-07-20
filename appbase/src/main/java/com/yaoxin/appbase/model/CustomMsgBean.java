@@ -29,6 +29,7 @@ public class CustomMsgBean {
     public List<CustomMsgBean> vos;
     public String userId;
     public String avatar;
+    public String memberCode;
     public String name;
     public String reciveTime;
     public String reciveAmount;

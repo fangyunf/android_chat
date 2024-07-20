@@ -28,6 +28,7 @@ public class FunConversationTeamViewHolder extends FunConversationBaseViewHolder
   public void onBindData(ConversationBean data, int position) {
     super.onBindData(data, position);
 
+    viewBinding.funConversationViewHolderIdTv.setVisibility(View.GONE);
     if (data.infoData.getTeamInfo() != null) {
       Team teamInfo = data.infoData.getTeamInfo();
       viewBinding.avatarView.setData(
