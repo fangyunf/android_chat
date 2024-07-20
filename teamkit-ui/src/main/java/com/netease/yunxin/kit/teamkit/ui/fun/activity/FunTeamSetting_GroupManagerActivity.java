@@ -124,6 +124,12 @@ public class FunTeamSetting_GroupManagerActivity extends BaseActivity implements
         binding.funTeamSettingGroupManagerActivityJinzhiLingquMingdan.viewTitleArrowTv.setText("禁止领取红包名单");
         binding.funTeamSettingGroupManagerActivityJinzhiLingquMingdan.viewTitleArrowLl.setOnClickListener(this);
 
+        binding.funTeamSettingGroupManagerActivityQunshengji.viewTitleArrowTv.setText("群升级");
+        binding.funTeamSettingGroupManagerActivityQunshengji.viewTitleArrowLl.setOnClickListener(this);
+
+        binding.funTeamSettingGroupManagerActivityQunheimingdan.viewTitleArrowTv.setText("群黑名单");
+        binding.funTeamSettingGroupManagerActivityQunheimingdan.viewTitleArrowLl.setOnClickListener(this);
+
 
     }
 
@@ -222,6 +228,18 @@ public class FunTeamSetting_GroupManagerActivity extends BaseActivity implements
             HashMap map = new HashMap();
             map.put("groupId",groupId);
             FunTeamSettingNew_ForbiddenListActivity.start(FunTeamSettingNew_ForbiddenListActivity.class,this,map);
+        } else if (view == binding.funTeamSettingGroupManagerActivityQunshengji.viewTitleArrowLl) {
+            XKitRouter.withKey("BuyGroupFeatureActivity")
+                    .withParam("type",0)
+                    .withParam("groupId",groupId)
+                    .withContext(this)
+                    .navigate();
+        } else if (view == binding.funTeamSettingGroupManagerActivityQunheimingdan.viewTitleArrowLl) {
+
+            XKitRouter.withKey(RouterConstant.PATH_FUN_MY_BLACK_PAGE)
+                    .withParam("groupId",groupId)
+                    .withContext(this)
+                    .navigate();
         }
     }
 

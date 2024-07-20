@@ -285,6 +285,11 @@ android:layout_marginTop="5dp"
                         layout="@layout/view_title_arrow_template"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
+<!--                    <include-->
+<!--                        android:id="@+id/fun_team_setting_new_activity_upgrade_team"-->
+<!--                        layout="@layout/view_title_arrow_template"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content" />-->
 
 
                     <include

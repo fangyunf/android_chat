@@ -24,10 +24,13 @@ import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.Constant;
 import com.yaoxin.appbase.net.HttpUtil;
+import com.yaoxin.appbase.utils.BaseEvent;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.DensityUtils;
 import com.yaoxin.appbase.utils.GlideUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -108,6 +111,7 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
 
         binding.funTeamUserInfoDetailYaoqingren.viewTitleArrowTv.setText("邀请人");
         binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowTv.setText("备注名");
+        binding.funTeamUserInfoDetailLahei.viewTitleArrowTv.setText("加入黑名单");
         binding.funTeamUserInfoDetailJinzhi.viewTitleArrowTv.setText("禁止领取红包");
         binding.funTeamUserInfoDetailTichu.viewTitleArrowTv.setText("踢出群聊");
 
@@ -116,6 +120,7 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
         binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowLl.setVisibility(View.GONE);
         binding.funTeamUserInfoDetailJinzhi.viewTitleArrowLl.setVisibility(View.GONE);
         binding.funTeamUserInfoDetailTichu.viewTitleArrowLl.setVisibility(View.GONE);
+        binding.funTeamUserInfoDetailLahei.viewTitleArrowLl.setVisibility(View.GONE);
         binding.funTeamUserInfoDetailBottomTv.setVisibility(View.GONE);
         binding.funTeamUserInfoDetailAccountTv.setVisibility(View.GONE);
         if (rankState == 1 || rankState == 2) {
@@ -127,6 +132,12 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
             binding.funTeamUserInfoDetailJinzhi.viewTitleArrowRightTvSwitch.setVisibility(View.VISIBLE);
             binding.funTeamUserInfoDetailJinzhi.viewTitleArrowArrowIv.setVisibility(View.GONE);
             binding.funTeamUserInfoDetailJinzhi.viewTitleArrowRightTvSwitch.setOnClickListener(this);
+
+            binding.funTeamUserInfoDetailLahei.viewTitleArrowLl.setVisibility(View.VISIBLE);
+            binding.funTeamUserInfoDetailLahei.viewTitleArrowRightTvSwitch.setVisibility(View.VISIBLE);
+            binding.funTeamUserInfoDetailLahei.viewTitleArrowArrowIv.setVisibility(View.GONE);
+            binding.funTeamUserInfoDetailLahei.viewTitleArrowRightTvSwitch.setOnClickListener(this);
+
             binding.funTeamUserInfoDetailTichu.viewTitleArrowRightTvSwitch.setOnClickListener(this);
             binding.funTeamUserInfoDetailTichu.viewTitleArrowLl.setOnClickListener(this);
             binding.funTeamUserInfoDetailJinzhi.viewTitleArrowRightTvSwitch.setSelected(groupInfoBean.forbidState == 1);
@@ -315,18 +326,18 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
             }
             activityResultLauncher.launch(intent);
         } else if (v == binding.funTeamUserInfoDetailTichu.viewTitleArrowLl) {
+            tichuuser(true);
+        } else if (v == binding.funTeamUserInfoDetailLahei.viewTitleArrowRightTvSwitch) {
+
             RegisterBean registerBean = new RegisterBean();
+            registerBean.userId = groupInfoBean.userId;
             registerBean.groupId = groupId;
-            ArrayList ids = new ArrayList<>();
-            ids.add(groupInfoBean.userId);
-            registerBean.members = ids;
-            HttpUtil.apiW().group_outGroup(registerBean)
+            HttpUtil.apiW().group_addDeleteBlack(registerBean)
                     .enqueue(new CommonCallback<NetData>() {
                         @Override
                         public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-
-                            ToastUtils.toastMsg(body.msg);
-                            finish();
+                            ToastUtils.toastMsg("拉黑成功");
+                            tichuuser(false);
                         }
 
                         @Override
@@ -337,6 +348,30 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
         }
     }
 
+    void tichuuser(boolean needToast) {
+        RegisterBean registerBean = new RegisterBean();
+        registerBean.groupId = groupId;
+        ArrayList ids = new ArrayList<>();
+        ids.add(groupInfoBean.userId);
+        registerBean.members = ids;
+        HttpUtil.apiW().group_outGroup(registerBean)
+                .enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                        if (needToast) {
+
+                            ToastUtils.toastMsg(body.msg);
+                        }
+                        EventBus.getDefault().post(new BaseEvent("reloadTeamSettingData"));
+                        finish();
+                    }
+
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
+
+                    }
+                });
+    }
     @Override
     protected void callBackResult(Intent data) {
         super.callBackResult(data);

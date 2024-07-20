@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_buy_group_feature_root_rl"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <com.yaoxin.appbase.navbar.NavToolbar
+            android:id="@+id/activity_buy_group_feature_nav"
+            style="@style/WhiteFontToolbar"
+            android:background="@color/white"
+            app:back_icon="@mipmap/temp_ic_back"
+            app:enable_under_divider="true"
+            app:support_translucent_status_bar="false"
+            app:title="升级群组"
+            app:title_text_color="@color/color_333333"
+            app:under_divider_color="@color/transparent" />
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/activity_buy_group_feature_info_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:background="@drawable/bg_f2f2f2_rounded_10"
+            android:padding="15dp"
+            android:text="规则说明:\n
+一个群主只能建立5个群，每个群只能拉 500个人，如若想再拉人，须够买会员才能增加群成员和群的数量
+\n升级1000人数88元
+\n升级人数永久生效，如解散群将失效;
+"
+            android:textColor="#ff000000"
+            android:textSize="14sp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:paddingBottom="150dp"
+            android:id="@+id/activity_buy_group_feature_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/activity_buy_feature_bottom_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="50dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/activity_buy_group_feature_qsj_rule_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:text="群升级规则"
+            android:textColor="#ff006cff"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/activity_buy_group_feature_buy_tv"
+            android:layout_width="253dp"
+            android:layout_height="52dp"
+            android:background="@drawable/fun_bg_app_theme_color_rounded_26"
+            android:gravity="center"
+            android:text="立即购买"
+            android:textColor="#ffffffff"
+            android:textSize="18sp" />
+    </LinearLayout>
+</RelativeLayout>

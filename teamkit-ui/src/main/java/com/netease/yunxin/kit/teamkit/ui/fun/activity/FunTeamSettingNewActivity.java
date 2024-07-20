@@ -184,6 +184,9 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
         binding.funTeamSettingNewActivityManagerTeam.viewTitleArrowTv.setText("群管理");
         binding.funTeamSettingNewActivityManagerTeam.viewTitleArrowLl.setOnClickListener(this);
 
+//        binding.funTeamSettingNewActivityUpgradeTeam.viewTitleArrowTv.setText("群升级");
+//        binding.funTeamSettingNewActivityUpgradeTeam.viewTitleArrowLl.setOnClickListener(this);
+
         binding.funTeamSettingNewActivityZhiding.viewTitleArrowTv.setText("置顶聊天");
         binding.funTeamSettingNewActivityZhiding.viewTitleArrowArrowIv.setVisibility(View.GONE);
         binding.funTeamSettingNewActivityZhiding.viewTitleArrowRightTvSwitch.setVisibility(View.VISIBLE);
@@ -364,9 +367,11 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
         binding.funTeamSettingNewActivityNicheng.viewTitleArrowRightTv.setText(groupInfoBean.getSelfRemarkName());
 
 
+//        binding.funTeamSettingNewActivityUpgradeTeam.viewTitleArrowLl.setVisibility(View.GONE);
         if (groupInfoBean.rankState == 1 || groupInfoBean.rankState == 2) {
 
             binding.funTeamSettingNewActivityManagerTeam.viewTitleArrowLl.setVisibility(View.VISIBLE);
+//            binding.funTeamSettingNewActivityUpgradeTeam.viewTitleArrowLl.setVisibility(View.VISIBLE);
 //            binding.funTeamSettingNewActivitySetGonggao.viewTitleArrowLl.setVisibility(View.VISIBLE);
             binding.editIcon.setVisibility(View.VISIBLE);
         }
@@ -385,16 +390,16 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
     @Override
     public void onClick(View view) {
         if (view == binding.funTeamSettingNewActivityNav.addCloseImageButton()) {
-            if (BuildConfig.DEBUG) {
-                TeamMaxMemberDialogFragment.showV(getSupportFragmentManager(), new TeamMaxMemberDialogFragment.TeamMaxMemberDialogFragmentBlock() {
-                    @Override
-                    public void upGrade() {
-
-                    }
-                });
-            } else {
+//            if (BuildConfig.DEBUG) {
+//                TeamMaxMemberDialogFragment.showV(getSupportFragmentManager(), new TeamMaxMemberDialogFragment.TeamMaxMemberDialogFragmentBlock() {
+//                    @Override
+//                    public void upGrade() {
+//
+//                    }
+//                });
+//            } else {
             finish();
-            }
+//            }
         } else if (view == binding.funTeamSettingNewActivityMiandarao.viewTitleArrowRightTvSwitch) {
             boolean isOpen = binding.funTeamSettingNewActivityMiandarao.viewTitleArrowRightTvSwitch.isSelected();
             // 以设置 “仅管理员消息提醒” 为例
@@ -613,6 +618,18 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
 //                    .autoHideToolbarOnSingleTap(true)
 //                    .forResult(REQUEST_CODE_CHOOSE);
         }
+//        else if (view == binding.funTeamSettingNewActivityUpgradeTeam.viewTitleArrowLl) {
+//            XKitRouter.withKey("BuyGroupFeatureActivity")
+//                    .withParam("type",0)
+//                    .withParam("groupId",groupId)
+//                    .withContext(this)
+//                    .navigate();
+
+//            XKitRouter.withKey(RouterConstant.PATH_FUN_MY_BLACK_PAGE)
+//                    .withParam("groupId",groupId)
+//                    .withContext(this)
+//                    .navigate();
+//        }
     }
 
     @Override

@@ -3,6 +3,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:id="@+id/activity_buy_feature_root_rl"
     android:layout_height="match_parent">
 
     <LinearLayout
@@ -21,22 +22,6 @@
             app:title="购买副号"
             app:title_text_color="@color/color_333333"
             app:under_divider_color="@color/transparent" />
-
-        <TextView
-            android:visibility="gone"
-            android:id="@+id/activity_buy_feature_update_info_tv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="15dp"
-            android:background="@drawable/bg_f2f2f2_rounded_10"
-            android:padding="15dp"
-            android:text="规则说明:\n
-一个群主只能建立5个群，每个群只能拉 500个人，如若想再拉人，须够买会员才能增加群成员和群的数量
-\n升级1000人数88元
-\n升级人数永久生效，如解散群将失效;
-"
-            android:textColor="#ff000000"
-            android:textSize="14sp" />
 
         <RelativeLayout
             android:id="@+id/activity_buy_feature_iv_rl"
@@ -76,6 +61,94 @@
                     android:textSize="12sp" />
             </LinearLayout>
         </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:paddingHorizontal="25dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="自定义副号"
+                android:textColor="#ff000000"
+                android:textSize="15sp"
+                />
+            <LinearLayout
+                android:layout_marginTop="15dp"
+                android:layout_width="match_parent"
+                android:background="@drawable/bg_f2f2f2_rounded_10"
+                android:gravity="center_vertical"
+                android:paddingLeft="15dp"
+                android:layout_height="45dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1"
+                    android:textColor="#ff000000"
+                    android:textSize="14sp"
+                    />
+                <EditText
+                    android:inputType="number"
+                    android:maxLength="5"
+                    android:id="@+id/activity_buy_feature_et"
+                    android:layout_width="110dp"
+
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="@dimen/dimen_8_dp"
+                    android:textSize="@dimen/text_size_12"
+                    android:hint="请输入自定义副号"
+                    android:maxLines="1"
+                    android:textColorHint="@color/color_999999"
+                    android:textColor="@color/black"
+                    android:background="@null"
+                    android:cursorVisible="true"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="000"
+                    android:layout_weight="1"
+                    android:textColor="#ff000000"
+                    android:textSize="14sp"
+                    />
+                <TextView
+                    android:id="@+id/activity_buy_feature_confrim_tv"
+                    android:layout_width="78dp"
+                    android:background="@drawable/bg_app_theme_color_rounded_10"
+                    android:gravity="center"
+                    android:layout_height="match_parent"
+                    android:text="确定"
+                    android:textColor="#ffffffff"
+                    android:textSize="15sp"
+                    />
+            </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="请输入5位数字号码，前一位和后三位为固定数字不可更改"
+                android:textColor="#ff999999"
+                android:textSize="12sp"
+                />
+            <TextView
+                android:id="@+id/activity_buy_feature_rv_title_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="已选副号(9)"
+                android:textColor="#ff000000"
+                android:textSize="15sp"
+                />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/activity_buy_feature_rv"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -83,18 +156,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="50dp"
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/activity_buy_feature_shuoming_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:text="群升级规则"
-            android:textColor="#ff006cff"
-            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/activity_buy_feature_buy_tv"

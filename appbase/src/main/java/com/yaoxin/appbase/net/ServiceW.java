@@ -228,6 +228,19 @@ public interface ServiceW {
     Call<NetData> group_transferGroup(
             @Body RegisterBean userBean
     );
+    //   我的副号
+    @POST("/home/wdfh")
+    Call<NetData> home_wdfh();
+    //   我的副号
+    @POST("/home/gmfh")
+    Call<NetData> home_gmfh(
+            @Body RegisterBean userBean
+    );
+    //   群升级
+    @POST("/group/buyGroupGrade")
+    Call<NetData> group_buyGroupGrade(
+            @Body RegisterBean userBean
+    );
     //   转让群主
     @GET("/customer/versionCkeck")
     Call<NetData> customer_versionCkeck(
@@ -353,6 +366,11 @@ public interface ServiceW {
             @Body RegisterBean userBean
     );
     //  好友列表
+    @POST("/group/groupBlackList")
+    Call<NetData> group_groupBlackList(
+            @Body RegisterBean userBean
+    );
+    //  好友列表
     @GET("/customer/notice")
     Call<NetData> customer_notice();
     //  好友列表
@@ -363,6 +381,14 @@ public interface ServiceW {
     //  好友列表
     @POST("/home/soundSwitch")
     Call<NetData> home_soundSwitch(
+            @Body RegisterBean userBean
+    );
+    //  好友列表
+    @POST("/group/groupGrade")
+    Call<NetData> group_groupGrade();
+    //  群拉黑
+    @POST("/group/addDeleteBlack")
+    Call<NetData> group_addDeleteBlack(
             @Body RegisterBean userBean
     );
     //  好友列表

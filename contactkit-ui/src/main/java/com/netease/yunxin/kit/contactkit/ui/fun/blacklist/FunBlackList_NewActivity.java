@@ -51,11 +51,18 @@ public class FunBlackList_NewActivity extends BaseActivity implements View.OnCli
     Fun_BlackList_NewAdapter adapter = new Fun_BlackList_NewAdapter();
 
     GroupInfoBean _groupInfoBean;
+    String _groupId;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityBlackListNewBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        if (getIntent().getStringExtra("groupId") != null) {
+            _groupId = getIntent().getStringExtra("groupId");
+            _requestGroupData();
+        } else {
+            _requestPersonData();
+        }
         binding.activityBlackListNewNav.addCloseImageButton().setOnClickListener(this);
 
         binding.activityBlackListNewRv.setLayoutManager(new LinearLayoutManager(this));
@@ -63,22 +70,42 @@ public class FunBlackList_NewActivity extends BaseActivity implements View.OnCli
         adapter.addOnItemChildClickListener(R.id.cell_fun_blacklist_new_remove_tv, new BaseQuickAdapter.OnItemChildClickListener<GroupInfoBean>() {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<GroupInfoBean, ?> baseQuickAdapter, @NonNull View view, int i) {
-                RegisterBean registerBean = new RegisterBean();
-                registerBean.state = 0;
-                registerBean.memberCode = baseQuickAdapter.getItem(i).memberCode;
-                HttpUtil.apiW().friends_changeBlackState(registerBean)
-                        .enqueue(new CommonCallback<NetData>() {
-                            @Override
-                            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                                ToastUtils.toastMsg(body.msg);
-                                _requestData();
-                            }
+                if (_groupId == null) {
 
-                            @Override
-                            public void Failure(Call<NetData> call, Throwable t) {
+                    RegisterBean registerBean = new RegisterBean();
+                    registerBean.state = 0;
+                    registerBean.memberCode = baseQuickAdapter.getItem(i).memberCode;
+                    HttpUtil.apiW().friends_changeBlackState(registerBean)
+                            .enqueue(new CommonCallback<NetData>() {
+                                @Override
+                                public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                                    ToastUtils.toastMsg(body.msg);
+                                    _requestData();
+                                }
 
-                            }
-                        });
+                                @Override
+                                public void Failure(Call<NetData> call, Throwable t) {
+
+                                }
+                            });
+                } else {
+
+                    RegisterBean registerBean = new RegisterBean();
+                    registerBean.userId = baseQuickAdapter.getItem(i).userId;
+                    registerBean.groupId = _groupId;
+                    HttpUtil.apiW().group_addDeleteBlack(registerBean)
+                            .enqueue(new CommonCallback<NetData>() {
+                                @Override
+                                public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                                    _requestGroupData();
+                                }
+
+                                @Override
+                                public void Failure(Call<NetData> call, Throwable t) {
+
+                                }
+                            });
+                }
             }
         });
         binding.activityBlackListNewSearchEt.addTextChangedListener(new TextWatcher() {
@@ -113,8 +140,7 @@ public class FunBlackList_NewActivity extends BaseActivity implements View.OnCli
         });
     }
 
-    @Override
-    protected void _requestData() {
+    protected void _requestPersonData() {
         super._requestData();
         RegisterBean registerBean = new RegisterBean();
         registerBean.pageNo = "100";
@@ -125,6 +151,29 @@ public class FunBlackList_NewActivity extends BaseActivity implements View.OnCli
                         GroupInfoBean groupInfoBean = new Gson().fromJson(body.data.toString(),GroupInfoBean.class);
                         _groupInfoBean = groupInfoBean;
                         adapter.setItems(groupInfoBean.data);
+                        adapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
+
+                    }
+                });
+    }
+    void _requestGroupData() {
+        super._requestData();
+        RegisterBean registerBean = new RegisterBean();
+        registerBean.pageNo = "100";
+        registerBean.groupId = _groupId;
+        HttpUtil.apiW().group_groupBlackList(registerBean)
+                .enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                        Type type = new TypeToken<List<GroupInfoBean>>() {}.getType();
+                        _groupInfoBean = new GroupInfoBean();
+                        _groupInfoBean.data = new Gson().fromJson(body.data.toString(), type);
+//
+                        adapter.setItems(_groupInfoBean.data);
                         adapter.notifyDataSetChanged();
                     }
 

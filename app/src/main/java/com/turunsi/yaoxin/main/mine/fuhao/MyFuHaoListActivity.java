@@ -22,7 +22,10 @@ import com.turunsi.yaoxin.main.mine.collection.adapter.CollectionListAdapter;
 import com.turunsi.yaoxin.main.mine.fuhao.adapter.MyFuHaoListAdapter;
 import com.turunsi.yaoxin.main.mine.setting.adapter.ExchangeAccountAdapter;
 import com.yaoxin.appbase.activity.BaseActivity;
+import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.UserBean;
+import com.yaoxin.appbase.net.CommonCallback;
+import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.DialogAlertUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
@@ -31,6 +34,9 @@ import com.yaoxin.appbase.view.CommonGridSpacingItemDecoration;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class MyFuHaoListActivity extends BaseActivity implements View.OnClickListener {
     ActivityMineMyFuhaoListBinding binding;
@@ -70,6 +76,18 @@ public class MyFuHaoListActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void _requestData() {
 
+        HttpUtil.apiW().home_wdfh()
+                .enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+
+                    }
+
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
+
+                    }
+                });
     }
 
     @Override

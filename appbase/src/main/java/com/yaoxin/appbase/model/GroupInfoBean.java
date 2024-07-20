@@ -48,6 +48,8 @@ public class GroupInfoBean {
     public int shutupState;
     public int nonCollectionState;
     public int grade;
+    public int groupMemberNum;
+    public int price;
 
     private String index;
     public String getIndex() {

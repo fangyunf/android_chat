@@ -34,6 +34,7 @@ import com.turunsi.yaoxin.main.mine.account.AccountDetailActivity;
 import com.turunsi.yaoxin.main.mine.account.AccoutCodeDetailActivity;
 import com.turunsi.yaoxin.main.mine.address.AddressListActivity;
 import com.turunsi.yaoxin.main.mine.collection.CollectionListActivity;
+import com.turunsi.yaoxin.main.mine.fuhao.BuyGroupFeatureActivity;
 import com.turunsi.yaoxin.main.mine.fuhao.MyFuHaoListActivity;
 import com.turunsi.yaoxin.main.mine.order.OrderListActivity;
 import com.turunsi.yaoxin.main.mine.purse.PurseIndexActivity;
@@ -319,6 +320,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                     .navigate();
         } else if (v == binding.fragmentMineFuhaoView) {
             MyFuHaoListActivity.start(MyFuHaoListActivity.class,getActivity(),null);
+//            BuyGroupFeatureActivity.start(BuyGroupFeatureActivity.class,getContext(),null);
         }
 //        if (v == binding.mineFragmentMyManagerItem5.viewMineFragmentItemCellCl) {
 ////            startActivity(new Intent(getContext(), SettingActivity.class));

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_marginTop="15dp"
+    android:gravity="center_vertical"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/cell_buy_group_feature_select_iv"
+        android:layout_marginHorizontal="6dp"
+        android:src="@drawable/person_choose_icon_selector"
+        android:layout_width="@dimen/dimen_18_dp"
+        android:layout_height="@dimen/dimen_18_dp"/>
+
+<RelativeLayout
+    android:layout_width="322dp"
+    android:layout_height="160dp"
+    android:layout_marginLeft="15dp"
+    >
+    <ImageView
+        android:id="@+id/cell_buy_group_feature_bg_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/buy_feature_group" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="57dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/cell_buy_group_feature_money_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="#ffffffff"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/cell_buy_group_feature_detail_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text=""
+            android:textColor="#ffffffff"
+            android:textSize="12sp" />
+    </LinearLayout>
+</RelativeLayout>
+
+</LinearLayout>

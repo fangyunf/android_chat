@@ -68,6 +68,7 @@ public class RegisterBean {
     public String addFriendsState;
     public String shutupState;
     public String nonCollectionState;
+    public String grade;
 
     public RegisterBean(String param) {
         this.param = param;
