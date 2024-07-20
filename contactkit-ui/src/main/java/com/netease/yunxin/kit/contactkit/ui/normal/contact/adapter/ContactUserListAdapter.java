@@ -41,7 +41,7 @@ public class ContactUserListAdapter extends BaseQuickAdapter<GroupInfoBean, Quic
             }
             if (groupApplyNum > 0) {
                 groupTv.setVisibility(View.VISIBLE);
-                friendTv.setText(groupApplyNum > 99 ? "99+" : groupApplyNum + "");
+                groupTv.setText(groupApplyNum > 99 ? "99+" : groupApplyNum + "");
 
             } else {
                 groupTv.setVisibility(View.GONE);
