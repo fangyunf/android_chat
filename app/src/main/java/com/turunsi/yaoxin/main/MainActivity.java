@@ -41,6 +41,7 @@ import com.turunsi.yaoxin.main.mine.MineFragment;
 import com.turunsi.yaoxin.main.mine.setting.SettingNewActivity;
 import com.turunsi.yaoxin.utils.Constant;
 import com.turunsi.yaoxin.utils.DataUtils;
+import com.turunsi.yaoxin.utils.IMUtil;
 import com.turunsi.yaoxin.welcome.WelcomeActivity;
 import com.netease.yunxin.kit.alog.ALog;
 import com.netease.yunxin.kit.call.p2p.NECallEngine;
@@ -424,6 +425,8 @@ public class MainActivity extends BaseActivity {
               .withParam("type","1")
               .navigate();
 
+    } else if ("login_out".equals(event.getTag())) {
+      IMUtil.loginOut(this);
     }
 
   }
