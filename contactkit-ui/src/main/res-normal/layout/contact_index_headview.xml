@@ -69,10 +69,28 @@
         android:gravity="center_horizontal"
         android:paddingVertical="15dp">
 
-        <ImageView
-            android:layout_width="@dimen/dimen_32_dp"
-            android:layout_height="@dimen/dimen_32_dp"
-            android:src="@drawable/contact_list_index_top_3" />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="@dimen/dimen_32_dp"
+                android:layout_height="@dimen/dimen_32_dp"
+                android:src="@drawable/contact_list_index_top_3" />
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/contact_index_headview_friend_num_tv"
+                android:layout_marginLeft="25dp"
+                android:layout_width="wrap_content"
+                android:minWidth="14dp"
+                android:layout_height="wrap_content"
+                android:minHeight="14dp"
+                android:text="99+"
+                android:textColor="#ffffffff"
+                android:textSize="7sp"
+                android:gravity="center"
+                android:background="@drawable/bg_fd2635_rounded_7"
+                />
+        </RelativeLayout>
 
         <TextView
             android:layout_width="wrap_content"
@@ -95,10 +113,29 @@
         android:gravity="center_horizontal"
         android:paddingVertical="15dp">
 
-        <ImageView
-            android:layout_width="@dimen/dimen_32_dp"
-            android:layout_height="@dimen/dimen_32_dp"
-            android:src="@drawable/contact_list_index_top_4" />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="@dimen/dimen_32_dp"
+                android:layout_height="@dimen/dimen_32_dp"
+                android:src="@drawable/contact_list_index_top_4" />
+            <TextView
+                android:visibility="gone"
+
+                android:id="@+id/contact_index_headview_group_num_tv"
+                android:layout_marginLeft="25dp"
+                android:layout_width="wrap_content"
+                android:minWidth="14dp"
+                android:layout_height="wrap_content"
+                android:minHeight="14dp"
+                android:text="99+"
+                android:textColor="#ffffffff"
+                android:textSize="7sp"
+                android:gravity="center"
+                android:background="@drawable/bg_fd2635_rounded_7"
+                />
+        </RelativeLayout>
 
         <TextView
             android:layout_width="wrap_content"

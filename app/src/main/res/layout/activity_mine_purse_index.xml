@@ -86,52 +86,77 @@
 
 
             </LinearLayout>
-            <LinearLayout
-                android:layout_marginTop="30dp"
+            <ScrollView
                 android:layout_width="match_parent"
-                android:orientation="vertical"
                 android:layout_height="wrap_content">
-                <include
-                    android:id="@+id/activity_mine_purse_index_cell1"
-                    layout="@layout/item_purse_index_cell"
+                <LinearLayout
+                    android:layout_marginTop="30dp"
                     android:layout_width="match_parent"
-                    android:layout_height="55dp"/>
-                <include
-                    android:layout_marginTop="10dp"
-                    android:id="@+id/activity_mine_purse_index_cell2"
-                    layout="@layout/item_purse_index_cell"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+                    <include
+                        android:id="@+id/activity_mine_purse_index_cell1"
+                        layout="@layout/item_purse_index_cell"
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp"/>
+                    <include
+                        android:layout_marginTop="10dp"
+                        android:id="@+id/activity_mine_purse_index_cell2"
+                        layout="@layout/item_purse_index_cell"
 
-                    android:layout_width="match_parent"
-                    android:layout_height="55dp"/>
-                <include
-                    android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp"/>
+                    <include
+                        android:layout_marginTop="10dp"
 
-                    android:id="@+id/activity_mine_purse_index_cell3"
-                    layout="@layout/item_purse_index_cell"
-                    android:layout_width="match_parent"
-                    android:layout_height="55dp"/>
-                <include
-                    android:layout_marginTop="10dp"
+                        android:id="@+id/activity_mine_purse_index_cell3"
+                        layout="@layout/item_purse_index_cell"
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp"/>
+                    <include
+                        android:layout_marginTop="10dp"
 
-                    android:id="@+id/activity_mine_purse_index_cell4"
-                    layout="@layout/item_purse_index_cell"
-                    android:layout_width="match_parent"
-                    android:layout_height="55dp"/>
-                <include
-                    android:layout_marginTop="10dp"
+                        android:id="@+id/activity_mine_purse_index_cell4"
+                        layout="@layout/item_purse_index_cell"
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp"/>
+                    <include
+                        android:layout_marginTop="10dp"
 
-                    android:id="@+id/activity_mine_purse_index_cell5"
-                    layout="@layout/item_purse_index_cell"
-                    android:layout_width="match_parent"
-                    android:layout_height="55dp"/>
-                <include
-                    android:layout_marginTop="10dp"
+                        android:id="@+id/activity_mine_purse_index_cell5"
+                        layout="@layout/item_purse_index_cell"
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp"/>
+                    <include
+                        android:layout_marginTop="10dp"
 
-                    android:id="@+id/activity_mine_purse_index_cell6"
-                    layout="@layout/item_purse_index_cell"
-                    android:layout_width="match_parent"
-                    android:layout_height="55dp"/>
-            </LinearLayout>
+                        android:id="@+id/activity_mine_purse_index_cell6"
+                        layout="@layout/item_purse_index_cell"
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp"/>
+                    <include
+                        android:layout_marginTop="10dp"
+
+                        android:id="@+id/activity_mine_purse_index_cell7"
+                        layout="@layout/item_purse_index_cell"
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp"/>
+                    <include
+                        android:layout_marginTop="10dp"
+
+                        android:id="@+id/activity_mine_purse_index_cell8"
+                        layout="@layout/item_purse_index_cell"
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp"/>
+                    <include
+                        android:layout_marginTop="10dp"
+
+                        android:id="@+id/activity_mine_purse_index_cell9"
+                        layout="@layout/item_purse_index_cell"
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp"/>
+                </LinearLayout>
+            </ScrollView>
 <!--            <LinearLayout-->
 <!--                android:layout_width="match_parent"-->
 <!--                android:layout_height="wrap_content"-->

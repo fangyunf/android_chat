@@ -23,11 +23,29 @@ public class ContactUserListAdapter extends BaseQuickAdapter<GroupInfoBean, Quic
     public int opt_type = 0;
     public List<GroupInfoBean> contacts;
 
+    public int friendApplyNum = 0;
+    public int groupApplyNum = 0;
     @Override
     protected void onBindViewHolder(@NonNull QuickViewHolder quickViewHolder, int position, @Nullable GroupInfoBean infoBean) {
 
         if (getItemViewType(position) == Constant.RECYCLE_VIEW_HEADER) {
+            TextView friendTv = quickViewHolder.getView(R.id.contact_index_headview_friend_num_tv);
+            TextView groupTv = quickViewHolder.getView(R.id.contact_index_headview_group_num_tv);
 
+            if (friendApplyNum > 0) {
+                friendTv.setVisibility(View.VISIBLE);
+                friendTv.setText(friendApplyNum > 99 ? "99+" : friendApplyNum + "");
+            } else {
+                friendTv.setVisibility(View.GONE);
+
+            }
+            if (groupApplyNum > 0) {
+                groupTv.setVisibility(View.VISIBLE);
+                friendTv.setText(groupApplyNum > 99 ? "99+" : groupApplyNum + "");
+
+            } else {
+                groupTv.setVisibility(View.GONE);
+            }
         } else {
             ImageView iv = quickViewHolder.getView(R.id.cell_fun_team_setting_users_mingdan_head_iv);
 

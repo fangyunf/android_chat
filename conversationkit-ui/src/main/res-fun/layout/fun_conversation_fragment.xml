@@ -44,10 +44,12 @@
                 android:layout_height="wrap_content">
 
                 <LinearLayout
+                    android:layout_marginLeft="15dp"
                     android:id="@+id/marqueeView_bg_ll"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:layout_height="50dp"
+                    android:layout_height="37dp"
+                    android:background="@drawable/conversation_notice_bg"
                     android:gravity="center_vertical"
                     android:paddingHorizontal="@dimen/dimen_18_dp">
 

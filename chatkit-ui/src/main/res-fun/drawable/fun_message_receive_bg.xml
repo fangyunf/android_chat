@@ -8,7 +8,7 @@
     <item android:gravity="start" android:height="10.45dp" android:width="10.45dp" android:top="15dp" android:left="2dp">
         <rotate android:fromDegrees="45">
             <shape android:shape="rectangle">
-                <solid android:color="@color/color_ffffff"/>
+                <solid android:color="@color/color_F0F0F0"/>
                 <size android:width="1dp" android:height="1dp"/>
             </shape>
         </rotate>
@@ -22,7 +22,7 @@
             <size
                 android:width="1dp"
                 android:height="1dp" />
-            <solid android:color="@color/color_ffffff" />
+            <solid android:color="@color/color_F0F0F0" />
         </shape>
     </item>
 </layer-list>
