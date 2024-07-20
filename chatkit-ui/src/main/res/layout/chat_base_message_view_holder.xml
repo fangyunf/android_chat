@@ -9,9 +9,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/baseRoot"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/dimen_8_dp">
 
-    <TextView
+<TextView
         android:id="@+id/tvTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
