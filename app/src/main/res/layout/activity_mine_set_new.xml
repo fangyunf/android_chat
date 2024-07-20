@@ -72,6 +72,13 @@
             layout="@layout/view_title_arrow"
             />
         <include
+            android:id="@+id/activity_mine_set_new_zhuxiao"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/view_title_arrow"
+            />
+
+        <include
             android:id="@+id/activity_mine_set_new_login_out"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
