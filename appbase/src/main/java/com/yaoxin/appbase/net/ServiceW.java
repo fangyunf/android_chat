@@ -114,7 +114,7 @@ public interface ServiceW {
     Call<NetData> home_balance();
     @GET("/home/myQrCode")
     Call<NetData> home_myQrCode();
-    @GET("/home/logout")
+    @POST("/home/logout")
     Call<NetData> home_logout();
 
     @POST("/red/recivePersonRedpacket")

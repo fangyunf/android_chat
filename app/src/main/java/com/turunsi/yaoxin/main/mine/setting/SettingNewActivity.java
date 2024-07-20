@@ -69,6 +69,7 @@ public class SettingNewActivity extends BaseActivity implements View.OnClickList
 
     viewBinding.activityMineSetNewLoginOut.viewTitleArrowLl.setOnClickListener(this);
     viewBinding.activityMineSetNewExchangeAcount.viewTitleArrowLl.setOnClickListener(this);
+    viewBinding.activityMineSetNewZhuxiao.viewTitleArrowLl.setOnClickListener(this);
 
 
     viewBinding.activityMineSetNewNoticeVoice.viewTitleArrowTv.setText("通知声音");
@@ -78,10 +79,13 @@ public class SettingNewActivity extends BaseActivity implements View.OnClickList
 
       viewBinding.activityMineSetNewDownload.viewTitleArrowTv.setText("下载地址");
       viewBinding.activityMineSetNewLoginOut.viewTitleArrowTv.setText("退出登录");
+      viewBinding.activityMineSetNewZhuxiao.viewTitleArrowTv.setText("注销账号");
       viewBinding.activityMineSetNewExchangeAcount.viewTitleArrowTv.setText("切换账号");
 
+//      viewBinding.activityMineSetNewExchangeAcount.viewTitleArrowTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.app_theme_red_color));
       viewBinding.activityMineSetNewLoginOut.viewTitleArrowTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.app_theme_red_color));
-      viewBinding.activityMineSetNewExchangeAcount.viewTitleArrowTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.app_theme_red_color));
+
+      viewBinding.activityMineSetNewZhuxiao.viewTitleArrowTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.app_theme_red_color));
 
   }
 
@@ -134,6 +138,28 @@ public class SettingNewActivity extends BaseActivity implements View.OnClickList
 
     } else if (v == viewBinding.activityMineSetNewDownload.viewTitleArrowLl) {
         DownLoadActivity.start(DownLoadActivity.class,this,null);
+    } else if (v == viewBinding.activityMineSetNewZhuxiao.viewTitleArrowLl) {
+        DialogAlertUtil.showAlert("确定注销账号吗？", new DialogAlertUtil.DialogAlertUtilCallBack() {
+            @Override
+            public void clickType(int type) {
+                if (type == 1) {
+                    HttpUtil.apiW().home_logout()
+                            .enqueue(new CommonCallback<NetData>() {
+                                @Override
+                                public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                                    ToastUtils.toastMsg("注销成功");
+                                    showLogin();
+                                }
+
+                                @Override
+                                public void Failure(Call<NetData> call, Throwable t) {
+
+                                }
+                            });
+
+                }
+            }
+        },getSupportFragmentManager());
     }
   }
 
