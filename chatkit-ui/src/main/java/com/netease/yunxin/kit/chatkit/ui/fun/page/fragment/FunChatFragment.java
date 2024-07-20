@@ -42,15 +42,19 @@ import com.netease.yunxin.kit.chatkit.ui.model.ChatMessageBean;
 import com.netease.yunxin.kit.chatkit.ui.page.fragment.ChatBaseFragment;
 import com.netease.yunxin.kit.chatkit.ui.view.input.ActionConstants;
 import com.netease.yunxin.kit.common.utils.NetworkUtils;
+import com.netease.yunxin.kit.contactkit.ui.fun.addfriend.FunAddFriendVerifyActivity;
 import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
 import com.netease.yunxin.kit.corekit.route.XKitRouter;
 import com.yaoxin.appbase.model.CustomMsgBean;
+import com.yaoxin.appbase.model.GroupInfoBean;
 import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.RegisterBean;
+import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.AppProxy;
 import com.yaoxin.appbase.utils.BarUtils;
+import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.SoftKeyboardFixerForFullscreen;
 import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
@@ -178,6 +182,51 @@ public abstract class FunChatFragment extends ChatBaseFragment {
             if (!messageInfo.getMessage().getAttachStr().isEmpty()) {
                 CustomMsgBean msgBean = new Gson().fromJson(messageInfo.getMessage().getAttachStr(), CustomMsgBean.class);
                 msgBean.result = new Gson().fromJson(msgBean.data, CustomMsgBean.class);
+                if (msgBean.type == 10086) {
+                    for (GroupInfoBean bean : DataUtil.getFriendInfoList()) {
+                        if (bean.memberCode.equals(msgBean.result.memberCode)) {
+                            RegisterBean bean1 = new RegisterBean();
+                            bean1.phoneAndCode =  msgBean.result.memberCode;
+                            bean1.type = 0;
+                            HttpUtil.apiW().friends_search(bean1)
+                                    .enqueue(new CommonCallback<NetData>() {
+                                        @Override
+                                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                                            UserBean userInfo = new Gson().fromJson(body.data.toString(), UserBean.class);
+                                            XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_SETTING_PAGE)
+                                                    .withParam(RouterConstant.CHAT_ID_KRY, userInfo.userId)
+                                                    .withContext(requireActivity())
+                                                    .navigate();
+                                        }
+
+                                        @Override
+                                        public void Failure(Call<NetData> call, Throwable t) {
+
+                                        }
+                                    });
+                            return;
+                        }
+                    }
+                    RegisterBean bean = new RegisterBean();
+                    bean.phoneAndCode =  msgBean.result.memberCode;
+                    bean.type = 0;
+                    HttpUtil.apiW().friends_search(bean)
+                            .enqueue(new CommonCallback<NetData>() {
+                                @Override
+                                public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                                    UserBean userInfo = new Gson().fromJson(body.data.toString(), UserBean.class);
+                                    HashMap map = new HashMap();
+                                    map.put("user",new Gson().toJson(userInfo));
+                                    FunAddFriendVerifyActivity.start(FunAddFriendVerifyActivity.class,getActivity(), map);
+                                }
+
+                                @Override
+                                public void Failure(Call<NetData> call, Throwable t) {
+
+                                }
+                            });
+                    return;
+                }
                 RegisterBean bean = new RegisterBean();
                 bean.redpacketId = msgBean.result.id;
                 HttpUtil.apiW().red_checkRedpacet(bean)

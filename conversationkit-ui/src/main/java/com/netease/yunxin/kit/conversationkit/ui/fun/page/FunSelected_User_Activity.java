@@ -179,7 +179,6 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
                     resultIntent.putExtra("userInfo", new Gson().toJson(groupInfoBean1));
                     that.setResult(Activity.RESULT_OK, resultIntent);
                     that.finish();
-                    finish();
                     return;
                 }
                 if (page_type == 5) {

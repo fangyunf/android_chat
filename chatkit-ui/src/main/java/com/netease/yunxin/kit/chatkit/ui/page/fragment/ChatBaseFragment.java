@@ -204,20 +204,7 @@ public abstract class ChatBaseFragment extends BaseFragment {
   public String forwardAction;
 
   private String tempName;
-  protected ActivityResultLauncher<Intent>  custoumLauncher =
-  registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-  result -> {
-    if (result.getResultCode() != Activity.RESULT_OK || forwardMessage == null) {
-      return;
-    }
-    Intent data = result.getData();
-    if (data != null) {
-      String userInfo = data.getStringExtra("userInfo");
-      GroupInfoBean groupInfoBean = new Gson().fromJson(userInfo, GroupInfoBean.class);
-//      sendMs
-    }
-  });
+
   @Nullable
   @Override
   public View onCreateView(
@@ -627,16 +614,29 @@ public abstract class ChatBaseFragment extends BaseFragment {
                     }
                   })
                   .withContext(getContext())
-                  .navigate();
+                  .navigate(custoumLauncher);
           // 创建自定义消息
 //          sendMsg();
         }
-
-        void sendMsg() {
+        ActivityResultLauncher<Intent>  custoumLauncher =
+                registerForActivityResult(
+                        new ActivityResultContracts.StartActivityForResult(),
+                        result -> {
+                          if (result.getResultCode() != Activity.RESULT_OK) {
+                            return;
+                          }
+                          Intent data = result.getData();
+                          if (data != null) {
+                            String userInfo = data.getStringExtra("userInfo");
+                            GroupInfoBean groupInfoBean = new Gson().fromJson(userInfo, GroupInfoBean.class);
+                            sendMsg(groupInfoBean);
+                          }
+                        });
+        void sendMsg(GroupInfoBean infoBean) {
           MingPianAttachment attachment = new MingPianAttachment();
-          attachment.avatar = "1";
-          attachment.name = "2";
-          attachment.memberCode = "3";
+          attachment.avatar = infoBean.avatar;
+          attachment.name = infoBean.name;
+          attachment.memberCode = infoBean.memberCode;
 
           // 创建自定义消息
           IMMessage message = MessageBuilder.createCustomMessage(
@@ -646,22 +646,8 @@ public abstract class ChatBaseFragment extends BaseFragment {
           );
 
           // 发送消息
-          NIMClient.getService(MsgService.class).sendMessage(message, false).setCallback(new RequestCallback<Void>() {
-            @Override
-            public void onSuccess(Void param) {
-              // 消息发送成功
-            }
+          ChatRepo.sendMessage(message, null);
 
-            @Override
-            public void onFailed(int code) {
-              // 消息发送失败
-            }
-
-            @Override
-            public void onException(Throwable exception) {
-              // 发生异常
-            }
-          });
         }
 
         @Override
