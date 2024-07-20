@@ -67,7 +67,7 @@ public class PinnedHeaderDecoration extends RecyclerView.ItemDecoration {
             c.save();
 
             mClipBounds.top = 0;
-            c.clipRect(mClipBounds, Region.Op.UNION);
+            c.clipRect(mClipBounds, Region.Op.INTERSECT);
             c.translate(0, mPinnedHeaderTop);
             mPinnedHeaderView.draw(c);
 
