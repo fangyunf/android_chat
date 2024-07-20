@@ -12,7 +12,6 @@
     android:paddingHorizontal="@dimen/dimen_16_dp"
     android:layout_marginEnd="5dp"
     android:layout_marginStart="5dp"
-    android:paddingVertical="@dimen/dimen_10_dp"
 
     android:textColor="@color/color_333333"
     android:textSize="@dimen/text_size_16"
