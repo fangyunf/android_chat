@@ -134,6 +134,7 @@
                 android:textSize="12sp"
                 />
             <TextView
+                android:visibility="gone"
                 android:id="@+id/activity_buy_feature_rv_title_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -144,6 +145,8 @@
                 />
 
             <androidx.recyclerview.widget.RecyclerView
+                android:visibility="gone"
+
                 android:id="@+id/activity_buy_feature_rv"
                 android:layout_marginTop="10dp"
                 android:layout_width="match_parent"

@@ -24,7 +24,7 @@ public class MyFuHaoListAdapter extends BaseQuickAdapter<UserBean, QuickViewHold
     @Override
     protected void onBindViewHolder(@NonNull QuickViewHolder quickViewHolder, int i, @Nullable UserBean orderListBean) {
         TextView phoneTv = quickViewHolder.getView(R.id.item_mine_fuhao_list_cell_tv);
-        phoneTv.setText(orderListBean.phone);
+        phoneTv.setText(orderListBean.phoneFix + "后两位为00-19");
     }
 
     @NonNull

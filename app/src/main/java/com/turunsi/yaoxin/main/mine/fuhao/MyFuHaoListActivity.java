@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.chad.library.adapter4.BaseQuickAdapter;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.msg.MsgService;
@@ -31,6 +33,11 @@ import com.yaoxin.appbase.utils.DialogAlertUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
 import com.yaoxin.appbase.view.CommonGridSpacingItemDecoration;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -52,34 +59,54 @@ public class MyFuHaoListActivity extends BaseActivity implements View.OnClickLis
         binding.activityMineMyFuhaoListNav.addCloseImageButton().setOnClickListener(this);
         binding.activityMineMyFuhaoListBuyIv.setOnClickListener(this);
         binding.activityMineMyFuhaoListSelfPhoneTv.setText(DataUtil.getUserInfo().phoneNo);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
         binding.activityMineMyFuhaoListRv.setLayoutManager(gridLayoutManager);
         CommonGridSpacingItemDecoration gridSpacingItemDecoration =
-                new CommonGridSpacingItemDecoration(3, SizeUtils.dp2px(10), false);
+                new CommonGridSpacingItemDecoration(2, SizeUtils.dp2px(10), false);
         binding.activityMineMyFuhaoListRv.addItemDecoration(gridSpacingItemDecoration);
         binding.activityMineMyFuhaoListRv.setAdapter(adapter);
 
-        for (int i = 0; i < 20; i++) {
-            UserBean bean = new UserBean();
-            bean.phone = "1234444444";
-            userBeanList.add(bean);
-        }
+//        for (int i = 0; i < 20; i++) {
+//            UserBean bean = new UserBean();
+//            bean.phone = "1234444444";
+//            userBeanList.add(bean);
+//        }
 
-        adapter.setItems(userBeanList);
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener<UserBean>() {
             @Override
             public void onClick(@NonNull BaseQuickAdapter<UserBean, ?> baseQuickAdapter, @NonNull View view, int i) {
             }
         });
+        EventBus.getDefault().register(this);
+
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(com.yaoxin.appbase.utils.BaseEvent event) {
+        if ("reload_fuhao".equals(event.getTag())) {
+            _requestData();
+        }
     }
 
     @Override
-    protected void _requestData() {
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 
+
+    @Override
+    protected void _requestData() {
+//[{"id":1,"userId":"1814288308478554112","phoneFix":"111111000","createTime":1721485400000,"amount":6800}]
         HttpUtil.apiW().home_wdfh()
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+
+                        Type type = new TypeToken<List<UserBean>>() {}.getType();
+                        userBeanList = new Gson().fromJson(body.data.toString(), type);
+                        adapter.setItems(userBeanList);
+                        adapter.notifyDataSetChanged();
 
                     }
 
@@ -93,9 +120,9 @@ public class MyFuHaoListActivity extends BaseActivity implements View.OnClickLis
     @Override
     public void onClick(View v) {
         if (v == binding.activityMineMyFuhaoListNav.addCloseImageButton()) {
-            HashMap map = new HashMap();
-            map.put("type","0");
-            BuyFeatureActivity.start(BuyFeatureActivity.class,this,map);
+//            HashMap map = new HashMap();
+//            map.put("type","0");
+//            BuyFeatureActivity.start(BuyFeatureActivity.class,this,map);
             finish();
         } else if (v == binding.activityMineMyFuhaoListBuyIv) {
             HashMap map = new HashMap();

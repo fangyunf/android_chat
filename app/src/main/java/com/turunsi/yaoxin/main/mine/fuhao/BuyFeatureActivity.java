@@ -26,9 +26,13 @@ import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.pswkeyboard.OnPasswordInputFinish;
 import com.yaoxin.appbase.pswkeyboard.widget.PopEnterPassword;
+import com.yaoxin.appbase.utils.BaseEvent;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
 import com.yaoxin.appbase.view.CommonGridSpacingItemDecoration;
+import com.yaoxin.appbase.view.LoadingDialog;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -61,20 +65,20 @@ public class BuyFeatureActivity extends BaseActivity implements View.OnClickList
         binding.activityBuyFeatureMoneyTv.setText("￥68");
         binding.activityBuyFeatureDetailTv.setText("购买即得20个副号");
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
-        binding.activityBuyFeatureRv.setLayoutManager(gridLayoutManager);
-        CommonGridSpacingItemDecoration gridSpacingItemDecoration =
-                new CommonGridSpacingItemDecoration(3, SizeUtils.dp2px(10), false);
-        binding.activityBuyFeatureRv.addItemDecoration(gridSpacingItemDecoration);
-        binding.activityBuyFeatureRv.setAdapter(adapter);
-
-        for (int i = 0; i < 20; i++) {
-            UserBean bean = new UserBean();
-            bean.phone = "1234444444";
-            userBeanList.add(bean);
-        }
-
-        adapter.setItems(userBeanList);
+//        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
+//        binding.activityBuyFeatureRv.setLayoutManager(gridLayoutManager);
+//        CommonGridSpacingItemDecoration gridSpacingItemDecoration =
+//                new CommonGridSpacingItemDecoration(3, SizeUtils.dp2px(10), false);
+//        binding.activityBuyFeatureRv.addItemDecoration(gridSpacingItemDecoration);
+//        binding.activityBuyFeatureRv.setAdapter(adapter);
+//
+//        for (int i = 0; i < 20; i++) {
+//            UserBean bean = new UserBean();
+//            bean.phone = "1234444444";
+//            userBeanList.add(bean);
+//        }
+//
+//        adapter.setItems(userBeanList);
     }
     @Override
     protected void _requestData() {
@@ -110,16 +114,26 @@ public class BuyFeatureActivity extends BaseActivity implements View.OnClickList
                     RegisterBean registerBean = new RegisterBean();
                     registerBean.phone = "1"+ phone+"000";
                     registerBean.password = password;
+                    LoadingDialog.showDialog(getSupportFragmentManager(),"购买中..");
                     HttpUtil.apiW().home_gmfh(registerBean)
                             .enqueue(new CommonCallback<NetData>() {
                                 @Override
                                 public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
+                                    ToastUtils.toastMsg("购买成功");
+                                    EventBus.getDefault().post(new BaseEvent("reload_fuhao"));
+                                    finish();
                                 }
 
                                 @Override
                                 public void Failure(Call<NetData> call, Throwable t) {
 
+                                }
+
+                                @Override
+                                public void end() {
+                                    super.end();
+                                    LoadingDialog.dismissDialog();
                                 }
                             });
                 }

@@ -23,6 +23,7 @@ import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.pswkeyboard.OnPasswordInputFinish;
 import com.yaoxin.appbase.pswkeyboard.widget.PopEnterPassword;
+import com.yaoxin.appbase.utils.NumberUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
 
 import java.lang.reflect.Type;
@@ -139,8 +140,9 @@ public class BuyGroupFeatureActivity extends BaseActivity implements View.OnClic
             for (GroupInfoBean tempBean :adapter.getItems()) {
                 if (tempBean.isSelected) {
                     grade = tempBean.grade;
-                    moneyStr = tempBean.price + "";
+                    moneyStr = NumberUtil.formartMoney(tempBean.price + "");
                 }
+
             }
             if (grade == -1) {
                 ToastUtils.toastMsg("请选择升级类型");

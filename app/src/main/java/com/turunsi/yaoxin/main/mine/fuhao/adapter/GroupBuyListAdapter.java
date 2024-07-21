@@ -20,7 +20,7 @@ public class GroupBuyListAdapter extends BaseQuickAdapter<GroupInfoBean, QuickVi
 
     @Override
     protected void onBindViewHolder(@NonNull QuickViewHolder quickViewHolder, int i, @Nullable GroupInfoBean bean) {
-        quickViewHolder.setText(R.id.cell_buy_group_feature_money_tv,"￥" + bean.price)
+        quickViewHolder.setText(R.id.cell_buy_group_feature_money_tv,"￥" + NumberUtil.formartMoney(bean.price + ""))
                 .setText(R.id.cell_buy_group_feature_detail_tv,"购买即升级当前群组为"+bean.groupMemberNum+"人群");
         if (bean.groupMemberNum == -1) {
 

@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:background="@drawable/bg_f2f2f2_rounded_10"
-        android:paddingHorizontal="15dp"
+        android:paddingHorizontal="5dp"
 
         android:textColor="#ff000000"
         android:textSize="14sp"
