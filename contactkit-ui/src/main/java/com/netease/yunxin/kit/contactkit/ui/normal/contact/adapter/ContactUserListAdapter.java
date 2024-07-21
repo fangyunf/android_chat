@@ -25,6 +25,9 @@ public class ContactUserListAdapter extends BaseQuickAdapter<GroupInfoBean, Quic
 
     public int friendApplyNum = 0;
     public int groupApplyNum = 0;
+
+    public boolean _isSearch = false;
+
     @Override
     protected void onBindViewHolder(@NonNull QuickViewHolder quickViewHolder, int position, @Nullable GroupInfoBean infoBean) {
 
@@ -48,22 +51,32 @@ public class ContactUserListAdapter extends BaseQuickAdapter<GroupInfoBean, Quic
             }
         } else {
             ImageView iv = quickViewHolder.getView(R.id.cell_fun_team_setting_users_mingdan_head_iv);
-
-            GroupInfoBean infoBean1 = contacts.get(position - 1);
             TextView tv = quickViewHolder.getView(R.id.cell_fun_team_setting_users_mingdan_tv_index);
+
+            GroupInfoBean infoBean1;
+            if (_isSearch) {
+                infoBean1 = contacts.get(position);
+                tv.setVisibility(View.GONE);
+            } else {
+                infoBean1 = contacts.get(position - 1);
+                if (position == 1 || !contacts.get(position - 2).getIndex().equals(infoBean1.getIndex())) {
+                    tv.setVisibility(View.VISIBLE);
+                    tv.setText(infoBean1.getIndex());
+                } else {
+                    tv.setVisibility(View.GONE);
+                }
+            }
             quickViewHolder.setText(R.id.cell_fun_team_setting_users_mingdan_name_tv, (infoBean1.remark != null && !infoBean1.remark.isEmpty() ) ? infoBean1.remark : infoBean1.name);
             GlideUtil.yh_loadImageRoundedCorner(getContext(), iv, infoBean1.avatar, 22);
-            if (position == 1 || !contacts.get(position - 2).getIndex().equals(infoBean1.getIndex())) {
-                tv.setVisibility(View.VISIBLE);
-                tv.setText(infoBean1.getIndex());
-            } else {
-                tv.setVisibility(View.GONE);
-            }
+
         }
 
     }
     @Override
     protected int getItemViewType(int position, @NonNull List<? extends GroupInfoBean> list) {
+        if (_isSearch) {
+            return Constant.RECYCLE_VIEW_ITEM;
+        }
         if (position == 0) {
             return Constant.RECYCLE_VIEW_HEADER;
         } else {
@@ -82,6 +95,9 @@ public class ContactUserListAdapter extends BaseQuickAdapter<GroupInfoBean, Quic
 
     @Override
     protected int getItemCount(@NonNull List<? extends GroupInfoBean> items) {
+        if (_isSearch) {
+            return super.getItemCount(items);
+        }
         return super.getItemCount(items) + 1;
     }
 }
