@@ -178,6 +178,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         binding.fragmentMineChoujiang.setOnClickListener(this);
         binding.fragmentMineLianghao.setOnClickListener(this);
         binding.mineFragmentYuLeCl.setOnClickListener(this);
+        binding.fragmentMineGotoUpgradeTv.setOnClickListener(this);
 
 //        binding.mineFragmentMyManagerItem1.viewMineFragmentItemCellCl.setOnClickListener(this);
 //        binding.mineFragmentMyManagerItem2.viewMineFragmentItemCellCl.setOnClickListener(this);
@@ -302,7 +303,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
             startActivity(new Intent(getContext(), SettingNotifyNewActivity.class));
         } else if (v == binding.fragmentMineSzView) {
             SettingNewActivity.start(SettingNewActivity.class,getContext(),null);
-        } else if (v == binding.fragmentMineLianghao) {
+        } else if (v == binding.fragmentMineLianghao || v == binding.fragmentMineGotoUpgradeTv) {
 
 
             XKitRouter.withKey(com.yaoxin.appbase.net.Constant.BaseWebViewActivityKey)

@@ -97,7 +97,7 @@
                 android:textSize="14sp"
                 tools:ignore="SpUsage" />
             <RelativeLayout
-                android:visibility="gone"
+                android:visibility="visible"
                 android:id="@+id/fragment_mine_grade_rl"
                 android:layout_width="match_parent"
                 android:layout_height="56dp">
@@ -116,6 +116,19 @@
                     android:textColor="#ffffffff"
                     android:textSize="13sp"
                     android:layout_marginBottom="10dp"
+                    />
+                <TextView
+                    android:id="@+id/fragment_mine_goto_upgrade_tv"
+                    android:layout_width="40dp"
+                    android:layout_height="20dp"
+                    android:gravity="center"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="27dp"
+                    android:layout_marginRight="10dp"
+                    android:text="去升级"
+                    android:textColor="#ff000000"
+                    android:textSize="10sp"
+                    android:background="@drawable/bg_white_alpha_30_rounded_10"
                     />
             </RelativeLayout>
         </LinearLayout>

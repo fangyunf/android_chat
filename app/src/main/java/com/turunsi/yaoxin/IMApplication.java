@@ -130,20 +130,20 @@ public class IMApplication extends MultiDexApplication {
     ALog.d(Constant.PROJECT_TAG, TAG, "initUIKit");
 
     if (IMKitUtils.isMainProcess(this)) {
-      ALog.d(Constant.PROJECT_TAG, TAG, "initUIKit:isMainProcess");
-      LocationKitClient.init(this);
-      //huawei push
-      ActivityMgr.INST.init(this);
-      //oppo push
-      HeytapPushManager.init(this, true);
-      try {
-        //vivo push
-        PushClient.getInstance(this).initialize();
-      } catch (VivoPushException e) {
-        e.printStackTrace();
-      }
-      IMKitClient.toggleNotification(SettingRepo.isPushNotify());
-      IMKitClient.registerMixPushMessageHandler(new PushMessageHandler());
+        ALog.d(Constant.PROJECT_TAG, TAG, "initUIKit:isMainProcess");
+        LocationKitClient.init(this);
+        //huawei push
+        ActivityMgr.INST.init(this);
+        //oppo push
+        HeytapPushManager.init(this, true);
+        try {
+            //vivo push
+            PushClient.getInstance(this).initialize();
+        } catch (VivoPushException e) {
+            e.printStackTrace();
+        }
+        IMKitClient.toggleNotification(SettingRepo.isPushNotify());
+        IMKitClient.registerMixPushMessageHandler(new PushMessageHandler());
         // 在 Application启动时注册，保证漫游、离线消息也能够回调此过滤器进行过滤。注意，过滤器的实现不要有耗时操作。
         NIMClient.getService(MsgService.class).registerIMMessageFilter(new IMMessageFilter() {
             @Override
@@ -160,27 +160,22 @@ public class IMApplication extends MultiDexApplication {
 
                         }
 
-                    }catch (Exception e) {
+                    } catch (Exception e) {
 
                     }
                 }
-//                if (UserPreferences.getMsgIgnore() && message.getAttachment() != null) {
-//                    if (message.getAttachment() instanceof UpdateTeamAttachment) {
-//                        UpdateTeamAttachment attachment = (UpdateTeamAttachment) message.getAttachment();
-//                        for (Map.Entry<TeamFieldEnum, Object> field : attachment.getUpdatedFields().entrySet()) {
-//                            if (field.getKey() == TeamFieldEnum.ICON) {
-//                                return true; // 过滤
-//                            }
-//                        }
-//                    }
-//                }
+
+                if (message.getContent() != null && message.getContent().startsWith("{")) {
+                    if (message.getContent().contains("receiveUserId") && message.getContent().contains("receiveUserName")) {
+                        return true;
+                    }
+                }
                 return false; // 不过滤
             }
         });
 
+        CrashReport.initCrashReport(getApplicationContext(), "4af2c8d514", false);
     }
-      CrashReport.initCrashReport(getApplicationContext(), "8427ba87a8", false);
-
   }
 
   private final List<Activity> activities = new ArrayList<>();

@@ -46,12 +46,24 @@ public class FunConversationP2PViewHolder extends FunConversationBaseViewHolder 
               AvatarColor.avatarColor(data.infoData.getContactId()));
       viewBinding.nameTv.setText(name);
     } else {
+//      https://ao/defaultAvatar/8.png
 
       String name = data.infoData.getName();
-      viewBinding.avatarView.setData(
-              data.infoData.getAvatar(),
-              data.infoData.getAvatarName(),
-              AvatarColor.avatarColor(data.infoData.getContactId()));
+      if (data.infoData != null && data.infoData.getAvatar() != null) {
+        if (data.infoData.getAvatar().startsWith("https://ao")) {
+
+            viewBinding.avatarView.setData(
+                    com.yaoxin.appbase.R.mipmap.app_default_base_icon_geren,
+                    data.infoData.getAvatarName(),
+                    AvatarColor.avatarColor(data.infoData.getContactId()));
+        } else {
+            viewBinding.avatarView.setData(
+                    data.infoData.getAvatar(),
+                    data.infoData.getAvatarName(),
+                    AvatarColor.avatarColor(data.infoData.getContactId()));
+        }
+      }
+
       viewBinding.nameTv.setText(name);
       List<GroupInfoBean> friendInfoList = DataUtil.getFriendInfoList();
       if (!friendInfoList.isEmpty()) {

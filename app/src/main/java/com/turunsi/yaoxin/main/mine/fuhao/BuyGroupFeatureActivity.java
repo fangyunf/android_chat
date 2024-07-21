@@ -27,6 +27,7 @@ import com.yaoxin.appbase.utils.NumberUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -55,12 +56,12 @@ public class BuyGroupFeatureActivity extends BaseActivity implements View.OnClic
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener<GroupInfoBean>() {
             @Override
             public void onClick(@NonNull BaseQuickAdapter<GroupInfoBean, ?> baseQuickAdapter, @NonNull View view, int i) {
-                for (GroupInfoBean tempBean:
-                     baseQuickAdapter.getItems()) {
-                    tempBean.isSelected = false;
-                }
-                baseQuickAdapter.getItem(i).isSelected = true;
-                adapter.notifyDataSetChanged();
+//                for (GroupInfoBean tempBean:
+//                     baseQuickAdapter.getItems()) {
+//                    tempBean.isSelected = false;
+//                }
+//                baseQuickAdapter.getItem(i).isSelected = true;
+//                adapter.notifyDataSetChanged();
             }
         });
         _updateUI();
@@ -111,8 +112,13 @@ public class BuyGroupFeatureActivity extends BaseActivity implements View.OnClic
 //                        if (!tempList.isEmpty()) {
 //                            tempList.get(0).isSelected = true;
 //                        }
-                        adapter.setItems(tempList);
-                        adapter.notifyDataSetChanged();
+                        ArrayList<GroupInfoBean> tempArr = new ArrayList<>();
+                        if (tempList.size() > 1 ) {
+                            tempList.get(1).isSelected = true;
+                            tempArr.add(tempList.get(1));
+                            adapter.setItems(tempArr);
+                            adapter.notifyDataSetChanged();
+                        }
                     }
 
                     @Override
@@ -144,10 +150,10 @@ public class BuyGroupFeatureActivity extends BaseActivity implements View.OnClic
                 }
 
             }
-            if (grade == -1) {
-                ToastUtils.toastMsg("请选择升级类型");
-                return;
-            }
+//            if (grade == -1) {
+//                ToastUtils.toastMsg("请选择升级类型");
+//                return;
+//            }
             int finalGrade = grade;
             PopEnterPassword popEnterPassword = new PopEnterPassword(this, new OnPasswordInputFinish() {
                 @Override
@@ -160,7 +166,7 @@ public class BuyGroupFeatureActivity extends BaseActivity implements View.OnClic
                             .enqueue(new CommonCallback<NetData>() {
                                 @Override
                                 public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-
+                                    ToastUtils.toastMsg("购买成功");
                                 }
 
                                 @Override

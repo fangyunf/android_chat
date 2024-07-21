@@ -7,6 +7,7 @@
     android:gravity="center_vertical"
     android:layout_height="wrap_content">
     <ImageView
+        android:visibility="gone"
         android:id="@+id/cell_buy_group_feature_select_iv"
         android:layout_marginHorizontal="6dp"
         android:src="@drawable/person_choose_icon_selector"
