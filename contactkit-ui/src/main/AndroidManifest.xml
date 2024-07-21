@@ -120,6 +120,8 @@
             android:name=".fun.blacklist.FunBlackList_NewActivity"/>
         <activity
             android:name=".search.SearchNewActivity"/>
+        <activity
+            android:name=".normal.contact.SystemNotice_NewActivity"/>
 
     </application>
 

@@ -29,6 +29,7 @@ import com.netease.nimlib.sdk.StatusCode;
 import com.netease.nimlib.sdk.avsignalling.constant.ChannelType;
 import com.netease.yunxin.kit.contactkit.ui.fun.addfriend.FunAddFriendVerifyActivity;
 import com.netease.yunxin.kit.contactkit.ui.normal.contact.ContactNewFragment;
+import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
 import com.netease.yunxin.kit.corekit.route.XKitRouter;
 import com.turunsi.yaoxin.AppSkinConfig;
 import com.turunsi.yaoxin.BuildConfig;
@@ -427,6 +428,8 @@ public class MainActivity extends BaseActivity {
 
     } else if ("login_out".equals(event.getTag())) {
       IMUtil.loginOut(this);
+    } else if ("add_friend".equals(event.getTag())) {
+      XKitRouter.withKey(RouterConstant.PATH_FUN_ADD_FRIEND_PAGE).withContext(this).navigate();
     }
 
   }

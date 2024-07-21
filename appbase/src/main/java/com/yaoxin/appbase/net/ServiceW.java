@@ -246,9 +246,10 @@ public interface ServiceW {
     Call<NetData> customer_versionCkeck(
                         @Query("type") String type ,
                         @Query("version") String version
-
-
     );
+    //   转让群主
+    @GET("/customer/noticeList")
+    Call<NetData> customer_noticeList();
     //   转让群主
     @POST("/home/changeSecurityPrivacy")
     Call<NetData> home_changeSecurityPrivacy(

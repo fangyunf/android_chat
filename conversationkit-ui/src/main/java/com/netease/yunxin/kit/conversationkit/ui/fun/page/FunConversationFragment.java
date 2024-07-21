@@ -372,8 +372,9 @@ public class FunConversationFragment extends ConversationBaseFragment {
     viewBinding.funConversationFragmentSearchIv.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        XKitRouter.withKey(PATH_FUN_ADD_FRIEND_PAGE).withContext(getContext()).navigate();
-
+        XKitRouter.withKey("SearchNewActivity")
+                .withContext(requireContext())
+                .navigate();
       }
     });
 

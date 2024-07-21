@@ -224,9 +224,10 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
         adapter.addOnItemChildClickListener(R.id.contact_index_headview_5_ll, new BaseQuickAdapter.OnItemChildClickListener<GroupInfoBean>() {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<GroupInfoBean, ?> baseQuickAdapter, @NonNull View view, int i) {
-                XKitRouter.withKey(Constant.XiaoZhuShouActivityKey)
-                        .withContext(requireContext())
-                        .navigate();
+//                XKitRouter.withKey(Constant.XiaoZhuShouActivityKey)
+//                        .withContext(requireContext())
+//                        .navigate();
+                SystemNotice_NewActivity.start(SystemNotice_NewActivity.class,requireContext(),null);
             }
         });
 

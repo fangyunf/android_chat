@@ -59,6 +59,7 @@ public class FunBlackList_NewActivity extends BaseActivity implements View.OnCli
         setContentView(binding.getRoot());
         if (getIntent().getStringExtra("groupId") != null) {
             _groupId = getIntent().getStringExtra("groupId");
+            binding.activityBlackListNewNav.getTitleView().setText("群黑名单");
             _requestGroupData();
         } else {
             _requestPersonData();
