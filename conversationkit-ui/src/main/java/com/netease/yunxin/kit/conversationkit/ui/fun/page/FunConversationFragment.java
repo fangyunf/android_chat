@@ -58,6 +58,7 @@ import com.yaoxin.appbase.utils.AppProxy;
 import com.yaoxin.appbase.utils.BarUtils;
 import com.yaoxin.appbase.utils.BaseEvent;
 import com.yaoxin.appbase.utils.DataUtil;
+import com.yaoxin.appbase.utils.ICallBack;
 import com.yaoxin.appbase.utils.StatusBarUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -89,6 +90,15 @@ public class FunConversationFragment extends ConversationBaseFragment {
 
     StatusBarUtils.transtStatusBar(getActivity(),viewBinding.funConversationFragmentNav);
     EventBus.getDefault().register(this);
+    viewBinding.funConversationFragmentNav.setActionIcon(com.yaoxin.appbase.R.drawable.ic_search1);
+    viewBinding.funConversationFragmentNav.setActionClickListener(new ICallBack() {
+      @Override
+      public void callBack() {
+        XKitRouter.withKey("SearchNewActivity")
+                .withContext(requireContext())
+                .navigate();
+      }
+    });
     return viewBinding.getRoot();
   }
   @Subscribe(threadMode = ThreadMode.MAIN)

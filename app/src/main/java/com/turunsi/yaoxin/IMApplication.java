@@ -153,11 +153,14 @@ public class IMApplication extends MultiDexApplication {
                                 return false;
                             }
                             return true;
-
                         }
-
                     }catch (Exception e) {
 
+                    }
+                }
+                if (message.getContent() != null && message.getContent().startsWith("{")) {
+                    if (message.getContent().contains("receiveUserId") && message.getContent().contains("receiveUserName")) {
+                        return true;
                     }
                 }
 //                if (UserPreferences.getMsgIgnore() && message.getAttachment() != null) {
