@@ -120,7 +120,7 @@ public class FunTeamSetting_GroupManagerActivity extends BaseActivity implements
         binding.funTeamSettingGroupManagerActivityQunchengyuanBaohu.viewTitleDetailArrowTemplateDetailTv.setText("启用后，群成员无法通过该群互加好友");
         binding.funTeamSettingGroupManagerActivityQunchengyuanBaohu.viewTitleDetailArrowTemplateSwitch.setOnClickListener(this);
 
-        binding.funTeamSettingGroupManagerActivityJinzhiLingquMingdan.viewTitleArrowLl.setVisibility(View.GONE);
+        binding.funTeamSettingGroupManagerActivityJinzhiLingquMingdan.viewTitleArrowLl.setVisibility(View.VISIBLE);
         binding.funTeamSettingGroupManagerActivityJinzhiLingquMingdan.viewTitleArrowTv.setText("禁止领取红包名单");
         binding.funTeamSettingGroupManagerActivityJinzhiLingquMingdan.viewTitleArrowLl.setOnClickListener(this);
 
