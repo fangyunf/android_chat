@@ -5,6 +5,8 @@
 package com.netease.yunxin.kit.chatkit.ui.view.ait;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -17,6 +19,8 @@ import com.netease.yunxin.kit.chatkit.ui.databinding.ChatMessageAitSelectorDialo
 import com.netease.yunxin.kit.chatkit.ui.page.adapter.AitContactAdapter;
 import com.netease.yunxin.kit.common.utils.ScreenUtils;
 import com.netease.yunxin.kit.common.utils.SizeUtils;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /** Team member @ Dialog */
@@ -28,6 +32,7 @@ public class AitContactSelectorDialog extends BottomSheetDialog {
   //展示风格，0:办公风格 1:新版本
   private int uiStyle = 0;
 
+  List<UserInfoWithTeam> _data;
   public AitContactSelectorDialog(@NonNull Context context) {
     this(context, R.style.TransBottomSheetTheme);
   }
@@ -62,6 +67,36 @@ public class AitContactSelectorDialog extends BottomSheetDialog {
           dismiss();
         });
     binding.contactList.setAdapter(adapter);
+    binding.chatMessageAitSelectorDialogSearchEt.addTextChangedListener(new TextWatcher() {
+      @Override
+      public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+      }
+
+      @Override
+      public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+      }
+
+      @Override
+      public void afterTextChanged(Editable s) {
+        String string = s.toString();
+        if (string.isEmpty()) {
+          adapter.setMembers(_data);
+          adapter.notifyDataSetChanged();
+        } else {
+          ArrayList<UserInfoWithTeam> tempArr = new ArrayList<>();
+          for (UserInfoWithTeam temp :
+                  _data) {
+            if (temp.getName().contains(string)) {
+              tempArr.add(temp);
+            }
+          }
+          adapter.setMembers(tempArr);
+          adapter.notifyDataSetChanged();
+        }
+      }
+    });
   }
 
   private void switchStyle() {
@@ -83,6 +118,7 @@ public class AitContactSelectorDialog extends BottomSheetDialog {
   }
 
   public void setData(List<UserInfoWithTeam> data, boolean refresh) {
+    _data = data;
     adapter.setMembers(data);
     if (refresh) {
       adapter.notifyItemRangeChanged(0, adapter.getItemCount());
@@ -90,6 +126,8 @@ public class AitContactSelectorDialog extends BottomSheetDialog {
   }
 
   public void setData(List<UserInfoWithTeam> data, boolean refresh, boolean showAll) {
+
+    _data = data;
     adapter.setShowAll(showAll);
     adapter.setMembers(data);
     if (refresh) {
