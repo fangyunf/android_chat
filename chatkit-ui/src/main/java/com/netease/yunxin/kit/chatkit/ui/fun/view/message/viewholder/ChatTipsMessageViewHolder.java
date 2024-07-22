@@ -9,6 +9,8 @@ import static com.netease.yunxin.kit.corekit.im.utils.RouterConstant.KEY_TEAM_CR
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -90,6 +92,10 @@ public class ChatTipsMessageViewHolder extends FunChatBaseMessageViewHolder {
       }
     }
     if (content != null && !content.isEmpty()) {
+      ViewGroup.MarginLayoutParams layoutParams =
+              (ViewGroup.MarginLayoutParams) baseViewBinding.baseRoot.getLayoutParams();
+      layoutParams.setMargins(0, 0, 0, 0);
+      baseViewBinding.baseRoot.setLayoutParams(layoutParams);
 
       textBinding.messageTipText.setGravity(Gravity.CENTER);
       textBinding.messageTipText.setTextColor(

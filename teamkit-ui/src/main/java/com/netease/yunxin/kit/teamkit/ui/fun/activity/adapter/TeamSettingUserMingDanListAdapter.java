@@ -34,7 +34,7 @@ public class TeamSettingUserMingDanListAdapter extends BaseQuickAdapter<GroupInf
         TextView state_tv = quickViewHolder.getView(R.id.cell_fun_team_setting_users_mingdan_state_tv);
         state_tv.setSelected(infoBean.forbidState == 1);
         state_tv.setTextColor(getContext().getResources().getColor(infoBean.forbidState == 1 ?R.color.color_white:R.color.color_999999));
-        state_tv.setText(infoBean.forbidState == 1 ? "禁止": "禁领中");
+        state_tv.setText(infoBean.forbidState == 0 ? "禁止": "禁领中");
         if (position == 0 || !contacts.get(position-1).getIndex().equals(infoBean.getIndex())) {
             tv.setVisibility(View.VISIBLE);
             tv.setText(infoBean.getIndex());

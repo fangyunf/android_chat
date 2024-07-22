@@ -159,20 +159,23 @@ public class IMApplication extends MultiDexApplication {
                     }
                 }
                 if (message.getContent() != null && message.getContent().startsWith("{")) {
-                    if (message.getContent().contains("receiveUserId") && message.getContent().contains("receiveUserName")) {
-                        return true;
+                    try {
+                        CustomMsgBean msgBean = new Gson().fromJson(message.getContent(), CustomMsgBean.class);
+
+                        if (msgBean.sendUserId != null && msgBean.sendUserName != null && msgBean.receiveUserName != null && msgBean.receiveUserId != null) {
+                            {
+                                if (msgBean.sendUserId.equals(DataUtil.getUserid()) || msgBean.receiveUserId.equals(DataUtil.getUserid())) {
+                                    return false;
+                                }
+                                return true;
+
+                            }
+                        }
+
+                    } catch (Exception e) {
+
                     }
                 }
-//                if (UserPreferences.getMsgIgnore() && message.getAttachment() != null) {
-//                    if (message.getAttachment() instanceof UpdateTeamAttachment) {
-//                        UpdateTeamAttachment attachment = (UpdateTeamAttachment) message.getAttachment();
-//                        for (Map.Entry<TeamFieldEnum, Object> field : attachment.getUpdatedFields().entrySet()) {
-//                            if (field.getKey() == TeamFieldEnum.ICON) {
-//                                return true; // 过滤
-//                            }
-//                        }
-//                    }
-//                }
                 return false; // 不过滤
             }
         });
