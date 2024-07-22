@@ -63,7 +63,35 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1">
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/fun_chat_view_group_notice_ll"
 
+                android:layout_width="match_parent"
+                android:paddingHorizontal="10dp"
+                android:background="@color/app_theme_aplha_color"
+
+                android:gravity="center_vertical"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="群公告:"
+                    android:textColor="#ffffffff"
+                    android:textSize="14sp"
+                    />
+                <com.sunfusheng.marqueeview.MarqueeView
+                    android:id="@+id/fun_chat_view_marquee"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="10dp"
+                    app:mvAnimDuration="1000"
+                    app:mvDirection="top_to_bottom"
+                    app:mvInterval="3000"
+                    app:mvSingleLine="true"
+                    app:mvTextColor="@color/app_theme_color"
+                    app:mvTextSize="14sp" />
+            </LinearLayout>
             <com.netease.yunxin.kit.chatkit.ui.view.message.ChatMessageListView
                 android:id="@+id/messageView"
                 android:layout_width="match_parent"

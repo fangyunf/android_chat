@@ -521,7 +521,7 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
                                             }
                                         });
                             }
-                        });
+                        },groupInfoBean.name);
                     }
                     if (type == 2) {
                         //修改公告栏
@@ -538,6 +538,7 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
 
                                                 ToastUtils.toastMsg(body.msg);
                                                 _requestData();
+                                                EventBus.getDefault().post(new BaseEvent("reload_gonggao"));
                                             }
 
                                             @Override
@@ -546,7 +547,7 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
                                             }
                                         });
                             }
-                        });
+                        },groupInfoBean.announcement);
                     }
                     if (type == 3) {
                         UploadUtil.openPhotoLibrary(that, Constant.REQUEST_CODE_CHOOSE);
@@ -580,7 +581,7 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
                                 }
                             });
                 }
-            });
+            },groupInfoBean.getSelfRemarkName());
         } else if (view == binding.funTeamSettingNewActivitySetGonggao.viewTitleArrowLl) {
 
             Intent intent = new Intent(this, ModifyInfoActivity.class);

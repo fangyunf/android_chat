@@ -18,6 +18,9 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import androidx.annotation.Nullable;
+
+import com.google.gson.Gson;
+import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.AttachmentProgress;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.yunxin.kit.chatkit.ui.ChatUIConfig;
@@ -41,7 +44,16 @@ import com.netease.yunxin.kit.chatkit.ui.view.input.ActionConstants;
 import com.netease.yunxin.kit.chatkit.ui.view.message.ChatMessageListView;
 import com.netease.yunxin.kit.common.ui.widgets.BackTitleBar;
 import com.netease.yunxin.kit.corekit.im.model.UserInfo;
+import com.sunfusheng.marqueeview.MarqueeView;
+import com.yaoxin.appbase.model.GroupInfoBean;
+import com.yaoxin.appbase.model.NetData;
+import com.yaoxin.appbase.net.CommonCallback;
+import com.yaoxin.appbase.net.HttpUtil;
+
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Response;
 
 /** chat view contain all view about chat */
 public class FunChatView extends LinearLayout implements IChatView, AitTextChangeListener {
@@ -231,6 +243,12 @@ public class FunChatView extends LinearLayout implements IChatView, AitTextChang
     return binding.titleBar;
   }
 
+  public MarqueeView getMarqueeView() {
+    return binding.funChatViewMarquee;
+  }
+  public LinearLayout getMarqueeViewLL() {
+    return binding.funChatViewGroupNoticeLl;
+  }
   public FrameLayout getTitleBarLayout() {
     return binding.titleLayout;
   }

@@ -6,6 +6,8 @@ package com.netease.yunxin.kit.chatkit.ui.interfaces;
 
 import android.graphics.drawable.Drawable;
 import android.view.View;
+import android.widget.LinearLayout;
+
 import com.netease.nimlib.sdk.msg.model.AttachmentProgress;
 import com.netease.yunxin.kit.chatkit.ui.ChatUIConfig;
 import com.netease.yunxin.kit.chatkit.ui.IChatFactory;
@@ -15,11 +17,15 @@ import com.netease.yunxin.kit.chatkit.ui.view.ait.AitManager;
 import com.netease.yunxin.kit.chatkit.ui.view.message.ChatMessageListView;
 import com.netease.yunxin.kit.common.ui.widgets.BackTitleBar;
 import com.netease.yunxin.kit.corekit.im.model.UserInfo;
+import com.sunfusheng.marqueeview.MarqueeView;
+
 import java.util.List;
 
 public interface IChatView {
 
   BackTitleBar getTitleBar();
+  MarqueeView getMarqueeView();
+  LinearLayout getMarqueeViewLL();
 
   ChatMessageListView getMessageListView();
 

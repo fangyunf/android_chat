@@ -193,7 +193,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="22dp"
-                            android:text="群简介"
+                            android:text="群公告"
                             android:textColor="#ff000000"
                             android:textSize="16sp" />
                     </LinearLayout>

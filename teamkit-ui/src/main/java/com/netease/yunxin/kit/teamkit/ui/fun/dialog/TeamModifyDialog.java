@@ -40,6 +40,8 @@ public class TeamModifyDialog extends BaseDialogFragment implements View.OnClick
     FunTeamModifyDialogBinding binding;
     TeamModifyDialogBlock _block;
     int _type = 0;
+
+    String _defaultText;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FunTeamModifyDialogBinding.inflate(inflater, container, false);
@@ -56,12 +58,14 @@ public class TeamModifyDialog extends BaseDialogFragment implements View.OnClick
         }
         binding.funTeamModifyDialogConfirmTv.setOnClickListener(this);
         binding.funTeamModifyDialogCloseIcon.setOnClickListener(this);
+        binding.funTeamModifyDialogEt.setText(_defaultText);
         return binding.getRoot();
     }
-    public static void showV(FragmentManager fragmentManager,int type, TeamModifyDialogBlock block) {
+    public static void showV(FragmentManager fragmentManager,int type, TeamModifyDialogBlock block, String defaultText) {
         TeamModifyDialog fragment = new  TeamModifyDialog();
         fragment._type = type;
         fragment._block = block;
+        fragment._defaultText = defaultText;
         fragment.showNow(fragmentManager,"TeamModifyDialog");
     }
 

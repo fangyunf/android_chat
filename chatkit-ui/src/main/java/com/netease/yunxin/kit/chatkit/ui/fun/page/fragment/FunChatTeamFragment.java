@@ -22,6 +22,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+
+import com.google.gson.Gson;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.team.constant.TeamMemberType;
@@ -44,6 +46,10 @@ import com.netease.yunxin.kit.corekit.im.IMKitClient;
 import com.netease.yunxin.kit.corekit.im.utils.IMKitConstant;
 import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
 import com.netease.yunxin.kit.corekit.route.XKitRouter;
+import com.yaoxin.appbase.model.GroupInfoBean;
+import com.yaoxin.appbase.model.NetData;
+import com.yaoxin.appbase.net.CommonCallback;
+import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.BaseEvent;
 
 import org.greenrobot.eventbus.EventBus;
@@ -52,6 +58,9 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Response;
 
 /**
  * Fun皮肤群聊聊天界面Fragment，继承自FunChatFragment
@@ -103,6 +112,34 @@ public class FunChatTeamFragment extends FunChatFragment {
     aitManager.updateTeamInfo(teamInfo);
     chatView.setAitManager(aitManager);
     refreshView();
+    _requestData();
+  }
+
+  void _requestData() {
+    HttpUtil.apiW().group_groupHomeInfo(sessionID)
+            .enqueue(new CommonCallback<NetData>() {
+              @Override
+              public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                GroupInfoBean groupInfoBean = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
+                if (groupInfoBean.announcement != null && !groupInfoBean.announcement.isEmpty()) {
+
+                  viewBinding.chatView.getMarqueeViewLL().setVisibility(View.VISIBLE);
+                  viewBinding.chatView.getMarqueeView().setVisibility(View.VISIBLE);
+                  String message = groupInfoBean.announcement;
+                  viewBinding.chatView.getMarqueeView().startWithText(message);
+                  viewBinding.chatView.getMarqueeView().startWithText(message, com.sunfusheng.marqueeview.R.anim.anim_bottom_in, com.sunfusheng.marqueeview.R.anim.anim_top_out);
+
+                } else {
+                  viewBinding.chatView.getMarqueeView().setVisibility(View.GONE);
+                  viewBinding.chatView.getMarqueeViewLL().setVisibility(View.GONE);
+                }
+              }
+
+              @Override
+              public void Failure(Call<NetData> call, Throwable t) {
+
+              }
+            });
   }
 
   private void refreshView() {
@@ -156,6 +193,9 @@ public class FunChatTeamFragment extends FunChatFragment {
   public void onMessageEvent(BaseEvent event) {
     if (event.getTag().equals("clearTeamMessageList")) {
       chatView.clearMessageList();
+    } else if ("reload_gonggao".equals(event.getTag())) {
+      _requestData();
+
     }
   }
   @Override

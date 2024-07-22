@@ -48,6 +48,6 @@
     <color name="color_ff666666">#ff666666</color>
     <color name="app_theme_color">#F49734</color>
     <color name="app_theme_red_color">#FF0000</color>
-    <color name="app_theme_aplha_color">#657ED3</color>
+    <color name="app_theme_aplha_color">#33F49734</color>
 
 </resources>

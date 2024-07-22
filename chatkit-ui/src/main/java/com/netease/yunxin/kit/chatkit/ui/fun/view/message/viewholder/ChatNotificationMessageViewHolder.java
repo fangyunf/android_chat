@@ -8,6 +8,8 @@ import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import com.netease.nimlib.sdk.msg.attachment.NotificationAttachmentWithExtension;
@@ -48,6 +50,10 @@ public class ChatNotificationMessageViewHolder extends FunChatBaseMessageViewHol
   @Override
   public void bindData(ChatMessageBean message, int position, @NonNull List<?> payload) {
     super.bindData(message, position, payload);
+    ViewGroup.MarginLayoutParams layoutParams =
+            (ViewGroup.MarginLayoutParams) baseViewBinding.baseRoot.getLayoutParams();
+    layoutParams.setMargins(0, 0, 0, 0);
+    baseViewBinding.baseRoot.setLayoutParams(layoutParams);
     for (int i = 0; i < payload.size(); ++i) {
       String payloadItem = payload.get(i).toString();
       if (TextUtils.equals(payloadItem, ActionConstants.PAYLOAD_USERINFO)) {

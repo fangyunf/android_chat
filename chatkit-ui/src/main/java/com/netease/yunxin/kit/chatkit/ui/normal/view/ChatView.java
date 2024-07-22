@@ -41,6 +41,8 @@ import com.netease.yunxin.kit.chatkit.ui.view.input.ActionConstants;
 import com.netease.yunxin.kit.chatkit.ui.view.message.ChatMessageListView;
 import com.netease.yunxin.kit.common.ui.widgets.BackTitleBar;
 import com.netease.yunxin.kit.corekit.im.model.UserInfo;
+import com.sunfusheng.marqueeview.MarqueeView;
+
 import java.util.List;
 
 /** chat view contain all view about chat */
@@ -236,6 +238,16 @@ public class ChatView extends LinearLayout implements IChatView, AitTextChangeLi
 
   public BackTitleBar getTitleBar() {
     return binding.chatViewTitle;
+  }
+
+  @Override
+  public MarqueeView getMarqueeView() {
+    return null;
+  }
+
+  @Override
+  public LinearLayout getMarqueeViewLL() {
+    return null;
   }
 
   public FrameLayout getTitleBarLayout() {
