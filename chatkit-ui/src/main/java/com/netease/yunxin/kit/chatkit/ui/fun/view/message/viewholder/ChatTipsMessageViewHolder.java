@@ -9,6 +9,8 @@ import static com.netease.yunxin.kit.corekit.im.utils.RouterConstant.KEY_TEAM_CR
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -19,6 +21,7 @@ import com.netease.yunxin.kit.chatkit.ui.databinding.FunChatMessageTipViewHolder
 import com.netease.yunxin.kit.chatkit.ui.model.ChatMessageBean;
 import com.netease.yunxin.kit.corekit.im.IMKitClient;
 import com.yaoxin.appbase.model.CustomMsgBean;
+import com.yaoxin.appbase.utils.AppProxy;
 import com.yaoxin.appbase.utils.DataUtil;
 
 import java.util.Map;
@@ -89,7 +92,12 @@ public class ChatTipsMessageViewHolder extends FunChatBaseMessageViewHolder {
         content = extension.get(KEY_TEAM_CREATED_TIP).toString();
       }
     }
+
     if (content != null && !content.isEmpty()) {
+      ViewGroup.MarginLayoutParams layoutParams =
+              (ViewGroup.MarginLayoutParams) baseViewBinding.baseRoot.getLayoutParams();
+      layoutParams.setMargins(0, 0, 0, 0);
+      baseViewBinding.baseRoot.setLayoutParams(layoutParams);
 
       textBinding.messageTipText.setGravity(Gravity.CENTER);
       textBinding.messageTipText.setTextColor(

@@ -151,7 +151,7 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
                             @Override
                             public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                                 gotoRedPacketDetail(true);
-//                                sendTipMsg(true);
+                                sendTipMsg(true);
                             }
 
                             @Override
@@ -166,7 +166,7 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
                             @Override
                             public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                                 gotoRedPacketDetail(true);
-//                                sendTipMsg(false);
+                                sendTipMsg(false);
                             }
 
                             @Override
@@ -182,7 +182,7 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
                             public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
                                 gotoRedPacketDetail(true);
-//                                sendTipMsg(true);
+                                sendTipMsg(true);
                             }
 
                             @Override

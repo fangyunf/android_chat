@@ -36,7 +36,7 @@
     <!-- replace com.turunsi.yaoxin with your package name -->
     <!-- add uses-permission into your AndroidManifest -->
     <permission
-        android:name="com.turunsi.shenyu.permission.RECEIVE_MSG"
+        android:name="com.turunsi.jinzita.permission.RECEIVE_MSG"
         android:protectionLevel="signature"/>
 
     <!-- receive SDK broadcast， replace com.turunsi.yaoxin with your package name -->
