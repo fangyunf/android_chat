@@ -34,7 +34,7 @@
                 android:id="@+id/fun_conversation_fragment_nav"
                 style="@style/WhiteFontToolbar"
                 android:background="@color/transparent"
-                app:title="消息"
+                app:title="好友消息"
                 app:under_divider_color="@color/transparent"
                 app:title_text_color="@color/color_333333" />
 

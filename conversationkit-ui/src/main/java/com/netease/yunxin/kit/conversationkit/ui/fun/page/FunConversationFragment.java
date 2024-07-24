@@ -85,6 +85,12 @@ public class FunConversationFragment extends ConversationBaseFragment {
       @Nullable Bundle savedInstanceState) {
     viewBinding = FunConversationFragmentBinding.inflate(inflater, container, false);
     initView();
+    if (_type == 1) {
+      viewBinding.funConversationFragmentNav.getTitleView().setText("群聊");
+    } else {
+      viewBinding.funConversationFragmentNav.getTitleView().setText("好友消息");
+
+    }
 //    StatusBarUtils.setStatusBarLightMode(getActivity(), true, true);
 
     StatusBarUtils.transtStatusBar(getActivity(),viewBinding.funConversationFragmentNav);
