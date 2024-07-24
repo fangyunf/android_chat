@@ -24,10 +24,13 @@ import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.Constant;
 import com.yaoxin.appbase.net.HttpUtil;
+import com.yaoxin.appbase.utils.BaseEvent;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.DensityUtils;
 import com.yaoxin.appbase.utils.GlideUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -326,6 +329,7 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
                         public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
                             ToastUtils.toastMsg(body.msg);
+                            EventBus.getDefault().post(new BaseEvent("reloadTeamSettingData"));
                             finish();
                         }
 
