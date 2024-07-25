@@ -16,6 +16,7 @@ import com.netease.nimlib.sdk.msg.attachment.NotificationAttachmentWithExtension
 import com.netease.yunxin.kit.chatkit.ui.R;
 import com.netease.yunxin.kit.chatkit.ui.common.TeamNotificationHelper;
 import com.netease.yunxin.kit.chatkit.ui.databinding.ChatBaseMessageViewHolderBinding;
+import com.netease.yunxin.kit.chatkit.ui.databinding.FunChatMessageNoticeTextViewHolderBinding;
 import com.netease.yunxin.kit.chatkit.ui.databinding.FunChatMessageTextViewHolderBinding;
 import com.netease.yunxin.kit.chatkit.ui.model.ChatMessageBean;
 import com.netease.yunxin.kit.chatkit.ui.view.input.ActionConstants;
@@ -27,7 +28,8 @@ public class ChatNotificationMessageViewHolder extends FunChatBaseMessageViewHol
 
   private static final String LOG_TAG = "ChatNotificationMessageViewHolder";
 
-  FunChatMessageTextViewHolderBinding textBinding;
+  FunChatMessageNoticeTextViewHolderBinding textBinding;
+
 
   public ChatNotificationMessageViewHolder(
       @NonNull ChatBaseMessageViewHolderBinding parent, int viewType) {
@@ -37,7 +39,7 @@ public class ChatNotificationMessageViewHolder extends FunChatBaseMessageViewHol
   @Override
   public void addViewToMessageContainer() {
     textBinding =
-        FunChatMessageTextViewHolderBinding.inflate(
+            FunChatMessageNoticeTextViewHolderBinding.inflate(
             LayoutInflater.from(parent.getContext()), getMessageContainer(), true);
   }
 
