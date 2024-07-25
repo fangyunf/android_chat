@@ -7,10 +7,14 @@ package com.netease.yunxin.kit.conversationkit.ui.page.viewmodel;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.MutableLiveData;
+
+import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.friend.model.MuteListChangedNotify;
+import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.constant.DeleteTypeEnum;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
+import com.netease.nimlib.sdk.msg.model.RecentContact;
 import com.netease.nimlib.sdk.msg.model.StickTopSessionInfo;
 import com.netease.nimlib.sdk.team.model.Team;
 import com.netease.yunxin.kit.alog.ALog;
@@ -53,7 +57,7 @@ public class ConversationViewModel extends BaseViewModel {
   private final String TAG = "ConversationViewModel";
   private final String LIB_TAG = "ConversationKit-UI";
 
-  private final MutableLiveData<FetchResult<Integer>> unreadCountLiveData = new MutableLiveData<>();
+  private final MutableLiveData<FetchResult<List<Integer>>> unreadCountLiveData = new MutableLiveData<>();
   private final MutableLiveData<FetchResult<List<ConversationBean>>> queryLiveData =
       new MutableLiveData<>();
   private final MutableLiveData<FetchResult<List<ConversationBean>>> changeLiveData =
@@ -130,7 +134,7 @@ public class ConversationViewModel extends BaseViewModel {
   }
 
   /** query unread count live data */
-  public MutableLiveData<FetchResult<Integer>> getUnreadCountLiveData() {
+  public MutableLiveData<FetchResult<List<Integer>>> getUnreadCountLiveData() {
     return unreadCountLiveData;
   }
 
@@ -180,28 +184,51 @@ public class ConversationViewModel extends BaseViewModel {
   }
 
   public void getUnreadCount() {
-    ALog.d(LIB_TAG, TAG, "getUnreadCount");
-    ConversationRepo.getMsgUnreadCountAsync(
-        new FetchCallback<Integer>() {
-          @Override
-          public void onSuccess(@Nullable Integer param) {
-            ALog.d(LIB_TAG, TAG, "getUnreadCount,onSuccess");
-            FetchResult<Integer> fetchResult = new FetchResult<>(LoadStatus.Success);
-            fetchResult.setData(param);
-            unreadCountLiveData.setValue(fetchResult);
-          }
+      List<RecentContact> recentContacts = NIMClient.getService(MsgService.class).queryRecentContactsBlock();
 
-          @Override
-          public void onFailed(int code) {
-            ALog.e(LIB_TAG, TAG, "getUnreadCount,onFailed" + code);
-            ToastX.showShortToast(String.valueOf(code));
-          }
+      int singleChatUnreadCount = 0;
+      int groupChatUnreadCount = 0;
 
-          @Override
-          public void onException(@Nullable Throwable exception) {
-            ALog.e(LIB_TAG, TAG, "getUnreadCount,onException");
+      for (RecentContact recentContact : recentContacts) {
+          if (recentContact.getSessionType() == SessionTypeEnum.P2P) {
+              // 单聊
+              singleChatUnreadCount += recentContact.getUnreadCount();
+          } else if (recentContact.getSessionType() == SessionTypeEnum.Team) {
+              // 群组
+              groupChatUnreadCount += recentContact.getUnreadCount();
           }
-        });
+      }
+
+      FetchResult<List<Integer>> fetchResult = new FetchResult<>(LoadStatus.Success);
+      ArrayList<Integer> integers = new ArrayList<>();
+      integers.add(singleChatUnreadCount);
+      integers.add(groupChatUnreadCount);
+
+      fetchResult.setData(integers);
+      unreadCountLiveData.setValue(fetchResult);
+
+//    ALog.d(LIB_TAG, TAG, "getUnreadCount");
+//    ConversationRepo.getMsgUnreadCountAsync(
+//        new FetchCallback<Integer>() {
+//          @Override
+//          public void onSuccess(@Nullable Integer param) {
+//            ALog.d(LIB_TAG, TAG, "getUnreadCount,onSuccess");
+//            FetchResult<Integer> fetchResult = new FetchResult<>(LoadStatus.Success);
+//            fetchResult.setData(param);
+//            unreadCountLiveData.setValue(fetchResult);
+//          }
+//
+//          @Override
+//          public void onFailed(int code) {
+//            ALog.e(LIB_TAG, TAG, "getUnreadCount,onFailed" + code);
+//            ToastX.showShortToast(String.valueOf(code));
+//          }
+//
+//          @Override
+//          public void onException(@Nullable Throwable exception) {
+//            ALog.e(LIB_TAG, TAG, "getUnreadCount,onException");
+//          }
+//        });
   }
 
   public void fetchConversation() {

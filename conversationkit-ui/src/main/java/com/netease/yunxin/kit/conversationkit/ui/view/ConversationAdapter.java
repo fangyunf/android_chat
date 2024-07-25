@@ -333,29 +333,6 @@ public class ConversationAdapter extends RecyclerView.Adapter<BaseViewHolder> {
   @Override
   public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {
     holder.onBindData(optData().get(position), position);
-    ConversationBean conversationBean = conversationList.get(position);
-    String param = (String) conversationBean.param;
-    ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) holder.itemView.getLayoutParams();
-    if(AppProxy.getInstance().showType == 0) {
-      params.height = SizeUtils.dp2px(72);
-    } else if (AppProxy.getInstance().showType == 1 && conversationBean.viewType == 1) {
-      params.height = SizeUtils.dp2px(72);
-    } else if (AppProxy.getInstance().showType == 2 && conversationBean.viewType == 2) {
-      params.height = SizeUtils.dp2px(72);
-    } else if (AppProxy.getInstance().showType == 3 && (DataUtil.getKeFuId().equals(param) || DataUtil.getXiaoZhuShouId().equals(param))) {
-      params.height = SizeUtils.dp2px(72);
-    } else {
-      params.height = SizeUtils.dp2px(0);
-      params.topMargin = 0;
-
-    }
-    if (param.equals(DataUtil.getUserid())) {
-      params.height = SizeUtils.dp2px(0);
-    }
-
-
-    holder.itemView.setLayoutParams(params);
-
     holder.setItemOnClickListener(clickListener);
   }
 

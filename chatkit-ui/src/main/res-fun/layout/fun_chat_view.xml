@@ -70,7 +70,7 @@
                 android:layout_height="wrap_content"
                 android:overScrollMode="never" />
             <LinearLayout
-                android:visibility="visible"
+                android:visibility="gone"
                 android:id="@+id/fun_chat_view_group_notice_ll"
 
                 android:layout_width="match_parent"
@@ -95,7 +95,7 @@
                     app:mvDirection="top_to_bottom"
                     app:mvInterval="3000"
                     app:mvSingleLine="true"
-                    app:mvTextColor="@color/app_theme_color"
+                    app:mvTextColor="@color/color_white"
                     app:mvTextSize="14sp" />
             </LinearLayout>
             <TextView

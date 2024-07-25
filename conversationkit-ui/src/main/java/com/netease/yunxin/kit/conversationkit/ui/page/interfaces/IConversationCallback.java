@@ -4,8 +4,10 @@
 
 package com.netease.yunxin.kit.conversationkit.ui.page.interfaces;
 
+import java.util.List;
+
 /** conversation callback to observer the unread count change */
 public interface IConversationCallback {
 
-  void updateUnreadCount(int count);
+  void updateUnreadCount(List<Integer> count);
 }

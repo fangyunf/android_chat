@@ -5,9 +5,11 @@
 package com.netease.yunxin.kit.conversationkit.ui.fun.viewholder;
 
 import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import com.netease.yunxin.kit.common.ui.utils.AvatarColor;
+import com.netease.yunxin.kit.common.utils.SizeUtils;
 import com.netease.yunxin.kit.conversationkit.ui.R;
 import com.netease.yunxin.kit.conversationkit.ui.databinding.FunConversationViewHolderBinding;
 import com.netease.yunxin.kit.conversationkit.ui.model.ConversationBean;
@@ -73,11 +75,18 @@ public class FunConversationP2PViewHolder extends FunConversationBaseViewHolder 
             viewBinding.funConversationViewHolderIdTv.setText("ID:" + tempBean.memberCode);
             break;
           }
-
         }
       }
     }
     viewBinding.rootLayout.setBackground(viewBinding.rootLayout.getContext().getDrawable(com.yaoxin.appbase.R.drawable.bg_white_rounded_12));
-
+    ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) viewBinding.rootLayout.getLayoutParams();
+    if (data.param.equals(DataUtil.getUserid()) || AppProxy.getInstance().showType == 2) {
+      layoutParams.topMargin = 0;
+      layoutParams.height = 0;
+    } else {
+      layoutParams.height = SizeUtils.dp2px(72);
+      layoutParams.topMargin = SizeUtils.dp2px(5);
+    }
+    viewBinding.rootLayout.setLayoutParams(layoutParams);
   }
 }

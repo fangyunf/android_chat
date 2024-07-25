@@ -16,7 +16,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+
+import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.friend.model.MuteListChangedNotify;
+import com.netease.nimlib.sdk.msg.MsgService;
+import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
+import com.netease.nimlib.sdk.msg.model.RecentContact;
 import com.netease.nimlib.sdk.team.model.Team;
 import com.netease.yunxin.kit.alog.ALog;
 import com.netease.yunxin.kit.chatkit.model.ConversationInfo;
@@ -65,7 +70,7 @@ public abstract class ConversationBaseFragment extends BaseFragment implements I
   private Observer<FetchResult<MuteListChangedNotify>> muteObserver;
   private Observer<FetchResult<String>> addRemoveStickObserver;
   private Observer<FetchResult<List<String>>> aitObserver;
-  private Observer<FetchResult<Integer>> unreadCountObserver;
+  private Observer<FetchResult<List<Integer>>> unreadCountObserver;
 
   protected IConversationFactory conversationFactory;
 
@@ -386,7 +391,7 @@ public abstract class ConversationBaseFragment extends BaseFragment implements I
             ALog.d(LIB_TAG, TAG, "unreadCount, Success");
             if (conversationCallback != null) {
               conversationCallback.updateUnreadCount(
-                  result.getData() == null ? 0 : result.getData());
+                  result.getData() == null ? null : result.getData());
             }
           }
         };
