@@ -127,7 +127,8 @@ public class PurseIndexActivity extends BaseActivity implements View.OnClickList
         } else if (v == binding.activityMinePurseIndexRechargeTv) {
             PurseRechargeActivity.start(PurseRechargeActivity.class,this,null);
         } else if (v == binding.activityMinePurseIndexTixianTv) {
-            PurseTiXianActivity.start(PurseTiXianActivity.class,this,null);
+            ToastUtils.toastMsg("敬请期待");
+//            PurseTiXianActivity.start(PurseTiXianActivity.class,this,null);
         } else if (v == binding.activityMinePurseIndexCell1.itemPurseIndexCellRl) {
 //            BillDetailListActivity.start(BillDetailListActivity.class,this,null);
             FunRedPacketRecordListActivity.start(FunRedPacketRecordListActivity.class,this,null);

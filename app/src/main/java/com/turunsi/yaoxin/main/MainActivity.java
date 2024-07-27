@@ -28,6 +28,7 @@ import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.StatusCode;
 import com.netease.nimlib.sdk.avsignalling.constant.ChannelType;
+import com.netease.yunxin.kit.common.utils.SPUtils;
 import com.netease.yunxin.kit.contactkit.ui.fun.addfriend.FunAddFriendVerifyActivity;
 import com.netease.yunxin.kit.contactkit.ui.normal.contact.ContactNewFragment;
 import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
@@ -143,6 +144,16 @@ public class MainActivity extends BaseActivity {
         EventBus.getDefault().register(this);
         _update();
         NIMClient.toggleNotification(false);
+
+        if (SPUtils.getInstance().getBoolean("isRegister")) {
+            SPUtils.getInstance().put("isRegister",false);
+            if (!com.yaoxin.appbase.net.Constant.isRunningRealName) {
+                com.yaoxin.appbase.net.Constant.isRunningRealName = true;
+                XKitRouter.withKey(com.yaoxin.appbase.net.Constant.RealName_Router)
+                        .withContext(AppProxy.getInstance().getContext())
+                        .navigate();
+            }
+        }
     }
 
     void _update() {

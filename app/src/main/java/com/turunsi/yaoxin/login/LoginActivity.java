@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import androidx.annotation.Nullable;
 
 import com.google.gson.Gson;
+import com.netease.yunxin.kit.common.utils.SPUtils;
 import com.netease.yunxin.kit.common.utils.SizeUtils;
 import com.netease.yunxin.kit.corekit.route.XKitRouter;
 import com.turunsi.yaoxin.BuildConfig;
@@ -27,6 +28,7 @@ import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.Constant;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.net.NetServerException;
+import com.yaoxin.appbase.utils.AppProxy;
 import com.yaoxin.appbase.utils.CommonNetUtil;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.DeviceUtils;
@@ -86,8 +88,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         changeTitleWithType(0);
         if (BuildConfig.DEBUG) {
 
-        binding.activityLoginTf1.viewRoundTfEt.setText("18939617356");
-        binding.activityLoginTf3.viewRoundTfEt.setText("pbz123789");
+        binding.activityLoginTf1.viewRoundTfEt.setText("18616821287");
+        binding.activityLoginTf3.viewRoundTfEt.setText("12345678a");
         }
     }
 
@@ -232,6 +234,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 registerBean.clientType = Constant.clientType;
 
                 Activity that = this;
+                LoadingDialog.showDialog(getSupportFragmentManager(),"注册中");
+
                 HttpUtil.apiW().customer_register(registerBean)
                         .enqueue(new CommonCallback<NetData>() {
                             @Override
@@ -240,12 +244,18 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                 DataUtil.putUserInfo(userBean);
                                 DataUtil.putToken(userBean.token);
                                 IMUtil.loginIM(that,userBean.userId,userBean.imToken);
-
+                                SPUtils.getInstance().put("isRegister",true);
                             }
 
                             @Override
                             public void Failure(Call<NetData> call, Throwable t) {
 
+                            }
+
+                            @Override
+                            public void end() {
+                                super.end();
+                                LoadingDialog.dismissDialog();
                             }
                         });
             } else if (_type == 2) {
