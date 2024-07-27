@@ -47,6 +47,8 @@ import com.netease.yunxin.kit.corekit.im.provider.FriendObserver;
 import com.netease.yunxin.kit.corekit.im.provider.UserInfoObserver;
 import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
 import com.netease.yunxin.kit.corekit.route.XKitRouter;
+import com.yaoxin.appbase.utils.DataUtil;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -191,8 +193,10 @@ public class ConversationViewModel extends BaseViewModel {
 
       for (RecentContact recentContact : recentContacts) {
           if (recentContact.getSessionType() == SessionTypeEnum.P2P) {
-              // 单聊
-              singleChatUnreadCount += recentContact.getUnreadCount();
+              if (!recentContact.getContactId().equals(DataUtil.getUserid())) {
+                  // 单聊
+                  singleChatUnreadCount += recentContact.getUnreadCount();
+              }
           } else if (recentContact.getSessionType() == SessionTypeEnum.Team) {
               // 群组
               groupChatUnreadCount += recentContact.getUnreadCount();
