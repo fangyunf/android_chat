@@ -77,6 +77,7 @@ import com.yaoxin.appbase.utils.GlideUtil;
 import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
 import com.yaoxin.appbase.utils.UploadUtil;
+import com.yaoxin.appbase.view.LoadingDialog;
 import com.zhihu.matisse.GifSizeFilter;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
@@ -236,6 +237,7 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
         bean.page = page +"";
         bean.pageNo ="100";
 
+        LoadingDialog.showDialog(getSupportFragmentManager(),"加载中");
         HttpUtil.apiW().group_groupUserListPost(bean)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
@@ -249,9 +251,12 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
                             if (tempList.size() == 100) {
                                 _requestPeople((page + 1));
                             } else {
+                                LoadingDialog.dismissDialog();
                                 requestYunXin();
                                 updateUI();
                             }
+                        } else {
+                            LoadingDialog.dismissDialog();
                         }
 
 
@@ -260,7 +265,7 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
 
                     @Override
                     public void Failure(Call<NetData> call, Throwable t) {
-
+                        LoadingDialog.dismissDialog();
                     }
                 });
     }
@@ -268,6 +273,7 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
     protected void _requestData() {
 //        RegisterBean bean = new RegisterBean();
 //        bean.groupId = groupId;
+        LoadingDialog.showDialog(getSupportFragmentManager(),"加载中");
         HttpUtil.apiW().group_groupHomeInfo(groupId)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
@@ -282,6 +288,12 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
                     @Override
                     public void Failure(Call<NetData> call, Throwable t) {
 
+                    }
+
+                    @Override
+                    public void end() {
+                        super.end();
+                        LoadingDialog.dismissDialog();
                     }
                 });
     }
