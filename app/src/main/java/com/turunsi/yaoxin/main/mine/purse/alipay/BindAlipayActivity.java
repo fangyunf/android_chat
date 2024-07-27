@@ -38,7 +38,7 @@ import retrofit2.Response;
 public class BindAlipayActivity extends BaseActivity implements View.OnClickListener {
     ActivityMineBindAlipayBinding binding;
 
-    List<UserBean> bindList;
+    UserBean bindBean;
     int _type = 0;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,9 +70,8 @@ public class BindAlipayActivity extends BaseActivity implements View.OnClickList
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                        Type type = new TypeToken<List<UserBean>>() {}.getType();
-                        bindList = new Gson().fromJson(body.data.toString(), type);
-                        if (bindList.isEmpty()) {
+                        bindBean = new Gson().fromJson(body.data.toString(), UserBean.class);
+                        if (bindBean.phone.isEmpty()) {
                             _type = 0;
                         } else {
                             _type = 1;
@@ -96,9 +95,9 @@ public class BindAlipayActivity extends BaseActivity implements View.OnClickList
         if (_type == 0) {
             binding.activityMineBindAlipayGotoBindLl.setVisibility(View.VISIBLE);
         } else if (_type == 1) {
-            if (!bindList.isEmpty()) {
+            if (!bindBean.phone.isEmpty()) {
                 binding.activityMineBindAlipayRebindContent.viewTitleDetailTemplateLeftTv.setText("已绑定支付宝");
-                binding.activityMineBindAlipayRebindContent.viewTitleDetailTemplateRightTv.setText(bindList.get(0).phone);
+                binding.activityMineBindAlipayRebindContent.viewTitleDetailTemplateRightTv.setText(bindBean.phone);
             }
             binding.activityMineBindAlipayRebindLl.setVisibility(View.VISIBLE);
 
@@ -132,10 +131,7 @@ public class BindAlipayActivity extends BaseActivity implements View.OnClickList
                 return;
             }
             RequestParamsBean registerBean = new RequestParamsBean(phone,name,2);
-
-            if (!bindList.isEmpty()) {
-                registerBean.id = bindList.get(0).id + "";
-            }
+            registerBean.zfb = "1";
             HttpUtil.apiW().bindCard_createUptadeZFB1(registerBean)
                     .enqueue(new CommonCallback<NetData>() {
                         @Override

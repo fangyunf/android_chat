@@ -7,7 +7,10 @@ import com.yaoxin.appbase.utils.DeviceUtils;
 public class RequestParamsBean {
     private String phone;
     public String id;
+    public String payChannel;
+    public String zfb;
     public int amount;
+    public int summary;
     private String phone1;
     private String name;
     private int type;

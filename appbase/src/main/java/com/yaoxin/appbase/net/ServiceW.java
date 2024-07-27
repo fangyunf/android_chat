@@ -318,7 +318,7 @@ public interface ServiceW {
     //  好友列表
     @POST("/pay/jhzs")
     Call<NetData> pay_jhzs(
-            @Body RegisterBean userBean
+            @Body RequestParamsBean userBean
     );
     //  好友列表
     @POST("/pay/six")

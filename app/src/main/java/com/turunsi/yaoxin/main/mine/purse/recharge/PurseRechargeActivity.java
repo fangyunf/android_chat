@@ -22,6 +22,7 @@ import com.yaoxin.appbase.model.RequestParamsBean;
 import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
+import com.yaoxin.appbase.utils.DialogAlertUtil;
 import com.yaoxin.appbase.utils.NumberUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
 
@@ -30,7 +31,7 @@ import retrofit2.Response;
 
 public class PurseRechargeActivity extends BaseActivity implements View.OnClickListener {
     ActivityMinePurseRechargeBinding binding;
-
+    String payType = "alipay";
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +61,8 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
 //        binding.activityMinePurseRechargeRechargeMoney.viewTitleTfWithoutBgEt.setGravity(gravity);
         binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt.setGravity(gravity);
         binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt.setText("支付宝");
-        binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgArrowIv.setVisibility(View.GONE);
+        binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgLl.setOnClickListener(this);
+//        binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt.setOnClickListener(this);
 
         binding.activityMinePurseRechargeEt.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
         binding.activityMinePurseRechargeEt.setKeyListener(DigitsKeyListener.getInstance("0123456789."));
@@ -99,7 +101,13 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
         });
 
 
-        binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt.setEnabled(false);
+//        binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt.setEnabled(false);
+        binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt.setFocusable(false);
+        binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt.setFocusableInTouchMode(false);
+        binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt.setClickable(true);
+        binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt.setOnClickListener(this);
+
+
 
         binding.activityMinePurseRechargeRechargeRl.setOnClickListener(this);
         binding.activityMinePurseRechargeMoney100.setOnClickListener(this);
@@ -149,18 +157,34 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
             rechargeMoney("3000");
         } else if (v == binding.activityMinePurseRechargeMoney5000) {
             rechargeMoney("5000");
+        } else if (v == binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgLl || v == binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt) {
+            DialogAlertUtil.showSheetView(this, getSupportFragmentManager(), new String[]{"支付宝", "微信"}, new DialogAlertUtil.DialogAlertUtilCallBack() {
+                @Override
+                public void clickType(int type) {
+                    if (type == 1) {
+                        binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt.setText("支付宝");
+                        payType = "alipay";
+                    } else if (type == 2) {
+                        binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt.setText("微信");
+                        payType = "wxpay";
+
+                    }
+                }
+            });
         }
 
     }
     void rechargeMoney(String inputMoney) {
         RequestParamsBean registerBean = new RequestParamsBean();
         registerBean.amount = NumberUtil.formartUploadMoney(inputMoney);
-        HttpUtil.apiW().pay_six(registerBean)
+        registerBean.payChannel = payType;
+        HttpUtil.apiW().pay_jhzs(registerBean)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                         UserBean userBean = new Gson().fromJson(body.data.toString(),UserBean.class);
-                        startAlipayPayment(userBean.payUrl);
+                        RechargeScanFragment.showV(getSupportFragmentManager(),payType.equals("wxpay")?"请使用微信扫码":"请使用支付宝扫码",userBean.payUrl);
+//                        startAlipayPayment(userBean.payUrl);
                     }
 
                     @Override

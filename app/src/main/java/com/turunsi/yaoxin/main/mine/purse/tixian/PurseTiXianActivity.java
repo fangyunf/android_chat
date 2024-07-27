@@ -148,10 +148,8 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        Type type = new TypeToken<List<UserBean>>() {}.getType();
-                        List<UserBean> tempList = new Gson().fromJson(body.data.toString(), type);
-                        if (tempList != null && !tempList.isEmpty()) {
-                            accountBean = tempList.get(0);
+                        accountBean = new Gson().fromJson(body.data.toString(), UserBean.class);
+                        if (accountBean != null && !accountBean.phone.isEmpty()) {
                             binding.activityMinePurseTixianAccoutTv.setText(accountBean.phone);
                         } else {
                             ToastUtils.toastMsg("请先绑定支付宝账号");
