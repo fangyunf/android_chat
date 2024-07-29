@@ -142,10 +142,10 @@ public class FunTeamSettingNew_TeamUsersActivity extends BaseActivity implements
                 }
             }
         });
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 6);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 5);
         binding.funTeamSettingNewTeamUsersActivityRv.setLayoutManager(gridLayoutManager);
         CommonGridSpacingItemDecoration gridSpacingItemDecoration =
-                new CommonGridSpacingItemDecoration(6, SizeUtils.dp2px(10), false);
+                new CommonGridSpacingItemDecoration(5, SizeUtils.dp2px(10), false);
         binding.funTeamSettingNewTeamUsersActivityRv.addItemDecoration(gridSpacingItemDecoration);
         binding.funTeamSettingNewTeamUsersActivityRv.setAdapter(adapter);
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener<GroupInfoBean>() {

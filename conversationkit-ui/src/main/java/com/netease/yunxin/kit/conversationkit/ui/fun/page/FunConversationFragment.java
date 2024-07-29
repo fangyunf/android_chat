@@ -4,13 +4,12 @@
 
 package com.netease.yunxin.kit.conversationkit.ui.fun.page;
 
-import static com.netease.yunxin.kit.corekit.im.utils.RouterConstant.PATH_FUN_ADD_FRIEND_PAGE;
-
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,8 +57,8 @@ import com.yaoxin.appbase.utils.AppProxy;
 import com.yaoxin.appbase.utils.BarUtils;
 import com.yaoxin.appbase.utils.BaseEvent;
 import com.yaoxin.appbase.utils.DataUtil;
-import com.yaoxin.appbase.utils.ICallBack;
 import com.yaoxin.appbase.utils.StatusBarUtils;
+import com.yaoxin.appbase.utils.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -86,24 +85,14 @@ public class FunConversationFragment extends ConversationBaseFragment {
       @Nullable Bundle savedInstanceState) {
     viewBinding = FunConversationFragmentBinding.inflate(inflater, container, false);
     initView();
-//    StatusBarUtils.setStatusBarLightMode(getActivity(), true, true);
+    StatusBarUtils.setStatusBarLightMode(getActivity(), true, true);
 
-    StatusBarUtils.transtStatusBar(getActivity(),viewBinding.funConversationFragmentNav);
     EventBus.getDefault().register(this);
-    viewBinding.funConversationFragmentNav.setActionIcon(com.yaoxin.appbase.R.drawable.ic_search1);
-    viewBinding.funConversationFragmentNav.setActionClickListener(new ICallBack() {
-      @Override
-      public void callBack() {
-        XKitRouter.withKey("SearchNewActivity")
-                .withContext(requireContext())
-                .navigate();
-      }
-    });
     return viewBinding.getRoot();
   }
   @Subscribe(threadMode = ThreadMode.MAIN)
   public void onMessageEvent(BaseEvent event) {
-//    if (event.getTag().equals("refreshConversationList")) {
+    if (event.getTag().equals("refreshConversationList")) {
 //      if (event.conversationList != null) {
 //        ArrayList<ConversationBean> tempList = new ArrayList<>();
 //        for (Object obj :
@@ -111,9 +100,8 @@ public class FunConversationFragment extends ConversationBaseFragment {
 //          tempList.add((ConversationBean) obj);
 //        }
 //        conversationList = tempList;
-//      }
 //      doOptWithIndex(topIndex);
-//    }
+      }
   }
 
   @Override
@@ -123,7 +111,6 @@ public class FunConversationFragment extends ConversationBaseFragment {
   }
 
   void _requestData() {
-
     HttpUtil.apiW().customer_notice()
                     .enqueue(new CommonCallback<NetData>() {
                       @Override
@@ -183,9 +170,9 @@ public class FunConversationFragment extends ConversationBaseFragment {
               @Override
               public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
+
                 String  kefuId = body.data.toString().replace("\"","");
                 requestKefu(kefuId);
-
                 String  xiaozhushouId = "10086";
                 DataUtil.putKeFuId(kefuId);
                 DataUtil.putXiaoZhuShouId(xiaozhushouId);
@@ -197,9 +184,10 @@ public class FunConversationFragment extends ConversationBaseFragment {
                         conversationList) {
                   if (tempBean.infoData.getContactId().equals(kefuId)) {
                     hasKefu = true;
-
+                    break;
                   }
                 }
+
                 for (ConversationBean tempBean :
                         conversationList) {
                   if (tempBean.infoData.getContactId().equals(xiaozhushouId)) {
@@ -358,12 +346,50 @@ public class FunConversationFragment extends ConversationBaseFragment {
 
   private void initView() {
     conversationView = viewBinding.conversationView;
+    titleBarView = viewBinding.titleBar;
     networkErrorView = viewBinding.errorTv;
     emptyView = viewBinding.emptyLayout;
+    viewBinding.titleBar.getRight2ImageView().setVisibility(View.GONE);
 
     setViewHolderFactory(new FunViewHolderFactory());
     viewBinding.conversationView.addItemDecoration(getItemDecoration());
-    viewBinding.funConversationFragmentNav.clearLeftMenu();
+    viewBinding.titleBar.setRightImageClick(
+        v -> {
+          if (ConversationKitClient.getConversationUIConfig() != null
+              && ConversationKitClient.getConversationUIConfig().titleBarRightClick != null) {
+            ConversationKitClient.getConversationUIConfig().titleBarRightClick.onClick(v);
+            return;
+          }
+          if (IMKitClient.getConfigCenter().getTeamEnable()) {
+            Context context = getContext();
+            int memberLimit = ConversationUIConstant.MAX_TEAM_MEMBER;
+            ContentListPopView contentListPopView =
+                new ContentListPopView.Builder(context)
+                        .addItem(FunPopItemFactory.getCreateAdvancedTeamItem(context, memberLimit))
+                    .addItem(FunPopItemFactory.getDivideLineItem(context))
+                        .addItem(FunPopItemFactory.getAddFriendItem(context))
+                    .addItem(FunPopItemFactory.getDivideLineItem(context))
+                        .addItem(FunPopItemFactory.getScanItem(context))
+                    .enableShadow(false)
+                    .backgroundRes(R.drawable.fun_conversation_view_pop_bg)
+                    .build();
+            contentListPopView.showAsDropDown(
+                v, (int) requireContext().getResources().getDimension(R.dimen.pop_margin_right), 0);
+          } else {
+            XKitRouter.withKey(RouterConstant.PATH_FUN_ADD_FRIEND_PAGE)
+                .withContext(requireContext())
+                .navigate();
+          }
+        });
+
+
+    LinearLayout.LayoutParams params =
+            (LinearLayout.LayoutParams) viewBinding.titleBar.getLayoutParams();
+    params.height = params.height + BarUtils.getStatusBarHeight();
+    viewBinding.titleBar.setLayoutParams(params);
+    viewBinding.titleBar.setPadding(0, BarUtils.getStatusBarHeight(), 0, 0);
+
+
     _initHeadCell();
     loadUIConfig();
     _initTopStatus(0);
@@ -371,20 +397,8 @@ public class FunConversationFragment extends ConversationBaseFragment {
   }
 
   void doOptWithIndex(int index) {
-    if (index == 0) {
-      XKitRouter.withKey(com.yaoxin.appbase.net.Constant.FunSelected_User_ActivityKey)
-              .withContext(getContext())
-              .withParam("type","1")
-              .navigate();
-    } else if (index == 1) {
-
-    } else if (index == 2) {
-      XKitRouter.withKey(PATH_FUN_ADD_FRIEND_PAGE).withContext(getContext()).navigate();
-    } else if (index == 3) {
-      EventBus.getDefault().post(new BaseEvent("gotoScan"));
-    }
-//    AppProxy.getInstance().showType = index;
-//    conversationView.adapter.notifyDataSetChanged();
+    AppProxy.getInstance().showType = index;
+    conversationView.adapter.notifyDataSetChanged();
 //    List<ConversationBean> tempList = new ArrayList<>();
 ////    if (isFirst) {
 ////      isFirst = false;
@@ -427,8 +441,8 @@ public class FunConversationFragment extends ConversationBaseFragment {
 //    }
   }
   private void _initHeadCell() {
-    viewBinding.funConversationFragmentHeadAll.viewConversationHeadItemIv.setImageResource(R.drawable.conversation_list_index_msg_icon);
-    viewBinding.funConversationFragmentHeadAll.viewConversationHeadItemTv.setText("发起群聊");
+    viewBinding.funConversationFragmentHeadAll.viewConversationHeadItemIv.setImageResource(R.drawable.conversation_index_all_chat);
+    viewBinding.funConversationFragmentHeadAll.viewConversationHeadItemTv.setText("全部");
     viewBinding.funConversationFragmentHeadAll.viewConversationHeadItemLl.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
@@ -437,8 +451,8 @@ public class FunConversationFragment extends ConversationBaseFragment {
       }
     });
 
-    viewBinding.funConversationFragmentHeadSingle.viewConversationHeadItemIv.setImageResource(R.drawable.conversation_list_index_group_icon);
-    viewBinding.funConversationFragmentHeadSingle.viewConversationHeadItemTv.setText("加入群聊");
+    viewBinding.funConversationFragmentHeadSingle.viewConversationHeadItemIv.setImageResource(R.drawable.conversation_index_single_chat);
+    viewBinding.funConversationFragmentHeadSingle.viewConversationHeadItemTv.setText("单聊");
     viewBinding.funConversationFragmentHeadSingle.viewConversationHeadItemLl.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
@@ -447,8 +461,8 @@ public class FunConversationFragment extends ConversationBaseFragment {
       }
     });
 
-    viewBinding.funConversationFragmentHeadGroup.viewConversationHeadItemIv.setImageResource(R.drawable.conversation_list_index_add_friend_icon);
-    viewBinding.funConversationFragmentHeadGroup.viewConversationHeadItemTv.setText("添加好友");
+    viewBinding.funConversationFragmentHeadGroup.viewConversationHeadItemIv.setImageResource(R.drawable.conversation_index_chat_group);
+    viewBinding.funConversationFragmentHeadGroup.viewConversationHeadItemTv.setText("群聊");
     viewBinding.funConversationFragmentHeadGroup.viewConversationHeadItemLl.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
@@ -457,8 +471,8 @@ public class FunConversationFragment extends ConversationBaseFragment {
       }
     });
 
-    viewBinding.funConversationFragmentHeadNotice.viewConversationHeadItemIv.setImageResource(R.drawable.conversation_list_index_scan_icon);
-    viewBinding.funConversationFragmentHeadNotice.viewConversationHeadItemTv.setText("扫一扫");
+    viewBinding.funConversationFragmentHeadNotice.viewConversationHeadItemIv.setImageResource(R.drawable.conversation_index_notice);
+    viewBinding.funConversationFragmentHeadNotice.viewConversationHeadItemTv.setText("系统");
     viewBinding.funConversationFragmentHeadNotice.viewConversationHeadItemLl.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
@@ -467,31 +481,53 @@ public class FunConversationFragment extends ConversationBaseFragment {
         doOptWithIndex(3);
       }
     });
+//    initMar();
 
   }
 
+  void initMar() {
+
+    List<String> messages = new ArrayList<>();
+    messages.add("欢迎大家使用星悦公馆");
+    viewBinding.marqueeView.startWithList(messages);
+
+// 或者设置自定义的Model数据类型
+//    class CustomModel implements IMarqueeItem {
+//      @Override
+//      public CharSequence marqueeMessage() {
+//        return "...";
+//      }
+//    }
+//
+//    List<CustomModel> messages1 = new ArrayList<>();
+//    viewBinding.marqueeView.startWithList(messages1);
+
+// 在代码里设置自己的动画
+    viewBinding.marqueeView.startWithList(messages, com.sunfusheng.marqueeview.R.anim.anim_bottom_in, com.sunfusheng.marqueeview.R.anim.anim_top_out);
+
+  }
   void _initTopStatus(int index) {
     topIndex = index;
-//    viewBinding.funConversationFragmentHeadNotice.viewConversationHeadItemTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.black));
-//    viewBinding.funConversationFragmentHeadGroup.viewConversationHeadItemTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.black));
-//    viewBinding.funConversationFragmentHeadSingle.viewConversationHeadItemTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.black));
-//    viewBinding.funConversationFragmentHeadAll.viewConversationHeadItemTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.black));
-//    switch (index) {
-//      case 0:
-//        viewBinding.funConversationFragmentHeadAll.viewConversationHeadItemTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.color_8B5FD8));
-//        break;
-//      case 1:
-//        viewBinding.funConversationFragmentHeadSingle.viewConversationHeadItemTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.color_8B5FD8));
-//        break;
-//      case 2:
-//        viewBinding.funConversationFragmentHeadGroup.viewConversationHeadItemTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.color_8B5FD8));
-//        break;
-//      case 3:
-//        viewBinding.funConversationFragmentHeadNotice.viewConversationHeadItemTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.color_8B5FD8));
-//        break;
-//      default:
-//        break;
-//    }
+    viewBinding.funConversationFragmentHeadNotice.viewConversationHeadItemTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.black));
+    viewBinding.funConversationFragmentHeadGroup.viewConversationHeadItemTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.black));
+    viewBinding.funConversationFragmentHeadSingle.viewConversationHeadItemTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.black));
+    viewBinding.funConversationFragmentHeadAll.viewConversationHeadItemTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.black));
+    switch (index) {
+      case 0:
+        viewBinding.funConversationFragmentHeadAll.viewConversationHeadItemTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.color_8B5FD8));
+        break;
+      case 1:
+        viewBinding.funConversationFragmentHeadSingle.viewConversationHeadItemTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.color_8B5FD8));
+        break;
+      case 2:
+        viewBinding.funConversationFragmentHeadGroup.viewConversationHeadItemTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.color_8B5FD8));
+        break;
+      case 3:
+        viewBinding.funConversationFragmentHeadNotice.viewConversationHeadItemTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.color_8B5FD8));
+        break;
+      default:
+        break;
+    }
 
   }
   public RecyclerView.ItemDecoration getItemDecoration() {
@@ -529,6 +565,12 @@ public class FunConversationFragment extends ConversationBaseFragment {
     }
     ConversationUIConfig config = ConversationKitClient.getConversationUIConfig();
 
+    viewBinding.titleBar.setLeftImageClick(
+        v -> {
+          if (config.titleBarLeftClick != null) {
+            config.titleBarLeftClick.onClick(v);
+          }
+        });
 
     if (config.conversationComparator != null) {
       setComparator(config.conversationComparator);
@@ -537,13 +579,43 @@ public class FunConversationFragment extends ConversationBaseFragment {
     if (config.conversationFactory != null) {
       setViewHolderFactory(config.conversationFactory);
     }
-//    titleBarView.setVisibility(View.GONE);
+
+    if (!config.showTitleBar) {
+      titleBarView.setVisibility(View.GONE);
+    } else {
+      titleBarView.setVisibility(View.VISIBLE);
+      titleBarView.setHeadImageVisible(config.showTitleBarLeftIcon ? View.VISIBLE : View.GONE);
+      titleBarView.showRightImageView(config.showTitleBarRightIcon);
+
+      if (config.titleBarTitle != null) {
+        titleBarView.setTitle(config.titleBarTitle);
+      }
+
+      if (config.titleBarTitleColor != null) {
+        titleBarView.setTitleColor(config.titleBarTitleColor);
+      }
+
+      if (config.titleBarLeftRes != null) {
+        titleBarView.setLeftImageRes(config.titleBarLeftRes);
+      }
+
+      if (config.titleBarLeftRes != null) {
+        titleBarView.setLeftImageRes(config.titleBarLeftRes);
+      }
+
+      if (config.titleBarRightRes != null) {
+        titleBarView.setRightImageRes(config.titleBarRightRes);
+      }
+    }
 
     if (config.customLayout != null) {
       config.customLayout.customizeConversationLayout(this);
     }
   }
 
+  public TitleBarView getTitleBar() {
+    return viewBinding.titleBar;
+  }
 
   public LinearLayout getTopLayout() {
     return viewBinding.topLayout;

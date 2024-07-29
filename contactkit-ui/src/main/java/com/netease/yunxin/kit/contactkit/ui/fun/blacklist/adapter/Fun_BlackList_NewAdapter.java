@@ -1,10 +1,8 @@
 package com.netease.yunxin.kit.contactkit.ui.fun.blacklist.adapter;
 
 import android.content.Context;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,8 +12,6 @@ import com.chad.library.adapter4.viewholder.QuickViewHolder;
 import com.netease.yunxin.kit.contactkit.ui.R;
 import com.yaoxin.appbase.model.GroupInfoBean;
 import com.yaoxin.appbase.utils.GlideUtil;
-
-import java.util.List;
 
 public class Fun_BlackList_NewAdapter extends BaseQuickAdapter<GroupInfoBean, QuickViewHolder> {
 

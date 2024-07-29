@@ -4,10 +4,8 @@
     xmlns:tl="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:orientation="vertical"
-    android:gravity="center_horizontal"
-    >
+    android:background="@color/color_F6F6F6"
+    android:orientation="vertical">
 
     <com.yaoxin.appbase.navbar.NavToolbar
         android:id="@+id/activity_exchange_account_nav"
@@ -18,12 +16,8 @@
         app:support_translucent_status_bar="false"
         app:title="切换账号"
         app:title_text_color="@color/color_333333"
-        app:under_divider_color="@color/transparent" />
+        app:under_divider_color="@color/color_d5d5d5" />
 
-    <ImageView
-        android:src="@mipmap/exchange_account_bg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/activity_exchange_account_rv"
         android:layout_width="match_parent"

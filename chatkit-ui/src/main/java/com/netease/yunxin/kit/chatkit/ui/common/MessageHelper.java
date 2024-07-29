@@ -199,6 +199,7 @@ public class MessageHelper {
     }
     String nickName = getChatMessageUserName(messageInfo);
     String content = getReplyMsgBrief(messageInfo);
+
     return nickName + ": " + content;
   }
 
@@ -281,6 +282,7 @@ public class MessageHelper {
   public static void identifyExpression(
       Context context, View textView, String content, IMMessage message) {
     if (message != null && textView != null) {
+
       SpannableString spannableString =
           replaceEmoticons(context, content, DEF_SCALE, ImageSpan.ALIGN_BOTTOM);
       int color = context.getResources().getColor(AT_HIGHLIGHT);
@@ -307,15 +309,12 @@ public class MessageHelper {
         for (AitBlock.AitSegment segment : block.segments) {
           if (segment.start >= 0 && segment.end > segment.start && segment.end < content.length()) {
             ForegroundColorSpan colorSpan = new ForegroundColorSpan(color);
-//            spannableString.setSpan(
-//                colorSpan, segment.start, segment.end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             try {
               spannableString.setSpan(
                       colorSpan, segment.start, segment.end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             } catch (Exception e) {
 
             }
-
           }
         }
       }
@@ -376,6 +375,12 @@ public class MessageHelper {
   private static void viewSetText(View textView, SpannableString mSpannableString) {
     if (textView instanceof TextView) {
       TextView tv = (TextView) textView;
+//      String result = mSpannableString.toString();
+//      try {
+//        result = AESUtil.aseDecrypt(mSpannableString.toString());
+//      } catch (Exception e) {
+//
+//      }
       tv.setText(mSpannableString);
     }
   }
@@ -415,6 +420,7 @@ public class MessageHelper {
     } catch (Exception e) {
 
     }
+
     SpannableString mSpannableString = new SpannableString(value);
     Matcher matcher = EmojiManager.getPattern().matcher(value);
     while (matcher.find()) {
@@ -526,7 +532,6 @@ public class MessageHelper {
             IMKitClient.getApplicationContext().getSystemService(Context.CLIPBOARD_SERVICE);
     ClipData clipData = null;
     if (messageInfo.getMessage().getMsgType() == MsgTypeEnum.text) {
-//      clipData = ClipData.newPlainText(null, messageInfo.getMessage().getContent());
       String content = messageInfo.getMessage().getContent();
       try {
         content = AESUtil.msgAseDecrypt(content);
@@ -538,12 +543,8 @@ public class MessageHelper {
       if (showToast) {
         ToastX.showShortToast(R.string.chat_message_action_copy_success);
       }
-
-      cmb.setPrimaryClip(clipData);
-      if (showToast) {
-        ToastX.showShortToast(R.string.chat_message_action_copy_success);
-      }
     } else if (messageInfo.getMessage().getMsgType() == MsgTypeEnum.custom) {
+      showToast = false;
 //      CustomAttachment attachment = (CustomAttachment) messageInfo.getMessage().getAttachment();
 //      if (attachment instanceof RichTextAttachment) {
 //        String data = ((RichTextAttachment) attachment).body;
@@ -553,6 +554,7 @@ public class MessageHelper {
 //        clipData = ClipData.newPlainText(null, data);
 //      }
     }
+
   }
 
   public static void saveLocalRevokeMessage(IMMessage message, boolean canRevokeEdit) {

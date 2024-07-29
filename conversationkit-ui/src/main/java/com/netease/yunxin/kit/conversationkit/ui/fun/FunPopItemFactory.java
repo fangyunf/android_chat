@@ -61,8 +61,7 @@ public final class FunPopItemFactory {
                 context, R.string.create_advanced_team, R.drawable.conversation_index_pop_create_group))
         .configParams(params)
         .configClickListener(
-            getClickListener(
-                context, requestCode, PATH_FUN_CREATE_ADVANCED_TEAM_ACTION, memberLimit))
+                v -> EventBus.getDefault().post(new BaseEvent("gotoCreate")))
         .build();
   }
 
@@ -75,7 +74,7 @@ public final class FunPopItemFactory {
                 context, R.string.create_group_team, R.drawable.conversation_index_pop_create_group))
         .configParams(params)
         .configClickListener(
-                v -> EventBus.getDefault().post(new BaseEvent("gotoCreate")))
+            getClickListener(context, requestCode, PATH_FUN_CREATE_NORMAL_TEAM_ACTION, memberLimit))
         .build();
   }
 

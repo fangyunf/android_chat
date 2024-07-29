@@ -116,45 +116,45 @@ public class FunRedPacketRecordListActivity extends BaseActivity implements View
     }
 
     protected void _requestData() {
-            RegisterBean bean = new RegisterBean();
-            bean.date = selectedMonth;
-            HttpUtil.apiW().red_reciveRecord(bean)
-                    .enqueue(new CommonCallback<NetData>() {
-                        @Override
-                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                            Type userListType = new TypeToken<List<CustomMsgBean>>() {
-                            }.getType();
-                            receiveList = new Gson().fromJson(body.data.toString(), userListType);
-                            if (selectedIndex == 0) {
-                                adapter._type = 0;
-                                adapter.setItems(receiveList);
-                                adapter.notifyDataSetChanged();
-                            }
+        RegisterBean bean = new RegisterBean();
+        bean.date = selectedMonth;
+        HttpUtil.apiW().red_reciveRecord(bean)
+                .enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                        Type userListType = new TypeToken<List<CustomMsgBean>>() {
+                        }.getType();
+                        receiveList = new Gson().fromJson(body.data.toString(), userListType);
+                        if (selectedIndex == 0) {
+                            adapter._type = 0;
+                            adapter.setItems(receiveList);
+                            adapter.notifyDataSetChanged();
                         }
+                    }
 
-                        @Override
-                        public void Failure(Call<NetData> call, Throwable t) {
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
+                    }
+                });
+        HttpUtil.apiW().red_sendRecord(bean)
+                .enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                        Type userListType = new TypeToken<List<CustomMsgBean>>() {
+                        }.getType();
+                        sendList = new Gson().fromJson(body.data.toString(), userListType);
+                        if (selectedIndex == 1) {
+                            adapter._type = 1;
+                            adapter.setItems(sendList);
+                            adapter.notifyDataSetChanged();
                         }
-                    });
-            HttpUtil.apiW().red_sendRecord(bean)
-                    .enqueue(new CommonCallback<NetData>() {
-                        @Override
-                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                            Type userListType = new TypeToken<List<CustomMsgBean>>() {
-                            }.getType();
-                            sendList = new Gson().fromJson(body.data.toString(), userListType);
-                            if (selectedIndex == 1) {
-                                adapter._type = 1;
-                                adapter.setItems(sendList);
-                                adapter.notifyDataSetChanged();
-                            }
-                        }
+                    }
 
-                        @Override
-                        public void Failure(Call<NetData> call, Throwable t) {
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
 
-                        }
-                    });
+                    }
+                });
 
 
     }

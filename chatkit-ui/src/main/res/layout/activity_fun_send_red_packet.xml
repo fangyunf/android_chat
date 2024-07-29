@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_white"
+    android:background="#F6F6F6"
     >
     <com.yaoxin.appbase.navbar.NavToolbar
 
@@ -15,9 +15,9 @@
         app:back_icon="@mipmap/temp_ic_back"
         app:enable_under_divider="true"
         app:support_translucent_status_bar="false"
-        app:title="发红包"
+        app:title="发购物券"
         app:title_text_color="@color/color_333333"
-        app:under_divider_color="@color/transparent"
+        app:under_divider_color="@color/color_d5d5d5"
 
         />
     <RelativeLayout
@@ -36,59 +36,78 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 >
-<!--                <LinearLayout-->
-<!--                    android:id="@+id/activity_fun_send_red_packet_pin_change_type_ll"-->
-<!--                    android:layout_marginTop="@dimen/dimen_22_dp"-->
-<!--                    android:layout_marginLeft="@dimen/dimen_16_dp"-->
-<!--                    android:gravity="center_vertical"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content">-->
-<!--                    <TextView-->
-<!--                        android:id="@+id/activity_fun_send_red_packet_pin_change_type_tv"-->
+                <LinearLayout
+                    android:id="@+id/activity_fun_send_red_packet_pin_change_type_ll"
+                    android:layout_marginTop="@dimen/dimen_22_dp"
+                    android:layout_marginLeft="@dimen/dimen_16_dp"
+                    android:gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/activity_fun_send_red_packet_pin_change_type_tv"
 
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="20dp"-->
-<!--                        android:text="拼手气红包"-->
-<!--                        android:textColor="@color/app_theme_color"-->
-<!--                        android:textSize="14sp"-->
-<!--                        />-->
-<!--                    <ImageView-->
-<!--                        android:layout_marginLeft="@dimen/dimen_4_dp"-->
-<!--                        android:layout_width="12dp"-->
-<!--                        android:layout_height="6dp"-->
-<!--                        android:src="@drawable/chat_red_packet_arrow_bottom"-->
-<!--                        />-->
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:text="拼手气红包"
+                        android:textColor="#ffd09124"
+                        android:textSize="14sp"
+                        />
+                    <ImageView
+                        android:layout_marginLeft="@dimen/dimen_4_dp"
+                        android:layout_width="12dp"
+                        android:layout_height="6dp"
+                        android:src="@drawable/chat_red_packet_arrow_bottom"
+                        />
 
-<!--                </LinearLayout>-->
+                </LinearLayout>
 
                 <LinearLayout
-                    android:layout_gravity="center_horizontal"
                     android:id="@+id/activity_fun_send_red_packet_to_people_ll"
                     android:layout_marginTop="8dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_52_dp"
+                    android:gravity="center_vertical"
                     android:paddingHorizontal="@dimen/dimen_16_dp"
                     android:background="@color/color_white"
-                    android:orientation="vertical"
                     >
-                    <com.makeramen.roundedimageview.RoundedImageView
-                        android:id="@+id/activity_fun_send_red_packet_to_people_head_iv"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        app:riv_corner_radius="15dp"
-                        android:scaleType="centerCrop"
-
-                        />
                     <TextView
-                        android:id="@+id/activity_fun_send_red_packet_to_people_name_tv"
                         android:layout_width="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dimen_3_dp"
+                        android:layout_height="22dp"
+                        android:text="发给谁"
                         android:textColor="#ff000000"
                         android:textSize="16sp"
-                        android:text="请选择"
                         />
+                    <LinearLayout
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical|end"
+                        >
+                        <com.makeramen.roundedimageview.RoundedImageView
+                            android:id="@+id/activity_fun_send_red_packet_to_people_head_iv"
+                            android:layout_width="@dimen/dimen_30_dp"
+                            android:layout_height="@dimen/dimen_30_dp"
+                            app:riv_corner_radius="15dp"
+                            android:scaleType="centerCrop"
+
+                            />
+                        <TextView
+                            android:id="@+id/activity_fun_send_red_packet_to_people_name_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_marginLeft="@dimen/dimen_4_dp"
+                            android:layout_marginRight="@dimen/dimen_6_dp"
+                            android:layout_height="22dp"
+                            android:textColor="#ff000000"
+                            android:textSize="16sp"
+                            />
+                        <ImageView
+                            android:layout_width="@dimen/dimen_6_dp"
+                            android:layout_height="@dimen/dimen_12_dp"
+                            android:src="@drawable/chat_red_packet_send_arrow"
+                            />
+
+                    </LinearLayout>
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/activity_fun_send_red_packet_count_ll"
@@ -101,15 +120,19 @@
                         android:layout_height="@dimen/dimen_52_dp"
                         android:gravity="center_vertical"
                         android:paddingHorizontal="@dimen/dimen_16_dp"
-                        android:layout_marginHorizontal="22dp"
-                        android:background="@drawable/bg_f2f2f2_rounded_10"
+                        android:background="@color/color_white"
                         >
 
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/chat_red_packet_send_icon"
+                            />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_marginLeft="@dimen/dimen_3_dp"
                             android:layout_height="22dp"
-                            android:text="红包个数"
+                            android:text="购物券个数"
                             android:textColor="#ff000000"
                             android:textSize="16sp"
                             />
@@ -153,15 +176,13 @@
                 android:layout_height="@dimen/dimen_52_dp"
                 android:gravity="center_vertical"
                 android:paddingHorizontal="@dimen/dimen_16_dp"
-                android:layout_marginHorizontal="22dp"
-                android:background="@drawable/bg_f2f2f2_rounded_10"
-
+                android:background="@color/color_white"
                 >
                 <TextView
                     android:id="@+id/activity_fun_send_red_packet_money_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="22dp"
-                    android:text="金额"
+                    android:text="总金额"
                     android:textColor="#ff000000"
                     android:textSize="16sp"
                     />
@@ -195,10 +216,15 @@
                 android:layout_height="@dimen/dimen_52_dp"
                 android:gravity="center_vertical"
                 android:paddingHorizontal="@dimen/dimen_16_dp"
-                android:layout_marginHorizontal="22dp"
-                android:background="@drawable/bg_f2f2f2_rounded_10"
-
+                android:background="@color/color_white"
                 >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="22dp"
+                    android:text="祝福语"
+                    android:textColor="#ff000000"
+                    android:textSize="16sp"
+                    />
                 <EditText
                     android:id="@+id/activity_fun_send_red_packet_greeting_et"
                     android:layout_width="0dp"
@@ -208,7 +234,7 @@
                     android:textCursorDrawable="@null"
                     android:imeOptions="actionSearch"
                     android:singleLine="true"
-                    android:gravity="center_vertical"
+                    android:gravity="end|center_vertical"
                     android:textSize="@dimen/text_size_16"
                     android:hint="恭喜发财,大吉大利"/>
 
@@ -259,12 +285,12 @@
                 android:id="@+id/activity_fun_send_red_packet_send_tv"
                 android:layout_marginTop="@dimen/dimen_28_dp"
                 android:layout_width="160dp"
-                android:layout_height="44dp"
-                android:text="塞钱进红包"
+                android:layout_height="43dp"
+                android:text="塞钱进购物券"
                 android:textColor="#ffffffff"
                 android:textSize="16sp"
                 android:gravity="center"
-                android:background="@drawable/fun_bg_app_theme_color_rounded_22"
+                android:background="#B591F5"
                 />
 
         </LinearLayout>

@@ -4,7 +4,7 @@
     xmlns:tl="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/color_F6F6F6"
     android:orientation="vertical">
 
     <com.yaoxin.appbase.navbar.NavToolbar
@@ -16,7 +16,7 @@
         app:support_translucent_status_bar="false"
         app:title="实名认证"
         app:title_text_color="@color/color_333333"
-        app:under_divider_color="@color/transparent" />
+        app:under_divider_color="@color/color_d5d5d5" />
 
 <LinearLayout
     android:layout_width="match_parent"
@@ -24,24 +24,16 @@
     android:orientation="vertical"
     android:layout_weight="1"
     >
-    <TextView
-        android:layout_marginTop="15dp"
-        android:paddingHorizontal="15dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="根据相关法律，开通钱包功能需要先进行实名认证"
-        android:textColor="#ff999999"
-        android:textSize="14sp"
-        />
+
     <include
         android:id="@+id/activity_mine_real_name_set_name"
-        layout="@layout/view_top_title_et"
+        layout="@layout/view_title_tf_without_bg"
         android:layout_width="match_parent"
 
         android:layout_height="wrap_content" />
     <include
         android:id="@+id/activity_mine_real_name_set_identity_num"
-        layout="@layout/view_top_title_et"
+        layout="@layout/view_title_tf_without_bg"
         android:layout_width="match_parent"
 
         android:layout_height="wrap_content" />
@@ -49,16 +41,33 @@
 
 </LinearLayout>
 
-    <TextView
-
+    <RelativeLayout
         android:id="@+id/activity_mine_real_name_set_save_rl"
         android:layout_width="301dp"
         android:layout_height="@dimen/dimen_44_dp"
-        android:background="@drawable/fun_bg_app_theme_color_rounded_22"
-        android:text="提交认证"
-        android:gravity="center"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="40dp"
-        android:textColor="@color/white"
-        android:textSize="16sp" />
+        android:layout_marginTop="@dimen/dimen_40_dp"
+        android:layout_marginBottom="@dimen/dimen_40_dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@mipmap/mine_fragment_address_list_btn_bg" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="提交认证"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </RelativeLayout>
 </LinearLayout>

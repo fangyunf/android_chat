@@ -178,6 +178,10 @@
 -keep class com.alibaba.fastjson.** {*;}
 -keep class com.alibaba.sdk.android.oss.** { *; }
 
+
+-dontwarn com.tencent.bugly.**
+-keep public class com.tencent.bugly.**{*;}
+
 -dontwarn okio.**
 -dontwarn org.apache.commons.codec.binary.**
 

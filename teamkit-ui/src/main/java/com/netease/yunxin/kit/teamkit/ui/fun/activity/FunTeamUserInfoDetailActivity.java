@@ -2,13 +2,10 @@ package com.netease.yunxin.kit.teamkit.ui.fun.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -24,13 +21,9 @@ import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.Constant;
 import com.yaoxin.appbase.net.HttpUtil;
-import com.yaoxin.appbase.utils.BaseEvent;
-import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.DensityUtils;
 import com.yaoxin.appbase.utils.GlideUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -48,6 +41,7 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
     int addFriendsState;
     boolean isFriend = false;
     GroupInfoBean friendBean;
+
     ArrayList<GroupInfoBean> members = new ArrayList<>();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,7 +50,6 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
         setContentView(binding.getRoot());
         binding.funTeamUserInfoDetailNav.addCloseImageButton().setOnClickListener(this);
 
-        transtStatusBar(binding.funTeamUserInfoDetailNav);
         groupId = getIntent().getStringExtra("groupId");
         String userId = getIntent().getStringExtra("userId");
         requestDataWith(groupId,userId);
@@ -93,21 +86,6 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
         binding.funTeamUserInfoDetailNameTv.setText(groupInfoBean.name);
         GlideUtil.yh_loadImageRoundedCorner(this,binding.funTeamUserInfoDetailHeadIv,groupInfoBean.avatar,30);
         binding.funTeamUserInfoDetailAccountTv.setText(groupInfoBean.memberCode);
-        if (groupInfoBean.grade > 0) {
-            binding.funTeamUserInfoDetailGradeIv.setVisibility(View.VISIBLE);
-            String imageName = "mine_grade_level_" + groupInfoBean.grade;
-            Resources resources = getResources();
-            int resId = resources.getIdentifier(imageName, "mipmap", getPackageName());
-            // 如果找到了资源，则可以使用这个ID获取Drawable
-            Drawable drawable = null;
-            if (resId > 0) {
-                drawable = ContextCompat.getDrawable(this, resId);
-            }
-            // 如果需要将drawable设置到ImageView中
-            if (drawable != null) {
-                binding.funTeamUserInfoDetailGradeIv.setImageDrawable(drawable);
-            }
-        }
 
         binding.funTeamUserInfoDetailYaoqingren.viewTitleArrowTv.setText("邀请人");
         binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowTv.setText("备注名");
@@ -126,12 +104,13 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
             binding.funTeamUserInfoDetailYaoqingren.viewTitleArrowLl.setVisibility(View.VISIBLE);
             binding.funTeamUserInfoDetailJinzhi.viewTitleArrowLl.setVisibility(View.VISIBLE);
             binding.funTeamUserInfoDetailTichu.viewTitleArrowLl.setVisibility(View.VISIBLE);
-            binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowLl.setOnClickListener(this);
+
             binding.funTeamUserInfoDetailJinzhi.viewTitleArrowRightTvSwitch.setVisibility(View.VISIBLE);
             binding.funTeamUserInfoDetailJinzhi.viewTitleArrowArrowIv.setVisibility(View.GONE);
             binding.funTeamUserInfoDetailJinzhi.viewTitleArrowRightTvSwitch.setOnClickListener(this);
             binding.funTeamUserInfoDetailTichu.viewTitleArrowRightTvSwitch.setOnClickListener(this);
             binding.funTeamUserInfoDetailTichu.viewTitleArrowLl.setOnClickListener(this);
+            binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowLl.setOnClickListener(this);
             binding.funTeamUserInfoDetailJinzhi.viewTitleArrowRightTvSwitch.setSelected(groupInfoBean.forbidState == 1);
         }
         binding.funTeamUserInfoDetailYaoqingren.viewTitleArrowRightTv.setVisibility(View.VISIBLE);
@@ -308,7 +287,6 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
                         }
                     });
         } else if (v == binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowLl) {
-
             Intent intent = new Intent(this, ModifyInfoActivity.class);
             intent.putExtra("title","修改备注");
             intent.putExtra("type","4");
@@ -317,6 +295,7 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
                 intent.putExtra("hint",friendBean.remark);
             }
             activityResultLauncher.launch(intent);
+
         } else if (v == binding.funTeamUserInfoDetailTichu.viewTitleArrowLl) {
             RegisterBean registerBean = new RegisterBean();
             registerBean.groupId = groupId;
@@ -329,7 +308,6 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
                         public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
                             ToastUtils.toastMsg(body.msg);
-                            EventBus.getDefault().post(new BaseEvent("reloadTeamSettingData"));
                             finish();
                         }
 

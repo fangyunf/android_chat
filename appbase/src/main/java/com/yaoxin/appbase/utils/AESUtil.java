@@ -50,7 +50,6 @@ public class AESUtil {
         byte[] decrypted = cipher.doFinal(decodedBytes);
         return new String(decrypted, StandardCharsets.UTF_8);
     }
-
     public static String msgAesEncrypt(String sSrc) throws Exception {
         Cipher cipher = Cipher.getInstance(CipherMode);
         byte[] raw = Constant.MSG_ENCODE_KEY.getBytes("UTF-8");
@@ -64,7 +63,6 @@ public class AESUtil {
         if (containsChineseCharacters(strToDecrypt)) {
             return strToDecrypt;
         }
-
         Cipher cipher = Cipher.getInstance(CipherMode);
         byte[] raw = Constant.MSG_ENCODE_KEY.getBytes("UTF-8");
         SecretKeySpec skeySpec = new SecretKeySpec(raw, CipherMode);
@@ -94,5 +92,4 @@ public class AESUtil {
         }
         return false;
     }
-
 }

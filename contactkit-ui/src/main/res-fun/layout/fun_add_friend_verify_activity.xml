@@ -1,30 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@mipmap/add_friend_bg"
-        android:scaleType="fitXY"
-        />
-<LinearLayout
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <com.yaoxin.appbase.navbar.NavToolbar
         android:id="@+id/fun_add_friend_verify_activity_nav"
         style="@style/WhiteFontToolbar"
-        android:background="@color/transparent"
-        app:back_icon="@mipmap/temp_ic_back_white"
+        android:background="@color/color_white"
+        app:back_icon="@mipmap/temp_ic_back"
         app:enable_under_divider="true"
         app:support_translucent_status_bar="false"
         app:title="添加好友"
-        app:title_text_color="@color/color_white"
-        app:under_divider_color="@color/transparent" />
+        app:title_text_color="@color/color_333333"
+        app:under_divider_color="@color/color_d5d5d5" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -52,7 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:text="会飞的洋芋"
-                android:textColor="@color/color_white"
+                android:textColor="#ff000000"
                 android:textSize="22sp"
                 />
             <TextView
@@ -61,7 +50,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="22dp"
                 android:text="ID:87988656"
-                android:textColor="@color/color_white"
+                android:textColor="#ff999999"
                 android:textSize="16sp"
                 />
         </LinearLayout>
@@ -78,7 +67,7 @@
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:text="验证信息"
-            android:textColor="@color/color_white"
+            android:textColor="#ff666666"
             android:textSize="14sp"
             />
         <EditText
@@ -99,18 +88,25 @@
             />
 
     </LinearLayout>
-    <TextView
+    <RelativeLayout
         android:id="@+id/fun_add_friend_verify_activity_send_rl"
         android:layout_width="301dp"
         android:layout_height="@dimen/dimen_44_dp"
         android:layout_marginBottom="@dimen/dimen_40_dp"
-        android:background="@drawable/fun_bg_app_theme_color_rounded_22"
-        android:layout_centerInParent="true"
-        android:text="发送"
-        android:gravity="center"
+        android:background="@drawable/fun_bg_purple_rounded_22"
         android:layout_gravity="center_horizontal"
-        android:textColor="#ffffffff"
-        android:textSize="16sp" />
+
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="22dp"
+            android:layout_centerInParent="true"
+            android:text="发送"
+            android:textColor="#ffffffff"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
 
     <LinearLayout
         android:visibility="gone"
@@ -119,30 +115,44 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:layout_marginBottom="@dimen/dimen_40_dp"
-        android:orientation="vertical"
         >
 
-
-        <TextView
-            android:id="@+id/fun_add_friend_verify_activity_aggre_rl"
-            android:background="@drawable/fun_bg_app_theme_color_rounded_26"
-            android:layout_width="253dp"
-            android:gravity="center"
-            android:layout_height="52dp"
-            android:layout_centerInParent="true"
-            android:text="通过验证"
-            android:textColor="#ffffffff"
-            android:textSize="16sp" />
-
-        <TextView
+        <RelativeLayout
             android:id="@+id/fun_add_friend_verify_activity_refuse_rl"
-            android:layout_width="100dp"
-            android:layout_height="22dp"
-            android:text="拒绝"
-            android:gravity="center"
-            android:layout_marginTop="14dp"
-            android:textColor="@color/color_white"
-            android:textSize="16sp" />
+            android:layout_width="160dp"
+            android:layout_height="@dimen/dimen_44_dp"
+            android:background="@drawable/fun_bg_eadeff_rounded_22"
+            android:layout_gravity="center_horizontal"
+
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="22dp"
+                android:layout_centerInParent="true"
+                android:text="拒绝"
+                android:textColor="#000000"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/fun_add_friend_verify_activity_aggre_rl"
+            android:layout_width="160dp"
+            android:layout_height="@dimen/dimen_44_dp"
+            android:background="@drawable/fun_bg_purple_rounded_22"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="@dimen/dimen_23_dp"
+
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="22dp"
+                android:layout_centerInParent="true"
+                android:text="同意"
+                android:textColor="#ffffffff"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
     </LinearLayout>
 </LinearLayout>
-</RelativeLayout>

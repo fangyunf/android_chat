@@ -2,29 +2,53 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    >
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="120dp"
+            android:layout_height="wrap_content"
             android:src="@drawable/chat_red_packet_open_result_top_bg"
             android:scaleType="fitXY"
             />
-        <com.yaoxin.appbase.navbar.NavToolbar
+        <LinearLayout
+            android:paddingEnd="@dimen/dimen_16_dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            >
 
-            android:id="@+id/activity_fun_red_packet_result_detail_nav"
-            style="@style/WhiteFontToolbar"
-            android:background="@color/transparent"
-            app:back_icon="@mipmap/temp_ic_back_white"
-            app:enable_under_divider="true"
-            app:support_translucent_status_bar="false"
-            app:title="领取详情"
 
-            app:title_text_color="@color/color_white"
-            app:under_divider_color="@color/transparent" />
+            <LinearLayout
+                android:layout_width="@dimen/dimen_100_dp"
+                android:layout_height="@dimen/dimen_70_dp"
+                android:gravity="bottom"
+                android:paddingStart="@dimen/dimen_16_dp"
+                android:id="@+id/activity_fun_red_packet_result_detail_back_ll"
+                >
+
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="@dimen/dimen_19_dp"
+                    android:src="@drawable/chat_red_packet_open_result_top_back"
+                    />
+            </LinearLayout>
+            <TextView
+                android:id="@+id/activity_fun_red_packet_result_detail_red_packet_record_tv"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                android:text="购物券记录"
+                android:textColor="#ff000000"
+                android:textSize="14sp"
+                android:gravity="end"
+                />
+
+
+
+        </LinearLayout>
     </RelativeLayout>
 
     <LinearLayout
@@ -70,7 +94,7 @@
             android:layout_width="wrap_content"
             android:layout_height="37dp"
             android:text="手慢了，已抢完"
-            android:textColor="@color/app_theme_color"
+            android:textColor="#ff8b5fd8"
             android:textSize="26sp"
             android:layout_marginBottom="31dp"
             />

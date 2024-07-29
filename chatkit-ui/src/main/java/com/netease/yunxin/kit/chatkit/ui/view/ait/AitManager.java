@@ -68,6 +68,7 @@ public class AitManager implements TextWatcher {
   }
 
   public void setTeamMembers(List<UserInfoWithTeam> userInfoWithTeams) {
+
     try {
       this.teamMemberList.clear();
       for (UserInfoWithTeam member : userInfoWithTeams) {
@@ -82,6 +83,7 @@ public class AitManager implements TextWatcher {
     } catch (Exception e) {
 
     }
+
   }
 
   public void updateTeamInfo(Team team) {

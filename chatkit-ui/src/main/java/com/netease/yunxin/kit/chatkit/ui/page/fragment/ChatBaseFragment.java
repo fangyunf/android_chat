@@ -590,36 +590,6 @@ public abstract class ChatBaseFragment extends BaseFragment {
         }
 
         @Override
-        public void sendRedPacket() {
-
-          if (getSessionType() == SessionTypeEnum.P2P) {
-            HashMap map = new HashMap();
-            map.put("sessionId",getSessionId());
-            map.put("sessionType","0");
-            FunSendRedPacketActivity.start(FunSendRedPacketActivity.class,getContext(),map);
-            return;
-          }
-          DialogAlertUtil.showSheetView(getContext(), getActivity().getSupportFragmentManager(), new String[]{"手气红包", "专属红包"}, new DialogAlertUtil.DialogAlertUtilCallBack() {
-            @Override
-            public void clickType(int type) {
-              if (type == 1) {
-
-                HashMap map = new HashMap();
-                map.put("sessionId",getSessionId());
-                map.put("sessionType","1");
-                FunSendRedPacketActivity.start(FunSendRedPacketActivity.class,getContext(),map);
-              } else if (type == 2) {
-
-                HashMap map = new HashMap();
-                map.put("sessionId",getSessionId());
-                map.put("sessionType","2");
-                FunSendRedPacketActivity.start(FunSendRedPacketActivity.class,getContext(),map);
-              }
-            }
-          });
-        }
-
-        @Override
         public String getSessionId() {
           return sessionID;
         }

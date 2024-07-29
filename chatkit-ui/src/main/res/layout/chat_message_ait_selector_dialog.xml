@@ -34,33 +34,10 @@
             tools:ignore="SpUsage" />
     </FrameLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:orientation="vertical"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/contact_list"
         android:layout_marginTop="@dimen/dimen_48_dp"
-        android:layout_height="wrap_content">
-        <EditText
-            android:id="@+id/chat_message_ait_selector_dialog_search_et"
-            android:layout_margin="@dimen/dimen_14_dp"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_40_dp"
-            android:maxLines="1"
-            android:paddingHorizontal="@dimen/dimen_14_dp"
-            android:textSize="15sp"
-            android:hint="搜索"
-            android:textColorHint="@color/color_999999"
-            android:textColor="@color/black"
-            android:background="@drawable/bg_f2f2f2_rounded_10"
-            android:cursorVisible="true"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-
-            />
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/contact_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </LinearLayout>
-
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </com.netease.yunxin.kit.common.ui.widgets.RoundFrameLayout>

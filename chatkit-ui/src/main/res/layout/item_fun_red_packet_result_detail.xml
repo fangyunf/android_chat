@@ -9,7 +9,6 @@
         android:layout_height="match_parent"
         android:gravity="center_vertical"
         >
-
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/item_fun_red_packet_result_detail_head_iv"
 
@@ -20,7 +19,6 @@
             android:layout_centerVertical="true"
             />
         <LinearLayout
-            android:id="@+id/item_fun_red_packet_result_detail_detail_ll"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -70,8 +68,8 @@
                     android:layout_marginLeft="@dimen/dimen_4_dp"
                     android:layout_width="wrap_content"
                     android:layout_height="17dp"
-                    android:text="手气王"
-                    android:textColor="#EB5644"
+                    android:text="手气最佳"
+                    android:textColor="#ffebad02"
                     android:textSize="12sp"
                     />
 

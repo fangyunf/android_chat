@@ -1,4 +1,4 @@
-package com.turunsi.yaoxin.main.mine;
+package com.turunsi.yaoxin.main.mine.setting;
 
 import java.util.List;
 

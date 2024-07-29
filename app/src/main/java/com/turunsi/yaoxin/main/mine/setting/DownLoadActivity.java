@@ -2,22 +2,28 @@
 // Use of this source code is governed by a MIT license that can be
 // found in the LICENSE file.
 
-package com.turunsi.yaoxin.main.mine;
+package com.turunsi.yaoxin.main.mine.setting;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
 import com.google.gson.Gson;
+import com.netease.yunxin.kit.corekit.route.XKitRouter;
+import com.turunsi.yaoxin.databinding.ActivityMineAboutUsNewBinding;
 import com.turunsi.yaoxin.databinding.ActivityMineDownLoadBinding;
 import com.yaoxin.appbase.activity.BaseActivity;
 import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.net.CommonCallback;
+import com.yaoxin.appbase.net.Constant;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
 
@@ -46,6 +52,7 @@ public class DownLoadActivity extends BaseActivity implements View.OnClickListen
 
   }
 
+
   @Override
   protected void _requestData() {
 
@@ -73,7 +80,6 @@ public class DownLoadActivity extends BaseActivity implements View.OnClickListen
               }
             });
   }
-
   @Override
   public void onClick(View v) {
     if (v == viewBinding.activityMineDownLoadIos) {

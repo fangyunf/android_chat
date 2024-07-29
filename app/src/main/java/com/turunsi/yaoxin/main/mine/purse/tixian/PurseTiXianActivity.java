@@ -1,6 +1,5 @@
 package com.turunsi.yaoxin.main.mine.purse.tixian;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
@@ -12,8 +11,6 @@ import android.view.View;
 import androidx.annotation.Nullable;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.turunsi.yaoxin.main.mine.purse.alipay.BindAlipayActivity;
 import com.yaoxin.appbase.activity.BaseActivity;
 import com.turunsi.yaoxin.databinding.ActivityMinePurseTixianBinding;
 import com.yaoxin.appbase.model.NetData;
@@ -29,9 +26,7 @@ import com.yaoxin.appbase.utils.ToastUtils;
 import com.yaoxin.appbase.view.pwdkeyboard.Keyboard;
 import com.yaoxin.appbase.view.pwdkeyboard.PayEditText;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -40,6 +35,15 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
     ActivityMinePurseTixianBinding binding;
     UserBean accountBean;
     String  accountMoeny;
+    private static final String[] KEY = new String[] {
+            "1", "2", "3",
+            "4", "5", "6",
+            "7", "8", "9",
+            "<<", "0", "完成"
+    };
+
+    private PayEditText payEditText;
+    private Keyboard keyboard;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,10 +88,37 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
             }
         });
 
-//        binding.activityMinePurseTixianTixianTypeLl.setOnClickListener(this);
+        binding.activityMinePurseTixianTixianTypeLl.setOnClickListener(this);
         binding.activityMinePurseTixianAllTixianTv.setOnClickListener(this);
         binding.activityMinePurseTixianTixianBtn.setOnClickListener(this);
-        binding.activityMinePurseTixianAccoutTv.setEnabled(false);
+        payEditText = binding.PayEditTextPay;
+        keyboard = binding.KeyboardViewPay;
+        keyboard.setKeyboardKeys(KEY);
+        keyboard.setOnClickKeyboardListener(new Keyboard.OnClickKeyboardListener() {
+            @Override
+            public void onKeyClick(int position, String value) {
+                if (position < 11 && position != 9) {
+                    payEditText.add(value);
+                } else if (position == 9) {
+                    payEditText.remove();
+                }else if (position == 11) {
+                    binding.activityFunSendRedPacketKeybordRl.setVisibility(View.GONE);
+
+                }
+            }
+        });
+
+        /**
+         * 当密码输入完成时的回调
+         */
+        payEditText.setOnInputFinishedListener(new PayEditText.OnInputFinishedListener() {
+            @Override
+            public void onInputFinished(String password) {
+                tiXianClick(payEditText.getText());
+                payEditText.remove();
+                binding.activityFunSendRedPacketKeybordRl.setVisibility(View.GONE);
+            }
+        });
     }
     void tiXianClick(String pwd) {
         String inputMoney = getTextStr(binding.activityMinePurseTixianMoneyEt);
@@ -101,7 +132,8 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
         bean.payPassword = pwd;
         bean.amount = NumberUtil.formartUploadMoney(inputMoney);
         bean.type = 2;
-        bean.userUsdtId = accountBean.id + "";
+        bean.zfbNo = accountBean.zfb;
+        bean.name = accountBean.name;
         HttpUtil.apiW().withdraw_withdrawDeposit(bean)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
@@ -120,7 +152,7 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void onPause() {
         super.onPause();
-//        _requestData();
+        _requestData();
     }
 
     @Override
@@ -131,7 +163,7 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                         UserBean bean = new Gson().fromJson(body.data.toString(),UserBean.class);
                         accountMoeny = NumberUtil.formartMoney(bean.balance);
-//                        binding.activityMinePurseTixianAccoutTv.setText("¥"+ NumberUtil.formartMoney(bean.balance));
+                        binding.activityMinePurseTixianAccoutTv.setText("¥"+ NumberUtil.formartMoney(bean.balance));
                     }
 
                     @Override
@@ -139,24 +171,11 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
 
                     }
                 });
-
-        RegisterBean bean = new RegisterBean();
-        bean.type = 2;
-        Context that = this;
-        HttpUtil.apiW().bindCard_userZFB(bean)
+        HttpUtil.apiW().bindCard_userZFB(new RegisterBean())
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        Type type = new TypeToken<List<UserBean>>() {}.getType();
-                        List<UserBean> tempList = new Gson().fromJson(body.data.toString(), type);
-                        if (tempList != null && !tempList.isEmpty()) {
-                            accountBean = tempList.get(0);
-                            binding.activityMinePurseTixianAccoutTv.setText(accountBean.phone);
-                        } else {
-                            ToastUtils.toastMsg("请先绑定支付宝账号");
-                            finish();
-                            BindAlipayActivity.start(BindAlipayActivity.class,that,null);
-                        }
+                        accountBean = new Gson().fromJson(body.data.toString(),UserBean.class);
                     }
 
                     @Override
@@ -169,8 +188,7 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
     public void onClick(View v) {
         if (v == binding.activityMinePurseTixianNav.addCloseImageButton()) {
             finish();
-        }
-//        else if (v == binding.activityMinePurseTixianTixianTypeLl) {
+        } else if (v == binding.activityMinePurseTixianTixianTypeLl) {
 //            String[] strings = {"支付宝", "银行卡"};
 //            DialogAlertUtil.showSheetView(this, getSupportFragmentManager(), new String[]{"支付宝", "银行卡"}, new DialogAlertUtil.DialogAlertUtilCallBack() {
 //                @Override
@@ -189,8 +207,8 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
 //                    }
 //                }
 //            });
-//        }
-        else if (v == binding.activityMinePurseTixianTixianBtn) {
+
+        } else if (v == binding.activityMinePurseTixianTixianBtn) {
             String textStr = getTextStr(binding.activityMinePurseTixianMoneyEt);
             if (textStr.isEmpty()) {
                 ToastUtils.toastMsg("请输入金额");
@@ -200,31 +218,28 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
                 ToastUtils.toastMsg("金额必须大于100");
                 return;
             }
-            PopEnterPassword popEnterPassword = new PopEnterPassword(this, new OnPasswordInputFinish() {
-                @Override
-                public void inputFinish(String password) {
+            if (accountBean == null || accountBean.name.isEmpty() || accountBean.phone.isEmpty() || accountBean.zfb.isEmpty()) {
+                String inputMoney = getTextStr(binding.activityMinePurseTixianMoneyEt);
+                HashMap map = new HashMap<>();
+                map.put("inputMoney",inputMoney);
+                PurseTiXianAddAccountActivity.start(PurseTiXianAddAccountActivity.class,this,map);
+            } else {
+//                binding.activityFunSendRedPacketKeybordRl.setVisibility(View.VISIBLE);
+                PopEnterPassword popEnterPassword = new PopEnterPassword(this, new OnPasswordInputFinish() {
+                    @Override
+                    public void inputFinish(String password) {
 //                        sendRedWithPwd(password);
-                    tiXianClick(password);
+                        tiXianClick(password);
 
-                }
+                    }
 
-            },textStr);
-            // 显示窗口
-            popEnterPassword.showAtLocation(binding.activityMinePurseTixianLl,
-                    Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); // 设置layout在PopupWindow中显示的位置
-//            if (accountBean == null || accountBean.name.isEmpty() || accountBean.phone.isEmpty() || accountBean.zfb.isEmpty()) {
-//                String inputMoney = getTextStr(binding.activityMinePurseTixianMoneyEt);
-//
-//
-//                HashMap map = new HashMap<>();
-//                map.put("inputMoney",inputMoney);
-//                PurseTiXianAddAccountActivity.start(PurseTiXianAddAccountActivity.class,this,map);
-//            } else {
-////                binding.activityFunSendRedPacketKeybordRl.setVisibility(View.VISIBLE);
-//
-//
-//
-//            }
+                },textStr);
+                // 显示窗口
+                popEnterPassword.showAtLocation(binding.activityMinePurseTixianLl,
+                        Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); // 设置layout在PopupWindow中显示的位置
+
+
+            }
         } else if (v == binding.activityMinePurseTixianAllTixianTv) {
             binding.activityMinePurseTixianMoneyEt.setText(accountMoeny);
         }

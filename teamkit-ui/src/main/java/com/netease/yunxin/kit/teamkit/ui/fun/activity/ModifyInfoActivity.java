@@ -33,10 +33,9 @@ String type;
 
     super.onCreate(savedInstanceState);
     String title = getIntent().getStringExtra("title");
-    type = getIntent().getStringExtra("type");
     String hint = getIntent().getStringExtra("hint");
+    type = getIntent().getStringExtra("type");
     binding = ActivityModifyInfoBinding.inflate(getLayoutInflater());
-    transtStatusBar(binding.activityModifyInfoNav);
     setContentView(binding.getRoot());
     binding.activityModifyInfoNav.addCloseImageButton().setOnClickListener(this);
     binding.activityModifyInfoSaveRl.setOnClickListener(this);

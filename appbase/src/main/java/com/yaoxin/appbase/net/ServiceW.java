@@ -5,7 +5,6 @@ package com.yaoxin.appbase.net;
 import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.ParamsBean;
 import com.yaoxin.appbase.model.RegisterBean;
-import com.yaoxin.appbase.model.RequestParamsBean;
 import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.ServiceBase;
 
@@ -28,6 +27,11 @@ import retrofit2.http.Query;
 public interface ServiceW {
 
 
+    //  好友列表
+    @POST("/customer/about")
+    Call<NetData> customer_about(
+            @Body RegisterBean userBean
+    );
     @POST("pass/user/v1/login")
     Call<NetData<UserBean>> login(
             @Body UserBean userBean
@@ -114,7 +118,7 @@ public interface ServiceW {
     Call<NetData> home_balance();
     @GET("/home/myQrCode")
     Call<NetData> home_myQrCode();
-    @POST("/home/logout")
+    @GET("/home/logout")
     Call<NetData> home_logout();
 
     @POST("/red/recivePersonRedpacket")
@@ -307,13 +311,8 @@ public interface ServiceW {
             @Body RegisterBean userBean
     );
     //  好友列表
-    @POST("/pay/six")
-    Call<NetData> pay_six(
-            @Body RequestParamsBean userBean
-    );
-    //  好友列表
-    @POST("/customer/about")
-    Call<NetData> customer_about(
+    @POST("/pay/kuangshen")
+    Call<NetData> pay_kuangshen(
             @Body RegisterBean userBean
     );
     //  好友列表
@@ -331,17 +330,15 @@ public interface ServiceW {
     Call<NetData> bindCard_createUptadeZFB(
             @Body RegisterBean userBean
     );
-
-    //  好友列表
-    @POST("/bindCard/createUptadeZFB")
-    Call<NetData> bindCard_createUptadeZFB1(
-            @Body RequestParamsBean userBean
-    );
     //  好友列表
     @POST("/aideNews/aideMsg")
     Call<NetData> aideNews_aideMsg(
             @Body RegisterBean userBean
     );
+    //  好友列表
+    @GET("/customer/notice")
+    Call<NetData> customer_notice();
+
     //  好友列表
     @POST("/friends/changeBlackState")
     Call<NetData> friends_changeBlackState(
@@ -352,19 +349,7 @@ public interface ServiceW {
     Call<NetData> friends_blackList(
             @Body RegisterBean userBean
     );
-    //  好友列表
-    @GET("/customer/notice")
-    Call<NetData> customer_notice();
-    //  好友列表
-    @GET("/home/selectSoundSwith")
-    Call<NetData> home_selectSoundSwith();
 
-
-    //  好友列表
-    @POST("/home/soundSwitch")
-    Call<NetData> home_soundSwitch(
-            @Body RegisterBean userBean
-    );
     //  好友列表
 //
 //    @POST("assets/fInventoryPlan/list")

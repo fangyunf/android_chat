@@ -32,7 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
-        android:textColor="@color/app_theme_color"
+        android:textColor="#ff8b5fd8"
         />
     <TextView
         android:layout_marginTop="20dp"
@@ -47,7 +47,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
-        android:textColor="@color/app_theme_color"
+        android:textColor="#ff8b5fd8"
         />
 
 </LinearLayout>

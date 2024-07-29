@@ -59,7 +59,6 @@ public class BillDetailListActivity extends BaseActivity implements View.OnClick
         setContentView(binding.getRoot());
         binding.activityMineBankBillDetailListNav.addCloseImageButton().setOnClickListener(this);
 
-        transtStatusBar(binding.activityMineBankBillDetailListNav);
         binding.activityMineBankBillDetailListShaixuanLl.setOnClickListener(this);
         binding.activityMineBankBillDetailListDateLl.setOnClickListener(this);
 
@@ -69,8 +68,8 @@ public class BillDetailListActivity extends BaseActivity implements View.OnClick
 
         binding.activityMineBankBillDetailListDateTv.setText(selectedMonth);
 
-        String[] strs = {"全部","发送群购物券","领取群购物券","发送专属购物券","领取专属购物券","发送个人购物券","领取个人购物券","充值","提现","购物券退回","提现驳回","购物支出","抽奖","靓号"};
-        int[] types = {-1,23,26,21,24,22,25,0,1,27,5,0,100,80,78};
+        String[] strs = {"全部","发送群购物券","领取群购物券","发送专属购物券","领取专属购物券","发送个人购物券","领取个人购物券","充值","提现","购物券退回","提现驳回","购物支出"};
+        int[] types = {-1,23,26,21,24,22,25,0,1,27,5,0,100};
 
 //        for (int i = 0; i < strs.length; i++) {
 //            BillDetailBean bean = new BillDetailBean();
@@ -118,10 +117,8 @@ public class BillDetailListActivity extends BaseActivity implements View.OnClick
                     tempBean.isSelected = false;
                 }
                 shaixuanList.get(i).isSelected = true;
-                binding.activityMineBankBillDetailListShaixuanTv.setText(shaixuanList.get(i).title);
                 moudleType = baseQuickAdapter.getItem(i).type;
                 binding.activityMineBankBillDetailListGrayRl.setVisibility(View.GONE);
-                shaiXuanAdapter.notifyDataSetChanged();
                 _requestData();
             }
         });

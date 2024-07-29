@@ -8,11 +8,8 @@ import com.netease.yunxin.kit.corekit.route.XKitRouter;
 import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.utils.AESUtil;
 import com.yaoxin.appbase.utils.AppProxy;
-import com.yaoxin.appbase.utils.BaseEvent;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
@@ -54,22 +51,13 @@ public abstract class CommonCallback<T> implements Callback<T> {
 //                            UpdateDialog.showDialog(((AppCompatActivity) MyActivityManager.getInstance().getCurrentActivity()).getSupportFragmentManager(), versionBean);
 //                        }
                         break;
-                    case 406:
-                        if (!Constant.isRunningLoginView) {
-                            Constant.isRunningLoginView = true;
-                            EventBus.getDefault().post(new BaseEvent("login_out"));
-                        }
-                        break;
                     case 777:// 版本更新
-                    {
                         if (!Constant.isRunningRealName) {
                             Constant.isRunningRealName = true;
                             XKitRouter.withKey(Constant.RealName_Router)
                                     .withContext(AppProxy.getInstance().getContext())
                                     .navigate();
                         }
-                    }
-
 
                         break;
                     case -101://认证过期

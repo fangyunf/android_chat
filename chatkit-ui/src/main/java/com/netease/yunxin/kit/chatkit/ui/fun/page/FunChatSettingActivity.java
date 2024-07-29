@@ -56,7 +56,6 @@ import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.BaseEvent;
 import com.yaoxin.appbase.utils.DialogAlertUtil;
-import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -69,7 +68,7 @@ import retrofit2.Response;
 /**
  * Fun皮肤单聊聊天设置页面
  */
-public class FunChatSettingActivity extends BaseActivity implements View.OnClickListener {
+public class FunChatSettingActivity extends BaseActivity {
     private static final String TAG = "ChatSettingActivity";
 
     FunChatSettingActivityBinding binding;
@@ -109,14 +108,14 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
         EventCenter.registerEventNotify(closeEventNotify);
         changeStatusBarColor(R.color.color_white);
         binding = FunChatSettingActivityBinding.inflate(getLayoutInflater());
-        StatusBarUtils.transtStatusBar(this,binding.funChatSettingActivityNav);
         viewModel = new ViewModelProvider(this).get(ChatSettingViewModel.class);
         setContentView(binding.getRoot());
-        binding.funChatSettingActivityNav.addCloseImageButton().setOnClickListener(this);
-        binding.funChatSettingActivityNav.getTitleView().setText("聊天设置");
+        binding
+                .titleBarView
+                .setOnBackIconClickListener(v -> onBackPressed())
+                .setTitle(R.string.chat_setting);
         if (type == 1) {
-            binding.funChatSettingActivityNav.getTitleView().setText("好友资料");
-
+            binding.titleBarView.setTitle("好友资料");
         }
         initView();
         initData();
@@ -201,7 +200,7 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
                 }
         );
 
-//        binding.funChatSettingActivityRecommand.titTv.setText("推荐好友");
+        binding.funChatSettingActivityRecommand.titTv.setText("推荐好友");
         binding.funChatSettingActivityToTop.titTv.setText("置顶聊天");
         binding.funChatSettingActivityToTop.funTitleTfArrowViewSwitch.setVisibility(View.VISIBLE);
         binding.funChatSettingActivityToTop.arrowIcon.setVisibility(View.GONE);
@@ -310,7 +309,6 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
 
                                 }
                             });
-
                 }
         );
 
@@ -506,12 +504,5 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
             return userInfo.getName();
         }
         return accId;
-    }
-
-    @Override
-    public void onClick(View view) {
-        if (view == binding.funChatSettingActivityNav.addCloseImageButton()) {
-            finish();
-        }
     }
 }

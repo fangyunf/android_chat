@@ -200,7 +200,7 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
     @Override
     protected void _initView() {
         binding.activityFunSendRedPacketNav.addCloseImageButton().setOnClickListener(this);
-//        binding.activityFunSendRedPacketPinChangeTypeLl.setOnClickListener(this);
+        binding.activityFunSendRedPacketPinChangeTypeLl.setOnClickListener(this);
         binding.activityFunSendRedPacketSendTv.setOnClickListener(this);
         binding.activityFunSendRedPacketMoneyEt.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
         binding.activityFunSendRedPacketMoneyEt.setKeyListener(DigitsKeyListener.getInstance("0123456789."));
@@ -293,7 +293,7 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
             binding.activityFunSendRedPacketToPeopleLl.setVisibility(View.GONE);
             binding.activityFunSendRedPacketGreetingLl.setVisibility(View.VISIBLE);
             binding.activityFunSendRedPacketCountLl.setVisibility(View.VISIBLE);
-//            binding.activityFunSendRedPacketPinChangeTypeTv.setText("拼手气红包");
+            binding.activityFunSendRedPacketPinChangeTypeTv.setText("拼手气红包");
         } else if (type == 2) {
             if (targetUserInfo != null) {
                 binding.activityFunSendRedPacketToPeopleNameTv.setText(targetUserInfo.getName());
@@ -302,8 +302,8 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
             }
             binding.activityFunSendRedPacketToPeopleLl.setVisibility(View.VISIBLE);
             binding.activityFunSendRedPacketCountLl.setVisibility(View.GONE);
-            binding.activityFunSendRedPacketGreetingLl.setVisibility(View.VISIBLE);
-//            binding.activityFunSendRedPacketPinChangeTypeTv.setText("专属红包");
+            binding.activityFunSendRedPacketGreetingLl.setVisibility(View.GONE);
+            binding.activityFunSendRedPacketPinChangeTypeTv.setText("专属红包");
         }
     }
 
@@ -311,31 +311,29 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
     public void onClick(View v) {
         if (v == binding.activityFunSendRedPacketNav.addCloseImageButton()) {
             finish();
-        }
-//        else if (v == binding.activityFunSendRedPacketPinChangeTypeLl) {
-//            ActionSheet.createBuilder(this, getSupportFragmentManager())
-//                    .setCancelButtonTitle("取消")
-//                    .setOtherButtonTitles("拼手气红包", "专属红包")
-//                    .setCancelableOnTouchOutside(true)
-//                    .setListener(new ActionSheet.ActionSheetListener() {
-//                        @Override
-//                        public void onDismiss(ActionSheet actionSheet, boolean isCancel) {
-//
-//                        }
-//
-//                        @Override
-//                        public void onOtherButtonClick(ActionSheet actionSheet, int index) {
-//                            if (index == 0) {
-//                                type = 1;
-//                            } else if (index == 1) {
-//                                type = 2;
-//                            }
-//                            _updateUI();
-//
-//                        }
-//                    }).show();
-//        }
-        else if (v == binding.activityFunSendRedPacketSendTv) {
+        } else if (v == binding.activityFunSendRedPacketPinChangeTypeLl) {
+            ActionSheet.createBuilder(this, getSupportFragmentManager())
+                    .setCancelButtonTitle("取消")
+                    .setOtherButtonTitles("拼手气红包", "专属红包")
+                    .setCancelableOnTouchOutside(true)
+                    .setListener(new ActionSheet.ActionSheetListener() {
+                        @Override
+                        public void onDismiss(ActionSheet actionSheet, boolean isCancel) {
+
+                        }
+
+                        @Override
+                        public void onOtherButtonClick(ActionSheet actionSheet, int index) {
+                            if (index == 0) {
+                                type = 1;
+                            } else if (index == 1) {
+                                type = 2;
+                            }
+                            _updateUI();
+
+                        }
+                    }).show();
+        } else if (v == binding.activityFunSendRedPacketSendTv) {
             String moneyStr = getTextStr(binding.activityFunSendRedPacketMoneyEt);
 
             if (moneyStr.isEmpty()) {
@@ -355,7 +353,6 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
 
 
         } else if (v == binding.activityFunSendRedPacketToPeopleLl) {
-
             DataUtil.setStringValue(new Gson().toJson(groupInfoBean),"groupInfo");
             XKitRouter.withKey(Constant.FunSelected_User_ActivityKey)
                     .withParam("type","4")

@@ -141,7 +141,6 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
 
         if (v == binding.fragmentOpenRedPacketDialogDetailRl) {
             gotoRedPacketDetail(false);
-
         } else if (v == binding.fragmentOpenRedPacketDialogOpenRl) {
             RegisterBean bean = new RegisterBean();
             bean.redpacketId = redPacketId;
@@ -205,18 +204,18 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
         }
     }
     void sendTipMsg(boolean isGroup) {
-//        IMMessage msg = MessageBuilder.createTipMessage(groupId, isGroup ? SessionTypeEnum.Team :SessionTypeEnum.P2P);
-//        CustomMsgBean msgBean = new CustomMsgBean();
-//        msgBean.receiveUserId = DataUtil.getUserid();
-//        msgBean.receiveUserName = DataUtil.getUserInfo().username;
-//        msgBean.sendUserId = sendBean.result.fromUserId;
-//        msgBean.sendUserName = sendBean.result.sendName;
-//        msg.setContent(new Gson().toJson(msgBean));
-//        CustomMessageConfig messageConfig = new CustomMessageConfig();
-//        messageConfig.enableUnreadCount = false;
-//        msg.setConfig(messageConfig);
-//        ChatRepo.sendMessage(msg, null);
-//        updateMessage();
+        IMMessage msg = MessageBuilder.createTipMessage(groupId, isGroup ? SessionTypeEnum.Team :SessionTypeEnum.P2P);
+        CustomMsgBean msgBean = new CustomMsgBean();
+        msgBean.receiveUserId = DataUtil.getUserid();
+        msgBean.receiveUserName = DataUtil.getUserInfo().username;
+        msgBean.sendUserId = sendBean.result.fromUserId;
+        msgBean.sendUserName = sendBean.result.sendName;
+        msg.setContent(new Gson().toJson(msgBean));
+        CustomMessageConfig messageConfig = new CustomMessageConfig();
+        messageConfig.enableUnreadCount = false;
+        msg.setConfig(messageConfig);
+        ChatRepo.sendMessage(msg, null);
+        updateMessage();
     }
 
     void gotoRedPacketDetail(boolean needToast) {
@@ -225,6 +224,7 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
         }
         HashMap map = new HashMap();
         map.put("redpacketId",redPacketId);
+//        Context context = getContext();
         Activity context = getActivity();
         if (context == null) {
             ToastUtils.toastMsg("请重试");

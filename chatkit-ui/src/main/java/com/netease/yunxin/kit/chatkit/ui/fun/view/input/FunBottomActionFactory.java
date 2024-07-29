@@ -31,19 +31,19 @@ public class FunBottomActionFactory {
 //            ActionConstants.ACTION_TYPE_LOCATION,
 //            R.drawable.ic_location,
 //            R.string.chat_message_location));
-//    actions.add(
-//        new ActionItem(
-//            ActionConstants.ACTION_TYPE_FILE, R.drawable.chat_fragment_toolbar_collection, R.string.chat_message_file));
+    actions.add(
+        new ActionItem(
+            ActionConstants.ACTION_TYPE_FILE, R.drawable.chat_fragment_toolbar_collection, R.string.chat_message_file));
     actions.add(
         new ActionItem(
             ActionConstants.ACTION_TYPE_SHOPPING_COUPON, R.drawable.chat_fragment_toolbar_redpacket, R.string.chat_message_shopping_coupon));
-//    if (sessionType == SessionTypeEnum.P2P) {
+    if (sessionType == SessionTypeEnum.P2P) {
 //      actions.add(
 //          new ActionItem(
 //              ActionConstants.ACTION_TYPE_VIDEO_CALL,
 //              R.drawable.ic_video_call,
 //              R.string.chat_message_video_call));
-//    }
+    }
     if (ChatKitClient.getChatUIConfig() != null
         && ChatKitClient.getChatUIConfig().chatInputMenu != null) {
       return ChatKitClient.getChatUIConfig().chatInputMenu.customizeInputMore(actions);

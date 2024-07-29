@@ -74,14 +74,13 @@
             android:textColor="#ff999999"
             android:textSize="14sp"
             />
-
     </LinearLayout>
 </LinearLayout>
     <RelativeLayout
         android:id="@+id/fun_verify_friend_list_cell_opt_rl"
         android:layout_width="49dp"
         android:layout_height="24dp"
-        android:background="@drawable/bg_app_theme_color_rounded_10"
+        android:background="@drawable/fun_bg_purple_rounded_4"
         android:layout_alignParentRight="true"
         >
 

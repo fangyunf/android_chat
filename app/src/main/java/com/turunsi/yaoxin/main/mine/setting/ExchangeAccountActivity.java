@@ -13,7 +13,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.chad.library.adapter4.BaseQuickAdapter;
@@ -21,7 +20,6 @@ import com.google.gson.Gson;
 import com.netease.nimlib.sdk.misc.DirCacheFileType;
 import com.netease.yunxin.kit.common.ui.dialog.ChoiceListener;
 import com.netease.yunxin.kit.common.ui.dialog.CommonChoiceDialog;
-import com.netease.yunxin.kit.common.utils.SizeUtils;
 import com.netease.yunxin.kit.corekit.im.IMKitClient;
 import com.netease.yunxin.kit.corekit.im.provider.FetchCallback;
 import com.netease.yunxin.kit.corekit.im.repo.MiscRepo;
@@ -43,7 +41,6 @@ import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.DialogAlertUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
-import com.yaoxin.appbase.view.CommonGridSpacingItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,15 +60,8 @@ public class ExchangeAccountActivity extends BaseActivity implements View.OnClic
         setContentView(viewBinding.getRoot());
         initView();
         viewBinding.activityExchangeAccountNav.addCloseImageButton().setOnClickListener(this);
-
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
-        viewBinding.activityExchangeAccountRv.setLayoutManager(gridLayoutManager);
-        CommonGridSpacingItemDecoration gridSpacingItemDecoration =
-                new CommonGridSpacingItemDecoration(3, SizeUtils.dp2px(10), false);
-        viewBinding.activityExchangeAccountRv.addItemDecoration(gridSpacingItemDecoration);
+        viewBinding.activityExchangeAccountRv.setLayoutManager(new LinearLayoutManager(this));
         viewBinding.activityExchangeAccountRv.setAdapter(adapter);
-
-
         _requastData();
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener<UserBean>() {
             @Override
@@ -95,13 +85,13 @@ public class ExchangeAccountActivity extends BaseActivity implements View.OnClic
                 }
             }
         });
-//        adapter.addOnItemChildClickListener(R.id.item_set_exchange_account_list_cell_delete_tv, new BaseQuickAdapter.OnItemChildClickListener<UserBean>() {
-//            @Override
-//            public void onItemClick(@NonNull BaseQuickAdapter<UserBean, ?> baseQuickAdapter, @NonNull View view, int i) {
-//                DataUtil.deleteLoginUserInfoList(baseQuickAdapter.getItem(i));
-//                _requastData();
-//            }
-//        });
+        adapter.addOnItemChildClickListener(R.id.item_set_exchange_account_list_cell_delete_tv, new BaseQuickAdapter.OnItemChildClickListener<UserBean>() {
+            @Override
+            public void onItemClick(@NonNull BaseQuickAdapter<UserBean, ?> baseQuickAdapter, @NonNull View view, int i) {
+                DataUtil.deleteLoginUserInfoList(baseQuickAdapter.getItem(i));
+                _requastData();
+            }
+        });
 
 
     }

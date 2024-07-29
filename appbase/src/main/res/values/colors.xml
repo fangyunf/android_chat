@@ -11,10 +11,10 @@
     <color name="color_F2F2F2">#F2F2F2</color>
     <color name="color_white">#FFFFFFFF</color>
     <color name="color_D92926">#D92926</color>
-    <color name="color_8B5FD8">@color/app_theme_color</color>
+    <color name="color_8B5FD8">#8B5FD8</color>
     <color name="color_333333">#ff333333</color>
-    <color name="color_B591F5">@color/app_theme_color</color>
-    <color name="color_884EEF">@color/app_theme_color</color>
+    <color name="color_B591F5">#B591F5</color>
+    <color name="color_884EEF">#884EEF</color>
     <color name="color_E8E8E8">#E8E8E8</color>
     <color name="color_9D9D9D">#9D9D9D</color>
     <!-- nim -->
@@ -37,7 +37,7 @@
     <color name="color_101113">#101113</color>
     <color name="color_ededed">#ededed</color>
     <color name="color_58be6b">#58be6b</color>
-    <color name="color_9A75DB">@color/app_theme_color</color>
+    <color name="color_9A75DB">#9A75DB</color>
 
     <color name="color_999999">#999999</color>
     <color name="color_d5d5d5">#d5d5d5</color>
@@ -46,8 +46,6 @@
 
     <color name="color_ffe935">#ffe935</color>
     <color name="color_ff666666">#ff666666</color>
-    <color name="app_theme_color">#3339FF</color>
-    <color name="app_theme_red_color">#FF0000</color>
-    <color name="app_theme_aplha_color">#657ED3</color>
 
+    <color name="app_theme_color">#9A75DB</color>
 </resources>

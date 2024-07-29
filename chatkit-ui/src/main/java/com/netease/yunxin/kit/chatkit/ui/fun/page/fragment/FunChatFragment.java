@@ -6,7 +6,6 @@ package com.netease.yunxin.kit.chatkit.ui.fun.page.fragment;
 
 import android.app.Activity;
 import android.content.Context;
-import android.os.Handler;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -147,6 +146,9 @@ public abstract class FunChatFragment extends ChatBaseFragment {
             if (!messageInfo.getMessage().getAttachStr().isEmpty()) {
                 CustomMsgBean msgBean = new Gson().fromJson(messageInfo.getMessage().getAttachStr(), CustomMsgBean.class);
                 msgBean.result = new Gson().fromJson(msgBean.data, CustomMsgBean.class);
+                if (msgBean.result == null) {
+                    return;
+                }
                 RegisterBean bean = new RegisterBean();
                 bean.redpacketId = msgBean.result.id;
                 HttpUtil.apiW().red_checkRedpacet(bean)
@@ -159,8 +161,6 @@ public abstract class FunChatFragment extends ChatBaseFragment {
                                     if (redBean.type == 1) {
                                         redBean.redPacketId = bean.redpacketId;
                                     }
-
-
                                     if (getActivity() != null) {
                                         FunOpenRedPacketFragment.showV(getActivity().getSupportFragmentManager(), bean.redpacketId, redBean.type, sessionID, msgBean, messageInfo.getMessage(), new FunOpenRedPacketFragment.OpenRedPacketBlock() {
                                             @Override
@@ -177,6 +177,8 @@ public abstract class FunChatFragment extends ChatBaseFragment {
                                     ///当红包是个人/专属，当前非目标领取用户，直接显示查看领取详情
                                     HashMap map = new HashMap();
                                     map.put("redpacketId",bean.redpacketId);
+//                                    Context context = getContext();
+//                                    FunRedPacketResultActivity.start(FunRedPacketResultActivity.class,context,map);
                                     Activity context = getActivity();
                                     if (context != null) {
                                         FunRedPacketResultActivity.start(FunRedPacketResultActivity.class,context,map);

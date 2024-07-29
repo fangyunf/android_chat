@@ -30,7 +30,6 @@ public class ChatNotificationMessageViewHolder extends FunChatBaseMessageViewHol
 
   FunChatMessageNoticeTextViewHolderBinding textBinding;
 
-
   public ChatNotificationMessageViewHolder(
       @NonNull ChatBaseMessageViewHolderBinding parent, int viewType) {
     super(parent, viewType);

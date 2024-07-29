@@ -197,11 +197,8 @@ public abstract class BaseContactSelectorActivity extends BaseActivity {
             this,
             contactBeansResult -> {
               if (contactBeansResult.getLoadStatus() == LoadStatus.Success) {
-//                List<ContactFriendBean> accountList = filterUser(contactBeansResult.getData());
-//                contactListView.onFriendDataSourceChanged(accountList);
-//                showEmptyView(accountList == null || accountList.size() < 1);
-                  ArrayList<ContactFriendBean> tempArr = new ArrayList<>();
-                  tempArr.addAll(filterUser(contactBeansResult.getData()));
+                ArrayList<ContactFriendBean> tempArr = new ArrayList<>();
+                tempArr.addAll(filterUser(contactBeansResult.getData()));
                   for (ContactFriendBean tempBean :
                           tempArr) {
 
@@ -212,9 +209,8 @@ public abstract class BaseContactSelectorActivity extends BaseActivity {
 
 
                   }
-                  contactListView.onFriendDataSourceChanged(tempArr);
-                  showEmptyView(tempArr == null || tempArr.size() < 1);
-
+                contactListView.onFriendDataSourceChanged(tempArr);
+                showEmptyView(tempArr == null || tempArr.size() < 1);
               }
             });
     viewModel.fetchContactList();
@@ -239,6 +235,7 @@ public abstract class BaseContactSelectorActivity extends BaseActivity {
       if (filterUser.contains(friendBean.data.getAccount())) {
         result.remove(friendBean);
       }
+
     }
     return result;
   }

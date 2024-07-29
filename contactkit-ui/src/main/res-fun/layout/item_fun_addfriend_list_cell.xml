@@ -45,7 +45,7 @@
         android:id="@+id/item_fun_addfriend_list_cell_add_tv"
         android:layout_marginLeft="@dimen/dimen_10_dp"
         android:gravity="center"
-        android:background="@drawable/bg_app_theme_color_rounded_10"
+        android:background="@mipmap/fun_add_friend_list_add_bg"
         android:layout_width="49dp"
         android:layout_height="24dp"
         android:text="添加"

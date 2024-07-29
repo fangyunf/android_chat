@@ -70,8 +70,8 @@ public class PursePwdManagerSetActivity extends BaseActivity implements View.OnC
         });
 
 
-//        binding.activityMinePursePwdManagerGetCode.viewTitleTfWithoutBgEt.setBackgroundColor(getResources().getColor(R.color.color_white));
-//        binding.activityMinePursePwdManagerGetCode.viewTitleTfWithoutBgLl.setBackgroundColor(getResources().getColor(R.color.color_white));
+        binding.activityMinePursePwdManagerGetCode.viewTitleTfWithoutBgEt.setBackgroundColor(getResources().getColor(R.color.color_white));
+        binding.activityMinePursePwdManagerGetCode.viewTitleTfWithoutBgLl.setBackgroundColor(getResources().getColor(R.color.color_white));
         if (type == 0) {
             _initSetCell();
             binding.activityMinePursePwdManagerSetNav.setTitle("设置支付密码");
@@ -96,14 +96,14 @@ public class PursePwdManagerSetActivity extends BaseActivity implements View.OnC
         binding.activityMinePursePwdManagerSetConfirmPwd.viewTitleTfWithoutBgEt.setHint("请输入密码");
         binding.activityMinePursePwdManagerSetPhone.viewTitleTfWithoutBgEt.setInputType(InputType.TYPE_CLASS_NUMBER);
 
-//        binding.activityMinePursePwdManagerSetPhone.viewTitleTfWithoutBgEt.setBackgroundColor(getResources().getColor(R.color.color_white));
-//        binding.activityMinePursePwdManagerSetPhone.viewTitleTfWithoutBgLl.setBackgroundColor(getResources().getColor(R.color.color_white));
-//
-//        binding.activityMinePursePwdManagerSetSetPwd.viewTitleTfWithoutBgEt.setBackgroundColor(getResources().getColor(R.color.color_white));
-//        binding.activityMinePursePwdManagerSetSetPwd.viewTitleTfWithoutBgLl.setBackgroundColor(getResources().getColor(R.color.color_white));
-//
-//        binding.activityMinePursePwdManagerSetConfirmPwd.viewTitleTfWithoutBgEt.setBackgroundColor(getResources().getColor(R.color.color_white));
-//        binding.activityMinePursePwdManagerSetConfirmPwd.viewTitleTfWithoutBgLl.setBackgroundColor(getResources().getColor(R.color.color_white));
+        binding.activityMinePursePwdManagerSetPhone.viewTitleTfWithoutBgEt.setBackgroundColor(getResources().getColor(R.color.color_white));
+        binding.activityMinePursePwdManagerSetPhone.viewTitleTfWithoutBgLl.setBackgroundColor(getResources().getColor(R.color.color_white));
+
+        binding.activityMinePursePwdManagerSetSetPwd.viewTitleTfWithoutBgEt.setBackgroundColor(getResources().getColor(R.color.color_white));
+        binding.activityMinePursePwdManagerSetSetPwd.viewTitleTfWithoutBgLl.setBackgroundColor(getResources().getColor(R.color.color_white));
+
+        binding.activityMinePursePwdManagerSetConfirmPwd.viewTitleTfWithoutBgEt.setBackgroundColor(getResources().getColor(R.color.color_white));
+        binding.activityMinePursePwdManagerSetConfirmPwd.viewTitleTfWithoutBgLl.setBackgroundColor(getResources().getColor(R.color.color_white));
     }
     private void _initModifyCell() {
         binding.activityMinePursePwdManagerSetPhone.viewTitleTfWithoutBgTv.setText("原密码");
@@ -114,14 +114,14 @@ public class PursePwdManagerSetActivity extends BaseActivity implements View.OnC
         binding.activityMinePursePwdManagerSetSetPwd.viewTitleTfWithoutBgEt.setHint("请输入新密码");
         binding.activityMinePursePwdManagerSetConfirmPwd.viewTitleTfWithoutBgEt.setHint("请输入新密码");
 
-//        binding.activityMinePursePwdManagerSetPhone.viewTitleTfWithoutBgEt.setBackgroundColor(getResources().getColor(R.color.color_white));
-//        binding.activityMinePursePwdManagerSetPhone.viewTitleTfWithoutBgLl.setBackgroundColor(getResources().getColor(R.color.color_white));
-//
-//        binding.activityMinePursePwdManagerSetSetPwd.viewTitleTfWithoutBgEt.setBackgroundColor(getResources().getColor(R.color.color_white));
-//        binding.activityMinePursePwdManagerSetSetPwd.viewTitleTfWithoutBgLl.setBackgroundColor(getResources().getColor(R.color.color_white));
-//
-//        binding.activityMinePursePwdManagerSetConfirmPwd.viewTitleTfWithoutBgEt.setBackgroundColor(getResources().getColor(R.color.color_white));
-//        binding.activityMinePursePwdManagerSetConfirmPwd.viewTitleTfWithoutBgLl.setBackgroundColor(getResources().getColor(R.color.color_white));
+        binding.activityMinePursePwdManagerSetPhone.viewTitleTfWithoutBgEt.setBackgroundColor(getResources().getColor(R.color.color_white));
+        binding.activityMinePursePwdManagerSetPhone.viewTitleTfWithoutBgLl.setBackgroundColor(getResources().getColor(R.color.color_white));
+
+        binding.activityMinePursePwdManagerSetSetPwd.viewTitleTfWithoutBgEt.setBackgroundColor(getResources().getColor(R.color.color_white));
+        binding.activityMinePursePwdManagerSetSetPwd.viewTitleTfWithoutBgLl.setBackgroundColor(getResources().getColor(R.color.color_white));
+
+        binding.activityMinePursePwdManagerSetConfirmPwd.viewTitleTfWithoutBgEt.setBackgroundColor(getResources().getColor(R.color.color_white));
+        binding.activityMinePursePwdManagerSetConfirmPwd.viewTitleTfWithoutBgLl.setBackgroundColor(getResources().getColor(R.color.color_white));
     }
 
     private void _initForgetCell() {
@@ -133,14 +133,14 @@ public class PursePwdManagerSetActivity extends BaseActivity implements View.OnC
         binding.activityMinePursePwdManagerSetSetPwd.viewTitleTfWithoutBgEt.setHint("请输入验证码");
         binding.activityMinePursePwdManagerSetConfirmPwd.viewTitleTfWithoutBgEt.setHint("请输入新密码");
 
-//        binding.activityMinePursePwdManagerSetPhone.viewTitleTfWithoutBgEt.setBackgroundColor(getResources().getColor(R.color.color_white));
-//        binding.activityMinePursePwdManagerSetPhone.viewTitleTfWithoutBgLl.setBackgroundColor(getResources().getColor(R.color.color_white));
-//
-//        binding.activityMinePursePwdManagerSetSetPwd.viewTitleTfWithoutBgEt.setBackgroundColor(getResources().getColor(R.color.color_white));
-//        binding.activityMinePursePwdManagerSetSetPwd.viewTitleTfWithoutBgLl.setBackgroundColor(getResources().getColor(R.color.color_white));
-//
-//        binding.activityMinePursePwdManagerSetConfirmPwd.viewTitleTfWithoutBgEt.setBackgroundColor(getResources().getColor(R.color.color_white));
-//        binding.activityMinePursePwdManagerSetConfirmPwd.viewTitleTfWithoutBgLl.setBackgroundColor(getResources().getColor(R.color.color_white));
+        binding.activityMinePursePwdManagerSetPhone.viewTitleTfWithoutBgEt.setBackgroundColor(getResources().getColor(R.color.color_white));
+        binding.activityMinePursePwdManagerSetPhone.viewTitleTfWithoutBgLl.setBackgroundColor(getResources().getColor(R.color.color_white));
+
+        binding.activityMinePursePwdManagerSetSetPwd.viewTitleTfWithoutBgEt.setBackgroundColor(getResources().getColor(R.color.color_white));
+        binding.activityMinePursePwdManagerSetSetPwd.viewTitleTfWithoutBgLl.setBackgroundColor(getResources().getColor(R.color.color_white));
+
+        binding.activityMinePursePwdManagerSetConfirmPwd.viewTitleTfWithoutBgEt.setBackgroundColor(getResources().getColor(R.color.color_white));
+        binding.activityMinePursePwdManagerSetConfirmPwd.viewTitleTfWithoutBgLl.setBackgroundColor(getResources().getColor(R.color.color_white));
     }
 
     @Override

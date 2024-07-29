@@ -37,7 +37,6 @@ import com.scwang.smart.refresh.layout.listener.DefaultRefreshHeaderCreator;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.turunsi.yaoxin.crash.AppCrashHandler;
 import com.turunsi.yaoxin.login.LoginActivity;
-import com.turunsi.yaoxin.login.OtherPlaceLoginActivity;
 import com.turunsi.yaoxin.login.RealNameSetActivity;
 import com.turunsi.yaoxin.main.MainActivity;
 import com.turunsi.yaoxin.main.conversation.XiaoZhuShouActivity;
@@ -119,6 +118,9 @@ public class IMApplication extends MultiDexApplication {
               return new BallPulseFooter(context) ;
           }
       });
+
+
+
   }
   private void initUIKit() {
     SDKOptions options = NimSDKOptionConfig.getSDKOptions(this, DataUtils.readAppKey(this));
@@ -140,24 +142,10 @@ public class IMApplication extends MultiDexApplication {
       }
       IMKitClient.toggleNotification(SettingRepo.isPushNotify());
       IMKitClient.registerMixPushMessageHandler(new PushMessageHandler());
-        // 在 Application启动时注册，保证漫游、离线消息也能够回调此过滤器进行过滤。注意，过滤器的实现不要有耗时操作。
         NIMClient.getService(MsgService.class).registerIMMessageFilter(new IMMessageFilter() {
             @Override
             public boolean shouldIgnore(IMMessage message) {
-                if (message.getAttachStr() != null) {
-                    try {
-                        CustomMsgBean msgBean = new Gson().fromJson(message.getAttachStr(), CustomMsgBean.class);
-                        msgBean.result = new Gson().fromJson(msgBean.data, CustomMsgBean.class);
-                        if (msgBean.type == 21) {
-                            if (DataUtil.getUserid().equals(msgBean.result.toUserId) || DataUtil.getUserid().equals(msgBean.result.fromUserId) || msgBean.result.adminIds.contains(DataUtil.getUserid())) {
-                                return false;
-                            }
-                            return true;
-                        }
-                    }catch (Exception e) {
 
-                    }
-                }
                 if (message.getContent() != null && message.getContent().startsWith("{")) {
                     try {
                         CustomMsgBean msgBean = new Gson().fromJson(message.getContent(), CustomMsgBean.class);
@@ -179,10 +167,9 @@ public class IMApplication extends MultiDexApplication {
                 return false; // 不过滤
             }
         });
+        CrashReport.initCrashReport(getApplicationContext(), "80b061059f", false);
 
     }
-      CrashReport.initCrashReport(getApplicationContext(), "8427ba87a8", false);
-
   }
 
   private final List<Activity> activities = new ArrayList<>();
@@ -196,7 +183,7 @@ public class IMApplication extends MultiDexApplication {
           @Override
           public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
             if (TextUtils.isEmpty(IMKitClient.account())
-                && !(activity instanceof MainActivity || activity instanceof SplashActivity || activity instanceof LoginActivity || activity instanceof RegisterActivity || activity instanceof ForgetPwdActivity || activity instanceof WelcomeActivity || activity instanceof RealNameSetActivity || activity instanceof BaseWebViewActivity || activity instanceof OtherPlaceLoginActivity)
+                && !(activity instanceof MainActivity || activity instanceof SplashActivity || activity instanceof LoginActivity || activity instanceof RegisterActivity || activity instanceof ForgetPwdActivity || activity instanceof WelcomeActivity || activity instanceof RealNameSetActivity || activity instanceof BaseWebViewActivity)
                 && !coldStart) {
               activity.finish();
             } else {

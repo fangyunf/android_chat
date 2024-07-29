@@ -10,15 +10,16 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <com.yaoxin.appbase.navbar.NavToolbar
-
-        android:id="@+id/contact_new_fragment_nav"
-        style="@style/WhiteFontToolbar"
-        android:background="@drawable/conversation_list_index_nav_bg"
-        app:title="朋友"
-        app:title_text_color="@color/color_white" />
 
 
+    <com.netease.yunxin.kit.common.ui.widgets.TitleBarView
+        android:id="@+id/contact_title_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_52_dp"
+        app:head_title="@string/contact_title"
+        app:head_img_visible="gone"
+        android:background="@color/color_white"
+        app:head_title_color="@color/title_color"/>
 
 
 <!--    &lt;!&ndash;搜索框&ndash;&gt;-->
@@ -41,6 +42,101 @@
 <!--        android:textSize="16sp"-->
 <!--        app:drawableDel="@drawable/edit_delete"/>-->
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_white"
+        >
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            >
+
+            <RelativeLayout
+                android:id="@+id/contact_new_fragment_new_friend_rl"
+                android:layout_centerInParent="true"
+                android:layout_width="95dp"
+                android:layout_height="65dp"
+                >
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/contact_fragment_top_view_item_new_friend"
+                    />
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/contact_new_fragment_new_friend_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dimen_18_dp"
+                    android:minWidth="@dimen/dimen_18_dp"
+                    android:paddingHorizontal="5dp"
+                    android:background="@drawable/fun_bg_red_rounded_9"
+                    android:gravity="center"
+                    android:text="1"
+                    android:textColor="#ffffffff"
+                    android:textSize="12sp"
+                    android:layout_alignParentEnd="true"
+                    />
+            </RelativeLayout>
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            >
+
+            <RelativeLayout
+                android:id="@+id/contact_new_fragment_group_notice_rl"
+                android:layout_centerInParent="true"
+                android:layout_width="95dp"
+                android:layout_height="65dp"
+                >
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/contact_fragment_top_view_item_group_notice"
+                    />
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/contact_new_fragment_group_notice_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dimen_18_dp"
+                    android:minWidth="@dimen/dimen_18_dp"
+                    android:paddingHorizontal="5dp"
+                    android:background="@drawable/fun_bg_red_rounded_9"
+                    android:gravity="center"
+                    android:text="1"
+                    android:textColor="#ffffffff"
+                    android:textSize="12sp"
+                    android:layout_alignParentEnd="true"
+                    />
+            </RelativeLayout>
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            >
+
+            <RelativeLayout
+                android:id="@+id/contact_new_fragment_black_list"
+                android:layout_centerInParent="true"
+                android:layout_width="95dp"
+                android:layout_height="65dp"
+                >
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/contact_fragment_top_view_item_black_list"
+                    />
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

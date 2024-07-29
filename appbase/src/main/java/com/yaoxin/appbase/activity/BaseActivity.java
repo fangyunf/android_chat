@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,9 +16,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 
-import com.yaoxin.appbase.navbar.NavToolbar;
-import com.yaoxin.appbase.utils.BarUtils;
-import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.view.LoadingDialog;
 
 import java.util.ArrayList;
@@ -81,14 +77,6 @@ public class BaseActivity extends AppCompatActivity {
 
     }
 
-    protected void transtStatusBar(NavToolbar navToolbar) {
-        StatusBarUtils.setStatusBarLightMode(this, true, true);
-        LinearLayout.LayoutParams params =
-                (LinearLayout.LayoutParams) navToolbar.getLayoutParams();
-        params.height = params.height + BarUtils.getStatusBarHeight();
-        navToolbar.setLayoutParams(params);
-        navToolbar.setPadding(0, BarUtils.getStatusBarHeight(), 0, 0);
-    }
     protected void callBackResult(Intent data) {
 
     }

@@ -118,8 +118,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".fun.blacklist.FunBlackList_NewActivity"/>
-        <activity
-            android:name=".search.SearchNewActivity"/>
 
     </application>
 

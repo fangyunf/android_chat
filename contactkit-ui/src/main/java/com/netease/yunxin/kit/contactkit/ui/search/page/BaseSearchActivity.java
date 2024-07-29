@@ -50,9 +50,9 @@ public abstract class BaseSearchActivity extends BaseActivity {
   protected SearchViewModel viewModel;
   protected SearchAdapter searchAdapter;
   protected Handler searchHandler;
+
   protected String routerFriend = RouterConstant.PATH_FUN_CHAT_P2P_PAGE;
   protected String routerTeam = RouterConstant.PATH_FUN_CHAT_TEAM_PAGE;
-
 
   protected Boolean isQueryTeam = false;
 
@@ -153,9 +153,7 @@ public abstract class BaseSearchActivity extends BaseActivity {
   private void initData() {
     searchHandler = new Handler();
     viewModel = new ViewModelProvider(this).get(SearchViewModel.class);
-//    viewModel.setRouter(routerFriend, routerTeam);
     viewModel.setRouter(RouterConstant.PATH_FUN_CHAT_P2P_PAGE, RouterConstant.PATH_FUN_CHAT_TEAM_PAGE);
-
     viewModel
         .getQueryLiveData()
         .observe(

@@ -3,60 +3,59 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="34dp"
-    android:paddingHorizontal="@dimen/dimen_5_dp"
+    android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:background="@drawable/round_17_gray_line">
-    <com.makeramen.roundedimageview.RoundedImageView
-        android:id="@+id/item_set_exchange_account_list_cell_status_iv"
-        android:layout_width="6dp"
-        android:layout_height="6dp"
-        app:riv_corner_radius="3dp"
-        android:scaleType="centerCrop"
-        android:background="#00C00E"
-        />
+    android:background="@color/white"
+    android:padding="@dimen/dimen_16_dp">
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/item_set_exchange_account_list_cell_head_iv"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        app:riv_corner_radius="4dp"
+        android:layout_width="@dimen/dimen_54_dp"
+        android:layout_height="@dimen/dimen_54_dp"
+        app:riv_corner_radius="27dp"
         android:scaleType="centerCrop"
-        android:layout_marginLeft="5dp"
-        />
-    <TextView
-        android:visibility="gone"
-        android:id="@+id/item_set_exchange_account_list_cell_add_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="添加新账号"
-        android:textColor="#ff000000"
-        android:textSize="11sp"
         />
     <LinearLayout
-        android:id="@+id/item_set_exchange_account_list_cell_info_ll"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginLeft="5dp"
+        android:layout_marginLeft="12dp"
         >
         <TextView
             android:id="@+id/item_set_exchange_account_list_cell_name_tv"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="25dp"
             android:text="会飞的洋芋"
             android:textColor="#ff000000"
-            android:textSize="11sp"
+            android:textSize="18sp"
             />
         <TextView
             android:id="@+id/item_set_exchange_account_list_cell_id_tv"
-            android:layout_marginTop="@dimen/dimen_3_dp"
+            android:layout_marginTop="@dimen/dimen_7_dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="22dp"
             android:text="ID:87988656"
             android:textColor="#ff999999"
-            android:textSize="9sp"
+            android:textSize="16sp"
             />
 
     </LinearLayout>
+    <TextView
+        android:id="@+id/item_set_exchange_account_list_cell_current_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="22dp"
+        android:text="当前账号"
+        android:textColor="#ff8b5fd8"
+        android:textSize="16sp"
+        />
+    <TextView
+        android:id="@+id/item_set_exchange_account_list_cell_delete_tv"
+        android:layout_width="44dp"
+        android:layout_height="26dp"
+        android:text="删除"
+        android:textColor="#ffffffff"
+        android:textSize="14sp"
+        android:gravity="center"
+        android:background="#B591F5"
+        />
 </LinearLayout>

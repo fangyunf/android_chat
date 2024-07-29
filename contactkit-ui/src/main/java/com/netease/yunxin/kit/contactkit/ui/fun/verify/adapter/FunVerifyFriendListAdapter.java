@@ -24,7 +24,6 @@ public class FunVerifyFriendListAdapter extends BaseQuickAdapter<UserBean, Quick
             TextView view = quickViewHolder.getView(R.id.fun_verify_friend_list_cell_invite_tv);
             view.setVisibility(View.VISIBLE);
             view.setText("邀请人: " + userInfo.inviteName);
-
             quickViewHolder.setText(R.id.fun_verify_friend_list_cell_name_tv, userInfo.userName)
                     .setText(R.id.fun_verify_friend_list_cell_id_tv, "ID:"+userInfo.userMemberCode)
                     .setText(R.id.fun_verify_friend_list_cell_verify_content, "申请加入"+userInfo.groupName)

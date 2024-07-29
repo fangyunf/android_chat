@@ -20,7 +20,6 @@ public class ConversationCustom {
         case notification:
           return context.getString(R.string.msg_type_notification);
         case text:
-//          return conversationInfo.getContent();
           String content = conversationInfo.getContent();
           try {
             content = AESUtil.msgAseDecrypt(content);

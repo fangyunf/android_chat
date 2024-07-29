@@ -41,7 +41,6 @@ import com.turunsi.yaoxin.main.mine.MineFragment;
 import com.turunsi.yaoxin.main.mine.setting.SettingNewActivity;
 import com.turunsi.yaoxin.utils.Constant;
 import com.turunsi.yaoxin.utils.DataUtils;
-import com.turunsi.yaoxin.utils.IMUtil;
 import com.turunsi.yaoxin.welcome.WelcomeActivity;
 import com.netease.yunxin.kit.alog.ALog;
 import com.netease.yunxin.kit.call.p2p.NECallEngine;
@@ -137,6 +136,7 @@ public class MainActivity extends BaseActivity {
     EventBus.getDefault().register(this);
     _update();
     NIMClient.toggleNotification(false);
+
   }
 
   void _update() {
@@ -149,7 +149,7 @@ public class MainActivity extends BaseActivity {
                   ParamsBean updateBean = new Gson().fromJson(body.data.toString(),ParamsBean.class);
 
                   UpdateFragment.showFragment(MainActivity.this,
-                          true,updateBean.downloadUrl,"慎语",updateBean.upMsg, BuildConfig.APPLICATION_ID,null);
+                          true,updateBean.downloadUrl,"星悦公馆",updateBean.upMsg, BuildConfig.APPLICATION_ID,null);
                 }
               }
 
@@ -330,7 +330,7 @@ public class MainActivity extends BaseActivity {
                                               ? getString(R.string.incoming_call_notify_audio)
                                               : getString(R.string.incoming_call_notify_video));
                               ALog.d("=======" + content);
-                              return new CallKitNotificationConfig(R.mipmap.yaoxin_icon, null, null, content);
+                              return new CallKitNotificationConfig(R.mipmap.ic_logo, null, null, content);
                             })
                     // 收到被叫时若 app 在后台，在恢复到前台时是否自动唤起被叫页面，默认为 true
                     .resumeBGInvitation(true)
@@ -425,10 +425,7 @@ public class MainActivity extends BaseActivity {
               .withParam("type","1")
               .navigate();
 
-    } else if ("login_out".equals(event.getTag())) {
-      IMUtil.loginOut(this);
     }
-
   }
 
   @Override

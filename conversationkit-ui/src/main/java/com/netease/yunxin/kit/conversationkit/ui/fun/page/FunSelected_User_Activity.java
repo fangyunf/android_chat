@@ -1,5 +1,9 @@
 package com.netease.yunxin.kit.conversationkit.ui.fun.page;
 
+import static com.netease.yunxin.kit.corekit.im.utils.RouterConstant.KEY_REQUEST_SELECTOR_NAME;
+import static com.netease.yunxin.kit.corekit.im.utils.RouterConstant.KEY_TEAM_NAME;
+import static com.netease.yunxin.kit.corekit.im.utils.RouterConstant.REQUEST_CONTACT_SELECTOR_KEY;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,6 +36,7 @@ import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.AppProxy;
 import com.yaoxin.appbase.utils.BaseEvent;
 import com.yaoxin.appbase.utils.DataUtil;
+import com.yaoxin.appbase.utils.DialogAlertUtil;
 import com.yaoxin.appbase.utils.PinnedHeaderDecoration;
 import com.yaoxin.appbase.utils.TeamIconUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
@@ -60,7 +65,6 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
         super.onCreate(savedInstanceState);
         String type1 = getIntent().getStringExtra("type");
         String temp = DataUtil.getStringValue("groupInfo");
-
         if (temp != null) {
             groupInfoBean = new Gson().fromJson(temp,GroupInfoBean.class);
         }
@@ -89,19 +93,47 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
         }
         _requestData1();
         _initView();
+        binding.activityFunSelectedUserSearchEt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String string = s.toString();
+                if (string.isEmpty()) {
+                    adapter.setItems(mContactModels);
+                    adapter.notifyDataSetChanged();
+                } else {
+                    ArrayList<GroupInfoBean> tempArr = new ArrayList<>();
+                    for (GroupInfoBean temp :
+                            mContactModels) {
+                        if (temp.name.contains(string)) {
+                            tempArr.add(temp);
+                        }
+                    }
+                    adapter.setItems(tempArr);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        });
     }
+
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         DataUtil.setStringValue("","groupInfo");
     }
 
-
     protected void _requestData1() {
         if (page_type == 3 || page_type == 4) {
-            if (groupInfoBean == null ) {
-                return;
-            }
             mContactModels.addAll(groupInfoBean.userInfos);
             adapter.contacts = mContactModels;
             adapter.setItems(mContactModels);
@@ -124,7 +156,6 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
                             }
 
                         }
-
                         if (page_type == 2) {
                             ArrayList<GroupInfoBean> tempArray = new ArrayList<>();
                             for (GroupInfoBean tempBean :mContactModels) {
@@ -178,21 +209,7 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
                     finish();
                     return;
                 }
-
                 baseQuickAdapter.getItem(i).isSelected = !baseQuickAdapter.getItem(i).isSelected;
-                int count = 0;
-                for (GroupInfoBean tempInfoBean : baseQuickAdapter.getItems()) {
-                    if (tempInfoBean.isSelected) {
-                        count ++;
-                    }
-
-                }
-                if (count > 0) {
-                    binding.activityFunSelectedUserConfirmTv.setText("确定  " + count);
-                } else  {
-
-                    binding.activityFunSelectedUserConfirmTv.setText("确定");
-                }
                 adapter.notifyDataSetChanged();
             }
         });
@@ -210,38 +227,6 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
                 }
             }
         });
-
-        binding.activityFunSelectedUserSearchEt.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                String string = s.toString();
-                if (string.isEmpty()) {
-                    adapter.setItems(mContactModels);
-                    adapter.notifyDataSetChanged();
-                } else {
-                    ArrayList<GroupInfoBean> tempArr = new ArrayList<>();
-                    for (GroupInfoBean temp :
-                            mContactModels) {
-                        if (temp.name.contains(string)) {
-                            tempArr.add(temp);
-                        }
-                    }
-                    adapter.setItems(tempArr);
-                    adapter.notifyDataSetChanged();
-                }
-            }
-        });
-
     }
 
 
@@ -263,31 +248,39 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
             }
             if (page_type == 1) {
 
-                if (list.size() == 0) {
+                if (list.isEmpty()) {
                     ToastUtils.toastMsg("请选择好友");
                     return;
                 }
 
-                RegisterBean bean = new RegisterBean();
-                bean.members = list;
-                bean.groupName = String.join(",",nameList);
-                bean.groupHead = TeamIconUtils.getDefaultRandomIconUrl(true);
-                HttpUtil.apiW().group_createGroup(bean)
-                        .enqueue(new CommonCallback<NetData>() {
-                            @Override
-                            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                                finish();
-                                CustomMsgBean bean1 = new Gson().fromJson(body.data.toString(),CustomMsgBean.class);
-                                XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_TEAM_PAGE)
-                                        .withParam(RouterConstant.CHAT_ID_KRY, bean1.groupId)
-                                        .withContext(AppProxy.getInstance().getContext())
-                                        .navigate();
-                            }
+                DialogAlertUtil.showInputAlert(this,"温馨提示","请输入群聊名称", new DialogAlertUtil.InputAlertCallBack() {
+                    @Override
+                    public void inputText(String text) {
+                        if (text != null && !text.isEmpty()) {
+                            RegisterBean bean = new RegisterBean();
+                            bean.members = list;
+                            bean.groupName = text;
+                            bean.groupHead = TeamIconUtils.getDefaultRandomIconUrl(true);
+                            HttpUtil.apiW().group_createGroup(bean)
+                                    .enqueue(new CommonCallback<NetData>() {
+                                        @Override
+                                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                                            finish();
+                                            CustomMsgBean bean1 = new Gson().fromJson(body.data.toString(),CustomMsgBean.class);
+                                            XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_TEAM_PAGE)
+                                                    .withParam(RouterConstant.CHAT_ID_KRY, bean1.groupId)
+                                                    .withContext(AppProxy.getInstance().getContext())
+                                                    .navigate();
+                                        }
 
-                            @Override
-                            public void Failure(Call<NetData> call, Throwable t) {
-                            }
-                        });
+                                        @Override
+                                        public void Failure(Call<NetData> call, Throwable t) {
+                                        }
+                                    });
+                        }
+                    }
+                });
+
             } else if (page_type == 2) {
                 RegisterBean bean = new RegisterBean();
                 bean.groupId = groupInfoBean.groupId;

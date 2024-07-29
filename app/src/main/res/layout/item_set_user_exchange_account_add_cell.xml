@@ -2,10 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/item_purse_bank_card_list_add_cell_ll"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/dimen_34_dp"
+    android:layout_height="wrap_content"
     android:gravity="center_vertical"
     android:padding="@dimen/dimen_16_dp"
-    android:background="@drawable/round_17_gray_line"
+    android:background="@color/white"
     >
 
     <ImageView

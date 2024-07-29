@@ -112,7 +112,6 @@ public class ConversationAdapter extends RecyclerView.Adapter<BaseViewHolder> {
           notifyItemChanged(insertIndex);
         }
       } else {
-
         conversationList.remove(removeIndex);
         conversationList.add(removeIndex, data);
         notifyItemChanged(removeIndex);
@@ -350,7 +349,6 @@ public class ConversationAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     if (param.equals(DataUtil.getUserid())) {
       params.height = SizeUtils.dp2px(0);
     }
-
 
     holder.itemView.setLayoutParams(params);
 

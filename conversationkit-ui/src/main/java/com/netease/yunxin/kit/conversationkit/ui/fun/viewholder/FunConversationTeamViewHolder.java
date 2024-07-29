@@ -29,15 +29,8 @@ public class FunConversationTeamViewHolder extends FunConversationBaseViewHolder
 
     if (data.infoData.getTeamInfo() != null) {
       Team teamInfo = data.infoData.getTeamInfo();
-//      viewBinding.avatarView.setData(
-//          teamInfo.getIcon(), teamInfo.getName(), AvatarColor.avatarColor(teamInfo.getId()));
-      if (teamInfo.getIcon().startsWith("https://s.netease.im") || teamInfo.getIcon().isEmpty()) {
-        viewBinding.avatarView.setData(
-                com.yaoxin.appbase.R.mipmap.app_default_base_icon_group, teamInfo.getName(), AvatarColor.avatarColor(teamInfo.getId()));
-      } else {
-        viewBinding.avatarView.setData(
-                teamInfo.getIcon(), teamInfo.getName(), AvatarColor.avatarColor(teamInfo.getId()));
-      }
+      viewBinding.avatarView.setData(
+          teamInfo.getIcon(), teamInfo.getName(), AvatarColor.avatarColor(teamInfo.getId()));
       viewBinding.nameTv.setText(teamInfo.getName());
     }
     if (data.viewType == ConversationConstant.ViewType.TEAM_VIEW

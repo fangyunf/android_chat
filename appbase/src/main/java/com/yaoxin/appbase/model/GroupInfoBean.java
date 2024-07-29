@@ -47,7 +47,7 @@ public class GroupInfoBean {
     public int addFriendsState;
     public int shutupState;
     public int nonCollectionState;
-    public int grade;
+    public String grade;
 
     private String index;
     public String getIndex() {

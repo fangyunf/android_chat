@@ -8,10 +8,7 @@ import java.util.List;
 
 public class RegisterBean {
 
-    public String allDisturb;
-    public String sound;
     public String check;
-    public String shake;
     public String phoneAdd;
     public String idAdd;
     public String cardAdd;
@@ -61,7 +58,6 @@ public class RegisterBean {
     public String groupHead;
     public List members;
     public int type;
-    public String  userUsdtId;
     public int id;
     public int moudleType;
     public String inviteState;

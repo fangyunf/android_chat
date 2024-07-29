@@ -7,8 +7,6 @@ import com.yaoxin.appbase.utils.DeviceUtils;
 public class ParamsBean {
     public String appType;
     public String version;
-    public String phone;
-    public String name;
     public String type;
     public String upMsg;
     public String downloadUrl;

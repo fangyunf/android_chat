@@ -4,7 +4,7 @@
     xmlns:tl="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/color_F6F6F6"
     android:orientation="vertical">
 
     <com.yaoxin.appbase.navbar.NavToolbar
@@ -14,9 +14,9 @@
         app:back_icon="@mipmap/temp_ic_back"
         app:enable_under_divider="true"
         app:support_translucent_status_bar="false"
-        app:title="我的设置"
+        app:title="设置"
         app:title_text_color="@color/color_333333"
-        app:under_divider_color="@color/transparent" />
+        app:under_divider_color="@color/color_d5d5d5" />
 <ScrollView
     android:layout_weight="1"
     android:layout_width="match_parent"
@@ -25,12 +25,31 @@
 
 
     <LinearLayout
-        android:layout_marginHorizontal="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@drawable/bg_f2f2f2_rounded_10"
         >
+        <include
+            android:id="@+id/activity_mine_set_new_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/view_title_arrow"
+            />
+
+        <include
+            android:id="@+id/activity_mine_set_new_modify_pwd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/view_title_arrow"
+            />
+
+        <include
+            android:id="@+id/activity_mine_set_new_font_change"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/view_title_arrow"
+            />
+
         <include
             android:id="@+id/activity_mine_set_new_notice_voice"
             android:layout_width="match_parent"
@@ -52,38 +71,84 @@
             layout="@layout/view_title_arrow"
             />
 
-
         <include
             android:id="@+id/activity_mine_set_new_about_us"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             layout="@layout/view_title_arrow"
             />
-        <include
-            android:id="@+id/activity_mine_set_new_download"
+        <LinearLayout
+            android:id="@+id/activity_mine_set_new_exchange_acount_ll"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            layout="@layout/view_title_arrow"
-            />
-        <include
-            android:id="@+id/activity_mine_set_new_exchange_acount"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            layout="@layout/view_title_arrow"
-            />
-        <include
-            android:id="@+id/activity_mine_set_new_zhuxiao"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            layout="@layout/view_title_arrow"
-            />
+            android:layout_height="@dimen/dimen_58_dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@color/white"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="57dp"
+                android:gravity="center"
+                android:text="切换账号"
+                android:textColor="#ff8b5fd8"
+                android:textSize="16sp"
+                />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_1_dp"
+                android:background="#F2F2F2"
+                android:layout_gravity="end"
+                />
 
-        <include
-            android:id="@+id/activity_mine_set_new_login_out"
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/activity_mine_set_new_zhuxiao_acount_ll"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            layout="@layout/view_title_arrow"
-            />
+            android:layout_height="@dimen/dimen_58_dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@color/white"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="57dp"
+                android:gravity="center"
+                android:text="注销账号"
+                android:textColor="#ff8b5fd8"
+                android:textSize="16sp"
+                />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_1_dp"
+                android:background="#F2F2F2"
+                android:layout_gravity="end"
+                />
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/activity_mine_set_new_tuichu_acount_ll"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_58_dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@color/white"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="57dp"
+                android:gravity="center"
+                android:text="退出登录"
+                android:textColor="#ff8b5fd8"
+                android:textSize="16sp"
+                />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_1_dp"
+                android:background="#F2F2F2"
+                android:layout_gravity="end"
+                />
+
+        </LinearLayout>
 
     </LinearLayout>
 </ScrollView>

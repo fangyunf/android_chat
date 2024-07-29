@@ -18,7 +18,7 @@ public class BillDetailList_ShaiXuan_Adapter extends BaseQuickAdapter<BillDetail
     protected void onBindViewHolder(@NonNull QuickViewHolder quickViewHolder, int i, @Nullable BillDetailBean orderListBean) {
         quickViewHolder.setText(R.id.item_purse_bill_detail_shaixuan_list_tv,orderListBean.title);
         quickViewHolder.setBackgroundResource(R.id.item_purse_bill_detail_shaixuan_list_tv,orderListBean.isSelected ? R.drawable.bg_b591f5_rounded_4 : R.drawable.border_cccccc_1_rounded_4)
-                .setTextColor(R.id.item_purse_bill_detail_shaixuan_list_tv,getContext().getResources().getColor(orderListBean.isSelected ? R.color.color_white:R.color.black))
+                .setTextColor(R.id.item_purse_bill_detail_shaixuan_list_tv,getContext().getResources().getColor(orderListBean.isSelected ? R.color.color_white:R.color.color_8B5FD8))
         ;
     }
 

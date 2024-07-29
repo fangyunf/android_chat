@@ -4,13 +4,10 @@
 
 package com.netease.yunxin.kit.contactkit.ui.fun.blacklist;
 
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,18 +15,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.chad.library.adapter4.BaseQuickAdapter;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.netease.yunxin.kit.common.utils.NetworkUtils;
 import com.netease.yunxin.kit.contactkit.ui.R;
-import com.netease.yunxin.kit.contactkit.ui.blacklist.BaseBlackListActivity;
 import com.netease.yunxin.kit.contactkit.ui.databinding.ActivityBlackListNewBinding;
-import com.netease.yunxin.kit.contactkit.ui.databinding.BaseListActivityLayoutBinding;
 import com.netease.yunxin.kit.contactkit.ui.fun.blacklist.adapter.Fun_BlackList_NewAdapter;
-import com.netease.yunxin.kit.contactkit.ui.fun.view.FunContactViewHolderFactory;
-import com.netease.yunxin.kit.contactkit.ui.fun.view.viewholder.FunBlackListViewHolder;
-import com.netease.yunxin.kit.contactkit.ui.model.IViewTypeConstant;
-import com.netease.yunxin.kit.contactkit.ui.view.viewholder.BaseContactViewHolder;
-import com.netease.yunxin.kit.corekit.im.provider.FetchCallback;
 import com.yaoxin.appbase.activity.BaseActivity;
 import com.yaoxin.appbase.model.GroupInfoBean;
 import com.yaoxin.appbase.model.NetData;
@@ -38,9 +26,7 @@ import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Response;

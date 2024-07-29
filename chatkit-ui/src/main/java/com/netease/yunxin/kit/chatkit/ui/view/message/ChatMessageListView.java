@@ -104,7 +104,6 @@ public class ChatMessageListView extends RecyclerView implements IMessageData {
                   }
                   isScroll = true;
                   isStartScroll = true;
-
                 }
                 return true;
               }
@@ -322,7 +321,7 @@ public class ChatMessageListView extends RecyclerView implements IMessageData {
           if (isRecyclerViewAtBottom()) {
             post(() -> scrollToPosition(itemCount - 1));
           }
-        } else {
+        } else  {
           post(() -> scrollToPosition(itemCount - 1));
         }
       }
