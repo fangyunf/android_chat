@@ -10,13 +10,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/app_chat_view_bg_color"
     >
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scaleType="fitXY"
-        android:src="@mipmap/common_main_top_bg"
-        />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -29,6 +24,7 @@
 
             <com.netease.yunxin.kit.common.ui.widgets.BackTitleBar
                 android:id="@+id/titleBar"
+                android:background="@color/color_white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 

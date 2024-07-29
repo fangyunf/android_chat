@@ -47,6 +47,9 @@
     <color name="color_ffe935">#ffe935</color>
     <color name="color_ff666666">#ff666666</color>
     <color name="app_theme_color">#006CFF</color>
+    <color name="app_chat_view_bg_color">#ECF4FF</color>
+    <color name="app_chat_send_pop_bg">#6AA9FF</color>
+    <color name="app_chat_receive_pop_bg">#FFFFFF</color>
     <color name="app_theme_red_color">#FF0000</color>
     <color name="app_theme_aplha_color">#33006CFF</color>
 

@@ -37,9 +37,9 @@
 
                 <RadioButton
                     android:id="@+id/inputAudioRb"
-                    android:layout_width="15dp"
-                    android:layout_height="20dp"
-                    android:background="@drawable/chat_fragment_toolbar_sound_icon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:background="@drawable/fun_ic_chat_input_audio"
                     android:layout_centerInParent="true"
                     android:button="@null"
                     android:checked="false"
@@ -222,10 +222,10 @@
                 >
                 <RadioButton
                     android:id="@+id/inputMoreRb"
-                    android:layout_width="14dp"
-                    android:layout_height="14dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:layout_centerInParent="true"
-                    android:background="@drawable/chat_fragment_toolbar_add"
+                    android:background="@drawable/chat_fragment_toolbar_show_more"
                     android:button="@null"
                     android:checked="false"
                     android:clickable="false" />

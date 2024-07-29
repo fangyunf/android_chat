@@ -77,26 +77,28 @@ public abstract class FunChatFragment extends ChatBaseFragment {
             @NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
         viewBinding = FunChatFragmentBinding.inflate(inflater, container, false);
         chatView = viewBinding.chatView;
-        StatusBarUtils.setStatusBarLightMode(getActivity(), true, true);
-        try {
+        changeStatusBarColor(R.color.color_white);
 
-            SoftKeyboardFixerForFullscreen.assistActivity(getActivity());
-            FrameLayout frameLayout = viewBinding.chatView.getTitleBarLayout();
-            frameLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                @Override
-                public void onGlobalLayout() {
-                    // 确保只调用一次
-                    frameLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                    int height = frameLayout.getHeight();
-                    LinearLayout.LayoutParams frameLayoutParams = (LinearLayout.LayoutParams) viewBinding.chatView.getTitleBarLayout().getLayoutParams();
-                    frameLayoutParams.height = height + BarUtils.getStatusBarHeight();
-                    viewBinding.chatView.getTitleBarLayout().setLayoutParams(frameLayoutParams);
-                    viewBinding.chatView.getTitleBarLayout().setPadding(0, BarUtils.getStatusBarHeight(), 0, 0);
-                }
-            });
-        } catch (Exception e) {
-
-        }
+//        StatusBarUtils.setStatusBarLightMode(getActivity(), true, true);
+//        try {
+//
+//            SoftKeyboardFixerForFullscreen.assistActivity(getActivity());
+//            FrameLayout frameLayout = viewBinding.chatView.getTitleBarLayout();
+//            frameLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+//                @Override
+//                public void onGlobalLayout() {
+//                    // 确保只调用一次
+//                    frameLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+//                    int height = frameLayout.getHeight();
+//                    LinearLayout.LayoutParams frameLayoutParams = (LinearLayout.LayoutParams) viewBinding.chatView.getTitleBarLayout().getLayoutParams();
+//                    frameLayoutParams.height = height + BarUtils.getStatusBarHeight();
+//                    viewBinding.chatView.getTitleBarLayout().setLayoutParams(frameLayoutParams);
+//                    viewBinding.chatView.getTitleBarLayout().setPadding(0, BarUtils.getStatusBarHeight(), 0, 0);
+//                }
+//            });
+//        } catch (Exception e) {
+//
+//        }
 
 
 

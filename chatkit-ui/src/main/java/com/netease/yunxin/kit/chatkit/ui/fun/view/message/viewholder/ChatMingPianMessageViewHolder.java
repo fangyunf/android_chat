@@ -62,6 +62,6 @@ public class ChatMingPianMessageViewHolder extends FunChatBaseMessageViewHolder 
   @Override
   protected void onMessageBackgroundConfig(ChatMessageBean messageBean) {
     super.onMessageBackgroundConfig(messageBean);
-    viewBinding.getRoot().setBackgroundResource(com.yaoxin.appbase.R.drawable.bg_apptheme_alpha_30_rounded_10);
+    viewBinding.getRoot().setBackgroundResource(com.yaoxin.appbase.R.drawable.bg_white_rounded_10);
   }
 }
