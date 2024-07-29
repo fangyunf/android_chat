@@ -18,11 +18,11 @@ android {
         }
     }
     defaultConfig {
-        applicationId = "com.turunsi.jinzita"
+        applicationId = "com.turunsi.sanguo"
         minSdk = 21
         targetSdk = 33
         versionCode = 1
-        versionName = "2.0.1"
+        versionName = "2.0.3"
         multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
