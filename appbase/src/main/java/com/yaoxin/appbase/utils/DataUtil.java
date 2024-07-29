@@ -128,7 +128,7 @@ public class DataUtil {
         DataUtil.putToken("");
         DataUtil.putUserInfo(null);
         Hawk.put(FriendList, new ArrayList<>());
-        SPUtils.getInstance().put("isRegister",false);
+//        SPUtils.getInstance().put("isRegister",false);
 
 
     }

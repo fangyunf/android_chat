@@ -244,7 +244,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                 DataUtil.putUserInfo(userBean);
                                 DataUtil.putToken(userBean.token);
                                 IMUtil.loginIM(that,userBean.userId,userBean.imToken);
-                                SPUtils.getInstance().put("isRegister",true);
+//                                SPUtils.getInstance().put("isRegister",true);
                             }
 
                             @Override

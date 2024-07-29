@@ -36,7 +36,7 @@ public class RealNameAuthUtil {
                                         if (finishBlock != null) {
                                             finishBlock.finishBlock();
                                         }
-                                        SPUtils.getInstance().put("isRegister",false);
+//                                        SPUtils.getInstance().put("isRegister",false);
                                     }
 
                                     @Override
