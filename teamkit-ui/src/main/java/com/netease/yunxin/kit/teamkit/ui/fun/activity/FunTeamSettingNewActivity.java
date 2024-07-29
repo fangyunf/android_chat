@@ -51,11 +51,13 @@ import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
 import com.netease.yunxin.kit.corekit.model.ErrorMsg;
 import com.netease.yunxin.kit.corekit.model.ResultInfo;
 import com.netease.yunxin.kit.corekit.route.XKitRouter;
+import com.netease.yunxin.kit.teamkit.ui.BuildConfig;
 import com.netease.yunxin.kit.teamkit.ui.R;
 import com.netease.yunxin.kit.teamkit.ui.activity.BaseTeamMemberListActivity;
 import com.netease.yunxin.kit.teamkit.ui.activity.BaseTeamSettingActivity;
 import com.netease.yunxin.kit.teamkit.ui.databinding.FunTeamSettingNewActivityBinding;
 import com.netease.yunxin.kit.teamkit.ui.fun.activity.adapter.TeamSettingUserInfoAdapter;
+import com.netease.yunxin.kit.teamkit.ui.fun.dialog.TeamMaxMemberDialogFragment;
 import com.netease.yunxin.kit.teamkit.ui.fun.dialog.TeamModifyDialog;
 import com.netease.yunxin.kit.teamkit.ui.utils.TeamUtils;
 import com.yaoxin.appbase.activity.BaseActivity;
@@ -75,6 +77,7 @@ import com.yaoxin.appbase.utils.GlideUtil;
 import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
 import com.yaoxin.appbase.utils.UploadUtil;
+import com.yaoxin.appbase.view.LoadingDialog;
 import com.zhihu.matisse.GifSizeFilter;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
@@ -182,6 +185,9 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
         binding.funTeamSettingNewActivityManagerTeam.viewTitleArrowTv.setText("群管理");
         binding.funTeamSettingNewActivityManagerTeam.viewTitleArrowLl.setOnClickListener(this);
 
+//        binding.funTeamSettingNewActivityUpgradeTeam.viewTitleArrowTv.setText("群升级");
+//        binding.funTeamSettingNewActivityUpgradeTeam.viewTitleArrowLl.setOnClickListener(this);
+
         binding.funTeamSettingNewActivityZhiding.viewTitleArrowTv.setText("置顶聊天");
         binding.funTeamSettingNewActivityZhiding.viewTitleArrowArrowIv.setVisibility(View.GONE);
         binding.funTeamSettingNewActivityZhiding.viewTitleArrowRightTvSwitch.setVisibility(View.VISIBLE);
@@ -231,6 +237,7 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
         bean.page = page +"";
         bean.pageNo ="100";
 
+        LoadingDialog.showDialog(getSupportFragmentManager(),"加载中");
         HttpUtil.apiW().group_groupUserListPost(bean)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
@@ -247,15 +254,20 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
                                 requestYunXin();
                                 updateUI();
                             }
+                        } else {
+                            requestYunXin();
+                            updateUI();
                         }
-
-
-
                     }
 
                     @Override
                     public void Failure(Call<NetData> call, Throwable t) {
+                    }
 
+                    @Override
+                    public void end() {
+                        super.end();
+                        LoadingDialog.dismissDialog();
                     }
                 });
     }
@@ -263,6 +275,7 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
     protected void _requestData() {
 //        RegisterBean bean = new RegisterBean();
 //        bean.groupId = groupId;
+        LoadingDialog.showDialog(getSupportFragmentManager(),"加载中");
         HttpUtil.apiW().group_groupHomeInfo(groupId)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
@@ -277,6 +290,12 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
                     @Override
                     public void Failure(Call<NetData> call, Throwable t) {
 
+                    }
+
+                    @Override
+                    public void end() {
+                        super.end();
+                        LoadingDialog.dismissDialog();
                     }
                 });
     }
@@ -362,9 +381,11 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
         binding.funTeamSettingNewActivityNicheng.viewTitleArrowRightTv.setText(groupInfoBean.getSelfRemarkName());
 
 
+//        binding.funTeamSettingNewActivityUpgradeTeam.viewTitleArrowLl.setVisibility(View.GONE);
         if (groupInfoBean.rankState == 1 || groupInfoBean.rankState == 2) {
 
             binding.funTeamSettingNewActivityManagerTeam.viewTitleArrowLl.setVisibility(View.VISIBLE);
+//            binding.funTeamSettingNewActivityUpgradeTeam.viewTitleArrowLl.setVisibility(View.VISIBLE);
 //            binding.funTeamSettingNewActivitySetGonggao.viewTitleArrowLl.setVisibility(View.VISIBLE);
             binding.editIcon.setVisibility(View.VISIBLE);
         }
@@ -383,7 +404,16 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
     @Override
     public void onClick(View view) {
         if (view == binding.funTeamSettingNewActivityNav.addCloseImageButton()) {
+//            if (BuildConfig.DEBUG) {
+//                TeamMaxMemberDialogFragment.showV(getSupportFragmentManager(), new TeamMaxMemberDialogFragment.TeamMaxMemberDialogFragmentBlock() {
+//                    @Override
+//                    public void upGrade() {
+//
+//                    }
+//                });
+//            } else {
             finish();
+//            }
         } else if (view == binding.funTeamSettingNewActivityMiandarao.viewTitleArrowRightTvSwitch) {
             boolean isOpen = binding.funTeamSettingNewActivityMiandarao.viewTitleArrowRightTvSwitch.isSelected();
             // 以设置 “仅管理员消息提醒” 为例
@@ -505,7 +535,7 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
                                             }
                                         });
                             }
-                        });
+                        },groupInfoBean.name);
                     }
                     if (type == 2) {
                         //修改公告栏
@@ -522,6 +552,7 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
 
                                                 ToastUtils.toastMsg(body.msg);
                                                 _requestData();
+                                                EventBus.getDefault().post(new BaseEvent("reload_gonggao"));
                                             }
 
                                             @Override
@@ -530,7 +561,7 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
                                             }
                                         });
                             }
-                        });
+                        },groupInfoBean.announcement);
                     }
                     if (type == 3) {
                         UploadUtil.openPhotoLibrary(that, Constant.REQUEST_CODE_CHOOSE);
@@ -564,7 +595,7 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
                                 }
                             });
                 }
-            });
+            },groupInfoBean.getSelfRemarkName());
         } else if (view == binding.funTeamSettingNewActivitySetGonggao.viewTitleArrowLl) {
 
             Intent intent = new Intent(this, ModifyInfoActivity.class);
@@ -602,6 +633,18 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
 //                    .autoHideToolbarOnSingleTap(true)
 //                    .forResult(REQUEST_CODE_CHOOSE);
         }
+//        else if (view == binding.funTeamSettingNewActivityUpgradeTeam.viewTitleArrowLl) {
+//            XKitRouter.withKey("BuyGroupFeatureActivity")
+//                    .withParam("type",0)
+//                    .withParam("groupId",groupId)
+//                    .withContext(this)
+//                    .navigate();
+
+//            XKitRouter.withKey(RouterConstant.PATH_FUN_MY_BLACK_PAGE)
+//                    .withParam("groupId",groupId)
+//                    .withContext(this)
+//                    .navigate();
+//        }
     }
 
     @Override
