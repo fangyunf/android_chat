@@ -86,14 +86,16 @@ public class FunConversationFragment extends ConversationBaseFragment {
     viewBinding = FunConversationFragmentBinding.inflate(inflater, container, false);
     initView();
     if (_type == 1) {
-      viewBinding.funConversationFragmentNav.getTitleView().setText("群聊");
+      viewBinding.funConversationFragmentTitleTv.setText("群聊");
     } else {
-      viewBinding.funConversationFragmentNav.getTitleView().setText("好友消息");
+      viewBinding.funConversationFragmentTitleTv.setText("好友消息");
 
     }
-//    StatusBarUtils.setStatusBarLightMode(getActivity(), true, true);
+    StatusBarUtils.setStatusBarLightMode(getActivity(), true, true);
+    ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) viewBinding.funConversationFragmentTopLl.getLayoutParams();
+    layoutParams.topMargin = BarUtils.getStatusBarHeight();
+    viewBinding.funConversationFragmentTopLl.setLayoutParams(layoutParams);
 
-    StatusBarUtils.transtStatusBar(getActivity(),viewBinding.funConversationFragmentNav);
     EventBus.getDefault().register(this);
     return viewBinding.getRoot();
   }
@@ -370,7 +372,7 @@ public class FunConversationFragment extends ConversationBaseFragment {
 
     setViewHolderFactory(new FunViewHolderFactory());
     viewBinding.conversationView.addItemDecoration(getItemDecoration());
-    viewBinding.funConversationFragmentNav.clearLeftMenu();
+//    viewBinding.funConversationFragmentNav.clearLeftMenu();
     _initHeadCell();
     loadUIConfig();
     _initTopStatus(0);

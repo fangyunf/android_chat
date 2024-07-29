@@ -9,8 +9,6 @@
     android:id="@+id/rootLayout"
     android:layout_width="match_parent"
     android:clickable="true"
-    android:layout_marginHorizontal="10dp"
-    android:layout_marginTop="5dp"
     android:layout_height="72dp"
     android:focusable="true">
 
@@ -64,6 +62,7 @@
                 android:textColor="@color/fun_conversation_item_title_text_color"
                 android:textSize="16sp" />
             <TextView
+                android:visibility="gone"
                 android:id="@+id/fun_conversation_view_holder_id_tv"
                 android:layout_width="wrap_content"
                 android:layout_marginLeft="5dp"

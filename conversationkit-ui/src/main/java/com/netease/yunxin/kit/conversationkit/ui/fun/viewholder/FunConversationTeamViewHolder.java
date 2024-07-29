@@ -56,7 +56,7 @@ public class FunConversationTeamViewHolder extends FunConversationBaseViewHolder
       viewBinding.aitTv.setVisibility(View.GONE);
     }
 //    viewBinding.rootLayout.setBackgroundColor(viewBinding.rootLayout.getContext().getResources().getColor(com.yaoxin.appbase.R.color.app_theme_color));
-    viewBinding.rootLayout.setBackground(viewBinding.rootLayout.getContext().getDrawable(com.yaoxin.appbase.R.drawable.bg_white_rounded_12));
+//    viewBinding.rootLayout.setBackground(viewBinding.rootLayout.getContext().getDrawable(com.yaoxin.appbase.R.drawable.bg_white_rounded_12));
 
     ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) viewBinding.rootLayout.getLayoutParams();
     if (AppProxy.getInstance().showType == 1) {
@@ -64,7 +64,7 @@ public class FunConversationTeamViewHolder extends FunConversationBaseViewHolder
       layoutParams.height = 0;
     } else {
       layoutParams.height = SizeUtils.dp2px(72);
-      layoutParams.topMargin = SizeUtils.dp2px(5);
+      layoutParams.topMargin = SizeUtils.dp2px(0);
     }
     viewBinding.rootLayout.setLayoutParams(layoutParams);
   }
