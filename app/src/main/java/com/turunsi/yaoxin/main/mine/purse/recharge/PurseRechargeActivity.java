@@ -25,6 +25,7 @@ import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.DialogAlertUtil;
 import com.yaoxin.appbase.utils.NumberUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
+import com.yaoxin.appbase.view.LoadingDialog;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -178,47 +179,60 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
         RequestParamsBean registerBean = new RequestParamsBean();
         registerBean.amount = NumberUtil.formartUploadMoney(inputMoney);
         registerBean.payChannel = payType;
+        LoadingDialog.showDialog(getSupportFragmentManager(),"请求中");
         HttpUtil.apiW().pay_jhzs(registerBean)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                         UserBean userBean = new Gson().fromJson(body.data.toString(),UserBean.class);
-                        RechargeScanFragment.showV(getSupportFragmentManager(),payType.equals("wxpay")?"请使用微信扫码":"请使用支付宝扫码",userBean.payUrl);
-//                        startAlipayPayment(userBean.payUrl);
+                        if (payType.equals("wxpay")) {
+                            RechargeScanFragment.showV(getSupportFragmentManager(),payType.equals("wxpay")?"请使用微信扫码":"请使用支付宝扫码",userBean.payUrl);
+                        } else {
+                            startAlipayPayment(userBean.qrUrl);
+                        }
                     }
 
                     @Override
                     public void Failure(Call<NetData> call, Throwable t) {
 
                     }
+
+                    @Override
+                    public void end() {
+                        super.end();
+                        LoadingDialog.dismissDialog();
+                    }
                 });
     }
     private void startAlipayPayment(String url) {
-        if ( url != null && url.startsWith("https")) {
-            try {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                // 设置URL，替换为你想打开的网页地址
-                intent.setData(Uri.parse(url));
-
-                // 启动Intent，跳转到浏览器
-                startActivity(intent);
-            } catch (Exception e) {
-            }
-        } else {
-            ToastUtils.toastMsg("支付失败");
-        }
-        // 支付宝支付请求 URL
-//        String alipayUrl = "alipayqr://platformapi/startapp?saId=10000007&qrcode="+url;
+//        if ( url != null && url.startsWith("https")) {
+//            try {
+//                Intent intent = new Intent(Intent.ACTION_VIEW);
+//                // 设置URL，替换为你想打开的网页地址
+//                intent.setData(Uri.parse(url));
 //
-//        // 创建 Intent 打开支付宝
-//        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(alipayUrl));
-//        if (intent.resolveActivity(getPackageManager()) != null) {
-//            startActivity(intent);
+//                // 启动Intent，跳转到浏览器
+//                startActivity(intent);
+//            } catch (Exception e) {
+//            }
 //        } else {
-//            // 支付宝未安装处理
-//            // 提示用户安装支付宝或者其他处理逻辑
-//            ToastUtils.toastMsg("请安装支付宝");
+//            ToastUtils.toastMsg("支付失败");
 //        }
+        if (payType.equals("alipay")) {
+
+            // 支付宝支付请求 URL
+            String alipayUrl = "alipayqr://platformapi/startapp?saId=10000007&qrcode="+url;
+
+            // 创建 Intent 打开支付宝
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(alipayUrl));
+            if (intent.resolveActivity(getPackageManager()) != null) {
+                startActivity(intent);
+            } else {
+                // 支付宝未安装处理
+                // 提示用户安装支付宝或者其他处理逻辑
+                ToastUtils.toastMsg("请安装支付宝");
+            }
+        }
     }
 
 }
