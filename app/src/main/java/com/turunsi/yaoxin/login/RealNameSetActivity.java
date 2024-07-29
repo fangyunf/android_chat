@@ -39,9 +39,9 @@ public class RealNameSetActivity extends BaseActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         binding = ActivityMineRealNameSetBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        binding.activityMineRealNameSetNav.addCloseImageButton().setOnClickListener(this);
         binding.activityMineRealNameSetSaveRl.setOnClickListener(this);
 
+        binding.activityMineRealNameSetNav.addCloseImageButton().setVisibility(View.GONE);
 
         binding.activityMineRealNameSetName.viewTitleTfWithoutBgTv.setText("真实姓名");
         binding.activityMineRealNameSetName.viewTitleTfWithoutBgEt.setHint("请输入姓名");
@@ -92,7 +92,14 @@ public class RealNameSetActivity extends BaseActivity implements View.OnClickLis
                         public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                             RegisterBean dataBean = new Gson().fromJson(body.data.toString(),RegisterBean.class);
 
-                            RealNameAuthUtil.start(that,dataBean.certifyId);
+                            RealNameAuthUtil.start(that, dataBean.certifyId, new RealNameAuthUtil.dispathBlockT() {
+                                @Override
+                                public void finishBlock() {
+                                    ToastUtils.toastMsg("认证成功");
+                                    finish();
+                                }
+                            });
+
                         }
 
                         @Override
@@ -102,4 +109,10 @@ public class RealNameSetActivity extends BaseActivity implements View.OnClickLis
                     });
         }
     }
+    @Override
+    public void onBackPressed() {
+        // 留空或者添加你希望的代码
+        // super.onBackPressed(); // 这行代码将会执行默认的返回操作，注释掉即可屏蔽返回键
+    }
+
 }

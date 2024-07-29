@@ -145,15 +145,15 @@ public class MainActivity extends BaseActivity {
         _update();
         NIMClient.toggleNotification(false);
 
-        if (SPUtils.getInstance().getBoolean("isRegister")) {
-            SPUtils.getInstance().put("isRegister",false);
-            if (!com.yaoxin.appbase.net.Constant.isRunningRealName) {
-                com.yaoxin.appbase.net.Constant.isRunningRealName = true;
-                XKitRouter.withKey(com.yaoxin.appbase.net.Constant.RealName_Router)
-                        .withContext(AppProxy.getInstance().getContext())
-                        .navigate();
-            }
-        }
+//        if (SPUtils.getInstance().getBoolean("isRegister")) {
+//            SPUtils.getInstance().put("isRegister",false);
+//            if (!com.yaoxin.appbase.net.Constant.isRunningRealName) {
+//                com.yaoxin.appbase.net.Constant.isRunningRealName = true;
+//                XKitRouter.withKey(com.yaoxin.appbase.net.Constant.RealName_Router)
+//                        .withContext(AppProxy.getInstance().getContext())
+//                        .navigate();
+//            }
+//        }
     }
 
     void _update() {
