@@ -7,6 +7,7 @@ import com.alipay.face.api.ZIMCallback;
 import com.alipay.face.api.ZIMFacade;
 import com.alipay.face.api.ZIMFacadeBuilder;
 import com.alipay.face.api.ZIMResponse;
+import com.netease.yunxin.kit.common.utils.SPUtils;
 import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
@@ -15,7 +16,10 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 public class RealNameAuthUtil {
-    public static void start(Context ctx, String certifyId) {
+    public interface dispathBlockT {
+        void finishBlock();
+    }
+    public static void start(Context ctx, String certifyId,dispathBlockT finishBlock) {
 
         ZIMFacade.install(ctx);
         ZIMFacade zimFacade = ZIMFacadeBuilder.create(ctx);
@@ -29,7 +33,10 @@ public class RealNameAuthUtil {
                                 .enqueue(new CommonCallback<NetData>() {
                                     @Override
                                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-
+                                        if (finishBlock != null) {
+                                            finishBlock.finishBlock();
+                                        }
+                                        SPUtils.getInstance().put("isRegister",false);
                                     }
 
                                     @Override

@@ -1,5 +1,6 @@
 package com.yaoxin.appbase.utils;
 
+import com.netease.yunxin.kit.common.utils.SPUtils;
 import com.orhanobut.hawk.Hawk;
 import com.yaoxin.appbase.model.GroupInfoBean;
 import com.yaoxin.appbase.model.UserBean;
@@ -127,6 +128,8 @@ public class DataUtil {
         DataUtil.putToken("");
         DataUtil.putUserInfo(null);
         Hawk.put(FriendList, new ArrayList<>());
+        SPUtils.getInstance().put("isRegister",false);
+
 
     }
 
