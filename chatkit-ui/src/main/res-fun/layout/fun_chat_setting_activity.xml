@@ -37,52 +37,98 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dimen_16_dp"
             android:orientation="vertical"
 
             android:gravity="center_horizontal">
 
-            <com.netease.yunxin.kit.common.ui.widgets.ContactAvatarView
-                android:id="@+id/fun_chat_setting_activity_avatarView"
-                android:layout_width="@dimen/dimen_60_dp"
-                android:layout_height="@dimen/dimen_60_dp"
-                app:avatarCorner="4dp" />
 
-            <LinearLayout
-                android:layout_marginTop="5dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
+            <RelativeLayout
+                android:layout_marginTop="10dp"
+                android:layout_marginHorizontal="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_marginTop="32dp"
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:background="@drawable/bg_white_rounded_10"
+                    android:paddingHorizontal="15dp"
+                    android:paddingBottom="25dp"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_marginTop="55dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/nameTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:text="会飞的洋芋"
+                            android:textColor="@color/color_333333"
+                            android:textSize="22sp" />
+                        <ImageView
+                            android:visibility="gone"
+                            android:layout_marginLeft="5dp"
+                            android:id="@+id/fun_team_user_info_detail_grade_iv"
+                            android:layout_width="46dp"
+                            android:layout_height="18dp"/>
+                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/fun_chat_setting_activity_id"
+                        android:layout_marginTop="@dimen/dimen_8_dp"
+                        android:layout_width="wrap_content"
+                        android:text="5678"
+                        android:textColor="@color/color_666666"
+                        android:textSize="12sp"
+                        android:layout_height="wrap_content"
+
+                        />
+                </LinearLayout>
+<!--                <TextView-->
+<!--                    android:visibility="visible"-->
+<!--                    android:id="@+id/fun_team_user_info_detail_bottom_tv"-->
+<!--                    android:layout_width="100dp"-->
+<!--                    android:layout_height="28dp"-->
+<!--                    android:text="加好友"-->
+<!--                    android:layout_alignParentEnd="true"-->
+<!--                    android:layout_marginTop="80dp"-->
+<!--                    android:layout_marginRight="15dp"-->
+<!--                    android:gravity="center"-->
+<!--                    android:background="@drawable/bg_app_theme_color_rounded_10"-->
+<!--                    android:textColor="#ffffffff"-->
+<!--                    android:textSize="15sp" />-->
+
 
                 <TextView
-                    android:id="@+id/nameTv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:text="会飞的洋芋"
-                    android:textColor="@color/color_333333"
-                    android:textSize="22sp" />
-
-                <TextView
-                    android:id="@+id/fun_chat_setting_activity_id"
-                    android:layout_width="wrap_content"
-
-                    android:paddingHorizontal="10dp"
-                    android:layout_height="20dp"
-                    android:background="@drawable/bg_black_alpha_20_rounded_10"
-
+                    android:id="@+id/fun_chat_setting_activity_send_msg_rl"
+                    android:layout_width="100dp"
+                    android:layout_height="28dp"
+                    android:layout_marginTop="80dp"
+                    android:layout_alignParentEnd="true"
+                    android:text="发消息"
+                    android:textColor="#ffffffff"
+                    android:textSize="15sp"
                     android:gravity="center"
-                    android:layout_marginTop="8dp"
-                    android:text="ID:87988656"
-                    android:textColor="@color/color_white"
-                    android:textSize="13sp" />
-            </LinearLayout>
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/bg_app_theme_color_rounded_10"
+                    />
+                <com.netease.yunxin.kit.common.ui.widgets.ContactAvatarView
+                    android:id="@+id/fun_chat_setting_activity_avatarView"
+                    android:layout_width="80dp"
+                    android:layout_marginLeft="17dp"
+                    android:layout_height="80dp"
+                    app:riv_corner_radius="5dp"
+                    android:scaleType="centerCrop" />
+            </RelativeLayout>
+
+
+
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_white_alpha_30_rounded_20"
+            android:background="@drawable/bg_white_rounded_10"
             android:layout_marginTop="20dp"
             android:layout_marginHorizontal="15dp"
             android:orientation="vertical">
@@ -130,17 +176,4 @@
         </LinearLayout>
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/fun_chat_setting_activity_send_msg_rl"
-        android:layout_width="301dp"
-        android:layout_height="@dimen/dimen_44_dp"
-        android:layout_alignParentBottom="true"
-        android:text="发消息"
-        android:textColor="#ffffffff"
-        android:textSize="16sp"
-        android:gravity="center"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="40dp"
-        android:background="@drawable/fun_bg_app_theme_color_rounded_22"
-        />
 </RelativeLayout>

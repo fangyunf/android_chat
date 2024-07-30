@@ -14,7 +14,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@mipmap/add_friend_bg"
+        android:src="@mipmap/jinzita_common_page_bg"
         android:scaleType="fitXY"
         />
 <LinearLayout
