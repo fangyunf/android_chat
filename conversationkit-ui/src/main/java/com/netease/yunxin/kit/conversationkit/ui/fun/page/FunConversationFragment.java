@@ -155,78 +155,84 @@ public class FunConversationFragment extends ConversationBaseFragment {
 
                       }
                     });
+    if (_type == 1) {
 
-    HttpUtil.apiW().group_userGroups(new RegisterBean())
-                    .enqueue(new CommonCallback<NetData>() {
-                      @Override
-                      public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                        Type type = new TypeToken<List<GroupInfoBean>>() {}.getType();
+      HttpUtil.apiW().group_userGroups(new RegisterBean())
+              .enqueue(new CommonCallback<NetData>() {
+                @Override
+                public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                        List<GroupInfoBean> dataList = new Gson().fromJson(body.data.toString(),type);
+                  Type type = new TypeToken<List<GroupInfoBean>>() {}.getType();
 
-                        for (GroupInfoBean tempGroupInfo : dataList) {
-                          boolean hasConversation = false;
-                          for (ConversationBean tempCoversation : conversationList) {
+                  List<GroupInfoBean> dataList = new Gson().fromJson(body.data.toString(),type);
 
-                            if (tempGroupInfo.groupId.equals((String) tempCoversation.param)) {
-                              hasConversation = true;
-                              break;
-                            }
-                          }
-                          if (!hasConversation) {
-                            sendGroupMessage(tempGroupInfo.groupId);
-                          }
-                        }
+                  for (GroupInfoBean tempGroupInfo : dataList) {
+                    boolean hasConversation = false;
+                    for (ConversationBean tempCoversation : conversationList) {
+
+                      if (tempGroupInfo.groupId.equals((String) tempCoversation.param)) {
+                        hasConversation = true;
+                        break;
                       }
-
-                      @Override
-                      public void Failure(Call<NetData> call, Throwable t) {
-
-                      }
-                    });
-    HttpUtil.apiW().customer_systemAppUser(new RegisterBean())
-            .enqueue(new CommonCallback<NetData>() {
-              @Override
-              public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-
-                String  kefuId = body.data.toString().replace("\"","");
-                requestKefu(kefuId);
-
-                String  xiaozhushouId = "10086";
-                DataUtil.putKeFuId(kefuId);
-                DataUtil.putXiaoZhuShouId(xiaozhushouId);
-
-                boolean hasKefu = false;
-                boolean hasXiaoZhushou = false;
-
-                for (ConversationBean tempBean :
-                        conversationList) {
-                  if (tempBean.infoData.getContactId().equals(kefuId)) {
-                    hasKefu = true;
-
+                    }
+                    if (!hasConversation) {
+                      sendGroupMessage(tempGroupInfo.groupId);
+                    }
                   }
                 }
-                for (ConversationBean tempBean :
-                        conversationList) {
-                  if (tempBean.infoData.getContactId().equals(xiaozhushouId)) {
-                    hasXiaoZhushou = true;
 
+                @Override
+                public void Failure(Call<NetData> call, Throwable t) {
+
+                }
+              });
+    }
+    if (_type == 0) {
+
+      HttpUtil.apiW().customer_systemAppUser(new RegisterBean())
+              .enqueue(new CommonCallback<NetData>() {
+                @Override
+                public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+
+                  String  kefuId = body.data.toString().replace("\"","");
+                  requestKefu(kefuId);
+
+                  String  xiaozhushouId = "10086";
+                  DataUtil.putKeFuId(kefuId);
+                  DataUtil.putXiaoZhuShouId(xiaozhushouId);
+
+                  boolean hasKefu = false;
+                  boolean hasXiaoZhushou = false;
+
+                  for (ConversationBean tempBean :
+                          conversationList) {
+                    if (tempBean.infoData.getContactId().equals(kefuId)) {
+                      hasKefu = true;
+
+                    }
+                  }
+                  for (ConversationBean tempBean :
+                          conversationList) {
+                    if (tempBean.infoData.getContactId().equals(xiaozhushouId)) {
+                      hasXiaoZhushou = true;
+
+                    }
+                  }
+                  if (!hasKefu) {
+                    sendMessage(kefuId);
+                  }
+                  if (!hasXiaoZhushou) {
+                    sendMessage(xiaozhushouId);
                   }
                 }
-                if (!hasKefu) {
-                  sendMessage(kefuId);
-                }
-                if (!hasXiaoZhushou) {
-                  sendMessage(xiaozhushouId);
-                }
-              }
 
-              @Override
-              public void Failure(Call<NetData> call, Throwable t) {
+                @Override
+                public void Failure(Call<NetData> call, Throwable t) {
 
-              }
-            });
+                }
+              });
+    }
   }
   void requestKefu(String kefuId) {
     RegisterBean bean = new RegisterBean();

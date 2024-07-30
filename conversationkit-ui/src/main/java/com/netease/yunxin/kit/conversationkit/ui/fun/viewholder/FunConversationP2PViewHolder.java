@@ -68,25 +68,27 @@ public class FunConversationP2PViewHolder extends FunConversationBaseViewHolder 
 
       viewBinding.nameTv.setText(name);
       List<GroupInfoBean> friendInfoList = DataUtil.getFriendInfoList();
-      if (!friendInfoList.isEmpty()) {
-        for (GroupInfoBean tempBean :friendInfoList) {
-          if (tempBean.userId.equals((String) data.param)) {
-            viewBinding.funConversationViewHolderIdTv.setVisibility(View.VISIBLE);
-            viewBinding.funConversationViewHolderIdTv.setText("ID:" + tempBean.memberCode);
-            break;
+      if (friendInfoList != null) {
+        if (!friendInfoList.isEmpty()) {
+          for (GroupInfoBean tempBean :friendInfoList) {
+            if (tempBean.userId.equals((String) data.param)) {
+              viewBinding.funConversationViewHolderIdTv.setVisibility(View.VISIBLE);
+              viewBinding.funConversationViewHolderIdTv.setText("ID:" + tempBean.memberCode);
+              break;
+            }
           }
         }
       }
-    }
+      }
     viewBinding.rootLayout.setBackground(viewBinding.rootLayout.getContext().getDrawable(com.yaoxin.appbase.R.drawable.bg_white_rounded_12));
-    ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) viewBinding.rootLayout.getLayoutParams();
-    if (data.param.equals(DataUtil.getUserid()) || AppProxy.getInstance().showType == 2) {
-      layoutParams.topMargin = 0;
-      layoutParams.height = 0;
-    } else {
-      layoutParams.height = SizeUtils.dp2px(72);
-      layoutParams.topMargin = SizeUtils.dp2px(5);
-    }
-    viewBinding.rootLayout.setLayoutParams(layoutParams);
+//    ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) viewBinding.rootLayout.getLayoutParams();
+//    if (data.param.equals(DataUtil.getUserid()) || AppProxy.getInstance().showType == 2) {
+//      layoutParams.topMargin = 0;
+//      layoutParams.height = 0;
+//    } else {
+//      layoutParams.height = SizeUtils.dp2px(72);
+//      layoutParams.topMargin = SizeUtils.dp2px(5);
+//    }
+//    viewBinding.rootLayout.setLayoutParams(layoutParams);
   }
 }

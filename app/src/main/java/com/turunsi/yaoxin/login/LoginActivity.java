@@ -88,8 +88,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         changeTitleWithType(0);
         if (BuildConfig.DEBUG) {
 
-        binding.activityLoginTf1.viewRoundTfEt.setText("18616821287");
-        binding.activityLoginTf3.viewRoundTfEt.setText("12345678a");
+        binding.activityLoginTf1.viewRoundTfEt.setText("18884806120");
+        binding.activityLoginTf3.viewRoundTfEt.setText("w123456789");
         }
     }
 

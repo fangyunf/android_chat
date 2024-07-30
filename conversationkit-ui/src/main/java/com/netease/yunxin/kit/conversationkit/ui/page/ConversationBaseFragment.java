@@ -120,12 +120,25 @@ public abstract class ConversationBaseFragment extends BaseFragment implements I
             this.getViewLifecycleOwner(),
             result -> {
               if (conversationView != null) {
+                conversationView._type = _type;
                 conversationList = result.getData();
+
+                ArrayList<ConversationBean> tempList = new ArrayList<>();
+                if (conversationList != null) {
+                  for (ConversationBean tempBean : conversationList) {
+                    if (_type == 1 && tempBean.viewType == 2) {
+                      tempList.add(tempBean);
+                    } else if (_type == 0 && tempBean.viewType == 1){
+                      tempList.add(tempBean);
+                    }
+                  }
+                }
+                conversationList = tempList;
                 finishLoadData();
                 if (result.getLoadStatus() == LoadStatus.Success) {
-                  conversationView.setData(result.getData());
+                  conversationView.setData(tempList);
                 } else if (result.getLoadStatus() == LoadStatus.Finish) {
-                  conversationView.addData(result.getData());
+                  conversationView.addData(tempList);
                 }
 
                 if (emptyView != null) {
