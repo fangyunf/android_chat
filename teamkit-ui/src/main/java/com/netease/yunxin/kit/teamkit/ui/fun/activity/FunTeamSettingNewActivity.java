@@ -57,7 +57,6 @@ import com.netease.yunxin.kit.teamkit.ui.activity.BaseTeamMemberListActivity;
 import com.netease.yunxin.kit.teamkit.ui.activity.BaseTeamSettingActivity;
 import com.netease.yunxin.kit.teamkit.ui.databinding.FunTeamSettingNewActivityBinding;
 import com.netease.yunxin.kit.teamkit.ui.fun.activity.adapter.TeamSettingUserInfoAdapter;
-import com.netease.yunxin.kit.teamkit.ui.fun.dialog.TeamMaxMemberDialogFragment;
 import com.netease.yunxin.kit.teamkit.ui.fun.dialog.TeamModifyDialog;
 import com.netease.yunxin.kit.teamkit.ui.utils.TeamUtils;
 import com.yaoxin.appbase.activity.BaseActivity;
