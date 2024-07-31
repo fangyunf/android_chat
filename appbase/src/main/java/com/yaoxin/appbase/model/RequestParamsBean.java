@@ -5,6 +5,8 @@ import com.yaoxin.appbase.utils.AppProxy;
 import com.yaoxin.appbase.utils.DeviceUtils;
 
 public class RequestParamsBean {
+    public String certNo;
+    public String usdt;
     private String phone;
     public String id;
     public int amount;

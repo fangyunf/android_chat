@@ -322,6 +322,11 @@ public interface ServiceW {
             @Body RegisterBean userBean
     );
     //  好友列表
+    @POST("/bindCard/deleteZFB")
+    Call<NetData> bindCard_deleteZFB(
+            @Body RegisterBean userBean
+    );
+    //  好友列表
     @POST("/withdraw/withdrawDeposit")
     Call<NetData> withdraw_withdrawDeposit(
             @Body RegisterBean userBean
