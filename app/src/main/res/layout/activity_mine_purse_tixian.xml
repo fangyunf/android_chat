@@ -19,8 +19,20 @@
         app:title="提现"
         app:title_text_color="@color/color_333333"
         app:under_divider_color="@color/transparent" />
-
+    <include
+        android:id="@+id/activity_mine_purse_tixian_type"
+        layout="@layout/view_title_tf_without_bg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_12_dp" />
+    <include
+        android:id="@+id/activity_mine_purse_tixian_daozhang"
+        layout="@layout/view_title_tf_without_bg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_12_dp" />
     <EditText
+        android:visibility="gone"
         android:id="@+id/activity_mine_purse_tixian_accout_tv"
         android:layout_marginTop="15dp"
         android:layout_width="match_parent"

@@ -22,8 +22,10 @@ import com.yaoxin.appbase.model.RequestParamsBean;
 import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
+import com.yaoxin.appbase.utils.DialogAlertUtil;
 import com.yaoxin.appbase.utils.NumberUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
+import com.yaoxin.appbase.view.LoadingDialog;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -31,6 +33,7 @@ import retrofit2.Response;
 public class PurseRechargeActivity extends BaseActivity implements View.OnClickListener {
     ActivityMinePurseRechargeBinding binding;
 
+    int _rechargeType = 0;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +63,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
 //        binding.activityMinePurseRechargeRechargeMoney.viewTitleTfWithoutBgEt.setGravity(gravity);
         binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt.setGravity(gravity);
         binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt.setText("支付宝");
-        binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgArrowIv.setVisibility(View.GONE);
+        binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgLl.setOnClickListener(this);
 
         binding.activityMinePurseRechargeEt.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
         binding.activityMinePurseRechargeEt.setKeyListener(DigitsKeyListener.getInstance("0123456789."));
@@ -99,8 +102,12 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
         });
 
 
-        binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt.setEnabled(false);
+//        binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt.setEnabled(false);
 
+        binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt.setFocusable(false);
+        binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt.setFocusableInTouchMode(false);
+        binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt.setClickable(true);
+        binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt.setOnClickListener(this);
         binding.activityMinePurseRechargeRechargeRl.setOnClickListener(this);
         binding.activityMinePurseRechargeMoney100.setOnClickListener(this);
         binding.activityMinePurseRechargeMoney300.setOnClickListener(this);
@@ -149,12 +156,55 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
             rechargeMoney("3000");
         } else if (v == binding.activityMinePurseRechargeMoney5000) {
             rechargeMoney("5000");
+        } else if (v == binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgLl || v == binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt) {
+            DialogAlertUtil.showSheetView(this, getSupportFragmentManager(), new String[]{"支付宝", "银行卡"}, new DialogAlertUtil.DialogAlertUtilCallBack() {
+                @Override
+                public void clickType(int type) {
+                    if (type == 1) {
+                        binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt.setText("支付宝");
+                        _rechargeType = 0;
+                    } else if (type == 2) {
+                        binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt.setText("银行卡");
+                        _rechargeType = 1;
+
+
+                    }
+                }
+            });
         }
 
     }
     void rechargeMoney(String inputMoney) {
+
         RequestParamsBean registerBean = new RequestParamsBean();
         registerBean.amount = NumberUtil.formartUploadMoney(inputMoney);
+        if (_rechargeType == 1) {
+            LoadingDialog.showDialog(getSupportFragmentManager(),"请求中");
+            HttpUtil.apiW().pay_sandPay(registerBean)
+                    .enqueue(new CommonCallback<NetData>() {
+                        @Override
+                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                            UserBean userBean = new Gson().fromJson(body.data.toString(),UserBean.class);
+                            RechargeScanFragment.showV(getSupportFragmentManager(),"请使用云闪付/银行App扫码",userBean.qrCode);
+
+//                            startAlipayPayment(userBean.qrCode);
+                        }
+
+                        @Override
+                        public void Failure(Call<NetData> call, Throwable t) {
+
+                        }
+
+                        @Override
+                        public void end() {
+                            super.end();
+                            LoadingDialog.dismissDialog();
+                        }
+                    });
+            return;
+        }
+        LoadingDialog.showDialog(getSupportFragmentManager(),"请求中");
+
         HttpUtil.apiW().pay_six(registerBean)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
@@ -165,6 +215,13 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
 
                     @Override
                     public void Failure(Call<NetData> call, Throwable t) {
+
+                    }
+
+                    @Override
+                    public void end() {
+                        super.end();
+                        LoadingDialog.dismissDialog();
 
                     }
                 });

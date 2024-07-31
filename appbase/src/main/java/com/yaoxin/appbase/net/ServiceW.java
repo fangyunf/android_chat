@@ -312,6 +312,11 @@ public interface ServiceW {
             @Body RequestParamsBean userBean
     );
     //  好友列表
+    @POST("/pay/sandPay")
+    Call<NetData> pay_sandPay(
+            @Body RequestParamsBean userBean
+    );
+    //  好友列表
     @POST("/customer/about")
     Call<NetData> customer_about(
             @Body RegisterBean userBean
