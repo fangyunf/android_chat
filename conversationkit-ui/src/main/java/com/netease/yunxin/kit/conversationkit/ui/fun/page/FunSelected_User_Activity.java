@@ -32,6 +32,7 @@ import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.AppProxy;
 import com.yaoxin.appbase.utils.BaseEvent;
 import com.yaoxin.appbase.utils.DataUtil;
+import com.yaoxin.appbase.utils.DialogAlertUtil;
 import com.yaoxin.appbase.utils.PinnedHeaderDecoration;
 import com.yaoxin.appbase.utils.TeamIconUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
@@ -268,26 +269,32 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
                     return;
                 }
 
-                RegisterBean bean = new RegisterBean();
-                bean.members = list;
-                bean.groupName = String.join(",",nameList);
-                bean.groupHead = TeamIconUtils.getDefaultRandomIconUrl(true);
-                HttpUtil.apiW().group_createGroup(bean)
-                        .enqueue(new CommonCallback<NetData>() {
-                            @Override
-                            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                                finish();
-                                CustomMsgBean bean1 = new Gson().fromJson(body.data.toString(),CustomMsgBean.class);
-                                XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_TEAM_PAGE)
-                                        .withParam(RouterConstant.CHAT_ID_KRY, bean1.groupId)
-                                        .withContext(AppProxy.getInstance().getContext())
-                                        .navigate();
-                            }
+                DialogAlertUtil.showInputAlert(this,"温馨提示","请输入群聊名称", new DialogAlertUtil.InputAlertCallBack() {
+                    @Override
+                    public void inputText(String text) {
+                        RegisterBean bean = new RegisterBean();
+                        bean.members = list;
+                        bean.groupName = text;
+                        bean.groupHead = TeamIconUtils.getDefaultRandomIconUrl(true);
+                        HttpUtil.apiW().group_createGroup(bean)
+                                .enqueue(new CommonCallback<NetData>() {
+                                    @Override
+                                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                                        finish();
+                                        CustomMsgBean bean1 = new Gson().fromJson(body.data.toString(),CustomMsgBean.class);
+                                        XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_TEAM_PAGE)
+                                                .withParam(RouterConstant.CHAT_ID_KRY, bean1.groupId)
+                                                .withContext(AppProxy.getInstance().getContext())
+                                                .navigate();
+                                    }
 
-                            @Override
-                            public void Failure(Call<NetData> call, Throwable t) {
-                            }
-                        });
+                                    @Override
+                                    public void Failure(Call<NetData> call, Throwable t) {
+                                    }
+                                });
+                    }
+                });
+
             } else if (page_type == 2) {
                 RegisterBean bean = new RegisterBean();
                 bean.groupId = groupInfoBean.groupId;

@@ -320,6 +320,8 @@ public class ChatMessageListView extends RecyclerView implements IMessageData {
       if (itemCount > 0) {
         if (isStartScroll) {
           if (isRecyclerViewAtBottom()) {
+            isStartScroll = false;
+
             post(() -> scrollToPosition(itemCount - 1));
           }
         } else {

@@ -237,7 +237,6 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
         bean.page = page +"";
         bean.pageNo ="100";
 
-        LoadingDialog.showDialog(getSupportFragmentManager(),"加载中");
         HttpUtil.apiW().group_groupUserListPost(bean)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
@@ -251,10 +250,12 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
                             if (tempList.size() == 100) {
                                 _requestPeople((page + 1));
                             } else {
+                                LoadingDialog.dismissDialog();
                                 requestYunXin();
                                 updateUI();
                             }
                         } else {
+                            LoadingDialog.dismissDialog();
                             requestYunXin();
                             updateUI();
                         }
@@ -262,13 +263,10 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
 
                     @Override
                     public void Failure(Call<NetData> call, Throwable t) {
-                    }
 
-                    @Override
-                    public void end() {
-                        super.end();
                         LoadingDialog.dismissDialog();
                     }
+
                 });
     }
     @Override
@@ -289,14 +287,9 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
 
                     @Override
                     public void Failure(Call<NetData> call, Throwable t) {
-
-                    }
-
-                    @Override
-                    public void end() {
-                        super.end();
                         LoadingDialog.dismissDialog();
                     }
+
                 });
     }
 

@@ -15,7 +15,10 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 public class RealNameAuthUtil {
-    public static void start(Context ctx, String certifyId) {
+    public interface dispathBlockT {
+        void finishBlock();
+    }
+    public static void start(Context ctx, String certifyId,dispathBlockT finishBlock) {
 
         ZIMFacade.install(ctx);
         ZIMFacade zimFacade = ZIMFacadeBuilder.create(ctx);
@@ -29,6 +32,9 @@ public class RealNameAuthUtil {
                                 .enqueue(new CommonCallback<NetData>() {
                                     @Override
                                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                                        if (finishBlock != null) {
+                                            finishBlock.finishBlock();
+                                        }
 
                                     }
 
