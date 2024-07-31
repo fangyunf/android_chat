@@ -4,7 +4,7 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.turunsi.jinzita",
+  "applicationId": "com.turunsi.yicheng",
   "variantName": "release",
   "elements": [
     {
@@ -12,7 +12,7 @@
       "filters": [],
       "attributes": [],
       "versionCode": 1,
-      "versionName": "2.0.9",
+      "versionName": "1.0.0",
       "outputFile": "app-release.apk"
     }
   ],
