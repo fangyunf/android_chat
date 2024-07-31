@@ -62,8 +62,8 @@ public class BuyFeatureActivity extends BaseActivity implements View.OnClickList
 
     void _updateUI() {
         binding.activityBuyFeatureNav.getTitleView().setText("购买副号");
-        binding.activityBuyFeatureMoneyTv.setText("￥68");
-        binding.activityBuyFeatureDetailTv.setText("购买即得20个副号");
+        binding.activityBuyFeatureMoneyTv.setText("￥200");
+        binding.activityBuyFeatureDetailTv.setText("购买即得15个副号");
 
 //        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
 //        binding.activityBuyFeatureRv.setLayoutManager(gridLayoutManager);
@@ -137,7 +137,7 @@ public class BuyFeatureActivity extends BaseActivity implements View.OnClickList
                                 }
                             });
                 }
-            },"68");
+            },"200");
             // 显示窗口
             popEnterPassword.showAtLocation(binding.activityBuyFeatureRootRl,
                     Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); // 设置layout在PopupWindow中显示的位置

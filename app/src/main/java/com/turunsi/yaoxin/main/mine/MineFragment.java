@@ -177,7 +177,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         binding.fragmentMineEditIv.setOnClickListener(this);
         binding.fragmentMineChoujiang.setOnClickListener(this);
         binding.fragmentMineLianghao.setOnClickListener(this);
-        binding.mineFragmentYuLeCl.setOnClickListener(this);
+//        binding.mineFragmentYuLeCl.setOnClickListener(this);
         binding.fragmentMineGotoUpgradeTv.setOnClickListener(this);
 
 //        binding.mineFragmentMyManagerItem1.viewMineFragmentItemCellCl.setOnClickListener(this);
@@ -292,10 +292,12 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         } else if (v == binding.fragmentMineAqysView) {
 
             AccountAnQuanManagerActivity.start(AccountAnQuanManagerActivity.class,context,null);
-        } else if (v == binding.mineFragmentYuLeCl) {
-
-            ToastUtils.toastMsg("敬请期待,等待开放");
-        } else if (v == binding.fragmentMineZhaqView) {
+        }
+//        else if (v == binding.mineFragmentYuLeCl) {
+//
+//            ToastUtils.toastMsg("敬请期待,等待开放");
+//        }
+        else if (v == binding.fragmentMineZhaqView) {
 
             Mine_Account_Anquan_Activity.start(Mine_Account_Anquan_Activity.class,context,null);
         } else if (v == binding.fragmentMineXsqxView) {

@@ -3,11 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/view_round_tf_ll"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/dimen_44_dp"
+    android:background="@drawable/round_8_ffdab1_line"
+    android:layout_height="52dp"
     android:gravity="center_vertical"
     android:paddingHorizontal="@dimen/dimen_18_dp"
+    android:layout_marginHorizontal="15dp"
     >
 
+    <ImageView
+        android:id="@+id/view_round_tf_left_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
 
     <EditText
         android:id="@+id/view_round_tf_et"
@@ -18,7 +25,7 @@
         android:layout_marginLeft="@dimen/dimen_8_dp"
         android:textSize="15sp"
         android:hint="请输入"
-        android:textColorHint="#9CABE1"
+        android:textColorHint="@color/color_white"
         android:textColor="@color/black"
         android:background="@null"
         android:cursorVisible="true"
@@ -37,5 +44,18 @@
         android:visibility="gone"
         android:background="@drawable/bg_fff3e6_rounded_15"
         />
+    <RelativeLayout
+        android:id="@+id/view_title_tf_count_eye_rl"
+        android:layout_width="40dp"
+        android:visibility="gone"
+        android:layout_height="40dp">
 
+        <ImageView
+            android:id="@+id/view_title_tf_count_eye_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/common_pwd_eye_state_selector"
+            android:layout_centerInParent="true"
+            />
+    </RelativeLayout>
 </LinearLayout>

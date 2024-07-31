@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.InputType;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -68,8 +69,19 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         binding.activityLoginTf1.viewRoundTfEt.setHint("输入手机号");
         binding.activityLoginTf2.viewRoundTfEt.setHint("输入验证码");
         binding.activityLoginTf3.viewRoundTfEt.setHint("输入密码");
+        binding.activityLoginTf1.viewRoundTfLeftIv.setImageResource(R.mipmap.login_tf_phone);
+        binding.activityLoginTf2.viewRoundTfLeftIv.setImageResource(R.mipmap.login_tf_pwd);
+        binding.activityLoginTf3.viewRoundTfLeftIv.setImageResource(R.mipmap.login_tf_pwd);
         binding.activityLoginTf1.viewRoundTfEt.setInputType(InputType.TYPE_CLASS_NUMBER);
         binding.activityLoginTf2.viewRoundTfEt.setInputType(InputType.TYPE_CLASS_NUMBER);
+
+
+        binding.activityLoginTf3.viewTitleTfCountEyeRl.setVisibility(View.VISIBLE);
+        binding.activityLoginTf3.viewTitleTfCountEyeRl.setOnClickListener(this);
+        binding.activityLoginTf3.viewTitleTfCountEyeIv.setSelected(true);
+        binding.activityLoginTf3.viewRoundTfEt.setTransformationMethod(PasswordTransformationMethod.getInstance());
+
+
 
         CountDownView mCountDownView = binding.activityLoginTf2.viewRoundTfBtnCaptcha;
         mCountDownView.setUserEdit(binding.activityLoginTf1.viewRoundTfEt);
@@ -102,7 +114,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             binding.activityLoginForgetTv.setText("忘记密码");
             binding.activityLoginForgetTv.setVisibility(View.VISIBLE);
             binding.activityLoginRegisterTv.setVisibility(View.VISIBLE);
-            binding.activityLoginTitleIv.setImageResource(R.mipmap.login_top_title_img_login);
+//            binding.activityLoginTitleIv.setImageResource(R.mipmap.login_top_title_img_login);
+            binding.activityLoginTitleTv.setText("欢迎登录");
         } else if (type == 1) {
             binding.activityLoginTf2.viewRoundTfLl.setVisibility(View.VISIBLE);
             binding.activityLoginTf2.viewRoundTfBtnCaptcha.setVisibility(View.VISIBLE);
@@ -110,7 +123,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             binding.activityLoginForgetTv.setText("返回登录");
             binding.activityLoginForgetTv.setVisibility(View.VISIBLE);
             binding.activityLoginRegisterTv.setVisibility(View.GONE);
-            binding.activityLoginTitleIv.setImageResource(R.mipmap.login_top_title_img_register);
+//            binding.activityLoginTitleIv.setImageResource(R.mipmap.login_top_title_img_register);
+            binding.activityLoginTitleTv.setText("欢迎注册");
         } else if (type == 2) {
             binding.activityLoginTf2.viewRoundTfLl.setVisibility(View.VISIBLE);
             binding.activityLoginTf2.viewRoundTfBtnCaptcha.setVisibility(View.VISIBLE);
@@ -119,13 +133,23 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             binding.activityLoginForgetTv.setText("返回登录");
             binding.activityLoginForgetTv.setVisibility(View.VISIBLE);
             binding.activityLoginRegisterTv.setVisibility(View.GONE);
-            binding.activityLoginTitleIv.setImageResource(R.mipmap.login_top_title_img_forget);
+//            binding.activityLoginTitleIv.setImageResource(R.mipmap.login_top_title_img_forget);
+            binding.activityLoginTitleTv.setText("忘记密码");
         }
     }
     @Override
     public void onClick(View v) {
-        if (v == binding.activityLoginIsAgreeLl) {
-            binding.activityLoginIsCheckedIv.setSelected(!binding.activityLoginIsCheckedIv.isSelected());
+        if (v == binding.activityLoginTf3.viewTitleTfCountEyeRl) {
+            binding.activityLoginTf3.viewTitleTfCountEyeIv.setSelected(!binding.activityLoginTf3.viewTitleTfCountEyeIv.isSelected());
+            if (binding.activityLoginTf3.viewTitleTfCountEyeIv.isSelected()) {
+                binding.activityLoginTf3.viewRoundTfEt.setTransformationMethod(PasswordTransformationMethod.getInstance());
+            } else {
+                binding.activityLoginTf3.viewRoundTfEt.setTransformationMethod(null);
+
+            }
+        }
+        else if (v == binding.activityLoginIsAgreeLl) {
+//            binding.activityLoginIsCheckedIv.setSelected(!binding.activityLoginIsCheckedIv.isSelected());
         }  else if (v == binding.activityLoginIsCheckedTxt2) {
             XKitRouter.withKey(Constant.BaseWebViewActivityKey)
                 .withParam("type","2")
@@ -153,10 +177,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
             if (_type == 0) {
 
-                if (!binding.activityLoginIsCheckedIv.isSelected()) {
-                    ToastUtils.toastMsg("请同意协议");
-                    return;
-                }
+//                if (!binding.activityLoginIsCheckedIv.isSelected()) {
+//                    ToastUtils.toastMsg("请同意协议");
+//                    return;
+//                }
                 String phone = getTextStr(binding.activityLoginTf1.viewRoundTfEt);
                 if (phone.length() != 11) {
                     ToastUtils.toastMsg("手机格式错误");
@@ -207,10 +231,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                             }
                         });
             } else if (_type == 1) {
-                if (!binding.activityLoginIsCheckedIv.isSelected()) {
-                    ToastUtils.toastMsg("请同意协议");
-                    return;
-                }
+//                if (!binding.activityLoginIsCheckedIv.isSelected()) {
+//                    ToastUtils.toastMsg("请同意协议");
+//                    return;
+//                }
                 String phone = getTextStr(binding.activityLoginTf1.viewRoundTfEt);
                 if (phone.length() != 11) {
                     ToastUtils.toastMsg("手机格式错误");
