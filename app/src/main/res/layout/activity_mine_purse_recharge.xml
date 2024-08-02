@@ -205,6 +205,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dimen_12_dp" />
+        <include
+            android:id="@+id/activity_mine_purse_recharge_recharge_type_usdt"
+            layout="@layout/view_title_tf_without_bg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_12_dp" />
 
         <TextView
             android:layout_marginTop="@dimen/dimen_20_dp"

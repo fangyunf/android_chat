@@ -225,6 +225,8 @@
         <activity
             android:name=".main.mine.purse.tixian.PurseTiXianAddAccountActivity" />
         <activity
+            android:name=".main.mine.purse.recharge.PurseUSDTRechargeActivity" />
+        <activity
             android:name=".main.mine.fuhao.BuyGroupFeatureActivity" />
         <activity
             android:name=".main.mine.setting.Mine_Account_Anquan_Activity" />

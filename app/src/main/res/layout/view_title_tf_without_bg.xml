@@ -15,6 +15,14 @@ android:gravity="center_vertical"
         android:text="手机号号"
         android:textColor="@color/black"
         android:textSize="@dimen/text_size_16" />
+    <TextView
+        android:id="@+id/view_title_tf_without_bg_tv1"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dimen_22_dp"
+        android:text="手机号号"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_size_16" />
 
     <EditText
         android:id="@+id/view_title_tf_without_bg_et"

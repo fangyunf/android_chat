@@ -43,27 +43,28 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
         _initCell();
     }
     private void _initCell() {
-//        binding.activityMinePurseRechargeRechargeMoney.viewTitleTfWithoutBgEt.setBackgroundColor(getResources().getColor(R.color.color_white));
         binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt.setBackgroundColor(getResources().getColor(R.color.color_white));
-
-//        binding.activityMinePurseRechargeRechargeMoney.viewTitleTfWithoutBgLl.setBackgroundColor(getResources().getColor(R.color.color_white));
         binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgLl.setBackgroundColor(getResources().getColor(R.color.color_white));
-
-//        binding.activityMinePurseRechargeRechargeMoney.viewTitleTfWithoutBgEt.setHint("请输入充值金额");
-//        binding.activityMinePurseRechargeRechargeMoney.viewTitleTfWithoutBgTv.setText("充值金额");
-
-
         binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgLl.setBackground(getResources().getDrawable(com.yaoxin.appbase.R.drawable.bg_f2f2f2_rounded_10));
         binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt.setBackground(getResources().getDrawable(R.color.transparent));
         binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgTv.setText("充值方式");
         binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgArrowIv.setVisibility(View.VISIBLE);
         int gravity = Gravity.END | Gravity.CENTER_VERTICAL; // 组合重力
-
-//        binding.activityMinePurseRechargeRechargeMoney.viewTitleTfWithoutBgEt.setGravity(gravity);
         binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt.setGravity(gravity);
         binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt.setText("支付宝");
         binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgLl.setOnClickListener(this);
-//        binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt.setOnClickListener(this);
+
+        binding.activityMinePurseRechargeRechargeTypeUsdt.viewTitleTfWithoutBgEt.setBackgroundColor(getResources().getColor(R.color.color_white));
+        binding.activityMinePurseRechargeRechargeTypeUsdt.viewTitleTfWithoutBgLl.setBackgroundColor(getResources().getColor(R.color.color_white));
+        binding.activityMinePurseRechargeRechargeTypeUsdt.viewTitleTfWithoutBgLl.setBackground(getResources().getDrawable(com.yaoxin.appbase.R.drawable.bg_f2f2f2_rounded_10));
+        binding.activityMinePurseRechargeRechargeTypeUsdt.viewTitleTfWithoutBgEt.setBackground(getResources().getDrawable(R.color.transparent));
+        binding.activityMinePurseRechargeRechargeTypeUsdt.viewTitleTfWithoutBgTv1.setText("USDT充值地址");
+        binding.activityMinePurseRechargeRechargeTypeUsdt.viewTitleTfWithoutBgTv1.setVisibility(View.VISIBLE);
+        binding.activityMinePurseRechargeRechargeTypeUsdt.viewTitleTfWithoutBgTv.setVisibility(View.GONE);
+        binding.activityMinePurseRechargeRechargeTypeUsdt.viewTitleTfWithoutBgArrowIv.setVisibility(View.VISIBLE);
+        binding.activityMinePurseRechargeRechargeTypeUsdt.viewTitleTfWithoutBgEt.setGravity(gravity);
+        binding.activityMinePurseRechargeRechargeTypeUsdt.viewTitleTfWithoutBgEt.setText(" ");
+        binding.activityMinePurseRechargeRechargeTypeUsdt.viewTitleTfWithoutBgLl.setOnClickListener(this);
 
         binding.activityMinePurseRechargeEt.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
         binding.activityMinePurseRechargeEt.setKeyListener(DigitsKeyListener.getInstance("0123456789."));
@@ -107,6 +108,11 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
         binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt.setFocusableInTouchMode(false);
         binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt.setClickable(true);
         binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt.setOnClickListener(this);
+
+        binding.activityMinePurseRechargeRechargeTypeUsdt.viewTitleTfWithoutBgEt.setFocusable(false);
+        binding.activityMinePurseRechargeRechargeTypeUsdt.viewTitleTfWithoutBgEt.setFocusableInTouchMode(false);
+        binding.activityMinePurseRechargeRechargeTypeUsdt.viewTitleTfWithoutBgEt.setClickable(true);
+        binding.activityMinePurseRechargeRechargeTypeUsdt.viewTitleTfWithoutBgEt.setOnClickListener(this);
 
 
 
@@ -172,6 +178,8 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
                     }
                 }
             });
+        } else if (v == binding.activityMinePurseRechargeRechargeTypeUsdt.viewTitleTfWithoutBgLl || v == binding.activityMinePurseRechargeRechargeTypeUsdt.viewTitleTfWithoutBgEt) {
+            PurseUSDTRechargeActivity.start(PurseUSDTRechargeActivity.class,this,null);
         }
 
     }

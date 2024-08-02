@@ -14,6 +14,7 @@ import com.turunsi.yaoxin.login.RealNameSetActivity;
 import com.turunsi.yaoxin.main.mine.purse.alipay.BindAlipayActivity;
 import com.turunsi.yaoxin.main.mine.purse.bill.BillDetailListActivity;
 import com.turunsi.yaoxin.main.mine.purse.pwdmanager.PursePwdManagerSetActivity;
+import com.turunsi.yaoxin.main.mine.purse.recharge.PurseUSDTRechargeActivity;
 import com.turunsi.yaoxin.main.mine.purse.tixian.PurseTiXianAddAccountActivity;
 import com.yaoxin.appbase.activity.BaseActivity;
 import com.turunsi.yaoxin.databinding.ActivityMinePurseIndexBinding;
@@ -101,11 +102,15 @@ public class PurseIndexActivity extends BaseActivity implements View.OnClickList
 
         binding.activityMinePurseIndexCell1.itemPurseIndexCellTitleTv.setText("红包记录");
         binding.activityMinePurseIndexCell2.itemPurseIndexCellTitleTv.setText("绑定支付宝");
-        binding.activityMinePurseIndexCell3.itemPurseIndexCellTitleTv.setText("USDT地址");
-        binding.activityMinePurseIndexCell3.itemPurseIndexCellRl.setVisibility(View.GONE);
+        binding.activityMinePurseIndexCell3.itemPurseIndexCellTitleTv.setText("USDT充值地址");
+//        binding.activityMinePurseIndexCell3.itemPurseIndexCellRl.setVisibility(View.GONE);
+//        binding.activityMinePurseIndexCell3.itemPurseIndexCellRl.setVisibility(View.GONE);
         binding.activityMinePurseIndexCell4.itemPurseIndexCellTitleTv.setText("银行卡");
+        binding.activityMinePurseIndexCell4.itemPurseIndexCellRl.setVisibility(View.GONE);
         binding.activityMinePurseIndexCell5.itemPurseIndexCellTitleTv.setText("数字人民币");
+        binding.activityMinePurseIndexCell5.itemPurseIndexCellRl.setVisibility(View.GONE);
         binding.activityMinePurseIndexCell6.itemPurseIndexCellTitleTv.setText("绑定微信");
+        binding.activityMinePurseIndexCell6.itemPurseIndexCellRl.setVisibility(View.GONE);
         binding.activityMinePurseIndexCell7.itemPurseIndexCellTitleTv.setText("娱乐游戏");
         binding.activityMinePurseIndexCell8.itemPurseIndexCellTitleTv.setText("设置密码");
         binding.activityMinePurseIndexCell9.itemPurseIndexCellTitleTv.setText("修改密码");
@@ -136,7 +141,7 @@ public class PurseIndexActivity extends BaseActivity implements View.OnClickList
         } else if (v == binding.activityMinePurseIndexCell2.itemPurseIndexCellRl) {
             BindAlipayActivity.start(BindAlipayActivity.class,this,null);
         } else if (v == binding.activityMinePurseIndexCell3.itemPurseIndexCellRl) {
-            ToastUtils.toastMsg("敬请期待");
+            PurseUSDTRechargeActivity.start(PurseUSDTRechargeActivity.class,this,null);
         } else if (v == binding.activityMinePurseIndexCell4.itemPurseIndexCellRl) {
             ToastUtils.toastMsg("敬请期待");
         } else if (v == binding.activityMinePurseIndexCell5.itemPurseIndexCellRl) {
