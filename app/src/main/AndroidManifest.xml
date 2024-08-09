@@ -95,7 +95,7 @@
         android:theme="@style/Theme.Xkit">
         <meta-data
             android:name="com.netease.nim.appKey"
-            android:value="2a6664a3c43a1fd51133b7dff030c575" />
+            android:value="134e668f169620c1c2d40e90712d7864" />
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="cd71a16bb840431be756188d3a0a1931" />
