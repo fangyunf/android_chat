@@ -103,6 +103,7 @@ public class PurseIndexActivity extends BaseActivity implements View.OnClickList
         binding.activityMinePurseIndexCell1.itemPurseIndexCellTitleTv.setText("红包记录");
         binding.activityMinePurseIndexCell2.itemPurseIndexCellTitleTv.setText("绑定支付宝");
         binding.activityMinePurseIndexCell3.itemPurseIndexCellTitleTv.setText("USDT充值地址");
+        binding.activityMinePurseIndexCell3.itemPurseIndexCellRl.setVisibility(View.GONE);
 //        binding.activityMinePurseIndexCell3.itemPurseIndexCellRl.setVisibility(View.GONE);
 //        binding.activityMinePurseIndexCell3.itemPurseIndexCellRl.setVisibility(View.GONE);
         binding.activityMinePurseIndexCell4.itemPurseIndexCellTitleTv.setText("银行卡");
@@ -141,7 +142,8 @@ public class PurseIndexActivity extends BaseActivity implements View.OnClickList
         } else if (v == binding.activityMinePurseIndexCell2.itemPurseIndexCellRl) {
             BindAlipayActivity.start(BindAlipayActivity.class,this,null);
         } else if (v == binding.activityMinePurseIndexCell3.itemPurseIndexCellRl) {
-            PurseUSDTRechargeActivity.start(PurseUSDTRechargeActivity.class,this,null);
+//            PurseUSDTRechargeActivity.start(PurseUSDTRechargeActivity.class,this,null);
+            ToastUtils.toastMsg("敬请期待");
         } else if (v == binding.activityMinePurseIndexCell4.itemPurseIndexCellRl) {
             ToastUtils.toastMsg("敬请期待");
         } else if (v == binding.activityMinePurseIndexCell5.itemPurseIndexCellRl) {

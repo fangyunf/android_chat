@@ -74,6 +74,7 @@
                     android:textSize="@dimen/text_size_15" />
                 <TextView
                     android:layout_marginLeft="15dp"
+                    android:visibility="gone"
                     android:id="@+id/activity_mine_purse_index_tixian_tv"
                     android:layout_width="0dp"
                     android:layout_weight="1"

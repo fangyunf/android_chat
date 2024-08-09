@@ -124,6 +124,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
         binding.activityMinePurseRechargeMoney3000.setOnClickListener(this);
         binding.activityMinePurseRechargeMoney5000.setOnClickListener(this);
 
+        binding.activityMinePurseRechargeRechargeTypeUsdt.viewTitleTfWithoutBgLl.setVisibility(View.GONE);
     }
     @Override
     protected void _requestData() {
