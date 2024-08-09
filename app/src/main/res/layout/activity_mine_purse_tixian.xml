@@ -16,7 +16,7 @@
         app:back_icon="@mipmap/temp_ic_back"
         app:enable_under_divider="true"
         app:support_translucent_status_bar="false"
-        app:title="提现"
+        app:title="兑换钻石会员成长"
         app:title_text_color="@color/color_333333"
         app:under_divider_color="@color/transparent" />
 
@@ -39,7 +39,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="提现金额"
+        android:text="兑换钻石"
         android:textColor="#ff333333"
         android:layout_marginTop="12dp"
         android:layout_gravity="left"
@@ -72,7 +72,7 @@
             android:layout_marginHorizontal="15dp"
             android:layout_height="match_parent"
             android:textSize="30sp"
-            android:hint="请输入金额"
+            android:hint="请输入"
             android:background="@null"
             android:textColorHint="@color/color_999999"
             android:textColor="@color/black"
@@ -85,7 +85,7 @@
             android:id="@+id/activity_mine_purse_tixian_all_tixian_tv"
             android:layout_width="64dp"
             android:layout_height="22dp"
-            android:text="全部提现"
+            android:text="全部兑换"
             android:textColor="#81A5FF"
             android:textSize="16sp"
             />
@@ -98,14 +98,14 @@
         android:layout_width="301dp"
         android:layout_height="@dimen/dimen_44_dp"
         android:gravity="center"
-        android:text="提现"
+        android:text="兑换"
         android:textColor="@color/white"
         android:textSize="16sp" />
     <TextView
         android:layout_marginTop="14dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="预计1个工作日内到账"
+        android:text="会员成长日记"
         android:textColor="#ff999999"
         android:textSize="14sp"
         />
