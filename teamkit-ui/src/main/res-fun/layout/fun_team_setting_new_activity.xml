@@ -46,69 +46,108 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <LinearLayout
+                <RelativeLayout
+                    android:layout_marginTop="15dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical"
-
-                    android:padding="@dimen/dimen_16_dp">
-
-                    <com.makeramen.roundedimageview.RoundedImageView
-                        android:id="@+id/fun_team_setting_new_activity_team_icon"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        app:riv_corner_radius="30dp"
-                        android:scaleType="centerCrop"
-                        />
-
+                    android:paddingHorizontal="15dp"
+                    android:layout_height="wrap_content">
                     <LinearLayout
+                        android:layout_marginTop="32dp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:gravity="center_horizontal"
-                        >
+                        android:background="@drawable/bg_white_rounded_10"
+                        android:layout_height="117dp">
 
                         <LinearLayout
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginTop="56dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
+                            android:orientation="vertical"
                             >
 
-                            <TextView
-                                android:id="@+id/tvName"
-                                android:maxWidth="350dp"
+                            <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:singleLine="true"
-                                android:textColor="@color/color_333333"
-                                android:textSize="16dp"
-                                tools:ignore="SpUsage" />
+                                android:gravity="center_vertical"
+                                >
 
-                            <ImageView
-                                android:id="@+id/edit_icon"
-                                android:layout_width="20dp"
+                                <TextView
+                                    android:id="@+id/tvName"
+                                    android:maxWidth="350dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/color_333333"
+                                    android:textSize="16dp"
+                                    tools:ignore="SpUsage" />
+
+                                <ImageView
+                                    android:id="@+id/edit_icon"
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:layout_marginLeft="5dp"
+                                    android:src="@mipmap/mine_index_bj"
+                                    />
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/fun_team_setting_new_activity_id_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_marginTop="11dp"
+                                android:text="ID:87988656"
+                                android:textColor="@color/color_white"
+
+                                android:paddingHorizontal="10dp"
                                 android:layout_height="20dp"
-                                android:layout_marginLeft="5dp"
-                                android:src="@mipmap/mine_index_bj"
-                                />
+                                android:background="@drawable/bg_black_alpha_20_rounded_10"
+
+                                android:textSize="14sp" />
                         </LinearLayout>
-
-                        <TextView
-                            android:id="@+id/fun_team_setting_new_activity_id_tv"
-                            android:layout_width="wrap_content"
-                            android:layout_marginTop="11dp"
-                            android:text="ID:87988656"
-                            android:textColor="@color/color_white"
-
-                            android:paddingHorizontal="10dp"
-                            android:layout_height="20dp"
-                            android:background="@drawable/bg_black_alpha_20_rounded_10"
-
-                            android:textSize="14sp" />
 
                     </LinearLayout>
 
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:layout_marginLeft="15dp"
+                        android:id="@+id/fun_team_setting_new_activity_team_icon"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        app:riv_corner_radius="40dp"
+                        android:scaleType="centerCrop"
+                        />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/fun_team_setting_new_activity_manager_ll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="15dp"
+                    android:layout_marginTop="@dimen/dimen_12_dp"
+                    android:background="@drawable/bg_white_rounded_10"
+                    android:orientation="vertical">
+
+
+                    <include
+                        android:id="@+id/fun_team_setting_new_activity_manager_team"
+                        layout="@layout/view_title_arrow_template"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                    <include
+                        android:id="@+id/fun_team_setting_new_activity_team_setting"
+                        layout="@layout/view_title_arrow_template"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                    <include
+                        android:id="@+id/fun_team_setting_new_activity_team_upgrade"
+                        layout="@layout/view_title_arrow_template"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <include
+                        android:id="@+id/fun_team_setting_new_activity_set_gonggao"
+                        layout="@layout/view_title_arrow_template"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -117,35 +156,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:background="@drawable/bg_f2f2f2_rounded_10"
+                    android:background="@drawable/bg_white_rounded_10"
                     android:orientation="vertical"
                     android:paddingVertical="@dimen/dimen_16_dp"
                     >
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:gravity="center_vertical"
-                        android:layout_height="wrap_content">
-                        <ImageView
-                            android:layout_marginLeft="@dimen/dimen_16_dp"
-                            android:layout_marginRight="6dp"
-                            android:layout_width="13dp"
-                            android:layout_height="13dp"
-                            android:src="@drawable/team_setting_cell_qcy"
-                            />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="22dp"
-                            android:text="群成员"
-                            android:textColor="#ff000000"
-                            android:textSize="16sp" />
-                    </LinearLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/fun_team_setting_new_activity_member_rv"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dimen_75_dp"
-                        android:layout_marginTop="@dimen/dimen_12_dp" />
+                        />
 
                     <LinearLayout
                         android:id="@+id/fun_team_setting_new_activity_see_all_member_ll"
@@ -175,7 +195,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dimen_12_dp"
-                    android:background="@drawable/bg_f2f2f2_rounded_10"
+                    android:background="@drawable/bg_white_rounded_10"
 
                     android:layout_marginHorizontal="15dp"
                     android:orientation="vertical"
@@ -216,24 +236,6 @@
                 android:layout_marginTop="@dimen/dimen_12_dp"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:gravity="center_vertical"
-                    android:layout_height="wrap_content">
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="@dimen/dimen_14_dp"
-                        android:src="@drawable/team_setting_cell_set"
-                        />
-                    <TextView
-                        android:layout_marginLeft="4dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="设置"
-                        android:textColor="#ff000000"
-                        android:textSize="15sp"
-                        />
-                </LinearLayout>
 <!--                <com.yaoxin.appbase.view.templateview.ViewTitleArrowTemplate-->
 
 <!--                    android:id="@+id/fun_team_setting_new_activity_miandarao"-->
@@ -244,7 +246,7 @@
                     android:orientation="vertical"
                     android:layout_width="match_parent"
 android:layout_marginTop="5dp"
-                    android:background="@drawable/bg_f2f2f2_rounded_10"
+                    android:background="@drawable/bg_white_rounded_10"
                     android:layout_height="wrap_content">
 
                     <include
@@ -266,7 +268,7 @@ android:layout_marginTop="5dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="15dp"
                     android:layout_marginTop="@dimen/dimen_12_dp"
-                    android:background="@drawable/bg_f2f2f2_rounded_10"
+                    android:background="@drawable/bg_white_rounded_10"
                     android:orientation="vertical">
 
                     <include
@@ -275,17 +277,6 @@ android:layout_marginTop="5dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
-                    <include
-                        android:id="@+id/fun_team_setting_new_activity_set_gonggao"
-                        layout="@layout/view_title_arrow_template"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                    <include
-                        android:id="@+id/fun_team_setting_new_activity_manager_team"
-                        layout="@layout/view_title_arrow_template"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
 <!--                    <include-->
 <!--                        android:id="@+id/fun_team_setting_new_activity_upgrade_team"-->
 <!--                        layout="@layout/view_title_arrow_template"-->

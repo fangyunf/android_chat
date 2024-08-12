@@ -28,7 +28,6 @@
             android:textColor="#ffffffff"
             android:textSize="10sp"
             android:visibility="gone"
-            android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:background="@drawable/fun_bg_purple_rounded_7"
             />
@@ -40,6 +39,6 @@
         android:layout_height="20dp"
         android:text=""
         android:textColor="#ff000000"
-        android:textSize="14sp"
+        android:textSize="12sp"
         />
 </LinearLayout>

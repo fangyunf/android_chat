@@ -38,12 +38,12 @@ public class TeamSettingUserInfoAdapter extends BaseQuickAdapter<GroupInfoBean, 
 
         TextView tv = quickViewHolder.getView(R.id.cell_fun_team_setting_users_name_tv_role);
         if (i >= userInfoList.size()) {
-            tv.setVisibility(View.GONE);
-            quickViewHolder.setText(R.id.cell_fun_team_setting_users_name_tv, "");
             if (i == userInfoList.size()) {
                 iv.setImageResource(com.yaoxin.appbase.R.drawable.team_setting_add_user);
+                quickViewHolder.setText(R.id.cell_fun_team_setting_users_name_tv, "邀请成员");
             } else {
                 iv.setImageResource(com.yaoxin.appbase.R.drawable.team_setting_delete_user);
+                quickViewHolder.setText(R.id.cell_fun_team_setting_users_name_tv, "删除成员");
             }
         } else {
             GroupInfoBean infoBean = userInfoList.get(i);

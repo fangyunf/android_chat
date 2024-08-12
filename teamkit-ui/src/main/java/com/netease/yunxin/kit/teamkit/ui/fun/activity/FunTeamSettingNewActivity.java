@@ -185,6 +185,12 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
         binding.funTeamSettingNewActivityManagerTeam.viewTitleArrowTv.setText("群管理");
         binding.funTeamSettingNewActivityManagerTeam.viewTitleArrowLl.setOnClickListener(this);
 
+        binding.funTeamSettingNewActivityTeamSetting.viewTitleArrowTv.setText("群设置");
+        binding.funTeamSettingNewActivityTeamSetting.viewTitleArrowLl.setOnClickListener(this);
+
+        binding.funTeamSettingNewActivityTeamUpgrade.viewTitleArrowTv.setText("群升级");
+        binding.funTeamSettingNewActivityTeamUpgrade.viewTitleArrowLl.setOnClickListener(this);
+
 //        binding.funTeamSettingNewActivityUpgradeTeam.viewTitleArrowTv.setText("群升级");
 //        binding.funTeamSettingNewActivityUpgradeTeam.viewTitleArrowLl.setOnClickListener(this);
 
@@ -206,27 +212,25 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
 //        binding.funTeamSettingNewActivityTousu.viewTitleArrowLl.setOnClickListener(this);
 
 
-        binding.funTeamSettingNewActivityManagerTeam.viewTitleArrowLl.setVisibility(View.GONE);
-        binding.funTeamSettingNewActivitySetGonggao.viewTitleArrowLl.setVisibility(View.GONE);
         binding.editIcon.setVisibility(View.GONE);
 
-        binding.funTeamSettingNewActivityZhiding.viewTitleArrowTemplateLeftIv.setVisibility(View.VISIBLE);
-        binding.funTeamSettingNewActivityZhiding.viewTitleArrowTemplateLeftIv.setImageResource(R.drawable.team_setting_cell_zd);
-
-        binding.funTeamSettingNewActivityMiandarao.viewTitleArrowTemplateLeftIv.setVisibility(View.VISIBLE);
-        binding.funTeamSettingNewActivityMiandarao.viewTitleArrowTemplateLeftIv.setImageResource(R.drawable.team_setting_miandarao);
-
-        binding.funTeamSettingNewActivityNicheng.viewTitleArrowTemplateLeftIv.setVisibility(View.VISIBLE);
-        binding.funTeamSettingNewActivityNicheng.viewTitleArrowTemplateLeftIv.setImageResource(R.drawable.team_setting_cell_edit_name);
-
-        binding.funTeamSettingNewActivitySetGonggao.viewTitleArrowTemplateLeftIv.setVisibility(View.VISIBLE);
-        binding.funTeamSettingNewActivitySetGonggao.viewTitleArrowTemplateLeftIv.setImageResource(R.drawable.team_setting_cell_edit_name);
-
-        binding.funTeamSettingNewActivityManagerTeam.viewTitleArrowTemplateLeftIv.setVisibility(View.VISIBLE);
-        binding.funTeamSettingNewActivityManagerTeam.viewTitleArrowTemplateLeftIv.setImageResource(R.drawable.team_setting_cell_qgl);
-
-        binding.funTeamSettingNewActivityDelteRecord.viewTitleArrowTemplateLeftIv.setVisibility(View.VISIBLE);
-        binding.funTeamSettingNewActivityDelteRecord.viewTitleArrowTemplateLeftIv.setImageResource(R.drawable.team_setting_cell_ql);
+//        binding.funTeamSettingNewActivityZhiding.viewTitleArrowTemplateLeftIv.setVisibility(View.VISIBLE);
+//        binding.funTeamSettingNewActivityZhiding.viewTitleArrowTemplateLeftIv.setImageResource(R.drawable.team_setting_cell_zd);
+//
+//        binding.funTeamSettingNewActivityMiandarao.viewTitleArrowTemplateLeftIv.setVisibility(View.VISIBLE);
+//        binding.funTeamSettingNewActivityMiandarao.viewTitleArrowTemplateLeftIv.setImageResource(R.drawable.team_setting_miandarao);
+//
+//        binding.funTeamSettingNewActivityNicheng.viewTitleArrowTemplateLeftIv.setVisibility(View.VISIBLE);
+//        binding.funTeamSettingNewActivityNicheng.viewTitleArrowTemplateLeftIv.setImageResource(R.drawable.team_setting_cell_edit_name);
+//
+//        binding.funTeamSettingNewActivitySetGonggao.viewTitleArrowTemplateLeftIv.setVisibility(View.VISIBLE);
+//        binding.funTeamSettingNewActivitySetGonggao.viewTitleArrowTemplateLeftIv.setImageResource(R.drawable.team_setting_cell_edit_name);
+//
+//        binding.funTeamSettingNewActivityManagerTeam.viewTitleArrowTemplateLeftIv.setVisibility(View.VISIBLE);
+//        binding.funTeamSettingNewActivityManagerTeam.viewTitleArrowTemplateLeftIv.setImageResource(R.drawable.team_setting_cell_qgl);
+//
+//        binding.funTeamSettingNewActivityDelteRecord.viewTitleArrowTemplateLeftIv.setVisibility(View.VISIBLE);
+//        binding.funTeamSettingNewActivityDelteRecord.viewTitleArrowTemplateLeftIv.setImageResource(R.drawable.team_setting_cell_ql);
 
 
     }
@@ -388,7 +392,8 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
 //        binding.funTeamSettingNewActivityUpgradeTeam.viewTitleArrowLl.setVisibility(View.GONE);
         if (groupInfoBean.rankState == 1 || groupInfoBean.rankState == 2) {
 
-            binding.funTeamSettingNewActivityManagerTeam.viewTitleArrowLl.setVisibility(View.VISIBLE);
+//            binding.funTeamSettingNewActivityManagerTeam.viewTitleArrowLl.setVisibility(View.VISIBLE);
+            binding.funTeamSettingNewActivityManagerLl.setVisibility(View.VISIBLE);
 //            binding.funTeamSettingNewActivityUpgradeTeam.viewTitleArrowLl.setVisibility(View.VISIBLE);
 //            binding.funTeamSettingNewActivitySetGonggao.viewTitleArrowLl.setVisibility(View.VISIBLE);
             binding.editIcon.setVisibility(View.VISIBLE);
@@ -510,7 +515,7 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
                             })
                     .show(getSupportFragmentManager());
             
-        } else if (view == binding.editIcon) {
+        } else if (view == binding.editIcon || view == binding.funTeamSettingNewActivityTeamSetting.viewTitleArrowLl) {
 
             Activity that = this;
             DialogAlertUtil.showSheetView(this, getSupportFragmentManager(), new String[]{"修改群名称","修改公告栏","修改群头像"}, new DialogAlertUtil.DialogAlertUtilCallBack() {
@@ -636,19 +641,14 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
 //                    .maxOriginalSize(10)
 //                    .autoHideToolbarOnSingleTap(true)
 //                    .forResult(REQUEST_CODE_CHOOSE);
-        }
-//        else if (view == binding.funTeamSettingNewActivityUpgradeTeam.viewTitleArrowLl) {
-//            XKitRouter.withKey("BuyGroupFeatureActivity")
-//                    .withParam("type",0)
-//                    .withParam("groupId",groupId)
-//                    .withContext(this)
-//                    .navigate();
+        } else if (view == binding.funTeamSettingNewActivityTeamUpgrade.viewTitleArrowLl) {
+            XKitRouter.withKey("BuyGroupFeatureActivity")
+                    .withParam("type",0)
+                    .withParam("groupId",groupId)
+                    .withContext(this)
+                    .navigate();
 
-//            XKitRouter.withKey(RouterConstant.PATH_FUN_MY_BLACK_PAGE)
-//                    .withParam("groupId",groupId)
-//                    .withContext(this)
-//                    .navigate();
-//        }
+        }
     }
 
     @Override
