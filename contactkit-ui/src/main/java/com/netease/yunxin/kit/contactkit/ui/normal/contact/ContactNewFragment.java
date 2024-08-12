@@ -179,7 +179,7 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
             public void onClick(@NonNull BaseQuickAdapter<GroupInfoBean, ?> baseQuickAdapter, @NonNull View view, int i) {
                 if (baseQuickAdapter.getItemViewType(i) == Constant.RECYCLE_VIEW_ITEM) {
                     XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_SETTING_PAGE)
-                            .withParam(RouterConstant.CHAT_ID_KRY, baseQuickAdapter.getItem(i - 1).userId)
+                            .withParam(RouterConstant.CHAT_ID_KRY, baseQuickAdapter.getItem(i).userId)
                             .withParam("type", "1")
                             .withContext(requireActivity())
                             .navigate();
