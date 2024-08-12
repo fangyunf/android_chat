@@ -77,6 +77,10 @@ public class FunConversationFragment extends ConversationBaseFragment {
 
   private FunConversationFragmentBinding viewBinding;
 
+  public FunConversationFragment(int type) {
+    _type = type;
+  }
+
   private int topIndex;
   @Override
   public View initViewAndGetRootView(
@@ -373,6 +377,10 @@ public class FunConversationFragment extends ConversationBaseFragment {
 
   private void initView() {
     conversationView = viewBinding.conversationView;
+    conversationView._type = _type;
+    conversationView.adapter._type = _type;
+
+
     networkErrorView = viewBinding.errorTv;
     emptyView = viewBinding.emptyLayout;
 
