@@ -120,7 +120,7 @@ public abstract class ConversationBaseFragment extends BaseFragment implements I
             this.getViewLifecycleOwner(),
             result -> {
               if (conversationView != null) {
-                conversationView._type = _type;
+//                conversationView._type = _type;
                 conversationList = result.getData();
 
                 ArrayList<ConversationBean> tempList = new ArrayList<>();

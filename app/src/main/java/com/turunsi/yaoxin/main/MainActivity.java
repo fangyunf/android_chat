@@ -212,10 +212,10 @@ public class MainActivity extends BaseActivity {
         List<Fragment> fragments = new ArrayList<>();
 
         changeStatusBarColor(R.color.fun_page_bg_color);
-        mConversationFragment = new FunConversationFragment();
-        AppProxy.getInstance().showType = 1;
-        mConversationFragment1 = new FunConversationFragment();
-        mConversationFragment1._type = 1;
+        mConversationFragment = new FunConversationFragment(0);
+//        AppProxy.getInstance().showType = 1;
+        mConversationFragment1 = new FunConversationFragment(1);
+//        mConversationFragment1._type = 1;
         mContactFragment = new ContactNewFragment();
 
         fragments.add(mConversationFragment);
