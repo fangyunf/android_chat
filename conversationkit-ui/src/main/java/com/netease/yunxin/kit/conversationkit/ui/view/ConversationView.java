@@ -63,7 +63,6 @@ public class ConversationView extends FrameLayout {
             ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
     LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
     adapter = new ConversationAdapter(layoutManager);
-    adapter._type = _type;
     recyclerView.setLayoutManager(layoutManager);
     recyclerView.setAdapter(adapter);
     recyclerView.addOnScrollListener(
