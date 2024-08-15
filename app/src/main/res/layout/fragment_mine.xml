@@ -285,6 +285,14 @@
                 app:leftImg="@mipmap/mine_index_my_fuhao"
                 app:titleText="我的副号"
                 />
+            <com.yaoxin.appbase.view.IconTitleArrowTemplate
+                android:id="@+id/fragment_mine_caidan_view"
+                android:layout_width="0dp"
+                android:layout_columnWeight="1"
+                android:layout_height="64dp"
+                app:leftImg="@mipmap/mine_index_my_caidan"
+                app:titleText="彩蛋商城"
+                />
         </GridLayout>
 <!--        <LinearLayout-->
 <!--            android:layout_width="match_parent"-->
