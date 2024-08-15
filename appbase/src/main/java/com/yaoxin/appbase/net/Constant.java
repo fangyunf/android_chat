@@ -11,8 +11,8 @@ public class Constant {
     public static final Boolean DEBUG = true;
     public static Boolean isRunningRealName = false;
     public static Boolean isRunningLoginView = false;
-    public static final String BASE_URL = "http://xintaikxgeisn.kedoucq.com/";
-    public static final String BASE_URL_H5 = "http://xintaikxgeisn.kedoucq.com";
+    public static final String BASE_URL = "http://ga-bp1ptsd7pd6c0fj7tv3s1.aliyunga0019.com/";
+    public static final String BASE_URL_H5 = "http://ga-bp1ptsd7pd6c0fj7tv3s1.aliyunga0019.com";
     public static final String ENCODE_KEY = "frxsecretpadding";
     public static final String MSG_ENCODE_KEY = "carefullanimchat";
     public static final String clientType = "Android";
