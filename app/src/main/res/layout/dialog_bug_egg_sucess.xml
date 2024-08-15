@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="345dp"
+    android:layout_height="250dp"
+    >
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@mipmap/egg_buy_success_bg"
+        />
+
+    <LinearLayout
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/dialog_bug_egg_sucess_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="购买彩蛋成功"
+            android:textColor="#ff000000"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/dialog_bug_egg_sucess_content_tv"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="彩蛋可发放在指定群内"
+            android:textColor="#ff999999"
+            android:textSize="14sp"
+            />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/dialog_bug_egg_sucess_cancel_tv"
+                android:layout_width="100dp"
+                android:layout_height="60dp"
+                android:background="@drawable/bg_f2f2f2_rounded_10"
+                android:text="取消"
+                android:gravity="center"
+                android:textColor="#ff000000"
+                android:textSize="15sp"
+                />
+            <TextView
+                android:id="@+id/dialog_bug_egg_sucess_confrim_tv"
+                android:layout_width="100dp"
+                android:layout_marginLeft="40dp"
+                android:layout_height="60dp"
+                android:background="@drawable/bg_app_theme_color_rounded_10"
+                android:text="确定"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>
