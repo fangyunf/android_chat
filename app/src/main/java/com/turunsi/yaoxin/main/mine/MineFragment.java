@@ -28,6 +28,7 @@ import com.netease.yunxin.kit.corekit.route.XKitRouter;
 import com.turunsi.yaoxin.AppSkinConfig;
 import com.turunsi.yaoxin.R;
 import com.turunsi.yaoxin.databinding.FragmentMineBinding;
+import com.turunsi.yaoxin.eggs.EggListIndexActivity;
 import com.turunsi.yaoxin.login.RealNameSetActivity;
 import com.turunsi.yaoxin.main.mine.account.AccountAnQuanManagerActivity;
 import com.turunsi.yaoxin.main.mine.account.AccountDetailActivity;
@@ -60,6 +61,7 @@ import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.NumberUtil;
+import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
 
 import java.util.ArrayList;
@@ -173,6 +175,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         binding.fragmentMineXsqxView.setOnClickListener(this);
         binding.fragmentMineSzView.setOnClickListener(this);
         binding.fragmentMineFuhaoView.setOnClickListener(this);
+        binding.fragmentMineCaidanView.setOnClickListener(this);
 //        binding.fragmentMineQrcodeIv.setOnClickListener(this);
         binding.fragmentMineEditIv.setOnClickListener(this);
         binding.fragmentMineChoujiang.setOnClickListener(this);
@@ -353,6 +356,9 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         }
         if (v == binding.cavIcon || v == binding.fragmentMineEditIv) {
             AccountDetailActivity.start(AccountDetailActivity.class,getContext(),null);
+        }
+        if (v == binding.fragmentMineCaidanView) {
+            EggListIndexActivity.start(EggListIndexActivity.class,getContext(),null);
         }
 //        if (v ==  binding.fragmentMineQrcodeIv) {
 //            AccoutCodeDetailActivity.start(AccoutCodeDetailActivity.class,getContext(),null);
