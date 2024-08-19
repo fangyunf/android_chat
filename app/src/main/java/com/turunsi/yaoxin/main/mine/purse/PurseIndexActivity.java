@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 
 import com.google.gson.Gson;
 import com.netease.yunxin.kit.chatkit.ui.fun.page.FunRedPacketRecordListActivity;
+import com.netease.yunxin.kit.corekit.route.XKitRouter;
 import com.turunsi.yaoxin.R;
 import com.turunsi.yaoxin.login.RealNameSetActivity;
 import com.turunsi.yaoxin.main.mine.purse.alipay.BindAlipayActivity;
@@ -24,7 +25,9 @@ import com.turunsi.yaoxin.main.mine.purse.tixian.PurseTiXianActivity;
 import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
+import com.yaoxin.appbase.net.Constant;
 import com.yaoxin.appbase.net.HttpUtil;
+import com.yaoxin.appbase.utils.AppProxy;
 import com.yaoxin.appbase.utils.BarUtils;
 import com.yaoxin.appbase.utils.ICallBack;
 import com.yaoxin.appbase.utils.NumberUtil;
@@ -89,35 +92,13 @@ public class PurseIndexActivity extends BaseActivity implements View.OnClickList
     }
 
     private void _initCell() {
-        binding.activityMinePurseIndexCell1.itemPurseIndexCellIconIv.setImageResource(R.mipmap.mine_purse_index_hbjl);
-        binding.activityMinePurseIndexCell2.itemPurseIndexCellIconIv.setImageResource(R.mipmap.mine_purse_index_zfb);
-        binding.activityMinePurseIndexCell3.itemPurseIndexCellIconIv.setImageResource(R.mipmap.mine_purse_index_zcpt_wzgl);
-        binding.activityMinePurseIndexCell4.itemPurseIndexCellIconIv.setImageResource(R.mipmap.mine_purse_index_yinlian);
-        binding.activityMinePurseIndexCell5.itemPurseIndexCellIconIv.setImageResource(R.mipmap.mine_purse_index_szrmb);
-        binding.activityMinePurseIndexCell6.itemPurseIndexCellIconIv.setImageResource(R.mipmap.mine_purse_index_weixin);
-        binding.activityMinePurseIndexCell7.itemPurseIndexCellIconIv.setImageResource(R.mipmap.mine_purse_index_yuleyouxi);
-        binding.activityMinePurseIndexCell8.itemPurseIndexCellIconIv.setImageResource(R.mipmap.mine_purse_index_mima);
-        binding.activityMinePurseIndexCell9.itemPurseIndexCellIconIv.setImageResource(R.mipmap.mine_purse_index_xiugaimima);
 
-        binding.activityMinePurseIndexCell1.itemPurseIndexCellTitleTv.setText("红包记录");
-        binding.activityMinePurseIndexCell2.itemPurseIndexCellTitleTv.setText("绑定支付宝");
-        binding.activityMinePurseIndexCell3.itemPurseIndexCellTitleTv.setText("USDT地址");
-        binding.activityMinePurseIndexCell4.itemPurseIndexCellTitleTv.setText("银行卡");
-        binding.activityMinePurseIndexCell5.itemPurseIndexCellTitleTv.setText("数字人民币");
-        binding.activityMinePurseIndexCell6.itemPurseIndexCellTitleTv.setText("绑定微信");
-        binding.activityMinePurseIndexCell7.itemPurseIndexCellTitleTv.setText("娱乐游戏");
-        binding.activityMinePurseIndexCell8.itemPurseIndexCellTitleTv.setText("设置密码");
-        binding.activityMinePurseIndexCell9.itemPurseIndexCellTitleTv.setText("修改密码");
-
-        binding.activityMinePurseIndexCell1.itemPurseIndexCellRl.setOnClickListener(this);
-        binding.activityMinePurseIndexCell2.itemPurseIndexCellRl.setOnClickListener(this);
-        binding.activityMinePurseIndexCell3.itemPurseIndexCellRl.setOnClickListener(this);
-        binding.activityMinePurseIndexCell4.itemPurseIndexCellRl.setOnClickListener(this);
-        binding.activityMinePurseIndexCell5.itemPurseIndexCellRl.setOnClickListener(this);
-        binding.activityMinePurseIndexCell6.itemPurseIndexCellRl.setOnClickListener(this);
-        binding.activityMinePurseIndexCell7.itemPurseIndexCellRl.setOnClickListener(this);
-        binding.activityMinePurseIndexCell8.itemPurseIndexCellRl.setOnClickListener(this);
-        binding.activityMinePurseIndexCell9.itemPurseIndexCellRl.setOnClickListener(this);
+        binding.activityMinePurseIndexHbjl.setOnClickListener(this);
+        binding.activityMinePurseIndexLqmx.setOnClickListener(this);
+        binding.activityMinePurseIndexSmrz.setOnClickListener(this);
+        binding.activityMinePurseIndexWdkb.setOnClickListener(this);
+        binding.activityMinePurseIndexBdwx.setOnClickListener(this);
+        binding.activityMinePurseIndexBdzfb.setOnClickListener(this);
     }
 
     @Override
@@ -129,30 +110,35 @@ public class PurseIndexActivity extends BaseActivity implements View.OnClickList
         } else if (v == binding.activityMinePurseIndexTixianTv) {
 //            ToastUtils.toastMsg("敬请期待");
             PurseTiXianActivity.start(PurseTiXianActivity.class,this,null);
-        } else if (v == binding.activityMinePurseIndexCell1.itemPurseIndexCellRl) {
+        } else if (v == binding.activityMinePurseIndexHbjl) {
 //            BillDetailListActivity.start(BillDetailListActivity.class,this,null);
             FunRedPacketRecordListActivity.start(FunRedPacketRecordListActivity.class,this,null);
-        } else if (v == binding.activityMinePurseIndexCell2.itemPurseIndexCellRl) {
+        } else if (v == binding.activityMinePurseIndexLqmx) {
+            BillDetailListActivity.start(BillDetailListActivity.class,this,null);
+        } else if (v == binding.activityMinePurseIndexBdzfb) {
             BindAlipayActivity.start(BindAlipayActivity.class,this,null);
-        } else if (v == binding.activityMinePurseIndexCell3.itemPurseIndexCellRl) {
+        } else if (v == binding.activityMinePurseIndexBdwx) {
             ToastUtils.toastMsg("敬请期待");
-        } else if (v == binding.activityMinePurseIndexCell4.itemPurseIndexCellRl) {
+        } else if (v == binding.activityMinePurseIndexWdkb) {
             ToastUtils.toastMsg("敬请期待");
-        } else if (v == binding.activityMinePurseIndexCell5.itemPurseIndexCellRl) {
-            ToastUtils.toastMsg("敬请期待");
-        } else if (v == binding.activityMinePurseIndexCell6.itemPurseIndexCellRl) {
-            ToastUtils.toastMsg("敬请期待");
-        } else if (v == binding.activityMinePurseIndexCell7.itemPurseIndexCellRl) {
-            ToastUtils.toastMsg("敬请期待");
-        } else if (v == binding.activityMinePurseIndexCell8.itemPurseIndexCellRl) {
-            HashMap map = new HashMap();
-            map.put("type","0");
-            PursePwdManagerSetActivity.start(PursePwdManagerSetActivity.class,this,map);
-        } else if (v == binding.activityMinePurseIndexCell9.itemPurseIndexCellRl) {
-            HashMap map = new HashMap();
-            map.put("type","1");
-            PursePwdManagerSetActivity.start(PursePwdManagerSetActivity.class,this,map);
+        } else if (v == binding.activityMinePurseIndexSmrz) {
+            ToastUtils.toastMsg("认证成功");
+//            if (!Constant.isRunningRealName) {
+//                Constant.isRunningRealName = true;
+//                XKitRouter.withKey(Constant.RealName_Router)
+//                        .withContext(AppProxy.getInstance().getContext())
+//                        .navigate();
+//            }
         }
+//        else if (v == binding.activityMinePurseIndexCell8.itemPurseIndexCellRl) {
+//            HashMap map = new HashMap();
+//            map.put("type","0");
+//            PursePwdManagerSetActivity.start(PursePwdManagerSetActivity.class,this,map);
+//        } else if (v == binding.activityMinePurseIndexCell9.itemPurseIndexCellRl) {
+//            HashMap map = new HashMap();
+//            map.put("type","1");
+//            PursePwdManagerSetActivity.start(PursePwdManagerSetActivity.class,this,map);
+//        }
     }
 
 }

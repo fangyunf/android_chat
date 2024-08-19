@@ -20,20 +20,104 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.yaoxin.appbase.navbar.NavToolbar
 
-            android:id="@+id/contact_new_fragment_nav"
-            style="@style/WhiteFontToolbar"
+        <LinearLayout
+            android:id="@+id/contact_new_fragment_top_ll"
+            android:layout_marginTop="25dp"
+            android:layout_width="match_parent"
+            android:paddingHorizontal="15dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/contact_new_fragment_title_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="通讯录"
+                android:layout_weight="1"
+                android:textColor="#ff000000"
+                android:textSize="21sp"
+                />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingRight="10dp"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:id="@+id/contact_new_fragment_search_iv"
+                    android:layout_marginHorizontal="10dp"
+                    android:src="@mipmap/conversation_index_pop_search"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"/>
+                <ImageView
+                    android:id="@+id/contact_new_fragment_more_iv"
 
-            app:under_divider_color="@android:color/transparent"
-            android:background="@color/transparent"
-            app:title="朋友"
-            app:title_text_color="@color/color_333333" />
+                    android:src="@mipmap/conversation_index_pop_more"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"/>
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:background="@color/color_white"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+            <TextView
+                android:id="@+id/contact_new_fragment_friend_tv"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="好友列表"
+                android:textColor="#ff666666"
+                android:textSize="18sp"
+                />
+            <TextView
+                android:id="@+id/contact_new_fragment_group_tv"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="群组列表"
+                android:textColor="#ff666666"
+                android:textSize="18sp"
+                />
+            <LinearLayout
+                android:id="@+id/contact_new_fragment_new_friend_ll"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical|center"
 
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="新的好友"
+                    android:textColor="#ff666666"
+                    android:textSize="18sp"
+                    />
+
+                <TextView
+                    android:id="@+id/contact_new_fragment_new_friend_num_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="18dp"
+                    android:gravity="center"
+                    android:minWidth="18dp"
+                    android:text=""
+                    android:textColor="@color/color_white"
+                    android:textSize="12sp"
+                    android:background="@drawable/fun_bg_red_rounded_9"
+                    />
+
+
+
+            </LinearLayout>
+        </LinearLayout>
         <FrameLayout
+
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/transparent"
+            android:background="@color/color_white"
             android:layout_below="@+id/main_search">
 
             <androidx.recyclerview.widget.RecyclerView

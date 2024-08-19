@@ -5,6 +5,8 @@
 package com.turunsi.yaoxin.main.mine;
 
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -40,6 +42,7 @@ import com.turunsi.yaoxin.main.mine.fuhao.BuyGroupFeatureActivity;
 import com.turunsi.yaoxin.main.mine.fuhao.MyFuHaoListActivity;
 import com.turunsi.yaoxin.main.mine.order.OrderListActivity;
 import com.turunsi.yaoxin.main.mine.purse.PurseIndexActivity;
+import com.turunsi.yaoxin.main.mine.purse.pwdmanager.PursePwdManagerSetActivity;
 import com.turunsi.yaoxin.main.mine.setting.Mine_Account_Anquan_Activity;
 import com.turunsi.yaoxin.main.mine.setting.SettingActivity;
 import com.turunsi.yaoxin.main.mine.setting.SettingNewActivity;
@@ -66,6 +69,7 @@ import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import retrofit2.Call;
@@ -183,6 +187,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         binding.fragmentMineYysjView.setOnClickListener(this);
         binding.fragmentMineQianbaoLl.setOnClickListener(this);
         binding.fragmentMineErweimaIv.setOnClickListener(this);
+        binding.fragmentMineXtszView.setOnClickListener(this);
         binding.fragmentMineCopyIv.setOnClickListener(this);
         binding.fragmentMineGotoUpgradeTv.setOnClickListener(this);
 
@@ -312,6 +317,11 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                     .withContext(requireContext())
                     .navigate();
         } else if (v == binding.fragmentMineMmszView) {
+//            SettingNewActivity.start(SettingNewActivity.class,getContext(),null);
+            HashMap map = new HashMap();
+            map.put("type","0");
+            PursePwdManagerSetActivity.start(PursePwdManagerSetActivity.class,getContext(),map);
+        } else if (v == binding.fragmentMineXtszView) {
             SettingNewActivity.start(SettingNewActivity.class,getContext(),null);
         } else if (v == binding.fragmentMineHyzxView || v == binding.fragmentMineGotoUpgradeTv) {
 
@@ -369,9 +379,17 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         if (v == binding.fragmentMineCaidanView) {
             EggListIndexActivity.start(EggListIndexActivity.class,getContext(),null);
         }
-//        if (v ==  binding.fragmentMineQrcodeIv) {
-//            AccoutCodeDetailActivity.start(AccoutCodeDetailActivity.class,getContext(),null);
-//        }
+        if (v ==  binding.fragmentMineCopyIv) {
+            // 获取剪切板管理器
+            ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+
+            // 创建一个ClipData对象，包含要复制的文本
+            ClipData clip = ClipData.newPlainText("label", binding.tvAccount.getText().toString());
+
+            // 将ClipData对象放入剪切板
+            clipboard.setPrimaryClip(clip);
+            ToastUtils.toastMsg("复制成功");
+        }
 
 
     }

@@ -73,13 +73,11 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = ContactNewFragmentBinding.inflate(inflater, container, false);
-//        binding.contactNewFragmentGroupNoticeRl.setOnClickListener(this);
-//        binding.contactNewFragmentNewFriendRl.setOnClickListener(this);
-//        binding.contactNewFragmentBlackList.setOnClickListener(this);
 
-
-        StatusBarUtils.transtStatusBar(getActivity(),binding.contactNewFragmentNav);
-        binding.contactNewFragmentNav.clearLeftMenu();
+        StatusBarUtils.setStatusBarLightMode(getActivity(), true, true);
+        ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) binding.contactNewFragmentTopLl.getLayoutParams();
+        layoutParams.topMargin = BarUtils.getStatusBarHeight();
+        binding.contactNewFragmentTopLl.setLayoutParams(layoutParams);
         _initViews();
         _requestData();
         return binding.getRoot();

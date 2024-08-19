@@ -325,10 +325,14 @@
                             app:titleText="应用升级"
                             />
                         <com.yaoxin.appbase.view.IconTitleArrowTemplate
+                            android:id="@+id/fragment_mine_xtsz_view"
+
                             android:layout_width="0dp"
                             android:layout_height="64dp"
                             android:layout_columnWeight="1"
-                            app:titleText=""
+                            app:leftImg="@mipmap/mine_index_item_mmsz"
+
+                            app:titleText="系统设置"
                             />
                     </GridLayout>
                 </LinearLayout>
