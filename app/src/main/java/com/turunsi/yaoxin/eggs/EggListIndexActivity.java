@@ -58,15 +58,15 @@ public class EggListIndexActivity extends BaseActivity implements View.OnClickLi
     protected void _initView() {
 //        binding.activityEggListIndexNav.addCloseImageButton().setOnClickListener(this);
 
-        binding.activityEggListIndex188.eggListIndexItemViewEggIv.setImageResource(R.mipmap.egg_188_big);
-        binding.activityEggListIndex288.eggListIndexItemViewEggIv.setImageResource(R.mipmap.egg_288_big);
-        binding.activityEggListIndex388.eggListIndexItemViewEggIv.setImageResource(R.mipmap.egg_388_big);
-        binding.activityEggListIndex588.eggListIndexItemViewEggIv.setImageResource(R.mipmap.egg_588_big);
-        binding.activityEggListIndex666.eggListIndexItemViewEggIv.setImageResource(R.mipmap.egg_666_big);
-        binding.activityEggListIndex888.eggListIndexItemViewEggIv.setImageResource(R.mipmap.egg_888_big);
-        binding.activityEggListIndex1888.eggListIndexItemViewEggIv.setImageResource(R.mipmap.egg_1888_big);
-        binding.activityEggListIndex2888.eggListIndexItemViewEggIv.setImageResource(R.mipmap.egg_2888_big);
-        binding.activityEggListIndex3888.eggListIndexItemViewEggIv.setImageResource(R.mipmap.egg_3888_big);
+        binding.activityEggListIndex188.eggListIndexItemViewEggIv.setImageResource(com.yaoxin.appbase.R.mipmap.egg_188_big);
+        binding.activityEggListIndex288.eggListIndexItemViewEggIv.setImageResource(com.yaoxin.appbase.R.mipmap.egg_288_big);
+        binding.activityEggListIndex388.eggListIndexItemViewEggIv.setImageResource(com.yaoxin.appbase.R.mipmap.egg_388_big);
+        binding.activityEggListIndex588.eggListIndexItemViewEggIv.setImageResource(com.yaoxin.appbase.R.mipmap.egg_588_big);
+        binding.activityEggListIndex666.eggListIndexItemViewEggIv.setImageResource(com.yaoxin.appbase.R.mipmap.egg_666_big);
+        binding.activityEggListIndex888.eggListIndexItemViewEggIv.setImageResource(com.yaoxin.appbase.R.mipmap.egg_888_big);
+        binding.activityEggListIndex1888.eggListIndexItemViewEggIv.setImageResource(com.yaoxin.appbase.R.mipmap.egg_1888_big);
+        binding.activityEggListIndex2888.eggListIndexItemViewEggIv.setImageResource(com.yaoxin.appbase.R.mipmap.egg_2888_big);
+        binding.activityEggListIndex3888.eggListIndexItemViewEggIv.setImageResource(com.yaoxin.appbase.R.mipmap.egg_3888_big);
 
         binding.activityEggListIndex188.eggListIndexItemViewEggTv.setText("￥188");
         binding.activityEggListIndex288.eggListIndexItemViewEggTv.setText("￥288");
