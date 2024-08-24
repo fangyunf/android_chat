@@ -39,6 +39,7 @@ import com.turunsi.yaoxin.main.mine.account.AccoutCodeDetailActivity;
 import com.turunsi.yaoxin.main.mine.account.Mine_Pwd_Set_ManagerActivity;
 import com.turunsi.yaoxin.main.mine.address.AddressListActivity;
 import com.turunsi.yaoxin.main.mine.collection.CollectionListActivity;
+import com.turunsi.yaoxin.main.mine.fragment.AccountCodeDialogFragment;
 import com.turunsi.yaoxin.main.mine.fuhao.BuyGroupFeatureActivity;
 import com.turunsi.yaoxin.main.mine.fuhao.MyFuHaoListActivity;
 import com.turunsi.yaoxin.main.mine.order.OrderListActivity;
@@ -300,8 +301,9 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         Context context = getContext();
         if (v == binding.fragmentMineErweimaIv) {
 //            RealNameSetActivity.start(RealNameSetActivity.class,context,null);
-            AccoutCodeDetailActivity.start(AccoutCodeDetailActivity.class,getContext(),null);
+//            AccoutCodeDetailActivity.start(AccoutCodeDetailActivity.class,getContext(),null);
 
+            AccountCodeDialogFragment.showV(getActivity().getSupportFragmentManager());
         } else if (v == binding.fragmentMineYsglView) {
 
             AccountAnQuanManagerActivity.start(AccountAnQuanManagerActivity.class,context,null);
@@ -390,6 +392,9 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
             // 将ClipData对象放入剪切板
             clipboard.setPrimaryClip(clip);
             ToastUtils.toastMsg("复制成功");
+        }
+        if (v == binding.fragmentMineYysjView || v == binding.fragmentMineFxyyView) {
+            DownLoadActivity.start(DownLoadActivity.class,getContext(),null);
         }
 
 

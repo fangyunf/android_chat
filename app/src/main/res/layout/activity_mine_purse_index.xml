@@ -140,18 +140,19 @@
                     app:leftImg="@mipmap/purse_index_item_smrz"
                     app:titleText="实名认证"
                     />
-                <com.yaoxin.appbase.view.IconTitleArrowTemplate
-                    android:id="@+id/activity_mine_purse_index_wdkb"
-                    android:layout_width="0dp"
-                    android:layout_columnWeight="1"
-                    android:layout_height="64dp"
-                    app:leftImg="@mipmap/purse_index_item_kabao"
-                    app:titleText="我的卡包"
-                    />
+<!--                <com.yaoxin.appbase.view.IconTitleArrowTemplate-->
+<!--                    android:id="@+id/activity_mine_purse_index_wdkb"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_columnWeight="1"-->
+<!--                    android:layout_height="64dp"-->
+<!--                    app:leftImg="@mipmap/purse_index_item_kabao"-->
+<!--                    app:titleText="我的卡包"-->
+<!--                    />-->
                 <com.yaoxin.appbase.view.IconTitleArrowTemplate
                     android:id="@+id/activity_mine_purse_index_bdwx"
                     android:layout_width="0dp"
-                    android:layout_columnWeight="1"                android:layout_height="64dp"
+                    android:layout_columnWeight="1"
+                    android:layout_height="64dp"
                     app:leftImg="@mipmap/purse_index_item_wx"
                     app:titleText="绑定微信"
                     />

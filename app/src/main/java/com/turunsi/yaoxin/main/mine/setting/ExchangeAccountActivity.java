@@ -73,17 +73,22 @@ public class ExchangeAccountActivity extends BaseActivity implements View.OnClic
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener<UserBean>() {
             @Override
             public void onClick(@NonNull BaseQuickAdapter<UserBean, ?> baseQuickAdapter, @NonNull View view, int i) {
-                UserBean item = baseQuickAdapter.getItem(i);
-                if (!item.userId.equals(DataUtil.getUserid())) {
-                    DialogAlertUtil.showAlert("确认切换账号吗？", new DialogAlertUtil.DialogAlertUtilCallBack() {
-                        @Override
-                        public void clickType(int type) {
-                            if (type == 1) {
-                                exchangeLogin(item);
+                if (baseQuickAdapter.getItemViewType(i) == ExchangeAccountAdapter.TYPE_ITEM) {
+                    UserBean item = baseQuickAdapter.getItem(i);
+                    if (!item.userId.equals(DataUtil.getUserid())) {
+                        DialogAlertUtil.showAlert("确认切换账号吗？", new DialogAlertUtil.DialogAlertUtilCallBack() {
+                            @Override
+                            public void clickType(int type) {
+                                if (type == 1) {
+                                    exchangeLogin(item);
+                                }
                             }
-                        }
-                    }, getSupportFragmentManager());
+                        }, getSupportFragmentManager());
 
+                    }
+
+                } else {
+                    showLogin();
                 }
             }
         });
