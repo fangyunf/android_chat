@@ -20,12 +20,21 @@
         app:title_text_color="@color/color_333333"
         app:under_divider_color="@color/transparent" />
 
-    <ImageView
-        android:src="@mipmap/exchange_account_bg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/activity_exchange_account_rv"
         android:layout_width="match_parent"
+        android:layout_weight="1"
         android:layout_height="wrap_content"/>
+    
+    <TextView
+        android:id="@+id/activity_exchange_account_tuichu_tv"
+        android:gravity="center"
+        android:layout_marginHorizontal="40dp"
+        android:layout_marginBottom="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:textSize="18sp"
+        android:text="退出登录"
+        android:background="@drawable/bg_f2f2f2_rounded_10"
+        />
 </LinearLayout>

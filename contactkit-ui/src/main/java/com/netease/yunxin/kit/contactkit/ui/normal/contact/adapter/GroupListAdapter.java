@@ -1,4 +1,4 @@
-package com.turunsi.yaoxin.eggs;
+package com.netease.yunxin.kit.contactkit.ui.normal.contact.adapter;
 
 import android.content.Context;
 import android.view.ViewGroup;
@@ -9,9 +9,7 @@ import androidx.annotation.Nullable;
 
 import com.chad.library.adapter4.BaseQuickAdapter;
 import com.chad.library.adapter4.viewholder.QuickViewHolder;
-import com.netease.yunxin.kit.common.ui.utils.AvatarColor;
-import com.turunsi.yaoxin.R;
-import com.turunsi.yaoxin.main.mine.address.bean.AddressListBean;
+import com.netease.yunxin.kit.contactkit.ui.R;
 import com.yaoxin.appbase.model.GroupInfoBean;
 import com.yaoxin.appbase.utils.GlideUtil;
 
@@ -21,7 +19,7 @@ public class GroupListAdapter extends BaseQuickAdapter<GroupInfoBean, QuickViewH
     protected void onBindViewHolder(@NonNull QuickViewHolder quickViewHolder, int i, @Nullable GroupInfoBean orderListBean) {
 
         ImageView imageView = quickViewHolder.getView(com.yaoxin.appbase.R.id.item_group_list_cell_iv);
-        if (orderListBean.head.startsWith("https://s.netease.im") || orderListBean.head.isEmpty()) {
+        if (orderListBean == null || orderListBean.head == null || orderListBean.head.startsWith("https://s.netease.im") || orderListBean.head.isEmpty()) {
             imageView.setImageResource(com.yaoxin.appbase.R.mipmap.app_default_base_icon_group);
         } else {
             GlideUtil.yh_loadImage(getContext(),imageView,orderListBean.head);

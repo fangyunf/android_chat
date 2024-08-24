@@ -2,17 +2,20 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:gravity="center_vertical"
     android:id="@+id/item_group_list_cell_ll"
     android:layout_marginTop="@dimen/dimen_14_dp"
-    android:paddingHorizontal="@dimen/dimen_16_dp"
-    >
+    android:paddingHorizontal="@dimen/dimen_16_dp">
 
-    <ImageView
+    <com.makeramen.roundedimageview.RoundedImageView
+
         android:id="@+id/item_group_list_cell_iv"
-        android:layout_width="39dp"
-        android:layout_height="39dp"/>
+        android:layout_width="40dp"
+        app:riv_corner_radius="20dp"
+        android:scaleType="centerCrop"
+        android:layout_height="40dp"/>
     <TextView
         android:id="@+id/item_group_list_cell_tv"
         android:layout_marginLeft="11dp"
@@ -22,6 +25,16 @@
         android:text="开心娱乐小组"
         android:textColor="#ff000000"
         android:textSize="15sp"
+        />
+    <TextView
+        android:id="@+id/item_group_list_cell_see_tv"
+        android:visibility="gone"
+        android:layout_width="50dp"
+        android:layout_height="30dp"
+        android:textColor="@color/color_white"
+        android:background="@drawable/bg_app_theme_color_rounded_10"
+        android:text="查看"
+        android:gravity="center"
         />
     <ImageView
         android:visibility="gone"

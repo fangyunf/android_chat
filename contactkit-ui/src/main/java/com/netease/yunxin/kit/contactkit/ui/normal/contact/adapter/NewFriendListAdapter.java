@@ -1,34 +1,33 @@
-package com.turunsi.yaoxin.eggs;
+package com.netease.yunxin.kit.contactkit.ui.normal.contact.adapter;
 
 import android.content.Context;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.chad.library.adapter4.BaseQuickAdapter;
 import com.chad.library.adapter4.viewholder.QuickViewHolder;
-import com.netease.yunxin.kit.common.ui.utils.AvatarColor;
-import com.turunsi.yaoxin.R;
-import com.turunsi.yaoxin.main.mine.address.bean.AddressListBean;
 import com.yaoxin.appbase.model.GroupInfoBean;
+import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.utils.GlideUtil;
 
-public class GroupListAdapter extends BaseQuickAdapter<GroupInfoBean, QuickViewHolder> {
+public class NewFriendListAdapter extends BaseQuickAdapter<UserBean, QuickViewHolder> {
 
     @Override
-    protected void onBindViewHolder(@NonNull QuickViewHolder quickViewHolder, int i, @Nullable GroupInfoBean orderListBean) {
+    protected void onBindViewHolder(@NonNull QuickViewHolder quickViewHolder, int i, @Nullable UserBean orderListBean) {
 
         ImageView imageView = quickViewHolder.getView(com.yaoxin.appbase.R.id.item_group_list_cell_iv);
-        if (orderListBean.head.startsWith("https://s.netease.im") || orderListBean.head.isEmpty()) {
-            imageView.setImageResource(com.yaoxin.appbase.R.mipmap.app_default_base_icon_group);
+        TextView seeTv = quickViewHolder.getView(com.yaoxin.appbase.R.id.item_group_list_cell_see_tv);
+        if (orderListBean.avatar.startsWith("https://s.netease.im") || orderListBean.avatar.isEmpty()) {
+            imageView.setImageResource(com.yaoxin.appbase.R.mipmap.app_default_base_icon_geren);
         } else {
-            GlideUtil.yh_loadImage(getContext(),imageView,orderListBean.head);
+            GlideUtil.yh_loadImage(getContext(),imageView,orderListBean.avatar);
         }
-
-            ImageView selIv = quickViewHolder.getView(com.yaoxin.appbase.R.id.item_group_list_cell_sel_iv);
-        selIv.setSelected(orderListBean.isSelected);
+        seeTv.setVisibility(View.VISIBLE);
         quickViewHolder.setText(com.yaoxin.appbase.R.id.item_group_list_cell_tv,orderListBean.name);
     }
 

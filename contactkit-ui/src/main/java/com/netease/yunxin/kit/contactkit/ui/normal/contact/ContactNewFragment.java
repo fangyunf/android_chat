@@ -7,6 +7,7 @@ package com.netease.yunxin.kit.contactkit.ui.normal.contact;
 import static androidx.core.content.ContextCompat.getSystemService;
 import static com.netease.yunxin.kit.corekit.im.utils.RouterConstant.PATH_ADD_FRIEND_PAGE;
 
+import android.app.Activity;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -33,9 +34,12 @@ import com.netease.yunxin.kit.contactkit.ui.R;
 import com.netease.yunxin.kit.contactkit.ui.contact.BaseContactFragment;
 import com.netease.yunxin.kit.contactkit.ui.databinding.ContactFragmentBinding;
 import com.netease.yunxin.kit.contactkit.ui.databinding.ContactNewFragmentBinding;
+import com.netease.yunxin.kit.contactkit.ui.fun.addfriend.FunAddFriendVerifyActivity;
 import com.netease.yunxin.kit.contactkit.ui.interfaces.IContactCallback;
 import com.netease.yunxin.kit.contactkit.ui.model.ContactEntranceBean;
 import com.netease.yunxin.kit.contactkit.ui.normal.contact.adapter.ContactUserListAdapter;
+import com.netease.yunxin.kit.contactkit.ui.normal.contact.adapter.GroupListAdapter;
+import com.netease.yunxin.kit.contactkit.ui.normal.contact.adapter.NewFriendListAdapter;
 import com.netease.yunxin.kit.corekit.im.IMKitClient;
 import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
 import com.netease.yunxin.kit.corekit.route.XKitRouter;
@@ -43,9 +47,11 @@ import com.yaoxin.appbase.fragment.BaseFragment;
 import com.yaoxin.appbase.model.GroupInfoBean;
 import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.RegisterBean;
+import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.Constant;
 import com.yaoxin.appbase.net.HttpUtil;
+import com.yaoxin.appbase.utils.AppProxy;
 import com.yaoxin.appbase.utils.BarUtils;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.PinnedHeaderDecoration;
@@ -53,6 +59,7 @@ import com.yaoxin.appbase.utils.StatusBarUtils;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import retrofit2.Call;
@@ -69,6 +76,15 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
     ContactUserListAdapter adapter = new ContactUserListAdapter();
     protected IContactCallback contactCallback;
     GroupInfoBean applyNumBean = new GroupInfoBean();
+
+    GroupListAdapter groupListAdapter = new GroupListAdapter();
+    List<GroupInfoBean> groupListDataList = new ArrayList<>();
+
+    NewFriendListAdapter verifyAdapter = new NewFriendListAdapter();
+
+    List<UserBean> verifyList = new ArrayList<>();
+
+    int _selectIndex = 0;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -78,6 +94,12 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
         ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) binding.contactNewFragmentTopLl.getLayoutParams();
         layoutParams.topMargin = BarUtils.getStatusBarHeight();
         binding.contactNewFragmentTopLl.setLayoutParams(layoutParams);
+        binding.contactNewFragmentFriendTv.setOnClickListener(this);
+        binding.contactNewFragmentFriendTv.setSelected(true);
+        binding.contactNewFragmentGroupTv.setOnClickListener(this);
+        binding.contactNewFragmentNewFriendLl.setOnClickListener(this);
+        binding.contactNewFragmentSearchIv.setOnClickListener(this);
+        binding.contactNewFragmentMoreIv.setOnClickListener(this);
         _initViews();
         _requestData();
         return binding.getRoot();
@@ -112,8 +134,12 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
 
                         DataUtil.setFriendInfoList(mContactModels);
                         adapter.contacts = mContactModels;
-                        adapter.setItems(mContactModels);
-                        adapter.notifyDataSetChanged();
+                        if (_selectIndex == 0) {
+                            adapter.setItems(mContactModels);
+                            binding.contactNewFragmentRv.setAdapter(adapter);
+                            adapter.notifyDataSetChanged();
+
+                        }
                     }
 
                     @Override
@@ -132,12 +158,12 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
                         adapter.groupApplyNum = applyNumBean.groupApplyNum;
                         adapter.notifyDataSetChanged();
 
-//                        if (applyNumBean.friendApplyNum > 0) {
-//                            binding.contactNewFragmentNewFriendTv.setText(applyNumBean.friendApplyNum + "");
-//                            binding.contactNewFragmentNewFriendTv.setVisibility(View.VISIBLE);
-//                        } else {
-//                            binding.contactNewFragmentNewFriendTv.setVisibility(View.GONE);
-//                        }
+                        if (applyNumBean.friendApplyNum > 0) {
+                            binding.contactNewFragmentNewFriendNumTv.setText(applyNumBean.friendApplyNum + "");
+                            binding.contactNewFragmentNewFriendNumTv.setVisibility(View.VISIBLE);
+                        } else {
+                            binding.contactNewFragmentNewFriendNumTv.setVisibility(View.GONE);
+                        }
 //                        if (applyNumBean.groupApplyNum > 0) {
 //                            binding.contactNewFragmentGroupNoticeTv.setText(applyNumBean.groupApplyNum + "");
 //                            binding.contactNewFragmentGroupNoticeTv.setVisibility(View.VISIBLE);
@@ -148,6 +174,51 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
                             contactCallback.updateUnreadCount(applyNumBean.friendApplyNum+applyNumBean.groupApplyNum);
                         }
 
+                    }
+
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
+
+                    }
+                });
+
+        HttpUtil.apiW().group_userGroups(new RegisterBean())
+                .enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+
+                        Type type = new TypeToken<List<GroupInfoBean>>() {}.getType();
+
+                        groupListDataList = new Gson().fromJson(body.data.toString(),type);
+                        if (_selectIndex == 1) {
+                            binding.contactNewFragmentRv.setAdapter(groupListAdapter);
+                            groupListAdapter.setItems(groupListDataList);
+                            groupListAdapter.notifyDataSetChanged();
+                        }
+                    }
+
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
+
+                    }
+                });
+
+        RegisterBean bean = new RegisterBean();
+        bean.pageNo = "0";
+        HttpUtil.apiW().friends_applyList(bean)
+                .enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                        NetData listData = new Gson().fromJson(body.data.toString(),NetData.class);
+                        Gson gson = new Gson();
+                        verifyList =
+                                gson.fromJson(new Gson().toJson(listData.data), new TypeToken<List<UserBean>>() {
+                                }.getType());
+                        if (_selectIndex == 2) {
+                            binding.contactNewFragmentRv.setAdapter(verifyAdapter);
+                            verifyAdapter.setItems(verifyList);
+                            verifyAdapter.notifyDataSetChanged();
+                        }
                     }
 
                     @Override
@@ -171,7 +242,27 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
         mRecyclerView.addItemDecoration(decoration);
         mRecyclerView.setAdapter(adapter);
 
+        Activity that = getActivity();
 
+        groupListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener<GroupInfoBean>() {
+            @Override
+            public void onClick(@NonNull BaseQuickAdapter<GroupInfoBean, ?> baseQuickAdapter, @NonNull View view, int i) {
+                XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_TEAM_PAGE)
+                        .withParam(RouterConstant.CHAT_ID_KRY, baseQuickAdapter.getItem(i).groupId)
+                        .withContext(that)
+                        .navigate();
+            }
+        });
+        verifyAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener<UserBean>() {
+            @Override
+            public void onClick(@NonNull BaseQuickAdapter<UserBean, ?> baseQuickAdapter, @NonNull View view, int i) {
+                UserBean bean = baseQuickAdapter.getItem(i);
+                bean.page_type = 100;
+                HashMap map = new HashMap();
+                map.put("user",new Gson().toJson(bean));
+                FunAddFriendVerifyActivity.start(FunAddFriendVerifyActivity.class,that,map);
+            }
+        });
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener<GroupInfoBean>() {
             @Override
             public void onClick(@NonNull BaseQuickAdapter<GroupInfoBean, ?> baseQuickAdapter, @NonNull View view, int i) {
@@ -252,20 +343,53 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-//        if (v == binding.contactNewFragmentGroupNoticeRl) {
-//            XKitRouter.withKey(RouterConstant.PATH_FUN_MY_NOTIFICATION_PAGE)
-//                    .withParam("type","1")
-//                    .withContext(requireContext())
-//                    .navigate();
-//        } else if (v == binding.contactNewFragmentNewFriendRl) {
-//
-//            XKitRouter.withKey(RouterConstant.PATH_FUN_MY_NOTIFICATION_PAGE)
-//                    .withContext(requireContext())
-//                    .navigate();
-//        } else if (v == binding.contactNewFragmentBlackList) {
+        if (v == binding.contactNewFragmentFriendTv) {
+            resetState();
+            binding.contactNewFragmentFriendTv.setSelected(true);
 
+            _selectIndex = 0;
+            binding.contactNewFragmentMainSideBar.setVisibility(View.VISIBLE);
+            binding.contactNewFragmentRv.setAdapter(adapter);
+            adapter.setItems(mContactModels);
+            adapter.notifyDataSetChanged();
+
+        } else if (v == binding.contactNewFragmentGroupTv) {
+            resetState();
+            _selectIndex = 1;
+            binding.contactNewFragmentGroupTv.setSelected(true);
+            binding.contactNewFragmentRv.setAdapter(groupListAdapter);
+            groupListAdapter.setItems(groupListDataList);
+            groupListAdapter.notifyDataSetChanged();
+        } else if (v == binding.contactNewFragmentNewFriendLl) {
+            _selectIndex = 2;
+            resetState();
+            binding.contactNewFragmentNewFriendTv.setSelected(true);
+            binding.contactNewFragmentNewFriendNumTv.setVisibility(View.GONE);
+
+
+            binding.contactNewFragmentRv.setAdapter(verifyAdapter);
+            verifyAdapter.setItems(verifyList);
+            verifyAdapter.notifyDataSetChanged();
+
+        } else if (v == binding.contactNewFragmentSearchIv) {
+            XKitRouter.withKey("SearchNewActivity")
+                    .withContext(requireContext())
+                    .navigate();
+
+        }
+//        else if (v == binding.contactNewFragmentMoreIv {
+//            XKitRouter.withKey("SearchNewActivity")
+//                    .withContext(requireContext())
+//                    .navigate();
+//
 //        }
-        //
+    }
+
+    void resetState() {
+        binding.contactNewFragmentMainSideBar.setVisibility(View.GONE);
+        binding.contactNewFragmentFriendTv.setSelected(false);
+        binding.contactNewFragmentGroupTv.setSelected(false);
+        binding.contactNewFragmentNewFriendTv.setSelected(false);
     }
 
     public void setContactCallback(IContactCallback contactCallback) {

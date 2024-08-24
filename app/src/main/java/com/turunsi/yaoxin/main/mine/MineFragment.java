@@ -43,6 +43,7 @@ import com.turunsi.yaoxin.main.mine.fuhao.MyFuHaoListActivity;
 import com.turunsi.yaoxin.main.mine.order.OrderListActivity;
 import com.turunsi.yaoxin.main.mine.purse.PurseIndexActivity;
 import com.turunsi.yaoxin.main.mine.purse.pwdmanager.PursePwdManagerSetActivity;
+import com.turunsi.yaoxin.main.mine.setting.ExchangeAccountActivity;
 import com.turunsi.yaoxin.main.mine.setting.Mine_Account_Anquan_Activity;
 import com.turunsi.yaoxin.main.mine.setting.SettingActivity;
 import com.turunsi.yaoxin.main.mine.setting.SettingNewActivity;
@@ -308,7 +309,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
             ToastUtils.toastMsg("敬请期待,等待开放");
         } else if (v == binding.fragmentMineZhglView) {
 
-            Mine_Account_Anquan_Activity.start(Mine_Account_Anquan_Activity.class,context,null);
+            ExchangeAccountActivity.start(ExchangeAccountActivity.class,context,null);
         } else if (v == binding.fragmentMineLtszView) {
 //            startActivity(new Intent(getContext(), SettingNotifyActivity.class));
             startActivity(new Intent(getContext(), SettingNotifyNewActivity.class));
@@ -322,7 +323,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
             map.put("type","0");
             PursePwdManagerSetActivity.start(PursePwdManagerSetActivity.class,getContext(),map);
         } else if (v == binding.fragmentMineXtszView) {
-            SettingNewActivity.start(SettingNewActivity.class,getContext(),null);
+//            SettingNewActivity.start(SettingNewActivity.class,getContext(),null);
         } else if (v == binding.fragmentMineHyzxView || v == binding.fragmentMineGotoUpgradeTv) {
 
 
@@ -377,7 +378,8 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
             AccountDetailActivity.start(AccountDetailActivity.class,getContext(),null);
         }
         if (v == binding.fragmentMineCaidanView) {
-            EggListIndexActivity.start(EggListIndexActivity.class,getContext(),null);
+//            EggListIndexActivity.start(EggListIndexActivity.class,getContext(),null);
+            ToastUtils.toastMsg("敬请期待,等待开放");
         }
         if (v ==  binding.fragmentMineCopyIv) {
             // 获取剪切板管理器

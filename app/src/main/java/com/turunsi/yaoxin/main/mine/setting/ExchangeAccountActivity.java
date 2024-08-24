@@ -64,34 +64,26 @@ public class ExchangeAccountActivity extends BaseActivity implements View.OnClic
         initView();
         viewBinding.activityExchangeAccountNav.addCloseImageButton().setOnClickListener(this);
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
-        viewBinding.activityExchangeAccountRv.setLayoutManager(gridLayoutManager);
-        CommonGridSpacingItemDecoration gridSpacingItemDecoration =
-                new CommonGridSpacingItemDecoration(3, SizeUtils.dp2px(10), false);
-        viewBinding.activityExchangeAccountRv.addItemDecoration(gridSpacingItemDecoration);
+        viewBinding.activityExchangeAccountRv.setLayoutManager(new LinearLayoutManager(this));
         viewBinding.activityExchangeAccountRv.setAdapter(adapter);
 
+        viewBinding.activityExchangeAccountTuichuTv.setOnClickListener(this);
 
         _requastData();
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener<UserBean>() {
             @Override
             public void onClick(@NonNull BaseQuickAdapter<UserBean, ?> baseQuickAdapter, @NonNull View view, int i) {
-                if (baseQuickAdapter.getItemViewType(i) == ExchangeAccountAdapter.TYPE_ITEM) {
-                    UserBean item = baseQuickAdapter.getItem(i);
-                    if (!item.userId.equals(DataUtil.getUserid())) {
-                        DialogAlertUtil.showAlert("确认切换账号吗？", new DialogAlertUtil.DialogAlertUtilCallBack() {
-                            @Override
-                            public void clickType(int type) {
-                                if (type == 1) {
-                                    exchangeLogin(item);
-                                }
+                UserBean item = baseQuickAdapter.getItem(i);
+                if (!item.userId.equals(DataUtil.getUserid())) {
+                    DialogAlertUtil.showAlert("确认切换账号吗？", new DialogAlertUtil.DialogAlertUtilCallBack() {
+                        @Override
+                        public void clickType(int type) {
+                            if (type == 1) {
+                                exchangeLogin(item);
                             }
-                        }, getSupportFragmentManager());
+                        }
+                    }, getSupportFragmentManager());
 
-                    }
-
-                } else {
-                    showLogin();
                 }
             }
         });
@@ -121,6 +113,8 @@ public class ExchangeAccountActivity extends BaseActivity implements View.OnClic
     public void onClick(View v) {
         if (v == viewBinding.activityExchangeAccountNav.addCloseImageButton()) {
             finish();
+        } else if (viewBinding.activityExchangeAccountTuichuTv == v) {
+            showLogin();
         }
     }
 
