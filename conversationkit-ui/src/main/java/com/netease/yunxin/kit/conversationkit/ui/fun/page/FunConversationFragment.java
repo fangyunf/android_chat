@@ -394,9 +394,10 @@ public class FunConversationFragment extends ConversationBaseFragment {
     viewBinding.funConversationFragmentSearchIv.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        XKitRouter.withKey("SearchNewActivity")
-                .withContext(requireContext())
-                .navigate();
+//        XKitRouter.withKey("SearchNewActivity")
+//                .withContext(requireContext())
+//                .navigate();
+        FunSystem_Notice_New_Activity.start(FunSystem_Notice_New_Activity.class,getContext(),null);
       }
     });
 

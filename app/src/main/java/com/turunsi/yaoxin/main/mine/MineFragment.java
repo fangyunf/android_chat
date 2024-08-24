@@ -36,6 +36,7 @@ import com.turunsi.yaoxin.login.RealNameSetActivity;
 import com.turunsi.yaoxin.main.mine.account.AccountAnQuanManagerActivity;
 import com.turunsi.yaoxin.main.mine.account.AccountDetailActivity;
 import com.turunsi.yaoxin.main.mine.account.AccoutCodeDetailActivity;
+import com.turunsi.yaoxin.main.mine.account.Mine_Pwd_Set_ManagerActivity;
 import com.turunsi.yaoxin.main.mine.address.AddressListActivity;
 import com.turunsi.yaoxin.main.mine.collection.CollectionListActivity;
 import com.turunsi.yaoxin.main.mine.fuhao.BuyGroupFeatureActivity;
@@ -318,10 +319,8 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                     .withContext(requireContext())
                     .navigate();
         } else if (v == binding.fragmentMineMmszView) {
-//            SettingNewActivity.start(SettingNewActivity.class,getContext(),null);
-            HashMap map = new HashMap();
-            map.put("type","0");
-            PursePwdManagerSetActivity.start(PursePwdManagerSetActivity.class,getContext(),map);
+            Mine_Pwd_Set_ManagerActivity.start(Mine_Pwd_Set_ManagerActivity.class,getContext(),null);
+
         } else if (v == binding.fragmentMineXtszView) {
 //            SettingNewActivity.start(SettingNewActivity.class,getContext(),null);
         } else if (v == binding.fragmentMineHyzxView || v == binding.fragmentMineGotoUpgradeTv) {

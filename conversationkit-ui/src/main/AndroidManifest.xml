@@ -29,6 +29,7 @@
             android:screenOrientation="portrait"
             android:exported="false"/>
         <activity android:name=".fun.page.FunSelected_User_Activity"/>
+        <activity android:name=".fun.page.FunSystem_Notice_New_Activity"/>
     </application>
 
 </manifest>

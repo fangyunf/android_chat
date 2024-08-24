@@ -20,7 +20,7 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/activity_system_notice_new_rv"
+        android:id="@+id/activity_system_notice_new_rv1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 </LinearLayout>

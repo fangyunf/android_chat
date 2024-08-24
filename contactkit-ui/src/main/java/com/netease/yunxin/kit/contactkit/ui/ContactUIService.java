@@ -21,6 +21,7 @@ import com.netease.yunxin.kit.contactkit.ui.fun.verify.FunVerifyListActivity;
 import com.netease.yunxin.kit.contactkit.ui.normal.addfriend.AddFriendActivity;
 import com.netease.yunxin.kit.contactkit.ui.normal.blacklist.BlackListActivity;
 import com.netease.yunxin.kit.contactkit.ui.normal.contact.ContactActivity;
+import com.netease.yunxin.kit.contactkit.ui.normal.contact.SystemNotice_NewActivity;
 import com.netease.yunxin.kit.contactkit.ui.normal.search.GlobalSearchActivity;
 import com.netease.yunxin.kit.contactkit.ui.normal.selector.ContactSelectorActivity;
 import com.netease.yunxin.kit.contactkit.ui.normal.team.TeamListActivity;
@@ -59,6 +60,7 @@ public class ContactUIService extends ChatService {
     XKitRouter.registerRouter(RouterConstant.PATH_CONTACT_PAGE, ContactActivity.class);
     XKitRouter.registerRouter(RouterConstant.PATH_GLOBAL_SEARCH_PAGE, GlobalSearchActivity.class);
     XKitRouter.registerRouter("SearchNewActivity", SearchNewActivity.class);
+    XKitRouter.registerRouter("SystemNotice_NewActivity", SystemNotice_NewActivity.class);
 
     XKitRouter.registerRouter(
         RouterConstant.PATH_FUN_CONTACT_SELECTOR_PAGE, FunContactSelectorActivity.class);

@@ -171,7 +171,7 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
 //                            binding.contactNewFragmentGroupNoticeTv.setVisibility(View.GONE);
 //                        }
                         if (contactCallback != null) {
-                            contactCallback.updateUnreadCount(applyNumBean.friendApplyNum+applyNumBean.groupApplyNum);
+                            contactCallback.updateUnreadCount(applyNumBean.friendApplyNum);
                         }
 
                     }

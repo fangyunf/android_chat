@@ -32,8 +32,8 @@ public class SystemNotice_NewActivity extends BaseActivity implements View.OnCli
         setContentView(binding.getRoot());
         binding.activitySystemNoticeNewNav.addCloseImageButton().setOnClickListener(this);
 
-        binding.activitySystemNoticeNewRv.setLayoutManager(new LinearLayoutManager(this));
-        binding.activitySystemNoticeNewRv.setAdapter(adapter);
+        binding.activitySystemNoticeNewRv1.setLayoutManager(new LinearLayoutManager(this));
+        binding.activitySystemNoticeNewRv1.setAdapter(adapter);
 
     }
 
