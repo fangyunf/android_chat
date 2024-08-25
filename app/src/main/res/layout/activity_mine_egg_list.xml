@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tl="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@mipmap/egg_list_index_bg"
+        android:scaleType="fitXY"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+        <com.yaoxin.appbase.navbar.NavToolbar
+            android:id="@+id/activity_mine_egg_list_nav"
+            style="@style/WhiteFontToolbar"
+            android:background="@color/transparent"
+            app:back_icon="@mipmap/temp_ic_back_white"
+            app:enable_under_divider="true"
+            app:support_translucent_status_bar="false"
+            app:title="我的彩蛋"
+            app:title_text_color="@color/white"
+            app:under_divider_color="@color/transparent" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+            <TextView
+                android:id="@+id/activity_mine_egg_list_item1_tv"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textColor="@drawable/fun_common_white_theme_text_color_selector"
+                android:textSize="20sp"
+                android:text="全部"
+                />
+            <TextView
+                android:id="@+id/activity_mine_egg_list_item2_tv"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textColor="@drawable/fun_common_white_theme_text_color_selector"
+                android:textSize="20sp"
+                android:text="未发放"
+                />
+            <TextView
+                android:id="@+id/activity_mine_egg_list_item3_tv"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textColor="@drawable/fun_common_white_theme_text_color_selector"
+                android:textSize="20sp"
+                android:text="已发放"
+                />
+
+        </LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/activity_mine_egg_list_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+
+
+</RelativeLayout>
