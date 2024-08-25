@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tl="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <ImageView
+        android:src="@mipmap/app_update_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.yaoxin.appbase.navbar.NavToolbar
+            android:id="@+id/activity_app_update_nav"
+            style="@style/WhiteFontToolbar"
+            android:background="@color/transparent"
+            app:back_icon="@mipmap/temp_ic_back"
+            app:enable_under_divider="true"
+            app:support_translucent_status_bar="false"
+            app:title="检查更新"
+            app:title_text_color="@color/color_333333"
+            app:under_divider_color="@color/transparent" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="版本更新"
+            android:textColor="#ff000000"
+            android:textSize="26sp"
+            android:layout_marginTop="100dp"
+            android:layout_marginLeft="15dp"
+            />
+        <TextView
+
+            android:id="@+id/activity_app_update_lasted_version_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="V5.4.2"
+            android:textColor="#ffffffff"
+            android:textSize="18sp"
+            android:paddingHorizontal="10dp"
+            android:background="#FDC040"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="15dp"
+            />
+        <TextView
+            android:id="@+id/activity_app_update_current_version_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="当前是V5.4.2,已是最新版本"
+            android:textColor="#ff000000"
+            android:textSize="18sp"
+            android:layout_marginTop="100dp"
+            android:layout_marginLeft="15dp"
+            />
+
+        <TextView
+            android:id="@+id/activity_app_update_opt_tv"
+            android:layout_width="260dp"
+            android:layout_height="65dp"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:text="去更新"
+            android:paddingHorizontal="10dp"
+            android:textColor="@color/white"
+            android:background="@drawable/bg_app_theme_color_rounded_10"
+            android:textSize="20sp"
+            android:layout_marginTop="80dp"
+            />
+    </LinearLayout>
+
+</RelativeLayout>

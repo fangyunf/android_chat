@@ -252,6 +252,7 @@
                             app:titleText="我的副号"
                             />
                         <com.yaoxin.appbase.view.IconTitleArrowTemplate
+                            android:visibility="gone"
                             android:id="@+id/fragment_mine_ylyx_view"
                             android:layout_width="0dp"
                             android:layout_columnWeight="1"                android:layout_height="64dp"
@@ -259,6 +260,7 @@
                             app:titleText="娱乐游戏"
                             />
                         <com.yaoxin.appbase.view.IconTitleArrowTemplate
+                            android:visibility="gone"
                             android:id="@+id/fragment_mine_caidan_view"
                             android:layout_width="0dp"
                             android:layout_columnWeight="1"

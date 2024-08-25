@@ -224,8 +224,12 @@
             android:name=".main.mine.setting.AboutUsNewActivity" />
         <activity
             android:name=".main.mine.purse.tixian.PurseTiXianAddAccountActivity" />
+<!--        <activity-->
+<!--            android:name=".main.mine.purse.recharge.PurseUSDTRechargeActivity" />-->
+
+
         <activity
-            android:name=".main.mine.purse.recharge.PurseUSDTRechargeActivity" />
+            android:name=".main.mine.AppUpdateActivity" />
         <activity
             android:name=".eggs.EggListIndexActivity" />
         <activity

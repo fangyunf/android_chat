@@ -9,6 +9,7 @@ public class DownLoadBean {
     public String id;
     public String appType;
     public String downloadUrl;
+    public String version;
     public List<DownLoadBean> linkUrl;
 
 }

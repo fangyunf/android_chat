@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.google.zxing.BarcodeFormat;
@@ -17,6 +18,7 @@ import com.google.zxing.qrcode.QRCodeWriter;
 import com.turunsi.yaoxin.databinding.DialogAccountCodeBinding;
 import com.turunsi.yaoxin.databinding.DialogBugEggSucessBinding;
 import com.yaoxin.appbase.fragment.BaseDialogFragment;
+import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.utils.AppProxy;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.GlideUtil;
@@ -30,7 +32,7 @@ public class AccountCodeDialogFragment extends BaseDialogFragment implements Vie
         binding = DialogAccountCodeBinding.inflate(inflater, container, false);
         binding.dialogAccountCodeCloseIv.setOnClickListener(this);
         binding.dialogAccountCodeSavePhoto.setOnClickListener(this);
-        binding.dialogAccountCodeNameTv.setText(DataUtil.getUserInfo().userName);
+        binding.dialogAccountCodeNameTv.setText(DataUtil.getUserInfo().username);
 
         GlideUtil.yh_loadImageRoundedCorner(getContext(),binding.dialogAccountCodeHeadIv,DataUtil.getUserInfo().avatar,2);
         Bitmap bitmap = generateQRCode(DataUtil.getUserInfo().memberCode);

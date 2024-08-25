@@ -300,10 +300,9 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
     public void onClick(View v) {
         Context context = getContext();
         if (v == binding.fragmentMineErweimaIv) {
-//            RealNameSetActivity.start(RealNameSetActivity.class,context,null);
-//            AccoutCodeDetailActivity.start(AccoutCodeDetailActivity.class,getContext(),null);
-
-            AccountCodeDialogFragment.showV(getActivity().getSupportFragmentManager());
+            if (getActivity() != null) {
+                AccountCodeDialogFragment.showV(getActivity().getSupportFragmentManager());
+            }
         } else if (v == binding.fragmentMineYsglView) {
 
             AccountAnQuanManagerActivity.start(AccountAnQuanManagerActivity.class,context,null);
@@ -393,10 +392,11 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
             clipboard.setPrimaryClip(clip);
             ToastUtils.toastMsg("复制成功");
         }
-        if (v == binding.fragmentMineYysjView || v == binding.fragmentMineFxyyView) {
+        if (v == binding.fragmentMineFxyyView) {
             DownLoadActivity.start(DownLoadActivity.class,getContext(),null);
         }
-
+        if (v == binding.fragmentMineYysjView)
+            AppUpdateActivity.start(AppUpdateActivity.class,getContext(),null);
 
     }
 }
