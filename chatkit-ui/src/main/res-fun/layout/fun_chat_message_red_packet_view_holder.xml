@@ -8,8 +8,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fun_chat_message_red_packet_view_holder_rl"
-    android:layout_width="240dp"
-    android:layout_height="100dp"
+    android:layout_width="216dp"
+    android:layout_height="90dp"
     android:orientation="vertical"
     android:layout_marginHorizontal="@dimen/dimen_5_dp">
 
@@ -35,32 +35,32 @@
             android:layout_height="wrap_content"
             android:text="恭喜发财,大吉大利"
             android:textColor="#ffffffff"
-            android:textSize="18sp"
-            android:layout_marginLeft="25dp"
-            android:layout_marginTop="10dp"
+            android:textSize="16sp"
+            android:layout_marginLeft="22dp"
+            android:layout_marginTop="9dp"
             />
         <TextView
             android:id="@+id/fun_chat_message_red_packet_view_holder_money_tv"
             android:layout_width="wrap_content"
-            android:layout_height="22dp"
+            android:layout_height="20dp"
             android:text="0.00"
             android:textColor="@color/color_white"
-            android:textSize="18sp"
-            android:layout_marginLeft="25dp"
+            android:textSize="16sp"
+            android:layout_marginLeft="22dp"
             android:layout_marginTop="3dp"
             />
         <View
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="5dp"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="9dp"
             android:background="@color/color_white"
             />
         <LinearLayout
             android:layout_width="match_parent"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:paddingLeft="10dp"
+            android:paddingLeft="9dp"
             android:layout_marginTop="3dp"
             android:layout_height="wrap_content">
             <TextView
@@ -69,7 +69,7 @@
                 android:layout_height="wrap_content"
                 android:text="红包"
                 android:textColor="#ffffffff"
-                android:textSize="12sp"
+                android:textSize="11sp"
                 android:layout_weight="1"
                 />
             <TextView
@@ -78,7 +78,7 @@
                 android:layout_height="wrap_content"
                 android:text="2023-11-08 19:20:30"
                 android:textColor="#ffffffff"
-                android:textSize="11sp"
+                android:textSize="10sp"
                 />
         </LinearLayout>
     </LinearLayout>

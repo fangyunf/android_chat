@@ -251,6 +251,16 @@
                             app:leftImg="@mipmap/mine_index_item_wdfh"
                             app:titleText="我的副号"
                             />
+
+                        <com.yaoxin.appbase.view.IconTitleArrowTemplate
+                            android:visibility="visible"
+                            android:id="@+id/fragment_mine_caidan_view"
+                            android:layout_width="0dp"
+                            android:layout_columnWeight="1"
+                            android:layout_height="64dp"
+                            app:leftImg="@mipmap/mine_index_my_caidan"
+                            app:titleText="彩蛋商城"
+                            />
                         <com.yaoxin.appbase.view.IconTitleArrowTemplate
                             android:visibility="gone"
                             android:id="@+id/fragment_mine_ylyx_view"
@@ -258,15 +268,6 @@
                             android:layout_columnWeight="1"                android:layout_height="64dp"
                             app:leftImg="@mipmap/mine_index_item_ylyx"
                             app:titleText="娱乐游戏"
-                            />
-                        <com.yaoxin.appbase.view.IconTitleArrowTemplate
-                            android:visibility="gone"
-                            android:id="@+id/fragment_mine_caidan_view"
-                            android:layout_width="0dp"
-                            android:layout_columnWeight="1"
-                            android:layout_height="64dp"
-                            app:leftImg="@mipmap/mine_index_my_caidan"
-                            app:titleText="彩蛋商城"
                             />
                         <com.yaoxin.appbase.view.IconTitleArrowTemplate
                             android:visibility="gone"
