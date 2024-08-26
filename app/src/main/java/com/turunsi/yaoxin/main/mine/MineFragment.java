@@ -378,8 +378,8 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
             AccountDetailActivity.start(AccountDetailActivity.class,getContext(),null);
         }
         if (v == binding.fragmentMineCaidanView) {
-//            EggListIndexActivity.start(EggListIndexActivity.class,getContext(),null);
-            ToastUtils.toastMsg("敬请期待,等待开放");
+            EggListIndexActivity.start(EggListIndexActivity.class,getContext(),null);
+//            ToastUtils.toastMsg("敬请期待,等待开放");
         }
         if (v ==  binding.fragmentMineCopyIv) {
             // 获取剪切板管理器

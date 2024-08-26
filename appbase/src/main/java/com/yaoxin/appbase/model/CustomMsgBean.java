@@ -17,6 +17,8 @@ public class CustomMsgBean {
     public String createTime;
     public String fromUserId;
     public String id;
+    public String img;
+    public String price;
     public String level;
     public String sendAvatar;
     public String sendName;

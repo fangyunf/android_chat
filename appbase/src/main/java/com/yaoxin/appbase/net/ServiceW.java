@@ -394,4 +394,36 @@ public interface ServiceW {
     );
 
 
+
+    //  彩蛋列表
+    @POST("/caidan/caidanList")
+    Call<NetData> caidan_caidanList(
+            @Body RegisterBean userBean
+    );
+    //  购买彩蛋  caiDanId
+    @POST("/caidan/gmCaidan")
+    Call<NetData> caidan_gmCaidan(
+            @Body RegisterBean userBean
+    );
+    //  我的彩蛋
+    @POST("/caidan/wdCaidan")
+    Call<NetData> caidan_wdCaidan(
+            @Body RegisterBean userBean
+    );
+    //  我的彩蛋  caiDanId //彩蛋id groupId//群id
+    @POST("/caidan/sjCaiDan")
+    Call<NetData> caidan_sjCaiDan(
+            @Body RegisterBean userBean
+    );
+    //   购买会员价格
+    @POST("/caidan/huiYuanJia")
+    Call<NetData> caidan_huiYuanJia(
+            @Body RegisterBean userBean
+    );
+    //   购买会员
+    @POST("/caidan/gmHuiYuan")
+    Call<NetData> caidan_gmHuiYuan(
+            @Body RegisterBean userBean
+    );
+
 }
