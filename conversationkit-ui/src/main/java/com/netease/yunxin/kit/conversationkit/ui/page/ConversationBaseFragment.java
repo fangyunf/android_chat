@@ -114,43 +114,7 @@ public abstract class ConversationBaseFragment extends BaseFragment implements I
     if (conversationFactory != null) {
       viewModel.setConversationFactory(conversationFactory);
     }
-    viewModel
-        .getQueryLiveData()
-        .observe(
-            this.getViewLifecycleOwner(),
-            result -> {
-              if (conversationView != null) {
-//                conversationView._type = _type;
-                conversationList = result.getData();
-
-                ArrayList<ConversationBean> tempList = new ArrayList<>();
-                if (conversationList != null) {
-                  for (ConversationBean tempBean : conversationList) {
-                    if (_type == 1 && tempBean.viewType == 2) {
-                      tempList.add(tempBean);
-                    } else if (_type == 0 && tempBean.viewType == 1){
-                      tempList.add(tempBean);
-                    }
-                  }
-                }
-                conversationList = tempList;
-                finishLoadData();
-                if (result.getLoadStatus() == LoadStatus.Success) {
-                  conversationView.setData(tempList);
-                } else if (result.getLoadStatus() == LoadStatus.Finish) {
-                  conversationView.addData(tempList);
-                }
-
-                if (emptyView != null) {
-                  if (conversationView.getDataSize() > 0) {
-                    emptyView.setVisibility(View.GONE);
-                  } else {
-                    emptyView.setVisibility(View.VISIBLE);
-                  }
-                }
-              }
-              doCallback();
-            });
+    requestMsg();
     initObserver();
     bindView();
     if (networkErrorView != null) {
@@ -160,6 +124,45 @@ public abstract class ConversationBaseFragment extends BaseFragment implements I
     viewModel.fetchConversation();
   }
 
+  protected void requestMsg() {
+    viewModel
+            .getQueryLiveData()
+            .observe(
+                    this.getViewLifecycleOwner(),
+                    result -> {
+                      if (conversationView != null) {
+//                conversationView._type = _type;
+                        conversationList = result.getData();
+
+                        ArrayList<ConversationBean> tempList = new ArrayList<>();
+                        if (conversationList != null) {
+                          for (ConversationBean tempBean : conversationList) {
+                            if (_type == 1 && tempBean.viewType == 2) {
+                              tempList.add(tempBean);
+                            } else if (_type == 0 && tempBean.viewType == 1){
+                              tempList.add(tempBean);
+                            }
+                          }
+                        }
+                        conversationList = tempList;
+                        finishLoadData();
+                        if (result.getLoadStatus() == LoadStatus.Success) {
+                          conversationView.setData(tempList);
+                        } else if (result.getLoadStatus() == LoadStatus.Finish) {
+                          conversationView.addData(tempList);
+                        }
+
+                        if (emptyView != null) {
+                          if (conversationView.getDataSize() > 0) {
+                            emptyView.setVisibility(View.GONE);
+                          } else {
+                            emptyView.setVisibility(View.VISIBLE);
+                          }
+                        }
+                      }
+                      doCallback();
+                    });
+  }
   public void bindView() {
     //设置会话排序Comparator，默认按照置顶和时间优先级进行排序
     if (conversationView != null) {

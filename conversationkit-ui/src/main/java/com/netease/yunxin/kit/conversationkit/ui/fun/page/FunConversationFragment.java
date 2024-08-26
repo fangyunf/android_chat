@@ -6,6 +6,7 @@ package com.netease.yunxin.kit.conversationkit.ui.fun.page;
 
 import static com.netease.yunxin.kit.corekit.im.utils.RouterConstant.PATH_FUN_ADD_FRIEND_PAGE;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
@@ -69,6 +70,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -100,6 +103,19 @@ public class FunConversationFragment extends ConversationBaseFragment {
     layoutParams.topMargin = BarUtils.getStatusBarHeight();
     viewBinding.funConversationFragmentTopLl.setLayoutParams(layoutParams);
 
+    new Timer().schedule(new TimerTask() {
+      @Override
+      public void run() {
+        // 这里写你想延时执行的代码
+        getActivity().runOnUiThread(new Runnable() {
+          @Override
+          public void run() {
+
+            requestMsg();
+          }
+        });
+      }
+    }, 1500);
     EventBus.getDefault().register(this);
     return viewBinding.getRoot();
   }
