@@ -12,12 +12,11 @@ public class NumberUtil {
         return formattedValue;
     }
     public static String formartMoney_zhengshu(String money) {
-        String formattedValue;
+        String formattedValue = "0";
+
 
         if (!money.isEmpty()) {
-            formattedValue = String.format("%f", (Double.parseDouble(money) / 100));
-        } else {
-            formattedValue = "0";
+            formattedValue = (Integer.parseInt(money) / 100) + "";
         }
         return formattedValue;
     }

@@ -10,6 +10,7 @@ import android.view.Gravity;
 import android.view.View;
 
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -56,7 +57,8 @@ public class MyEggListActivity extends BaseActivity implements View.OnClickListe
 
 
         binding.activityMineEggListNav.addCloseImageButton().setOnClickListener(this);
-
+        binding.activityMineEggListRv.setLayoutManager(new LinearLayoutManager(this));
+        binding.activityMineEggListRv.setAdapter(adapter);
 
     }
 
