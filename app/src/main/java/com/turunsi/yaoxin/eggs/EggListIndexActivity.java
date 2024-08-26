@@ -11,10 +11,14 @@ import android.view.Gravity;
 import android.view.View;
 
 import androidx.activity.result.ActivityResultLauncher;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.GridLayoutManager;
 
+import com.chad.library.adapter4.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.netease.yunxin.kit.common.utils.SizeUtils;
 import com.turunsi.yaoxin.R;
 import com.turunsi.yaoxin.databinding.ActivityAccountAnquanManagerBinding;
 import com.turunsi.yaoxin.databinding.ActivityEggListIndexBinding;
@@ -30,6 +34,7 @@ import com.yaoxin.appbase.pswkeyboard.widget.PopEnterPassword;
 import com.yaoxin.appbase.utils.BaseEvent;
 import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
+import com.yaoxin.appbase.view.CommonGridSpacingItemDecoration;
 import com.yaoxin.appbase.view.LoadingDialog;
 
 import org.greenrobot.eventbus.EventBus;
@@ -49,6 +54,7 @@ public class EggListIndexActivity extends BaseActivity implements View.OnClickLi
     ActivityEggListIndexBinding binding;
 
     List<CustomMsgBean> eggList = new ArrayList<>();
+    EggIndexListAdapter adapter = new EggIndexListAdapter();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,11 +64,27 @@ public class EggListIndexActivity extends BaseActivity implements View.OnClickLi
         _initView();
         StatusBarUtils.openImmersiveStatusBar(this);
 
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
+        binding.activityEggListIndexRv.setLayoutManager(gridLayoutManager);
+        CommonGridSpacingItemDecoration gridSpacingItemDecoration =
+                new CommonGridSpacingItemDecoration(2, SizeUtils.dp2px(10), false);
+        binding.activityEggListIndexRv.addItemDecoration(gridSpacingItemDecoration);
+        binding.activityEggListIndexRv.setAdapter(adapter);
 
+        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener<CustomMsgBean>() {
+            @Override
+            public void onClick(@NonNull BaseQuickAdapter<CustomMsgBean, ?> baseQuickAdapter, @NonNull View view, int i) {
+                payWithMoney(baseQuickAdapter.getItem(i).amount,baseQuickAdapter.getItem(i).id);
+            }
+        });
+
+        binding.activityEggListIndexMyIv.setOnClickListener(this);
     }
 
     @Override
     protected void _initView() {
+
+
 //        binding.activityEggListIndexNav.addCloseImageButton().setOnClickListener(this);
 
 //        binding.activityEggListIndex188.eggListIndexItemViewEggIv.setImageResource(com.yaoxin.appbase.R.mipmap.egg_188_big);
@@ -108,7 +130,11 @@ public class EggListIndexActivity extends BaseActivity implements View.OnClickLi
 
                         Type type = new TypeToken<List<CustomMsgBean>>() {}.getType();
                         List<CustomMsgBean> tempList = new Gson().fromJson(body.data.toString(), type);
+                        eggList.addAll(tempList);
+                        eggList.addAll(tempList);
 
+                        adapter.setItems(eggList);
+                        adapter.notifyDataSetChanged();
                     }
 
                     @Override
@@ -122,72 +148,43 @@ public class EggListIndexActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void onClick(View view) {
-//        if (view == binding.activityEggListIndex188.eggListIndexItemViewEggRl) {
-//            payWithMoney("188");
-//        } else if (view == binding.activityEggListIndex288.eggListIndexItemViewEggRl) {
-//            payWithMoney("288");
-//        } else if (view == binding.activityEggListIndex388.eggListIndexItemViewEggRl) {
-//
-//            payWithMoney("388");
-//        } else if (view == binding.activityEggListIndex588.eggListIndexItemViewEggRl) {
-//            payWithMoney("588");
-//
-//        } else if (view == binding.activityEggListIndex666.eggListIndexItemViewEggRl) {
-//            payWithMoney("666");
-//
-//        } else if (view == binding.activityEggListIndex888.eggListIndexItemViewEggRl) {
-//            payWithMoney("888");
-//
-//        } else if (view == binding.activityEggListIndex1888.eggListIndexItemViewEggRl) {
-//            payWithMoney("1888");
-//
-//        } else if (view == binding.activityEggListIndex2888.eggListIndexItemViewEggRl) {
-//            payWithMoney("2888");
-//
-//        } else if (view == binding.activityEggListIndex3888.eggListIndexItemViewEggRl) {
-//            payWithMoney("3888");
-//
-//        }
+        if (binding.activityEggListIndexMyIv == view) {
+            MyEggListActivity.start(MyEggListActivity.class,this,null);
+        }
     }
 
 
-    void payWithMoney(String money) {
+    void payWithMoney(String money, String id) {
+        if (money.length() > 2) {
+            int tempM = Integer.parseInt(money) / 100;
+            money = tempM + "";
+        }
         Context that = this;
         PopEnterPassword popEnterPassword = new PopEnterPassword(this, new OnPasswordInputFinish() {
             @Override
             public void inputFinish(String password) {
-                EggSuccessDialogFragment.showV(getSupportFragmentManager(), new EggSuccessDialogFragment.EggSuccessDialogFragmentBlock() {
-                    @Override
-                    public void upGrade() {
+                RegisterBean registerBean = new RegisterBean();
+                registerBean.caiDanId = id;
+                HttpUtil.apiW().caidan_gmCaidan(registerBean)
+                        .enqueue(new CommonCallback<NetData>() {
+                            @Override
+                            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                        GroupListActivity.start(GroupListActivity.class,that,null );
-                    }
-                });
-//                RegisterBean registerBean = new RegisterBean();
-//                registerBean.phone = "1"+ phone+"000";
-//                registerBean.password = password;
-//                LoadingDialog.showDialog(getSupportFragmentManager(),"购买中..");
-//                HttpUtil.apiW().home_gmfh(registerBean)
-//                        .enqueue(new CommonCallback<NetData>() {
-//                            @Override
-//                            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-//
-//                                ToastUtils.toastMsg("购买成功");
-//                                EventBus.getDefault().post(new BaseEvent("reload_fuhao"));
-//                                finish();
-//                            }
-//
-//                            @Override
-//                            public void Failure(Call<NetData> call, Throwable t) {
-//
-//                            }
-//
-//                            @Override
-//                            public void end() {
-//                                super.end();
-//                                LoadingDialog.dismissDialog();
-//                            }
-//                        });
+                                EggSuccessDialogFragment.showV(getSupportFragmentManager(), new EggSuccessDialogFragment.EggSuccessDialogFragmentBlock() {
+                                    @Override
+                                    public void upGrade() {
+                                        GroupListActivity.start(GroupListActivity.class,that,null );
+
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void Failure(Call<NetData> call, Throwable t) {
+
+                            }
+                        });
+
             }
         },money);
 

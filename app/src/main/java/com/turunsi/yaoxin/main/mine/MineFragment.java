@@ -13,6 +13,7 @@ import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,8 @@ import com.turunsi.yaoxin.AppSkinConfig;
 import com.turunsi.yaoxin.R;
 import com.turunsi.yaoxin.databinding.FragmentMineBinding;
 import com.turunsi.yaoxin.eggs.EggListIndexActivity;
+import com.turunsi.yaoxin.eggs.EggSuccessDialogFragment;
+import com.turunsi.yaoxin.eggs.GroupListActivity;
 import com.turunsi.yaoxin.login.RealNameSetActivity;
 import com.turunsi.yaoxin.main.mine.account.AccountAnQuanManagerActivity;
 import com.turunsi.yaoxin.main.mine.account.AccountDetailActivity;
@@ -61,11 +64,14 @@ import com.netease.yunxin.kit.corekit.im.IMKitClient;
 import com.netease.yunxin.kit.corekit.im.model.UserInfo;
 import com.netease.yunxin.kit.corekit.im.provider.FetchCallback;
 import com.netease.yunxin.kit.corekit.im.repo.CommonRepo;
+import com.yaoxin.appbase.model.CustomMsgBean;
 import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
+import com.yaoxin.appbase.pswkeyboard.OnPasswordInputFinish;
+import com.yaoxin.appbase.pswkeyboard.widget.PopEnterPassword;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.NumberUtil;
 import com.yaoxin.appbase.utils.StatusBarUtils;
@@ -325,14 +331,65 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         } else if (v == binding.fragmentMineXtszView) {
 //            SettingNewActivity.start(SettingNewActivity.class,getContext(),null);
         } else if (v == binding.fragmentMineHyzxView || v == binding.fragmentMineGotoUpgradeTv) {
+            Activity that = getActivity();
+
+            if ("1".equals(DataUtil.getUserInfo().hy)) {
+                ToastUtils.toastMsg("已经是会员");
+            } else {
+
+                HttpUtil.apiW().caidan_huiYuanJia(new RegisterBean())
+                        .enqueue(new CommonCallback<NetData>() {
+                            @Override
+                            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+
+                                CustomMsgBean msgBean = new Gson().fromJson(body.data.toString(),CustomMsgBean.class);
+                                String moneyStr = NumberUtil.formartMoney_zhengshu(msgBean.price);
+
+                                PopEnterPassword popEnterPassword = new PopEnterPassword(that, new OnPasswordInputFinish() {
+                                    @Override
+                                    public void inputFinish(String password) {
+
+                                        HttpUtil.apiW().caidan_gmHuiYuan(new RegisterBean())
+                                                .enqueue(new CommonCallback<NetData>() {
+                                                    @Override
+                                                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+
+                                                        ToastUtils.toastMsg("购买成功");
+                                                        UserBean userInfo = DataUtil.getUserInfo();
+                                                        userInfo.hy = "1";
+                                                        DataUtil.putUserInfo(userInfo);
+
+                                                    }
+
+                                                    @Override
+                                                    public void Failure(Call<NetData> call, Throwable t) {
+
+                                                    }
+                                                });
+
+                                    }
+                                },moneyStr);
+
+                                // 显示窗口
+                                popEnterPassword.showAtLocation(binding.fragmentMineRootCl,
+                                        Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); // 设置layout在PopupWindow中显示的位置
 
 
-            XKitRouter.withKey(com.yaoxin.appbase.net.Constant.BaseWebViewActivityKey)
-                    .withParam("type","3")
-                    .withParam("title","靓号")
-                    .withParam("url",com.yaoxin.appbase.net.Constant.BASE_URL_H5 + ":8087/app/account")
-                    .withContext(getContext())
-                    .navigate();
+                            }
+
+                            @Override
+                            public void Failure(Call<NetData> call, Throwable t) {
+
+                            }
+                        });
+            }
+
+//            XKitRouter.withKey(com.yaoxin.appbase.net.Constant.BaseWebViewActivityKey)
+//                    .withParam("type","3")
+//                    .withParam("title","靓号")
+//                    .withParam("url",com.yaoxin.appbase.net.Constant.BASE_URL_H5 + ":8087/app/account")
+//                    .withContext(getContext())
+//                    .navigate();
         }
 //        else if (v == binding.fragmentMineChoujiang) {
 //            XKitRouter.withKey(com.yaoxin.appbase.net.Constant.BaseWebViewActivityKey)

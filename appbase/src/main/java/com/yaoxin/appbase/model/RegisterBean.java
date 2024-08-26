@@ -9,6 +9,7 @@ import java.util.List;
 public class RegisterBean {
 
     public String allDisturb;
+    public String caiDanId  ;
     public String sound;
     public String check;
     public String shake;

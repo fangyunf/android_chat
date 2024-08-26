@@ -11,6 +11,16 @@ public class NumberUtil {
         }
         return formattedValue;
     }
+    public static String formartMoney_zhengshu(String money) {
+        String formattedValue;
+
+        if (!money.isEmpty()) {
+            formattedValue = String.format("%f", (Double.parseDouble(money) / 100));
+        } else {
+            formattedValue = "0";
+        }
+        return formattedValue;
+    }
 
     public static String formartLocalMoney(String money) {
         String formattedValue;

@@ -231,6 +231,8 @@
         <activity
             android:name=".main.mine.AppUpdateActivity" />
         <activity
+            android:name=".eggs.MyEggListActivity" />
+        <activity
             android:name=".eggs.EggListIndexActivity" />
         <activity
             android:name=".eggs.GroupListActivity" />
