@@ -18,17 +18,22 @@ import com.yaoxin.appbase.utils.NumberUtil;
 
 public class MyEggListAdapter extends BaseQuickAdapter<CustomMsgBean, QuickViewHolder> {
 
+    boolean canSend = false;
     @Override
     protected void onBindViewHolder(@NonNull QuickViewHolder quickViewHolder, int i, @Nullable CustomMsgBean bean) {
 
         //[{"id":1,"img":"111111","price":18800,"amount":17800,"num":2}]
         TextView titleTv = quickViewHolder.getView(com.yaoxin.appbase.R.id.item_my_egg_list_cell_title_tv);
-        titleTv.setText(bean.num + "个" + NumberUtil.formartMoney_zhengshu(bean.amount)+"彩蛋");
+        if (canSend) {
+            titleTv.setText(bean.num + "个" + NumberUtil.formartMoney_zhengshu(bean.amount)+"彩蛋");
+        } else {
+            titleTv.setText("1个" + NumberUtil.formartMoney_zhengshu(bean.amount)+"彩蛋");
+        }
         TextView detailTv = quickViewHolder.getView(com.yaoxin.appbase.R.id.item_my_egg_list_cell_detail_tv);
-        detailTv.setText("彩蛋还未发放，可发放至指定群聊");
+        detailTv.setText(canSend ? "彩蛋还未发放，可发放至指定群聊": "彩蛋已发放至 "+ bean.groupName+" 群聊");
         TextView optTv = quickViewHolder.getView(com.yaoxin.appbase.R.id.item_my_egg_list_cell_opt_tv);
-        optTv.setText("放彩蛋");
-        optTv.setSelected(true);
+        optTv.setText(canSend ? "放彩蛋":"已发放");
+        optTv.setSelected(canSend);
     }
 
     @NonNull

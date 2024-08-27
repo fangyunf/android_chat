@@ -1,82 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:gravity="center_horizontal">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ImageView
-        android:src="@mipmap/egg_chat_open_top_text"
-        android:layout_width="375dp"
-        android:layout_height="79dp"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="恭喜您砸中388元彩蛋一个，已放置您余额"
-        android:textColor="#ffffffff"
-        android:textSize="12sp"
-        />
-    <RelativeLayout
-        android:layout_width="375dp"
-        android:layout_height="327dp">
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@mipmap/egg_chat_open_bg"
-            />
-        <ImageView
-            android:layout_centerInParent="true"
-            android:layout_width="181dp"
-            android:layout_height="249dp"
-            android:src="@mipmap/egg_188_big"
-            />
-    </RelativeLayout>
-    <com.yaoxin.appbase.view.zzhorizontalprogressbar.ZzHorizontalProgressBar
-        android:id="@+id/pb6"
+    <LinearLayout
+        android:gravity="center_horizontal"
         android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp"
-        app:zpb_bg_color="#0000"
-        app:zpb_border_color="#85ff00"
-        app:zpb_border_width="2dp"
-        app:zpb_draw_border="false"
-        app:zpb_gradient_from="#7ff5515f"
-        app:zpb_gradient_to="#7f9f041b"
-        app:zpb_open_gradient="false"
-        app:zpb_max="100"
-        app:zpb_progress="0"
-        app:zpb_second_progress="0"
-        app:zpb_show_second_progress="true"
-        app:zpb_padding="0px"
-        app:zpb_round_rect_radius="30px"
-        app:zpb_show_mode="round_rect" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
         <ImageView
-            android:layout_width="144dp"
-            android:layout_height="54dp"
-            android:src="@mipmap/egg_chat_open_opt_btn_bg"
+            android:id="@+id/dialog_chat_egg_open_egg_iv"
+            android:scaleType="fitCenter"
+            android:layout_width="375dp"
+            android:layout_height="327dp"
             />
+
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="20dp">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="砸蛋进行时，你是最幸运的"
+                android:textColor="#ffffffff"
+                android:textSize="12sp"
+                />
+            <TextView
+                android:id="@+id/dialog_chat_egg_open_progress_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0%"
+                android:textColor="#ffffffff"
+                android:textSize="12sp"
+                />
+        </LinearLayout>
+        <com.yaoxin.appbase.view.zzhorizontalprogressbar.ZzHorizontalProgressBar
+            android:layout_marginTop="5dp"
+            android:id="@+id/dialog_chat_egg_open_pb6"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            app:zpb_bg_color="#0000"
+            app:zpb_border_color="#85ff00"
+            app:zpb_border_width="2dp"
+            app:zpb_draw_border="false"
+            app:zpb_gradient_from="#E784FA"
+            app:zpb_gradient_to="#F06BF8"
+            app:zpb_open_gradient="false"
+            app:zpb_max="100"
+            app:zpb_progress="0"
+            app:zpb_second_progress="0"
+            app:zpb_show_second_progress="true"
+            app:zpb_padding="0px"
+            app:zpb_round_rect_radius="30px"
+            app:zpb_show_mode="round_rect" />
+
+        <RelativeLayout
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="144dp"
+                android:layout_height="54dp"
+                android:src="@mipmap/egg_chat_open_opt_btn_bg"
+                />
+            <TextView
+                android:id="@+id/dialog_chat_egg_open_opt_tv"
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="加成砸蛋+2"
+                android:textColor="#ffffffff"
+                android:textSize="24sp"
+                />
+        </RelativeLayout>
         <TextView
-            android:layout_centerInParent="true"
+            android:id="@+id/dialog_chat_egg_open_desc_tv"
+            android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="加成砸蛋+2"
+            android:text="砸中即可获得388元余额"
+            android:gravity="center"
             android:textColor="#ffffffff"
-            android:textSize="24sp"
+            android:textSize="12sp"
             />
-    </RelativeLayout>
-    <TextView
-        android:layout_marginTop="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="砸中即可获得388元余额"
-        android:textColor="#ffffffff"
-        android:textSize="12sp"
+    </LinearLayout>
+    <ImageView
+        android:layout_marginTop="20dp"
+        android:id="@+id/dialog_chat_egg_open_gif_iv"
+        android:layout_centerHorizontal="true"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+
         />
-</LinearLayout>
+</RelativeLayout>

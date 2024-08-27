@@ -24,6 +24,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.team.constant.TeamMemberType;
@@ -35,6 +36,7 @@ import com.netease.yunxin.kit.chatkit.model.IMTeamMessageReceiptInfo;
 import com.netease.yunxin.kit.chatkit.model.UserInfoWithTeam;
 import com.netease.yunxin.kit.chatkit.ui.R;
 import com.netease.yunxin.kit.chatkit.ui.common.MessageHelper;
+import com.netease.yunxin.kit.chatkit.ui.dialog.ChatEggOpenDialogFragment;
 import com.netease.yunxin.kit.chatkit.ui.fun.view.MessageBottomLayout;
 import com.netease.yunxin.kit.chatkit.ui.model.ChatMessageBean;
 import com.netease.yunxin.kit.chatkit.ui.page.viewmodel.ChatTeamViewModel;
@@ -46,16 +48,20 @@ import com.netease.yunxin.kit.corekit.im.IMKitClient;
 import com.netease.yunxin.kit.corekit.im.utils.IMKitConstant;
 import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
 import com.netease.yunxin.kit.corekit.route.XKitRouter;
+import com.yaoxin.appbase.model.CustomMsgBean;
 import com.yaoxin.appbase.model.GroupInfoBean;
 import com.yaoxin.appbase.model.NetData;
+import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.BaseEvent;
+import com.yaoxin.appbase.utils.NumberUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -133,6 +139,36 @@ public class FunChatTeamFragment extends FunChatFragment {
                   viewBinding.chatView.getMarqueeView().setVisibility(View.GONE);
                   viewBinding.chatView.getMarqueeViewLL().setVisibility(View.GONE);
                 }
+              }
+
+              @Override
+              public void Failure(Call<NetData> call, Throwable t) {
+
+              }
+            });
+
+    RegisterBean registerBean = new RegisterBean();
+    registerBean.groupId = sessionID;
+    HttpUtil.apiW().caidan_groupCaidan(registerBean)
+            .enqueue(new CommonCallback<NetData>() {
+              @Override
+              public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                Type type = new TypeToken<List<CustomMsgBean>>() {}.getType();
+                List<CustomMsgBean> tempList = new Gson().fromJson(body.data.toString(), type);
+                if (tempList == null || tempList.isEmpty()) {
+                  viewBinding.chatView.getChatViewFunLayoutBinding().funChatViewEggLl.setVisibility(View.GONE);
+                  return;
+                }
+                int totalMoney = 0;
+                for (CustomMsgBean tempBean : tempList) {
+                  totalMoney += Integer.parseInt(tempBean.amount);
+                }
+                viewBinding.chatView.getChatViewFunLayoutBinding().funChatViewEggLl.setVisibility(View.VISIBLE);
+                viewBinding.chatView.getChatViewFunLayoutBinding().funChatViewEggLl.setOnClickListener(v -> {
+                  ChatEggOpenDialogFragment.showV(getActivity().getSupportFragmentManager(),tempList.get(0));
+                });
+                viewBinding.chatView.getChatViewFunLayoutBinding().funChatViewEggTitleTv.setText(tempList.size() + "个彩蛋\n共" + NumberUtil.formartMoney_zhengshu(totalMoney + "") + "元");
+
               }
 
               @Override

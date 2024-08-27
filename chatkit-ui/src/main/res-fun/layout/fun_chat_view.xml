@@ -302,4 +302,41 @@
 
         </FrameLayout>
     </LinearLayout>
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/fun_chat_view_egg_ll"
+        android:layout_width="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_marginEnd="20dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="150dp"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/fun_chat_view_egg_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="小银子发放了\n2个388彩蛋"
+            android:gravity="center"
+            android:textColor="#ffab4caf"
+            android:textSize="8sp"
+            />
+        <ImageView
+            android:id="@+id/fun_chat_view_egg_icon"
+            android:layout_marginTop="3dp"
+            android:layout_width="46dp"
+            android:src="@mipmap/egg_188_small"
+            android:layout_height="63dp"/>
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_width="47dp"
+            android:layout_height="17dp"
+            android:background="@mipmap/egg_chat_open_opt_btn_bg"
+            android:text="砸蛋"
+            android:gravity="center"
+            android:textColor="@color/color_white"
+            android:textSize="10sp"
+            />
+    </LinearLayout>
 </RelativeLayout>

@@ -1,6 +1,7 @@
 package com.turunsi.yaoxin.eggs;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -11,6 +12,7 @@ import com.chad.library.adapter4.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.netease.yunxin.kit.conversationkit.ui.model.ConversationBean;
+import com.netease.yunxin.kit.corekit.im.model.UserInfo;
 import com.turunsi.yaoxin.databinding.ActivityMineAddressListBinding;
 import com.turunsi.yaoxin.databinding.ActivityMineGroupListBinding;
 import com.turunsi.yaoxin.main.mine.address.AddressAddActivity;
@@ -22,6 +24,10 @@ import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
+import com.yaoxin.appbase.utils.BaseEvent;
+import com.yaoxin.appbase.utils.ToastUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -33,11 +39,15 @@ public class GroupListActivity extends BaseActivity implements View.OnClickListe
     ActivityMineGroupListBinding binding;
     GroupListAdapter adapter;
     List<GroupInfoBean> dataList;
+    String caiDanId;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMineGroupListBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        if (extras.get("id") != null) {
+            caiDanId = (String) extras.get("id");
+        }
         binding.activityMineGroupListNav.addCloseImageButton().setOnClickListener(this);
 
         binding.activityMineGroupListRv.setLayoutManager(new LinearLayoutManager(this));
@@ -57,10 +67,33 @@ public class GroupListActivity extends BaseActivity implements View.OnClickListe
                     @Override
                     public void upGrade() {
 
+                        RegisterBean registerBean = new RegisterBean();
+                        registerBean.caiDanId = caiDanId;
+                        registerBean.groupId = baseQuickAdapter.getItem(i).groupId;
+                        HttpUtil.apiW().caidan_sjCaiDan(registerBean)
+                                .enqueue(new CommonCallback<NetData>() {
+                                    @Override
+                                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                                        ToastUtils.toastMsg("发放成功");
+                                        finish();
+                                    }
+
+                                    @Override
+                                    public void Failure(Call<NetData> call, Throwable t) {
+
+                                    }
+                                });
                     }
                 },"发放彩蛋至 " + baseQuickAdapter.getItem(i).name);
             }
         });
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().post(new BaseEvent("reload_my_egg_list"));
 
     }
 

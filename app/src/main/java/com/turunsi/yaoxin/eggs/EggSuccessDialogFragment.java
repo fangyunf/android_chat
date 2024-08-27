@@ -57,6 +57,7 @@ public class EggSuccessDialogFragment extends BaseDialogFragment implements View
             dismiss();
         } else if (binding.dialogBugEggSucessConfrimTv == v) {
              _block.upGrade();
+             dismiss();
          }
     }
 }

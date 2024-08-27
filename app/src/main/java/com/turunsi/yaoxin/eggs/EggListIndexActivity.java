@@ -41,7 +41,9 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -65,6 +67,7 @@ public class EggListIndexActivity extends BaseActivity implements View.OnClickLi
         StatusBarUtils.openImmersiveStatusBar(this);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
+//        gridLayoutManager.setAutoMeasureEnabled(true);
         binding.activityEggListIndexRv.setLayoutManager(gridLayoutManager);
         CommonGridSpacingItemDecoration gridSpacingItemDecoration =
                 new CommonGridSpacingItemDecoration(2, SizeUtils.dp2px(10), false);
@@ -84,40 +87,6 @@ public class EggListIndexActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void _initView() {
 
-
-//        binding.activityEggListIndexNav.addCloseImageButton().setOnClickListener(this);
-
-//        binding.activityEggListIndex188.eggListIndexItemViewEggIv.setImageResource(com.yaoxin.appbase.R.mipmap.egg_188_big);
-//        binding.activityEggListIndex288.eggListIndexItemViewEggIv.setImageResource(com.yaoxin.appbase.R.mipmap.egg_288_big);
-//        binding.activityEggListIndex388.eggListIndexItemViewEggIv.setImageResource(com.yaoxin.appbase.R.mipmap.egg_388_big);
-//        binding.activityEggListIndex588.eggListIndexItemViewEggIv.setImageResource(com.yaoxin.appbase.R.mipmap.egg_588_big);
-//        binding.activityEggListIndex666.eggListIndexItemViewEggIv.setImageResource(com.yaoxin.appbase.R.mipmap.egg_666_big);
-//        binding.activityEggListIndex888.eggListIndexItemViewEggIv.setImageResource(com.yaoxin.appbase.R.mipmap.egg_888_big);
-//        binding.activityEggListIndex1888.eggListIndexItemViewEggIv.setImageResource(com.yaoxin.appbase.R.mipmap.egg_1888_big);
-//        binding.activityEggListIndex2888.eggListIndexItemViewEggIv.setImageResource(com.yaoxin.appbase.R.mipmap.egg_2888_big);
-//        binding.activityEggListIndex3888.eggListIndexItemViewEggIv.setImageResource(com.yaoxin.appbase.R.mipmap.egg_3888_big);
-//
-//        binding.activityEggListIndex188.eggListIndexItemViewEggTv.setText("￥188");
-//        binding.activityEggListIndex288.eggListIndexItemViewEggTv.setText("￥288");
-//        binding.activityEggListIndex388.eggListIndexItemViewEggTv.setText("￥388");
-//        binding.activityEggListIndex588.eggListIndexItemViewEggTv.setText("￥588");
-//        binding.activityEggListIndex666.eggListIndexItemViewEggTv.setText("￥666");
-//        binding.activityEggListIndex888.eggListIndexItemViewEggTv.setText("￥888");
-//        binding.activityEggListIndex1888.eggListIndexItemViewEggTv.setText("￥1888");
-//        binding.activityEggListIndex2888.eggListIndexItemViewEggTv.setText("￥2888");
-//        binding.activityEggListIndex3888.eggListIndexItemViewEggTv.setText("￥3888");
-//
-//        binding.activityEggListIndex188.eggListIndexItemViewEggRl.setOnClickListener(this);
-//        binding.activityEggListIndex288.eggListIndexItemViewEggRl.setOnClickListener(this);
-//        binding.activityEggListIndex388.eggListIndexItemViewEggRl.setOnClickListener(this);
-//        binding.activityEggListIndex588.eggListIndexItemViewEggRl.setOnClickListener(this);
-//        binding.activityEggListIndex666.eggListIndexItemViewEggRl.setOnClickListener(this);
-//        binding.activityEggListIndex888.eggListIndexItemViewEggRl.setOnClickListener(this);
-//        binding.activityEggListIndex1888.eggListIndexItemViewEggRl.setOnClickListener(this);
-//        binding.activityEggListIndex2888.eggListIndexItemViewEggRl.setOnClickListener(this);
-//        binding.activityEggListIndex3888.eggListIndexItemViewEggRl.setOnClickListener(this);
-
-
     }
 
     @Override
@@ -130,7 +99,6 @@ public class EggListIndexActivity extends BaseActivity implements View.OnClickLi
 
                         Type type = new TypeToken<List<CustomMsgBean>>() {}.getType();
                         List<CustomMsgBean> tempList = new Gson().fromJson(body.data.toString(), type);
-                        eggList.addAll(tempList);
                         eggList.addAll(tempList);
 
                         adapter.setItems(eggList);
@@ -173,7 +141,10 @@ public class EggListIndexActivity extends BaseActivity implements View.OnClickLi
                                 EggSuccessDialogFragment.showV(getSupportFragmentManager(), new EggSuccessDialogFragment.EggSuccessDialogFragmentBlock() {
                                     @Override
                                     public void upGrade() {
-                                        GroupListActivity.start(GroupListActivity.class,that,null );
+                                        CustomMsgBean bean = new Gson().fromJson(body.data.toString(),CustomMsgBean.class);
+                                        Map map = new HashMap<>();
+                                        map.put("id",bean.id);
+                                        GroupListActivity.start(GroupListActivity.class,that,map );
 
                                     }
                                 });

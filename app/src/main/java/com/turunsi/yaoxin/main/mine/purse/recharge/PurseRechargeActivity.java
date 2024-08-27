@@ -43,6 +43,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
     }
     private void _initCell() {
 //        binding.activityMinePurseRechargeRechargeMoney.viewTitleTfWithoutBgEt.setBackgroundColor(getResources().getColor(R.color.color_white));
+        binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgLl.setVisibility(View.GONE);
         binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt.setBackgroundColor(getResources().getColor(R.color.color_white));
 
 //        binding.activityMinePurseRechargeRechargeMoney.viewTitleTfWithoutBgLl.setBackgroundColor(getResources().getColor(R.color.color_white));
@@ -177,14 +178,14 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
     void rechargeMoney(String inputMoney) {
         RequestParamsBean registerBean = new RequestParamsBean();
         registerBean.amount = NumberUtil.formartUploadMoney(inputMoney);
-        registerBean.payChannel = payType;
-        HttpUtil.apiW().pay_jhzs(registerBean)
+//        registerBean.payChannel = payType;
+        HttpUtil.apiW().pay_six(registerBean)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                         UserBean userBean = new Gson().fromJson(body.data.toString(),UserBean.class);
-                        RechargeScanFragment.showV(getSupportFragmentManager(),payType.equals("wxpay")?"请使用微信扫码":"请使用支付宝扫码",userBean.payUrl);
-//                        startAlipayPayment(userBean.payUrl);
+//                        RechargeScanFragment.showV(getSupportFragmentManager(),payType.equals("wxpay")?"请使用微信扫码":"请使用支付宝扫码",userBean.payUrl);
+                        startAlipayPayment(userBean.url);
                     }
 
                     @Override
@@ -194,7 +195,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
                 });
     }
     private void startAlipayPayment(String url) {
-        if ( url != null && url.startsWith("https")) {
+        if ( url != null) {
             try {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 // 设置URL，替换为你想打开的网页地址

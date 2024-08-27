@@ -410,6 +410,11 @@ public interface ServiceW {
     Call<NetData> caidan_wdCaidan(
             @Body RegisterBean userBean
     );
+    //  我的彩蛋
+    @POST("/caidan/yffCaidan")
+    Call<NetData> caidan_yffCaidan(
+            @Body RegisterBean userBean
+    );
     //  我的彩蛋  caiDanId //彩蛋id groupId//群id
     @POST("/caidan/sjCaiDan")
     Call<NetData> caidan_sjCaiDan(
@@ -423,6 +428,11 @@ public interface ServiceW {
     //   购买会员
     @POST("/caidan/gmHuiYuan")
     Call<NetData> caidan_gmHuiYuan(
+            @Body RegisterBean userBean
+    );
+    //   购买会员 入参groupId
+    @POST("/caidan/groupCaidan")
+    Call<NetData> caidan_groupCaidan(
             @Body RegisterBean userBean
     );
 
