@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.chad.library.adapter4.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.nanchen.wavesidebar.FirstLetterUtil;
 import com.nanchen.wavesidebar.WaveSideBarView;
 import com.netease.yunxin.kit.conversationkit.ui.databinding.ActivityFunSelectedUserBinding;
 import com.netease.yunxin.kit.conversationkit.ui.fun.page.adapter.Fun_Selected_UserListAdapter;
@@ -46,6 +47,8 @@ import org.greenrobot.eventbus.EventBus;
 import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import retrofit2.Call;
@@ -134,6 +137,15 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
 
                         }
 
+                        Collections.sort(mContactModels, new Comparator<GroupInfoBean>() {
+                            @Override
+                            public int compare(GroupInfoBean o1, GroupInfoBean o2) {
+                                // 获取name的首字母并忽略大小写比较
+                                String firstLetter = FirstLetterUtil.getFirstLetter(o1.name);
+                                String secondLetter = FirstLetterUtil.getFirstLetter(o2.name);
+                                return firstLetter.compareTo(secondLetter);
+                            }
+                        });
                         if (page_type == 2) {
                             ArrayList<GroupInfoBean> tempArray = new ArrayList<>();
                             for (GroupInfoBean tempBean :mContactModels) {

@@ -29,6 +29,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.chad.library.adapter4.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.nanchen.wavesidebar.FirstLetterUtil;
 import com.nanchen.wavesidebar.WaveSideBarView;
 import com.netease.yunxin.kit.contactkit.ui.R;
 import com.netease.yunxin.kit.contactkit.ui.contact.BaseContactFragment;
@@ -59,6 +60,8 @@ import com.yaoxin.appbase.utils.StatusBarUtils;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -131,7 +134,15 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
                             }
 
                         }
-
+                        Collections.sort(mContactModels, new Comparator<GroupInfoBean>() {
+                            @Override
+                            public int compare(GroupInfoBean o1, GroupInfoBean o2) {
+                                // 获取name的首字母并忽略大小写比较
+                                String firstLetter = FirstLetterUtil.getFirstLetter(o1.name);
+                                String secondLetter = FirstLetterUtil.getFirstLetter(o2.name);
+                                return firstLetter.compareTo(secondLetter);
+                            }
+                        });
                         DataUtil.setFriendInfoList(mContactModels);
                         adapter.contacts = mContactModels;
                         if (_selectIndex == 0) {

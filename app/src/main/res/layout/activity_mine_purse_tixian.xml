@@ -1,343 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tl="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:id="@+id/activity_mine_purse_tixian_ll"
-    android:gravity="center_horizontal"
-    android:orientation="vertical">
+    android:id="@+id/activity_mine_purse_tixian_ll">
 
-    <com.yaoxin.appbase.navbar.NavToolbar
-        android:id="@+id/activity_mine_purse_tixian_nav"
-        style="@style/WhiteFontToolbar"
-        android:background="@color/white"
-        app:back_icon="@mipmap/temp_ic_back"
-        app:enable_under_divider="true"
-        app:support_translucent_status_bar="false"
-        app:title="提现"
-        app:title_text_color="@color/color_333333"
-        app:under_divider_color="@color/transparent" />
-
-    <EditText
-        android:id="@+id/activity_mine_purse_tixian_accout_tv"
-        android:layout_marginTop="15dp"
+    <ImageView
         android:layout_width="match_parent"
-        android:paddingHorizontal="10dp"
-        android:layout_marginHorizontal="15dp"
-        android:layout_height="@dimen/dimen_44_dp"
-        android:textSize="@dimen/text_size_15"
-        android:hint="请输入支付宝账号"
-        android:textColorHint="@color/color_999999"
-        android:textColor="@color/black"
-        android:background="@drawable/bg_f2f2f2_rounded_10"
-        android:cursorVisible="true"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="提现金额"
-        android:textColor="#ff333333"
-        android:layout_marginTop="12dp"
-        android:layout_gravity="left"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="15dp"
-        android:textSize="15sp"
+        android:layout_height="match_parent"
+        android:src="@mipmap/jinzita_common_page_bg"
+        android:scaleType="fitXY"
         />
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="112dp"
-        android:gravity="center_vertical"
-        android:background="@drawable/bg_f2f2f2_rounded_10"
-        android:paddingHorizontal="15dp"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_height="match_parent">
 
-        android:layout_marginHorizontal="15dp"
-        >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:text="¥"
-            android:textColor="#ff000000"
-            android:textSize="36sp"
-            />
+        <com.yaoxin.appbase.navbar.NavToolbar
+            android:id="@+id/activity_mine_purse_tixian_nav"
+            style="@style/WhiteFontToolbar"
+            android:background="@color/transparent"
+            app:back_icon="@mipmap/temp_ic_back"
+            app:enable_under_divider="true"
+            app:support_translucent_status_bar="false"
+            app:title="提现"
+            app:title_text_color="@color/color_333333"
+            app:under_divider_color="@color/transparent" />
+
+        <include
+            android:id="@+id/activity_mine_purse_my_lingqian"
+            layout="@layout/view_title_tf_without_bg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_12_dp" />
 
         <EditText
-            android:id="@+id/activity_mine_purse_tixian_money_et"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:id="@+id/activity_mine_purse_tixian_accout_tv"
+            android:layout_marginTop="15dp"
+            android:layout_width="match_parent"
             android:paddingHorizontal="10dp"
             android:layout_marginHorizontal="15dp"
-            android:layout_height="match_parent"
-            android:textSize="30sp"
-            android:hint="请输入金额"
-            android:background="@null"
+            android:layout_height="@dimen/dimen_44_dp"
+            android:textSize="@dimen/text_size_15"
+            android:hint="请输入支付宝账号"
             android:textColorHint="@color/color_999999"
             android:textColor="@color/black"
+            android:background="@drawable/bg_f2f2f2_rounded_10"
             android:cursorVisible="true"
             android:focusable="true"
             android:focusableInTouchMode="true"
-
             />
         <TextView
-            android:id="@+id/activity_mine_purse_tixian_all_tixian_tv"
-            android:layout_width="64dp"
-            android:layout_height="22dp"
-            android:text="全部提现"
-            android:textColor="#81A5FF"
-            android:textSize="16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="提现金额"
+            android:textColor="#ff333333"
+            android:layout_marginTop="12dp"
+            android:layout_gravity="left"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="15dp"
+            android:textSize="15sp"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="112dp"
+            android:gravity="center_vertical"
+            android:background="@drawable/bg_f2f2f2_rounded_10"
+            android:paddingHorizontal="15dp"
+
+            android:layout_marginHorizontal="15dp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:text="¥"
+                android:textColor="#ff000000"
+                android:textSize="36sp"
+                />
+
+            <EditText
+                android:id="@+id/activity_mine_purse_tixian_money_et"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:paddingHorizontal="10dp"
+                android:layout_marginHorizontal="15dp"
+                android:layout_height="match_parent"
+                android:textSize="30sp"
+                android:hint="请输入金额"
+                android:background="@null"
+                android:textColorHint="@color/color_999999"
+                android:textColor="@color/black"
+                android:cursorVisible="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+
+                />
+            <TextView
+                android:id="@+id/activity_mine_purse_tixian_all_tixian_tv"
+                android:layout_width="64dp"
+                android:layout_height="22dp"
+                android:text="全部提现"
+                android:textColor="#81A5FF"
+                android:textSize="16sp"
+                />
+        </LinearLayout>
+        <TextView
+            android:layout_marginTop="70dp"
+            android:id="@+id/activity_mine_purse_tixian_tixian_btn"
+
+            android:background="@drawable/fun_bg_app_theme_color_rounded_22"
+            android:layout_width="301dp"
+            android:layout_height="@dimen/dimen_44_dp"
+            android:gravity="center"
+            android:text="提现"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+        <TextView
+            android:layout_marginTop="14dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="注:提现费率0.6外加单笔2\n充值时间24小时 提现9点到晚9:30\n到账时间2小时左右"
+            android:layout_gravity="start"
+            android:layout_marginLeft="30dp"
+            android:textColor="#ff999999"
+            android:textSize="14sp"
             />
     </LinearLayout>
-    <TextView
-        android:layout_marginTop="70dp"
-        android:id="@+id/activity_mine_purse_tixian_tixian_btn"
-
-        android:background="@drawable/fun_bg_app_theme_color_rounded_22"
-        android:layout_width="301dp"
-        android:layout_height="@dimen/dimen_44_dp"
-        android:gravity="center"
-        android:text="提现"
-        android:textColor="@color/white"
-        android:textSize="16sp" />
-    <TextView
-        android:layout_marginTop="14dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="预计1个工作日内到账"
-        android:textColor="#ff999999"
-        android:textSize="14sp"
-        />
-<!--    <RelativeLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent">-->
-<!--        <LinearLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:orientation="vertical">-->
-
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="173dp"-->
-<!--                android:orientation="vertical"-->
-<!--                android:background="@color/color_884EEF"-->
-<!--                android:paddingLeft="@dimen/dimen_32_dp"-->
-<!--                android:paddingTop="@dimen/dimen_16_dp"-->
-<!--                >-->
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="22dp"-->
-<!--                    android:text="可提现金额"-->
-<!--                    android:textColor="#ffffffff"-->
-<!--                    android:textSize="16sp"-->
-<!--                    />-->
-<!--                <TextView-->
-<!--                    android:id="@+id/activity_mine_purse_tixian_accout_tv"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_marginTop="@dimen/dimen_12_dp"-->
-<!--                    android:layout_height="45dp"-->
-<!--                    android:text="¥0.00"-->
-<!--                    android:textColor="#ffffffff"-->
-<!--                    android:textSize="32sp"-->
-<!--                    />-->
-<!--            </LinearLayout>-->
-
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:orientation="vertical"-->
-<!--                android:padding="@dimen/dimen_16_dp"-->
-<!--                android:layout_marginHorizontal="@dimen/dimen_16_dp"-->
-<!--                android:layout_marginTop="-54dp"-->
-<!--                android:background="@color/white"-->
-<!--                >-->
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="22dp"-->
-<!--                    android:text="提现金额"-->
-<!--                    android:textColor="#ff000000"-->
-<!--                    android:textSize="16sp"-->
-<!--                    />-->
-<!--                <View-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_marginTop="@dimen/dimen_16_dp"-->
-<!--                    android:layout_height="@dimen/dimen_1_dp"-->
-<!--                    android:background="@color/color_E8E8E8"-->
-<!--                    />-->
-<!--                <LinearLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:gravity="center_vertical"-->
-<!--                    >-->
-<!--                    <TextView-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="50dp"-->
-<!--                        android:text="¥"-->
-<!--                        android:textColor="#ff000000"-->
-<!--                        android:textSize="36sp"-->
-<!--                        />-->
-<!--                    <EditText-->
-<!--                        android:id="@+id/activity_mine_purse_tixian_money_et"-->
-<!--                        android:layout_width="0dp"-->
-<!--                        android:layout_weight="1"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                        app:layout_constraintLeft_toRightOf="@+id/view_title_tf_tv"-->
-<!--                        app:layout_constraintTop_toTopOf="parent"-->
-<!--                        android:layout_marginLeft="@dimen/dimen_8_dp"-->
-<!--                        android:textSize="@dimen/text_size_15"-->
-<!--                        android:hint="请输入"-->
-<!--                        android:textColorHint="@color/color_999999"-->
-<!--                        android:textColor="@color/black"-->
-<!--                        android:background="@null"-->
-<!--                        android:cursorVisible="true"-->
-<!--                        android:focusable="true"-->
-<!--                        android:focusableInTouchMode="true"-->
-<!--                        />-->
-<!--                    <TextView-->
-<!--                        android:id="@+id/activity_mine_purse_tixian_all_tixian_tv"-->
-<!--                        android:layout_width="64dp"-->
-<!--                        android:layout_height="22dp"-->
-<!--                        android:text="全部提现"-->
-<!--                        android:textColor="#ff8b5fd8"-->
-<!--                        android:textSize="16sp"-->
-<!--                        />-->
-<!--                </LinearLayout>-->
-<!--                <View-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_marginTop="@dimen/dimen_4_dp"-->
-<!--                    android:layout_height="@dimen/dimen_1_dp"-->
-<!--                    android:background="@color/color_E8E8E8"-->
-<!--                    />-->
-<!--                <LinearLayout-->
-<!--                    android:id="@+id/activity_mine_purse_tixian_tixian_type_ll"-->
-<!--                    android:layout_marginTop="@dimen/dimen_18_dp"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:gravity="center_vertical"-->
-<!--                    >-->
-<!--                    <TextView-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="22dp"-->
-<!--                        android:text="提现方式"-->
-<!--                        android:textColor="#ff000000"-->
-<!--                        android:textSize="16sp"-->
-<!--                        android:layout_weight="1"-->
-<!--                        />-->
-<!--                    <TextView-->
-<!--                        android:id="@+id/activity_mine_purse_tixian_tixian_type_tv"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="22dp"-->
-<!--                        android:layout_marginRight="@dimen/dimen_4_dp"-->
-<!--                        android:text="支付宝"-->
-<!--                        android:textColor="#ff000000"-->
-<!--                        android:textSize="16sp"-->
-<!--                        />-->
-<!--                    &lt;!&ndash;            <ImageView&ndash;&gt;-->
-<!--                    &lt;!&ndash;                android:layout_width="6dp"&ndash;&gt;-->
-<!--                    &lt;!&ndash;                android:layout_height="@dimen/dimen_12_dp"&ndash;&gt;-->
-<!--                    &lt;!&ndash;                android:src="@mipmap/mine_fragment_purse_pwd_manager_arrow"&ndash;&gt;-->
-<!--                    &lt;!&ndash;                />&ndash;&gt;-->
-
-<!--                </LinearLayout>-->
-
-<!--                &lt;!&ndash;        <View&ndash;&gt;-->
-<!--                &lt;!&ndash;            android:layout_width="match_parent"&ndash;&gt;-->
-<!--                &lt;!&ndash;            android:layout_marginTop="@dimen/dimen_16_dp"&ndash;&gt;-->
-<!--                &lt;!&ndash;            android:layout_height="@dimen/dimen_1_dp"&ndash;&gt;-->
-<!--                &lt;!&ndash;            android:background="@color/color_E8E8E8"&ndash;&gt;-->
-<!--                &lt;!&ndash;            />&ndash;&gt;-->
-<!--                &lt;!&ndash;        <LinearLayout&ndash;&gt;-->
-<!--                &lt;!&ndash;            android:id="@+id/activity_mine_purse_tixian_tixian_to_accout_ll"&ndash;&gt;-->
-<!--                &lt;!&ndash;            android:layout_marginTop="@dimen/dimen_18_dp"&ndash;&gt;-->
-<!--                &lt;!&ndash;            android:layout_width="match_parent"&ndash;&gt;-->
-<!--                &lt;!&ndash;            android:layout_height="wrap_content">&ndash;&gt;-->
-<!--                &lt;!&ndash;            <TextView&ndash;&gt;-->
-<!--                &lt;!&ndash;                android:id="@+id/activity_mine_purse_tixian_to_accout_tv"&ndash;&gt;-->
-<!--                &lt;!&ndash;                android:layout_width="wrap_content"&ndash;&gt;-->
-<!--                &lt;!&ndash;                android:layout_height="22dp"&ndash;&gt;-->
-<!--                &lt;!&ndash;                android:text="支付宝账号"&ndash;&gt;-->
-<!--                &lt;!&ndash;                android:textColor="#ff000000"&ndash;&gt;-->
-<!--                &lt;!&ndash;                android:textSize="16sp"&ndash;&gt;-->
-<!--                &lt;!&ndash;                />&ndash;&gt;-->
-
-<!--                &lt;!&ndash;            <EditText&ndash;&gt;-->
-<!--                &lt;!&ndash;                android:id="@+id/activity_mine_purse_tixian_to_accout_et"&ndash;&gt;-->
-<!--                &lt;!&ndash;                android:layout_width="0dp"&ndash;&gt;-->
-<!--                &lt;!&ndash;                android:layout_weight="1"&ndash;&gt;-->
-<!--                &lt;!&ndash;                android:layout_height="wrap_content"&ndash;&gt;-->
-<!--                &lt;!&ndash;                app:layout_constraintBottom_toBottomOf="parent"&ndash;&gt;-->
-<!--                &lt;!&ndash;                app:layout_constraintLeft_toRightOf="@+id/view_title_tf_tv"&ndash;&gt;-->
-<!--                &lt;!&ndash;                app:layout_constraintTop_toTopOf="parent"&ndash;&gt;-->
-<!--                &lt;!&ndash;                android:layout_marginLeft="@dimen/dimen_8_dp"&ndash;&gt;-->
-<!--                &lt;!&ndash;                android:textSize="@dimen/text_size_15"&ndash;&gt;-->
-<!--                &lt;!&ndash;                android:hint="请输入账号"&ndash;&gt;-->
-<!--                &lt;!&ndash;                android:textColorHint="@color/color_999999"&ndash;&gt;-->
-<!--                &lt;!&ndash;                android:textColor="@color/black"&ndash;&gt;-->
-<!--                &lt;!&ndash;                android:background="@null"&ndash;&gt;-->
-<!--                &lt;!&ndash;                android:cursorVisible="true"&ndash;&gt;-->
-<!--                &lt;!&ndash;                android:focusable="true"&ndash;&gt;-->
-<!--                &lt;!&ndash;                android:focusableInTouchMode="true"&ndash;&gt;-->
-<!--                &lt;!&ndash;                android:gravity="end"&ndash;&gt;-->
-<!--                &lt;!&ndash;                />&ndash;&gt;-->
-
-<!--                &lt;!&ndash;        </LinearLayout>&ndash;&gt;-->
-<!--                <View-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_marginTop="@dimen/dimen_16_dp"-->
-<!--                    android:layout_height="@dimen/dimen_1_dp"-->
-<!--                    android:background="@color/color_E8E8E8"-->
-<!--                    />-->
-<!--                <RelativeLayout-->
-<!--                    android:id="@+id/activity_mine_purse_tixian_tixian_btn"-->
-<!--                    android:layout_width="301dp"-->
-<!--                    android:layout_height="@dimen/dimen_44_dp"-->
-<!--                    android:layout_gravity="center_horizontal"-->
-<!--                    android:layout_marginTop="@dimen/dimen_40_dp"-->
-<!--                    android:layout_marginBottom="@dimen/dimen_12_dp"-->
-<!--                    >-->
-
-<!--                    <ImageView-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="match_parent"-->
-<!--                        android:scaleType="fitXY"-->
-<!--                        android:src="@mipmap/mine_fragment_address_list_btn_bg" />-->
-
-<!--                    -->
-<!--                </RelativeLayout>-->
-<!--            </LinearLayout>-->
-<!--            <TextView-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="提现说明：\n1..提现未到账情况咲系客服处理\n2.单笔最小限额100元"-->
-<!--                android:textColor="#ff000000"-->
-<!--                android:textSize="14sp"-->
-<!--                android:layout_marginLeft="@dimen/dimen_16_dp"-->
-<!--                android:layout_marginTop="@dimen/dimen_20_dp"-->
-<!--                />-->
-<!--        </LinearLayout>-->
-
-<!--        <RelativeLayout-->
-<!--            android:visibility="gone"-->
-<!--            android:id="@+id/activity_fun_send_red_packet_keybord_rl"-->
-<!--            android:background="@color/transparent_half"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent">-->
-<!--            <com.yaoxin.appbase.view.pwdkeyboard.PayEditText-->
-<!--                android:id="@+id/PayEditText_pay"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_marginTop="20dp"-->
-<!--                android:paddingLeft="12dp"-->
-<!--                android:layout_alignParentTop="true"-->
-<!--                android:paddingRight="12dp"-->
-<!--                android:layout_height="48dp"/>-->
-
-<!--            <com.yaoxin.appbase.view.pwdkeyboard.Keyboard-->
-<!--                android:id="@+id/KeyboardView_pay"-->
-<!--                android:layout_alignParentBottom="true"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="300dp"/>-->
-<!--        </RelativeLayout>-->
-<!--    </RelativeLayout>-->
-</LinearLayout>
+</RelativeLayout>

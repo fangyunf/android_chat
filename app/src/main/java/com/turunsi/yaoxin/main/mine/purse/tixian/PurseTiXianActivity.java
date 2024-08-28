@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.turunsi.yaoxin.R;
 import com.turunsi.yaoxin.main.mine.purse.alipay.BindAlipayActivity;
 import com.yaoxin.appbase.activity.BaseActivity;
 import com.turunsi.yaoxin.databinding.ActivityMinePurseTixianBinding;
@@ -25,6 +26,7 @@ import com.yaoxin.appbase.pswkeyboard.OnPasswordInputFinish;
 import com.yaoxin.appbase.pswkeyboard.widget.PopEnterPassword;
 import com.yaoxin.appbase.utils.DialogAlertUtil;
 import com.yaoxin.appbase.utils.NumberUtil;
+import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
 import com.yaoxin.appbase.view.pwdkeyboard.Keyboard;
 import com.yaoxin.appbase.view.pwdkeyboard.PayEditText;
@@ -45,6 +47,7 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         binding = ActivityMinePurseTixianBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        StatusBarUtils.transtStatusBar(this,binding.activityMinePurseTixianNav);
         binding.activityMinePurseTixianNav.addCloseImageButton().setOnClickListener(this);
 //        binding.
 
@@ -88,6 +91,23 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
         binding.activityMinePurseTixianAllTixianTv.setOnClickListener(this);
         binding.activityMinePurseTixianTixianBtn.setOnClickListener(this);
         binding.activityMinePurseTixianAccoutTv.setEnabled(false);
+
+        binding.activityMinePurseMyLingqian.viewTitleTfWithoutBgEt.setBackgroundColor(getResources().getColor(R.color.color_white));
+        binding.activityMinePurseMyLingqian.viewTitleTfWithoutBgLl.setBackgroundColor(getResources().getColor(R.color.color_white));
+
+        binding.activityMinePurseMyLingqian.viewTitleTfWithoutBgLl.setBackground(getResources().getDrawable(com.yaoxin.appbase.R.drawable.bg_f2f2f2_rounded_10));
+        binding.activityMinePurseMyLingqian.viewTitleTfWithoutBgEt.setBackground(getResources().getDrawable(R.color.transparent));
+        binding.activityMinePurseMyLingqian.viewTitleTfWithoutBgTv.setText("我的零钱");
+        binding.activityMinePurseMyLingqian.viewTitleTfWithoutBgArrowIv.setVisibility(View.GONE);
+        int gravity = Gravity.END | Gravity.CENTER_VERTICAL; // 组合重力
+
+        binding.activityMinePurseMyLingqian.viewTitleTfWithoutBgEt.setGravity(gravity);
+//        binding.activityMinePurseMyLingqian.viewTitleTfWithoutBgEt.setText("支付宝");
+        binding.activityMinePurseMyLingqian.viewTitleTfWithoutBgLl.setOnClickListener(this);
+        binding.activityMinePurseMyLingqian.viewTitleTfWithoutBgEt.setFocusable(false);
+        binding.activityMinePurseMyLingqian.viewTitleTfWithoutBgEt.setFocusableInTouchMode(false);
+        binding.activityMinePurseMyLingqian.viewTitleTfWithoutBgEt.setClickable(true);
+        binding.activityMinePurseMyLingqian.viewTitleTfWithoutBgEt.setOnClickListener(this);
     }
     void tiXianClick(String pwd) {
         String inputMoney = getTextStr(binding.activityMinePurseTixianMoneyEt);
@@ -132,7 +152,7 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                         UserBean bean = new Gson().fromJson(body.data.toString(),UserBean.class);
                         accountMoeny = NumberUtil.formartMoney(bean.balance);
-//                        binding.activityMinePurseTixianAccoutTv.setText("¥"+ NumberUtil.formartMoney(bean.balance));
+                        binding.activityMinePurseMyLingqian.viewTitleTfWithoutBgEt.setText("¥"+ NumberUtil.formartMoney(bean.balance));
                     }
 
                     @Override
