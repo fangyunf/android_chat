@@ -33,7 +33,7 @@ public class EggIndexListAdapter extends BaseQuickAdapter<CustomMsgBean, QuickVi
         } else {
             layoutParams.topMargin = SizeUtils.dp2px(-81);
         }
-        tv.setText("￥" + NumberUtil.formartMoney(orderListBean.amount));
+        tv.setText("￥" + NumberUtil.formartMoney(orderListBean.price));
         GlideUtil.yh_loadImage(getContext(),iv,orderListBean.img);
 //        ImageView imageView = quickViewHolder.getView(com.yaoxin.appbase.R.id.item_group_list_cell_iv);
 //        if (orderListBean.head.startsWith("https://s.netease.im") || orderListBean.head.isEmpty()) {

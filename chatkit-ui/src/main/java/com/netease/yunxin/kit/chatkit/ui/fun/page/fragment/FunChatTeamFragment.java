@@ -9,6 +9,7 @@ import static com.netease.yunxin.kit.corekit.im.utils.RouterConstant.KEY_TEAM_ID
 import static com.netease.yunxin.kit.corekit.im.utils.RouterConstant.PATH_FUN_TEAM_SETTING_PAGE;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -22,10 +23,22 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.vectordrawable.graphics.drawable.Animatable2Compat;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.load.resource.gif.GifDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.msg.MsgService;
+import com.netease.nimlib.sdk.msg.attachment.MsgAttachment;
+import com.netease.nimlib.sdk.msg.attachment.MsgAttachmentParser;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
+import com.netease.nimlib.sdk.msg.model.CustomNotification;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.team.constant.TeamMemberType;
 import com.netease.nimlib.sdk.team.model.Team;
@@ -45,6 +58,7 @@ import com.netease.yunxin.kit.common.ui.viewmodel.FetchResult;
 import com.netease.yunxin.kit.common.ui.viewmodel.LoadStatus;
 import com.netease.yunxin.kit.common.utils.SizeUtils;
 import com.netease.yunxin.kit.corekit.im.IMKitClient;
+import com.netease.yunxin.kit.corekit.im.custom.CustomAttachment;
 import com.netease.yunxin.kit.corekit.im.utils.IMKitConstant;
 import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
 import com.netease.yunxin.kit.corekit.route.XKitRouter;
@@ -55,6 +69,7 @@ import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.BaseEvent;
+import com.yaoxin.appbase.utils.GlideUtil;
 import com.yaoxin.appbase.utils.NumberUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -64,6 +79,8 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -79,6 +96,9 @@ public class FunChatTeamFragment extends FunChatFragment {
   IMMessage anchorMessage;
   private boolean showDeleteDialog = false;
   Observer<FetchResult<List<IMTeamMessageReceiptInfo>>> teamReceiptObserver;
+
+  private Timer timer;
+  private TimerTask timerTask;
 
   @Override
   protected void initData(Bundle bundle) {
@@ -119,6 +139,22 @@ public class FunChatTeamFragment extends FunChatFragment {
     chatView.setAitManager(aitManager);
     refreshView();
     _requestData();
+    startTimer();
+  }
+  private void startTimer() {
+    timer = new Timer();
+    timerTask = new TimerTask() {
+      @Override
+      public void run() {
+        getActivity(). runOnUiThread(new Runnable() {
+          @Override
+          public void run() {
+            _requestCaiData(); // Call your method here
+          }
+        });
+      }
+    };
+    timer.scheduleAtFixedRate(timerTask, 0, 2000); // Schedule the task to run every 1 second
   }
 
   void _requestData() {
@@ -147,6 +183,9 @@ public class FunChatTeamFragment extends FunChatFragment {
               }
             });
 
+
+  }
+  void _requestCaiData() {
     RegisterBean registerBean = new RegisterBean();
     registerBean.groupId = sessionID;
     HttpUtil.apiW().caidan_groupCaidan(registerBean)
@@ -168,8 +207,7 @@ public class FunChatTeamFragment extends FunChatFragment {
                   ChatEggOpenDialogFragment.showV(getActivity().getSupportFragmentManager(),tempList.get(0));
                 });
                 viewBinding.chatView.getChatViewFunLayoutBinding().funChatViewEggTitleTv.setText(tempList.size() + "个彩蛋\n共" + NumberUtil.formartMoney_zhengshu(totalMoney + "") + "元");
-
-              }
+                 }
 
               @Override
               public void Failure(Call<NetData> call, Throwable t) {
@@ -231,6 +269,36 @@ public class FunChatTeamFragment extends FunChatFragment {
       chatView.clearMessageList();
     } else if ("reload_gonggao".equals(event.getTag())) {
       _requestData();
+    } else if ("egg_open_notice".equals(event.getTag())) {
+      CustomMsgBean customMsgBean = event.customMsgBean;
+      if (customMsgBean.groupId.equals(sessionID)) {
+        viewBinding.chatView.getChatViewFunLayoutBinding().funChatViewSuccessEggRl.setVisibility(View.VISIBLE);
+        Glide.with(getContext())
+                .asGif()
+                .load(R.drawable.egg_open_success) // 替换为你的本地GIF文件名
+                .listener(new RequestListener<GifDrawable>() {
+                  @Override
+                  public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<GifDrawable> target, boolean isFirstResource) {
+                    return false;
+                  }
+
+                  @Override
+                  public boolean onResourceReady(GifDrawable resource, Object model, Target<GifDrawable> target, DataSource dataSource, boolean isFirstResource) {
+                    resource.setLoopCount(1); // 设置GIF只播放一次
+                    resource.registerAnimationCallback(new Animatable2Compat.AnimationCallback() {
+                      @Override
+                      public void onAnimationEnd(Drawable drawable) {
+                        // 当动画播放完成时隐藏ImageView
+                        viewBinding.chatView.getChatViewFunLayoutBinding().funChatViewSuccessEggRl.setVisibility(View.GONE);
+                      }
+                    });
+                    return false;
+                  }
+                })
+                .into( viewBinding.chatView.getChatViewFunLayoutBinding().funChatViewSuccessEggIv);
+        viewBinding.chatView.getChatViewFunLayoutBinding().funChatViewSuccessEggTv.setText("经过激烈角逐，恭喜"+customMsgBean.name+"中奖了!这是对"+customMsgBean.name+"的独一无二的才能和运气的肯定。幸运之神在您身边!!!");
+
+      }
 
     }
   }
@@ -250,6 +318,10 @@ public class FunChatTeamFragment extends FunChatFragment {
         .getTeamMessageReceiptLiveData()
         .removeObserver(teamReceiptObserver);
     EventBus.getDefault().unregister(this);
+    if (timer != null) {
+      timer.cancel(); // Stop the timer when the activity is paused
+      timer = null;
+    }
   }
 
   @Override

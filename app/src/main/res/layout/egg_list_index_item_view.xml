@@ -16,13 +16,13 @@
     <ImageView
         android:id="@+id/egg_list_index_item_view_egg_iv"
         android:layout_centerHorizontal="true"
-        android:layout_width="140dp"
-        android:layout_height="140dp"
+        android:layout_width="280dp"
+        android:layout_height="280dp"
         android:src="@mipmap/egg_188_big"
         />
     <TextView
         android:id="@+id/egg_list_index_item_view_egg_tv"
-        android:layout_marginTop="160dp"
+        android:layout_marginTop="220dp"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

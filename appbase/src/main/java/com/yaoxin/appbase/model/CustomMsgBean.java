@@ -7,6 +7,9 @@ import java.util.List;
 
 public class CustomMsgBean {
     public CustomMsgBean result;
+    public String caidanLs;//需要流水
+    public String groupLs;//当前流水
+    public String fafId;
     public String data;
     public String sendUserId;
     public String sendUserName;

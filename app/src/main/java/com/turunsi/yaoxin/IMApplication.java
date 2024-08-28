@@ -19,9 +19,14 @@ import com.google.gson.Gson;
 import com.heytap.msp.push.HeytapPushManager;
 import com.huawei.hms.support.common.ActivityMgr;
 import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.SDKOptions;
 import com.netease.nimlib.sdk.msg.MsgService;
+import com.netease.nimlib.sdk.msg.MsgServiceObserve;
+import com.netease.nimlib.sdk.msg.model.CustomNotification;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
+import com.netease.nimlib.sdk.msg.model.RevokeMsgNotification;
+import com.netease.nimlib.sdk.msg.model.ShowNotificationWhenRevokeFilter;
 import com.netease.nimlib.sdk.team.model.IMMessageFilter;
 import com.netease.yunxin.kit.teamkit.ui.fun.activity.FunTeamMemberListActivity;
 import com.netease.yunxin.kit.teamkit.ui.normal.activity.TeamMemberListActivity;
@@ -64,7 +69,10 @@ import com.vivo.push.util.VivoPushException;
 import com.yaoxin.appbase.activity.BaseWebViewActivity;
 import com.yaoxin.appbase.model.CustomMsgBean;
 import com.yaoxin.appbase.utils.AppProxy;
+import com.yaoxin.appbase.utils.BaseEvent;
 import com.yaoxin.appbase.utils.DataUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -146,6 +154,23 @@ public class IMApplication extends MultiDexApplication {
             IMKitClient.toggleNotification(SettingRepo.isPushNotify());
             IMKitClient.registerMixPushMessageHandler(new PushMessageHandler());
             // 在 Application启动时注册，保证漫游、离线消息也能够回调此过滤器进行过滤。注意，过滤器的实现不要有耗时操作。
+            NIMClient.getService(MsgServiceObserve.class)
+                    .observeCustomNotification(new Observer<CustomNotification>() {
+                        @Override
+                        public void onEvent(CustomNotification notification) {
+                            // 处理接收到的自定义系统通知
+                            String content = notification.getContent();
+                            if (content != null) {
+                                CustomMsgBean msgBean = new Gson().fromJson(content, CustomMsgBean.class);
+                                if (msgBean.type == 525) {
+                                    BaseEvent baseEvent = new BaseEvent("egg_open_notice");
+                                    baseEvent.customMsgBean = msgBean;
+                                    EventBus.getDefault().post(baseEvent);
+                                }
+                            }
+                            // 根据需要处理通知内容
+                        }
+                    }, true);
             NIMClient.getService(MsgService.class).registerIMMessageFilter(new IMMessageFilter() {
                 @Override
                 public boolean shouldIgnore(IMMessage message) {

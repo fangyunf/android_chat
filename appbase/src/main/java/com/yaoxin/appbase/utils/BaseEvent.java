@@ -1,5 +1,6 @@
 package com.yaoxin.appbase.utils;
 
+import com.yaoxin.appbase.model.CustomMsgBean;
 import com.yaoxin.appbase.model.GroupInfoBean;
 
 import java.util.HashMap;
@@ -9,6 +10,7 @@ public class BaseEvent {
   private String tag;
   private String text;
   public GroupInfoBean infoBean;
+  public CustomMsgBean customMsgBean;
 
   public String getText() {
     return text;

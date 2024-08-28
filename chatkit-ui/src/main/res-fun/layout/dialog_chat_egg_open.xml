@@ -100,4 +100,13 @@
         android:layout_height="400dp"
 
         />
+
+    <ImageView
+        android:id="@+id/dialog_chat_egg_open_close_iv"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/ic_grey_close"
+        />
 </RelativeLayout>

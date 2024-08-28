@@ -16,14 +16,22 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.google.gson.Gson;
 import com.netease.yunxin.kit.chatkit.ui.R;
 import com.netease.yunxin.kit.chatkit.ui.databinding.DialogChatEggOpenBinding;
 import com.yaoxin.appbase.fragment.BaseDialogFragment;
 import com.yaoxin.appbase.model.CustomMsgBean;
+import com.yaoxin.appbase.model.NetData;
+import com.yaoxin.appbase.model.RegisterBean;
+import com.yaoxin.appbase.net.CommonCallback;
+import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.GlideUtil;
 import com.yaoxin.appbase.utils.NumberUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
+
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class ChatEggOpenDialogFragment extends BaseDialogFragment implements View.OnClickListener {
     DialogChatEggOpenBinding binding;
@@ -41,13 +49,39 @@ public class ChatEggOpenDialogFragment extends BaseDialogFragment implements Vie
             binding.dialogChatEggOpenDescTv.setText("砸中即可获得"+ NumberUtil.formartMoney_zhengshu(_bean.amount) +"元余额\n开通VIP更有机会砸中彩蛋哦");
         }
         binding.dialogChatEggOpenOptTv.setOnClickListener(this);
+        binding.dialogChatEggOpenCloseIv.setOnClickListener(this);
         Glide.with(this)
                 .asGif()
                 .load(R.drawable.zadan_chuizi) // 替换为你的本地GIF文件名
                 .into(binding.dialogChatEggOpenEggIv);
         // 加载本地GIF文件
-
+        Glide.with(this)
+                .asGif()
+                .load(R.drawable.zadan_dongxiao) // 替换为你的本地GIF文件名
+                .into(binding.dialogChatEggOpenGifIv);
+        _requestData();
         return binding.getRoot();
+    }
+
+    void _requestData() {
+        RegisterBean registerBean = new RegisterBean();
+        registerBean.fafId = _bean.fafId;
+        HttpUtil.apiW().caidan_caidaning(registerBean)
+                .enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                        CustomMsgBean tempBean = new Gson().fromJson(body.data.toString(), CustomMsgBean.class);
+                        int value = (int) Math.round(Double.parseDouble(tempBean.groupLs) / Double.parseDouble(tempBean.caidanLs) * 100 * 100);
+                        double doubleValue = (double) value / 100;
+                        binding.dialogChatEggOpenPb6.setProgress((int) doubleValue);
+                        binding.dialogChatEggOpenProgressTv.setText(doubleValue + "%");
+                    }
+
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
+
+                    }
+                });
     }
 
     public static void showV(FragmentManager fragmentManager, CustomMsgBean bean) {
@@ -66,37 +100,21 @@ public class ChatEggOpenDialogFragment extends BaseDialogFragment implements Vie
     @Override
     public void onClick(View v) {
          if (v == binding.dialogChatEggOpenOptTv) {
-             if ("1".equals(DataUtil.getUserInfo().hy)) {
-                 _currentProgress += 0.2;
-             } else {
-                 _currentProgress += 0.1;
-             }
-             if (_currentProgress >= 100) {
-                 _currentProgress = 99.99;
-             }
-             binding.dialogChatEggOpenProgressTv.setText(String.format("%.2f", _currentProgress) + "%");
-             binding.dialogChatEggOpenPb6.setProgress((int)(_currentProgress));
-             Glide.with(this)
-                     .asGif()
-                     .load(R.drawable.zadan_dongxiao) // 替换为你的本地GIF文件名
-                     .listener(new RequestListener<GifDrawable>() {
-                         @Override
-                         public boolean onLoadFailed(@Nullable GlideException e, Object o, Target<GifDrawable> target, boolean b) {
-                             return false;
-                         }
+//             if ("1".equals(DataUtil.getUserInfo().hy)) {
+//                 _currentProgress += 0.2;
+//             } else {
+//                 _currentProgress += 0.1;
+//             }
+//             if (_currentProgress >= 100) {
+//                 _currentProgress = 99.99;
+//             }
+//             binding.dialogChatEggOpenProgressTv.setText(String.format("%.2f", _currentProgress) + "%");
+//             binding.dialogChatEggOpenPb6.setProgress((int)(_currentProgress));
 
-                         @Override
-                         public boolean onResourceReady(GifDrawable resource, Object model, Target<GifDrawable> target, DataSource dataSource, boolean isFirstResource) {
-                             resource.setLoopCount(1); // 设置只播放一次
-                             return false;
-                         }
-                     })
-
-                     .into(binding.dialogChatEggOpenGifIv);
 //            dismiss();
         }
-//        else if (binding.dialogBugEggSucessConfrimTv == v) {
-//             _block.upGrade();
-//         }
+        else if (binding.dialogChatEggOpenCloseIv == v) {
+             dismiss();
+         }
     }
 }

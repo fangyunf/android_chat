@@ -339,4 +339,26 @@
             android:textSize="10sp"
             />
     </LinearLayout>
+    <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/fun_chat_view_success_egg_rl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/fun_chat_view_success_egg_iv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
+        <TextView
+            android:layout_centerHorizontal="true"
+            android:id="@+id/fun_chat_view_success_egg_tv"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="130dp"
+            android:textSize="13sp"
+            android:gravity="center"
+            />
+    </RelativeLayout>
 </RelativeLayout>

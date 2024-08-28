@@ -435,5 +435,10 @@ public interface ServiceW {
     Call<NetData> caidan_groupCaidan(
             @Body RegisterBean userBean
     );
+    //   购买会员 入参groupId
+    @POST("/caidan/caidaning")
+    Call<NetData> caidan_caidaning(
+            @Body RegisterBean userBean
+    );
 
 }
