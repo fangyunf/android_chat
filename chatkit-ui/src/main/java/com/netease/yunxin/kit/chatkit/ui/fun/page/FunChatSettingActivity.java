@@ -408,7 +408,7 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
                     friendInfo.getAvatarName(),
                     AvatarColor.avatarColor(friendInfo.getAccount()));
             binding.nameTv.setText(friendInfo.getName());
-            binding.funChatSettingActivityId.setText("ID:" + friendInfo.getAccount());
+//            binding.funChatSettingActivityId.setText("ID:" + friendInfo.getAccount());
 //      binding.noTeamNameTv.setText(friendInfo.getName());
         } else if (userInfo == null) {
             binding.funChatSettingActivityAvatarView.setData(null, accId, AvatarColor.avatarColor(accId));
