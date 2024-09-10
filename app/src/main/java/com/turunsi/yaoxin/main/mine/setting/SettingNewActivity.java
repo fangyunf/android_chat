@@ -140,27 +140,28 @@ public class SettingNewActivity extends BaseActivity implements View.OnClickList
     } else if (v == viewBinding.activityMineSetNewDownload.viewTitleArrowLl) {
         DownLoadActivity.start(DownLoadActivity.class,this,null);
     } else if (v == viewBinding.activityMineSetNewZhuxiao.viewTitleArrowLl) {
-        DialogAlertUtil.showAlert("确定注销账号吗？", new DialogAlertUtil.DialogAlertUtilCallBack() {
-            @Override
-            public void clickType(int type) {
-                if (type == 1) {
-                    HttpUtil.apiW().home_logout()
-                            .enqueue(new CommonCallback<NetData>() {
-                                @Override
-                                public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                                    ToastUtils.toastMsg("注销成功");
-                                    showLogin();
-                                }
-
-                                @Override
-                                public void Failure(Call<NetData> call, Throwable t) {
-
-                                }
-                            });
-
-                }
-            }
-        },getSupportFragmentManager());
+        ZhuXiaoConfrimActivity.start(ZhuXiaoConfrimActivity.class,this,null);
+//        DialogAlertUtil.showAlert("确定注销账号吗？", new DialogAlertUtil.DialogAlertUtilCallBack() {
+//            @Override
+//            public void clickType(int type) {
+//                if (type == 1) {
+//                    HttpUtil.apiW().home_logout()
+//                            .enqueue(new CommonCallback<NetData>() {
+//                                @Override
+//                                public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+//                                    ToastUtils.toastMsg("注销成功");
+//                                    showLogin();
+//                                }
+//
+//                                @Override
+//                                public void Failure(Call<NetData> call, Throwable t) {
+//
+//                                }
+//                            });
+//
+//                }
+//            }
+//        },getSupportFragmentManager());
     }
   }
 

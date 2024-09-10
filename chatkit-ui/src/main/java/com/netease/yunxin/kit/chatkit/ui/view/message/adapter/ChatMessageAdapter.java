@@ -28,6 +28,8 @@ import com.netease.yunxin.kit.chatkit.ui.model.ChatMessageBean;
 import com.netease.yunxin.kit.chatkit.ui.view.message.MessageProperties;
 import com.netease.yunxin.kit.chatkit.ui.view.message.viewholder.CommonBaseMessageViewHolder;
 import com.netease.yunxin.kit.corekit.im.model.UserInfo;
+import com.yaoxin.appbase.utils.DataUtil;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -89,10 +91,16 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<CommonBaseMessageVi
       super.onBindViewHolder(holder, position, payloads);
     } else {
       ChatMessageBean data = messageList.get(position);
+      boolean isKefu = data.getMessageData().getMessage().getSessionId().equals(DataUtil.getKeFuId());
       holder.setMode(msgModel);
       if (msgModel != ChatMessageType.FORWARD_MESSAGE_MODE) {
         holder.setMode(ChatMessageType.CHAT_MESSAGE_MODE);
-        holder.setReceiptTime(receiptTime);
+        if (isKefu) {
+
+          holder.setReceiptTime(1);
+        } else {
+          holder.setReceiptTime(receiptTime);
+        }
         holder.setTeamInfo(teamInfo);
         holder.setMultiSelect(multiSelect);
       }
