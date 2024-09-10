@@ -21,6 +21,7 @@ import com.turunsi.yaoxin.databinding.ActivityMinePwdSetMagerBinding;
 import com.turunsi.yaoxin.login.LoginActivity;
 import com.turunsi.yaoxin.main.mine.purse.pwdmanager.PursePwdManagerSetActivity;
 import com.turunsi.yaoxin.main.mine.setting.SettingNewActivity;
+import com.turunsi.yaoxin.main.mine.setting.ZhuXiaoConfrimActivity;
 import com.turunsi.yaoxin.register.ForgetPwdActivity;
 import com.yaoxin.appbase.activity.BaseActivity;
 import com.yaoxin.appbase.model.GroupInfoBean;
@@ -66,27 +67,7 @@ public class Mine_Pwd_Set_ManagerActivity extends BaseActivity implements View.O
         if (view == binding.activityMinePwdSetMagerNav.addCloseImageButton()) {
             finish();
         } else if (view == binding.activityMinePwdSetMagerSetLoginZxLl) {
-            DialogAlertUtil.showAlert("确定注销账号吗？", new DialogAlertUtil.DialogAlertUtilCallBack() {
-                @Override
-                public void clickType(int type) {
-                    if (type == 1) {
-                        HttpUtil.apiW().home_logout()
-                                .enqueue(new CommonCallback<NetData>() {
-                                    @Override
-                                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                                        ToastUtils.toastMsg("注销成功");
-                                        showLogin();
-                                    }
-
-                                    @Override
-                                    public void Failure(Call<NetData> call, Throwable t) {
-
-                                    }
-                                });
-
-                    }
-                }
-            },getSupportFragmentManager());
+            ZhuXiaoConfrimActivity.start(ZhuXiaoConfrimActivity.class, this, null);
         } else if (view == binding.activityMinePwdSetMagerSetLoginPwdLl) {
             ForgetPwdActivity.start(ForgetPwdActivity.class, this, null);
         } else if (view == binding.activityMinePwdSetMagerSetPayPwdLl) {
