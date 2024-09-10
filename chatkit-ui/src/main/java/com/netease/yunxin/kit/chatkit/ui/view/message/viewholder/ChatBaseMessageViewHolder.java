@@ -38,6 +38,8 @@ import com.netease.yunxin.kit.common.utils.SizeUtils;
 import com.netease.yunxin.kit.corekit.im.IMKitClient;
 import com.netease.yunxin.kit.corekit.im.model.UserInfo;
 import com.netease.yunxin.kit.corekit.im.provider.FetchCallback;
+import com.yaoxin.appbase.utils.DataUtil;
+
 import java.util.List;
 import java.util.Map;
 
@@ -679,6 +681,7 @@ public abstract class ChatBaseMessageViewHolder extends CommonBaseMessageViewHol
       } else {
         baseViewBinding.ivStatus.setVisibility(View.VISIBLE);
         // 判断消息是否已读，根据已读状态设置对应状态图标
+
         if (data.getMessageData().getMessage().isRemoteRead()) {
           if (messageStatusUIOption.readFlagIconRes != null) {
             // 自定义设置消息已读状态图标资源
@@ -694,6 +697,18 @@ public abstract class ChatBaseMessageViewHolder extends CommonBaseMessageViewHol
           } else {
             baseViewBinding.ivStatus.setImageResource(R.drawable.ic_message_unread);
           }
+        }
+        boolean isKefu = false;
+
+        try {
+          isKefu =
+                  data.getMessageData().getMessage().getSessionId().equals(DataUtil.getKeFuId());
+
+          if (isKefu) {
+            baseViewBinding.ivStatus.setImageResource(R.drawable.ic_message_read);
+          }
+        } catch (Exception e) {
+
         }
       }
       // 自定义设置是否展示已读状态
