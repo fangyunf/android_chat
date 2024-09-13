@@ -35,6 +35,7 @@ import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -58,6 +59,7 @@ public class PurseIndexActivity extends BaseActivity implements View.OnClickList
         binding.activityMinePurseIndexNav.setPadding(0, BarUtils.getStatusBarHeight(), 0, 0);
         _initCell();
         binding.activityMinePurseIndexRechargeTv.setOnClickListener(this);
+        binding.activityMinePurseIndexRechargeTv2.setOnClickListener(this);
         binding.activityMinePurseIndexTixianTv.setOnClickListener(this);
         Context that = this;
         binding.activityMinePurseIndexNav.setActionClickListener(new ICallBack() {
@@ -107,6 +109,10 @@ public class PurseIndexActivity extends BaseActivity implements View.OnClickList
             finish();
         } else if (v == binding.activityMinePurseIndexRechargeTv) {
             PurseRechargeActivity.start(PurseRechargeActivity.class,this,null);
+        } else if (v == binding.activityMinePurseIndexRechargeTv2) {
+            Map map = new HashMap();
+            map.put("type", "1");
+            PurseRechargeActivity.start(PurseRechargeActivity.class,this,map);
         } else if (v == binding.activityMinePurseIndexTixianTv) {
 //            ToastUtils.toastMsg("敬请期待");
             PurseTiXianActivity.start(PurseTiXianActivity.class,this,null);

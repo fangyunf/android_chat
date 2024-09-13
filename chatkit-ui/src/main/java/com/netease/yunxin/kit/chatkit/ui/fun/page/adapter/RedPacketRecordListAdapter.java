@@ -14,6 +14,8 @@ import com.chad.library.adapter4.viewholder.QuickViewHolder;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.netease.yunxin.kit.chatkit.ui.R;
 import com.yaoxin.appbase.model.CustomMsgBean;
+import com.yaoxin.appbase.model.GroupInfoBean;
+import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.GlideUtil;
 import com.yaoxin.appbase.utils.NumberUtil;
 import com.yaoxin.appbase.utils.TimeUtil;
@@ -35,7 +37,14 @@ public class RedPacketRecordListAdapter extends BaseQuickAdapter<CustomMsgBean, 
                     .setText(R.id.item_fun_red_packet_result_detail_time_tv, TimeUtil.stampToDate(bean.createTime))
                     .setText(R.id.item_fun_red_packet_result_detail_money_tv, NumberUtil.formartMoney(bean.amount) + "元");
             GlideUtil.yh_loadImageRoundedCorner(getContext(),quickViewHolder.getView(R.id.item_fun_red_packet_result_detail_head_iv),bean.avatar,20);
-
+            for (GroupInfoBean tempBean : DataUtil.getFriendInfoList()) {
+                if (tempBean.userId.equals(bean.userId)) {
+                    if (!tempBean.remark.isEmpty()) {
+                        quickViewHolder.setText(R.id.item_fun_red_packet_result_detail_username_tv,tempBean.remark);
+                    }
+                    break;
+                }
+            }
         } else {
 
             roundedImageView.setVisibility(View.GONE);

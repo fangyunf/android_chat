@@ -64,24 +64,36 @@
                 >
 
                 <TextView
-                    android:id="@+id/activity_mine_purse_index_recharge_tv"
-                    android:layout_width="100dp"
+                    android:id="@+id/activity_mine_purse_index_tixian_tv"
+ android:layout_width="100dp"
                     android:layout_weight="1"
                     android:layout_height="60dp"
 
                     android:gravity="center"
                     android:background="@drawable/bg_f2f2f2_rounded_10"
-                    android:text="充值"
+                    android:text="提现"
                     android:textColor="@color/color_333333"
                     android:textSize="@dimen/text_size_15" />
                 <TextView
                     android:layout_marginLeft="15dp"
-                    android:id="@+id/activity_mine_purse_index_tixian_tv"
+
+                    android:id="@+id/activity_mine_purse_index_recharge_tv"
+
                     android:layout_width="100dp"
                     android:layout_height="60dp"
                     android:gravity="center"
                     android:background="@drawable/bg_app_theme_color_rounded_10"
-                    android:text="提现"
+                    android:text="充值1"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_15" />
+                <TextView
+                    android:layout_marginLeft="15dp"
+                    android:id="@+id/activity_mine_purse_index_recharge_tv2"
+                    android:layout_width="100dp"
+                    android:layout_height="60dp"
+                    android:gravity="center"
+                    android:background="@drawable/bg_app_theme_color_rounded_10"
+                    android:text="充值2"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_size_15" />
 
