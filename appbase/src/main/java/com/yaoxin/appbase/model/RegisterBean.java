@@ -18,6 +18,8 @@ public class RegisterBean {
     public String idAdd;
     public String cardAdd;
     public String qrAdd;
+    public String addState;
+    public String  addGroupState;
     public String zfbNo;
     public String phone;
     public String zfbUrl;

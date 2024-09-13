@@ -56,5 +56,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_marginHorizontal="15dp"
+        android:background="@drawable/bg_f2f2f2_rounded_10"
+        android:layout_height="wrap_content">
+        <include
+            android:id="@+id/activity_account_anquan_manager_cell6"
+            layout="@layout/view_title_arrow_template"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <include
+            android:id="@+id/activity_account_anquan_manager_cell7"
+            layout="@layout/view_title_arrow_template"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
 </LinearLayout>

@@ -81,6 +81,16 @@ public class AccountAnQuanManagerActivity extends BaseActivity implements View.O
         binding.activityAccountAnquanManagerCell5.viewTitleArrowRightTvSwitch.setVisibility(View.VISIBLE);
         binding.activityAccountAnquanManagerCell5.viewTitleArrowArrowIv.setVisibility(View.GONE);
 
+        binding.activityAccountAnquanManagerCell6.viewTitleArrowTv.setText("是否开启被添加好友功能");
+        binding.activityAccountAnquanManagerCell6.viewTitleArrowRightTvSwitch.setOnClickListener(this);
+        binding.activityAccountAnquanManagerCell6.viewTitleArrowRightTvSwitch.setVisibility(View.VISIBLE);
+        binding.activityAccountAnquanManagerCell6.viewTitleArrowArrowIv.setVisibility(View.GONE);
+
+        binding.activityAccountAnquanManagerCell7.viewTitleArrowTv.setText("是否开启加入群聊功能");
+        binding.activityAccountAnquanManagerCell7.viewTitleArrowRightTvSwitch.setOnClickListener(this);
+        binding.activityAccountAnquanManagerCell7.viewTitleArrowRightTvSwitch.setVisibility(View.VISIBLE);
+        binding.activityAccountAnquanManagerCell7.viewTitleArrowArrowIv.setVisibility(View.GONE);
+
 
 
     }
@@ -112,6 +122,8 @@ public class AccountAnQuanManagerActivity extends BaseActivity implements View.O
         binding.activityAccountAnquanManagerCell3.viewTitleArrowRightTvSwitch.setSelected(groupInfoBean.idAdd == 1);
         binding.activityAccountAnquanManagerCell4.viewTitleArrowRightTvSwitch.setSelected(groupInfoBean.cardAdd == 1);
         binding.activityAccountAnquanManagerCell5.viewTitleArrowRightTvSwitch.setSelected(groupInfoBean.qrAdd == 1);
+        binding.activityAccountAnquanManagerCell6.viewTitleArrowRightTvSwitch.setSelected(groupInfoBean.addState == 1);
+        binding.activityAccountAnquanManagerCell7.viewTitleArrowRightTvSwitch.setSelected(groupInfoBean.addGroupState == 1);
 
     }
 
@@ -130,6 +142,10 @@ public class AccountAnQuanManagerActivity extends BaseActivity implements View.O
             doOptWithType(3);
         } else if (view == binding.activityAccountAnquanManagerCell5.viewTitleArrowRightTvSwitch) {
             doOptWithType(4);
+        } else if (view == binding.activityAccountAnquanManagerCell6.viewTitleArrowRightTvSwitch) {
+            doOptWithType(5);
+        } else if (view == binding.activityAccountAnquanManagerCell7.viewTitleArrowRightTvSwitch) {
+            doOptWithType(6);
         }
     }
 
@@ -153,6 +169,12 @@ public class AccountAnQuanManagerActivity extends BaseActivity implements View.O
         if (type == 4) {
             bean.qrAdd = binding.activityAccountAnquanManagerCell5.viewTitleArrowRightTvSwitch.isSelected() ? "0" : "1";
         }
+        if (type == 5) {
+            bean.addState = binding.activityAccountAnquanManagerCell6.viewTitleArrowRightTvSwitch.isSelected() ? "0" : "1";
+        }
+        if (type == 6) {
+            bean.addGroupState = binding.activityAccountAnquanManagerCell7.viewTitleArrowRightTvSwitch.isSelected() ? "0" : "1";
+        }
 
         HttpUtil.apiW().home_changeSecurityPrivacy(bean)
                 .enqueue(new CommonCallback<NetData>() {
@@ -174,6 +196,12 @@ public class AccountAnQuanManagerActivity extends BaseActivity implements View.O
                         }
                         if (type == 4) {
                             binding.activityAccountAnquanManagerCell5.viewTitleArrowRightTvSwitch.setSelected(!binding.activityAccountAnquanManagerCell5.viewTitleArrowRightTvSwitch.isSelected());
+                        }
+                        if (type == 5) {
+                            binding.activityAccountAnquanManagerCell6.viewTitleArrowRightTvSwitch.setSelected(!binding.activityAccountAnquanManagerCell6.viewTitleArrowRightTvSwitch.isSelected());
+                        }
+                        if (type == 6) {
+                            binding.activityAccountAnquanManagerCell7.viewTitleArrowRightTvSwitch.setSelected(!binding.activityAccountAnquanManagerCell7.viewTitleArrowRightTvSwitch.isSelected());
                         }
                     }
 
