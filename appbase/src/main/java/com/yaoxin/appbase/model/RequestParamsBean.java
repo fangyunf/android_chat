@@ -13,10 +13,10 @@ public class RequestParamsBean {
     public int summary;
     private String phone1;
     private String name;
-    private int type;
+    public String type;
     private String deviceId;
     private String clientType;
-    public RequestParamsBean(String phone1,String name1, int type1) {
+    public RequestParamsBean(String phone1,String name1, String type1) {
         deviceId = DeviceUtils.getDeviceId(AppProxy.getInstance().getContext());
         clientType = Constant.clientType;
         phone = phone1;

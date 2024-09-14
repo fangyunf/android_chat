@@ -141,7 +141,7 @@ public class BindAlipayActivity extends BaseActivity implements View.OnClickList
                 ToastUtils.toastMsg("请上传支付宝收款码");
                 return;
             }
-            RequestParamsBean registerBean = new RequestParamsBean(phone,name,2);
+            RequestParamsBean registerBean = new RequestParamsBean(phone,name,"2");
             registerBean.zfb = qrcodeImgUrl;
             HttpUtil.apiW().bindCard_createUptadeZFB1(registerBean)
                     .enqueue(new CommonCallback<NetData>() {

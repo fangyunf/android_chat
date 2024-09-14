@@ -46,7 +46,11 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
     }
     private void _initCell() {
 //        binding.activityMinePurseRechargeRechargeMoney.viewTitleTfWithoutBgEt.setBackgroundColor(getResources().getColor(R.color.color_white));
-        binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgLl.setVisibility(View.GONE);
+        if (_type == 1) {
+            binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgLl.setVisibility(View.VISIBLE);
+        } else {
+            binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgLl.setVisibility(View.GONE);
+        }
         binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt.setBackgroundColor(getResources().getColor(R.color.color_white));
 
 //        binding.activityMinePurseRechargeRechargeMoney.viewTitleTfWithoutBgLl.setBackgroundColor(getResources().getColor(R.color.color_white));
@@ -162,7 +166,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
         } else if (v == binding.activityMinePurseRechargeMoney5000) {
             rechargeMoney("5000");
         } else if (v == binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgLl || v == binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt) {
-            DialogAlertUtil.showSheetView(this, getSupportFragmentManager(), new String[]{"支付宝", "微信"}, new DialogAlertUtil.DialogAlertUtilCallBack() {
+            DialogAlertUtil.showSheetView(this, getSupportFragmentManager(), new String[]{"支付宝", "微信","银行卡"}, new DialogAlertUtil.DialogAlertUtilCallBack() {
                 @Override
                 public void clickType(int type) {
                     if (type == 1) {
@@ -171,7 +175,9 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
                     } else if (type == 2) {
                         binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt.setText("微信");
                         payType = "wxpay";
-
+                    } else if (type == 3) {
+                        binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt.setText("微信");
+                        payType = "bank";
                     }
                 }
             });
@@ -183,7 +189,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
         registerBean.amount = NumberUtil.formartUploadMoney(inputMoney);
 //        registerBean.payChannel = payType;
         if (_type == 1) {
-
+            registerBean.type = payType;
             HttpUtil.apiW().pay_sixL(registerBean)
                     .enqueue(new CommonCallback<NetData>() {
                         @Override
