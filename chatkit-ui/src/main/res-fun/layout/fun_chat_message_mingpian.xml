@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_vertical"
+        android:background="@drawable/fun_chat_mingpian_bg"
         >
         <LinearLayout
             android:layout_weight="1"
@@ -24,7 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="张晓汐"
-                android:textColor="#ff000000"
+                android:textColor="@color/color_white"
                 android:textSize="16sp"
                 />
             <TextView
@@ -32,7 +33,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="名片"
-                android:textColor="#999999"
+                android:textColor="@color/color_white"
                 android:textSize="12sp"
                 />
         </LinearLayout>

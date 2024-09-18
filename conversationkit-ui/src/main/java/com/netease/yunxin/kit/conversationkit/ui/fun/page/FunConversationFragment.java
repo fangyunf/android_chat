@@ -93,9 +93,9 @@ public class FunConversationFragment extends ConversationBaseFragment {
     viewBinding = FunConversationFragmentBinding.inflate(inflater, container, false);
     initView();
     if (_type == 1) {
-      viewBinding.funConversationFragmentTitleTv.setText("群聊");
+      viewBinding.funConversationFragmentTitleIv.setImageResource(R.drawable.fun_conversation_fragment_qunliao_title);
     } else {
-      viewBinding.funConversationFragmentTitleTv.setText("好友消息");
+      viewBinding.funConversationFragmentTitleIv.setImageResource(R.drawable.fun_conversation_fragment_danliao_title);
 
     }
     StatusBarUtils.setStatusBarLightMode(getActivity(), true, true);

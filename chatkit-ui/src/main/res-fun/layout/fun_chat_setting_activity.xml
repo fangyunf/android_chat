@@ -115,7 +115,7 @@
                 <com.netease.yunxin.kit.common.ui.widgets.ContactAvatarView
                     android:id="@+id/fun_chat_setting_activity_avatarView"
                     android:layout_width="80dp"
-                    android:layout_marginLeft="17dp"
+                    android:layout_centerHorizontal="true"
                     android:layout_height="80dp"
                     app:riv_corner_radius="5dp"
                     android:scaleType="centerCrop" />
