@@ -18,7 +18,7 @@ android {
         }
     }
     defaultConfig {
-        applicationId = "com.turunsi.sanguo"
+        applicationId = "com.turunsi.duonuomi"
         minSdk = 21
         targetSdk = 33
         versionCode = 1
