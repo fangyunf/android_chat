@@ -6,17 +6,25 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/activity_login_title_iv"
+        android:id="@+id/activity_login_bg_iv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:scaleType="fitXY"
-        android:src="@mipmap/login_index_login_top" />
+        android:src="@mipmap/common_login_bg" />
+
+    <ImageView
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="120dp"
+        android:id="@+id/activity_login_title_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/common_login_title_login" />
 
     <LinearLayout
         android:layout_marginTop="190dp"
         android:background="@drawable/white_bg_rounded_top_20"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
 

@@ -196,7 +196,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         binding.fragmentMineFxyyView.setOnClickListener(this);
         binding.fragmentMineYysjView.setOnClickListener(this);
         binding.fragmentMineQianbaoLl.setOnClickListener(this);
-        binding.fragmentMineErweimaIv.setOnClickListener(this);
+        binding.fragmentMineErweimaLl.setOnClickListener(this);
         binding.fragmentMineXtszView.setOnClickListener(this);
         binding.fragmentMineCopyIv.setOnClickListener(this);
         binding.fragmentMineGotoUpgradeTv.setOnClickListener(this);
@@ -306,7 +306,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         Context context = getContext();
-        if (v == binding.fragmentMineErweimaIv) {
+        if (v == binding.fragmentMineErweimaLl) {
             if (getActivity() != null) {
                 AccountCodeDialogFragment.showV(getActivity().getSupportFragmentManager());
             }
