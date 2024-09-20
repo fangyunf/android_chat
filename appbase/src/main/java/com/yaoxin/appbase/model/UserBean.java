@@ -1,5 +1,7 @@
 package com.yaoxin.appbase.model;
 
+import java.util.List;
+
 public class UserBean {
     /**
      *

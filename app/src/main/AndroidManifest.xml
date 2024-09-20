@@ -188,6 +188,8 @@
         <activity
             android:name=".login.LoginActivity" />
         <activity
+            android:name=".main.mine.huiyuan.MyHuiYuanListActivity" />
+        <activity
             android:name=".main.mine.setting.ExchangeAccountActivity" />
         <activity
             android:name=".main.mine.purse.bill.BillDetailListActivity" />

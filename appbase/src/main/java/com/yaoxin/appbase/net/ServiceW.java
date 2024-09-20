@@ -232,8 +232,15 @@ public interface ServiceW {
     @POST("/home/wdfh")
     Call<NetData> home_wdfh();
     //   我的副号
+    @POST("/meteor/list")
+    Call<NetData> meteor_list();
+    //   我的副号
     @POST("/home/gmfh")
     Call<NetData> home_gmfh(
+            @Body RegisterBean userBean
+    );
+    @POST("/meteor/buyMember")
+    Call<NetData> meteor_buyMember(
             @Body RegisterBean userBean
     );
     //   群升级
