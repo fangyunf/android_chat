@@ -13,6 +13,7 @@ import com.chad.library.adapter4.viewholder.QuickViewHolder;
 import com.turunsi.yaoxin.R;
 import com.yaoxin.appbase.model.HuiYuanBean;
 import com.yaoxin.appbase.model.UserBean;
+import com.yaoxin.appbase.utils.NumberUtil;
 
 public class MyHuiYuanListAdapter extends BaseQuickAdapter<HuiYuanBean, QuickViewHolder> {
 
@@ -32,6 +33,10 @@ public class MyHuiYuanListAdapter extends BaseQuickAdapter<HuiYuanBean, QuickVie
         } else {
             System.out.println("资源 " + resourceName + " 未找到！");
         }
+        TextView tv1 = quickViewHolder.getView(R.id.item_huiyuan_card_cell_tv1);
+        TextView tv2 = quickViewHolder.getView(R.id.item_huiyuan_card_cell_tv2);
+        tv1.setText(orderListBean.memberConfig.productName);
+        tv2.setText("￥" + NumberUtil.formartMoney(orderListBean.memberConfig.price));
     }
 
     @NonNull

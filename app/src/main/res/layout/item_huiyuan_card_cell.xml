@@ -10,6 +10,7 @@
     android:padding="16dp">
 
     <TextView
+        android:id="@+id/item_huiyuan_card_cell_tv1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="尊贵银卡VIP2"
@@ -18,6 +19,7 @@
         />
 
     <TextView
+        android:id="@+id/item_huiyuan_card_cell_tv2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="￥128.88"
