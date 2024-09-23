@@ -117,12 +117,15 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
 
 
         binding.activityMinePurseRechargeRechargeRl.setOnClickListener(this);
-        binding.activityMinePurseRechargeMoney100.setOnClickListener(this);
+        binding.activityMinePurseRechargeMoney200.setOnClickListener(this);
         binding.activityMinePurseRechargeMoney300.setOnClickListener(this);
         binding.activityMinePurseRechargeMoney500.setOnClickListener(this);
+        binding.activityMinePurseRechargeMoney600.setOnClickListener(this);
+        binding.activityMinePurseRechargeMoney700.setOnClickListener(this);
+        binding.activityMinePurseRechargeMoney800.setOnClickListener(this);
         binding.activityMinePurseRechargeMoney1000.setOnClickListener(this);
-        binding.activityMinePurseRechargeMoney3000.setOnClickListener(this);
-        binding.activityMinePurseRechargeMoney5000.setOnClickListener(this);
+        binding.activityMinePurseRechargeMoney1500.setOnClickListener(this);
+        binding.activityMinePurseRechargeMoney2000.setOnClickListener(this);
 
         binding.activityMinePurseRechargeRechargeTypeUsdt.viewTitleTfWithoutBgLl.setVisibility(View.GONE);
         binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgLl.setVisibility(View.GONE);
@@ -154,18 +157,24 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
                 return;
             }
             rechargeMoney(inputMoney);
-        } else if (v == binding.activityMinePurseRechargeMoney100) {
-            rechargeMoney("100");
+        } else if (v == binding.activityMinePurseRechargeMoney200) {
+            rechargeMoney("200");
         } else if (v == binding.activityMinePurseRechargeMoney300) {
             rechargeMoney("300");
         } else if (v == binding.activityMinePurseRechargeMoney500) {
             rechargeMoney("500");
+        } else if (v == binding.activityMinePurseRechargeMoney600) {
+            rechargeMoney("600");
+        } else if (v == binding.activityMinePurseRechargeMoney700) {
+            rechargeMoney("700");
+        } else if (v == binding.activityMinePurseRechargeMoney800) {
+            rechargeMoney("800");
         } else if (v == binding.activityMinePurseRechargeMoney1000) {
             rechargeMoney("1000");
-        } else if (v == binding.activityMinePurseRechargeMoney3000) {
-            rechargeMoney("3000");
-        } else if (v == binding.activityMinePurseRechargeMoney5000) {
-            rechargeMoney("5000");
+        } else if (v == binding.activityMinePurseRechargeMoney1500) {
+            rechargeMoney("1500");
+        } else if (v == binding.activityMinePurseRechargeMoney2000) {
+            rechargeMoney("2000");
         } else if (v == binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgLl || v == binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt) {
             DialogAlertUtil.showSheetView(this, getSupportFragmentManager(), new String[]{"支付宝", "微信"}, new DialogAlertUtil.DialogAlertUtilCallBack() {
                 @Override
