@@ -97,7 +97,7 @@ public class PurseIndexActivity extends BaseActivity implements View.OnClickList
 
         binding.activityMinePurseIndexHbjl.setOnClickListener(this);
         binding.activityMinePurseIndexLqmx.setOnClickListener(this);
-        binding.activityMinePurseIndexSmrz.setOnClickListener(this);
+//        binding.activityMinePurseIndexSmrz.setOnClickListener(this);
 //        binding.activityMinePurseIndexWdkb.setOnClickListener(this);
         binding.activityMinePurseIndexBdwx.setOnClickListener(this);
         binding.activityMinePurseIndexBdzfb.setOnClickListener(this);
@@ -129,15 +129,15 @@ public class PurseIndexActivity extends BaseActivity implements View.OnClickList
 //        else if (v == binding.activityMinePurseIndexWdkb) {
 //            ToastUtils.toastMsg("敬请期待");
 //        }
-        else if (v == binding.activityMinePurseIndexSmrz) {
-            ToastUtils.toastMsg("认证成功");
-//            if (!Constant.isRunningRealName) {
-//                Constant.isRunningRealName = true;
-//                XKitRouter.withKey(Constant.RealName_Router)
-//                        .withContext(AppProxy.getInstance().getContext())
-//                        .navigate();
-//            }
-        }
+//        else if (v == binding.activityMinePurseIndexSmrz) {
+//            ToastUtils.toastMsg("认证成功");
+////            if (!Constant.isRunningRealName) {
+////                Constant.isRunningRealName = true;
+////                XKitRouter.withKey(Constant.RealName_Router)
+////                        .withContext(AppProxy.getInstance().getContext())
+////                        .navigate();
+////            }
+//        }
 //        else if (v == binding.activityMinePurseIndexCell8.itemPurseIndexCellRl) {
 //            HashMap map = new HashMap();
 //            map.put("type","0");

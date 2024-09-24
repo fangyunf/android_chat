@@ -187,9 +187,9 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         binding.fragmentMineYsglView.setOnClickListener(this);
         binding.fragmentMineZhglView.setOnClickListener(this);
         binding.fragmentMineHmdView.setOnClickListener(this);
-        binding.fragmentMineWdfhView.setOnClickListener(this);
+//        binding.fragmentMineWdfhView.setOnClickListener(this);
         binding.fragmentMineYlyxView.setOnClickListener(this);
-        binding.fragmentMineCaidanView.setOnClickListener(this);
+//        binding.fragmentMineCaidanView.setOnClickListener(this);
 //        binding.fragmentMineQrcodeIv.setOnClickListener(this);
         binding.fragmentMineEditIv.setOnClickListener(this);
         binding.fragmentMineHyzxView.setOnClickListener(this);
@@ -412,10 +412,10 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 //                    .withContext(getContext())
 //                    .navigate();
 //        }
-        else if (v == binding.fragmentMineWdfhView) {
-            MyFuHaoListActivity.start(MyFuHaoListActivity.class,getActivity(),null);
-//            BuyGroupFeatureActivity.start(BuyGroupFeatureActivity.class,getContext(),null);
-        }
+//        else if (v == binding.fragmentMineWdfhView) {
+//            MyFuHaoListActivity.start(MyFuHaoListActivity.class,getActivity(),null);
+////            BuyGroupFeatureActivity.start(BuyGroupFeatureActivity.class,getContext(),null);
+//        }
 //        if (v == binding.mineFragmentMyManagerItem5.viewMineFragmentItemCellCl) {
 ////            startActivity(new Intent(getContext(), SettingActivity.class));
 //            SettingNewActivity.start(SettingNewActivity.class,getContext(),null);
@@ -447,10 +447,10 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         if (v == binding.cavIcon || v == binding.fragmentMineEditIv) {
             AccountDetailActivity.start(AccountDetailActivity.class,getContext(),null);
         }
-        if (v == binding.fragmentMineCaidanView) {
-            EggListIndexActivity.start(EggListIndexActivity.class,getContext(),null);
-//            ToastUtils.toastMsg("敬请期待,等待开放");
-        }
+//        if (v == binding.fragmentMineCaidanView) {
+//            EggListIndexActivity.start(EggListIndexActivity.class,getContext(),null);
+////            ToastUtils.toastMsg("敬请期待,等待开放");
+//        }
         if (v ==  binding.fragmentMineCopyIv) {
             // 获取剪切板管理器
             ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
