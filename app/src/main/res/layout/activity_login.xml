@@ -13,6 +13,7 @@
         android:src="@mipmap/common_login_bg" />
 
     <ImageView
+        android:visibility="gone"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="120dp"
         android:id="@+id/activity_login_title_iv"
@@ -20,6 +21,16 @@
         android:layout_height="wrap_content"
         android:src="@mipmap/common_login_title_login" />
 
+    <TextView
+        android:id="@+id/activity_login_title_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp"
+        android:text="注册"
+        android:textColor="#ff000000"
+        android:textSize="21sp"
+        />
     <LinearLayout
         android:layout_marginTop="190dp"
         android:background="@drawable/white_bg_rounded_top_20"
