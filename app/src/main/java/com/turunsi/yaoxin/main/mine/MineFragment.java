@@ -187,17 +187,16 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         binding.fragmentMineYsglView.setOnClickListener(this);
         binding.fragmentMineZhglView.setOnClickListener(this);
         binding.fragmentMineHmdView.setOnClickListener(this);
-//        binding.fragmentMineWdfhView.setOnClickListener(this);
+        binding.fragmentMineErweimaIv.setOnClickListener(this);
         binding.fragmentMineYlyxView.setOnClickListener(this);
 //        binding.fragmentMineCaidanView.setOnClickListener(this);
 //        binding.fragmentMineQrcodeIv.setOnClickListener(this);
         binding.fragmentMineEditIv.setOnClickListener(this);
+        binding.fragmentMineWdqbView.setOnClickListener(this);
         binding.fragmentMineHyzxView.setOnClickListener(this);
         binding.fragmentMineMmszView.setOnClickListener(this);
         binding.fragmentMineFxyyView.setOnClickListener(this);
         binding.fragmentMineYysjView.setOnClickListener(this);
-        binding.fragmentMineQianbaoLl.setOnClickListener(this);
-        binding.fragmentMineErweimaLl.setOnClickListener(this);
         binding.fragmentMineXtszView.setOnClickListener(this);
         binding.fragmentMineCopyIv.setOnClickListener(this);
         binding.fragmentMineGotoUpgradeTv.setOnClickListener(this);
@@ -307,7 +306,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         Context context = getContext();
-        if (v == binding.fragmentMineErweimaLl) {
+        if (v == binding.fragmentMineErweimaIv) {
             if (getActivity() != null) {
                 AccountCodeDialogFragment.showV(getActivity().getSupportFragmentManager());
             }
@@ -441,7 +440,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 
 ////            XKitRouter.withKey(RouterConstant.PATH_FUN_COLLECTION_PAGE).withContext(this.requireContext()).navigate();
 //        }
-        if (v == binding.fragmentMineQianbaoLl) {
+        if (v == binding.fragmentMineWdqbView) {
             PurseIndexActivity.start(PurseIndexActivity.class,context,null);
         }
         if (v == binding.cavIcon || v == binding.fragmentMineEditIv) {
