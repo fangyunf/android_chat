@@ -19,6 +19,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
@@ -32,21 +33,26 @@ public interface ServiceW {
     Call<NetData<UserBean>> login(
             @Body UserBean userBean
     );
-    @POST("/customer/smsCode")
+    @GET("/oauth2/v1/api/sms/regCode/{mobile}") //已修改
     Call<NetData> customer_smsCode(
-            @Body RegisterBean userBean
+            @Path("mobile") String mobile
     );
-    @POST("/customer/register")
+    @POST("/oauth2/v1/api/user/register")//已修改
     Call<NetData> customer_register(
             @Body RegisterBean userBean
     );
-    @POST("/customer/login")
+    @POST("/oauth2/v1/api/token/accessToken")//已修改
     Call<NetData> customer_login(
             @Body RegisterBean userBean
     );
-    @POST("/customer/updatePassword")
+    @POST("/oauth2/v1/api/user/password/reset")//已修改
     Call<NetData> customer_updatePassword(
             @Body RegisterBean userBean
+    );
+    @GET("/im/v1/api/user/userInfoEx/{deviceType}/{deviceId}")//已修改
+    Call<NetData> customer_userInfoEx(
+            @Path("deviceType") String deviceType,
+            @Path("deviceId") String deviceId
     );
     @POST("/friends/search")
     Call<NetData> friends_search(

@@ -100,10 +100,11 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 return;
             }
             RegisterBean registerBean = new RegisterBean();
-            registerBean.phoneNo = phone;
+            registerBean.mobile = phone;
             registerBean.password = pwd1;
-            registerBean.captcha = code;
+            registerBean.code = code;
             registerBean.deviceId = DeviceUtils.getDeviceId(this);
+            registerBean.clientId = Constant.clientType;
             registerBean.clientType = Constant.clientType;
 
             Activity that = this;

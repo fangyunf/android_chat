@@ -34,17 +34,12 @@ public class TokenInterceptor implements Interceptor {
             okio.Buffer buffer = new okio.Buffer();
             originalBody.writeTo(buffer);
             String oldBody = buffer.readUtf8();
-
-            // 修改请求体
-            String newBody = modifyRequestBody(oldBody);
-
             // 创建新的请求体
-            RequestBody newRequestBody = RequestBody.create(newBody, originalBody.contentType());
+            RequestBody newRequestBody = RequestBody.create(oldBody, originalBody.contentType());
 
             Request.Builder builder = original.newBuilder();
-            if (!DataUtil.getToken().isEmpty() && !DataUtil.getUserInfo().phoneNo.isEmpty()) {
-                builder.addHeader("Authorization", DataUtil.getToken());
-                builder.addHeader("phone", DataUtil.getUserInfo().phoneNo);
+            if (!DataUtil.getToken().isEmpty()) {
+                builder.addHeader("Bearer", DataUtil.getToken());
             }
             // 创建新的请求
             Request newRequest = builder
@@ -55,9 +50,8 @@ public class TokenInterceptor implements Interceptor {
         }
         //请求定制：添加请求头
         Request.Builder requestBuilder = original.newBuilder();
-        if (!DataUtil.getToken().isEmpty() && !DataUtil.getUserInfo().phoneNo.isEmpty()) {
-            requestBuilder.addHeader("Authorization", DataUtil.getToken());
-            requestBuilder.addHeader("phone", DataUtil.getUserInfo().phoneNo);
+        if (!DataUtil.getToken().isEmpty()) {
+            requestBuilder.addHeader("Bearer", DataUtil.getToken());
         }
         original = requestBuilder.build();
         return chain.proceed(original);

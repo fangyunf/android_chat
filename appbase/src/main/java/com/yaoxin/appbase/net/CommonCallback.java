@@ -38,13 +38,13 @@ public abstract class CommonCallback<T> implements Callback<T> {
                 NetData netData = (NetData) t;
                 switch (netData.code) {
                     case 200:
-                        try {
-                            if (netData.data != null) {
-                                netData.data = AESUtil.aseDecrypt(netData.data.toString());
-                            }
-                        } catch (Exception e) {
-                            throw new RuntimeException(e);
-                        }
+//                        try {
+//                            if (netData.data != null) {
+//                                netData.data = AESUtil.aseDecrypt(netData.data.toString());
+//                            }
+//                        } catch (Exception e) {
+//                            throw new RuntimeException(e);
+//                        }
                         Successful(call, response, t);
                         break;
                     case 900:// 版本更新

@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import androidx.annotation.Nullable;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.netease.yunxin.kit.common.utils.SPUtils;
 import com.netease.yunxin.kit.common.utils.SizeUtils;
 import com.netease.yunxin.kit.corekit.route.XKitRouter;
@@ -39,7 +40,9 @@ import com.yaoxin.appbase.view.LoadingDialog;
 import com.yaoxin.appbase.view.loginlib.utils.LoginLoader;
 import com.yaoxin.appbase.view.loginlib.view.CountDownView;
 
+import java.lang.reflect.Type;
 import java.util.HashMap;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -66,6 +69,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 //        binding.activityLoginIsCheckedTxt2.setOnClickListener(this);
 //        binding.activityLoginIsCheckedTxt4.setOnClickListener(this);
 //        binding.activityLoginIsAgreeLl.setOnClickListener(this);
+        binding.activityLoginTf1.viewTitleTfCountTitleTv.setText("输入手机号");
+        binding.activityLoginTf2.viewTitleTfCountTitleTv.setText("输入验证码");
+        binding.activityLoginTf3.viewTitleTfCountTitleTv.setText("输入密码");
         binding.activityLoginTf1.viewTitleTfCountEt.setHint("输入手机号");
         binding.activityLoginTf2.viewTitleTfCountEt.setHint("输入验证码");
         binding.activityLoginTf3.viewTitleTfCountEt.setHint("输入密码");
@@ -96,6 +102,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         if (BuildConfig.DEBUG) {
 
         binding.activityLoginTf1.viewTitleTfCountEt.setText("18616821287");
+        binding.activityLoginTf2.viewTitleTfCountEt.setText("888");
         binding.activityLoginTf3.viewTitleTfCountEt.setText("12345678a");
         }
     }
@@ -192,7 +199,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     return;
                 }
                 RegisterBean bean = new RegisterBean();
-                bean.phoneNo = phone;
+                bean.account = phone;
                 bean.password = pwd;
                 Activity that = this;
                 LoadingDialog.showDialog(getSupportFragmentManager(),"登陆中");
@@ -200,11 +207,24 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         .enqueue(new CommonCallback<NetData>() {
                             @Override
                             public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                                UserBean userBean = new Gson().fromJson((String) body.data,UserBean.class);
-                                DataUtil.putUserInfo(userBean);
-                                DataUtil.putToken(userBean.token);
-                                DataUtil.addLoginUserInfoList(userBean);
-                                IMUtil.loginIM(that,userBean.userId,userBean.imToken);
+                                HttpUtil.apiW().customer_userInfoEx(Constant.clientType,DeviceUtils.getDeviceId(AppProxy.getInstance().getContext()))
+                                        .enqueue(new CommonCallback<NetData>() {
+                                            @Override
+                                            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+
+                                            }
+
+                                            @Override
+                                            public void Failure(Call<NetData> call, Throwable t) {
+
+                                            }
+                                        });
+                                Gson gson = new Gson();
+                                UserBean userBean = gson.fromJson(gson.toJson(body.data),UserBean.class);
+                                DataUtil.putToken(userBean.access_token);
+//                                DataUtil.putUserInfo(userBean);
+//                                DataUtil.addLoginUserInfoList(userBean);
+//                                IMUtil.loginIM(that,userBean.userId,userBean.imToken);
                             }
 
                             @Override
@@ -251,11 +271,18 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     return;
                 }
                 RegisterBean registerBean = new RegisterBean();
-                registerBean.phoneNo = phone;
+//                registerBean.phoneNo = phone;
+//                registerBean.password = pwd1;
+//                registerBean.captcha = code;
+//                registerBean.deviceId = DeviceUtils.getDeviceId(this);
+//                registerBean.clientType = Constant.clientType;
+
+                registerBean.mobile = phone;
                 registerBean.password = pwd1;
-                registerBean.captcha = code;
+                registerBean.code = code;
                 registerBean.deviceId = DeviceUtils.getDeviceId(this);
-                registerBean.clientType = Constant.clientType;
+                registerBean.deviceType = Constant.clientType;
+
 
                 Activity that = this;
                 LoadingDialog.showDialog(getSupportFragmentManager(),"注册中");
@@ -299,9 +326,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     return;
                 }
                 RegisterBean bean = new RegisterBean();
+                bean.mobile = phone;
                 bean.password = pwd1;
-                bean.phoneNo = phone;
-                bean.captcha = code;
+                bean.smsCode = code;
 
                 Activity that = this;
                 HttpUtil.apiW().customer_updatePassword(bean)

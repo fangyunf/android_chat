@@ -16,9 +16,9 @@ public class GetPhoneCodeUtil {
             ToastUtils.toastMsg("手机格式错误");
             return;
         }
-        RegisterBean registerBean = new RegisterBean();
-        registerBean.phoneNo = phone;
-        HttpUtil.apiW().customer_smsCode(registerBean)
+//        RegisterBean registerBean = new RegisterBean();
+//        registerBean.phoneNo = phone;
+        HttpUtil.apiW().customer_smsCode(phone)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {

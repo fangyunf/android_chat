@@ -13,6 +13,8 @@ public class RegisterBean {
     public String caiDanId  ;
     public String sound;
     public String check;
+    public String mobile;
+    public String code;
     public String shake;
     public String phoneAdd;
     public String idAdd;
@@ -25,6 +27,7 @@ public class RegisterBean {
     public String zfbUrl;
     public String zfb;
     public String payPassword;
+    public String account;
     public String phoneNo;
     public String name;
     public String avatar;
@@ -35,8 +38,11 @@ public class RegisterBean {
     public String jqr;
     public String param;
     public String password;
+    public String smsCode;
     public String captcha;
     public String deviceId;
+    public String deviceType;
+    public String clientId;
     public String clientType;
     public String phoneAndCode;
     public String memberCode;
@@ -80,6 +86,7 @@ public class RegisterBean {
 
     public RegisterBean() {
         deviceId = DeviceUtils.getDeviceId(AppProxy.getInstance().getContext());
+        clientId = DeviceUtils.getDeviceId(AppProxy.getInstance().getContext());
         clientType = Constant.clientType;
     }
 }
