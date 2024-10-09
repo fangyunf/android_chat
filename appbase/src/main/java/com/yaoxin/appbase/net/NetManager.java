@@ -4,6 +4,9 @@ package com.yaoxin.appbase.net;
 
 
 
+import com.google.gson.GsonBuilder;
+import com.google.gson.ToNumberPolicy;
+
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -32,13 +35,23 @@ public class NetManager {
         private static Retrofit INSTANCE = new Retrofit.Builder()
                 .client(okHttpClient)
                 .baseUrl(Constant.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(
+                        new GsonBuilder()
+                                .setObjectToNumberStrategy(ToNumberPolicy.LONG_OR_DOUBLE)
+                                .setNumberToNumberStrategy(ToNumberPolicy.LONG_OR_DOUBLE)
+                                .create()
+                ))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
         private static Retrofit INSTANCE1 = new Retrofit.Builder()
                 .client(okHttpClient)
                 .baseUrl(Constant.BASE_URL_8444)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(
+                        new GsonBuilder()
+                                .setObjectToNumberStrategy(ToNumberPolicy.LONG_OR_DOUBLE)
+                                .setNumberToNumberStrategy(ToNumberPolicy.LONG_OR_DOUBLE)
+                                .create()
+                ))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
         /**
