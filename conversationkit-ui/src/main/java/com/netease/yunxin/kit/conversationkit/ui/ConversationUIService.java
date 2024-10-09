@@ -11,6 +11,7 @@ import com.netease.yunxin.kit.chatkit.ChatService;
 import com.netease.yunxin.kit.conversationkit.ui.fun.FunCreateTeamFactory;
 import com.netease.yunxin.kit.conversationkit.ui.fun.page.FunConversationActivity;
 import com.netease.yunxin.kit.conversationkit.ui.fun.page.FunSelected_User_Activity;
+import com.netease.yunxin.kit.conversationkit.ui.fun.page.FunSystem_Notice_New_Activity;
 import com.netease.yunxin.kit.conversationkit.ui.normal.NormalCreateTeamFactory;
 import com.netease.yunxin.kit.conversationkit.ui.normal.page.ConversationActivity;
 import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
@@ -43,6 +44,7 @@ public class ConversationUIService extends ChatService {
     // normal
     XKitRouter.registerRouter(RouterConstant.PATH_CONVERSATION_PAGE, ConversationActivity.class);
     XKitRouter.registerRouter(Constant.FunSelected_User_ActivityKey, FunSelected_User_Activity.class);
+    XKitRouter.registerRouter("FunSystem_Notice_New_Activity", FunSystem_Notice_New_Activity.class);
     // create group from select friends page
     XKitRouter.registerRouter(
         RouterConstant.PATH_SELECT_CREATE_TEAM_PAGE,

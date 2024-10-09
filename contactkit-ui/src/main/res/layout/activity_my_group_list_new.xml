@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2022 NetEase, Inc. All rights reserved.
+  ~ Use of this source code is governed by a MIT license that can be
+  ~ found in the LICENSE file.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <com.yaoxin.appbase.navbar.NavToolbar
+
+        android:id="@+id/activity_my_group_list_new_nav"
+        style="@style/WhiteFontToolbar"
+        android:background="#ffffff"
+        app:back_icon="@mipmap/temp_ic_back"
+        app:enable_under_divider="true"
+        app:support_translucent_status_bar="false"
+        app:title="我的群聊"
+        app:title_text_color="@color/color_333333"
+        app:under_divider_color="@color/transparent"
+
+        />
+<!--    <EditText-->
+<!--        android:id="@+id/activity_my_group_list_new_search_et"-->
+<!--        android:layout_margin="@dimen/dimen_14_dp"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="@dimen/dimen_40_dp"-->
+<!--        android:paddingHorizontal="@dimen/dimen_14_dp"-->
+<!--        android:textSize="15sp"-->
+<!--        android:hint="搜索你要查找的账号"-->
+<!--        android:textColorHint="@color/color_999999"-->
+<!--        android:textColor="@color/black"-->
+<!--        android:background="@drawable/bg_f2f2f2_rounded_10"-->
+<!--        android:cursorVisible="true"-->
+<!--        android:focusable="true"-->
+<!--        android:focusableInTouchMode="true"-->
+
+<!--        />-->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/activity_my_group_list_new_rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

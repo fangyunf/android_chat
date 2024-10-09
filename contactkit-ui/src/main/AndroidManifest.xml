@@ -69,6 +69,10 @@
             android:name=".normal.search.GlobalSearchActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".normal.groupList.MyGroupListActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
 
 
         <!-- fun style activity -->

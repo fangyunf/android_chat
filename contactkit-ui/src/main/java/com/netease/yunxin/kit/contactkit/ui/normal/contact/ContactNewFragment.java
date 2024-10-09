@@ -6,6 +6,7 @@ package com.netease.yunxin.kit.contactkit.ui.normal.contact;
 
 import static androidx.core.content.ContextCompat.getSystemService;
 import static com.netease.yunxin.kit.corekit.im.utils.RouterConstant.PATH_ADD_FRIEND_PAGE;
+import static com.netease.yunxin.kit.corekit.im.utils.RouterConstant.PATH_FUN_ADD_FRIEND_PAGE;
 
 import android.app.Activity;
 import android.app.NotificationChannel;
@@ -31,6 +32,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.nanchen.wavesidebar.FirstLetterUtil;
 import com.nanchen.wavesidebar.WaveSideBarView;
+import com.netease.yunxin.kit.common.ui.widgets.ContentListPopView;
 import com.netease.yunxin.kit.contactkit.ui.R;
 import com.netease.yunxin.kit.contactkit.ui.contact.BaseContactFragment;
 import com.netease.yunxin.kit.contactkit.ui.databinding.ContactFragmentBinding;
@@ -54,9 +56,12 @@ import com.yaoxin.appbase.net.Constant;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.AppProxy;
 import com.yaoxin.appbase.utils.BarUtils;
+import com.yaoxin.appbase.utils.BaseEvent;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.PinnedHeaderDecoration;
 import com.yaoxin.appbase.utils.StatusBarUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -102,6 +107,7 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
         binding.contactNewFragmentGroupTv.setOnClickListener(this);
         binding.contactNewFragmentNewFriendLl.setOnClickListener(this);
         binding.contactNewFragmentSearchIv.setOnClickListener(this);
+        binding.contactNewFragmentSearchLl.setOnClickListener(this);
         binding.contactNewFragmentMoreIv.setOnClickListener(this);
         _initViews();
         _requestData();
@@ -279,7 +285,7 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
             public void onClick(@NonNull BaseQuickAdapter<GroupInfoBean, ?> baseQuickAdapter, @NonNull View view, int i) {
                 if (baseQuickAdapter.getItemViewType(i) == Constant.RECYCLE_VIEW_ITEM) {
                     XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_SETTING_PAGE)
-                            .withParam(RouterConstant.CHAT_ID_KRY, baseQuickAdapter.getItem(i).userId)
+                            .withParam(RouterConstant.CHAT_ID_KRY, baseQuickAdapter.getItem(i - 1).userId)
                             .withParam("type", "1")
                             .withContext(requireActivity())
                             .navigate();
@@ -383,17 +389,21 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
             verifyAdapter.notifyDataSetChanged();
 
         } else if (v == binding.contactNewFragmentSearchIv) {
+            XKitRouter.withKey("FunSystem_Notice_New_Activity")
+                    .withContext(requireContext())
+                    .navigate();
+        } else if (v == binding.contactNewFragmentSearchLl) {
             XKitRouter.withKey("SearchNewActivity")
                     .withContext(requireContext())
                     .navigate();
 
+
         }
-//        else if (v == binding.contactNewFragmentMoreIv {
-//            XKitRouter.withKey("SearchNewActivity")
-//                    .withContext(requireContext())
-//                    .navigate();
-//
-//        }
+        else if (v == binding.contactNewFragmentMoreIv) {
+            XKitRouter.withKey(PATH_FUN_ADD_FRIEND_PAGE)
+                    .withContext(requireContext())
+                    .navigate();
+        }
     }
 
     void resetState() {

@@ -2,6 +2,7 @@ package com.yaoxin.appbase.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -23,6 +24,7 @@ public class IconTitleArrowTemplate extends LinearLayout {
         LayoutInflater.from(context).inflate(R.layout.icon_title_arrow_template, this, true);
         TextView titleTv = findViewById(R.id.icon_title_arrow_template_title_tv);
         ImageView imgIv = findViewById(R.id.icon_title_arrow_template_left_iv);
+        LinearLayout bgLL = findViewById(R.id.icon_title_arrow_template_ll);
 
         // Initialize any custom views or attributes here
         if (attrs != null) {
@@ -30,16 +32,27 @@ public class IconTitleArrowTemplate extends LinearLayout {
             String titleTvText = a.getString(R.styleable.IconTitleArrowTemplate_titleText);
 
             Drawable customImage = a.getDrawable(R.styleable.IconTitleArrowTemplate_leftImg);
+            int bgColor = a
+                    .getColor(
+                            R.styleable.IconTitleArrowTemplate_bgColor,
+                            Color.WHITE);
+            int textColor = a
+                    .getColor(
+                            R.styleable.IconTitleArrowTemplate_textColor,
+                            Color.BLACK);
             a.recycle();
 
             // Apply custom attributes to views
             if (titleTvText != null) {
                 titleTv.setText(titleTvText);
             }
+            // Apply custom attributes to views
+            titleTv.setTextColor(textColor);
 
             if (customImage != null) {
                 imgIv.setImageDrawable(customImage);
             }
+            bgLL.setBackgroundColor(bgColor);
         }
     }
 }

@@ -8,12 +8,6 @@
     android:background="@color/color_F2F2F2"
     >
 
-    <ImageView
-        android:scaleType="fitXY"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@mipmap/jinzita_common_page_bg"
-        />
 <LinearLayout
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -22,29 +16,34 @@
     <com.yaoxin.appbase.navbar.NavToolbar
         android:id="@+id/fun_team_user_info_detail_nav"
         style="@style/WhiteFontToolbar"
-        android:background="@android:color/transparent"
+        android:background="@color/color_white"
         app:back_icon="@mipmap/temp_ic_back"
         app:enable_under_divider="true"
         app:support_translucent_status_bar="false"
-        app:title="好友资料"
+        app:title="详细信息"
         app:title_text_color="@color/color_333333"
         app:under_divider_color="@android:color/transparent" />
-
-    <RelativeLayout
-        android:layout_marginTop="40dp"
-        android:layout_marginHorizontal="15dp"
+    <LinearLayout
+        android:paddingVertical="30dp"
         android:layout_width="match_parent"
+        android:gravity="center_vertical"
+        android:background="@color/color_white"
         android:layout_height="wrap_content">
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:layout_width="80dp"
+            android:layout_marginLeft="17dp"
+            android:layout_height="80dp"
+            app:riv_corner_radius="5dp"
+            android:scaleType="centerCrop"
+            android:id="@+id/fun_team_user_info_detail_head_iv"
+            />
+
         <LinearLayout
-            android:layout_marginTop="32dp"
+            android:layout_marginLeft="15dp"
             android:layout_width="match_parent"
             android:orientation="vertical"
-            android:background="@drawable/bg_white_rounded_10"
-            android:paddingHorizontal="15dp"
-            android:paddingBottom="25dp"
             android:layout_height="wrap_content">
             <LinearLayout
-                android:layout_marginTop="55dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <TextView
@@ -75,35 +74,13 @@
 
                 />
         </LinearLayout>
-        <TextView
-            android:visibility="visible"
-            android:id="@+id/fun_team_user_info_detail_bottom_tv"
-            android:layout_width="100dp"
-            android:layout_height="28dp"
-            android:text="加好友"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="80dp"
-            android:layout_marginRight="15dp"
-            android:gravity="center"
-            android:background="@drawable/bg_app_theme_color_rounded_10"
-            android:textColor="#ffffffff"
-            android:textSize="15sp" />
-        <com.makeramen.roundedimageview.RoundedImageView
-            android:layout_width="80dp"
-            android:layout_marginLeft="17dp"
-            android:layout_height="80dp"
-            app:riv_corner_radius="5dp"
-            android:scaleType="centerCrop"
-            android:id="@+id/fun_team_user_info_detail_head_iv"
-            />
-    </RelativeLayout>
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:layout_marginTop="15dp"
         android:orientation="vertical"
-        android:layout_marginHorizontal="15dp"
         >
         <LinearLayout
             android:layout_width="match_parent"
@@ -142,4 +119,17 @@
 
 
 </LinearLayout>
+
+    <TextView
+        android:layout_marginBottom="40dp"
+        android:visibility="visible"
+        android:id="@+id/fun_team_user_info_detail_bottom_tv"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:text="加好友"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:background="@color/color_white"
+        android:textColor="@color/color_333333"
+        android:textSize="15sp" />
 </RelativeLayout>
