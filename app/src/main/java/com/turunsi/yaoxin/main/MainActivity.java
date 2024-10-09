@@ -511,10 +511,7 @@ public class MainActivity extends BaseActivity {
                     String content = data.getStringExtra(CODED_CONTENT);
                     String result = content;
                     if (result != null) {
-                        RegisterBean bean = new RegisterBean();
-                        bean.phoneAndCode = result;
-                        bean.type = 0;
-                        HttpUtil.apiW().friends_search(bean)
+                        HttpUtil.api8444().friends_search(result)
                                 .enqueue(new CommonCallback<NetData>() {
                                     @Override
                                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {

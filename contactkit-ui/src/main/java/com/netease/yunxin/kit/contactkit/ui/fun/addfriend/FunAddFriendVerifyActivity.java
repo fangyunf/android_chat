@@ -89,9 +89,10 @@ public class FunAddFriendVerifyActivity extends BaseActivity implements View.OnC
             finish();
         } else if (v == binding.funAddFriendVerifyActivitySendRl) {
             RegisterBean bean = new RegisterBean();
-            bean.memberCode = userBean.memberCode;
-            bean.msg = getTextStr(binding.funAddFriendVerifyActivityEt);
-            HttpUtil.apiW().friends_addFriends(bean)
+            bean.userId = userBean.userId;
+            bean.note = getTextStr(binding.funAddFriendVerifyActivityEt);
+            bean.mode = "MOBILE";
+            HttpUtil.api8444().friends_addFriends(bean)
                     .enqueue(new CommonCallback<NetData>() {
                         @Override
                         public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {

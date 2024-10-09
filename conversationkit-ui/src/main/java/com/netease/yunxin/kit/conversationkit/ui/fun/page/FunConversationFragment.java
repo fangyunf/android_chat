@@ -266,9 +266,10 @@ public class FunConversationFragment extends ConversationBaseFragment {
                 UserBean userBean = new Gson().fromJson(body.data.toString(), UserBean.class);
                 if ("0".equals(userBean.friend)) {
                   RegisterBean bean = new RegisterBean();
-                  bean.memberCode = userBean.memberCode;
-                  bean.msg = "客服";
-                  HttpUtil.apiW().friends_addFriends(bean)
+                  bean.userId = userBean.userId;
+                  bean.note = "客服";
+                  bean.mode = "MOBILE";
+                  HttpUtil.api8444().friends_addFriends(bean)
                           .enqueue(new CommonCallback<NetData>() {
                             @Override
                             public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {

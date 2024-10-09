@@ -56,17 +56,21 @@ public interface ServiceW {
             @Path("deviceType") String deviceType,
             @Path("deviceId") String deviceId
     );
-    @POST("/friends/search")
+    //按手机号码或会员编号查询用户信息 已修改
+    @GET("/im/v1/api/user/search/{mobileOrCode}")
     Call<NetData> friends_search(
-            @Body RegisterBean userBean
+            @Path("mobileOrCode") String mobileOrCode
     );
-    @POST("/friends/addFriends")
+    //好友申请接口  已修改
+    @POST("/im/v1/api/friend/apply")
     Call<NetData> friends_addFriends(
             @Body RegisterBean userBean
     );
-    @POST("/friends/applyList")
+    // 分页查询接收到的好友申请列表接口 已修改
+    @GET("/im/v1/api/friend/pageQuery/receivedApply")
     Call<NetData> friends_applyList(
-            @Body RegisterBean userBean
+            @Query("pageNo") int pageNo,
+            @Query("pageSize") int pageSize
     );
     @POST("/friends/appFriendApplyEd")
     Call<NetData> friends_appFriendApplyEd(

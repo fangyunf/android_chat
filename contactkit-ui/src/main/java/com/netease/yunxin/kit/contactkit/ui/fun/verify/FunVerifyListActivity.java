@@ -106,9 +106,7 @@ public class FunVerifyListActivity extends BaseActivity implements View.OnClickL
                   });
       } else {
 
-          RegisterBean bean = new RegisterBean();
-          bean.pageNo = "0";
-          HttpUtil.apiW().friends_applyList(bean)
+          HttpUtil.api8444().friends_applyList(0,100)
                   .enqueue(new CommonCallback<NetData>() {
                       @Override
                       public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {

@@ -188,10 +188,7 @@ public abstract class FunChatFragment extends ChatBaseFragment {
                 if (msgBean.type == 10086) {
                     for (GroupInfoBean bean : DataUtil.getFriendInfoList()) {
                         if (bean.memberCode.equals(msgBean.result.memberCode)) {
-                            RegisterBean bean1 = new RegisterBean();
-                            bean1.phoneAndCode =  msgBean.result.memberCode;
-                            bean1.type = 0;
-                            HttpUtil.apiW().friends_search(bean1)
+                            HttpUtil.api8444().friends_search( msgBean.result.memberCode)
                                     .enqueue(new CommonCallback<NetData>() {
                                         @Override
                                         public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
@@ -210,10 +207,7 @@ public abstract class FunChatFragment extends ChatBaseFragment {
                             return;
                         }
                     }
-                    RegisterBean bean = new RegisterBean();
-                    bean.phoneAndCode =  msgBean.result.memberCode;
-                    bean.type = 0;
-                    HttpUtil.apiW().friends_search(bean)
+                    HttpUtil.api8444().friends_search( msgBean.result.memberCode)
                             .enqueue(new CommonCallback<NetData>() {
                                 @Override
                                 public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {

@@ -79,6 +79,24 @@ public class IMUtil {
                     }
                 });
     }
+    public static void getNewToken() {
+        RegisterBean bean = new RegisterBean();
+//        bean.token = token;
+        HttpUtil.apiW().home_getUserByToken(bean)
+                .enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                        UserBean userBean = new Gson().fromJson((String) body.data, UserBean.class);
+                        DataUtil.putUserInfo(userBean);
+                        DataUtil.putToken(userBean.token);
+
+                    }
+
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
+                    }
+                });
+    }
     public static void showMainActivityAndFinish(Activity context) {
         Intent intent = new Intent();
         intent.setClass(context, MainActivity.class);

@@ -84,10 +84,7 @@ public class FunAddFriendActivity extends BaseAddFriendActivity {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
               String accountId = v.getEditableText().toString();
               if (!TextUtils.isEmpty(accountId)) {
-                RegisterBean bean = new RegisterBean();
-                bean.phoneAndCode = accountId;
-                bean.type = 0;
-                HttpUtil.apiW().friends_search(bean)
+                HttpUtil.api8444().friends_search(accountId)
                         .enqueue(new CommonCallback<NetData>() {
                           @Override
                           public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {

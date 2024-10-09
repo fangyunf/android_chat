@@ -286,16 +286,19 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
                 Activity that = this;
                 LoadingDialog.showDialog(getSupportFragmentManager(), "注册中");
+                DataUtil.putToken("");
 
                 HttpUtil.apiW().customer_register(registerBean)
                         .enqueue(new CommonCallback<NetData>() {
                             @Override
                             public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                                UserBean userBean = new Gson().fromJson((String) body.data, UserBean.class);
-                                DataUtil.putUserInfo(userBean);
-                                DataUtil.putToken(userBean.token);
-                                IMUtil.loginIM(that, userBean.userId, userBean.imToken);
-                                SPUtils.getInstance().put("isRegister", true);
+                                ToastUtils.toastMsg("注册成功，请登录");
+                                changeTitleWithType(0);
+//                                UserBean userBean = new Gson().fromJson(new Gson().toJson(body.data), UserBean.class);
+//                                DataUtil.putUserInfo(userBean);
+//                                DataUtil.putToken(userBean.token);
+//                                IMUtil.loginIM(that, userBean.userId, userBean.imToken);
+//                                SPUtils.getInstance().put("isRegister", true);
                             }
 
                             @Override
