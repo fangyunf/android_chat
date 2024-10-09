@@ -6,23 +6,16 @@ import android.os.Handler;
 import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
-import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.netease.yunxin.kit.common.utils.SPUtils;
-import com.netease.yunxin.kit.common.utils.SizeUtils;
-import com.netease.yunxin.kit.corekit.route.XKitRouter;
 import com.turunsi.yaoxin.BuildConfig;
 import com.turunsi.yaoxin.R;
 import com.turunsi.yaoxin.utils.IMUtil;
 import com.yaoxin.appbase.activity.BaseActivity;
 import com.turunsi.yaoxin.databinding.ActivityLoginBinding;
-import com.turunsi.yaoxin.register.ForgetPwdActivity;
-import com.turunsi.yaoxin.register.RegisterActivity;
-import com.turunsi.yaoxin.fragment.OtherPlaceLoginFragment;
 import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.model.UserBean;
@@ -40,9 +33,7 @@ import com.yaoxin.appbase.view.LoadingDialog;
 import com.yaoxin.appbase.view.loginlib.utils.LoginLoader;
 import com.yaoxin.appbase.view.loginlib.view.CountDownView;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
-import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -53,6 +44,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     boolean isAgree = false;
 
     int _type = 0;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,7 +75,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         binding.activityLoginTf3.viewTitleTfCountEt.setTransformationMethod(PasswordTransformationMethod.getInstance());
 
 
-
         CountDownView mCountDownView = binding.activityLoginTf2.viewTitleTfCountCaptcha;
         mCountDownView.setUserEdit(binding.activityLoginTf1.viewTitleTfCountEt);
         mCountDownView.setCountDownTime(60);
@@ -101,9 +92,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         changeTitleWithType(0);
         if (BuildConfig.DEBUG) {
 
-        binding.activityLoginTf1.viewTitleTfCountEt.setText("18616821287");
-        binding.activityLoginTf2.viewTitleTfCountEt.setText("888");
-        binding.activityLoginTf3.viewTitleTfCountEt.setText("12345678a");
+            binding.activityLoginTf1.viewTitleTfCountEt.setText("18616821287");
+            binding.activityLoginTf2.viewTitleTfCountEt.setText("888");
+            binding.activityLoginTf3.viewTitleTfCountEt.setText("12345678a");
         }
     }
 
@@ -139,6 +130,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             binding.activityLoginTitleIv.setImageResource(R.mipmap.common_login_title_forget);
         }
     }
+
     @Override
     public void onClick(View v) {
 //        if (v == binding.activityLoginIsAgreeLl) {
@@ -164,8 +156,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 binding.activityLoginTf3.viewTitleTfCountEt.setTransformationMethod(null);
 
             }
-        }
-        else if (v == binding.activityLoginForgetTv) {
+        } else if (v == binding.activityLoginForgetTv) {
 //            ForgetPwdActivity.start(ForgetPwdActivity.class, this, null);
             if (_type == 0) {
                 changeTitleWithType(2);
@@ -202,16 +193,30 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 bean.account = phone;
                 bean.password = pwd;
                 Activity that = this;
-                LoadingDialog.showDialog(getSupportFragmentManager(),"登陆中");
+                LoadingDialog.showDialog(getSupportFragmentManager(), "登陆中");
+                DataUtil.putToken("");
                 HttpUtil.apiW().customer_login(bean)
                         .enqueue(new CommonCallback<NetData>() {
+
+                            Gson gson = new Gson();
+
                             @Override
                             public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                                HttpUtil.apiW().customer_userInfoEx(Constant.clientType,DeviceUtils.getDeviceId(AppProxy.getInstance().getContext()))
+
+                                UserBean userBean = gson.fromJson(gson.toJson(body.data), UserBean.class);
+                                DataUtil.putToken(userBean.access_token);
+
+                                HttpUtil.api8444().customer_userInfoEx(Constant.clientType, DeviceUtils.getDeviceId(AppProxy.getInstance().getContext()))
                                         .enqueue(new CommonCallback<NetData>() {
                                             @Override
                                             public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
+                                                Gson gson1 = new Gson();
+                                                String gson1Json = gson1.toJson(body.data);
+                                                UserBean userBean = gson1.fromJson(gson1Json, UserBean.class);
+                                                DataUtil.putUserInfo(userBean);
+                                                DataUtil.addLoginUserInfoList(userBean);
+                                                IMUtil.loginIM(that, userBean.userId, userBean.imToken);
                                             }
 
                                             @Override
@@ -219,12 +224,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
                                             }
                                         });
-                                Gson gson = new Gson();
-                                UserBean userBean = gson.fromJson(gson.toJson(body.data),UserBean.class);
-                                DataUtil.putToken(userBean.access_token);
-//                                DataUtil.putUserInfo(userBean);
-//                                DataUtil.addLoginUserInfoList(userBean);
-//                                IMUtil.loginIM(that,userBean.userId,userBean.imToken);
                             }
 
                             @Override
@@ -235,9 +234,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                     if (exception.getErrCode() == 601) {
 
                                         HashMap map = new HashMap<>();
-                                        map.put("type","0");
-                                        map.put("phone",phone);
-                                        OtherPlaceLoginActivity.start(OtherPlaceLoginActivity.class,that,map);
+                                        map.put("type", "0");
+                                        map.put("phone", phone);
+                                        OtherPlaceLoginActivity.start(OtherPlaceLoginActivity.class, that, map);
 //                                        OtherPlaceLoginFragment fragment = new OtherPlaceLoginFragment();
 //                                        fragment.showNow(getSupportFragmentManager(),"OtherPlaceLoginFragment");
                                     }
@@ -250,6 +249,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                 LoadingDialog.dismissDialog();
                             }
                         });
+
             } else if (_type == 1) {
 //                if (!binding.activityLoginIsCheckedIv.isSelected()) {
 //                    ToastUtils.toastMsg("请同意协议");
@@ -285,17 +285,17 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
 
                 Activity that = this;
-                LoadingDialog.showDialog(getSupportFragmentManager(),"注册中");
+                LoadingDialog.showDialog(getSupportFragmentManager(), "注册中");
 
                 HttpUtil.apiW().customer_register(registerBean)
                         .enqueue(new CommonCallback<NetData>() {
                             @Override
                             public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                                UserBean userBean = new Gson().fromJson((String) body.data,UserBean.class);
+                                UserBean userBean = new Gson().fromJson((String) body.data, UserBean.class);
                                 DataUtil.putUserInfo(userBean);
                                 DataUtil.putToken(userBean.token);
-                                IMUtil.loginIM(that,userBean.userId,userBean.imToken);
-                                SPUtils.getInstance().put("isRegister",true);
+                                IMUtil.loginIM(that, userBean.userId, userBean.imToken);
+                                SPUtils.getInstance().put("isRegister", true);
                             }
 
                             @Override

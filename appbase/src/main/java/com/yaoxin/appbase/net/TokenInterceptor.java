@@ -39,7 +39,7 @@ public class TokenInterceptor implements Interceptor {
 
             Request.Builder builder = original.newBuilder();
             if (!DataUtil.getToken().isEmpty()) {
-                builder.addHeader("Bearer", DataUtil.getToken());
+                builder.addHeader("Authorization", "Bearer " + DataUtil.getToken());
             }
             // 创建新的请求
             Request newRequest = builder
@@ -51,7 +51,7 @@ public class TokenInterceptor implements Interceptor {
         //请求定制：添加请求头
         Request.Builder requestBuilder = original.newBuilder();
         if (!DataUtil.getToken().isEmpty()) {
-            requestBuilder.addHeader("Bearer", DataUtil.getToken());
+            requestBuilder.addHeader("Authorization", "Bearer " + DataUtil.getToken());
         }
         original = requestBuilder.build();
         return chain.proceed(original);
