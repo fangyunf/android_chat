@@ -60,7 +60,7 @@ public abstract class CommonCallback<T> implements Callback<T> {
                             EventBus.getDefault().post(new BaseEvent("login_out"));
                         }
                         break;
-                    case 777:// 版本更新
+                    case 777:// 实名认证
 //                        if (!Constant.isRunningRealName) {
 //                            Constant.isRunningRealName = true;
 //                            XKitRouter.withKey(Constant.RealName_Router)

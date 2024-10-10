@@ -221,7 +221,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
                                             @Override
                                             public void Failure(Call<NetData> call, Throwable t) {
-
+                                                DataUtil.putToken("");
                                             }
                                         });
                             }

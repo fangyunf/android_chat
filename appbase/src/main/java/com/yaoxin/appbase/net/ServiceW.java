@@ -179,9 +179,9 @@ public interface ServiceW {
     );
 
     @Multipart
-    @POST("/customer/upload")
+    @POST("/im/v1/api/file/upload")
     Call<NetData> customer_upload(
-            @Part MultipartBody.Part image, @Part("description") RequestBody description
+            @Part MultipartBody.Part image, @Part("type") RequestBody type, @Part("tid") RequestBody tid
     );
 
 

@@ -14,6 +14,7 @@ import androidx.core.content.ContextCompat;
 import com.google.gson.Gson;
 import com.netease.yunxin.kit.common.utils.PermissionUtils;
 import com.yaoxin.appbase.model.NetData;
+import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.Constant;
@@ -49,9 +50,28 @@ public class UploadUtil {
                 // 创建 RequestBody 实例
                 RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
                 MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
-                RequestBody description = RequestBody.create(MediaType.parse("multipart/form-data"), descriptionText);
 
-                HttpUtil.apiW().customer_upload(body,description)
+
+
+                RequestBody typeBody = RequestBody.create(MediaType.parse("multipart/form-data"), "0");
+
+                MultipartBody multipartBody = new MultipartBody.Builder()
+                        .setType(MultipartBody.FORM) // 设置类型为 form
+                        .addFormDataPart("type", null, typeBody) // 添加 'type' 参数
+                        .build();
+
+                RequestBody tidBody = RequestBody.create(MediaType.parse("multipart/form-data"), "0");
+
+                MultipartBody tidMultipartBody = new MultipartBody.Builder()
+                        .setType(MultipartBody.FORM) // 设置类型为 form
+                        .addFormDataPart("tid", null, tidBody) // 添加 'type' 参数
+                        .build();
+
+
+
+                RegisterBean registerBean = new RegisterBean();
+                registerBean.type = 0;
+                HttpUtil.api8444().customer_upload(body,multipartBody,tidMultipartBody)
                         .enqueue(new CommonCallback<NetData>() {
                             @Override
                             public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
