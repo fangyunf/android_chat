@@ -8,13 +8,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/color_ededed"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scaleType="fitXY"
-        android:src="@mipmap/jinzita_common_page_bg" />
+<!--    <ImageView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:scaleType="fitXY"-->
+<!--        android:src="@mipmap/jinzita_common_page_bg" />-->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -37,31 +38,31 @@
                 android:layout_height="wrap_content">
 
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content">
-                    <ImageView
-                        android:id="@+id/fun_conversation_fragment_title_iv"
-                        android:layout_width="105dp"
-                        android:layout_height="@dimen/dimen_26_dp"
-                        android:src="@drawable/fun_conversation_fragment_qunliao_title"
-                        />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:gravity="center_vertical"
                     android:paddingRight="10dp"
                     android:layout_height="match_parent">
                     <ImageView
                         android:id="@+id/fun_conversation_fragment_search_iv"
                         android:layout_marginHorizontal="10dp"
-                        android:src="@drawable/conversation_list_index_notice_icon"
+                        android:src="@mipmap/conversation_list_index_notice_icon"
                         android:layout_width="25dp"
                         android:layout_height="25dp"/>
+                    <TextView
+                        android:id="@+id/fun_conversation_fragment_title_tv"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="消息"
+                        android:gravity="center"
+
+                        android:textColor="#ff151515"
+                        android:textSize="16sp"
+                        />
                     <ImageView
                         android:id="@+id/fun_conversation_fragment_more_iv"
 
-                        android:src="@drawable/conversation_index_pop_more"
+                        android:src="@mipmap/conversation_index_pop_more"
                         android:layout_width="25dp"
                         android:layout_height="25dp"/>
                 </LinearLayout>
@@ -69,33 +70,51 @@
 
 
             <LinearLayout
+                android:id="@+id/fun_conversation_fragment_search_ll"
+                android:layout_marginTop="13dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginHorizontal="10dp"
+                android:background="@drawable/bg_white_rounded_10"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_height="30dp">
+
+                <ImageView
+                    android:src="@mipmap/conversation_list_index_search_icon1"
+                    android:layout_width="16dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_height="16dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="搜索"
+                    android:textColor="#ffa0a0a0"
+                    android:textSize="15sp"
+                    />
+
+            </LinearLayout>
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_marginTop="15dp"
+                android:paddingHorizontal="10dp"
+                android:gravity="center_vertical"
                 android:layout_height="wrap_content">
 
-                <LinearLayout
-                    android:layout_marginHorizontal="15dp"
-                    android:id="@+id/marqueeView_bg_ll"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:background="@drawable/fun_conversation_fragment_notice_bg"
-                    android:gravity="center_vertical"
-                    android:paddingHorizontal="@dimen/dimen_18_dp">
-
-
-                    <com.sunfusheng.marqueeview.MarqueeView
-                        android:id="@+id/marqueeView"
-                        android:layout_width="280dp"
-                        android:layout_height="30dp"
-                        android:layout_marginLeft="40dp"
-                        app:mvAnimDuration="1000"
-                        app:mvDirection="bottom_to_top"
-                        app:mvInterval="3000"
-                        app:mvSingleLine="true"
-                        app:mvTextColor="@color/app_theme_color"
-                        app:mvTextSize="14sp" />
-
-                </LinearLayout>
+                <ImageView
+                    android:src="@mipmap/conversation_list_index_notice_icon"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"/>
+                <com.sunfusheng.marqueeview.MarqueeView
+                    android:id="@+id/marqueeView"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="10dp"
+                    app:mvAnimDuration="1000"
+                    app:mvDirection="bottom_to_top"
+                    app:mvInterval="3000"
+                    app:mvSingleLine="true"
+                    app:mvTextColor="@color/color_333333"
+                    app:mvTextSize="14sp" />
 
             </LinearLayout>
 
@@ -138,7 +157,7 @@
 
                 <com.netease.yunxin.kit.conversationkit.ui.view.ConversationView
                     android:id="@+id/conversationView"
-                    android:background="@color/color_F2F2F2"
+                    android:background="@color/color_ededed"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
 

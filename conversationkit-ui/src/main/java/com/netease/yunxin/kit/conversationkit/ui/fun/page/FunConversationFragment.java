@@ -93,11 +93,16 @@ public class FunConversationFragment extends ConversationBaseFragment {
     viewBinding = FunConversationFragmentBinding.inflate(inflater, container, false);
     initView();
     if (_type == 1) {
-      viewBinding.funConversationFragmentTitleIv.setImageResource(R.drawable.fun_conversation_fragment_qunliao_title);
+      viewBinding.funConversationFragmentTitleTv.setText("群聊");
     } else {
-      viewBinding.funConversationFragmentTitleIv.setImageResource(R.drawable.fun_conversation_fragment_danliao_title);
+      viewBinding.funConversationFragmentTitleTv.setText("消息");
 
     }
+    viewBinding.funConversationFragmentSearchLl.setOnClickListener(v -> {
+              XKitRouter.withKey("SearchNewActivity")
+                .withContext(requireContext())
+                .navigate();
+    });
     StatusBarUtils.setStatusBarLightMode(getActivity(), true, true);
     ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) viewBinding.funConversationFragmentTopLl.getLayoutParams();
     layoutParams.topMargin = BarUtils.getStatusBarHeight();

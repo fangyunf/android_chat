@@ -249,6 +249,7 @@
                         app:titleText="应用升级"
                         />
                     <com.yaoxin.appbase.view.IconTitleArrowTemplate
+                        android:visibility="gone"
                         android:id="@+id/fragment_mine_xtsz_view"
 
                         android:layout_width="match_parent"
