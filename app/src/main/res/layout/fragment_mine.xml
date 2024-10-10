@@ -288,7 +288,7 @@
 <!--                            app:titleText="彩蛋商城"-->
 <!--                            />-->
                         <com.yaoxin.appbase.view.IconTitleArrowTemplate
-                            android:visibility="visible"
+                            android:visibility="gone"
                             android:id="@+id/fragment_mine_hyzx_view"
                             android:layout_width="0dp"
                             android:layout_columnWeight="1"

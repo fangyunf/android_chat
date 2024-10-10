@@ -103,6 +103,11 @@ public class FunConversationFragment extends ConversationBaseFragment {
     layoutParams.topMargin = BarUtils.getStatusBarHeight();
     viewBinding.funConversationFragmentTopLl.setLayoutParams(layoutParams);
 
+    viewBinding.funConversationFragmentSearchLl.setOnClickListener(v -> {
+      XKitRouter.withKey("SearchNewActivity")
+              .withContext(requireContext())
+              .navigate();
+    });
     new Timer().schedule(new TimerTask() {
       @Override
       public void run() {
