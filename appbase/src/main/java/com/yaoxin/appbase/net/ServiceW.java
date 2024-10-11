@@ -84,6 +84,10 @@ public interface ServiceW {
     Call<NetData> red_personRedpacket(
             @Body RegisterBean userBean
     );
+    @POST("/red/zz")
+    Call<NetData> red_zz(
+            @Body RegisterBean userBean
+    );
     @POST("/red/sendExclusiveRedPacket")
     Call<NetData> red_sendExclusiveRedPacket(
             @Body RegisterBean userBean

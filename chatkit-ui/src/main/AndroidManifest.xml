@@ -78,7 +78,17 @@
             />
 
         <activity
+            android:name=".fun.page.FunZhuanZhangResultActivity"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop"
+            />
+
+        <activity
             android:name="com.netease.yunxin.kit.chatkit.ui.page.WatchImageActivity"
+            android:screenOrientation="portrait"
+             />
+        <activity
+            android:name=".fun.page.FunSendZhuanZhangActivity"
             android:screenOrientation="portrait"
              />
         <activity
