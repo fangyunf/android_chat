@@ -67,16 +67,16 @@ public class FunConversationP2PViewHolder extends FunConversationBaseViewHolder 
       }
 
       viewBinding.nameTv.setText(name);
-      List<GroupInfoBean> friendInfoList = DataUtil.getFriendInfoList();
-      if (!friendInfoList.isEmpty()) {
-        for (GroupInfoBean tempBean :friendInfoList) {
-          if (tempBean.userId.equals((String) data.param)) {
-            viewBinding.funConversationViewHolderIdTv.setVisibility(View.VISIBLE);
-            viewBinding.funConversationViewHolderIdTv.setText("ID:" + tempBean.memberCode);
-            break;
-          }
-        }
-      }
+//      List<GroupInfoBean> friendInfoList = DataUtil.getFriendInfoList();
+//      if (!friendInfoList.isEmpty()) {
+//        for (GroupInfoBean tempBean :friendInfoList) {
+//          if (tempBean.userId.equals((String) data.param)) {
+//            viewBinding.funConversationViewHolderIdTv.setVisibility(View.VISIBLE);
+//            viewBinding.funConversationViewHolderIdTv.setText("ID:" + tempBean.memberCode);
+//            break;
+//          }
+//        }
+//      }
 
       }
 //    viewBinding.rootLayout.setBackground(viewBinding.rootLayout.getContext().getDrawable(com.yaoxin.appbase.R.drawable.bg_white_rounded_12));
