@@ -11,9 +11,9 @@ android {
     compileSdk = 33
     signingConfigs {
         create("release") {
-            keyAlias = "jinzita"
+            keyAlias = "balishijia"
             keyPassword = "Qqqq1111"
-            storeFile = file("myjinzita")
+            storeFile = file("balishijia")
             storePassword = "Qqqq1111"
         }
     }
@@ -22,7 +22,7 @@ android {
         minSdk = 21
         targetSdk = 33
         versionCode = 1
-        versionName = "1.0.1"
+        versionName = "1.0.2"
         multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

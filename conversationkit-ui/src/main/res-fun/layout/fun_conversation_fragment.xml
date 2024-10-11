@@ -42,24 +42,7 @@
                         android:src="@drawable/fun_conversation_fragment_qunliao_title"
                         />
                 </LinearLayout>
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:gravity="center_vertical"
-                    android:paddingRight="10dp"
-                    android:layout_height="match_parent">
-                    <ImageView
-                        android:id="@+id/fun_conversation_fragment_search_iv"
-                        android:layout_marginHorizontal="10dp"
-                        android:src="@drawable/conversation_list_index_notice_icon"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"/>
-                    <ImageView
-                        android:id="@+id/fun_conversation_fragment_more_iv"
 
-                        android:src="@drawable/conversation_index_pop_more"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"/>
-                </LinearLayout>
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/fun_conversation_fragment_search_ll"
@@ -94,7 +77,7 @@
                 <LinearLayout
                     android:layout_marginHorizontal="15dp"
                     android:id="@+id/marqueeView_bg_ll"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:background="@drawable/fun_conversation_fragment_notice_bg"
                     android:gravity="center_vertical"
@@ -103,7 +86,8 @@
 
                     <com.sunfusheng.marqueeview.MarqueeView
                         android:id="@+id/marqueeView"
-                        android:layout_width="280dp"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
                         android:layout_height="30dp"
                         android:layout_marginLeft="40dp"
                         app:mvAnimDuration="1000"
@@ -113,6 +97,23 @@
                         app:mvTextColor="@color/app_theme_color"
                         app:mvTextSize="14sp" />
 
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:gravity="center_vertical"
+                        android:layout_height="match_parent">
+                        <ImageView
+                            android:id="@+id/fun_conversation_fragment_search_iv"
+                            android:layout_marginHorizontal="10dp"
+                            android:src="@drawable/conversation_list_index_notice_icon"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"/>
+                        <ImageView
+                            android:id="@+id/fun_conversation_fragment_more_iv"
+
+                            android:src="@drawable/conversation_index_pop_more"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"/>
+                    </LinearLayout>
                 </LinearLayout>
 
             </LinearLayout>
