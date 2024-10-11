@@ -36,7 +36,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "sixin"
+rootProject.name = "sixin_new_service"
 include(":app")
 include(":conversationkit-ui")
 include(":teamkit-ui")
