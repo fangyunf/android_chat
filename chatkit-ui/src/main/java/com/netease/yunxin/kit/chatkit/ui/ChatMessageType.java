@@ -40,6 +40,7 @@ public interface ChatMessageType {
   int MULTI_FORWARD_ATTACHMENT = 101;
   int RICH_TEXT_ATTACHMENT = 102;
   int RedPacket_ATTACHMENT = 22;
+  int ZhuanZhang_ATTACHMENT = 28;
   int MingPian_ATTACHMENT = 10086;
 
   /** 自定义消息类型从1000开始 */

@@ -7,8 +7,6 @@ package com.netease.yunxin.kit.chatkit.ui.custom;
 import static com.netease.yunxin.kit.chatkit.ui.ChatKitUIConstant.KEY_RICH_TEXT_BODY;
 import static com.netease.yunxin.kit.chatkit.ui.ChatKitUIConstant.KEY_RICH_TEXT_TITLE;
 
-import android.text.TextUtils;
-
 import androidx.annotation.Nullable;
 
 import com.netease.yunxin.kit.chatkit.ui.ChatMessageType;
@@ -17,12 +15,12 @@ import com.netease.yunxin.kit.corekit.im.custom.CustomAttachment;
 import org.json.JSONObject;
 
 /** 富文本消息自定义类型，102 { "type"：102, "data":{ "title":"我是标题XXX", "body":"我是内容XXX" } } */
-public class RedPacketAttachment extends CustomAttachment {
+public class ZhuanZhangAttachment extends CustomAttachment {
 
   public String title;
   public String body;
 
-  public RedPacketAttachment() {
+  public ZhuanZhangAttachment() {
     super(ChatMessageType.ZhuanZhang_ATTACHMENT);
   }
 
@@ -58,6 +56,6 @@ public class RedPacketAttachment extends CustomAttachment {
   @Nullable
   @Override
   public String getContent() {
-    return "[优惠券]";
+    return "[转账]";
   }
 }

@@ -47,6 +47,12 @@ public class FunBottomActionFactory {
             new ActionItem(
                     ActionConstants.ACTION_TYPE_SHOU_CANG, R.drawable.chat_fragment_toolbar_shoucang, R.string.chat_message_shou_cang));
 
+    if (sessionType == SessionTypeEnum.P2P) {
+      actions.add(
+              new ActionItem(
+                      ActionConstants.ACTION_TYPE_ZHUAN_ZHANG, R.drawable.chat_fragment_toolbar_zhuanzhang, R.string.chat_message_zhuan_zhang));
+
+    }
 //    if (sessionType == SessionTypeEnum.P2P) {
 //      actions.add(
 //          new ActionItem(
