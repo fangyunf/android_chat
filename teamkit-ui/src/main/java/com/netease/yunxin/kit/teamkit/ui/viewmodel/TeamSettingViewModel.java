@@ -451,8 +451,8 @@ public class TeamSettingViewModel extends BaseViewModel {
     ALog.d(LIB_TAG, TAG, "quitTeam,teamId:" + teamId);
     EventCenter.notifyEvent(new TeamEvent(teamId, TeamEventAction.ACTION_DISMISS));
       RegisterBean ben = new RegisterBean();
-      ben.groupId = teamId;
-      HttpUtil.apiW().group_quitGroup(ben)
+      ben.tid = teamId;
+      HttpUtil.api8446().group_quitGroup(ben)
               .enqueue(new CommonCallback<NetData>() {
                   @Override
                   public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
@@ -569,8 +569,8 @@ public class TeamSettingViewModel extends BaseViewModel {
     ALog.d(LIB_TAG, TAG, "dismissTeam:" + teamId);
     EventCenter.notifyEvent(new TeamEvent(teamId, TeamEventAction.ACTION_DISMISS));
   RegisterBean ben = new RegisterBean();
-  ben.groupId = teamId;
-  HttpUtil.apiW().group_dissolveGroup(ben)
+  ben.tid = teamId;
+  HttpUtil.api8446().group_dissolveGroup(ben)
           .enqueue(new CommonCallback<NetData>() {
               @Override
               public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {

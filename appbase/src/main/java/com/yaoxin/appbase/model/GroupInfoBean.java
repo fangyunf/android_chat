@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GroupInfoBean {
+    public ArrayList<GroupInfoBean> friendInfoVos;
     public String title;
     public String money;
     public String payTerm;

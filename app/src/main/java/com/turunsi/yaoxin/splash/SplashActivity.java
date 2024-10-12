@@ -10,6 +10,7 @@ import com.turunsi.yaoxin.utils.IMUtil;
 import com.yaoxin.appbase.activity.BaseActivity;
 import com.turunsi.yaoxin.databinding.ActivitySplashBinding;
 import com.turunsi.yaoxin.login.LoginActivity;
+import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.StatusBarUtils;
 
@@ -29,6 +30,7 @@ public class SplashActivity extends BaseActivity {
 //        LoginActivity.start(SplashActivity.this);
 //        LoginActivity.start(LoginActivity.class,this,null);
 //        finish();
+        HttpUtil.fetchTokenAsync();
         Activity that = this;
         new Timer().schedule(new TimerTask() {
             @Override

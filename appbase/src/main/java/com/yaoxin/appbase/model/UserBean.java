@@ -13,6 +13,7 @@ public class UserBean {
      * token_type
      * */
     public String access_token;
+    public String result;
     public String scope;
     public String id_token;
     public String token_type;
@@ -23,6 +24,8 @@ public class UserBean {
     public String userAvatar;
     public String userMemberCode;
     public String groupName;
+    public String account;
+    public String password;
 //    public String applyState;
 //    public String id;
     public String name;
@@ -51,8 +54,9 @@ public class UserBean {
     public String applyState;
     public String leaveMessage;
     public String applyUserId;
-    public int id;
+    public long id;
     public int page_type;
     public int grade;
+    public List<UserBean> applyInfos;
 
 }

@@ -129,11 +129,11 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
 
     void _requestPeople(int page) {
         RegisterBean bean = new RegisterBean();
-        bean.groupId = sessionId;
-        bean.page = page +"";
-        bean.pageNo ="100";
+        bean.tid = sessionId;
+        bean.pageIndex = page +"";
+        bean.pageSize ="100";
 
-        HttpUtil.apiW().group_groupUserListPost(bean)
+        HttpUtil.api8446().group_groupUserListPost(bean)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
@@ -164,7 +164,7 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
 
 
 
-        HttpUtil.apiW().group_groupHomeInfo(sessionId)
+        HttpUtil.api8446().group_groupHomeInfo(sessionId)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {

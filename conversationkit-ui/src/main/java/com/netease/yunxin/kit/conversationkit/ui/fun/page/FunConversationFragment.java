@@ -262,13 +262,13 @@ public class FunConversationFragment extends ConversationBaseFragment {
     }
   }
   void requestKefu(String kefuId) {
-    RegisterBean bean = new RegisterBean();
-    bean.userId = kefuId;
-    HttpUtil.apiW().friends_searchByUserIdF(bean)
+//    RegisterBean bean = new RegisterBean();
+//    bean.userId = kefuId;
+    HttpUtil.api8444().friends_searchByUserIdF(kefuId)
             .enqueue(new CommonCallback<NetData>() {
               @Override
               public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                UserBean userBean = new Gson().fromJson(body.data.toString(), UserBean.class);
+                UserBean userBean = new Gson().fromJson(new Gson().toJson(body.data), UserBean.class);
                 if ("0".equals(userBean.friend)) {
                   RegisterBean bean = new RegisterBean();
                   bean.userId = userBean.userId;

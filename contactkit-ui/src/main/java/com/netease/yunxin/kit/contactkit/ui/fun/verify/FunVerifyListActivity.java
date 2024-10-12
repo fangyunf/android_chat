@@ -110,11 +110,9 @@ public class FunVerifyListActivity extends BaseActivity implements View.OnClickL
                   .enqueue(new CommonCallback<NetData>() {
                       @Override
                       public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                          NetData listData = new Gson().fromJson(body.data.toString(),NetData.class);
-                          Gson gson = new Gson();
-                          List<UserBean> verifyList =
-                                  gson.fromJson(new Gson().toJson(listData.data), new TypeToken<List<UserBean>>() {
-                                  }.getType());
+                          String jsonStr = new Gson().toJson(body.data);
+                          UserBean listData = new Gson().fromJson(jsonStr,UserBean.class);
+                          List<UserBean> verifyList = listData.applyInfos;
                           adapter.setItems(verifyList);
                           adapter.notifyDataSetChanged();
                       }

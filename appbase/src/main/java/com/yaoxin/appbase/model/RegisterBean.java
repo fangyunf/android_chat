@@ -9,6 +9,9 @@ import java.util.List;
 public class RegisterBean {
 
     public String fafId;
+    public String startId;
+    public String windowSize;
+    public boolean backward;
     public String allDisturb;
     public String caiDanId  ;
     public String sound;
@@ -46,6 +49,7 @@ public class RegisterBean {
     public String clientType;
     public String phoneAndCode;
     public String memberCode;
+    public String friendId;
     public String msg;
     public String note;
     public String mode;
@@ -53,11 +57,15 @@ public class RegisterBean {
     public String remark;
     public String pageNo;
     public String page;
+    public String pageIndex;
+    public String pageSize;
     public String userId;
     public String groupId;
+    public String tid;
     public String head;
     public String announcement;
     public String newGroupUserId;
+    public String newOwnerId;
     public String nickName;
     public String title;
     public String token;
@@ -72,8 +80,10 @@ public class RegisterBean {
     public String groupName;
     public String groupHead;
     public List members;
+    public List managerIds;
     public int type;
-    public int id;
+    public long id;
+    public long applyId;
     public int moudleType;
     public String inviteState;
     public int state;

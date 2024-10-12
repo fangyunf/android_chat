@@ -237,12 +237,11 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
 
     void _requestPeople(int page) {
         RegisterBean bean = new RegisterBean();
-        bean.groupId = groupId;
-        bean.page = page +"";
-        bean.pageNo ="100";
+        bean.tid = groupId;
+        bean.pageIndex = page +"";
+        bean.pageSize ="100";
 
-//        LoadingDialog.showDialog(getSupportFragmentManager(),"加载中");
-        HttpUtil.apiW().group_groupUserListPost(bean)
+        HttpUtil.api8446().group_groupUserListPost(bean)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
@@ -284,7 +283,7 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
 //        RegisterBean bean = new RegisterBean();
 //        bean.groupId = groupId;
         LoadingDialog.showDialog(getSupportFragmentManager(),"加载中");
-        HttpUtil.apiW().group_groupHomeInfo(groupId)
+        HttpUtil.api8446().group_groupHomeInfo(groupId)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
@@ -493,9 +492,8 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
                                 public void onPositive() {
 
                                     RegisterBean bean = new RegisterBean();
-                                    bean.groupId = groupId;
-                                    bean.userId = DataUtil.getUserid();
-                                    HttpUtil.apiW().group_quitGroup(bean)
+                                    bean.tid = groupId;
+                                    HttpUtil.api8446().group_quitGroup(bean)
                                             .enqueue(new CommonCallback<NetData>() {
                                                 @Override
                                                 public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
@@ -663,7 +661,7 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
                     public void onCallBackUserBean(UserBean userBean) {
                         RegisterBean bean = new RegisterBean();
                         bean.groupId = groupId;
-                        bean.head = userBean.url;
+                        bean.head = userBean.result;
                         HttpUtil.apiW().group_updateGroupInfo(bean)
                                 .enqueue(new CommonCallback<NetData>() {
                                     @Override

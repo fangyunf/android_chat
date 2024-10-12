@@ -120,14 +120,13 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
             adapter.notifyDataSetChanged();
             return;
         }
-        HttpUtil.apiW().friends_friendList(new RegisterBean())
+        HttpUtil.api8444().friends_friendList(new RegisterBean())
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                        Type type = new TypeToken<List<GroupInfoBean>>() {
-                        }.getType();
-                        mContactModels = new Gson().fromJson(body.data.toString(), type);
+                        GroupInfoBean tempBean1 = new Gson().fromJson(new Gson().toJson(body.data), GroupInfoBean.class);
+                        mContactModels = tempBean1.friendInfoVos;
                         for (GroupInfoBean tempBean :
                                 mContactModels) {
                             if (tempBean.userId.equals(DataUtil.getKeFuId())) {
@@ -306,7 +305,7 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
                         bean.members = list;
                         bean.groupName = text;
                         bean.groupHead = TeamIconUtils.getDefaultRandomIconUrl(true);
-                        HttpUtil.apiW().group_createGroup(bean)
+                        HttpUtil.api8446().group_createGroup(bean)
                                 .enqueue(new CommonCallback<NetData>() {
                                     @Override
                                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {

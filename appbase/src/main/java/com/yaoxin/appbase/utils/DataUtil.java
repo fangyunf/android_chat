@@ -123,6 +123,18 @@ public class DataUtil {
         }
         return "";
     }
+
+    public static boolean isLogin() {
+        return !DataUtil.getUserid().isEmpty();
+    }
+
+    public static long getLastRefreshTime() {
+        return Hawk.get("last_refresh_time", 0L);
+    }
+
+    public static void setLastRefreshTime(long lastRefreshTime) {
+        Hawk.put("last_refresh_time", lastRefreshTime);
+    }
     public static void deleteData() {
         DataUtil.putToken("");
         DataUtil.putUserInfo(null);

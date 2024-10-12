@@ -261,7 +261,7 @@ public class PurseTiXianAddAccountActivity extends BaseActivity implements View.
                 UploadUtil.uploadImage(strings.get(0), "", new CommonCallBack() {
                     @Override
                     public void onCallBackUserBean(UserBean userBean) {
-                        qrcodeImgUrl = userBean.url;
+                        qrcodeImgUrl = userBean.result;
                     }
                 });
             }

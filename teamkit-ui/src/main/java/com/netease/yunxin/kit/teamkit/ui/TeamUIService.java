@@ -291,7 +291,7 @@ public class TeamUIService extends ChatService {
                             bean.members = accIdList;
                             bean.groupName = teamName;
                             bean.groupHead = iconUrl;
-                            HttpUtil.apiW().group_createGroup(bean)
+                            HttpUtil.api8446().group_createGroup(bean)
                                     .enqueue(new CommonCallback<NetData>() {
                                         @Override
                                         public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {

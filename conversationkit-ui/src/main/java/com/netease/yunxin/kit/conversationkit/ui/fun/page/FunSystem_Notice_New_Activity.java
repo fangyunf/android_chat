@@ -60,12 +60,12 @@ public class FunSystem_Notice_New_Activity extends BaseActivity implements View.
         binding.activitySystemNoticeNewXttzLl.setOnClickListener(this);
         binding.activitySystemNoticeNewQtzLl.setOnClickListener(this);
         binding.activitySystemNoticeNewQbxxLl.setOnClickListener(this);
-        HttpUtil.apiW().friends_applyListNum(new RegisterBean())
+        HttpUtil.api8444().friends_applyListNum()
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                        GroupInfoBean applyNumBean = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
+                        GroupInfoBean applyNumBean = new Gson().fromJson(new Gson().toJson(body.data), GroupInfoBean.class);
 
                         if (applyNumBean.groupApplyNum > 0) {
                             binding.activitySystemNoticeNewQtzNumTv.setText(applyNumBean.groupApplyNum + "");

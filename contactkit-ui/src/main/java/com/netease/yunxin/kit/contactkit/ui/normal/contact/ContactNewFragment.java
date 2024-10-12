@@ -124,14 +124,17 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
 
     @Override
     protected void _requestData() {
-        HttpUtil.apiW().friends_friendList(new RegisterBean())
+        RegisterBean registerBean = new RegisterBean();
+        registerBean.startId = "1";
+        registerBean.backward = true;
+        registerBean.windowSize = "1000";
+        HttpUtil.api8444().friends_friendList(registerBean)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                        Type type = new TypeToken<List<GroupInfoBean>>() {
-                        }.getType();
-                        mContactModels = new Gson().fromJson(body.data.toString(), type);
+                        GroupInfoBean groupInfoBean = new Gson().fromJson(new Gson().toJson(body.data), GroupInfoBean.class);
+                        mContactModels = groupInfoBean.friendInfoVos;
                         for (GroupInfoBean tempBean :
                                 mContactModels) {
                             if (tempBean.userId.equals(DataUtil.getKeFuId())) {
@@ -165,12 +168,12 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
                     }
                 });
 
-        HttpUtil.apiW().friends_applyListNum(new RegisterBean())
+        HttpUtil.api8444().friends_applyListNum()
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                        applyNumBean = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
+                        applyNumBean = new Gson().fromJson(new Gson().toJson(body.data), GroupInfoBean.class);
                         adapter.friendApplyNum = applyNumBean.friendApplyNum;
                         adapter.groupApplyNum = applyNumBean.groupApplyNum;
                         adapter.notifyDataSetChanged();
@@ -199,48 +202,46 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
                     }
                 });
 
-        HttpUtil.apiW().group_userGroups(new RegisterBean())
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+//        HttpUtil.apiW().group_userGroups(new RegisterBean())
+//                .enqueue(new CommonCallback<NetData>() {
+//                    @Override
+//                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+//
+//                        Type type = new TypeToken<List<GroupInfoBean>>() {}.getType();
+//
+//                        groupListDataList = new Gson().fromJson(body.data.toString(),type);
+//                        if (_selectIndex == 1) {
+//                            binding.contactNewFragmentRv.setAdapter(groupListAdapter);
+//                            groupListAdapter.setItems(groupListDataList);
+//                            groupListAdapter.notifyDataSetChanged();
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void Failure(Call<NetData> call, Throwable t) {
+//
+//                    }
+//                });
 
-                        Type type = new TypeToken<List<GroupInfoBean>>() {}.getType();
-
-                        groupListDataList = new Gson().fromJson(body.data.toString(),type);
-                        if (_selectIndex == 1) {
-                            binding.contactNewFragmentRv.setAdapter(groupListAdapter);
-                            groupListAdapter.setItems(groupListDataList);
-                            groupListAdapter.notifyDataSetChanged();
-                        }
-                    }
-
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
-
-                    }
-                });
-
-        HttpUtil.api8444().friends_applyList(0,100)
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        NetData listData = new Gson().fromJson(body.data.toString(),NetData.class);
-                        Gson gson = new Gson();
-                        verifyList =
-                                gson.fromJson(new Gson().toJson(listData.data), new TypeToken<List<UserBean>>() {
-                                }.getType());
-                        if (_selectIndex == 2) {
-                            binding.contactNewFragmentRv.setAdapter(verifyAdapter);
-                            verifyAdapter.setItems(verifyList);
-                            verifyAdapter.notifyDataSetChanged();
-                        }
-                    }
-
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
-
-                    }
-                });
+//        HttpUtil.api8444().friends_applyList(0,100)
+//                .enqueue(new CommonCallback<NetData>() {
+//                    @Override
+//                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+//                        String jsonStr = new Gson().toJson(body.data);
+//                        UserBean listData = new Gson().fromJson(jsonStr,UserBean.class);
+//                        verifyList = listData.applyInfos;
+//                        if (_selectIndex == 2) {
+//                            binding.contactNewFragmentRv.setAdapter(verifyAdapter);
+//                            verifyAdapter.setItems(verifyList);
+//                            verifyAdapter.notifyDataSetChanged();
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void Failure(Call<NetData> call, Throwable t) {
+//
+//                    }
+//                });
     }
 
     @Override
@@ -259,25 +260,6 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
 
         Activity that = getActivity();
 
-        groupListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener<GroupInfoBean>() {
-            @Override
-            public void onClick(@NonNull BaseQuickAdapter<GroupInfoBean, ?> baseQuickAdapter, @NonNull View view, int i) {
-                XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_TEAM_PAGE)
-                        .withParam(RouterConstant.CHAT_ID_KRY, baseQuickAdapter.getItem(i).groupId)
-                        .withContext(that)
-                        .navigate();
-            }
-        });
-        verifyAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener<UserBean>() {
-            @Override
-            public void onClick(@NonNull BaseQuickAdapter<UserBean, ?> baseQuickAdapter, @NonNull View view, int i) {
-                UserBean bean = baseQuickAdapter.getItem(i);
-                bean.page_type = 100;
-                HashMap map = new HashMap();
-                map.put("user",new Gson().toJson(bean));
-                FunAddFriendVerifyActivity.start(FunAddFriendVerifyActivity.class,that,map);
-            }
-        });
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener<GroupInfoBean>() {
             @Override
             public void onClick(@NonNull BaseQuickAdapter<GroupInfoBean, ?> baseQuickAdapter, @NonNull View view, int i) {

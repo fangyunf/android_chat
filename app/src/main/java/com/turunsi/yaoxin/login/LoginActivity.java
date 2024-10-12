@@ -92,7 +92,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         changeTitleWithType(0);
         if (BuildConfig.DEBUG) {
 
-            binding.activityLoginTf1.viewTitleTfCountEt.setText("18616821287");
+            binding.activityLoginTf1.viewTitleTfCountEt.setText("18616821233");
             binding.activityLoginTf2.viewTitleTfCountEt.setText("888");
             binding.activityLoginTf3.viewTitleTfCountEt.setText("12345678a");
         }
@@ -205,7 +205,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
                                 UserBean userBean = gson.fromJson(gson.toJson(body.data), UserBean.class);
                                 DataUtil.putToken(userBean.access_token);
-
+                                DataUtil.setLastRefreshTime(System.currentTimeMillis());
                                 HttpUtil.api8444().customer_userInfoEx(Constant.clientType, DeviceUtils.getDeviceId(AppProxy.getInstance().getContext()))
                                         .enqueue(new CommonCallback<NetData>() {
                                             @Override
@@ -214,6 +214,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                                 Gson gson1 = new Gson();
                                                 String gson1Json = gson1.toJson(body.data);
                                                 UserBean userBean = gson1.fromJson(gson1Json, UserBean.class);
+                                                userBean.account = phone;
+                                                userBean.password = pwd;
                                                 DataUtil.putUserInfo(userBean);
                                                 DataUtil.addLoginUserInfoList(userBean);
                                                 IMUtil.loginIM(that, userBean.userId, userBean.imToken);

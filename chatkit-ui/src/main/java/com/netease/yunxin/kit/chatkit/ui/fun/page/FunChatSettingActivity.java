@@ -125,13 +125,11 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
     }
 
     void _reuestInfo() {
-        RegisterBean bean = new RegisterBean();
-        bean.userId = accId;
-        HttpUtil.apiW().friends_searchByUserIdF(bean)
+        HttpUtil.api8444().friends_searchByUserIdF(accId)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        userBean = new Gson().fromJson(body.data.toString(),UserBean.class);
+                        userBean = new Gson().fromJson(new Gson().toJson(body.data),UserBean.class);
                         binding.funChatSettingActivityId.setText("ID: "+ userBean.memberCode);
                         binding.nameTv.setText(userBean.name);
                         if (userBean.remark != null && !userBean.remark.isEmpty())
@@ -381,9 +379,9 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
                                 viewModel1.updateAlias(userInfoData.data.getAccount(), comment);
                                 if (userBean != null) {
                                 RegisterBean bean = new RegisterBean();
-                                    bean.memberCode = userBean.memberCode;
+                                    bean.friendId = userBean.userId;
                                     bean.alias = comment;
-                                    HttpUtil.apiW().friends_updateRemark(bean)
+                                    HttpUtil.api8444().friends_updateRemark(bean)
                                             .enqueue(new CommonCallback<NetData>() {
                                                 @Override
                                                 public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {

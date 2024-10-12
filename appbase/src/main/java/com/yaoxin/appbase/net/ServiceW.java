@@ -72,17 +72,20 @@ public interface ServiceW {
             @Query("pageNo") int pageNo,
             @Query("pageSize") int pageSize
     );
-    @POST("/friends/appFriendApplyEd")
+    /// 好友验证  已修改
+    @POST("/im/v1/api/friend/apply/reply")
     Call<NetData> friends_appFriendApplyEd(
             @Body RegisterBean userBean
     );
-    @POST("/friends/updateRemark")
+    //已修改
+    @POST("/im/v1/api/friend/alias/update")
     Call<NetData> friends_updateRemark(
             @Body RegisterBean userBean
     );
-    @POST("/friends/searchByUserIdF")
+    //  按用户ID查询用户信息  已修改
+    @GET("/im/v1/api/user/query/{userId}")
     Call<NetData> friends_searchByUserIdF(
-            @Body RegisterBean userBean
+            @Path("userId") String userId
     );
     @POST("/groupMember/queryGroupMemberBanneds")
     Call<NetData> groupMember_queryGroupMemberBanneds(
@@ -161,23 +164,29 @@ public interface ServiceW {
     Call<NetData> red_transcationsList(
             @Body RegisterBean userBean
     );
-    @POST("/group/createGroup")
+    //创建群组 已修改
+    @POST("/imx/v1/api/session/create")
     Call<NetData> group_createGroup(
             @Body RegisterBean userBean
     );
-    @POST("/group/dissolveGroup")
+
+    //解散劝阻  已修改
+    @POST("/imx/v1/api/session/delete")
     Call<NetData> group_dissolveGroup(
             @Body RegisterBean userBean
     );
-    @POST("/group/quitGroup")
+    //主动退群 已修改
+    @POST("/imx/v1/api/member/leave")
     Call<NetData> group_quitGroup(
             @Body RegisterBean userBean
     );
-    @POST("/home/changeInfo")
+    @POST("/oauth2/v1/api/user/baseInfo/update")
     Call<NetData> home_changeInfo(
             @Body RegisterBean userBean
     );
-    @POST("/group/groupUserListPost")
+
+    //分页查询群组中的用户列表 已修改
+    @GET("/imx/v1/api/session/queryMembers")
     Call<NetData> group_groupUserListPost(
             @Body RegisterBean userBean
     );
@@ -189,15 +198,10 @@ public interface ServiceW {
     );
 
 
-    @GET("/group/groupUserList")
-    Call<NetData> group_groupUserList(
-            @Query("groupId") String groupId
-    );
-
-    //群首页信息
-    @GET("/group/groupHomeInfo")
+    //获取聊天群组信息  已修改
+    @GET("/imx/v1/api/session/detail/{tid}")
     Call<NetData> group_groupHomeInfo(
-            @Query("groupId") String groupId
+            @Path("tid") String tid
     );
 
     //群管理
@@ -239,8 +243,8 @@ public interface ServiceW {
     Call<NetData> customer_systemAppUser(
             @Body RegisterBean userBean
     );
-    //   转让群主
-    @POST("/group/transferGroup")
+    //   转让群主 已修改
+    @POST("/imx/v1/api/session/transfer")
     Call<NetData> group_transferGroup(
             @Body RegisterBean userBean
     );
@@ -298,9 +302,14 @@ public interface ServiceW {
     Call<NetData> groupMember_invitationGroupConfirmed(
             @Body RegisterBean userBean
     );
-    // 设置管理员
-    @POST("/group/installAdmin")
+    // 设置管理员  已修改
+    @POST("/imx/v1/api/session/addManager")
     Call<NetData> group_installAdmin(
+            @Body RegisterBean userBean
+    );
+    // 移除管理员 已修改
+    @POST("/imx/v1/api/session/removeManager")
+    Call<NetData> group_removeManager(
             @Body RegisterBean userBean
     );
     // 设置单个成员禁抢
@@ -314,14 +323,13 @@ public interface ServiceW {
             @Body RegisterBean userBean
     );
     //  好友列表
-    @POST("/friends/friendList")
+    @POST("/im/v1/api/friend/slideQuery/friendList")
     Call<NetData> friends_friendList(
             @Body RegisterBean userBean
     );
-    //  好友列表
-    @POST("/friends/applyListNum")
+    //  申请红点  已修改
+    @GET("/im/v1/api/friend/applyCount")
     Call<NetData> friends_applyListNum(
-            @Body RegisterBean userBean
     );
     //  好友列表
     @POST("/group/groupConsentOrRefuse")

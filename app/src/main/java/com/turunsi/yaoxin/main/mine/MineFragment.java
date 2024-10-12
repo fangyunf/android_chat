@@ -164,22 +164,22 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 
                     }
                 });
-        HttpUtil.apiW().home_getUserByToken(new RegisterBean())
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        UserBean userBean = new Gson().fromJson((String) body.data,UserBean.class);
-                        if (userBean != null) {
-                            DataUtil.putUserInfo(userBean);
-                            DataUtil.putToken(userBean.token);
-                            updateUIGrade();
-                        }
-                    }
-
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
-                    }
-                });
+//        HttpUtil.apiW().home_getUserByToken(new RegisterBean())
+//                .enqueue(new CommonCallback<NetData>() {
+//                    @Override
+//                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+//                        UserBean userBean = new Gson().fromJson((String) body.data,UserBean.class);
+//                        if (userBean != null) {
+//                            DataUtil.putUserInfo(userBean);
+//                            DataUtil.putToken(userBean.token);
+//                            updateUIGrade();
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void Failure(Call<NetData> call, Throwable t) {
+//                    }
+//                });
     }
 
     private void _initItems() {

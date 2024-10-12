@@ -138,7 +138,9 @@ public class FunAddFriendVerifyActivity extends BaseActivity implements View.OnC
             RegisterBean bean = new RegisterBean();
             bean.id = userBean.id;
             bean.type = isAgree ? 1 : 2;
-            HttpUtil.apiW().friends_appFriendApplyEd(bean)
+            String textStr = getTextStr(binding.funAddFriendVerifyActivityEt);
+            bean.remark = textStr;
+            HttpUtil.api8444().friends_appFriendApplyEd(bean)
                     .enqueue(new CommonCallback<NetData>() {
                         @Override
                         public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {

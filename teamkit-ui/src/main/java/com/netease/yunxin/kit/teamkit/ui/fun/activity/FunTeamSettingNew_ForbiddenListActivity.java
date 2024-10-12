@@ -166,10 +166,11 @@ public class FunTeamSettingNew_ForbiddenListActivity extends BaseActivity implem
 
     protected void _requestData(int page) {
         RegisterBean bean = new RegisterBean();
-        bean.groupId = groupId;
-        bean.page = page + "";
-        bean.pageNo ="100";
-        HttpUtil.apiW().group_groupUserListPost(bean)
+        bean.tid = groupId;
+        bean.pageIndex = page +"";
+        bean.pageSize ="100";
+
+        HttpUtil.api8446().group_groupUserListPost(bean)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {

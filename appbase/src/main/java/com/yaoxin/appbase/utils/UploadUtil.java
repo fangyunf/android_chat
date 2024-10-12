@@ -52,30 +52,15 @@ public class UploadUtil {
                 MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
 
 
-
-                RequestBody typeBody = RequestBody.create(MediaType.parse("multipart/form-data"), "0");
-
-                MultipartBody multipartBody = new MultipartBody.Builder()
-                        .setType(MultipartBody.FORM) // 设置类型为 form
-                        .addFormDataPart("type", null, typeBody) // 添加 'type' 参数
-                        .build();
-
-                RequestBody tidBody = RequestBody.create(MediaType.parse("multipart/form-data"), "0");
-
-                MultipartBody tidMultipartBody = new MultipartBody.Builder()
-                        .setType(MultipartBody.FORM) // 设置类型为 form
-                        .addFormDataPart("tid", null, tidBody) // 添加 'type' 参数
-                        .build();
+                RequestBody multipartBody = RequestBody.create(MediaType.parse("text/plain"), String.valueOf("0"));
+                RequestBody tidMultipartBody = RequestBody.create(MediaType.parse("text/plain"), "0");
 
 
-
-                RegisterBean registerBean = new RegisterBean();
-                registerBean.type = 0;
                 HttpUtil.api8444().customer_upload(body,multipartBody,tidMultipartBody)
                         .enqueue(new CommonCallback<NetData>() {
                             @Override
                             public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                                UserBean bean = new Gson().fromJson(body.data.toString(),UserBean.class);
+                                UserBean bean = new Gson().fromJson(new Gson().toJson(body.data),UserBean.class);
                                 callBack.onCallBackUserBean(bean);
                             }
 

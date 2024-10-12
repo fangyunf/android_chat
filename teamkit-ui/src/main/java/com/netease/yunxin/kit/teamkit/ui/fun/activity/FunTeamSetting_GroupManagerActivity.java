@@ -188,8 +188,8 @@ public class FunTeamSetting_GroupManagerActivity extends BaseActivity implements
                                 public void onPositive() {
 
                                     RegisterBean bean = new RegisterBean();
-                                    bean.groupId = groupId;
-                                    HttpUtil.apiW().group_dissolveGroup(bean)
+                                    bean.tid = groupId;
+                                    HttpUtil.api8446().group_dissolveGroup(bean)
                                             .enqueue(new CommonCallback<NetData>() {
                                                 @Override
                                                 public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
@@ -252,11 +252,12 @@ public class FunTeamSetting_GroupManagerActivity extends BaseActivity implements
         String opt_type = data.getStringExtra("opt_type");
 
         RegisterBean bean = new RegisterBean();
-        bean.groupId = groupId;
+        bean.tid = groupId;
 
         if ("1".equals(opt_type)) {
-            bean.newGroupUserId = userIds.get(0);
-            HttpUtil.apiW().group_transferGroup(bean)
+
+            bean.newOwnerId = userIds.get(0);
+            HttpUtil.api8446().group_transferGroup(bean)
                     .enqueue(new CommonCallback<NetData>() {
                         @Override
                         public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
@@ -273,8 +274,8 @@ public class FunTeamSetting_GroupManagerActivity extends BaseActivity implements
         } else if ("2".equals(opt_type)) {
             ArrayList<String> unuserIds = data.getStringArrayListExtra("un_userIds");
             if (userIds.size() > 0) {
-                bean.members = userIds;
-                HttpUtil.apiW().group_installAdmin(bean)
+                bean.managerIds = userIds;
+                HttpUtil.api8446().group_installAdmin(bean)
                         .enqueue(new CommonCallback<NetData>() {
                             @Override
                             public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
@@ -291,9 +292,8 @@ public class FunTeamSetting_GroupManagerActivity extends BaseActivity implements
             }
             if (unuserIds.size() > 0) {
 
-                bean.members = unuserIds;
-                bean.state = 1;
-                HttpUtil.apiW().group_installAdmin(bean)
+                bean.managerIds = unuserIds;
+                HttpUtil.api8446().group_removeManager(bean)
                         .enqueue(new CommonCallback<NetData>() {
                             @Override
                             public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {

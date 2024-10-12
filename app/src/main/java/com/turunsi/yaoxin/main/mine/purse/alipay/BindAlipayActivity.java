@@ -174,7 +174,7 @@ public class BindAlipayActivity extends BaseActivity implements View.OnClickList
                     @Override
                     public void onCallBackUserBean(UserBean userBean) {
                         ToastUtils.toastMsg("上传成功");
-                        qrcodeImgUrl = userBean.url;
+                        qrcodeImgUrl = userBean.result;
                     }
                 });
             }

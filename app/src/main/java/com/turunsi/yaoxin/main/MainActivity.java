@@ -88,6 +88,8 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import pub.devrel.easypermissions.EasyPermissions;
 import retrofit2.Call;
@@ -154,6 +156,17 @@ public class MainActivity extends BaseActivity {
 //                        .navigate();
 //            }
 //        }
+        Timer timer = new Timer();
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                // 这里是每30秒执行的任务
+                HttpUtil.fetchTokenAsync();
+            }
+        };
+        // 每30秒执行一次任务
+        timer.scheduleAtFixedRate(task, 0, 5000);
+
     }
 
     void _update() {

@@ -1,19 +1,30 @@
 package com.yaoxin.appbase.net;
 
+import android.app.Activity;
+
 import androidx.annotation.NonNull;
 
 
 import com.google.gson.Gson;
+import com.yaoxin.appbase.model.NetData;
+import com.yaoxin.appbase.model.RegisterBean;
+import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.utils.AESUtil;
+import com.yaoxin.appbase.utils.AppProxy;
 import com.yaoxin.appbase.utils.DataUtil;
+import com.yaoxin.appbase.utils.DeviceUtils;
+import com.yaoxin.appbase.view.LoadingDialog;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.concurrent.CountDownLatch;
 
+import io.reactivex.Observable;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import retrofit2.Call;
 
 /**
  * Author will·
@@ -55,19 +66,6 @@ public class TokenInterceptor implements Interceptor {
         }
         original = requestBuilder.build();
         return chain.proceed(original);
-    }
-    // 模拟修改请求体的方法
-    private String modifyRequestBody(String oldBody) {
-        // 这里可以对请求体进行任何操作，比如增加、修改参数等
-        String s;
-        try {
-            s = AESUtil.aesEncrypt(oldBody);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        HashMap map = new HashMap();
-        map.put("param",s);
-        return new Gson().toJson(map);
     }
 
 }

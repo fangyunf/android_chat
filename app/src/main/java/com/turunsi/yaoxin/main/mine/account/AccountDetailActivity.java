@@ -139,11 +139,11 @@ public class AccountDetailActivity extends BaseActivity implements View.OnClickL
           @Override
           public void onCallBackUserBean(UserBean userBean) {
               UserBean userInfo = DataUtil.getUserInfo();
-              userInfo.avatar = userBean.url;
+              userInfo.avatar = userBean.result;
               DataUtil.putUserInfo(userInfo);
               DataUtil.updateLoginUserInfoList(userInfo);
               GlideUtil.yh_loadImage(viewBinding.activityMineAccountDetailHeadIv.getContext(),viewBinding.activityMineAccountDetailHeadIv, userBean.url);
-              updatePersonInfo(userBean.url,"");
+              updatePersonInfo(userBean.result,"");
           }
       });
 //    File file = new File(imagePath);

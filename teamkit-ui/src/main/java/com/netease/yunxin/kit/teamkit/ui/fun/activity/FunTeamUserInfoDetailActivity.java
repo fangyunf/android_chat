@@ -146,7 +146,7 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
         binding.funTeamUserInfoDetailYaoqingren.viewTitleArrowRightTv.setText(groupInfoBean.inviteName);
     }
      void requestDataWith(String groupId,String userId) {
-        HttpUtil.apiW().group_groupHomeInfo(groupId)
+        HttpUtil.api8446().group_groupHomeInfo(groupId)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
@@ -164,10 +164,11 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
     }
     void _requestPeople(int page, String userId) {
         RegisterBean bean = new RegisterBean();
-        bean.groupId = groupId;
-        bean.page = page +"";
-        bean.pageNo ="100";
-        HttpUtil.apiW().group_groupUserListPost(bean)
+        bean.tid = groupId;
+        bean.pageIndex = page +"";
+        bean.pageSize ="100";
+
+        HttpUtil.api8446().group_groupUserListPost(bean)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
@@ -377,9 +378,9 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
         super.callBackResult(data);
         String result = data.getStringExtra("result");
         RegisterBean bean = new RegisterBean();
-        bean.memberCode = groupInfoBean.memberCode;
+        bean.friendId = groupInfoBean.userId;
         bean.alias = result;
-        HttpUtil.apiW().friends_updateRemark(bean)
+        HttpUtil.api8444().friends_updateRemark(bean)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {

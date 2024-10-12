@@ -158,7 +158,7 @@ public class FunChatTeamFragment extends FunChatFragment {
   }
 
   void _requestData() {
-    HttpUtil.apiW().group_groupHomeInfo(sessionID)
+    HttpUtil.api8446().group_groupHomeInfo(sessionID)
             .enqueue(new CommonCallback<NetData>() {
               @Override
               public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {

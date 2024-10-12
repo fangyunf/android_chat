@@ -88,7 +88,7 @@ public class FunAddFriendActivity extends BaseAddFriendActivity {
                         .enqueue(new CommonCallback<NetData>() {
                           @Override
                           public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                            UserBean userInfo = new Gson().fromJson(body.data.toString(), UserBean.class);
+                            UserBean userInfo = new Gson().fromJson(new Gson().toJson(body.data), UserBean.class);
                             startProfileActivity(userInfo);
                           }
 
