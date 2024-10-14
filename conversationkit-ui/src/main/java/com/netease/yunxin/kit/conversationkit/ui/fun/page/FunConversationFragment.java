@@ -12,6 +12,8 @@ import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -103,11 +105,11 @@ public class FunConversationFragment extends ConversationBaseFragment {
     layoutParams.topMargin = BarUtils.getStatusBarHeight();
     viewBinding.funConversationFragmentTopLl.setLayoutParams(layoutParams);
 
-    viewBinding.funConversationFragmentSearchLl.setOnClickListener(v -> {
-      XKitRouter.withKey("SearchNewActivity")
-              .withContext(requireContext())
-              .navigate();
-    });
+//    viewBinding.funConversationFragmentSearchLl.setOnClickListener(v -> {
+//      XKitRouter.withKey("SearchNewActivity")
+//              .withContext(requireContext())
+//              .navigate();
+//    });
     new Timer().schedule(new TimerTask() {
       @Override
       public void run() {
@@ -122,7 +124,52 @@ public class FunConversationFragment extends ConversationBaseFragment {
       }
     }, 1500);
     EventBus.getDefault().register(this);
+    searchWord();
     return viewBinding.getRoot();
+  }
+  @Override
+  public void onPause() {
+    super.onPause();
+    if (_type == 0) {
+      if (!AppProxy.searchKeyWord0.isEmpty()) {
+        viewBinding.funConversationFragmentEt.setText("");
+        AppProxy.searchKeyWord0 = "";
+        conversationView.adapter.notifyDataSetChanged();
+      }
+    } else {
+      if (!AppProxy.searchKeyWord1.isEmpty()) {
+        viewBinding.funConversationFragmentEt.setText("");
+        AppProxy.searchKeyWord1 = "";
+        conversationView.adapter.notifyDataSetChanged();
+      }
+    }
+
+
+  }
+  void searchWord() {
+    viewBinding.funConversationFragmentEt.addTextChangedListener(new TextWatcher() {
+      @Override
+      public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+      }
+
+      @Override
+      public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+      }
+
+      @Override
+      public void afterTextChanged(Editable s) {
+        String string = s.toString();
+        if (_type == 0) {
+          AppProxy.getInstance().searchKeyWord0 = string;
+        } else {
+          AppProxy.getInstance().searchKeyWord1 = string;
+        }
+
+        conversationView.adapter.notifyDataSetChanged();
+      }
+    });
   }
   @Subscribe(threadMode = ThreadMode.MAIN)
   public void onMessageEvent(BaseEvent event) {
