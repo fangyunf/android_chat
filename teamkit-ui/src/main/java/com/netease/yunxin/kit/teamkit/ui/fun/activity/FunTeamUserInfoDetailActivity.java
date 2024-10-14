@@ -140,7 +140,7 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
 
             binding.funTeamUserInfoDetailTichu.viewTitleArrowRightTvSwitch.setOnClickListener(this);
             binding.funTeamUserInfoDetailTichu.viewTitleArrowLl.setOnClickListener(this);
-            binding.funTeamUserInfoDetailJinzhi.viewTitleArrowRightTvSwitch.setSelected(groupInfoBean.forbidState == 1);
+            binding.funTeamUserInfoDetailJinzhi.viewTitleArrowRightTvSwitch.setSelected(groupInfoBean.forbidState);
         }
         binding.funTeamUserInfoDetailYaoqingren.viewTitleArrowRightTv.setVisibility(View.VISIBLE);
         binding.funTeamUserInfoDetailYaoqingren.viewTitleArrowRightTv.setText(groupInfoBean.inviteName);
@@ -163,12 +163,8 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
 
     }
     void _requestPeople(int page, String userId) {
-        RegisterBean bean = new RegisterBean();
-        bean.tid = groupId;
-        bean.pageIndex = page +"";
-        bean.pageSize ="100";
 
-        HttpUtil.api8446().group_groupUserListPost(bean)
+        HttpUtil.api8446().group_groupUserListPost(groupId,page,100)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
@@ -244,7 +240,7 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
 
                                             GroupInfoBean tempBean = new Gson().fromJson(body.data.toString(),GroupInfoBean.class);
 
-                                            if (tempBean.addFriendsState == 1) {
+                                            if (tempBean.addFriendsState) {
                                                 if (!isFriend) {
                                                     binding.funTeamUserInfoDetailBottomTv.setVisibility(View.VISIBLE);
                                                 }

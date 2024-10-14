@@ -137,7 +137,7 @@ public class FunTeamSettingNew_ForbiddenListActivity extends BaseActivity implem
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<GroupInfoBean, ?> baseQuickAdapter, @NonNull View view, int i) {
                 GroupInfoBean item = baseQuickAdapter.getItem(i);
-                int targetState = item.forbidState == 1 ? 0 : 1;
+                boolean targetState = !item.forbidState;
 
 
                 RegisterBean bean = new RegisterBean();
@@ -145,7 +145,7 @@ public class FunTeamSettingNew_ForbiddenListActivity extends BaseActivity implem
                 ArrayList list = new ArrayList<>();
                 list.add(item.userId);
                 bean.members = list;
-                bean.state = targetState;
+                bean.state = targetState ? 1 : 0;
                 HttpUtil.apiW().groupMember_invitationGroupBanOnLooting(bean)
                         .enqueue(new CommonCallback<NetData>() {
                             @Override
@@ -165,12 +165,8 @@ public class FunTeamSettingNew_ForbiddenListActivity extends BaseActivity implem
     }
 
     protected void _requestData(int page) {
-        RegisterBean bean = new RegisterBean();
-        bean.tid = groupId;
-        bean.pageIndex = page +"";
-        bean.pageSize ="100";
 
-        HttpUtil.api8446().group_groupUserListPost(bean)
+        HttpUtil.api8446().group_groupUserListPost(groupId,page,100)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {

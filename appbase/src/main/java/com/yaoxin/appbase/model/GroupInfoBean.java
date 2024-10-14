@@ -9,6 +9,7 @@ import java.util.List;
 public class GroupInfoBean {
     public ArrayList<GroupInfoBean> friendInfoVos;
     public String title;
+    public String type;
     public String money;
     public String payTerm;
     public String payMsg;
@@ -33,22 +34,23 @@ public class GroupInfoBean {
     public String userGroupName;
     public String memberCode;
     public String userId;
-    public int forbidState;
+    public boolean forbidState;
     public String inviteMemberCode;
     public String inviteName;
 //    1是群主，2是管理员，3是普通成员
     public int rankState;
     public int opt_rankState;
     public ArrayList<GroupInfoBean> userInfos;
+    public ArrayList<GroupInfoBean> members;
     public String head;
     public String announcement;
     public int noDisturbingState;
     public int topState;
-    public int inviteState;
+    public boolean inviteState;
     public boolean isSelected;
-    public int addFriendsState;
-    public int shutupState;
-    public int nonCollectionState;
+    public boolean addFriendsState;
+    public boolean shutupState;
+    public boolean nonCollectionState;
     public int grade;
     public int groupMemberNum;
     public int price;
@@ -63,7 +65,7 @@ public class GroupInfoBean {
     }
 
     public String getSelfRemarkName() {
-        for (GroupInfoBean temp : userInfos) {
+        for (GroupInfoBean temp : members) {
             if (temp.userId.equals(DataUtil.getUserid())) {
                 return temp.userGroupName;
             }

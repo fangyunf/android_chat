@@ -142,19 +142,19 @@ public class FunChatTeamFragment extends FunChatFragment {
     startTimer();
   }
   private void startTimer() {
-    timer = new Timer();
-    timerTask = new TimerTask() {
-      @Override
-      public void run() {
-        getActivity(). runOnUiThread(new Runnable() {
-          @Override
-          public void run() {
-            _requestCaiData(); // Call your method here
-          }
-        });
-      }
-    };
-    timer.scheduleAtFixedRate(timerTask, 0, 2000); // Schedule the task to run every 1 second
+//    timer = new Timer();
+//    timerTask = new TimerTask() {
+//      @Override
+//      public void run() {
+//        getActivity(). runOnUiThread(new Runnable() {
+//          @Override
+//          public void run() {
+//            _requestCaiData(); // Call your method here
+//          }
+//        });
+//      }
+//    };
+//    timer.scheduleAtFixedRate(timerTask, 0, 2000); // Schedule the task to run every 1 second
   }
 
   void _requestData() {
@@ -162,7 +162,8 @@ public class FunChatTeamFragment extends FunChatFragment {
             .enqueue(new CommonCallback<NetData>() {
               @Override
               public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                GroupInfoBean groupInfoBean = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
+                String json = new Gson().toJson(body.data);
+                GroupInfoBean groupInfoBean = new Gson().fromJson(json, GroupInfoBean.class);
                 if (groupInfoBean.announcement != null && !groupInfoBean.announcement.isEmpty()) {
 
                   viewBinding.chatView.getMarqueeViewLL().setVisibility(View.VISIBLE);

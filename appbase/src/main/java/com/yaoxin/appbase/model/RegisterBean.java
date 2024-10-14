@@ -67,6 +67,8 @@ public class RegisterBean {
     public String newGroupUserId;
     public String newOwnerId;
     public String nickName;
+    public String nick;
+    public String menberId;
     public String title;
     public String token;
     public int amount;
@@ -87,7 +89,7 @@ public class RegisterBean {
     public int moudleType;
     public String inviteState;
     public int state;
-    public String addFriendsState;
+    public boolean addFriendsState;
     public String shutupState;
     public String nonCollectionState;
     public String grade;

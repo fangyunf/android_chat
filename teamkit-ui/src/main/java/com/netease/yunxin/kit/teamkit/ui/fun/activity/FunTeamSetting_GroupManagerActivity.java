@@ -137,12 +137,12 @@ public class FunTeamSetting_GroupManagerActivity extends BaseActivity implements
     protected void _requestData() {
 //        RegisterBean bean = new RegisterBean();
 //        bean.groupId = groupId;
-        HttpUtil.apiW().group_groupManage(groupId)
+        HttpUtil.api8446().group_groupHomeInfo(groupId)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                        groupInfoBean = new Gson().fromJson(body.data.toString(),GroupInfoBean.class);
+                        groupInfoBean = new Gson().fromJson(new Gson().toJson(body.data),GroupInfoBean.class);
                         updateUI();
                     }
 
@@ -155,10 +155,10 @@ public class FunTeamSetting_GroupManagerActivity extends BaseActivity implements
 
     void updateUI() {
 
-        binding.funTeamSettingGroupManagerActivityYaoqing.viewTitleDetailArrowTemplateSwitch.setSelected(groupInfoBean.inviteState == 0);
-        binding.funTeamSettingGroupManagerActivityChengyuanJinyan.viewTitleDetailArrowTemplateSwitch.setSelected(groupInfoBean.shutupState == 0);
-        binding.funTeamSettingGroupManagerActivityJinzhiLingquGouwuquan.viewTitleDetailArrowTemplateSwitch.setSelected(groupInfoBean.nonCollectionState == 0);
-        binding.funTeamSettingGroupManagerActivityQunchengyuanBaohu.viewTitleDetailArrowTemplateSwitch.setSelected(groupInfoBean.addFriendsState == 0);
+        binding.funTeamSettingGroupManagerActivityYaoqing.viewTitleDetailArrowTemplateSwitch.setSelected(!groupInfoBean.inviteState);
+        binding.funTeamSettingGroupManagerActivityChengyuanJinyan.viewTitleDetailArrowTemplateSwitch.setSelected(!groupInfoBean.shutupState);
+        binding.funTeamSettingGroupManagerActivityJinzhiLingquGouwuquan.viewTitleDetailArrowTemplateSwitch.setSelected(!groupInfoBean.nonCollectionState);
+        binding.funTeamSettingGroupManagerActivityQunchengyuanBaohu.viewTitleDetailArrowTemplateSwitch.setSelected(!groupInfoBean.addFriendsState);
 
     }
 
@@ -317,7 +317,7 @@ public class FunTeamSetting_GroupManagerActivity extends BaseActivity implements
     void doOptWithType(int type) {
 
         RegisterBean bean = new RegisterBean();
-        bean.groupId = groupId;
+        bean.tid = groupId;
         if (type == 0) {
             bean.inviteState = binding.funTeamSettingGroupManagerActivityYaoqing.viewTitleDetailArrowTemplateSwitch.isSelected() ? "1" : "0";
         }
@@ -328,10 +328,11 @@ public class FunTeamSetting_GroupManagerActivity extends BaseActivity implements
             bean.nonCollectionState = binding.funTeamSettingGroupManagerActivityJinzhiLingquGouwuquan.viewTitleDetailArrowTemplateSwitch.isSelected() ? "1" : "0";
         }
         if (type == 3) {
-            bean.addFriendsState = binding.funTeamSettingGroupManagerActivityQunchengyuanBaohu.viewTitleDetailArrowTemplateSwitch.isSelected() ?"1" : "0";
+            bean.addFriendsState = binding.funTeamSettingGroupManagerActivityQunchengyuanBaohu.viewTitleDetailArrowTemplateSwitch.isSelected();
         }
 
-        HttpUtil.apiW().groupMember_invitationGroupConfirmed(bean)
+
+        HttpUtil.api8446().groupMember_invitationGroupConfirmed(bean)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {

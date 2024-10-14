@@ -31,6 +31,7 @@ import com.yaoxin.appbase.activity.BaseActivity;
 import com.yaoxin.appbase.model.CustomMsgBean;
 import com.yaoxin.appbase.model.GroupInfoBean;
 import com.yaoxin.appbase.model.NetData;
+import com.yaoxin.appbase.model.NewResultBean;
 import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
@@ -310,7 +311,8 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
                                     @Override
                                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                                         finish();
-                                        CustomMsgBean bean1 = new Gson().fromJson(body.data.toString(),CustomMsgBean.class);
+                                        String json = new Gson().toJson(body.data);
+                                        NewResultBean bean1 = new Gson().fromJson(json, NewResultBean.class);
                                         XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_TEAM_PAGE)
                                                 .withParam(RouterConstant.CHAT_ID_KRY, bean1.groupId)
                                                 .withContext(AppProxy.getInstance().getContext())

@@ -188,7 +188,9 @@ public interface ServiceW {
     //分页查询群组中的用户列表 已修改
     @GET("/imx/v1/api/session/queryMembers")
     Call<NetData> group_groupUserListPost(
-            @Body RegisterBean userBean
+            @Query("tid") String tid,
+            @Query("pageIndex") int pageNo,
+            @Query("pageSize") int pageSize
     );
 
     @Multipart
@@ -199,9 +201,10 @@ public interface ServiceW {
 
 
     //获取聊天群组信息  已修改
-    @GET("/imx/v1/api/session/detail/{tid}")
+    @GET("/imx/v1/api/session/detail")
     Call<NetData> group_groupHomeInfo(
-            @Path("tid") String tid
+            @Query("tid") String tid
+
     );
 
     //群管理
@@ -292,13 +295,13 @@ public interface ServiceW {
     Call<NetData> group_outGroup(
             @Body RegisterBean userBean
     );
-    // 踢出群成员
-    @POST("groupMember/installGroupNickName")
+    // 更新群成员昵称  已修改
+    @POST("/imx/v1/api/member/update/nick")
     Call<NetData> groupMember_installGroupNickName(
             @Body RegisterBean userBean
     );
-    // 踢出群成员
-    @POST("groupMember/invitationGroupConfirmed")
+    // 更新聊天群组配置信息  已修改
+    @POST("/imx/v1/api/session/update")
     Call<NetData> groupMember_invitationGroupConfirmed(
             @Body RegisterBean userBean
     );

@@ -51,7 +51,6 @@ import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
 import com.netease.yunxin.kit.corekit.model.ErrorMsg;
 import com.netease.yunxin.kit.corekit.model.ResultInfo;
 import com.netease.yunxin.kit.corekit.route.XKitRouter;
-import com.netease.yunxin.kit.teamkit.ui.BuildConfig;
 import com.netease.yunxin.kit.teamkit.ui.R;
 import com.netease.yunxin.kit.teamkit.ui.activity.BaseTeamMemberListActivity;
 import com.netease.yunxin.kit.teamkit.ui.activity.BaseTeamSettingActivity;
@@ -236,22 +235,16 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
     }
 
     void _requestPeople(int page) {
-        RegisterBean bean = new RegisterBean();
-        bean.tid = groupId;
-        bean.pageIndex = page +"";
-        bean.pageSize ="100";
 
-        HttpUtil.api8446().group_groupUserListPost(bean)
+        HttpUtil.api8446().group_groupUserListPost(groupId,page,100)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                        Type type = new TypeToken<List<GroupInfoBean>>() {
-                        }.getType();
-                        List<GroupInfoBean> tempList = new Gson().fromJson(body.data.toString(), type);
-                        if (!tempList.isEmpty()) {
-                            groupInfoBean.userInfos.addAll(tempList);
-                            if (tempList.size() == 100) {
+                        GroupInfoBean tempBean = new Gson().fromJson(new Gson().toJson(body.data), GroupInfoBean.class);
+                        if (!tempBean.members.isEmpty()) {
+                            groupInfoBean.members.addAll(tempBean.members);
+                            if (tempBean.members.size() == 100) {
                                 _requestPeople((page + 1));
                             } else {
                                 LoadingDialog.dismissDialog();
@@ -288,9 +281,10 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                        groupInfoBean = new Gson().fromJson(body.data.toString(),GroupInfoBean.class);
-                        groupInfoBean.userInfos.clear();
-                        _requestPeople(1);
+                        String json = new Gson().toJson(body.data);
+                        groupInfoBean = new Gson().fromJson(json,GroupInfoBean.class);
+                        groupInfoBean.members.clear();
+                        _requestPeople(0);
 
                     }
 
@@ -331,15 +325,15 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
     void updateUI() {
         GlideUtil.yh_loadImageRoundedCorner(this,binding.funTeamSettingNewActivityTeamIcon,groupInfoBean.head,30);
 
-        binding.tvName.setText(groupInfoBean.name + "(" +groupInfoBean.userInfos.size()+"人)");
+        binding.tvName.setText(groupInfoBean.name + "(" +groupInfoBean.members.size()+"人)");
 
         ArrayList<GroupInfoBean> maxList = new ArrayList<>();
-        if (groupInfoBean.userInfos.size() > 3) {
+        if (groupInfoBean.members.size() > 3) {
             for (int i = 0; i < 3; i++) {
-                maxList.add(groupInfoBean.userInfos.get(i));
+                maxList.add(groupInfoBean.members.get(i));
             }
         } else {
-            maxList.addAll(groupInfoBean.userInfos);
+            maxList.addAll(groupInfoBean.members);
 
         }
         binding.funTeamSettingNewActivityIdTv.setText("ID: " + groupInfoBean.groupId);
@@ -403,7 +397,7 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
     ArrayList<String> getTeamUserIds() {
         ArrayList<String> list = new ArrayList();
         for (GroupInfoBean temp :
-                groupInfoBean.userInfos) {
+                groupInfoBean.members) {
             list.add(temp.userId);
         }
         return list;
@@ -585,9 +579,10 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
                 @Override
                 public void returnResult(String result) {
                     RegisterBean bean = new RegisterBean();
-                    bean.groupId = groupId;
-                    bean.nickName = result;
-                    HttpUtil.apiW().groupMember_installGroupNickName(bean)
+                    bean.tid = groupId;
+                    bean.nick = result;
+                    bean.menberId = DataUtil.getUserid();
+                    HttpUtil.api8446().groupMember_installGroupNickName(bean)
                             .enqueue(new CommonCallback<NetData>() {
                                 @Override
                                 public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
@@ -706,23 +701,23 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
                     });
         } else if ("2".equals(type)) {
 
-            RegisterBean bean = new RegisterBean();
-            bean.groupId = groupId;
-            bean.nickName = result;
-            HttpUtil.apiW().groupMember_installGroupNickName(bean)
-                    .enqueue(new CommonCallback<NetData>() {
-                        @Override
-                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-
-                            ToastUtils.toastMsg(body.msg);
-                            _requestData();
-                        }
-
-                        @Override
-                        public void Failure(Call<NetData> call, Throwable t) {
-
-                        }
-                    });
+//            RegisterBean bean = new RegisterBean();
+//            bean.groupId = groupId;
+//            bean.nickName = result;
+//            HttpUtil.apiW().groupMember_installGroupNickName(bean)
+//                    .enqueue(new CommonCallback<NetData>() {
+//                        @Override
+//                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+//
+//                            ToastUtils.toastMsg(body.msg);
+//                            _requestData();
+//                        }
+//
+//                        @Override
+//                        public void Failure(Call<NetData> call, Throwable t) {
+//
+//                        }
+//                    });
         } else if ("3".equals(type)) {
 
             RegisterBean bean = new RegisterBean();

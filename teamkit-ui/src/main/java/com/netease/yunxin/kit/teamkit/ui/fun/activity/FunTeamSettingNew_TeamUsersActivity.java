@@ -189,18 +189,14 @@ public class FunTeamSettingNew_TeamUsersActivity extends BaseActivity implements
     }
 
     protected void _requestData(int page) {
-        RegisterBean bean = new RegisterBean();
-        bean.tid = groupId;
-        bean.pageIndex = page +"";
-        bean.pageSize ="100";
 
-        HttpUtil.api8446().group_groupUserListPost(bean)
+        HttpUtil.api8446().group_groupUserListPost(groupId,page,100)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                        Type type = new TypeToken<List<GroupInfoBean>>(){}.getType();
-                        List<GroupInfoBean> tempList = new Gson().fromJson(body.data.toString(), type);
+                        GroupInfoBean tempBean11 = new Gson().fromJson(new Gson().toJson(body.data), GroupInfoBean.class);
+                        List<GroupInfoBean> tempList = tempBean11.members;
                         if (!tempList.isEmpty()) {
                             dataList.addAll(tempList);
                             if (tempList.size() == 100) {
