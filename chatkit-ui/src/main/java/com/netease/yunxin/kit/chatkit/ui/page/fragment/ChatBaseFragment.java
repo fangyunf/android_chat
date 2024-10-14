@@ -111,6 +111,9 @@ import com.yaoxin.appbase.utils.BaseEvent;
 import com.yaoxin.appbase.utils.CommonCallBack;
 import com.yaoxin.appbase.utils.DialogAlertUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
+import com.yaoxin.appbase.utils.UploadUtil;
+import com.zhihu.matisse.Matisse;
+import com.zhihu.matisse.listener.OnSelectedListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -473,7 +476,8 @@ public abstract class ChatBaseFragment extends BaseFragment {
                 };
           }
           if (PermissionUtils.hasPermissions(ChatBaseFragment.this.getContext(), permission)) {
-            startPickMedia();
+//            startPickMedia();
+            UploadUtil.choosePhotoLibrary(ChatBaseFragment.this, 9);
           } else {
             requestCameraPermission(permission, REQUEST_READ_EXTERNAL_STORAGE_PERMISSION_ALBUM);
           }
@@ -1806,7 +1810,23 @@ public abstract class ChatBaseFragment extends BaseFragment {
     viewModel.getRevokeMessageLiveData().removeObserver(revokeLiveDataObserver);
     viewModel.getAttachmentProgressMutableLiveData().removeObserver(attachLiveDataObserver);
   }
+  @Override
+  public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
 
+    if (requestCode == Constant.REQUEST_CODE_CHOOSE && resultCode == Activity.RESULT_OK) {
+      // 获取选中的图片 URI 列表
+      List<Uri> selectedUris = Matisse.obtainResult(data);
+
+      // 获取选中的图片路径列表
+      List<String> selectedPaths = Matisse.obtainPathResult(data);
+
+      // 处理选中的图片
+      for (Uri uri : selectedUris) {
+        mHandler.postDelayed(() -> viewModel.sendImageOrVideoMessage(uri), 100);
+      }
+    }
+  }
   /** for custom layout for ChatView */
   public void setChatViewCustom(IChatViewCustom chatViewCustom) {
     this.chatViewCustom = chatViewCustom;

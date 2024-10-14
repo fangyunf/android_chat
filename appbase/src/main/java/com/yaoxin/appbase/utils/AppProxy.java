@@ -36,6 +36,8 @@ public class AppProxy {
 
     private static String h5Host = null;
     private static String teamId = null;
+    public static String searchKeyWord0 = "";
+    public static String searchKeyWord1 = "";
     public int showType = 0;
 
     public static AppProxy getInstance() {

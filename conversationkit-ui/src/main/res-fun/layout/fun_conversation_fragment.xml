@@ -77,20 +77,23 @@
                 android:background="@drawable/bg_white_rounded_10"
                 android:layout_width="match_parent"
                 android:gravity="center"
-                android:layout_height="30dp">
+                android:layout_height="wrap_content">
 
-                <ImageView
-                    android:src="@mipmap/conversation_list_index_search_icon1"
-                    android:layout_width="16dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_height="16dp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="搜索"
-                    android:textColor="#ffa0a0a0"
-                    android:textSize="15sp"
-                    />
+                <EditText
+                    android:id="@+id/fun_conversation_fragment_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:autofillHints=""
+                    android:background="@drawable/bg_f2f2f2_rounded_10"
+                    android:drawableStart="@drawable/ic_search"
+                    android:drawablePadding="5dp"
+                    android:hint="搜索"
+                    android:maxLines="1"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="15dp"
+                    android:textColor="@color/color_333333"
+                    android:textColorHint="@color/color_666666"
+                    android:textSize="14dp" />
 
             </LinearLayout>
             <LinearLayout

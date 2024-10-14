@@ -79,6 +79,15 @@ public class FunConversationP2PViewHolder extends FunConversationBaseViewHolder 
 //      }
 
       }
+    ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) viewBinding.rootLayout.getLayoutParams();
+    layoutParams.height = SizeUtils.dp2px(72);
+    if (!AppProxy.searchKeyWord0.isEmpty()) {
+      if (!viewBinding.nameTv.getText().toString().contains(AppProxy.searchKeyWord0)) {
+        layoutParams.height = 0;
+      }
+    }
+
+    viewBinding.rootLayout.setLayoutParams(layoutParams);
 //    viewBinding.rootLayout.setBackground(viewBinding.rootLayout.getContext().getDrawable(com.yaoxin.appbase.R.drawable.bg_white_rounded_12));
 //    ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) viewBinding.rootLayout.getLayoutParams();
 //    if (data.param.equals(DataUtil.getUserid()) || AppProxy.getInstance().showType == 2) {

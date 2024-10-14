@@ -5,11 +5,14 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 
 import com.google.gson.Gson;
 import com.netease.yunxin.kit.common.utils.PermissionUtils;
@@ -26,9 +29,12 @@ import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
 import com.zhihu.matisse.filter.Filter;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
+import com.zhihu.matisse.listener.OnSelectedListener;
 
 import java.io.File;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -130,6 +136,42 @@ public class UploadUtil {
     }
     public interface LubanCommonCallBack {
         void finishCompress(String filePath);
+    }
+
+    @AfterPermissionGranted(Constant.RC_PHOTO_PICKER_PERM)
+    public static void choosePhotoLibrary(Fragment fragment, int maxNum) {
+
+        String[] permission = new String[] {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        // 根据系统版本判断，如果是Android13则采用Manifest.permission.READ_MEDIA_IMAGES
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            permission =
+                    new String[] {
+                            Manifest.permission.READ_MEDIA_IMAGES, Manifest.permission.READ_MEDIA_VIDEO
+                    };
+        }
+        if (!EasyPermissions.hasPermissions(fragment.getActivity(), permission)) {
+            // 请求相机权限
+            EasyPermissions.requestPermissions(fragment.getActivity(), "需要访问相册权限", Constant.RC_PHOTO_PICKER_PERM, permission);
+            return;
+        }
+
+
+        String[] perms1 = {Manifest.permission.CAMERA};
+        if (!EasyPermissions.hasPermissions(fragment.getActivity(), perms1)) {
+            EasyPermissions.requestPermissions(fragment.getActivity(), "需要访问相机权限", Constant.RC_PHOTO_CAMERA_PERM, perms1);
+            return;
+        }
+
+
+        Matisse.from(fragment)
+                .choose(MimeType.ofImage())
+                .countable(true)
+                .maxSelectable(maxNum)
+                .capture(true)
+                .captureStrategy(new CaptureStrategy(true, "com.turunsi.balishijia.IMKitFileProvider"))
+                .imageEngine(new GlideEngine())
+                .forResult(Constant.REQUEST_CODE_CHOOSE);
+
     }
 
 }

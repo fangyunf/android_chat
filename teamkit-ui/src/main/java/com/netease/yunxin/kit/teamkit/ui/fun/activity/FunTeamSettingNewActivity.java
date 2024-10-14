@@ -184,6 +184,7 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
         binding.funTeamSettingNewActivitySetGonggao.viewTitleArrowLl.setOnClickListener(this);
         binding.funTeamSettingNewActivityManagerTeam.viewTitleArrowTv.setText("群管理");
         binding.funTeamSettingNewActivityManagerTeam.viewTitleArrowLl.setOnClickListener(this);
+        binding.funTeamSettingNewActivityManagerTeam.viewTitleArrowLl.setVisibility(View.GONE);
 
         binding.funTeamSettingNewActivityTeamSetting.viewTitleArrowTv.setText("群设置");
         binding.funTeamSettingNewActivityTeamSetting.viewTitleArrowLl.setOnClickListener(this);
