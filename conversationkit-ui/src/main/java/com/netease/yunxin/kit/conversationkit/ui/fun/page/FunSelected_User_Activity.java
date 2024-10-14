@@ -31,7 +31,6 @@ import com.yaoxin.appbase.activity.BaseActivity;
 import com.yaoxin.appbase.model.CustomMsgBean;
 import com.yaoxin.appbase.model.GroupInfoBean;
 import com.yaoxin.appbase.model.NetData;
-import com.yaoxin.appbase.model.NewResultBean;
 import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
@@ -312,7 +311,7 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
                                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                                         finish();
                                         String json = new Gson().toJson(body.data);
-                                        NewResultBean bean1 = new Gson().fromJson(json, NewResultBean.class);
+                                        GroupInfoBean bean1 = new Gson().fromJson(json, GroupInfoBean.class);
                                         XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_TEAM_PAGE)
                                                 .withParam(RouterConstant.CHAT_ID_KRY, bean1.groupId)
                                                 .withContext(AppProxy.getInstance().getContext())
@@ -328,9 +327,9 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
 
             } else if (page_type == 2) {
                 RegisterBean bean = new RegisterBean();
-                bean.groupId = groupInfoBean.groupId;
+                bean.tid = groupInfoBean.groupId;
                 bean.members = list;
-                HttpUtil.apiW().group_pullPeopleGroup(bean)
+                HttpUtil.api8446().group_pullPeopleGroup(bean)
                         .enqueue(new CommonCallback<NetData>() {
                             @Override
                             public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
@@ -347,9 +346,9 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
                         });
             } else if (page_type == 3) {
                 RegisterBean registerBean = new RegisterBean();
-                registerBean.groupId = groupInfoBean.groupId;
+                registerBean.tid = groupInfoBean.groupId;
                 registerBean.members = list;
-                HttpUtil.apiW().group_outGroup(registerBean)
+                HttpUtil.api8446().group_outGroup(registerBean)
                         .enqueue(new CommonCallback<NetData>() {
                             @Override
                             public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {

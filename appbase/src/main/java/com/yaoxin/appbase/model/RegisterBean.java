@@ -49,6 +49,7 @@ public class RegisterBean {
     public String clientType;
     public String phoneAndCode;
     public String memberCode;
+    public boolean pullIn;
     public String friendId;
     public String msg;
     public String note;
@@ -87,11 +88,11 @@ public class RegisterBean {
     public long id;
     public long applyId;
     public int moudleType;
-    public String inviteState;
+    public boolean inviteState;
     public int state;
     public boolean addFriendsState;
-    public String shutupState;
-    public String nonCollectionState;
+    public boolean shutupState;
+    public boolean nonCollectionState;
     public String grade;
 
     public RegisterBean(String param) {

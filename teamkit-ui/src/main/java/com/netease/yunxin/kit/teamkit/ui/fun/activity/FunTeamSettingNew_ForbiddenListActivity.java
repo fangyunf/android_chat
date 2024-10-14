@@ -71,7 +71,7 @@ public class FunTeamSettingNew_ForbiddenListActivity extends BaseActivity implem
         setContentView(binding.getRoot());
         _initView();
 
-        _requestData(1);
+        _requestData(0);
 
     }
 
@@ -171,9 +171,8 @@ public class FunTeamSettingNew_ForbiddenListActivity extends BaseActivity implem
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                        Type type = new TypeToken<List<GroupInfoBean>>() {
-                        }.getType();
-                        List<GroupInfoBean> tempList = new Gson().fromJson(body.data.toString(), type);
+                        GroupInfoBean tempBean = new Gson().fromJson(new Gson().toJson(body.data), GroupInfoBean.class);
+                        List<GroupInfoBean> tempList = tempBean.members;
 
                         if (!tempList.isEmpty()) {
                             mContactModels.addAll(tempList);

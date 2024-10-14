@@ -103,7 +103,7 @@ public class FunTeamSettingNew_TeamUsersActivity extends BaseActivity implements
             adapter.opt_type = Integer.parseInt(opt_type);
         }
 
-        _requestData(1);
+        _requestData(0);
     }
 
     @Override

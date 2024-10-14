@@ -150,9 +150,9 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        GroupInfoBean tempGroupInfoBean = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
+                        GroupInfoBean tempGroupInfoBean = new Gson().fromJson(new Gson().toJson(body.data), GroupInfoBean.class);
                         rankState = tempGroupInfoBean.rankState;
-                        _requestPeople(1,userId);
+                        _requestPeople(0,userId);
 
                     }
                     @Override
@@ -169,9 +169,8 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                        Type type = new TypeToken<List<GroupInfoBean>>() {
-                        }.getType();
-                        List<GroupInfoBean> tempList = new Gson().fromJson(body.data.toString(), type);
+                        GroupInfoBean tempBean = new Gson().fromJson(new Gson().toJson(body.data), GroupInfoBean.class);
+                        List<GroupInfoBean> tempList = tempBean.members;
 
                         members.addAll(tempList);
                         if (!tempList.isEmpty()) {
@@ -204,13 +203,12 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
 
     protected void _requestData1() {
         RegisterBean bean = new RegisterBean();
-        HttpUtil.apiW().friends_friendList(bean)
+        HttpUtil.api8444().friends_friendList(bean)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        Type userListType = new TypeToken<List<GroupInfoBean>>() {
-                        }.getType();
-                        List<GroupInfoBean> userList = new Gson().fromJson(body.data.toString(),userListType);
+                        GroupInfoBean tempBean1 = new Gson().fromJson(new Gson().toJson(body.data), GroupInfoBean.class);
+                        List<GroupInfoBean> userList = tempBean1.friendInfoVos;
                         for (GroupInfoBean tempBean :
                                 userList) {
                             if (tempBean.userId.equals(groupInfoBean.userId)) {
@@ -233,12 +231,12 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
                             }
                             binding.funTeamUserInfoDetailBottomTv.setVisibility(View.VISIBLE);
                         } else {
-                            HttpUtil.apiW().group_groupManage(groupId)
+                            HttpUtil.api8446().group_groupHomeInfo(groupId)
                                     .enqueue(new CommonCallback<NetData>() {
                                         @Override
                                         public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                                            GroupInfoBean tempBean = new Gson().fromJson(body.data.toString(),GroupInfoBean.class);
+                                            GroupInfoBean tempBean = new Gson().fromJson(new Gson().toJson(body.data),GroupInfoBean.class);
 
                                             if (tempBean.addFriendsState) {
                                                 if (!isFriend) {
@@ -328,8 +326,9 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
 
             RegisterBean registerBean = new RegisterBean();
             registerBean.userId = groupInfoBean.userId;
-            registerBean.groupId = groupId;
-            HttpUtil.apiW().group_addDeleteBlack(registerBean)
+            registerBean.tid = groupId;
+            registerBean.pullIn = true;
+            HttpUtil.api8446().group_addDeleteBlack(registerBean)
                     .enqueue(new CommonCallback<NetData>() {
                         @Override
                         public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
@@ -347,11 +346,11 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
 
     void tichuuser(boolean needToast) {
         RegisterBean registerBean = new RegisterBean();
-        registerBean.groupId = groupId;
+        registerBean.tid = groupId;
         ArrayList ids = new ArrayList<>();
         ids.add(groupInfoBean.userId);
         registerBean.members = ids;
-        HttpUtil.apiW().group_outGroup(registerBean)
+        HttpUtil.api8446().group_outGroup(registerBean)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {

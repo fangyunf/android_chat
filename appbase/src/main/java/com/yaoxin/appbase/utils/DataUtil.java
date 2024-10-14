@@ -125,7 +125,7 @@ public class DataUtil {
     }
 
     public static boolean isLogin() {
-        return !DataUtil.getUserid().isEmpty();
+        return DataUtil.getUserid() != null && !DataUtil.getUserid().isEmpty();
     }
 
     public static long getLastRefreshTime() {

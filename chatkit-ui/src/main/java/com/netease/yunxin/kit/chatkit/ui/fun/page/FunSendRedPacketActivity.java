@@ -138,9 +138,8 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                        Type type = new TypeToken<List<GroupInfoBean>>() {
-                        }.getType();
-                        List<GroupInfoBean> tempList = new Gson().fromJson(body.data.toString(), type);
+                        GroupInfoBean tempBean = new Gson().fromJson(new Gson().toJson(body.data), GroupInfoBean.class);
+                        List<GroupInfoBean> tempList = tempBean.members;
                         if (!tempList.isEmpty()) {
                             userList.addAll(tempList);
                             if (tempList.size() == 100) {
@@ -170,7 +169,7 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
                         groupInfoBean = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
-                        _requestPeople(1);
+                        _requestPeople(0);
                     }
 
                     @Override

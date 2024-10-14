@@ -143,9 +143,9 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
                             String opt_type = intent1.getStringExtra("opt_type");
                             if ("1".equals(opt_type)) {
                                 RegisterBean bean = new RegisterBean();
-                                bean.groupId = groupId;
+                                bean.tid = groupId;
                                 bean.members = memberList;
-                                HttpUtil.apiW().group_pullPeopleGroup(bean)
+                                HttpUtil.api8446().group_pullPeopleGroup(bean)
                                         .enqueue(new CommonCallback<NetData>() {
                                             @Override
                                             public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {

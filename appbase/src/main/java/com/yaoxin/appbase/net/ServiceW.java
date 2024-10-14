@@ -285,13 +285,13 @@ public interface ServiceW {
     Call<NetData> home_changeSecurityPrivacy(
             @Body RegisterBean userBean
     );
-    // 邀请人入群
-    @POST("/group/pullPeopleGroup")
+    // 邀请人入群 已修改
+    @POST("/imx/v1/api/member/join")
     Call<NetData> group_pullPeopleGroup(
             @Body RegisterBean userBean
     );
-    // 踢出群成员
-    @POST("/group/outGroup")
+    // 踢出群成员  已修改
+    @POST("/imx/v1/api/member/kickOut")
     Call<NetData> group_outGroup(
             @Body RegisterBean userBean
     );
@@ -405,10 +405,12 @@ public interface ServiceW {
     Call<NetData> friends_blackList(
             @Body RegisterBean userBean
     );
-    //  好友列表
-    @POST("/group/groupBlackList")
+    //  获取当前群组的黑名单列表  已修改
+    @GET("/imx/v1/api/session/blackBill/list")
     Call<NetData> group_groupBlackList(
-            @Body RegisterBean userBean
+            @Query("tid") String tid,
+            @Query("pageIndex") int pageIndex,
+            @Query("pageSize") int pageSize
     );
     //  好友列表
     @GET("/customer/notice")
@@ -426,8 +428,8 @@ public interface ServiceW {
     //  好友列表
     @POST("/group/groupGrade")
     Call<NetData> group_groupGrade();
-    //  群拉黑
-    @POST("/group/addDeleteBlack")
+    //  将成员拉人或拉出黑名单  已修改
+    @POST("/imx/v1/api/session/blackBill")
     Call<NetData> group_addDeleteBlack(
             @Body RegisterBean userBean
     );

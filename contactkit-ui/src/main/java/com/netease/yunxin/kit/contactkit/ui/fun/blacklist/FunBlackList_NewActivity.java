@@ -93,8 +93,9 @@ public class FunBlackList_NewActivity extends BaseActivity implements View.OnCli
 
                     RegisterBean registerBean = new RegisterBean();
                     registerBean.userId = baseQuickAdapter.getItem(i).userId;
-                    registerBean.groupId = _groupId;
-                    HttpUtil.apiW().group_addDeleteBlack(registerBean)
+                    registerBean.tid = _groupId;
+                    registerBean.pullIn = false;
+                    HttpUtil.api8446().group_addDeleteBlack(registerBean)
                             .enqueue(new CommonCallback<NetData>() {
                                 @Override
                                 public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
@@ -163,16 +164,13 @@ public class FunBlackList_NewActivity extends BaseActivity implements View.OnCli
     }
     void _requestGroupData() {
         super._requestData();
-        RegisterBean registerBean = new RegisterBean();
-        registerBean.pageNo = "100";
-        registerBean.groupId = _groupId;
-        HttpUtil.apiW().group_groupBlackList(registerBean)
+        HttpUtil.api8446().group_groupBlackList(_groupId,0,100)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        Type type = new TypeToken<List<GroupInfoBean>>() {}.getType();
+                        GroupInfoBean tempBean = new Gson().fromJson(new Gson().toJson(body.data), GroupInfoBean.class);
                         _groupInfoBean = new GroupInfoBean();
-                        _groupInfoBean.data = new Gson().fromJson(body.data.toString(), type);
+                        _groupInfoBean.data = tempBean.members;
 //
                         adapter.setItems(_groupInfoBean.data);
                         adapter.notifyDataSetChanged();
