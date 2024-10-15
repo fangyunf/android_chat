@@ -86,6 +86,9 @@ public class FunConversationFragment extends ConversationBaseFragment {
     _type = type;
   }
 
+  public FunConversationFragment() {
+  }
+
   private int topIndex;
   @Override
   public View initViewAndGetRootView(
