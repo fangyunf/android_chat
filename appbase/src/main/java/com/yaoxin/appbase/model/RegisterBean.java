@@ -50,6 +50,7 @@ public class RegisterBean {
     public String phoneAndCode;
     public String memberCode;
     public boolean pullIn;
+    public boolean deleteAll;
     public String friendId;
     public String msg;
     public String note;
@@ -63,6 +64,7 @@ public class RegisterBean {
     public String userId;
     public String groupId;
     public String tid;
+    public String memberId;
     public String head;
     public String announcement;
     public String newGroupUserId;
@@ -74,8 +76,10 @@ public class RegisterBean {
     public String token;
     public int amount;
     public int num;
+    public int splitCount;
     public String tradePassword;
     public String toUserId;
+    public List receiverIds;
     public String metaInfos;
     public String certName;
     public String certNo;
@@ -83,12 +87,15 @@ public class RegisterBean {
     public String groupName;
     public String groupHead;
     public List members;
+    public List friendIds;
     public List managerIds;
     public int type;
     public long id;
     public long applyId;
     public int moudleType;
     public boolean inviteState;
+    public boolean allow;
+    public boolean agree;
     public int state;
     public boolean addFriendsState;
     public boolean shutupState;

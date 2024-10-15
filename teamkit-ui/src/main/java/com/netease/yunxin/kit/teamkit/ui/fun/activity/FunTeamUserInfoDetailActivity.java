@@ -290,19 +290,17 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
 
 
         } else if (v == binding.funTeamUserInfoDetailJinzhi.viewTitleArrowRightTvSwitch) {
-            int targetState = binding.funTeamUserInfoDetailJinzhi.viewTitleArrowRightTvSwitch.isSelected() ? 0 : 1;
+            boolean targetState = !binding.funTeamUserInfoDetailJinzhi.viewTitleArrowRightTvSwitch.isSelected();
             RegisterBean bean = new RegisterBean();
-            bean.groupId = groupId;
-            ArrayList list = new ArrayList<>();
-            list.add(groupInfoBean.userId);
-            bean.members = list;
-            bean.state = targetState;
-            HttpUtil.apiW().groupMember_invitationGroupBanOnLooting(bean)
+            bean.tid = groupId;
+            bean.memberId = groupInfoBean.userId;
+            bean.allow = targetState;
+            HttpUtil.api8446().groupMember_invitationGroupBanOnLooting(bean)
                     .enqueue(new CommonCallback<NetData>() {
                         @Override
                         public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                             ToastUtils.toastMsg("设置成功");
-                            binding.funTeamUserInfoDetailJinzhi.viewTitleArrowRightTvSwitch.setSelected(targetState == 1);
+                            binding.funTeamUserInfoDetailJinzhi.viewTitleArrowRightTvSwitch.setSelected(targetState);
                         }
 
                         @Override

@@ -387,9 +387,12 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
         bean.amount = amout;
         bean.title = greeting.isEmpty() ? "恭喜发财,大吉大利" : greeting;
         if (type == 0) {
-            bean.password = pwd;
+            bean.payPassword = pwd;
             bean.toUserId = sessionId;
-            HttpUtil.apiW().red_personRedpacket(bean)
+            List receiverIds = new ArrayList<>();
+            receiverIds.add(sessionId);
+            bean.receiverIds = receiverIds;
+            HttpUtil.api8447().red_personRedpacket(bean)
                     .enqueue(new CommonCallback<NetData>() {
                         @Override
                         public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
@@ -410,9 +413,9 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
                 return;
             }
             bean.groupId = sessionId;
-            bean.num = count;
-            bean.tradePassword = pwd;
-            HttpUtil.apiW().red_sendGroupRedpacket(bean)
+            bean.splitCount = count;
+            bean.payPassword = pwd;
+            HttpUtil.api8447().red_personRedpacket(bean)
                     .enqueue(new CommonCallback<NetData>() {
                         @Override
                         public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
@@ -432,9 +435,12 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
                 return;
             }
             bean.password = pwd;
-            bean.toUserId = selectToUserId;
+
+            List receiverIds = new ArrayList<>();
+            receiverIds.add(selectToUserId);
+            bean.receiverIds = receiverIds;
             bean.groupId = sessionId;
-            HttpUtil.apiW().red_sendExclusiveRedPacket(bean)
+            HttpUtil.api8447().red_personRedpacket(bean)
                     .enqueue(new CommonCallback<NetData>() {
                         @Override
                         public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {

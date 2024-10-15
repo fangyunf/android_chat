@@ -151,11 +151,11 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 
 
     void  _requestData() {
-        HttpUtil.apiW().home_balance()
+        HttpUtil.api8447().home_balance()
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        UserBean bean = new Gson().fromJson(body.data.toString(),UserBean.class);
+                        UserBean bean = new Gson().fromJson(new Gson().toJson(body.data),UserBean.class);
 //                        binding.mineFragmentPacketMoneyDetailTv.setText("￥ " + NumberUtil.formartMoney(bean.balance));
                     }
 

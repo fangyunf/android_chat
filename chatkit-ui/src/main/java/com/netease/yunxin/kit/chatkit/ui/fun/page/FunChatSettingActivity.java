@@ -62,6 +62,7 @@ import com.yaoxin.appbase.utils.ToastUtils;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -287,14 +288,14 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
                 (View v) -> {
                     RegisterBean registerBean = new RegisterBean();
                     if (binding.funChatSettingActivityClearAddBlackList.funTitleTfArrowViewSwitch.isSelected()) {
-                        registerBean.state = 0;
+                        registerBean.pullIn = false;
 //                        viewModel1.removeBlack(accId);
                     } else {
-                        registerBean.state = 1;
+                        registerBean.pullIn = true;
 //                        viewModel1.addBlack(accId);
                     }
-                    registerBean.memberCode = userBean.memberCode;
-                    HttpUtil.apiW().friends_changeBlackState(registerBean)
+                    registerBean.friendId = userBean.userId;
+                    HttpUtil.api8444().friends_changeBlackState(registerBean)
                             .enqueue(new CommonCallback<NetData>() {
                                 @Override
                                 public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
@@ -323,8 +324,11 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
                     public void clickType(int type) {
                         if (type == 1) {
                             RegisterBean bean = new RegisterBean();
-                            bean.memberCode = userBean.memberCode;
-                            HttpUtil.apiW().friends_delFriend(bean)
+                            List list = new ArrayList();
+                            list.add(userBean.userId);
+                            bean.friendIds = list;
+                            bean.deleteAll = false;
+                            HttpUtil.api8444().friends_delFriend(bean)
                                     .enqueue(new CommonCallback<NetData>() {
                                         @Override
                                         public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {

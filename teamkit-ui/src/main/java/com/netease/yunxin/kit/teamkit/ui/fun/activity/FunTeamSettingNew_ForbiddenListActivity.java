@@ -141,12 +141,10 @@ public class FunTeamSettingNew_ForbiddenListActivity extends BaseActivity implem
 
 
                 RegisterBean bean = new RegisterBean();
-                bean.groupId = groupId;
-                ArrayList list = new ArrayList<>();
-                list.add(item.userId);
-                bean.members = list;
-                bean.state = targetState ? 1 : 0;
-                HttpUtil.apiW().groupMember_invitationGroupBanOnLooting(bean)
+                bean.tid = groupId;
+                bean.memberId = item.userId;
+                bean.allow = targetState;
+                HttpUtil.api8446().groupMember_invitationGroupBanOnLooting(bean)
                         .enqueue(new CommonCallback<NetData>() {
                             @Override
                             public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {

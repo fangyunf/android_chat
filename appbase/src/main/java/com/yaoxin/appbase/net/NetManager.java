@@ -65,6 +65,17 @@ public class NetManager {
                 ))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
+        private static Retrofit INSTANCE3 = new Retrofit.Builder()
+                .client(okHttpClient)
+                .baseUrl(Constant.BASE_URL_8447)
+                .addConverterFactory(GsonConverterFactory.create(
+                        new GsonBuilder()
+                                .setObjectToNumberStrategy(ToNumberPolicy.LONG_OR_DOUBLE)
+                                .setNumberToNumberStrategy(ToNumberPolicy.LONG_OR_DOUBLE)
+                                .create()
+                ))
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .build();
         /**
          * 仅在需要拦截jwt时使用的网络配置（如登录）
          */
@@ -93,6 +104,9 @@ public class NetManager {
     }
     public static Retrofit getInstance2() {
         return NetManagerHolder.INSTANCE2;
+    }
+    public static Retrofit getInstance3() {
+        return NetManagerHolder.INSTANCE3;
     }
 
     public static Retrofit getTokenInstance() {

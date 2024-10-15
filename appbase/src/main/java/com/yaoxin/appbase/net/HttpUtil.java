@@ -18,6 +18,9 @@ public class HttpUtil {
     public static ServiceW api8446() {
         return NetManager.getInstance2().create(ServiceW.class);
     }
+    public static ServiceW api8447() {
+        return NetManager.getInstance3().create(ServiceW.class);
+    }
     public static ServiceW apiWSaveToken() {
         return NetManager.getTokenInstance().create(ServiceW.class);
     }

@@ -74,9 +74,9 @@ public class FunBlackList_NewActivity extends BaseActivity implements View.OnCli
                 if (_groupId == null) {
 
                     RegisterBean registerBean = new RegisterBean();
-                    registerBean.state = 0;
-                    registerBean.memberCode = baseQuickAdapter.getItem(i).memberCode;
-                    HttpUtil.apiW().friends_changeBlackState(registerBean)
+                    registerBean.pullIn = false;
+                    registerBean.friendId = baseQuickAdapter.getItem(i).userId;
+                    HttpUtil.api8444().friends_changeBlackState(registerBean)
                             .enqueue(new CommonCallback<NetData>() {
                                 @Override
                                 public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {

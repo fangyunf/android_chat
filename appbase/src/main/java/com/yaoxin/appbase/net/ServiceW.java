@@ -77,7 +77,7 @@ public interface ServiceW {
     Call<NetData> friends_appFriendApplyEd(
             @Body RegisterBean userBean
     );
-    //已修改
+    // 修改好友备注(别名)接口 已修改
     @POST("/im/v1/api/friend/alias/update")
     Call<NetData> friends_updateRemark(
             @Body RegisterBean userBean
@@ -95,7 +95,8 @@ public interface ServiceW {
     Call<NetData> red_sendGroupRedpacket(
             @Body RegisterBean userBean
     );
-    @POST("/red/personRedpacket")
+    //发送红包  已修改
+    @POST("/wallet/v1/api/redPackage/create")
     Call<NetData> red_personRedpacket(
             @Body RegisterBean userBean
     );
@@ -129,7 +130,9 @@ public interface ServiceW {
     Call<NetData> red_redpacketDetail(
             @Body RegisterBean userBean
     );
-    @GET("/home/balance")
+
+    //  获取当前用户的钱包余额、绑定的支付宝、微信账号等信息 已修改
+    @GET("/wallet/v1/api/wallet/detail")
     Call<NetData> home_balance();
     @GET("/home/myQrCode")
     Call<NetData> home_myQrCode();
@@ -171,12 +174,12 @@ public interface ServiceW {
     );
 
     //解散劝阻  已修改
-    @POST("/imx/v1/api/session/delete")
+    @POST("/imx/v1/api/session/delete/json")
     Call<NetData> group_dissolveGroup(
             @Body RegisterBean userBean
     );
     //主动退群 已修改
-    @POST("/imx/v1/api/member/leave")
+    @POST("/imx/v1/api/member/leave/json")
     Call<NetData> group_quitGroup(
             @Body RegisterBean userBean
     );
@@ -315,8 +318,8 @@ public interface ServiceW {
     Call<NetData> group_removeManager(
             @Body RegisterBean userBean
     );
-    // 设置单个成员禁抢
-    @POST("/groupMember/invitationGroupBanOnLooting")
+    // 允许或禁止群成员抢手气红包  已修改
+    @POST("/imx/v1/api/member/redPackage")
     Call<NetData> groupMember_invitationGroupBanOnLooting(
             @Body RegisterBean userBean
     );
@@ -334,8 +337,8 @@ public interface ServiceW {
     @GET("/im/v1/api/friend/applyCount")
     Call<NetData> friends_applyListNum(
     );
-    //  好友列表
-    @POST("/group/groupConsentOrRefuse")
+    //  群主或管理员审核入群邀请  已修改
+    @POST("/imx/v1/api/member/invitation/review")
     Call<NetData> group_groupConsentOrRefuse(
             @Body RegisterBean userBean
     );
@@ -344,8 +347,8 @@ public interface ServiceW {
     Call<NetData> group_applyGroups(
             @Body RegisterBean userBean
     );
-    //  好友列表
-    @POST("/friends/delFriend")
+    //  删除好友  已修改
+    @POST("/im/v1/api/friendGroup/delete")
     Call<NetData> friends_delFriend(
             @Body RegisterBean userBean
     );
@@ -395,8 +398,8 @@ public interface ServiceW {
     Call<NetData> aideNews_aideMsg(
             @Body RegisterBean userBean
     );
-    //  好友列表
-    @POST("/friends/changeBlackState")
+    //  将好友拉人或拉出黑名单  已修改
+    @POST("/im/v1/api/friend/blackBill")
     Call<NetData> friends_changeBlackState(
             @Body RegisterBean userBean
     );

@@ -18,6 +18,7 @@ public class Constant {
     public static final String BASE_URL = "http://8.154.42.26:8080/";
     public static final String BASE_URL_8444 = "http://8.154.42.26:8444/";
     public static final String BASE_URL_8446 = "http://8.154.42.26:8446/";
+    public static final String BASE_URL_8447 = "http://8.154.42.26:8447/";
     public static final String BASE_URL_H5 = "http://8.154.42.26:8080/";
     public static final String ENCODE_KEY = "wesecretpaddingg";
     public static final String MSG_ENCODE_KEY = "wallstreetimchat";
