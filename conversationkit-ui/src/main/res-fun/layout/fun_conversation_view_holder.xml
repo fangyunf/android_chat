@@ -117,14 +117,29 @@
             android:textColor="@color/fun_conversation_item_time_text_color"
             android:textSize="@dimen/text_size_12" />
 
-        <ImageView android:id="@+id/muteIv"
-            android:layout_width="@dimen/dimen_14_dp"
-            android:layout_height="@dimen/dimen_14_dp"
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_marginTop="@dimen/dimen_40_dp"
-            android:src="@drawable/fun_ic_conversation_mute"
-            android:visibility="gone"
-            />
+            >
+
+            <ImageView android:id="@+id/muteIv"
+                android:layout_width="@dimen/dimen_14_dp"
+                android:layout_height="@dimen/dimen_14_dp"
+                android:src="@drawable/fun_ic_conversation_mute"
+                android:visibility="gone"
+                />
+            <View
+                android:id="@+id/fun_conversation_view_holder_red_num_view"
+                android:visibility="gone"
+                android:layout_marginLeft="5dp"
+                android:layout_gravity="center_vertical"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:background="@drawable/fun_bg_red_rounded_9"
+                />
+        </LinearLayout>
     </FrameLayout>
 
 </FrameLayout>

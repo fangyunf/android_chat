@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import com.netease.nimlib.sdk.team.model.Team;
+import com.netease.yunxin.kit.chatkit.model.ConversationInfo;
 import com.netease.yunxin.kit.common.ui.utils.AvatarColor;
 import com.netease.yunxin.kit.common.utils.SizeUtils;
 import com.netease.yunxin.kit.conversationkit.ui.R;
@@ -48,6 +49,9 @@ public class FunConversationTeamViewHolder extends FunConversationBaseViewHolder
 //          teamInfo.getIcon(), teamInfo.getName(), AvatarColor.avatarColor(teamInfo.getId()));
       viewBinding.nameTv.setText(teamInfo.getName());
     }
+
+    ConversationInfo conversationInfo = data.infoData;
+    int unreadCount = conversationInfo.getUnreadCount();
     if (data.viewType == ConversationConstant.ViewType.TEAM_VIEW
         && data.infoData.getUnreadCount() > 0
         && ConversationHelper.hasAit(data.infoData.getContactId())) {
@@ -56,6 +60,10 @@ public class FunConversationTeamViewHolder extends FunConversationBaseViewHolder
       viewBinding.aitTv.setVisibility(View.GONE);
     }
 
+    viewBinding.funConversationViewHolderRedNumView.setVisibility(View.GONE);
+    if (conversationInfo.getMute() && unreadCount > 0) {
+      viewBinding.funConversationViewHolderRedNumView.setVisibility(View.VISIBLE);
+    }
 
     ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) viewBinding.rootLayout.getLayoutParams();
     layoutParams.height = SizeUtils.dp2px(72);
