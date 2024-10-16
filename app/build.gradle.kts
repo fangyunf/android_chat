@@ -13,7 +13,7 @@ android {
         create("release") {
             keyAlias = "sixin"
             keyPassword = "Qqqq1111"
-            storeFile = file("sixin")
+            storeFile = file("sixin.jks")
             storePassword = "Qqqq1111"
         }
     }
@@ -22,7 +22,7 @@ android {
         minSdk = 21
         targetSdk = 33
         versionCode = 1
-        versionName = "1.0.2"
+        versionName = "1.0.5"
         multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

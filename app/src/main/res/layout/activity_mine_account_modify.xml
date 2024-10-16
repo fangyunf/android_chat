@@ -31,20 +31,17 @@
         android:maxLength="15"
         android:layout_height="wrap_content" />
 
-    <RelativeLayout
-        android:id="@+id/activity_mine_account_modify_rl"
+    <TextView
         android:layout_width="301dp"
         android:layout_height="@dimen/dimen_44_dp"
         android:layout_marginTop="@dimen/dimen_40_dp"
-        android:background="@drawable/fun_bg_app_theme_color_rounded_22">
+        android:clickable="true"
+        android:focusable="true"
+        android:background="@drawable/fun_bg_app_theme_color_rounded_22"
+        android:gravity="center"
+        android:text="保存"
+        android:textColor="#ffffffff"
+        android:id="@+id/activity_mine_account_modify_rl"
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="22dp"
-            android:layout_centerInParent="true"
-            android:text="保存"
-            android:textColor="#ffffffff"
-            android:textSize="16sp" />
-
-    </RelativeLayout>
+        android:textSize="16sp" />
 </LinearLayout>

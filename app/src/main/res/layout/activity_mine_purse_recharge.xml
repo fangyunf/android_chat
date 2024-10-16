@@ -219,6 +219,8 @@
             android:id="@+id/activity_mine_purse_recharge_recharge_rl"
             android:layout_width="301dp"
             android:layout_height="@dimen/dimen_44_dp"
+            android:clickable="true"
+            android:focusable="true"
             android:text="充值"
             android:gravity="center"
             android:layout_gravity="center_horizontal"
