@@ -73,7 +73,7 @@
     <!--  Flyme3 -->
     <uses-permission android:name="com.meizu.c2dm.permission.RECEIVE" />
     <permission
-        android:name="com.turunsi.jinzita.permission.C2D_MESSAGE"
+        android:name="com.turunsi.balishijia.permission.C2D_MESSAGE"
         android:protectionLevel="signature"/>
     <uses-permission android:name="com.turunsi.balishijia.permission.C2D_MESSAGE"/>
 

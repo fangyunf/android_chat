@@ -393,7 +393,7 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
 //        binding.funTeamSettingNewActivityUpgradeTeam.viewTitleArrowLl.setVisibility(View.GONE);
         if (groupInfoBean.rankState == 1 || groupInfoBean.rankState == 2) {
 
-//            binding.funTeamSettingNewActivityManagerTeam.viewTitleArrowLl.setVisibility(View.VISIBLE);
+            binding.funTeamSettingNewActivityManagerTeam.viewTitleArrowLl.setVisibility(View.VISIBLE);
             binding.funTeamSettingNewActivityManagerLl.setVisibility(View.VISIBLE);
 //            binding.funTeamSettingNewActivityUpgradeTeam.viewTitleArrowLl.setVisibility(View.VISIBLE);
 //            binding.funTeamSettingNewActivitySetGonggao.viewTitleArrowLl.setVisibility(View.VISIBLE);
