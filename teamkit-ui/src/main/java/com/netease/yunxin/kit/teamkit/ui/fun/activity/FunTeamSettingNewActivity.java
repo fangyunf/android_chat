@@ -519,9 +519,9 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
                             @Override
                             public void returnResult(String result) {
                                 RegisterBean bean = new RegisterBean();
-                                bean.groupId = groupId;
-                                bean.groupName = result;
-                                HttpUtil.apiW().group_updateGroupInfo(bean)
+                                bean.tid = groupId;
+                                bean.name = result;
+                                HttpUtil.api8446().group_updateGroupInfo(bean)
                                         .enqueue(new CommonCallback<NetData>() {
                                             @Override
                                             public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
@@ -544,9 +544,9 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
                             @Override
                             public void returnResult(String result) {
                                 RegisterBean bean = new RegisterBean();
-                                bean.groupId = groupId;
+                                bean.tid = groupId;
                                 bean.announcement = result;
-                                HttpUtil.apiW().group_updateGroupInfo(bean)
+                                HttpUtil.api8446().group_updateGroupInfo(bean)
                                         .enqueue(new CommonCallback<NetData>() {
                                             @Override
                                             public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
@@ -682,23 +682,23 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
         String result = data.getStringExtra("result");
         String type = data.getStringExtra("type");
         if ("1".equals(type)) {
-            RegisterBean bean = new RegisterBean();
-            bean.groupId = groupId;
-            bean.groupName = result;
-            HttpUtil.apiW().group_updateGroupInfo(bean)
-                    .enqueue(new CommonCallback<NetData>() {
-                        @Override
-                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-
-                            ToastUtils.toastMsg(body.msg);
-                            _requestData();
-                        }
-
-                        @Override
-                        public void Failure(Call<NetData> call, Throwable t) {
-
-                        }
-                    });
+//            RegisterBean bean = new RegisterBean();
+//            bean.groupId = groupId;
+//            bean.groupName = result;
+//            HttpUtil.apiW().group_updateGroupInfo(bean)
+//                    .enqueue(new CommonCallback<NetData>() {
+//                        @Override
+//                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+//
+//                            ToastUtils.toastMsg(body.msg);
+//                            _requestData();
+//                        }
+//
+//                        @Override
+//                        public void Failure(Call<NetData> call, Throwable t) {
+//
+//                        }
+//                    });
         } else if ("2".equals(type)) {
 
 //            RegisterBean bean = new RegisterBean();
@@ -720,23 +720,23 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
 //                    });
         } else if ("3".equals(type)) {
 
-            RegisterBean bean = new RegisterBean();
-            bean.groupId = groupId;
-            bean.announcement = result;
-            HttpUtil.apiW().group_updateGroupInfo(bean)
-                    .enqueue(new CommonCallback<NetData>() {
-                        @Override
-                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-
-                            ToastUtils.toastMsg(body.msg);
-                            _requestData();
-                        }
-
-                        @Override
-                        public void Failure(Call<NetData> call, Throwable t) {
-
-                        }
-                    });
+//            RegisterBean bean = new RegisterBean();
+//            bean.groupId = groupId;
+//            bean.announcement = result;
+//            HttpUtil.apiW().group_updateGroupInfo(bean)
+//                    .enqueue(new CommonCallback<NetData>() {
+//                        @Override
+//                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+//
+//                            ToastUtils.toastMsg(body.msg);
+//                            _requestData();
+//                        }
+//
+//                        @Override
+//                        public void Failure(Call<NetData> call, Throwable t) {
+//
+//                        }
+//                    });
         }
 
     }

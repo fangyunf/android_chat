@@ -64,10 +64,10 @@ public class OtherPlaceLoginActivity extends BaseActivity implements View.OnClic
                 public void onInputFinished(String content) {
                     RegisterBean registerBean = new RegisterBean();
                     registerBean.phoneNo = _phone;
-                    registerBean.captcha = content;
+                    registerBean.smsCode = content;
 
 
-                    HttpUtil.apiW().customer_ydCodeCheck(registerBean)
+                    HttpUtil.api8444().customer_ydCodeCheck(registerBean)
                             .enqueue(new CommonCallback<NetData>() {
                                 @Override
                                 public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {

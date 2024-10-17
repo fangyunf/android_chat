@@ -120,7 +120,8 @@ public interface ServiceW {
     Call<NetData> consumer_certify(
             @Body RegisterBean userBean
     );
-    @POST("/customer/ydCodeCheck")
+    // 异地登录验证 已修改
+    @POST("/im/v1/api/user/offsiteCheck")
     Call<NetData> customer_ydCodeCheck(
             @Body RegisterBean userBean
     );
@@ -227,8 +228,8 @@ public interface ServiceW {
     Call<NetData> home_securityPrivacy();
 
 
-    //  修改群头像昵称
-    @POST("/group/updateGroupInfo")
+    //  更新聊天群组配置信息  已修改
+    @POST("/imx/v1/api/session/update")
     Call<NetData> group_updateGroupInfo(
             @Body RegisterBean userBean
     );
