@@ -15,7 +15,8 @@ UI 能力简洁易用 |IM UIKit 的业务逻辑层与 UI 层相互独立。在 U
 ## 技术原理
 ### 工作原理
 
-
+3
+6/+
 IM UIKit 采用 （Model–View–ViewModel）MVVM 架构模型，实现 UI 展示与业务逻辑开发的相互独立。
 
 ![IMuikitDataFlow_Android.png](https://yx-web-nosdn.netease.im/common/f1663a580335822a9770e486c3ea3e12/IMuikitDataFlow_Android.png)
