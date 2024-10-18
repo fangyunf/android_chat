@@ -59,4 +59,15 @@ public class UserBean {
     public int grade;
     public List<UserBean> applyInfos;
 
+
+    public boolean enableNewMsgNotify;
+    public boolean enableSoundHint;
+    public boolean enableShockHint;
+    public boolean enableAddFriend;
+    public boolean reviewOnAddingFriend;
+    public boolean enableMobile;
+    public boolean enableSession;
+    public boolean enableQrCode;
+    public boolean enableUserId;
+    public boolean enableCard;
 }

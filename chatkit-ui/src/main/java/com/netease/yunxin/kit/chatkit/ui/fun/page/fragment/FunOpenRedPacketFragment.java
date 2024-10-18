@@ -66,13 +66,13 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
             updateUI();
             return;
         }
-        RegisterBean bean = new RegisterBean();
-        bean.redpacketId = redPacketId;
-        HttpUtil.apiW().red_redpacketDetail(bean)
+//        RegisterBean bean = new RegisterBean();
+//        bean.redpacketId = redPacketId;
+        HttpUtil.api8447().red_redpacketDetail(redPacketId)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        redBean = new Gson().fromJson(body.data.toString(), CustomMsgBean.class);
+                        redBean = new Gson().fromJson(new Gson().toJson(body.data), CustomMsgBean.class);
 
                         updateUI();
 
@@ -144,9 +144,9 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
 
         } else if (v == binding.fragmentOpenRedPacketDialogOpenRl) {
             RegisterBean bean = new RegisterBean();
-            bean.redpacketId = redPacketId;
+            bean.redPackageId = redPacketId;
             if (sendBean.type == 21) {
-                HttpUtil.apiW().red_reciveExclusiveRedpacket(bean)
+                HttpUtil.api8447().red_grab(bean)
                         .enqueue(new CommonCallback<NetData>() {
                             @Override
                             public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
@@ -161,7 +161,7 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
                         });
             } else if (sendBean.type == 22) {
                 //type == 22 个人
-                HttpUtil.apiW().red_recivePersonRedpacket(bean)
+                HttpUtil.api8447().red_grab(bean)
                         .enqueue(new CommonCallback<NetData>() {
                             @Override
                             public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
@@ -176,7 +176,7 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
                         });
             } else if (sendBean.type == 23) {
                 //type == 23 群
-                HttpUtil.apiW().red_grab(bean)
+                HttpUtil.api8447().red_grab(bean)
                         .enqueue(new CommonCallback<NetData>() {
                             @Override
                             public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {

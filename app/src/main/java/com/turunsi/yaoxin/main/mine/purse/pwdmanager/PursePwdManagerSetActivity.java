@@ -169,11 +169,12 @@ public class PursePwdManagerSetActivity extends BaseActivity implements View.OnC
                 return;
             }
             RegisterBean registerBean = new RegisterBean();
-            registerBean.password = pwd1;
-            registerBean.captcha = code;
+            registerBean.mobile = phone;
+            registerBean.payPassword = pwd1;
+            registerBean.smsCode = code;
 
             Activity that = this;
-            HttpUtil.apiW().home_updateFullPassword(registerBean)
+            HttpUtil.api8447().home_updateFullPassword(registerBean)
                     .enqueue(new CommonCallback<NetData>() {
                         @Override
                         public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {

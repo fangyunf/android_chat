@@ -23,6 +23,7 @@ import com.yaoxin.appbase.activity.BaseActivity;
 import com.yaoxin.appbase.model.GroupInfoBean;
 import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.RegisterBean;
+import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
@@ -39,7 +40,7 @@ import retrofit2.Response;
 public class AccountAnQuanManagerActivity extends BaseActivity implements View.OnClickListener {
 
     ActivityAccountAnquanManagerBinding binding;
-    GroupInfoBean groupInfoBean = new GroupInfoBean();
+    UserBean groupInfoBean = new UserBean();
     protected ActivityResultLauncher<Intent> launcher;
 
     @Override
@@ -99,12 +100,12 @@ public class AccountAnQuanManagerActivity extends BaseActivity implements View.O
     protected void _requestData() {
 //        RegisterBean bean = new RegisterBean();
 //        bean.groupId = groupId;
-        HttpUtil.apiW().home_securityPrivacy()
+        HttpUtil.api8444().home_securityPrivacy()
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                        groupInfoBean = new Gson().fromJson(body.data.toString(),GroupInfoBean.class);
+                        groupInfoBean = new Gson().fromJson(new Gson().toJson(body.data),UserBean.class);
                         updateUI();
                     }
 
@@ -117,13 +118,13 @@ public class AccountAnQuanManagerActivity extends BaseActivity implements View.O
 
     void updateUI() {
 
-        binding.activityAccountAnquanManagerCell1.viewTitleArrowRightTvSwitch.setSelected(groupInfoBean.check == 1);
-        binding.activityAccountAnquanManagerCell2.viewTitleArrowRightTvSwitch.setSelected(groupInfoBean.phoneAdd == 1);
-        binding.activityAccountAnquanManagerCell3.viewTitleArrowRightTvSwitch.setSelected(groupInfoBean.idAdd == 1);
-        binding.activityAccountAnquanManagerCell4.viewTitleArrowRightTvSwitch.setSelected(groupInfoBean.cardAdd == 1);
-        binding.activityAccountAnquanManagerCell5.viewTitleArrowRightTvSwitch.setSelected(groupInfoBean.qrAdd == 1);
-        binding.activityAccountAnquanManagerCell6.viewTitleArrowRightTvSwitch.setSelected(groupInfoBean.addState == 1);
-        binding.activityAccountAnquanManagerCell7.viewTitleArrowRightTvSwitch.setSelected(groupInfoBean.addGroupState == 1);
+        binding.activityAccountAnquanManagerCell1.viewTitleArrowRightTvSwitch.setSelected(groupInfoBean.reviewOnAddingFriend);
+        binding.activityAccountAnquanManagerCell2.viewTitleArrowRightTvSwitch.setSelected(groupInfoBean.enableMobile);
+        binding.activityAccountAnquanManagerCell3.viewTitleArrowRightTvSwitch.setSelected(groupInfoBean.enableUserId);
+        binding.activityAccountAnquanManagerCell4.viewTitleArrowRightTvSwitch.setSelected(groupInfoBean.enableCard);
+        binding.activityAccountAnquanManagerCell5.viewTitleArrowRightTvSwitch.setSelected(groupInfoBean.enableQrCode);
+        binding.activityAccountAnquanManagerCell6.viewTitleArrowRightTvSwitch.setSelected(groupInfoBean.enableAddFriend);
+        binding.activityAccountAnquanManagerCell7.viewTitleArrowRightTvSwitch.setSelected(groupInfoBean.enableSession);
 
     }
 
@@ -155,28 +156,28 @@ public class AccountAnQuanManagerActivity extends BaseActivity implements View.O
 
         RegisterBean bean = new RegisterBean();
         if (type == 0) {
-            bean.check = binding.activityAccountAnquanManagerCell1.viewTitleArrowRightTvSwitch.isSelected() ? "0" : "1";
+            bean.reviewOnAddingFriend = binding.activityAccountAnquanManagerCell1.viewTitleArrowRightTvSwitch.isSelected() ;
         }
         if (type == 1) {
-            bean.phoneAdd = binding.activityAccountAnquanManagerCell2.viewTitleArrowRightTvSwitch.isSelected() ? "0" : "1";
+            bean.enableMobile = binding.activityAccountAnquanManagerCell2.viewTitleArrowRightTvSwitch.isSelected();
         }
         if (type == 2) {
-            bean.idAdd = binding.activityAccountAnquanManagerCell3.viewTitleArrowRightTvSwitch.isSelected() ?"0" : "1";
+            bean.enableUserId = binding.activityAccountAnquanManagerCell3.viewTitleArrowRightTvSwitch.isSelected() ;
         }
         if (type == 3) {
-            bean.cardAdd = binding.activityAccountAnquanManagerCell4.viewTitleArrowRightTvSwitch.isSelected() ?"0" : "1";
+            bean.enableCard = binding.activityAccountAnquanManagerCell4.viewTitleArrowRightTvSwitch.isSelected();
         }
         if (type == 4) {
-            bean.qrAdd = binding.activityAccountAnquanManagerCell5.viewTitleArrowRightTvSwitch.isSelected() ? "0" : "1";
+            bean.enableQrCode = binding.activityAccountAnquanManagerCell5.viewTitleArrowRightTvSwitch.isSelected();
         }
         if (type == 5) {
-            bean.addState = binding.activityAccountAnquanManagerCell6.viewTitleArrowRightTvSwitch.isSelected() ? "0" : "1";
+            bean.enableAddFriend = binding.activityAccountAnquanManagerCell6.viewTitleArrowRightTvSwitch.isSelected();
         }
         if (type == 6) {
-            bean.addGroupState = binding.activityAccountAnquanManagerCell7.viewTitleArrowRightTvSwitch.isSelected() ? "0" : "1";
+            bean.enableSession = binding.activityAccountAnquanManagerCell7.viewTitleArrowRightTvSwitch.isSelected() ;
         }
 
-        HttpUtil.apiW().home_changeSecurityPrivacy(bean)
+        HttpUtil.api8444().home_changeSecurityPrivacy(bean)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {

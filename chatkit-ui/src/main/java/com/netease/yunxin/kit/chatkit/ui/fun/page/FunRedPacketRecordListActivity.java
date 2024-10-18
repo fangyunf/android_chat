@@ -117,8 +117,10 @@ public class FunRedPacketRecordListActivity extends BaseActivity implements View
 
     protected void _requestData() {
             RegisterBean bean = new RegisterBean();
+            bean.pageIndex = "0";
+            bean.pageSize = "1000";
             bean.date = selectedMonth;
-            HttpUtil.apiW().red_reciveRecord(bean)
+            HttpUtil.api8447().red_reciveRecord(bean)
                     .enqueue(new CommonCallback<NetData>() {
                         @Override
                         public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
@@ -136,7 +138,7 @@ public class FunRedPacketRecordListActivity extends BaseActivity implements View
                         public void Failure(Call<NetData> call, Throwable t) {
                         }
                     });
-            HttpUtil.apiW().red_sendRecord(bean)
+            HttpUtil.api8447().red_sendRecord(bean)
                     .enqueue(new CommonCallback<NetData>() {
                         @Override
                         public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {

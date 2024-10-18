@@ -71,13 +71,11 @@ public class FunRedPacketResultActivity extends BaseActivity implements View.OnC
     @Override
     protected void _requestData() {
         if (redpacketId.isEmpty()) return;
-        RegisterBean bean = new RegisterBean();
-        bean.redpacketId = redpacketId;
-        HttpUtil.apiW().red_redpacketDetail(bean)
+        HttpUtil.api8447().red_redpacketDetail(redpacketId)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        redBean = new Gson().fromJson(body.data.toString(), CustomMsgBean.class);
+                        redBean = new Gson().fromJson(new Gson().toJson(body.data), CustomMsgBean.class);
                         if (redBean.vos.size() == Integer.parseInt(redBean.totalNum)) {
                             double maxMoeny = 0;
                             int index = 0;

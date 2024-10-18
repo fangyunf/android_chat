@@ -108,7 +108,8 @@ public interface ServiceW {
     Call<NetData> red_sendExclusiveRedPacket(
             @Body RegisterBean userBean
     );
-    @POST("/home/updateFullPassword")
+    // 修改用户钱包支付密码 已修改
+    @POST("/wallet/v1/api/wallet/payPassword/update")
     Call<NetData> home_updateFullPassword(
             @Body RegisterBean userBean
     );
@@ -116,7 +117,8 @@ public interface ServiceW {
     Call<NetData> home_getUserByToken(
             @Body RegisterBean userBean
     );
-    @POST("/consumer/certify")
+    // 实名认证 已修改
+    @POST("/oauth2/v1/api/faceVerify/certifyId")
     Call<NetData> consumer_certify(
             @Body RegisterBean userBean
     );
@@ -125,11 +127,15 @@ public interface ServiceW {
     Call<NetData> customer_ydCodeCheck(
             @Body RegisterBean userBean
     );
-    @POST("/consumer/certified")
-    Call<NetData> consumer_certified();
-    @POST("/red/redpacketDetail")
+    //获取实人认证结果 已修改
+    @GET("/oauth2/v1/api/faceVerify/result/{certifyId}")
+    Call<NetData> consumer_certified(
+            @Query("certifyId") String certifyId
+    );
+    ///查询指定红包的领取详情 已修改
+    @GET("/wallet/v1/api/redPackage/query/detail/{redPackageId}")
     Call<NetData> red_redpacketDetail(
-            @Body RegisterBean userBean
+            @Query("redPackageId") String redPackageId
     );
 
     //  获取当前用户的钱包余额、绑定的支付宝、微信账号等信息 已修改
@@ -137,30 +143,33 @@ public interface ServiceW {
     Call<NetData> home_balance();
     @GET("/home/myQrCode")
     Call<NetData> home_myQrCode();
-    @POST("/home/logout")
+    @POST("/oauth2/v1/api/user/unregister")
     Call<NetData> home_logout();
 
-    @POST("/red/recivePersonRedpacket")
-    Call<NetData> red_recivePersonRedpacket(
-            @Body RegisterBean userBean
-    );
-    @POST("/red/reciveExclusiveRedpacket")
-    Call<NetData> red_reciveExclusiveRedpacket(
-            @Body RegisterBean userBean
-    );
-    @POST("/red/grab")
+//    @POST("/red/recivePersonRedpacket")
+//    Call<NetData> red_recivePersonRedpacket(
+//            @Body RegisterBean userBean
+//    );
+//    @POST("/red/reciveExclusiveRedpacket")
+//    Call<NetData> red_reciveExclusiveRedpacket(
+//            @Body RegisterBean userBean
+//    );
+    @POST("/wallet/v1/api/redPackage/receive")
     Call<NetData> red_grab(
             @Body RegisterBean userBean
     );
-    @POST("/red/checkRedpacet")
+    /// 查询红包领取完毕状态 已修改
+    @GET("/wallet/v1/api/redPackage/status/{redPackageId}")
     Call<NetData> red_checkRedpacet(
-            @Body RegisterBean userBean
+            @Query("redPackageId") String  redPackageId
     );
-    @POST("/red/sendRecord")
+    /// 分页查询发出的红包列表  已修改
+    @POST("/wallet/v1/api/redPackage/page/createdList")
     Call<NetData> red_sendRecord(
             @Body RegisterBean userBean
     );
-    @POST("/red/reciveRecord")
+    ///分页查询领取过的红包列表  已修改
+    @POST("/wallet/v1/api/redPackage/page/createdList")
     Call<NetData> red_reciveRecord(
             @Body RegisterBean userBean
     );
@@ -212,19 +221,19 @@ public interface ServiceW {
     );
 
     //群管理
-    @GET("/group/groupManage")
-    Call<NetData> group_groupManage(
-            @Query("groupId") String groupId
-    );
+//    @GET("/group/groupManage")
+//    Call<NetData> group_groupManage(
+//            @Query("groupId") String groupId
+//    );
+//
+//    //群管理列表
+//    @GET("/group/groupAdminList")
+//    Call<NetData> group_groupAdminList(
+//            @Body RegisterBean userBean
+//    );
 
     //群管理列表
-    @GET("/group/groupAdminList")
-    Call<NetData> group_groupAdminList(
-            @Body RegisterBean userBean
-    );
-
-    //群管理列表
-    @GET("/home/securityPrivacy")
+    @GET("/im/v1/api/personalSetting/query")
     Call<NetData> home_securityPrivacy();
 
 
@@ -234,10 +243,9 @@ public interface ServiceW {
             @Body RegisterBean userBean
     );
 
-    //  修改群头像昵称
-    @POST("/group/userGroups")
+    //  获取当前用户加入的所有聊天群组列表 已修改
+    @GET("/imx/v1/api/member/getAllSession")
     Call<NetData> group_userGroups(
-            @Body RegisterBean userBean
     );
     //  修改群头像昵称
     @POST("/aideNews/scroll")
@@ -245,10 +253,9 @@ public interface ServiceW {
             @Body RegisterBean userBean
     );
 
-    //  修改群头像昵称
-    @POST("/customer/systemAppUser")
+    //  获取客服账号信息 已修改
+    @GET("/im/v1/api/customer/info")
     Call<NetData> customer_systemAppUser(
-            @Body RegisterBean userBean
     );
     //   转让群主 已修改
     @POST("/imx/v1/api/session/transfer")
@@ -284,8 +291,8 @@ public interface ServiceW {
     //   转让群主
     @GET("/customer/noticeList")
     Call<NetData> customer_noticeList();
-    //   转让群主
-    @POST("/home/changeSecurityPrivacy")
+    //   修改用户个人参数配置 已修改
+    @POST("/im/v1/api/personalSetting/update")
     Call<NetData> home_changeSecurityPrivacy(
             @Body RegisterBean userBean
     );
@@ -419,13 +426,13 @@ public interface ServiceW {
     //  好友列表
     @GET("/customer/notice")
     Call<NetData> customer_notice();
-    //  好友列表
-    @GET("/home/selectSoundSwith")
+    //  查询用户个人参数配置 已修改
+    @GET("/im/v1/api/personalSetting/query")
     Call<NetData> home_selectSoundSwith();
 
 
-    //  好友列表
-    @POST("/home/soundSwitch")
+    //  修改用户个人参数配置  已修改
+    @POST("/im/v1/api/personalSetting/update")
     Call<NetData> home_soundSwitch(
             @Body RegisterBean userBean
     );

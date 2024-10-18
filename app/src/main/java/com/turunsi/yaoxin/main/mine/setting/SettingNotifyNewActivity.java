@@ -51,11 +51,11 @@ public class SettingNotifyNewActivity extends BaseActivity {
     @Override
     protected void _requestData() {
 
-        HttpUtil.apiW().home_selectSoundSwith()
+        HttpUtil.api8444().home_selectSoundSwith()
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        UserBean userBean = new Gson().fromJson(body.data.toString(),UserBean.class);
+                        UserBean userBean = new Gson().fromJson(new Gson().toJson(body.data),UserBean.class);
                         if (userBean != null) {
                             initView(userBean);
                         }
@@ -81,7 +81,7 @@ public class SettingNotifyNewActivity extends BaseActivity {
         viewBinding.activityMineSettingNotifyCell3.viewTitleArrowRightTvSwitch.setVisibility(View.VISIBLE);
         viewBinding.activityMineSettingNotifyCell3.viewTitleArrowArrowIv.setVisibility(View.GONE);
 
-        viewBinding.activityMineSettingNotifyCell1.viewTitleArrowRightTvSwitch.setSelected("1".equals(userBean.allDisturb));
+        viewBinding.activityMineSettingNotifyCell1.viewTitleArrowRightTvSwitch.setSelected(userBean.enableNewMsgNotify);
         viewBinding.activityMineSettingNotifyCell1.viewTitleArrowRightTvSwitch.setOnClickListener(
                 v -> {
 
@@ -91,7 +91,7 @@ public class SettingNotifyNewActivity extends BaseActivity {
 //                    isCloseNotice = !isCloseNotice;
 //                    SPUtils.getInstance().put("isCloseNotice", isCloseNotice);
                 });
-        viewBinding.activityMineSettingNotifyCell2.viewTitleArrowRightTvSwitch.setSelected("1".equals(userBean.sound));
+        viewBinding.activityMineSettingNotifyCell2.viewTitleArrowRightTvSwitch.setSelected(userBean.enableSoundHint);
         viewBinding.activityMineSettingNotifyCell2.viewTitleArrowRightTvSwitch.setOnClickListener(
                 v -> {
                     updateStatus(2);
@@ -101,7 +101,7 @@ public class SettingNotifyNewActivity extends BaseActivity {
 //                    updatConfig();
 
                 });
-        viewBinding.activityMineSettingNotifyCell3.viewTitleArrowRightTvSwitch.setSelected("1".equals(userBean.shake));
+        viewBinding.activityMineSettingNotifyCell3.viewTitleArrowRightTvSwitch.setSelected(userBean.enableShockHint);
         viewBinding.activityMineSettingNotifyCell3.viewTitleArrowRightTvSwitch.setOnClickListener(
                 v -> {
                     updateStatus(3);
@@ -116,15 +116,15 @@ public class SettingNotifyNewActivity extends BaseActivity {
     void updateStatus(int type) {
         RegisterBean registerBean = new RegisterBean();
         if (type == 1) {
-            registerBean.allDisturb = viewBinding.activityMineSettingNotifyCell1.viewTitleArrowRightTvSwitch.isSelected() ? "0":"1";
+            registerBean.enableNewMsgNotify = viewBinding.activityMineSettingNotifyCell1.viewTitleArrowRightTvSwitch.isSelected();
         }
         if (type == 2) {
-            registerBean.sound = viewBinding.activityMineSettingNotifyCell2.viewTitleArrowRightTvSwitch.isSelected() ? "0":"1";
+            registerBean.enableSoundHint = viewBinding.activityMineSettingNotifyCell2.viewTitleArrowRightTvSwitch.isSelected();
         }
         if (type == 3) {
-            registerBean.shake = viewBinding.activityMineSettingNotifyCell3.viewTitleArrowRightTvSwitch.isSelected() ? "0":"1";
+            registerBean.enableShockHint = viewBinding.activityMineSettingNotifyCell3.viewTitleArrowRightTvSwitch.isSelected();
         }
-        HttpUtil.apiW().home_soundSwitch(registerBean)
+        HttpUtil.api8444().home_soundSwitch(registerBean)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {

@@ -185,7 +185,7 @@ public class FunConversationFragment extends ConversationBaseFragment {
     if (_type == 1) {
 
 
-      HttpUtil.apiW().group_userGroups(new RegisterBean())
+      HttpUtil.api8446().group_userGroups()
               .enqueue(new CommonCallback<NetData>() {
                 @Override
                 public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
@@ -217,7 +217,7 @@ public class FunConversationFragment extends ConversationBaseFragment {
     }
     if (_type == 0) {
 
-      HttpUtil.apiW().customer_systemAppUser(new RegisterBean())
+      HttpUtil.api8444().customer_systemAppUser()
               .enqueue(new CommonCallback<NetData>() {
                 @Override
                 public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {

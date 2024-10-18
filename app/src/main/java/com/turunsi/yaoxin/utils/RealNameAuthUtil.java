@@ -29,7 +29,7 @@ public class RealNameAuthUtil {
                 switch (response.code) {
                     case 1000:
                         Log.d("AliyunFace", "认证成功");
-                        HttpUtil.apiW().consumer_certified()
+                        HttpUtil.apiW().consumer_certified(certifyId)
                                 .enqueue(new CommonCallback<NetData>() {
                                     @Override
                                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {

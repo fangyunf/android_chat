@@ -84,6 +84,7 @@ public class RegisterBean {
     public String certName;
     public String certNo;
     public String redpacketId;
+    public String redPackageId;
     public String groupName;
     public String groupHead;
     public List members;
@@ -102,6 +103,16 @@ public class RegisterBean {
     public boolean nonCollectionState;
     public String grade;
 
+    public boolean enableNewMsgNotify;
+    public boolean enableSoundHint;
+    public boolean enableShockHint;
+    public boolean enableAddFriend;
+    public boolean reviewOnAddingFriend;
+    public boolean enableMobile;
+    public boolean enableSession;
+    public boolean enableQrCode;
+    public boolean enableUserId;
+    public boolean enableCard;
     public RegisterBean(String param) {
         this.param = param;
     }

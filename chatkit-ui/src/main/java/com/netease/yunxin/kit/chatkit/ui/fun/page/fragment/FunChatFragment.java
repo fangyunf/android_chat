@@ -236,11 +236,11 @@ public abstract class FunChatFragment extends ChatBaseFragment {
                 }
                 RegisterBean bean = new RegisterBean();
                 bean.redpacketId = msgBean.result.id;
-                HttpUtil.apiW().red_checkRedpacet(bean)
+                HttpUtil.api8447().red_checkRedpacet(msgBean.result.id)
                         .enqueue(new CommonCallback<NetData>() {
                             @Override
                             public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                                CustomMsgBean redBean = new Gson().fromJson(body.data.toString(), CustomMsgBean.class);
+                                CustomMsgBean redBean = new Gson().fromJson(new Gson().toJson(body.data), CustomMsgBean.class);
                                 if (redBean.type == 1 || redBean.type == 2 || redBean.type == 3) {
                                     //可领取
                                     if (redBean.type == 1) {

@@ -69,7 +69,7 @@ public class MyGroupListActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void _requestData() {
         super._requestData();
-        HttpUtil.apiW().group_userGroups(new RegisterBean())
+        HttpUtil.api8446().group_userGroups()
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
