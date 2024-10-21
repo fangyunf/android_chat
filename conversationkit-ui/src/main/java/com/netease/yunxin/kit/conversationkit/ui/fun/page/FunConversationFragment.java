@@ -80,8 +80,8 @@ public class FunConversationFragment extends ConversationBaseFragment {
 
   private FunConversationFragmentBinding viewBinding;
 
-  public FunConversationFragment(int type) {
-    _type = type;
+  public FunConversationFragment() {
+
   }
 
   private int topIndex;
@@ -92,12 +92,7 @@ public class FunConversationFragment extends ConversationBaseFragment {
       @Nullable Bundle savedInstanceState) {
     viewBinding = FunConversationFragmentBinding.inflate(inflater, container, false);
     initView();
-    if (_type == 1) {
-      viewBinding.funConversationFragmentTitleTv.setText("群聊");
-    } else {
       viewBinding.funConversationFragmentTitleTv.setText("消息");
-
-    }
     viewBinding.funConversationFragmentSearchLl.setOnClickListener(v -> {
               XKitRouter.withKey("SearchNewActivity")
                 .withContext(requireContext())
@@ -182,7 +177,6 @@ public class FunConversationFragment extends ConversationBaseFragment {
 
                       }
                     });
-    if (_type == 1) {
 
 
       HttpUtil.api8446().group_userGroups()
@@ -214,8 +208,6 @@ public class FunConversationFragment extends ConversationBaseFragment {
 
                 }
               });
-    }
-    if (_type == 0) {
 
       HttpUtil.api8444().customer_systemAppUser()
               .enqueue(new CommonCallback<NetData>() {
@@ -259,7 +251,6 @@ public class FunConversationFragment extends ConversationBaseFragment {
 
                 }
               });
-    }
   }
   void requestKefu(String kefuId) {
 //    RegisterBean bean = new RegisterBean();
@@ -399,8 +390,6 @@ public class FunConversationFragment extends ConversationBaseFragment {
 
   private void initView() {
     conversationView = viewBinding.conversationView;
-    conversationView._type = _type;
-    conversationView.adapter._type = _type;
 
 
     networkErrorView = viewBinding.errorTv;

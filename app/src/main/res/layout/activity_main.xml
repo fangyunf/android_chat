@@ -77,7 +77,7 @@
                 android:textSize="12sp"
                 android:textColor="@color/tab_unchecked_color"
                 android:drawableTop="@mipmap/mine_tabbar_msg_group_normal"
-                android:text="群聊" />
+                android:text="消息" />
 
             <View android:id="@+id/conversation_dot1"
                 android:layout_width="@dimen/dimen_6_dp"
