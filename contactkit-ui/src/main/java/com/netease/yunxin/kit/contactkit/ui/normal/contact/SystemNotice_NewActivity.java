@@ -13,6 +13,7 @@ import com.netease.yunxin.kit.contactkit.ui.normal.contact.adapter.System_notice
 import com.yaoxin.appbase.activity.BaseActivity;
 import com.yaoxin.appbase.model.GroupInfoBean;
 import com.yaoxin.appbase.model.NetData;
+import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
 
@@ -40,12 +41,17 @@ public class SystemNotice_NewActivity extends BaseActivity implements View.OnCli
     @Override
     protected void _requestData() {
         super._requestData();
-        HttpUtil.apiW().customer_noticeList()
+
+        RegisterBean registerBean = new RegisterBean();
+        registerBean.startId = "1";
+        registerBean.backward = true;
+        registerBean.windowSize = "1000";
+        HttpUtil.api8444().customer_noticeList(registerBean)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                         Type type = new TypeToken<List<GroupInfoBean>>() {}.getType();
-                        List<GroupInfoBean> tempList = new Gson().fromJson(body.data.toString(), type);
+                        List<GroupInfoBean> tempList = new Gson().fromJson(new Gson().toJson(body.data), type);
                         adapter.setItems(tempList);
                         adapter.notifyDataSetChanged();
                     }

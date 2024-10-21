@@ -134,7 +134,7 @@ public abstract class ConversationBaseFragment extends BaseFragment implements I
 //                conversationView._type = _type;
                         conversationList = result.getData();
 
-                        ArrayList<ConversationBean> tempList = new ArrayList<>();
+//                        ArrayList<ConversationBean> tempList = new ArrayList<>();
 //                        if (conversationList != null) {
 //                          for (ConversationBean tempBean : conversationList) {
 //                            if (_type == 1 && tempBean.viewType == 2) {
@@ -149,12 +149,12 @@ public abstract class ConversationBaseFragment extends BaseFragment implements I
 //                            }
 //                          }
 //                        }
-                        conversationList = conversationList;
+//                        conversationList = conversationList;
                         finishLoadData();
                         if (result.getLoadStatus() == LoadStatus.Success) {
-                          conversationView.setData(tempList);
+                          conversationView.setData(conversationList);
                         } else if (result.getLoadStatus() == LoadStatus.Finish) {
-                          conversationView.addData(tempList);
+                          conversationView.addData(conversationList);
                         }
 
                         if (emptyView != null) {

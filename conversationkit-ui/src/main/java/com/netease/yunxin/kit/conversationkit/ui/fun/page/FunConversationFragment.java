@@ -184,23 +184,23 @@ public class FunConversationFragment extends ConversationBaseFragment {
                 @Override
                 public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-//                  Type type = new TypeToken<List<GroupInfoBean>>() {}.getType();
-//
-//                  List<GroupInfoBean> dataList = new Gson().fromJson(body.data.toString(),type);
-//
-//                  for (GroupInfoBean tempGroupInfo : dataList) {
-//                    boolean hasConversation = false;
-//                    for (ConversationBean tempCoversation : conversationList) {
-//
-//                      if (tempGroupInfo.groupId.equals((String) tempCoversation.param)) {
-//                        hasConversation = true;
-//                        break;
-//                      }
-//                    }
-//                    if (!hasConversation) {
-//                      sendGroupMessage(tempGroupInfo.groupId);
-//                    }
-//                  }
+                  Type type = new TypeToken<List<GroupInfoBean>>() {}.getType();
+
+                  List<GroupInfoBean> dataList = new Gson().fromJson(new Gson().toJson(body.data),type);
+
+                  for (GroupInfoBean tempGroupInfo : dataList) {
+                    boolean hasConversation = false;
+                    for (ConversationBean tempCoversation : conversationList) {
+
+                      if (tempGroupInfo.groupId.equals((String) tempCoversation.param)) {
+                        hasConversation = true;
+                        break;
+                      }
+                    }
+                    if (!hasConversation) {
+                      sendGroupMessage(tempGroupInfo.groupId);
+                    }
+                  }
                 }
 
                 @Override
@@ -214,7 +214,8 @@ public class FunConversationFragment extends ConversationBaseFragment {
                 @Override
                 public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                  String  kefuId = body.data.toString().replace("\"","");
+                  UserBean tempBean1 = new Gson().fromJson(new Gson().toJson(body.data),UserBean.class);
+                  String  kefuId = tempBean1.userId;
                   requestKefu(kefuId);
 
                   String  xiaozhushouId = "10086";
@@ -260,7 +261,15 @@ public class FunConversationFragment extends ConversationBaseFragment {
               @Override
               public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                 UserBean userBean = new Gson().fromJson(new Gson().toJson(body.data), UserBean.class);
-                if ("0".equals(userBean.friend)) {
+                boolean isFriend = false;
+                List<GroupInfoBean> friendInfoList = DataUtil.getFriendInfoList();
+                for (GroupInfoBean tempBean : friendInfoList) {
+                  if (tempBean.userId.equals(userBean.userId)) {
+                    isFriend = true;
+                    break;
+                  }
+                }
+                if (!isFriend) {
                   RegisterBean bean = new RegisterBean();
                   bean.userId = userBean.userId;
                   bean.note = "客服";

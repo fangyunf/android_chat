@@ -85,6 +85,7 @@
         android:textSize="15sp"
         />
     <TextView
+        android:visibility="gone"
         android:id="@+id/activity_system_notice_new_qtz_num_tv"
         android:layout_width="wrap_content"
         android:layout_height="18dp"

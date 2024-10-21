@@ -63,6 +63,7 @@ public class RegisterBean {
     public String pageSize;
     public String userId;
     public String groupId;
+    public String sessionId;
     public String tid;
     public String memberId;
     public String head;

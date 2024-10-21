@@ -30,6 +30,7 @@ import com.netease.yunxin.kit.corekit.route.XKitRouter;
 import com.yaoxin.appbase.activity.BaseActivity;
 import com.yaoxin.appbase.model.GroupInfoBean;
 import com.yaoxin.appbase.model.NetData;
+import com.yaoxin.appbase.model.ParamsBean;
 import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
@@ -168,7 +169,7 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                        groupInfoBean = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
+                        groupInfoBean = new Gson().fromJson(new Gson().toJson(body.data), GroupInfoBean.class);
                         _requestPeople(0);
                     }
 
@@ -383,12 +384,12 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
             ToastUtils.toastMsg("请输入金额");
             return;
         }
-        RegisterBean bean = new RegisterBean();
+        ParamsBean bean = new ParamsBean();
         bean.amount = amout;
         bean.title = greeting.isEmpty() ? "恭喜发财,大吉大利" : greeting;
         if (type == 0) {
+            bean.type = "PERSONAL";
             bean.payPassword = pwd;
-            bean.toUserId = sessionId;
             List receiverIds = new ArrayList<>();
             receiverIds.add(sessionId);
             bean.receiverIds = receiverIds;
@@ -412,7 +413,8 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
                 ToastUtils.toastMsg("请输入份数");
                 return;
             }
-            bean.groupId = sessionId;
+            bean.type = "EXCLUSIVE";
+            bean.sessionId = sessionId;
             bean.splitCount = count;
             bean.payPassword = pwd;
             HttpUtil.api8447().red_personRedpacket(bean)
@@ -434,12 +436,13 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
                 ToastUtils.toastMsg("请选择成员");
                 return;
             }
-            bean.password = pwd;
+            bean.payPassword = pwd;
 
+            bean.type = "LUCKY";
             List receiverIds = new ArrayList<>();
             receiverIds.add(selectToUserId);
             bean.receiverIds = receiverIds;
-            bean.groupId = sessionId;
+            bean.sessionId = sessionId;
             HttpUtil.api8447().red_personRedpacket(bean)
                     .enqueue(new CommonCallback<NetData>() {
                         @Override

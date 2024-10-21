@@ -99,7 +99,7 @@ public interface ServiceW {
     //发送红包  已修改
     @POST("/wallet/v1/api/redPackage/create")
     Call<NetData> red_personRedpacket(
-            @Body RegisterBean userBean
+            @Body ParamsBean userBean
     );
     @POST("/red/zz")
     Call<NetData> red_zz(
@@ -289,9 +289,11 @@ public interface ServiceW {
                         @Query("type") String type ,
                         @Query("version") String version
     );
-    //   转让群主
-    @GET("/customer/noticeList")
-    Call<NetData> customer_noticeList();
+    // 滑动查询系统通知列表接口  已修改
+    @POST("/im/v1/api/notify/slideQuery")
+    Call<NetData> customer_noticeList(
+            @Body RegisterBean userBean
+    );
     //   修改用户个人参数配置 已修改
     @POST("/im/v1/api/personalSetting/update")
     Call<NetData> home_changeSecurityPrivacy(
