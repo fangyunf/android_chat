@@ -126,6 +126,7 @@ public class FunTeamSetting_GroupManagerActivity extends BaseActivity implements
 
         binding.funTeamSettingGroupManagerActivityQunshengji.viewTitleArrowTv.setText("群升级");
         binding.funTeamSettingGroupManagerActivityQunshengji.viewTitleArrowLl.setOnClickListener(this);
+        binding.funTeamSettingGroupManagerActivityQunshengji.viewTitleArrowLl.setVisibility(View.GONE);
 
         binding.funTeamSettingGroupManagerActivityQunheimingdan.viewTitleArrowTv.setText("群黑名单");
         binding.funTeamSettingGroupManagerActivityQunheimingdan.viewTitleArrowLl.setOnClickListener(this);

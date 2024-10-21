@@ -184,23 +184,23 @@ public class FunConversationFragment extends ConversationBaseFragment {
                 @Override
                 public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                  Type type = new TypeToken<List<GroupInfoBean>>() {}.getType();
-
-                  List<GroupInfoBean> dataList = new Gson().fromJson(body.data.toString(),type);
-
-                  for (GroupInfoBean tempGroupInfo : dataList) {
-                    boolean hasConversation = false;
-                    for (ConversationBean tempCoversation : conversationList) {
-
-                      if (tempGroupInfo.groupId.equals((String) tempCoversation.param)) {
-                        hasConversation = true;
-                        break;
-                      }
-                    }
-                    if (!hasConversation) {
-                      sendGroupMessage(tempGroupInfo.groupId);
-                    }
-                  }
+//                  Type type = new TypeToken<List<GroupInfoBean>>() {}.getType();
+//
+//                  List<GroupInfoBean> dataList = new Gson().fromJson(body.data.toString(),type);
+//
+//                  for (GroupInfoBean tempGroupInfo : dataList) {
+//                    boolean hasConversation = false;
+//                    for (ConversationBean tempCoversation : conversationList) {
+//
+//                      if (tempGroupInfo.groupId.equals((String) tempCoversation.param)) {
+//                        hasConversation = true;
+//                        break;
+//                      }
+//                    }
+//                    if (!hasConversation) {
+//                      sendGroupMessage(tempGroupInfo.groupId);
+//                    }
+//                  }
                 }
 
                 @Override

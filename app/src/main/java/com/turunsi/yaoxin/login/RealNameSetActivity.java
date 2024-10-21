@@ -90,7 +90,7 @@ public class RealNameSetActivity extends BaseActivity implements View.OnClickLis
                     .enqueue(new CommonCallback<NetData>() {
                         @Override
                         public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                            RegisterBean dataBean = new Gson().fromJson(body.data.toString(),RegisterBean.class);
+                            RegisterBean dataBean = new Gson().fromJson(new Gson().toJson(body.data),RegisterBean.class);
 
                             RealNameAuthUtil.start(that, dataBean.certifyId, new RealNameAuthUtil.dispathBlockT() {
                                 @Override

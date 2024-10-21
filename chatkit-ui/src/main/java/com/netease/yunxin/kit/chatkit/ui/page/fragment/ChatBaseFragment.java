@@ -902,7 +902,7 @@ public abstract class ChatBaseFragment extends BaseFragment {
                       list.add(messageBean.getMessageData().getFromUser().getAccount());
                       RegisterBean registerBean = new RegisterBean();
                       registerBean.tid = sessionID;
-                      registerBean.members = list;
+                      registerBean.memberIds = list;
                       HttpUtil.api8446().group_outGroup(registerBean)
                               .enqueue(new CommonCallback<NetData>() {
                                 @Override
