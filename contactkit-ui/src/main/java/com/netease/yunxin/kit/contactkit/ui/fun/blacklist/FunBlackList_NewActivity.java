@@ -145,12 +145,13 @@ public class FunBlackList_NewActivity extends BaseActivity implements View.OnCli
     protected void _requestPersonData() {
         super._requestData();
         RegisterBean registerBean = new RegisterBean();
-        registerBean.pageNo = "100";
-        HttpUtil.apiW().friends_blackList(registerBean)
+        registerBean.pageNo = "0";
+        registerBean.pageSize = "1000";
+        HttpUtil.api8444().friends_blackList(registerBean)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        GroupInfoBean groupInfoBean = new Gson().fromJson(body.data.toString(),GroupInfoBean.class);
+                        GroupInfoBean groupInfoBean = new Gson().fromJson(new Gson().toJson(body.data),GroupInfoBean.class);
                         _groupInfoBean = groupInfoBean;
                         adapter.setItems(groupInfoBean.data);
                         adapter.notifyDataSetChanged();

@@ -138,7 +138,7 @@
                         android:id="@+id/activity_fun_send_red_packet_team_member_count_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="20dp"
-                        android:text="本群共18人"
+                        android:text="本群共0人"
                         android:textColor="#ff666666"
                         android:textSize="14sp"
                         android:layout_marginLeft="@dimen/dimen_16_dp"

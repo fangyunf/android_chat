@@ -85,12 +85,11 @@ public class FunVerifyListActivity extends BaseActivity implements View.OnClickL
     protected void _requestData() {
       if (type == 1) {
 
-          RegisterBean bean = new RegisterBean();
-          HttpUtil.apiW().group_applyGroups(bean)
+          HttpUtil.api8446().group_applyGroups("",0,1000)
                   .enqueue(new CommonCallback<NetData>() {
                       @Override
                       public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                          NetData listData = new Gson().fromJson(body.data.toString(),NetData.class);
+                          NetData listData = new Gson().fromJson(new Gson().toJson(body.data),NetData.class);
                           Gson gson = new Gson();
                           List<UserBean> verifyList =
                                   gson.fromJson(new Gson().toJson(listData.data), new TypeToken<List<UserBean>>() {

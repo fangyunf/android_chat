@@ -88,14 +88,14 @@ public interface ServiceW {
     Call<NetData> friends_searchByUserIdF(
             @Path("userId") String userId
     );
-    @POST("/groupMember/queryGroupMemberBanneds")
-    Call<NetData> groupMember_queryGroupMemberBanneds(
-            @Body RegisterBean userBean
-    );
-    @POST("/red/sendGroupRedpacket")
-    Call<NetData> red_sendGroupRedpacket(
-            @Body RegisterBean userBean
-    );
+//    @POST("/groupMember/queryGroupMemberBanneds")
+//    Call<NetData> groupMember_queryGroupMemberBanneds(
+//            @Body RegisterBean userBean
+//    );
+//    @POST("/red/sendGroupRedpacket")
+//    Call<NetData> red_sendGroupRedpacket(
+//            @Body RegisterBean userBean
+//    );
     //发送红包  已修改
     @POST("/wallet/v1/api/redPackage/create")
     Call<NetData> red_personRedpacket(
@@ -105,19 +105,19 @@ public interface ServiceW {
     Call<NetData> red_zz(
             @Body RegisterBean userBean
     );
-    @POST("/red/sendExclusiveRedPacket")
-    Call<NetData> red_sendExclusiveRedPacket(
-            @Body RegisterBean userBean
-    );
+//    @POST("/red/sendExclusiveRedPacket")
+//    Call<NetData> red_sendExclusiveRedPacket(
+//            @Body RegisterBean userBean
+//    );
     // 修改用户钱包支付密码 已修改
     @POST("/wallet/v1/api/wallet/payPassword/update")
     Call<NetData> home_updateFullPassword(
             @Body RegisterBean userBean
     );
-    @POST("/home/getUserByToken")
-    Call<NetData> home_getUserByToken(
-            @Body RegisterBean userBean
-    );
+//    @POST("/home/getUserByToken")
+//    Call<NetData> home_getUserByToken(
+//            @Body RegisterBean userBean
+//    );
     // 实名认证 已修改
     @POST("/oauth2/v1/api/faceVerify/certifyId")
     Call<NetData> consumer_certify(
@@ -142,8 +142,8 @@ public interface ServiceW {
     //  获取当前用户的钱包余额、绑定的支付宝、微信账号等信息 已修改
     @GET("/wallet/v1/api/wallet/detail")
     Call<NetData> home_balance();
-    @GET("/home/myQrCode")
-    Call<NetData> home_myQrCode();
+//    @GET("/home/myQrCode")
+//    Call<NetData> home_myQrCode();
     @POST("/oauth2/v1/api/user/unregister")
     Call<NetData> home_logout();
 
@@ -353,10 +353,12 @@ public interface ServiceW {
     Call<NetData> group_groupConsentOrRefuse(
             @Body RegisterBean userBean
     );
-    //  好友列表
-    @POST("/group/applyGroups")
+    //  待审入群邀请列表查询接口 已修改
+    @GET("/imx/v1/api/member/invitation/list")
     Call<NetData> group_applyGroups(
-            @Body RegisterBean userBean
+            @Query("tid") String tid,
+            @Query("pageIndex") int pageIndex,
+            @Query("pageSize") int pageSize
     );
     //  删除好友  已修改
     @POST("/im/v1/api/friendGroup/delete")
@@ -414,8 +416,8 @@ public interface ServiceW {
     Call<NetData> friends_changeBlackState(
             @Body RegisterBean userBean
     );
-    //  好友列表
-    @POST("/friends/blackList")
+    //  查询黑名单列表接口 已修改
+    @POST("/im/v1/api/friend/blackBill/list")
     Call<NetData> friends_blackList(
             @Body RegisterBean userBean
     );

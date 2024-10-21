@@ -42,21 +42,21 @@ public class FunTeamForbiddenMemberListActivity extends BaseTeamMemberListActivi
 
     private void _requestData() {
 
-        RegisterBean bean = new RegisterBean();
-        bean.groupId = teamId;
-        bean.pageNo = "0";
-        HttpUtil.apiW().groupMember_queryGroupMemberBanneds(bean)
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-
-                    }
-
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
-
-                    }
-                });
+//        RegisterBean bean = new RegisterBean();
+//        bean.groupId = teamId;
+//        bean.pageNo = "0";
+//        HttpUtil.apiW().groupMember_queryGroupMemberBanneds(bean)
+//                .enqueue(new CommonCallback<NetData>() {
+//                    @Override
+//                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+//
+//                    }
+//
+//                    @Override
+//                    public void Failure(Call<NetData> call, Throwable t) {
+//
+//                    }
+//                });
     }
 
     @Override
