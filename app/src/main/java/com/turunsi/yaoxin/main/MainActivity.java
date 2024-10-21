@@ -165,7 +165,7 @@ public class MainActivity extends BaseActivity {
             }
         };
         // 每30秒执行一次任务
-        timer.scheduleAtFixedRate(task, 0, 5000);
+        timer.scheduleAtFixedRate(task, 0, 120000);
 
     }
 

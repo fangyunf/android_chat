@@ -10,6 +10,7 @@ import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.ServiceBase;
 
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;

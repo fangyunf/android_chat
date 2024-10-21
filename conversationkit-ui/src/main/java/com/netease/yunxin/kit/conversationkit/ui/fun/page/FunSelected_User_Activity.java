@@ -84,7 +84,7 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
 
         if (page_type == 2) {
             binding.activityFunSelectedUserNav.getTitleView().setText("邀请好友");
-            for (GroupInfoBean tempBen : groupInfoBean.userInfos) {
+            for (GroupInfoBean tempBen : groupInfoBean.members) {
                 ids.add(tempBen.userId);
             }
         }
@@ -114,7 +114,16 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
             if (groupInfoBean == null ) {
                 return;
             }
-            mContactModels.addAll(groupInfoBean.userInfos);
+            Collections.sort(groupInfoBean.members, new Comparator<GroupInfoBean>() {
+                @Override
+                public int compare(GroupInfoBean o1, GroupInfoBean o2) {
+                    // 获取name的首字母并忽略大小写比较
+                    String firstLetter = FirstLetterUtil.getFirstLetter(o1.name);
+                    String secondLetter = FirstLetterUtil.getFirstLetter(o2.name);
+                    return firstLetter.compareTo(secondLetter);
+                }
+            });
+            mContactModels.addAll(groupInfoBean.members);
             adapter.contacts = mContactModels;
             adapter.setItems(mContactModels);
             adapter.notifyDataSetChanged();
@@ -328,7 +337,7 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
             } else if (page_type == 2) {
                 RegisterBean bean = new RegisterBean();
                 bean.tid = groupInfoBean.groupId;
-                bean.members = list;
+                bean.memberIds = list;
                 HttpUtil.api8446().group_pullPeopleGroup(bean)
                         .enqueue(new CommonCallback<NetData>() {
                             @Override
@@ -347,7 +356,7 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
             } else if (page_type == 3) {
                 RegisterBean registerBean = new RegisterBean();
                 registerBean.tid = groupInfoBean.groupId;
-                registerBean.members = list;
+                registerBean.memberIds = list;
                 HttpUtil.api8446().group_outGroup(registerBean)
                         .enqueue(new CommonCallback<NetData>() {
                             @Override

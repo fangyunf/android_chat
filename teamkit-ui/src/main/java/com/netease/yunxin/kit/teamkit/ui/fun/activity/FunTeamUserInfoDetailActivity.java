@@ -347,7 +347,7 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
         registerBean.tid = groupId;
         ArrayList ids = new ArrayList<>();
         ids.add(groupInfoBean.userId);
-        registerBean.members = ids;
+        registerBean.memberIds = ids;
         HttpUtil.api8446().group_outGroup(registerBean)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override

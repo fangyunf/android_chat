@@ -88,6 +88,7 @@ public class RegisterBean {
     public String groupName;
     public String groupHead;
     public List members;
+    public List memberIds;
     public List friendIds;
     public List managerIds;
     public int type;

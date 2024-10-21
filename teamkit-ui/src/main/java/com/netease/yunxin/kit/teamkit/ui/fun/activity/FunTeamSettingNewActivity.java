@@ -17,6 +17,8 @@ import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -45,6 +47,7 @@ import com.netease.yunxin.kit.chatkit.repo.ConversationRepo;
 import com.netease.yunxin.kit.chatkit.repo.TeamRepo;
 import com.netease.yunxin.kit.common.ui.dialog.ChoiceListener;
 import com.netease.yunxin.kit.common.ui.dialog.CommonChoiceDialog;
+import com.netease.yunxin.kit.common.utils.SPUtils;
 import com.netease.yunxin.kit.corekit.im.IMKitClient;
 import com.netease.yunxin.kit.corekit.im.provider.FetchCallback;
 import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
@@ -144,7 +147,7 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
                             if ("1".equals(opt_type)) {
                                 RegisterBean bean = new RegisterBean();
                                 bean.tid = groupId;
-                                bean.members = memberList;
+                                bean.memberIds = memberList;
                                 HttpUtil.api8446().group_pullPeopleGroup(bean)
                                         .enqueue(new CommonCallback<NetData>() {
                                             @Override
@@ -189,7 +192,8 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
 
         binding.funTeamSettingNewActivityTeamUpgrade.viewTitleArrowTv.setText("群升级");
         binding.funTeamSettingNewActivityTeamUpgrade.viewTitleArrowLl.setOnClickListener(this);
-
+        binding.funTeamSettingNewActivityTeamUpgrade.viewTitleArrowLl.setVisibility(View.GONE);
+        binding.funTeamSettingNewActivitySetGonggao.viewTitleArrowLl.setVisibility(View.GONE);
 //        binding.funTeamSettingNewActivityUpgradeTeam.viewTitleArrowTv.setText("群升级");
 //        binding.funTeamSettingNewActivityUpgradeTeam.viewTitleArrowLl.setOnClickListener(this);
 
@@ -271,8 +275,24 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
                     }
                 });
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (SPUtils.getInstance().getBoolean("reloadTeamSettingData")) {
+            _requestData();
+        }
+    }
+
     @Override
     protected void _requestData() {
+        SPUtils.getInstance().put("reloadTeamSettingData", false);
 //        RegisterBean bean = new RegisterBean();
 //        bean.groupId = groupId;
         LoadingDialog.showDialog(getSupportFragmentManager(),"加载中");
@@ -581,7 +601,7 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
                     RegisterBean bean = new RegisterBean();
                     bean.tid = groupId;
                     bean.nick = result;
-                    bean.menberId = DataUtil.getUserid();
+                    bean.memberId = DataUtil.getUserid();
                     HttpUtil.api8446().groupMember_installGroupNickName(bean)
                             .enqueue(new CommonCallback<NetData>() {
                                 @Override
@@ -800,7 +820,9 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(BaseEvent event) {
         if ("reloadTeamSettingData".equals(event.getTag())) {
-            _requestData();
+
+            SPUtils.getInstance().put("reloadTeamSettingData", true);
+
         }
     }
 }
