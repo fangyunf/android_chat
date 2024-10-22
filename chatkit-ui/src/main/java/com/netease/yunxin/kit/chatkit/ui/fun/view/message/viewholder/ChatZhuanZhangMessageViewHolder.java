@@ -50,7 +50,7 @@ public class ChatZhuanZhangMessageViewHolder extends FunChatBaseMessageViewHolde
       }
 
       CustomMsgBean bean = new Gson().fromJson(message.getMessageData().getMessage().getAttachStr(), CustomMsgBean.class);
-      bean.result = new Gson().fromJson(bean.data, CustomMsgBean.class);
+      bean.result = bean.data;
       if (hasDraw) {
         viewBinding.funChatMessageRedPacketViewHolderBgIv.setImageResource( R.drawable.chat_zhuanzhang_bg_is_open);
       } else {

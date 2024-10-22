@@ -185,7 +185,7 @@ public abstract class FunChatFragment extends ChatBaseFragment {
             }
             if (!messageInfo.getMessage().getAttachStr().isEmpty()) {
                 CustomMsgBean msgBean = new Gson().fromJson(messageInfo.getMessage().getAttachStr(), CustomMsgBean.class);
-                msgBean.result = new Gson().fromJson(msgBean.data, CustomMsgBean.class);
+                msgBean.result = msgBean.data;
                 if (msgBean.type == 28) {
                     HashMap map = new HashMap();
                     map.put("bean",new Gson().toJson(msgBean.result));

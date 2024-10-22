@@ -15,12 +15,12 @@
         <com.yaoxin.appbase.navbar.NavToolbar
             android:id="@+id/activity_mine_purse_index_nav"
             style="@style/WhiteFontToolbar"
-            android:background="#3C3C3C"
-            app:back_icon="@mipmap/temp_ic_back_white"
+            android:background="@color/color_F2F2F2"
+            app:back_icon="@mipmap/temp_ic_back"
             app:enable_under_divider="true"
             app:support_translucent_status_bar="false"
             app:title="我的钱包"
-            app:title_text_color="@color/white"
+            app:title_text_color="@color/black"
             app:under_divider_color="@android:color/transparent" />
 
 
@@ -58,14 +58,14 @@
 
                 <TextView
                     android:id="@+id/activity_mine_purse_index_tixian_tv"
- android:layout_width="100dp"
+                    android:layout_width="100dp"
                     android:layout_weight="1"
                     android:layout_height="60dp"
 
                     android:gravity="center"
-                    android:background="@drawable/bg_f2f2f2_rounded_10"
+                    android:background="@drawable/bg_30261e_rounded_10"
+                    android:textColor="#956742"
                     android:text="提现"
-                    android:textColor="@color/color_333333"
                     android:textSize="@dimen/text_size_15" />
                 <TextView
                     android:layout_marginLeft="15dp"
@@ -75,9 +75,9 @@
                     android:layout_width="100dp"
                     android:layout_height="60dp"
                     android:gravity="center"
-                    android:background="#060606"
                     android:text="充值1"
-                    android:textColor="@color/white"
+                    android:background="@drawable/bg_30261e_rounded_10"
+                    android:textColor="#FF8729"
                     android:textSize="@dimen/text_size_15" />
                 <TextView
                     android:layout_marginLeft="15dp"
@@ -85,9 +85,9 @@
                     android:layout_width="100dp"
                     android:layout_height="60dp"
                     android:gravity="center"
-                    android:background="#060606"
                     android:text="充值2"
-                    android:textColor="@color/white"
+                    android:background="@drawable/bg_30261e_rounded_10"
+                    android:textColor="#FF8729"
                     android:textSize="@dimen/text_size_15" />
 
 
@@ -108,8 +108,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:leftImg="@mipmap/purse_index_item_hongbao"
-                app:bgColor="#545454"
-                app:textColor="@color/white"
+                app:bgColor="@color/white"
+                app:textColor="@color/black"
                 app:titleText="红包记录"
                 />
             <com.yaoxin.appbase.view.IconTitleArrowTemplate
@@ -118,18 +118,19 @@
                 android:layout_height="wrap_content"
                 app:leftImg="@mipmap/purse_index_item_mingxi"
                 app:titleText="零钱明细"
+                app:bgColor="@color/white"
+                app:textColor="@color/black"
+                />
+            <com.yaoxin.appbase.view.IconTitleArrowTemplate
+                android:visibility="gone"
+                android:id="@+id/activity_mine_purse_index_smrz"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:leftImg="@mipmap/purse_index_item_smrz"
+                app:titleText="实名认证"
                 app:bgColor="#545454"
                 app:textColor="@color/white"
                 />
-            <!--                <com.yaoxin.appbase.view.IconTitleArrowTemplate-->
-            <!--                    android:visibility="gone"-->
-            <!--                    android:id="@+id/activity_mine_purse_index_smrz"-->
-            <!--                    android:layout_width="0dp"-->
-            <!--                    android:layout_columnWeight="1"-->
-            <!--                    android:layout_height="64dp"-->
-            <!--                    app:leftImg="@mipmap/purse_index_item_smrz"-->
-            <!--                    app:titleText="实名认证"-->
-            <!--                    />-->
             <!--                <com.yaoxin.appbase.view.IconTitleArrowTemplate-->
             <!--                    android:id="@+id/activity_mine_purse_index_wdkb"-->
             <!--                    android:layout_width="0dp"-->
@@ -143,8 +144,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:leftImg="@mipmap/purse_index_item_wx"
-                app:bgColor="#545454"
-                app:textColor="@color/white"
+                app:bgColor="@color/white"
+                app:textColor="@color/black"
                 app:titleText="绑定微信"
                 />
             <com.yaoxin.appbase.view.IconTitleArrowTemplate
@@ -152,8 +153,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:leftImg="@mipmap/purse_index_item_zfb"
-                app:bgColor="#545454"
-                app:textColor="@color/white"
+                app:bgColor="@color/white"
+                app:textColor="@color/black"
                 app:titleText="绑定支付宝"
                 />
         </LinearLayout>

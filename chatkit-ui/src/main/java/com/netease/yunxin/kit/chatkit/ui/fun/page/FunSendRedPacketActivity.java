@@ -413,7 +413,7 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
                 ToastUtils.toastMsg("请输入份数");
                 return;
             }
-            bean.type = "EXCLUSIVE";
+            bean.type = "LUCKY";
             bean.sessionId = sessionId;
             bean.splitCount = count;
             bean.payPassword = pwd;
@@ -438,7 +438,7 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
             }
             bean.payPassword = pwd;
 
-            bean.type = "LUCKY";
+            bean.type = "EXCLUSIVE";
             List receiverIds = new ArrayList<>();
             receiverIds.add(selectToUserId);
             bean.receiverIds = receiverIds;

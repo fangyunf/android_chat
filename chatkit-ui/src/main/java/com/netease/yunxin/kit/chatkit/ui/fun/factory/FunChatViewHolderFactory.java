@@ -74,8 +74,9 @@ public class FunChatViewHolderFactory extends ChatMessageViewHolderFactory
 
         String attachStr = messageBean.getMessageData().getMessage().getAttachStr();
         if (attachStr != null && !attachStr.isEmpty() && attachStr.contains("type")) {
+
+          CustomMsgBean msgBean = new Gson().fromJson(attachStr,CustomMsgBean.class);
           try {
-            CustomMsgBean msgBean = new Gson().fromJson(attachStr,CustomMsgBean.class);
             if (msgBean.type == 21 || msgBean.type == 22 || msgBean.type == 23) {
               return 22;
             }

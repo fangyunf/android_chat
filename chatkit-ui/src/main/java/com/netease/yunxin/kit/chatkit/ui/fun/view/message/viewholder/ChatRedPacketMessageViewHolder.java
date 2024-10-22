@@ -55,7 +55,7 @@ public class ChatRedPacketMessageViewHolder extends FunChatBaseMessageViewHolder
       }
 
       CustomMsgBean bean = new Gson().fromJson(message.getMessageData().getMessage().getAttachStr(), CustomMsgBean.class);
-      bean.result = new Gson().fromJson(bean.data, CustomMsgBean.class);
+      bean.result = bean.data;
       if (hasDraw) {
         viewBinding.funChatMessageRedPacketViewHolderBgIv.setImageResource( (bean.type == 21) ? R.drawable.chat_redpacket_purple_bg_is_open:R.drawable.chat_red_packet_cell_bg_is_open);
 

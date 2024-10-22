@@ -16,6 +16,7 @@
     <ImageView
         android:id="@+id/fun_chat_message_red_packet_view_holder_bg_iv"
         android:layout_width="match_parent"
+        android:scaleType="fitXY"
         android:layout_height="match_parent"
         android:src="@drawable/chat_red_packet_cell_bg_no_open"
         />
@@ -36,7 +37,7 @@
             android:text="恭喜发财,大吉大利"
             android:textColor="#ffffffff"
             android:textSize="16sp"
-            android:layout_marginLeft="22dp"
+            android:layout_marginLeft="42dp"
             android:layout_marginTop="9dp"
             />
         <TextView
@@ -46,22 +47,15 @@
             android:text="0.00"
             android:textColor="@color/color_white"
             android:textSize="16sp"
-            android:layout_marginLeft="22dp"
+            android:layout_marginLeft="42dp"
             android:layout_marginTop="3dp"
-            />
-        <View
-            android:layout_marginTop="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="9dp"
-            android:background="@color/color_white"
             />
         <LinearLayout
             android:layout_width="match_parent"
             android:orientation="horizontal"
             android:gravity="center_vertical"
             android:paddingLeft="9dp"
-            android:layout_marginTop="3dp"
+            android:layout_marginTop="13dp"
             android:layout_height="wrap_content">
             <TextView
                 android:id="@+id/fun_chat_message_red_packet_view_holder_type_tv"

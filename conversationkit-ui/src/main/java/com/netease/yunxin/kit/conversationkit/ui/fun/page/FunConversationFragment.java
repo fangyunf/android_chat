@@ -256,6 +256,9 @@ public class FunConversationFragment extends ConversationBaseFragment {
   void requestKefu(String kefuId) {
 //    RegisterBean bean = new RegisterBean();
 //    bean.userId = kefuId;
+    if (DataUtil.getKeFuId() != null && !DataUtil.getKeFuId().isEmpty()) {
+      return;
+    }
     HttpUtil.api8444().friends_searchByUserIdF(kefuId)
             .enqueue(new CommonCallback<NetData>() {
               @Override

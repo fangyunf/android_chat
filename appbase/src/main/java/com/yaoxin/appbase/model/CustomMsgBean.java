@@ -7,10 +7,11 @@ import java.util.List;
 
 public class CustomMsgBean {
     public CustomMsgBean result;
+    public CustomMsgBean data;
     public String caidanLs;//需要流水
     public String groupLs;//当前流水
     public String fafId;
-    public String data;
+//    public String data;
     public String sendUserId;
     public String sendUserName;
     public String receiveUserName;
@@ -44,6 +45,7 @@ public class CustomMsgBean {
 
     //type == 21 专属 || type == 22 个人 || type == 23 群
     public int redpacketType;
+    public int customType;
     public String groupId;
     public String groupName;
     public int num;

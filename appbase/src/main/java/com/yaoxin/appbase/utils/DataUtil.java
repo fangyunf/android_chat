@@ -34,13 +34,14 @@ public class DataUtil {
     public static void putKeFuId(String kefuId) {
         Hawk.put(KEFU_ID, kefuId);
     }
-    public static void putXiaoZhuShouId(String kefuId) {
-        Hawk.put(XIAOZHUSHOU_ID, kefuId);
-    }
 
     public static String getKeFuId() {
         return Hawk.get(KEFU_ID);
     }
+    public static void putXiaoZhuShouId(String kefuId) {
+        Hawk.put(XIAOZHUSHOU_ID, kefuId);
+    }
+
     public static String getXiaoZhuShouId() {
         return Hawk.get(XIAOZHUSHOU_ID);
     }
@@ -139,6 +140,7 @@ public class DataUtil {
         DataUtil.putToken("");
         DataUtil.putUserInfo(null);
         Hawk.put(FriendList, new ArrayList<>());
+        DataUtil.putKeFuId("");
 
     }
 

@@ -339,9 +339,9 @@ public class MainActivity extends BaseActivity {
 
                             if (conversationFragment == mConversationFragment) {
                                 if (singleChatUnreadCount > 0) {
-                                    activityMainBinding.conversationDot.setVisibility(View.VISIBLE);
+                                    activityMainBinding.conversationDot1.setVisibility(View.VISIBLE);
                                 } else {
-                                    activityMainBinding.conversationDot.setVisibility(View.GONE);
+                                    activityMainBinding.conversationDot1.setVisibility(View.GONE);
 
                                 }
                             }
