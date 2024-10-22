@@ -45,6 +45,7 @@ import com.netease.yunxin.kit.chatkit.repo.ConversationRepo;
 import com.netease.yunxin.kit.chatkit.repo.TeamRepo;
 import com.netease.yunxin.kit.common.ui.dialog.ChoiceListener;
 import com.netease.yunxin.kit.common.ui.dialog.CommonChoiceDialog;
+import com.netease.yunxin.kit.common.utils.SPUtils;
 import com.netease.yunxin.kit.corekit.im.IMKitClient;
 import com.netease.yunxin.kit.corekit.im.provider.FetchCallback;
 import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
@@ -282,8 +283,7 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
     }
     @Override
     protected void _requestData() {
-//        RegisterBean bean = new RegisterBean();
-//        bean.groupId = groupId;
+        SPUtils.getInstance().put("reloadTeamSettingData", false);
         LoadingDialog.showDialog(getSupportFragmentManager(),"加载中");
         HttpUtil.apiW().group_groupHomeInfo(groupId)
                 .enqueue(new CommonCallback<NetData>() {
@@ -797,7 +797,12 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
                     });
         }
     }
-
+    protected void onStart() {
+        super.onStart();
+        if (SPUtils.getInstance().getBoolean("reloadTeamSettingData")) {
+            _requestData();
+        }
+    }
 
     @Override
     protected void onDestroy() {
@@ -808,7 +813,7 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(BaseEvent event) {
         if ("reloadTeamSettingData".equals(event.getTag())) {
-            _requestData();
+            SPUtils.getInstance().put("reloadTeamSettingData", true);
         }
     }
 }
