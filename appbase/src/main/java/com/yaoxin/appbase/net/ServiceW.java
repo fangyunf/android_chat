@@ -134,7 +134,7 @@ public interface ServiceW {
             @Query("certifyId") String certifyId
     );
     ///查询指定红包的领取详情 已修改
-    @GET("/wallet/v1/api/redPackage/query/detail/{redPackageId}")
+    @GET("/wallet/v1/api/redPackage/detail")
     Call<NetData> red_redpacketDetail(
             @Query("redPackageId") String redPackageId
     );
@@ -160,7 +160,7 @@ public interface ServiceW {
             @Body RegisterBean userBean
     );
     /// 查询红包领取完毕状态 已修改
-    @GET("/wallet/v1/api/redPackage/status/{redPackageId}")
+    @GET("/wallet/v1/api/redPackage/status")
     Call<NetData> red_checkRedpacet(
             @Query("redPackageId") String  redPackageId
     );

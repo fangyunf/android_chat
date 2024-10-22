@@ -235,8 +235,8 @@ public abstract class FunChatFragment extends ChatBaseFragment {
                     return;
                 }
                 RegisterBean bean = new RegisterBean();
-                bean.redpacketId = msgBean.result.id;
-                HttpUtil.api8447().red_checkRedpacet(msgBean.result.id)
+                bean.redpacketId = msgBean.result.redPacketId;
+                HttpUtil.api8447().red_checkRedpacet(bean.redpacketId)
                         .enqueue(new CommonCallback<NetData>() {
                             @Override
                             public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {

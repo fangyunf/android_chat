@@ -92,7 +92,7 @@
             android:layout_marginLeft="@dimen/dimen_16_dp"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
-            android:text="9个红包共200.00元，55秒被抢光"
+            android:text=""
             android:textColor="#ff999999"
             android:textSize="14sp"
             />
