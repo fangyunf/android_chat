@@ -47,7 +47,7 @@
                 android:textSize="12sp"
                 android:textColor="@color/tab_checked_color"
                 android:drawableTop="@mipmap/mine_tabbar_msg_sel"
-                android:text="@string/tab_session_tab_text" />
+                android:text="商城" />
 
             <View android:id="@+id/conversation_dot"
                 android:layout_width="@dimen/dimen_6_dp"
@@ -77,7 +77,7 @@
                 android:textSize="12sp"
                 android:textColor="@color/tab_unchecked_color"
                 android:drawableTop="@mipmap/mine_tabbar_msg_group_normal"
-                android:text="群聊" />
+                android:text="消息" />
 
             <View android:id="@+id/conversation_dot1"
                 android:layout_width="@dimen/dimen_6_dp"

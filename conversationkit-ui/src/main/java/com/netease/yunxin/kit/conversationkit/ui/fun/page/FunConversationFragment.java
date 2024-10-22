@@ -82,9 +82,6 @@ public class FunConversationFragment extends ConversationBaseFragment {
 
   private FunConversationFragmentBinding viewBinding;
 
-  public FunConversationFragment(int type) {
-    _type = type;
-  }
 
   public FunConversationFragment() {
   }
@@ -97,12 +94,7 @@ public class FunConversationFragment extends ConversationBaseFragment {
       @Nullable Bundle savedInstanceState) {
     viewBinding = FunConversationFragmentBinding.inflate(inflater, container, false);
     initView();
-    if (_type == 1) {
-      viewBinding.funConversationFragmentTitleTv.setText("群聊");
-    } else {
       viewBinding.funConversationFragmentTitleTv.setText("消息");
-
-    }
     viewBinding.funConversationFragmentSearchLl.setOnClickListener(v -> {
               XKitRouter.withKey("SearchNewActivity")
                 .withContext(requireContext())
@@ -134,19 +126,19 @@ public class FunConversationFragment extends ConversationBaseFragment {
   @Override
   public void onPause() {
     super.onPause();
-    if (_type == 0) {
+//    if (_type == 0) {
       if (!AppProxy.searchKeyWord0.isEmpty()) {
         viewBinding.funConversationFragmentEt.setText("");
         AppProxy.searchKeyWord0 = "";
         conversationView.adapter.notifyDataSetChanged();
       }
-    } else {
-      if (!AppProxy.searchKeyWord1.isEmpty()) {
-        viewBinding.funConversationFragmentEt.setText("");
-        AppProxy.searchKeyWord1 = "";
-        conversationView.adapter.notifyDataSetChanged();
-      }
-    }
+//    } else {
+//      if (!AppProxy.searchKeyWord1.isEmpty()) {
+//        viewBinding.funConversationFragmentEt.setText("");
+//        AppProxy.searchKeyWord1 = "";
+//        conversationView.adapter.notifyDataSetChanged();
+//      }
+//    }
 
 
   }
@@ -166,12 +158,7 @@ public class FunConversationFragment extends ConversationBaseFragment {
       @Override
       public void afterTextChanged(Editable s) {
         String string = s.toString();
-        if (_type == 0) {
           AppProxy.getInstance().searchKeyWord0 = string;
-        } else {
-          AppProxy.getInstance().searchKeyWord1 = string;
-        }
-
         conversationView.adapter.notifyDataSetChanged();
       }
     });
@@ -234,7 +221,6 @@ public class FunConversationFragment extends ConversationBaseFragment {
 
                       }
                     });
-    if (_type == 1) {
 
 
       HttpUtil.apiW().group_userGroups(new RegisterBean())
@@ -266,8 +252,6 @@ public class FunConversationFragment extends ConversationBaseFragment {
 
                 }
               });
-    }
-    if (_type == 0) {
 
       HttpUtil.apiW().customer_systemAppUser(new RegisterBean())
               .enqueue(new CommonCallback<NetData>() {
@@ -311,7 +295,6 @@ public class FunConversationFragment extends ConversationBaseFragment {
 
                 }
               });
-    }
   }
   void requestKefu(String kefuId) {
     RegisterBean bean = new RegisterBean();
@@ -450,8 +433,6 @@ public class FunConversationFragment extends ConversationBaseFragment {
 
   private void initView() {
     conversationView = viewBinding.conversationView;
-    conversationView._type = _type;
-    conversationView.adapter._type = _type;
 
 
     networkErrorView = viewBinding.errorTv;

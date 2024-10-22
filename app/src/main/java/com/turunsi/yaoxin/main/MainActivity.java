@@ -31,6 +31,7 @@ import com.netease.nimlib.sdk.avsignalling.constant.ChannelType;
 import com.netease.yunxin.kit.common.utils.SPUtils;
 import com.netease.yunxin.kit.contactkit.ui.fun.addfriend.FunAddFriendVerifyActivity;
 import com.netease.yunxin.kit.contactkit.ui.normal.contact.ContactNewFragment;
+import com.netease.yunxin.kit.contactkit.ui.normal.contact.ShopNewFragment;
 import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
 import com.netease.yunxin.kit.corekit.route.XKitRouter;
 import com.turunsi.yaoxin.AppSkinConfig;
@@ -104,7 +105,7 @@ public class MainActivity extends BaseActivity {
     //  private BaseContactFragment mContactFragment;
     private ContactNewFragment mContactFragment;
     private ConversationBaseFragment mConversationFragment;
-    private ConversationBaseFragment mConversationFragment1;
+//    private ConversationBaseFragment mConversationFragment1;
     public static final int REQUEST_CODE_SCAN = 0x01;
 
     //皮肤变更事件
@@ -212,14 +213,11 @@ public class MainActivity extends BaseActivity {
         List<Fragment> fragments = new ArrayList<>();
 
         changeStatusBarColor(R.color.fun_page_bg_color);
-        mConversationFragment = new FunConversationFragment(0);
-//        AppProxy.getInstance().showType = 1;
-        mConversationFragment1 = new FunConversationFragment(1);
-//        mConversationFragment1._type = 1;
+        mConversationFragment = new FunConversationFragment();
         mContactFragment = new ContactNewFragment();
 
+        fragments.add(new ShopNewFragment());
         fragments.add(mConversationFragment);
-        fragments.add(mConversationFragment1);
         fragments.add(mContactFragment);
 
         fragments.add(new MineFragment());
@@ -240,7 +238,6 @@ public class MainActivity extends BaseActivity {
         super.onResume();
         initContactFragment(mContactFragment);
         initConversationFragment(mConversationFragment);
-        initConversationFragment(mConversationFragment1);
     }
 
     @Override
@@ -257,14 +254,15 @@ public class MainActivity extends BaseActivity {
         if (mCurrentTab != null && mCurrentTab == view) {
             return;
         }
-        if (view == activityMainBinding.conversationBtnGroup) {
+//        if (view == activityMainBinding.conversationBtnGroup) {
+//            AppProxy.getInstance().showType = 1;
+//            mConversationFragment.getConversationView().adapter.notifyDataSetChanged();
+//
+//        }
+        if (view == activityMainBinding.conversationBtnGroup1) {
+
             AppProxy.getInstance().showType = 1;
             mConversationFragment.getConversationView().adapter.notifyDataSetChanged();
-
-        }
-        if (view == activityMainBinding.conversationBtnGroup1) {
-            AppProxy.getInstance().showType = 2;
-            mConversationFragment1.getConversationView().adapter.notifyDataSetChanged();
         }
         resetTabStyle();
         mCurrentTab = view;
@@ -326,20 +324,12 @@ public class MainActivity extends BaseActivity {
 
                             if (conversationFragment == mConversationFragment) {
                                 if (singleChatUnreadCount > 0) {
-                                    activityMainBinding.conversationDot.setVisibility(View.VISIBLE);
+                                    activityMainBinding.conversationDot1.setVisibility(View.VISIBLE);
                                 } else {
-                                    activityMainBinding.conversationDot.setVisibility(View.GONE);
+                                    activityMainBinding.conversationDot1.setVisibility(View.GONE);
 
                                 }
                             }
-                          if (conversationFragment == mConversationFragment1) {
-                            if (groupChatUnreadCount > 0) {
-                              activityMainBinding.conversationDot1.setVisibility(View.VISIBLE);
-                            } else {
-                              activityMainBinding.conversationDot1.setVisibility(View.GONE);
-
-                            }
-                          }
                         }
                     });
         }
@@ -399,7 +389,7 @@ public class MainActivity extends BaseActivity {
                                                     ? getString(R.string.incoming_call_notify_audio)
                                                     : getString(R.string.incoming_call_notify_video));
                                     ALog.d("=======" + content);
-                                    return new CallKitNotificationConfig(R.mipmap.yaoxin_icon, null, null, content);
+                                    return new CallKitNotificationConfig(com.yaoxin.appbase.R.mipmap.yaoxin_icon, null, null, content);
                                 })
                         // 收到被叫时若 app 在后台，在恢复到前台时是否自动唤起被叫页面，默认为 true
                         .resumeBGInvitation(true)
