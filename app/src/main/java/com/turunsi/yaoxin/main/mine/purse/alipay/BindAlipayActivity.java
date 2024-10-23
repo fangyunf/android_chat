@@ -61,10 +61,6 @@ public class BindAlipayActivity extends BaseActivity implements View.OnClickList
         binding.activityMineBindAlipayName.viewTitleTfWithoutBgTv.setText("真实姓名");
         binding.activityMineBindAlipayAccount.viewTitleTfWithoutBgEt.setHint("请输入支付宝账号");
         binding.activityMineBindAlipayName.viewTitleTfWithoutBgEt.setHint("请输入您的真实姓名");
-        if (BuildConfig.DEBUG) {
-            binding.activityMineBindAlipayAccount.viewTitleTfWithoutBgEt.setText("18616821287");
-            binding.activityMineBindAlipayName.viewTitleTfWithoutBgEt.setText("万运浩");
-        }
     }
 
     @Override
