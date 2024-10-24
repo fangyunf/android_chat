@@ -37,151 +37,84 @@ import java.util.List;
 
 public class FunContactSelectorActivity extends BaseContactSelectorActivity {
 
-  protected FunContactSelectorActivityLayoutBinding binding;
-  String opt_type;
-  String title;
+    protected FunContactSelectorActivityLayoutBinding binding;
 
-  @Override
-  protected void onCreate(@Nullable Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-      opt_type = getIntent().getStringExtra("opt_type");
-      title = getIntent().getStringExtra("title");
-      if (title != null) {
-          binding.funContactSelectorActivityNav.getTitleView().setText(title);
-      }
-      if (opt_type != null) {
-          binding.funContactSelectorActivityLayoutCreatedTv.setText("完成");
-      }
-      changeStatusBarColor(R.color.color_ededed);
-      StatusBarUtils.setStatusBarLightMode(this, true, true);
-      LinearLayout.LayoutParams params =
-              (LinearLayout.LayoutParams) binding.funContactSelectorActivityNav.getLayoutParams();
-      params.height = params.height + BarUtils.getStatusBarHeight();
-      binding.funContactSelectorActivityNav.setLayoutParams(params);
-      binding.funContactSelectorActivityNav.setPadding(0, BarUtils.getStatusBarHeight(), 0, 0);
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        changeStatusBarColor(R.color.color_ededed);
+    }
 
+    @Override
+    protected View initViewAndGetRootView(Bundle savedInstanceState) {
+        binding = FunContactSelectorActivityLayoutBinding.inflate(getLayoutInflater());
+        contactListView = binding.contactListView;
+        contactListView
+                .getDecoration()
+                .setTitleAlignBottom(true)
+                .setShowTagOff(false)
+                .setIndexDecorationBg(getResources().getColor(R.color.title_transfer))
+                .setColorTitleBottomLine(getResources().getColor(R.color.title_transfer));
+        contactListView.setViewHolderFactory(new FunContactDefaultFactory());
+        contactListView.configIndexTextBGColor(getResources().getColor(R.color.color_58be6b));
+        emptyGroup = binding.emptyLayout;
+        rvSelected = binding.rvSelected;
+        titleBar = binding.title;
+        return binding.getRoot();
+    }
 
-  }
+    protected BaseSelectedListAdapter<? extends ViewBinding> getSelectedListAdapter() {
+        return new FunSelectedListAdapter();
+    }
 
-  @Override
-  protected View initViewAndGetRootView(Bundle savedInstanceState) {
-    binding = FunContactSelectorActivityLayoutBinding.inflate(getLayoutInflater());
-    binding.funContactSelectorActivityNav.addCloseImageButton().setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            finish();
-        }
-    });
-
-    binding.funContactSelectorActivityLayoutCreated.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            int count = selectedListAdapter.getItemCount();
-            if (count <= 0) {
-                ToastUtils.toastMsg("请选择成员");
-            } else {
-                List<String> select = getSelectedAccount();
-                if (select.size() < 1) {
-                    ToastUtils.toastMsg("请选择成员");
-                    return;
-                }
-                DialogAlertUtil.showInputAlert(v.getContext(),"温馨提示","请输入群聊名称", new DialogAlertUtil.InputAlertCallBack() {
-                    @Override
-                    public void inputText(String text) {
-                        Intent result = new Intent();
-                        if (!selectedListAdapter.getSelectedFriends().isEmpty()) {
-                            result.putExtra(REQUEST_CONTACT_SELECTOR_KEY, getSelectedAccount());
-                            result.putExtra(KEY_TEAM_NAME, text);
-                            if (opt_type != null) {
-                                result.putExtra("opt_type", opt_type);
+    protected void configTitle(BackTitleBar titleBar) {
+        titleBar
+                .setOnBackIconClickListener(v -> onBackPressed())
+                .setTitle(R.string.select)
+                .setLeftText(R.string.fun_selector_close)
+                .setActionText(getString(R.string.selector_sure_without_num))
+                .setActionTextColor(getResources().getColor(R.color.color_white))
+                .setActionListener(
+                        v -> {
+                            if (checkNetworkEnable && !NetworkUtils.isConnected()) {
+                                Toast.makeText(this, R.string.contact_network_error_tip, Toast.LENGTH_SHORT).show();
+                                return;
                             }
-                            if (enableReturnName) {
-                                result.putExtra(KEY_REQUEST_SELECTOR_NAME, getSelectedName());
+                            List<String> select = getSelectedAccount();
+                            if (select.size() < 1) {
+                                Toast.makeText(this, getString(R.string.select_empty_tips), Toast.LENGTH_LONG)
+                                        .show();
+                                return;
                             }
-                        }
-                        setResult(RESULT_OK, result);
-                        finish();
-                    }
-                });
-//                if (selectedListAdapter.getItemCount() >= maxSelectCount
-//                        && selectFinalCheckCountEnable) {
-//                    ToastUtils.toastMsg("超出人数限制");
-//                    return;
-//                }
+                            if (selectedListAdapter.getItemCount() >= maxSelectCount
+                                    && selectFinalCheckCountEnable) {
+                                Toast.makeText(this, R.string.contact_selector_over_count, Toast.LENGTH_LONG)
+                                        .show();
+                                return;
+                            }
+                            Intent result = new Intent();
+                            if (!selectedListAdapter.getSelectedFriends().isEmpty()) {
+                                result.putExtra(REQUEST_CONTACT_SELECTOR_KEY, getSelectedAccount());
+                                if (enableReturnName) {
+                                    result.putExtra(KEY_REQUEST_SELECTOR_NAME, getSelectedName());
+                                }
+                            }
+                            setResult(RESULT_OK, result);
+                            finish();
+                        });
 
-            }
-        }
-    });
-    contactListView = binding.contactListView;
-    contactListView
-        .getDecoration()
-        .setTitleAlignBottom(true)
-        .setShowTagOff(false)
-        .setIndexDecorationBg(getResources().getColor(R.color.title_transfer))
-        .setColorTitleBottomLine(getResources().getColor(R.color.title_transfer));
-    contactListView.setViewHolderFactory(new FunContactDefaultFactory());
-    contactListView.configIndexTextBGColor(getResources().getColor(R.color.color_58be6b));
-    emptyGroup = binding.emptyLayout;
-    rvSelected = binding.rvSelected;
-//    titleBar = binding.title;
-    return binding.getRoot();
-  }
-
-  protected BaseSelectedListAdapter<? extends ViewBinding> getSelectedListAdapter() {
-    return new FunSelectedListAdapter();
-  }
-
-  protected void configTitle(BackTitleBar titleBar) {
-    titleBar
-        .setOnBackIconClickListener(v -> onBackPressed())
-        .setTitle(R.string.select)
-        .setLeftText(R.string.fun_selector_close)
-        .setActionText(getString(R.string.selector_sure_without_num))
-        .setActionTextColor(getResources().getColor(R.color.color_white))
-        .setActionListener(
-            v -> {
-              if (checkNetworkEnable && !NetworkUtils.isConnected()) {
-                Toast.makeText(this, R.string.contact_network_error_tip, Toast.LENGTH_SHORT).show();
-                return;
-              }
-              List<String> select = getSelectedAccount();
-              if (select.size() < 1) {
-                Toast.makeText(this, getString(R.string.select_empty_tips), Toast.LENGTH_LONG)
-                    .show();
-                return;
-              }
-              if (selectedListAdapter.getItemCount() >= maxSelectCount
-                  && selectFinalCheckCountEnable) {
-                Toast.makeText(this, R.string.contact_selector_over_count, Toast.LENGTH_LONG)
-                    .show();
-                return;
-              }
-              Intent result = new Intent();
-              if (!selectedListAdapter.getSelectedFriends().isEmpty()) {
-                result.putExtra(REQUEST_CONTACT_SELECTOR_KEY, getSelectedAccount());
-                  if (opt_type != null) {
-                      result.putExtra("opt_type", opt_type);
-                  }
-                if (enableReturnName) {
-                  result.putExtra(KEY_REQUEST_SELECTOR_NAME, getSelectedName());
-                }
-              }
-              setResult(RESULT_OK, result);
-              finish();
-            });
-
-    int verticalPadding = SizeUtils.dp2px(5);
-    int horizontalPadding = SizeUtils.dp2px(10);
-    int endPadding = SizeUtils.dp2px(5);
-    TextView rightTextView = titleBar.getRightTextView();
-    FrameLayout.LayoutParams layoutParams =
-        (FrameLayout.LayoutParams) rightTextView.getLayoutParams();
-    layoutParams.rightMargin = SizeUtils.dp2px(endPadding);
-    rightTextView.setPadding(
-        horizontalPadding, verticalPadding, horizontalPadding, verticalPadding);
-    titleBar.getRightTextView().setBackgroundResource(R.drawable.fun_contact_select_confirm_btn_bg);
-    titleBar.getTitleTextView().setTextSize(TypedValue.COMPLEX_UNIT_DIP, 17);
-    titleBar.getTitleTextView().setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-    titleBar.setBackgroundResource(R.color.color_ededed);
-  }
+        int verticalPadding = SizeUtils.dp2px(5);
+        int horizontalPadding = SizeUtils.dp2px(10);
+        int endPadding = SizeUtils.dp2px(5);
+        TextView rightTextView = titleBar.getRightTextView();
+        FrameLayout.LayoutParams layoutParams =
+                (FrameLayout.LayoutParams) rightTextView.getLayoutParams();
+        layoutParams.rightMargin = SizeUtils.dp2px(endPadding);
+        rightTextView.setPadding(
+                horizontalPadding, verticalPadding, horizontalPadding, verticalPadding);
+        titleBar.getRightTextView().setBackgroundResource(R.drawable.fun_contact_select_confirm_btn_bg);
+        titleBar.getTitleTextView().setTextSize(TypedValue.COMPLEX_UNIT_DIP, 17);
+        titleBar.getTitleTextView().setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+        titleBar.setBackgroundResource(R.color.color_ededed);
+    }
 }

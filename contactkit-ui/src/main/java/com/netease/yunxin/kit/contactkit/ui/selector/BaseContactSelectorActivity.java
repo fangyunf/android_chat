@@ -41,7 +41,7 @@ public abstract class BaseContactSelectorActivity extends BaseActivity {
 
   private View rootView;
 
-//  protected BackTitleBar titleBar;
+  protected BackTitleBar titleBar;
 
   protected RecyclerView rvSelected;
 
@@ -79,14 +79,14 @@ public abstract class BaseContactSelectorActivity extends BaseActivity {
 
   protected void checkViews() {
     Objects.requireNonNull(rootView);
-//    Objects.requireNonNull(titleBar);
+    Objects.requireNonNull(titleBar);
     Objects.requireNonNull(rvSelected);
     Objects.requireNonNull(emptyGroup);
     Objects.requireNonNull(contactListView);
   }
 
   protected void initView() {
-//    configTitle(titleBar);
+    configTitle(titleBar);
     ContactActions actions = new ContactActions();
     actions.addSelectorListener(
         IViewTypeConstant.CONTACT_FRIEND,
@@ -110,11 +110,11 @@ public abstract class BaseContactSelectorActivity extends BaseActivity {
           }
           int count = selectedListAdapter.getItemCount();
           if (count <= 0) {
-//            titleBar.setActionText(getString(R.string.selector_sure_without_num));
+            titleBar.setActionText(getString(R.string.selector_sure_without_num));
           } else {
-//            titleBar.setActionText(
-//                String.format(
-//                    getString(R.string.selector_sure), selectedListAdapter.getItemCount()));
+            titleBar.setActionText(
+                String.format(
+                    getString(R.string.selector_sure), selectedListAdapter.getItemCount()));
           }
         });
     contactListView.setContactAction(actions);
@@ -129,11 +129,11 @@ public abstract class BaseContactSelectorActivity extends BaseActivity {
           contactListView.updateContactData(item);
           int count = selectedListAdapter.getItemCount();
           if (count <= 0) {
-//            titleBar.setActionText(getString(R.string.selector_sure_without_num));
+            titleBar.setActionText(getString(R.string.selector_sure_without_num));
           } else {
-//            titleBar.setActionText(
-//                String.format(
-//                    getString(R.string.selector_sure), selectedListAdapter.getItemCount()));
+            titleBar.setActionText(
+                String.format(
+                    getString(R.string.selector_sure), selectedListAdapter.getItemCount()));
           }
         });
     rvSelected.setAdapter(selectedListAdapter);
