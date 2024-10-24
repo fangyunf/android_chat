@@ -130,13 +130,12 @@ public class PurseIndexActivity extends BaseActivity implements View.OnClickList
 //            ToastUtils.toastMsg("敬请期待");
 //        }
         else if (v == binding.activityMinePurseIndexSmrz) {
-            ToastUtils.toastMsg("已实名成功");
-//            if (!Constant.isRunningRealName) {
-//                Constant.isRunningRealName = true;
-//                XKitRouter.withKey(Constant.RealName_Router)
-//                        .withContext(AppProxy.getInstance().getContext())
-//                        .navigate();
-//            }
+            if (!Constant.isRunningRealName) {
+                Constant.isRunningRealName = true;
+                XKitRouter.withKey(Constant.RealName_Router)
+                        .withContext(AppProxy.getInstance().getContext())
+                        .navigate();
+            }
         }
 //        else if (v == binding.activityMinePurseIndexCell8.itemPurseIndexCellRl) {
 //            HashMap map = new HashMap();
