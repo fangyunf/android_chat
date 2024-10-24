@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import com.alipay.face.api.ZIMFacade;
 import com.google.gson.Gson;
 import com.netease.yunxin.kit.alog.ALog;
+import com.turunsi.yaoxin.BuildConfig;
 import com.turunsi.yaoxin.R;
 import com.turunsi.yaoxin.databinding.ActivityMinePursePwdManagerSetBinding;
 import com.turunsi.yaoxin.databinding.ActivityMineRealNameSetBinding;
@@ -55,6 +56,10 @@ public class RealNameSetActivity extends BaseActivity implements View.OnClickLis
 //        binding.activityMineRealNameSetIdentityNum.viewTitleTfWithoutBgLl.setBackgroundColor(getResources().getColor(R.color.color_white));
 
 
+        if (BuildConfig.DEBUG) {
+            binding.activityMineRealNameSetIdentityNum.viewTitleTfWithoutBgEt.setText("320911199304010018");
+            binding.activityMineRealNameSetName.viewTitleTfWithoutBgEt.setText("万运浩");
+        }
     }
     @Override
     protected void onDestroy() {
