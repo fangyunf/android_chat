@@ -22,7 +22,7 @@ android {
         minSdk = 21
         targetSdk = 33
         versionCode = 1
-        versionName = "1.0.8"
+        versionName = "1.0.10"
         multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -47,6 +47,18 @@ android {
     packagingOptions {
         jniLibs.pickFirsts.add("lib/arm64-v8a/libc++_shared.so")
         jniLibs.pickFirsts.add("lib/armeabi-v7a/libc++_shared.so")
+    }
+    applicationVariants.all {
+        val variant = this
+        variant.outputs
+            .map { it as com.android.build.gradle.internal.api.BaseVariantOutputImpl }
+            .forEach { output ->
+                val buildType = variant.buildType.name
+                val version = variant.versionName
+
+                val outputFileName = "${rootProject.name}_${buildType}_v${version}.apk"
+                output.outputFileName = outputFileName
+            }
     }
 }
 

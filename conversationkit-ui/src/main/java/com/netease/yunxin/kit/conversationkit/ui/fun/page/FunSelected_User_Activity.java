@@ -114,6 +114,15 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
             if (groupInfoBean == null ) {
                 return;
             }
+            Collections.sort(groupInfoBean.userInfos, new Comparator<GroupInfoBean>() {
+                @Override
+                public int compare(GroupInfoBean o1, GroupInfoBean o2) {
+                    // 获取name的首字母并忽略大小写比较
+                    String firstLetter = FirstLetterUtil.getFirstLetter(o1.name);
+                    String secondLetter = FirstLetterUtil.getFirstLetter(o2.name);
+                    return firstLetter.compareTo(secondLetter);
+                }
+            });
             mContactModels.addAll(groupInfoBean.userInfos);
             adapter.contacts = mContactModels;
             adapter.setItems(mContactModels);
