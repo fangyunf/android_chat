@@ -454,6 +454,15 @@ public class FunConversationFragment extends ConversationBaseFragment {
         FunSystem_Notice_New_Activity.start(FunSystem_Notice_New_Activity.class,getContext(),null);
       }
     });
+    viewBinding.funConversationFragmentRightSearchIv.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+
+        XKitRouter.withKey("SearchNewActivity")
+                .withContext(requireContext())
+                .navigate();
+      }
+    });
 
     viewBinding.funConversationFragmentMoreIv.setOnClickListener(new View.OnClickListener() {
       @Override

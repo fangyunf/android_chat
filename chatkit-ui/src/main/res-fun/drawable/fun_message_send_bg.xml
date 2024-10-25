@@ -8,7 +8,7 @@
     <item android:gravity="end" android:height="10.45dp" android:width="10.45dp" android:top="15dp" android:right="2dp">
         <rotate android:fromDegrees="45">
             <shape android:shape="rectangle">
-                <solid android:color="@color/app_theme_color"/>
+                <solid android:color="@color/wx_theme_color"/>
                 <size android:width="1dp" android:height="1dp"/>
             </shape>
         </rotate>
@@ -19,7 +19,8 @@
         android:right="7dp">
         <shape android:shape="rectangle">
             <corners android:radius="4dp" />
-            <solid android:color="@color/app_theme_color" />
+            <solid android:color="@color/wx_theme_color" />
         </shape>
     </item>
 </layer-list>
+<!--气泡背景色-->

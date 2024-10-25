@@ -60,8 +60,14 @@
                         android:textSize="16sp"
                         />
                     <ImageView
-                        android:id="@+id/fun_conversation_fragment_more_iv"
+                        android:id="@+id/fun_conversation_fragment_right_search_iv"
 
+                        android:src="@mipmap/conversation_index_pop_search"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"/>
+                    <ImageView
+                        android:id="@+id/fun_conversation_fragment_more_iv"
+                        android:layout_marginLeft="10dp"
                         android:src="@mipmap/conversation_index_pop_more"
                         android:layout_width="25dp"
                         android:layout_height="25dp"/>
@@ -70,6 +76,7 @@
 
 
             <LinearLayout
+                android:visibility="gone"
                 android:id="@+id/fun_conversation_fragment_search_ll"
                 android:layout_marginTop="13dp"
                 android:layout_marginBottom="5dp"
