@@ -126,6 +126,7 @@ public abstract class FunChatFragment extends ChatBaseFragment {
 
     @Override
     protected void forwardP2P() {
+
         ChatUtils.startP2PSelector(
                 getContext(), RouterConstant.PATH_FUN_CONTACT_SELECTOR_PAGE, null, forwardP2PLauncher);
     }

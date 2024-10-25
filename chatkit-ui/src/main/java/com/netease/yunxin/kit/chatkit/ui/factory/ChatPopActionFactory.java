@@ -62,12 +62,18 @@ public class ChatPopActionFactory {
         if (message.getMessageData() == null) {
             return actions;
         }
+        if (message.getMessageData().getMessage().getAttachStr() != null && !message.getMessageData().getMessage().getAttachStr().isEmpty()) {
+
+            actions.add(getDeleteAction(message));
+            return actions;
+        }
         if (customPopMenu == null
                 || customPopMenu.get() == null
                 || customPopMenu.get().showDefaultPopMenu()) {
             if (message.getMessageData().getMessage().getStatus() == MsgStatusEnum.fail
                     || message.getMessageData().getMessage().getStatus() == MsgStatusEnum.sending
                     || message.getMessageData().getMessage().isInBlackList()) {
+
                 if (message.getViewType() == MsgTypeEnum.text.getValue()) {
                     actions.add(getCopyAction(message));
                 }
@@ -87,6 +93,7 @@ public class ChatPopActionFactory {
             // 自定义消息，根据自定义消息的Type区分IMUIKIt内置从101开始，客户定义从1000开始
             if (message.getViewType() == MsgTypeEnum.text.getValue()
                     || message.getViewType() == ChatMessageType.RICH_TEXT_ATTACHMENT) {
+                actions.add(getTransmitAction(message));
                 actions.add(getCopyAction(message));
             }
 //      actions.add(getReplyAction(message));

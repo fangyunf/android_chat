@@ -66,6 +66,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 //        binding.activityLoginIsCheckedTxt2.setOnClickListener(this);
 //        binding.activityLoginIsCheckedTxt4.setOnClickListener(this);
 //        binding.activityLoginIsAgreeLl.setOnClickListener(this);
+        binding.activityLoginTf1.viewTitleTfCountTitleTv.setText("手机号");
+        binding.activityLoginTf2.viewTitleTfCountTitleTv.setText("验证码");
+        binding.activityLoginTf3.viewTitleTfCountTitleTv.setText("密码");
         binding.activityLoginTf1.viewTitleTfCountEt.setHint("输入手机号");
         binding.activityLoginTf2.viewTitleTfCountEt.setHint("输入验证码");
         binding.activityLoginTf3.viewTitleTfCountEt.setHint("输入密码");
@@ -93,6 +96,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             }
         });
         changeTitleWithType(0);
+
+        if (BuildConfig.DEBUG) {
+//            binding.activityLoginTf1.viewTitleTfCountEt.setText("13761543036");
+//            binding.activityLoginTf3.viewTitleTfCountEt.setText("a1234567");
+            binding.activityLoginTf1.viewTitleTfCountEt.setText("18616821287");
+            binding.activityLoginTf3.viewTitleTfCountEt.setText("12345678a");
+        }
     }
 
     void changeTitleWithType(int type) {
