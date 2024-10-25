@@ -27,7 +27,9 @@ public class RedPacketResultDetailAdapter extends BaseQuickAdapter<CustomMsgBean
         String remark = "";
         for (GroupInfoBean groupInfoBean : DataUtil.getFriendInfoList()) {
             if (groupInfoBean.userId.equals(bean.userId)) {
-                remark = "("  +groupInfoBean.remark + ")";
+                if (groupInfoBean.remark != null && !groupInfoBean.remark.isEmpty()) {
+                    remark = "("  +groupInfoBean.remark + ")";
+                }
                 break;
             }
         }
