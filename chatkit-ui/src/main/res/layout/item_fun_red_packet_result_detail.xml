@@ -29,9 +29,8 @@
             >
             <TextView
                 android:id="@+id/item_fun_red_packet_result_detail_username_tv"
-                android:layout_width="80dp"
+                android:layout_width="wrap_content"
                 android:layout_height="22dp"
-                android:text="阿布且老虎"
                 android:textColor="#ff000000"
                 android:textSize="16sp"
                 />

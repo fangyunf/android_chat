@@ -13,6 +13,8 @@ import com.chad.library.adapter4.BaseQuickAdapter;
 import com.chad.library.adapter4.viewholder.QuickViewHolder;
 import com.netease.yunxin.kit.chatkit.ui.R;
 import com.yaoxin.appbase.model.CustomMsgBean;
+import com.yaoxin.appbase.model.GroupInfoBean;
+import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.GlideUtil;
 import com.yaoxin.appbase.utils.NumberUtil;
 import com.yaoxin.appbase.utils.TimeUtil;
@@ -22,7 +24,14 @@ public class RedPacketResultDetailAdapter extends BaseQuickAdapter<CustomMsgBean
     @Override
     protected void onBindViewHolder(@NonNull QuickViewHolder quickViewHolder, int i, @Nullable CustomMsgBean bean) {
 
-        quickViewHolder.setText(R.id.item_fun_red_packet_result_detail_username_tv,bean.name)
+        String remark = "";
+        for (GroupInfoBean groupInfoBean : DataUtil.getFriendInfoList()) {
+            if (groupInfoBean.userId.equals(bean.userId)) {
+                remark = "("  +groupInfoBean.remark + ")";
+                break;
+            }
+        }
+        quickViewHolder.setText(R.id.item_fun_red_packet_result_detail_username_tv,bean.name+remark)
                 .setText(R.id.item_fun_red_packet_result_detail_time_tv, TimeUtil.stampToDate(bean.reciveTime))
                 .setText(R.id.item_fun_red_packet_result_detail_money_tv, NumberUtil.formartMoney(bean.amount) + "元");
         GlideUtil.yh_loadImageRoundedCorner(getContext(),quickViewHolder.getView(R.id.item_fun_red_packet_result_detail_head_iv),bean.avatar,20);

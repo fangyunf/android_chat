@@ -880,7 +880,7 @@ public abstract class ChatBaseFragment extends BaseFragment {
                   }
                 }
                 tempName = name;
-                DialogAlertUtil.showSheetView(getActivity(), getActivity().getSupportFragmentManager(), new String[]{"@此人", "专属红包","踢出此人"}, new DialogAlertUtil.DialogAlertUtilCallBack() {
+                DialogAlertUtil.showSheetView(getActivity(), getActivity().getSupportFragmentManager(), new String[]{"@此人", "专属红包"}, new DialogAlertUtil.DialogAlertUtilCallBack() {
                   @Override
                   public void clickType(int type) {
                     if (type == 1) {
