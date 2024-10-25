@@ -100,8 +100,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         if (BuildConfig.DEBUG) {
 //            binding.activityLoginTf1.viewTitleTfCountEt.setText("13761543036");
 //            binding.activityLoginTf3.viewTitleTfCountEt.setText("a1234567");
-            binding.activityLoginTf1.viewTitleTfCountEt.setText("18616821287");
-            binding.activityLoginTf3.viewTitleTfCountEt.setText("12345678a");
         }
     }
 
