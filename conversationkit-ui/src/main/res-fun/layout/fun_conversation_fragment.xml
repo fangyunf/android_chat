@@ -111,7 +111,7 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
-                    android:src="@mipmap/conversation_list_index_notice_icon"
+                    android:src="@drawable/chat_conversation_notice_icon1"
                     android:layout_width="25dp"
                     android:layout_height="25dp"/>
                 <com.sunfusheng.marqueeview.MarqueeView

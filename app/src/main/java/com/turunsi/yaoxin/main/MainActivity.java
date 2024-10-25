@@ -323,7 +323,13 @@ public class MainActivity extends BaseActivity {
                             }
 
                             if (conversationFragment == mConversationFragment) {
-                                if (singleChatUnreadCount > 0) {
+//                                if (singleChatUnreadCount > 0) {
+//                                    activityMainBinding.conversationDot1.setVisibility(View.VISIBLE);
+//                                } else {
+//                                    activityMainBinding.conversationDot1.setVisibility(View.GONE);
+//
+//                                }
+                                if (singleChatUnreadCount + groupChatUnreadCount > 0) {
                                     activityMainBinding.conversationDot1.setVisibility(View.VISIBLE);
                                 } else {
                                     activityMainBinding.conversationDot1.setVisibility(View.GONE);
@@ -340,9 +346,9 @@ public class MainActivity extends BaseActivity {
             contactFragment.setContactCallback(
                     count -> {
                         if (count > 0) {
-                            activityMainBinding.contactDot.setVisibility(View.VISIBLE);
+                            activityMainBinding.conversationDot1.setVisibility(View.VISIBLE);
                         } else {
-                            activityMainBinding.contactDot.setVisibility(View.GONE);
+                            activityMainBinding.conversationDot1.setVisibility(View.GONE);
                         }
                     });
         }

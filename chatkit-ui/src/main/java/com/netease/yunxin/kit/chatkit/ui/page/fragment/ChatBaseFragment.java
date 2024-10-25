@@ -34,6 +34,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.StatusCode;
@@ -121,6 +122,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -207,6 +209,7 @@ public abstract class ChatBaseFragment extends BaseFragment {
   public String forwardAction;
 
   private String tempName;
+  private String forbiddenStr;
 
   @Nullable
   @Override
@@ -880,39 +883,90 @@ public abstract class ChatBaseFragment extends BaseFragment {
                   }
                 }
                 tempName = name;
-                DialogAlertUtil.showSheetView(getActivity(), getActivity().getSupportFragmentManager(), new String[]{"@此人", "专属红包","踢出此人"}, new DialogAlertUtil.DialogAlertUtilCallBack() {
-                  @Override
-                  public void clickType(int type) {
-                    if (type == 1) {
-                      aitManager.insertReplyAit(account, tempName);
-                    } else if (type == 2) {
+                forbiddenStr = "禁止抢包";
+                RegisterBean bean = new RegisterBean();
+                bean.groupId = sessionID;
+                bean.page = "1";
+                bean.pageNo = "100";
+                bean.userId = messageBean.getMessageData().getFromUser().getAccount();
 
-                      HashMap map = new HashMap();
-                      map.put("sessionId",sessionID);
-                      map.put("sessionType","2");
-                      map.put("userInfo",new Gson().toJson(messageBean.getMessageData().getFromUser()));
-                      FunSendRedPacketActivity.start(FunSendRedPacketActivity.class,getContext(),map);
-                    } else if (type == 3) {
-                      ArrayList list = new ArrayList<>();
-                      list.add(messageBean.getMessageData().getFromUser().getAccount());
-                      RegisterBean registerBean = new RegisterBean();
-                      registerBean.groupId = sessionID;
-                      registerBean.members = list;
-                      HttpUtil.apiW().group_outGroup(registerBean)
-                              .enqueue(new CommonCallback<NetData>() {
+                HttpUtil.apiW().group_groupUserListPost(bean)
+                        .enqueue(new CommonCallback<NetData>() {
+                          @Override
+                          public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                            Type type = new TypeToken<List<GroupInfoBean>>() {
+                            }.getType();
+                            List<GroupInfoBean> tempList = new Gson().fromJson(body.data.toString(), type);
+                            if (tempList != null && !tempList.isEmpty()) {
+                              GroupInfoBean tempBean = tempList.get(0);
+                              if (tempBean.forbidState == 1) {
+                                forbiddenStr = "取消禁抢";
+
+                              }
+                              DialogAlertUtil.showSheetView(getActivity(), getActivity().getSupportFragmentManager(), new String[]{"@此人", "专属红包","踢出此人",forbiddenStr}, new DialogAlertUtil.DialogAlertUtilCallBack() {
                                 @Override
-                                public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                                  ToastUtils.toastMsg(body.msg);
-                                }
+                                public void clickType(int type) {
+                                  if (type == 1) {
+                                    aitManager.insertReplyAit(account, tempName);
+                                  } else if (type == 2) {
 
-                                @Override
-                                public void Failure(Call<NetData> call, Throwable t) {
+                                    HashMap map = new HashMap();
+                                    map.put("sessionId",sessionID);
+                                    map.put("sessionType","2");
+                                    map.put("userInfo",new Gson().toJson(messageBean.getMessageData().getFromUser()));
+                                    FunSendRedPacketActivity.start(FunSendRedPacketActivity.class,getContext(),map);
+                                  } else if (type == 3) {
+                                    ArrayList list = new ArrayList<>();
+                                    list.add(messageBean.getMessageData().getFromUser().getAccount());
+                                    RegisterBean registerBean = new RegisterBean();
+                                    registerBean.groupId = sessionID;
+                                    registerBean.members = list;
+                                    HttpUtil.apiW().group_outGroup(registerBean)
+                                            .enqueue(new CommonCallback<NetData>() {
+                                              @Override
+                                              public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                                                ToastUtils.toastMsg(body.msg);
+                                              }
 
+                                              @Override
+                                              public void Failure(Call<NetData> call, Throwable t) {
+
+                                              }
+                                            });
+                                  } else if (type == 4) {
+                                    int targetState = "取消禁抢".equals(forbiddenStr) ? 0 : 1;
+                                    RegisterBean bean = new RegisterBean();
+                                    bean.groupId = sessionID;
+                                    ArrayList list = new ArrayList<>();
+                                    list.add(messageBean.getMessageData().getFromUser().getAccount());
+                                    bean.members = list;
+                                    bean.state = targetState;
+                                    HttpUtil.apiW().groupMember_invitationGroupBanOnLooting(bean)
+                                            .enqueue(new CommonCallback<NetData>() {
+                                              @Override
+                                              public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                                                ToastUtils.toastMsg("设置成功");
+                                              }
+
+                                              @Override
+                                              public void Failure(Call<NetData> call, Throwable t) {
+
+                                              }
+                                            });
+                                  }
                                 }
                               });
-                    }
-                  }
-                });
+                            }
+
+                          }
+
+                          @Override
+                          public void Failure(Call<NetData> call, Throwable t) {
+
+                          }
+                        });
+
+
               }
             }
           }

@@ -200,6 +200,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         binding.fragmentMineXtszView.setOnClickListener(this);
         binding.fragmentMineCopyIv.setOnClickListener(this);
         binding.fragmentMineGotoUpgradeTv.setOnClickListener(this);
+        binding.fragmentMineLtbjView.setOnClickListener(this);
 
 //        binding.mineFragmentMyManagerItem1.viewMineFragmentItemCellCl.setOnClickListener(this);
 //        binding.mineFragmentMyManagerItem2.viewMineFragmentItemCellCl.setOnClickListener(this);
@@ -331,6 +332,8 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 
         } else if (v == binding.fragmentMineXtszView) {
 //            SettingNewActivity.start(SettingNewActivity.class,getContext(),null);
+        }  else if (v == binding.fragmentMineLtbjView) {
+
         } else if (v == binding.fragmentMineHyzxView || v == binding.fragmentMineGotoUpgradeTv) {
             MyHuiYuanListActivity.start(MyHuiYuanListActivity.class,context,null);
 
