@@ -245,12 +245,16 @@ public abstract class FunChatFragment extends ChatBaseFragment {
 
 
                                     if (getActivity() != null) {
-                                        FunOpenRedPacketFragment.showV(getActivity().getSupportFragmentManager(), bean.redpacketId, redBean.type, sessionID, msgBean, messageInfo.getMessage(), new FunOpenRedPacketFragment.OpenRedPacketBlock() {
-                                            @Override
-                                            public void hasOpen(IMMessage message) {
-                                                _updateMessageCell(message);
-                                            }
-                                        });
+                                        try {
+                                            FunOpenRedPacketFragment.showV(getActivity().getSupportFragmentManager(), bean.redpacketId, redBean.type, sessionID, msgBean, messageInfo.getMessage(), new FunOpenRedPacketFragment.OpenRedPacketBlock() {
+                                                @Override
+                                                public void hasOpen(IMMessage message) {
+                                                    _updateMessageCell(message);
+                                                }
+                                            });
+                                        } catch (Exception e) {
+
+                                        }
                                     } else {
                                         ToastUtils.toastMsg("网络错误");
                                     }
