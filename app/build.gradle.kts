@@ -18,7 +18,7 @@ android {
         }
     }
     defaultConfig {
-        applicationId = "com.turunsi.jinchan"
+        applicationId = "com.turunsi.huitouke"
         minSdk = 21
         targetSdk = 33
         versionCode = 1
