@@ -16,7 +16,7 @@
         android:scaleType="fitXY"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@mipmap/jinzita_common_page_bg"
+        android:background="@color/color_F2F2F2"
         />
     <LinearLayout
 
@@ -28,7 +28,7 @@
 
             android:id="@+id/fun_team_setting_new_activity_nav"
             style="@style/WhiteFontToolbar"
-            android:background="@android:color/transparent"
+            android:background="@android:color/white"
             app:back_icon="@mipmap/temp_ic_back"
             app:enable_under_divider="true"
             app:support_translucent_status_bar="false"
@@ -46,20 +46,28 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <RelativeLayout
-                    android:layout_marginTop="15dp"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:paddingHorizontal="15dp"
                     android:layout_height="wrap_content">
-                    <LinearLayout
-                        android:layout_marginTop="32dp"
-                        android:layout_width="match_parent"
-                        android:background="@drawable/bg_white_rounded_10"
-                        android:layout_height="117dp">
 
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:background="@color/color_white"
+                        android:gravity="center_vertical"
+                        android:paddingVertical="15dp"
+                        android:layout_height="wrap_content">
+
+                        <com.makeramen.roundedimageview.RoundedImageView
+                            android:layout_marginLeft="15dp"
+                            android:id="@+id/fun_team_setting_new_activity_team_icon"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            app:riv_corner_radius="40dp"
+                            android:scaleType="centerCrop"
+                            />
                         <LinearLayout
                             android:layout_marginLeft="15dp"
-                            android:layout_marginTop="56dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
@@ -106,49 +114,8 @@
 
                     </LinearLayout>
 
-                    <com.makeramen.roundedimageview.RoundedImageView
-                        android:layout_marginLeft="15dp"
-                        android:id="@+id/fun_team_setting_new_activity_team_icon"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        app:riv_corner_radius="40dp"
-                        android:scaleType="centerCrop"
-                        />
-                </RelativeLayout>
-
-                <LinearLayout
-                    android:visibility="gone"
-                    android:id="@+id/fun_team_setting_new_activity_manager_ll"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="15dp"
-                    android:layout_marginTop="@dimen/dimen_12_dp"
-                    android:background="@drawable/bg_white_rounded_10"
-                    android:orientation="vertical">
-
-
-                    <include
-                        android:id="@+id/fun_team_setting_new_activity_manager_team"
-                        layout="@layout/view_title_arrow_template"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-                    <include
-                        android:id="@+id/fun_team_setting_new_activity_team_setting"
-                        layout="@layout/view_title_arrow_template"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-                    <include
-                        android:id="@+id/fun_team_setting_new_activity_team_upgrade"
-                        layout="@layout/view_title_arrow_template"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                    <include
-                        android:id="@+id/fun_team_setting_new_activity_set_gonggao"
-                        layout="@layout/view_title_arrow_template"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
                 </LinearLayout>
+
 
                 <LinearLayout
 
@@ -229,6 +196,39 @@
                         android:textSize="14sp" />
                 </LinearLayout>
 
+<!--                <LinearLayout-->
+<!--                    android:visibility="gone"-->
+<!--                    android:id="@+id/fun_team_setting_new_activity_manager_ll"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginHorizontal="15dp"-->
+<!--                    android:layout_marginTop="@dimen/dimen_12_dp"-->
+<!--                    android:background="@drawable/bg_white_rounded_10"-->
+<!--                    android:orientation="vertical">-->
+
+
+<!--                    <include-->
+<!--                        android:id="@+id/fun_team_setting_new_activity_manager_team"-->
+<!--                        layout="@layout/view_title_arrow_template"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content" />-->
+<!--                    <include-->
+<!--                        android:id="@+id/fun_team_setting_new_activity_team_setting"-->
+<!--                        layout="@layout/view_title_arrow_template"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content" />-->
+<!--                    <include-->
+<!--                        android:id="@+id/fun_team_setting_new_activity_team_upgrade"-->
+<!--                        layout="@layout/view_title_arrow_template"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content" />-->
+
+<!--                    <include-->
+<!--                        android:id="@+id/fun_team_setting_new_activity_set_gonggao"-->
+<!--                        layout="@layout/view_title_arrow_template"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content" />-->
+<!--                </LinearLayout>-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -249,18 +249,6 @@ android:layout_marginTop="5dp"
                     android:background="@drawable/bg_white_rounded_10"
                     android:layout_height="wrap_content">
 
-                    <include
-                        android:id="@+id/fun_team_setting_new_activity_zhiding"
-                        layout="@layout/view_title_arrow_template"
-                        android:layout_width="match_parent"
-                        app:leftImg="@drawable/team_setting_miandarao"
-                        android:layout_height="wrap_content" />
-
-                    <include
-                        android:id="@+id/fun_team_setting_new_activity_miandarao"
-                        layout="@layout/view_title_arrow_template"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
                 </LinearLayout>
             </LinearLayout>
                 <LinearLayout
@@ -277,13 +265,24 @@ android:layout_marginTop="5dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
-<!--                    <include-->
-<!--                        android:id="@+id/fun_team_setting_new_activity_upgrade_team"-->
-<!--                        layout="@layout/view_title_arrow_template"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content" />-->
+                    <include
+                        android:id="@+id/fun_team_setting_new_activity_manager_team"
+                        layout="@layout/view_title_arrow_template"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
 
+                    <include
+                        android:id="@+id/fun_team_setting_new_activity_zhiding"
+                        layout="@layout/view_title_arrow_template"
+                        android:layout_width="match_parent"
+                        app:leftImg="@drawable/team_setting_miandarao"
+                        android:layout_height="wrap_content" />
 
+                    <include
+                        android:id="@+id/fun_team_setting_new_activity_miandarao"
+                        layout="@layout/view_title_arrow_template"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
                     <include
                         android:id="@+id/fun_team_setting_new_activity_delte_record"
                         layout="@layout/view_title_arrow_template"

@@ -903,7 +903,7 @@ public abstract class ChatBaseFragment extends BaseFragment {
                                 forbiddenStr = "取消禁抢";
 
                               }
-                              DialogAlertUtil.showSheetView(getActivity(), getActivity().getSupportFragmentManager(), new String[]{"@此人", "专属红包","踢出此人",forbiddenStr}, new DialogAlertUtil.DialogAlertUtilCallBack() {
+                              DialogAlertUtil.showSheetView(getActivity(), getActivity().getSupportFragmentManager(), new String[]{"@此人", "专属红包",forbiddenStr}, new DialogAlertUtil.DialogAlertUtilCallBack() {
                                 @Override
                                 public void clickType(int type) {
                                   if (type == 1) {
@@ -915,25 +915,27 @@ public abstract class ChatBaseFragment extends BaseFragment {
                                     map.put("sessionType","2");
                                     map.put("userInfo",new Gson().toJson(messageBean.getMessageData().getFromUser()));
                                     FunSendRedPacketActivity.start(FunSendRedPacketActivity.class,getContext(),map);
-                                  } else if (type == 3) {
-                                    ArrayList list = new ArrayList<>();
-                                    list.add(messageBean.getMessageData().getFromUser().getAccount());
-                                    RegisterBean registerBean = new RegisterBean();
-                                    registerBean.groupId = sessionID;
-                                    registerBean.members = list;
-                                    HttpUtil.apiW().group_outGroup(registerBean)
-                                            .enqueue(new CommonCallback<NetData>() {
-                                              @Override
-                                              public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                                                ToastUtils.toastMsg(body.msg);
-                                              }
-
-                                              @Override
-                                              public void Failure(Call<NetData> call, Throwable t) {
-
-                                              }
-                                            });
-                                  } else if (type == 4) {
+                                  }
+//                                  else if (type == 3) {
+//                                    ArrayList list = new ArrayList<>();
+//                                    list.add(messageBean.getMessageData().getFromUser().getAccount());
+//                                    RegisterBean registerBean = new RegisterBean();
+//                                    registerBean.groupId = sessionID;
+//                                    registerBean.members = list;
+//                                    HttpUtil.apiW().group_outGroup(registerBean)
+//                                            .enqueue(new CommonCallback<NetData>() {
+//                                              @Override
+//                                              public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+//                                                ToastUtils.toastMsg(body.msg);
+//                                              }
+//
+//                                              @Override
+//                                              public void Failure(Call<NetData> call, Throwable t) {
+//
+//                                              }
+//                                            });
+//                                  }
+                                  else if (type == 3) {
                                     int targetState = "取消禁抢".equals(forbiddenStr) ? 0 : 1;
                                     RegisterBean bean = new RegisterBean();
                                     bean.groupId = sessionID;

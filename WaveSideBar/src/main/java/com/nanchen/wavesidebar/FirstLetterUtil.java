@@ -1,5 +1,7 @@
 package com.nanchen.wavesidebar;
 
+import net.sourceforge.pinyin4j.PinyinHelper;
+
 /**
  * 获取首字母的工具类
  *
@@ -130,5 +132,17 @@ public class FirstLetterUtil {
         } catch (Exception e) {
             return 0;
         }
+    }
+    public static String toPinyin(String chinese) {
+        StringBuilder pinyin = new StringBuilder();
+        for (char c : chinese.toCharArray()) {
+            String[] pinyins = PinyinHelper.toHanyuPinyinStringArray(c);
+            if (pinyins != null) {
+                pinyin.append(pinyins[0]); // 使用第一个拼音
+            } else {
+                pinyin.append(c); // 保留非汉字字符
+            }
+        }
+        return pinyin.toString().toLowerCase();
     }
 }

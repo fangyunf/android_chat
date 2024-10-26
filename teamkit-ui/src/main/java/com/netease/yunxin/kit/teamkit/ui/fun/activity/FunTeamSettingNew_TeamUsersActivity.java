@@ -29,6 +29,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.chad.library.adapter4.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.nanchen.wavesidebar.FirstLetterUtil;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.StickTopSessionInfo;
 import com.netease.yunxin.kit.chatkit.repo.ConversationRepo;
@@ -135,6 +136,12 @@ public class FunTeamSettingNew_TeamUsersActivity extends BaseActivity implements
                         GroupInfoBean temp = (GroupInfoBean) tempObj;
                         if (temp.name.contains(string)) {
                             tempArr.add(temp);
+                        } else {
+                            String pinyin = FirstLetterUtil.toPinyin(temp.name);
+                            if (pinyin.contains(string)) {
+                                tempArr.add(temp);
+                            }
+
                         }
                     }
                     adapter.setItems(tempArr);
