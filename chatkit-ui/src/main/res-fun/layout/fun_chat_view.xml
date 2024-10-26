@@ -61,6 +61,12 @@
             android:layout_height="0dp"
             android:layout_weight="1">
 
+            <ImageView
+                android:id="@+id/fun_chat_view_chat_bg_iv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                />
             <com.netease.yunxin.kit.chatkit.ui.view.message.ChatMessageListView
                 android:id="@+id/messageView"
                 android:layout_width="match_parent"

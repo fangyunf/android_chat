@@ -6,6 +6,7 @@ package com.netease.yunxin.kit.chatkit.ui.fun.view;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.text.Editable;
 import android.text.SpannableString;
 import android.text.TextUtils;
@@ -49,7 +50,9 @@ import com.yaoxin.appbase.model.GroupInfoBean;
 import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
+import com.yaoxin.appbase.utils.DataUtil;
 
+import java.io.File;
 import java.util.List;
 
 import retrofit2.Call;
@@ -167,6 +170,15 @@ public class FunChatView extends LinearLayout implements IChatView, AitTextChang
           }
           return true;
         });
+
+    if (DataUtil.getSkinImageName() != null) {
+      if (DataUtil.getSkinImageName().contains("/")) {
+        binding.funChatViewChatBgIv.setImageURI(Uri.fromFile(new File(DataUtil.getSkinImageName())));
+      } else {
+        binding.funChatViewChatBgIv.setImageResource(
+                getResources().getIdentifier(DataUtil.getSkinImageName(), "mipmap", getContext().getPackageName()));
+      }
+    }
   }
 
   private void clearInvalidInputContent() {

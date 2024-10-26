@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tl="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/activity_change_chat_skin_bg_iv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/chat_view_bg_1"/>
+    <com.yaoxin.appbase.navbar.NavToolbar
+        android:id="@+id/activity_change_chat_skin_nav"
+        style="@style/WhiteFontToolbar"
+        android:background="@color/transparent"
+        app:back_icon="@mipmap/temp_ic_back"
+        app:enable_under_divider="true"
+        app:support_translucent_status_bar="false"
+        app:title="更换聊天背景"
+        app:title_text_color="@color/color_333333"
+        app:under_divider_color="@color/transparent" />
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical"
+        android:layout_marginBottom="40dp"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/activity_change_chat_skin_confirm_tv"
+            android:layout_width="303dp"
+            android:layout_height="63dp"
+            android:gravity="center"
+            android:background="@mipmap/change_skin_btn_bgn"
+            android:text="确定"
+            android:textColor="@color/color_333333"
+            android:textSize="18sp"
+            />
+        <TextView
+            android:id="@+id/activity_change_chat_skin_change_tv"
+            android:layout_width="303dp"
+            android:layout_height="63dp"
+            android:gravity="center"
+            android:background="@mipmap/change_skin_btn_bgn"
+            android:text="换一张"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/color_333333"
+            android:textSize="18sp"
+            />
+        <TextView
+            android:id="@+id/activity_change_chat_skin_choose_tv"
+            android:layout_width="303dp"
+            android:layout_height="63dp"
+            android:gravity="center"
+            android:background="@mipmap/change_skin_btn_bgn"
+            android:text="从相册中上传"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/color_333333"
+            android:textSize="18sp"
+            />
+
+    </LinearLayout>
+    
+</RelativeLayout>

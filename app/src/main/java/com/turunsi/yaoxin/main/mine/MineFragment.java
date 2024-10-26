@@ -333,7 +333,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         } else if (v == binding.fragmentMineXtszView) {
 //            SettingNewActivity.start(SettingNewActivity.class,getContext(),null);
         }  else if (v == binding.fragmentMineLtbjView) {
-
+            ChangeSkinActivity.start(ChangeSkinActivity.class,getContext(),null);
         } else if (v == binding.fragmentMineHyzxView || v == binding.fragmentMineGotoUpgradeTv) {
             MyHuiYuanListActivity.start(MyHuiYuanListActivity.class,context,null);
 

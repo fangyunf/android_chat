@@ -137,4 +137,12 @@ public class DataUtil {
         return Hawk.get(key);
     }
 
+
+    public static void putSkinImageName(String imageName) {
+        Hawk.put("skin_image_name", imageName);
+    }
+
+    public static String getSkinImageName() {
+        return Hawk.get("skin_image_name");
+    }
 }
