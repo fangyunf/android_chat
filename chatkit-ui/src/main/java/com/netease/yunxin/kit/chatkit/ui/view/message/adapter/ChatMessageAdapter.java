@@ -91,16 +91,10 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<CommonBaseMessageVi
       super.onBindViewHolder(holder, position, payloads);
     } else {
       ChatMessageBean data = messageList.get(position);
-      boolean isKefu = data.getMessageData().getMessage().getSessionId().equals(DataUtil.getKeFuId());
       holder.setMode(msgModel);
       if (msgModel != ChatMessageType.FORWARD_MESSAGE_MODE) {
         holder.setMode(ChatMessageType.CHAT_MESSAGE_MODE);
-        if (isKefu) {
-
-          holder.setReceiptTime(1);
-        } else {
           holder.setReceiptTime(receiptTime);
-        }
         holder.setTeamInfo(teamInfo);
         holder.setMultiSelect(multiSelect);
       }
