@@ -36,7 +36,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "sixin"
+rootProject.name = "yufeng"
 include(":app")
 include(":conversationkit-ui")
 include(":teamkit-ui")
