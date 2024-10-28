@@ -102,19 +102,23 @@ public class ChatTipsMessageViewHolder extends FunChatBaseMessageViewHolder {
               IMKitClient.getApplicationContext().getResources().getColor(R.color.color_999999));
       textBinding.messageTipText.setTextSize(12);
       if (content.startsWith("{")) {
-        CustomMsgBean msgBean = new Gson().fromJson(content,CustomMsgBean.class);
-        textBinding.messageTipText.setText(content);
-        if (msgBean.sendUserId == null || msgBean.receiveUserId == null) {
-          return;
+        try {
+          CustomMsgBean msgBean = new Gson().fromJson(content,CustomMsgBean.class);
+          textBinding.messageTipText.setText(content);
+          if (msgBean.sendUserId == null || msgBean.receiveUserId == null) {
+            return;
+          }
+          String tempContent = msgBean.receiveUserName + " 领取了 "+ msgBean.sendUserName +" 的红包";
+          if (msgBean.sendUserId.equals(DataUtil.getUserid())) {
+            tempContent = msgBean.receiveUserName + " 领取了 你 的红包";
+          }
+          if (msgBean.receiveUserId.equals(DataUtil.getUserid())) {
+            tempContent = "你 领取了 "+ msgBean.sendUserName +" 的红包";
+          }
+          textBinding.messageTipText.setText(tempContent);
+        } catch (Exception e) {
+
         }
-        String tempContent = msgBean.receiveUserName + " 领取了 "+ msgBean.sendUserName +" 的红包";
-        if (msgBean.sendUserId.equals(DataUtil.getUserid())) {
-          tempContent = msgBean.receiveUserName + " 领取了 你 的红包";
-        }
-        if (msgBean.receiveUserId.equals(DataUtil.getUserid())) {
-          tempContent = "你 领取了 "+ msgBean.sendUserName +" 的红包";
-        }
-        textBinding.messageTipText.setText(tempContent);
       } else  {
         textBinding.messageTipText.setText(content);
       }
