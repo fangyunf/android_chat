@@ -43,6 +43,8 @@ import com.netease.yunxin.kit.corekit.im.IMKitClient;
 import com.netease.yunxin.kit.corekit.im.utils.IMKitConstant;
 import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
 import com.netease.yunxin.kit.corekit.route.XKitRouter;
+import com.yaoxin.appbase.net.Constant;
+
 import java.io.File;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -230,8 +232,13 @@ public class ChatUtils {
     if (!TextUtils.isEmpty(filterId)) {
       filterList.add(filterId);
     }
-    XKitRouter.withKey(pagePath)
-        .withParam(RouterConstant.KEY_CONTACT_SELECTOR_MAX_COUNT, CHAT_FORWARD_USER_LIMIT)
+//    XKitRouter.withKey(pagePath)
+//        .withParam(RouterConstant.KEY_CONTACT_SELECTOR_MAX_COUNT, CHAT_FORWARD_USER_LIMIT)
+//        .withContext(context)
+//        .withParam(RouterConstant.SELECTOR_CONTACT_FILTER_KEY, filterList)
+//        .navigate(launcher);
+    XKitRouter.withKey(Constant.FunSelected_User_ActivityKey)
+        .withParam("type", "6")
         .withContext(context)
         .withParam(RouterConstant.SELECTOR_CONTACT_FILTER_KEY, filterList)
         .navigate(launcher);
