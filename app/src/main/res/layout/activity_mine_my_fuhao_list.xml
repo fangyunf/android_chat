@@ -6,16 +6,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@mipmap/mine_fuhao_bg"
+        android:scaleType="centerCrop"
+        />
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     android:orientation="vertical">
 
     <com.yaoxin.appbase.navbar.NavToolbar
         android:id="@+id/activity_mine_my_fuhao_list_nav"
         style="@style/WhiteFontToolbar"
-        android:background="@color/white"
+        android:background="@color/transparent"
         app:back_icon="@mipmap/temp_ic_back"
         app:enable_under_divider="true"
         app:support_translucent_status_bar="false"
@@ -43,7 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="45dp"
             android:gravity="center"
-            android:background="@drawable/bg_f2f2f2_rounded_10"
+            android:background="@drawable/bg_ede3cb_rounded_10"
             android:text="136 5669 6688"
             android:paddingHorizontal="15dp"
 

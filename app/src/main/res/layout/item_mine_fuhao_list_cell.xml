@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:background="@drawable/bg_f2f2f2_rounded_10"
+        android:background="@drawable/bg_ede3cb_rounded_10"
         android:paddingHorizontal="5dp"
 
         android:textColor="#ff000000"

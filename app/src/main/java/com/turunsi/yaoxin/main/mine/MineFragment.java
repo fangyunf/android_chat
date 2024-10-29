@@ -192,7 +192,6 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 //        binding.fragmentMineCaidanView.setOnClickListener(this);
 //        binding.fragmentMineQrcodeIv.setOnClickListener(this);
         binding.fragmentMineEditIv.setOnClickListener(this);
-        binding.fragmentMineWdqbView.setOnClickListener(this);
         binding.fragmentMineHyzxView.setOnClickListener(this);
         binding.fragmentMineMmszView.setOnClickListener(this);
         binding.fragmentMineFxyyView.setOnClickListener(this);
@@ -200,6 +199,9 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         binding.fragmentMineXtszView.setOnClickListener(this);
         binding.fragmentMineCopyIv.setOnClickListener(this);
         binding.fragmentMineGotoUpgradeTv.setOnClickListener(this);
+        binding.fragmentMineIndexCdscLl.setOnClickListener(this);
+        binding.fragmentMineIndexWdqbLl.setOnClickListener(this);
+        binding.fragmentMineWdfhView.setOnClickListener(this);
 
 //        binding.mineFragmentMyManagerItem1.viewMineFragmentItemCellCl.setOnClickListener(this);
 //        binding.mineFragmentMyManagerItem2.viewMineFragmentItemCellCl.setOnClickListener(this);
@@ -411,10 +413,9 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 //                    .withContext(getContext())
 //                    .navigate();
 //        }
-//        else if (v == binding.fragmentMineWdfhView) {
-//            MyFuHaoListActivity.start(MyFuHaoListActivity.class,getActivity(),null);
-////            BuyGroupFeatureActivity.start(BuyGroupFeatureActivity.class,getContext(),null);
-//        }
+        else if (v == binding.fragmentMineWdfhView) {
+            MyFuHaoListActivity.start(MyFuHaoListActivity.class,getActivity(),null);
+        }
 //        if (v == binding.mineFragmentMyManagerItem5.viewMineFragmentItemCellCl) {
 ////            startActivity(new Intent(getContext(), SettingActivity.class));
 //            SettingNewActivity.start(SettingNewActivity.class,getContext(),null);
@@ -440,9 +441,6 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 
 ////            XKitRouter.withKey(RouterConstant.PATH_FUN_COLLECTION_PAGE).withContext(this.requireContext()).navigate();
 //        }
-        if (v == binding.fragmentMineWdqbView) {
-            PurseIndexActivity.start(PurseIndexActivity.class,context,null);
-        }
         if (v == binding.cavIcon || v == binding.fragmentMineEditIv) {
             AccountDetailActivity.start(AccountDetailActivity.class,getContext(),null);
         }
@@ -466,6 +464,11 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         }
         if (v == binding.fragmentMineYysjView)
             AppUpdateActivity.start(AppUpdateActivity.class,getContext(),null);
+        if (v == binding.fragmentMineIndexCdscLl) {
+            EggListIndexActivity.start(EggListIndexActivity.class,getContext(),null);
+        } else if (v == binding.fragmentMineIndexWdqbLl) {
+            PurseIndexActivity.start(PurseIndexActivity.class,context,null);
+        }
 
     }
 }
