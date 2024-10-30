@@ -164,7 +164,7 @@ public class UploadUtil {
 
 
         Matisse.from(fragment)
-                .choose(MimeType.ofImage())
+                .choose(MimeType.ofAll())
                 .countable(true)
                 .maxSelectable(maxNum)
                 .capture(true)
