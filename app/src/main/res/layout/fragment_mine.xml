@@ -162,7 +162,7 @@
                         android:id="@+id/fragment_mine_wdqb_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:leftImg="@mipmap/mine_index_item_ltsz"
+                        app:leftImg="@mipmap/mine_index_icon_qb"
                         android:layout_marginVertical="10dp"
                         app:titleText="我的钱包"
                         />
@@ -193,6 +193,13 @@
                         android:layout_height="wrap_content"
                         app:leftImg="@mipmap/mine_index_item_hmd"
                         app:titleText="黑名单"
+                        />
+                    <com.yaoxin.appbase.view.IconTitleArrowTemplate
+                        android:id="@+id/fragment_mine_qlhc_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:leftImg="@mipmap/mine_index_clean"
+                        app:titleText="清理缓存"
                         />
                     <!--                        <com.yaoxin.appbase.view.IconTitleArrowTemplate-->
                     <!--                            android:id="@+id/fragment_mine_wdfh_view"-->
@@ -229,6 +236,7 @@
                         />
                     <com.yaoxin.appbase.view.IconTitleArrowTemplate
                         android:id="@+id/fragment_mine_mmsz_view"
+                        android:layout_marginTop="10dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:leftImg="@mipmap/mine_index_item_mmsz"

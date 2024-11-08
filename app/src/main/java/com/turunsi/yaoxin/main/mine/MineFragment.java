@@ -25,8 +25,10 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
 import com.google.gson.Gson;
+import com.netease.nimlib.sdk.misc.DirCacheFileType;
 import com.netease.yunxin.kit.chatkit.ui.fun.page.FunChatSettingActivity;
 import com.netease.yunxin.kit.contactkit.ui.fun.blacklist.FunBlackList_NewActivity;
+import com.netease.yunxin.kit.corekit.im.repo.MiscRepo;
 import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
 import com.netease.yunxin.kit.corekit.route.XKitRouter;
 import com.turunsi.yaoxin.AppSkinConfig;
@@ -200,6 +202,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         binding.fragmentMineXtszView.setOnClickListener(this);
         binding.fragmentMineCopyIv.setOnClickListener(this);
         binding.fragmentMineGotoUpgradeTv.setOnClickListener(this);
+        binding.fragmentMineQlhcView.setOnClickListener(this);
 
 //        binding.mineFragmentMyManagerItem1.viewMineFragmentItemCellCl.setOnClickListener(this);
 //        binding.mineFragmentMyManagerItem2.viewMineFragmentItemCellCl.setOnClickListener(this);
@@ -464,8 +467,41 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         if (v == binding.fragmentMineFxyyView) {
             DownLoadActivity.start(DownLoadActivity.class,getContext(),null);
         }
+        if (v == binding.fragmentMineQlhcView) {
+            DialogAlertUtil.showAlert("确定清空缓存吗？", new DialogAlertUtil.DialogAlertUtilCallBack() {
+                @Override
+                public void clickType(int type) {
+                    if (type == 1) {
+                        MiscRepo.INSTANCE.clearCacheSize(
+                                getSDKFileType(),
+                                new FetchCallback<Void>() {
+                                    @Override
+                                    public void onSuccess(@Nullable Void param) {
+                                        ToastUtils.toastMsg("清理成功");
+                                    }
+
+                                    @Override
+                                    public void onFailed(int code) {}
+
+                                    @Override
+                                    public void onException(@Nullable Throwable exception) {}
+                                });
+                    }
+                }
+            }, getActivity().getSupportFragmentManager());
+        }
         if (v == binding.fragmentMineYysjView)
             AppUpdateActivity.start(AppUpdateActivity.class,getContext(),null);
 
+    }
+
+    private List<DirCacheFileType> getSDKFileType() {
+        List<DirCacheFileType> types = new ArrayList<>();
+        types.add(DirCacheFileType.AUDIO);
+        types.add(DirCacheFileType.THUMB);
+        types.add(DirCacheFileType.IMAGE);
+        types.add(DirCacheFileType.VIDEO);
+        types.add(DirCacheFileType.OTHER);
+        return types;
     }
 }
