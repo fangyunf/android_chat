@@ -31,6 +31,7 @@ import com.netease.nimlib.sdk.avsignalling.constant.ChannelType;
 import com.netease.yunxin.kit.common.utils.SPUtils;
 import com.netease.yunxin.kit.contactkit.ui.fun.addfriend.FunAddFriendVerifyActivity;
 import com.netease.yunxin.kit.contactkit.ui.normal.contact.ContactNewFragment;
+import com.netease.yunxin.kit.contactkit.ui.normal.contact.ShopNewFragment;
 import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
 import com.netease.yunxin.kit.corekit.route.XKitRouter;
 import com.turunsi.yaoxin.AppSkinConfig;
@@ -166,7 +167,7 @@ public class MainActivity extends BaseActivity {
                             ParamsBean updateBean = new Gson().fromJson(body.data.toString(), ParamsBean.class);
 
                             UpdateFragment.showFragment(MainActivity.this,
-                                    true, updateBean.downloadUrl, "誉丰", updateBean.upMsg, BuildConfig.APPLICATION_ID, null);
+                                    true, updateBean.downloadUrl, "智美", updateBean.upMsg, BuildConfig.APPLICATION_ID, null);
                         }
                     }
 
@@ -218,6 +219,7 @@ public class MainActivity extends BaseActivity {
 //        mConversationFragment1._type = 1;
         mContactFragment = new ContactNewFragment();
 
+        fragments.add(new ShopNewFragment());
         fragments.add(mConversationFragment);
         fragments.add(mConversationFragment1);
         fragments.add(mContactFragment);
@@ -230,7 +232,7 @@ public class MainActivity extends BaseActivity {
         activityMainBinding.viewPager.setAdapter(fragmentAdapter);
         activityMainBinding.viewPager.setCurrentItem(START_INDEX, false);
         activityMainBinding.viewPager.setOffscreenPageLimit(fragments.size());
-        mCurrentTab = activityMainBinding.conversationBtnGroup;
+        mCurrentTab = activityMainBinding.conversationBtnShop;
         changeStatusBarColor(R.color.color_white);
         resetTabSkin();
     }
@@ -275,14 +277,14 @@ public class MainActivity extends BaseActivity {
     @SuppressLint("UseCompatLoadingForDrawables")
     private void resetTabSkin() {
         if (mCurrentTab == activityMainBinding.contactBtnGroup) {
-            activityMainBinding.viewPager.setCurrentItem(2, false);
+            activityMainBinding.viewPager.setCurrentItem(3, false);
             activityMainBinding.contact.setTextColor(
                     getResources().getColor(R.color.fun_tab_checked_color));
             activityMainBinding.contact.setCompoundDrawablesWithIntrinsicBounds(
                     null, getResources().getDrawable(R.mipmap.mine_tabbar_txl_sel), null, null);
             changeStatusBarColor(R.color.fun_page_bg_color);
         } else if (mCurrentTab == activityMainBinding.myselfBtnGroup) {
-            activityMainBinding.viewPager.setCurrentItem(3, false);
+            activityMainBinding.viewPager.setCurrentItem(4, false);
             activityMainBinding.mine.setTextColor(
                     getResources().getColor(R.color.fun_tab_checked_color));
             activityMainBinding.mine.setCompoundDrawablesWithIntrinsicBounds(
@@ -290,18 +292,25 @@ public class MainActivity extends BaseActivity {
 
             changeStatusBarColor(R.color.color_white);
         } else if (mCurrentTab == activityMainBinding.conversationBtnGroup) {
-            activityMainBinding.viewPager.setCurrentItem(0, false);
+            activityMainBinding.viewPager.setCurrentItem(1, false);
             activityMainBinding.conversation.setTextColor(
                     getResources().getColor(R.color.fun_tab_checked_color));
             activityMainBinding.conversation.setCompoundDrawablesWithIntrinsicBounds(
                     null, getResources().getDrawable(R.mipmap.mine_tabbar_msg_sel), null, null);
             changeStatusBarColor(R.color.fun_page_bg_color);
         } else if (mCurrentTab == activityMainBinding.conversationBtnGroup1) {
-            activityMainBinding.viewPager.setCurrentItem(1, false);
+            activityMainBinding.viewPager.setCurrentItem(2, false);
             activityMainBinding.conversation1.setTextColor(
                     getResources().getColor(R.color.fun_tab_checked_color));
             activityMainBinding.conversation1.setCompoundDrawablesWithIntrinsicBounds(
                     null, getResources().getDrawable(R.mipmap.mine_tabbar_msg_group_sel), null, null);
+            changeStatusBarColor(R.color.fun_page_bg_color);
+        } else if (mCurrentTab == activityMainBinding.conversationBtnShop) {
+            activityMainBinding.viewPager.setCurrentItem(0, false);
+            activityMainBinding.conversationShop.setTextColor(
+                    getResources().getColor(R.color.fun_tab_checked_color));
+            activityMainBinding.conversationShop.setCompoundDrawablesWithIntrinsicBounds(
+                    null, getResources().getDrawable(R.mipmap.mine_tabbar_shop_sel), null, null);
             changeStatusBarColor(R.color.fun_page_bg_color);
         }
     }
@@ -376,7 +385,11 @@ public class MainActivity extends BaseActivity {
 
         activityMainBinding.mine.setTextColor(getResources().getColor(R.color.tab_unchecked_color));
         activityMainBinding.mine.setCompoundDrawablesWithIntrinsicBounds(
-                null, getResources().getDrawable(R.mipmap.mine_tabbar_mine_normal), null, null);
+                null, getResources().getDrawable(R.mipmap.mine_tabbar_mine_normal), null, null);;
+
+        activityMainBinding.conversationShop.setTextColor(getResources().getColor(R.color.tab_unchecked_color));
+        activityMainBinding.conversationShop.setCompoundDrawablesWithIntrinsicBounds(
+                null, getResources().getDrawable(R.mipmap.mine_tabbar_shop_normal), null, null);
     }
 
     private void configCallKit() {
