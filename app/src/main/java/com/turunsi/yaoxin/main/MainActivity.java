@@ -523,6 +523,11 @@ public class MainActivity extends BaseActivity {
 //          String result = CameraScan.parseScanResult(data);
                     String content = data.getStringExtra(CODED_CONTENT);
                     String result = content;
+                    String[] split = content.split("\\.");
+                    if (split.length == 3) {
+                        result = split[1];
+                    }
+
                     if (result != null) {
                         RegisterBean bean = new RegisterBean();
                         bean.phoneAndCode = result;

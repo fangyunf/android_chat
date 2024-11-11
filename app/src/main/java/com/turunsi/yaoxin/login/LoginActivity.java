@@ -97,8 +97,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         });
         changeTitleWithType(0);
 
-        if (BuildConfig.DEBUG) {
-        }
     }
 
     void changeTitleWithType(int type) {
