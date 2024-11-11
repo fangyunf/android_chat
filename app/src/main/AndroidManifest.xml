@@ -98,7 +98,7 @@
 <!--            android:value="2a6664a3c43a1fd51133b7dff030c575" />-->
         <meta-data
             android:name="com.netease.nim.appKey"
-            android:value="dbc4b34125aa3238a9edd081a88b0840" />
+            android:value="2e31dbe3a4cf3f00cd3d3c60d452a039" />
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="cd71a16bb840431be756188d3a0a1931" />
