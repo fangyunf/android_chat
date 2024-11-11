@@ -128,7 +128,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
         binding.activityMinePurseRechargeMoney2000.setOnClickListener(this);
 
         binding.activityMinePurseRechargeRechargeTypeUsdt.viewTitleTfWithoutBgLl.setVisibility(View.GONE);
-        binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgLl.setVisibility(View.GONE);
+        binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgLl.setVisibility(View.VISIBLE);
     }
     @Override
     protected void _requestData() {
@@ -201,7 +201,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
     void rechargeMoney(String inputMoney) {
         RequestParamsBean registerBean = new RequestParamsBean();
         registerBean.amount = NumberUtil.formartUploadMoney(inputMoney);
-//        registerBean.payChannel = payType;
+        registerBean.type = payType;
         LoadingDialog.showDialog(getSupportFragmentManager(),"请求中");
         HttpUtil.apiW().pay_six(registerBean)
                 .enqueue(new CommonCallback<NetData>() {
