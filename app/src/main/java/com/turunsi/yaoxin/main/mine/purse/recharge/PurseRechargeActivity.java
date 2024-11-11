@@ -176,7 +176,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
         } else if (v == binding.activityMinePurseRechargeMoney2000) {
             rechargeMoney("2000");
         } else if (v == binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgLl || v == binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt) {
-            DialogAlertUtil.showSheetView(this, getSupportFragmentManager(), new String[]{"支付宝", "微信"}, new DialogAlertUtil.DialogAlertUtilCallBack() {
+            DialogAlertUtil.showSheetView(this, getSupportFragmentManager(), new String[]{"支付宝", "微信","QQ支付"}, new DialogAlertUtil.DialogAlertUtilCallBack() {
                 @Override
                 public void clickType(int type) {
                     if (type == 1) {
@@ -185,6 +185,10 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
                     } else if (type == 2) {
                         binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt.setText("微信");
                         payType = "wxpay";
+
+                    } else if (type == 3) {
+                        binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt.setText("QQ支付");
+                        payType = "qqpay";
 
                     }
                 }
