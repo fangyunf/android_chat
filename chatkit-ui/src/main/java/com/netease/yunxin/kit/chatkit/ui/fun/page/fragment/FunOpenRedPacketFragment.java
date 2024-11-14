@@ -216,7 +216,7 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
 //        messageConfig.enableUnreadCount = false;
 //        msg.setConfig(messageConfig);
 //        ChatRepo.sendMessage(msg, null);
-//        updateMessage();
+        updateMessage();
     }
 
     void gotoRedPacketDetail(boolean needToast) {

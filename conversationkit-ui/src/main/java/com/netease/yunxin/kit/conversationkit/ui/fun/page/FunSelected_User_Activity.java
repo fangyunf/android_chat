@@ -99,6 +99,10 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
             binding.activityFunSelectedUserNav.getTitleView().setText("发送名片");
             binding.activityFunSelectedUserConfirmTv.setVisibility(View.GONE);
         }
+        if (page_type == 6) {
+            binding.activityFunSelectedUserNav.getTitleView().setText("转发");
+            binding.activityFunSelectedUserConfirmTv.setVisibility(View.GONE);
+        }
         _requestData1();
         _initView();
     }
@@ -215,6 +219,16 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
                     resultIntent.putExtra("userInfo", new Gson().toJson(groupInfoBean1));
                     that.setResult(Activity.RESULT_OK, resultIntent);
 //                    that.finish();
+                    finish();
+                    return;
+                }
+                if (page_type == 6) {
+                    //发送名片
+                    Intent result = new Intent();
+                    ArrayList<String> array = new ArrayList<>();
+                    array.add(mContactModels.get(i).userId);
+                    result.putExtra(REQUEST_CONTACT_SELECTOR_KEY, array);
+                    setResult(RESULT_OK, result);
                     finish();
                     return;
                 }
