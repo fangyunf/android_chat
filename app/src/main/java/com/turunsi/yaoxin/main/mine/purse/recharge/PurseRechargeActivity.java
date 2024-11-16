@@ -46,11 +46,11 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
     }
     private void _initCell() {
 //        binding.activityMinePurseRechargeRechargeMoney.viewTitleTfWithoutBgEt.setBackgroundColor(getResources().getColor(R.color.color_white));
-        if (_type == 1) {
-            binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgLl.setVisibility(View.VISIBLE);
-        } else {
+//        if (_type == 1) {
+//            binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgLl.setVisibility(View.VISIBLE);
+//        } else {
             binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgLl.setVisibility(View.GONE);
-        }
+//        }
         binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt.setBackgroundColor(getResources().getColor(R.color.color_white));
 
 //        binding.activityMinePurseRechargeRechargeMoney.viewTitleTfWithoutBgLl.setBackgroundColor(getResources().getColor(R.color.color_white));
@@ -124,6 +124,9 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
         binding.activityMinePurseRechargeMoney1000.setOnClickListener(this);
         binding.activityMinePurseRechargeMoney3000.setOnClickListener(this);
         binding.activityMinePurseRechargeMoney5000.setOnClickListener(this);
+        binding.activityMinePurseRechargeQqPayBtn.setOnClickListener(this);
+        binding.activityMinePurseRechargeWxPayBtn.setOnClickListener(this);
+        binding.activityMinePurseRechargeAliPayBtn.setOnClickListener(this);
 
     }
     @Override
@@ -154,17 +157,23 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
             }
             rechargeMoney(inputMoney);
         } else if (v == binding.activityMinePurseRechargeMoney100) {
-            rechargeMoney("100");
+//            rechargeMoney("100");
+            binding.activityMinePurseRechargeEt.setText("100");
         } else if (v == binding.activityMinePurseRechargeMoney300) {
-            rechargeMoney("300");
+//            rechargeMoney("300");
+            binding.activityMinePurseRechargeEt.setText("300");
         } else if (v == binding.activityMinePurseRechargeMoney500) {
-            rechargeMoney("500");
+//            rechargeMoney("500");
+            binding.activityMinePurseRechargeEt.setText("500");
         } else if (v == binding.activityMinePurseRechargeMoney1000) {
-            rechargeMoney("1000");
+//            rechargeMoney("1000");
+            binding.activityMinePurseRechargeEt.setText("1000");
         } else if (v == binding.activityMinePurseRechargeMoney3000) {
-            rechargeMoney("3000");
+//            rechargeMoney("3000");
+            binding.activityMinePurseRechargeEt.setText("3000");
         } else if (v == binding.activityMinePurseRechargeMoney5000) {
-            rechargeMoney("5000");
+//            rechargeMoney("5000");
+            binding.activityMinePurseRechargeEt.setText("5000");
         } else if (v == binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgLl || v == binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt) {
             DialogAlertUtil.showSheetView(this, getSupportFragmentManager(), new String[]{"支付宝", "微信","银行卡"}, new DialogAlertUtil.DialogAlertUtilCallBack() {
                 @Override
@@ -181,6 +190,30 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
                     }
                 }
             });
+        } else if (v == binding.activityMinePurseRechargeQqPayBtn) {
+            String inputMoney = getTextStr(binding.activityMinePurseRechargeEt);
+            if (inputMoney.isEmpty()) {
+                ToastUtils.toastMsg("请输入金额");
+                return;
+            }
+            payType = "qqpay";
+            rechargeMoney(inputMoney);
+        } else if (v == binding.activityMinePurseRechargeWxPayBtn) {
+            String inputMoney = getTextStr(binding.activityMinePurseRechargeEt);
+            if (inputMoney.isEmpty()) {
+                ToastUtils.toastMsg("请输入金额");
+                return;
+            }
+            payType = "wxpay";
+            rechargeMoney(inputMoney);
+        } else if (v == binding.activityMinePurseRechargeAliPayBtn) {
+            String inputMoney = getTextStr(binding.activityMinePurseRechargeEt);
+            if (inputMoney.isEmpty()) {
+                ToastUtils.toastMsg("请输入金额");
+                return;
+            }
+            payType = "alipay";
+            rechargeMoney(inputMoney);
         }
 
     }
@@ -206,6 +239,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
                     });
         } else {
 
+            registerBean.type = payType;
             HttpUtil.apiW().pay_six(registerBean)
                     .enqueue(new CommonCallback<NetData>() {
                         @Override

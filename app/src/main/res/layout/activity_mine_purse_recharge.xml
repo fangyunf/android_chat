@@ -206,6 +206,81 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dimen_12_dp" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="支付方式"
+                android:textSize="16sp"
+                android:textColor="@color/color_333333"
+                android:layout_marginVertical="10dp"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/activity_mine_purse_recharge_wx_pay_btn"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="@dimen/dimen_44_dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:text="微信充值"
+                    android:gravity="center"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="@color/white"
+                    android:background="@color/app_theme_color"
+                    android:textSize="16sp" />
+                <TextView
+                    android:layout_marginLeft="15dp"
+                    android:id="@+id/activity_mine_purse_recharge_ali_pay_btn"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="@dimen/dimen_44_dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:text="支付宝充值"
+                    android:gravity="center"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="@color/white"
+                    android:background="@color/app_theme_color"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/activity_mine_purse_recharge_qq_pay_btn"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="@dimen/dimen_44_dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:text="QQ充值"
+                    android:gravity="center"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="@color/white"
+                    android:background="@color/app_theme_color"
+                    android:textSize="16sp" />
+                <TextView
+                    android:layout_marginLeft="15dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="@dimen/dimen_44_dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="16sp" />
+            </LinearLayout>
+        </LinearLayout>
+
         <TextView
             android:layout_marginTop="@dimen/dimen_20_dp"
             android:layout_width="wrap_content"
@@ -215,6 +290,7 @@
             android:textSize="14sp"
             />
         <TextView
+            android:visibility="gone"
             android:layout_marginTop="35dp"
             android:id="@+id/activity_mine_purse_recharge_recharge_rl"
             android:layout_width="301dp"
