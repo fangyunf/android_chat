@@ -175,8 +175,8 @@ public abstract class FunChatFragment extends ChatBaseFragment {
                                     }
                                 }
                                 if (redBean.type == 4 || redBean.type == 5) {
-                                    /// 当前用户领取已领取过当前红包，展示领取详细信息
-                                    ///当红包是个人/专属，当前非目标领取用户，直接显示查看领取详情
+                                    /// 当前用户领取已领取过当前购物券，展示领取详细信息
+                                    ///当购物券是个人/专属，当前非目标领取用户，直接显示查看领取详情
                                     HashMap map = new HashMap();
                                     map.put("redpacketId",bean.redpacketId);
                                     Activity context = getActivity();

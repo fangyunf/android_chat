@@ -95,7 +95,7 @@ public class PurseIndexActivity extends BaseActivity implements View.OnClickList
         binding.activityMinePurseIndexCell5.itemPurseIndexCellIconIv.setImageResource(R.mipmap.mine_purse_index_mm);
         binding.activityMinePurseIndexCell6.itemPurseIndexCellIconIv.setImageResource(R.mipmap.mine_purse_index_list_fksq);
 
-        binding.activityMinePurseIndexCell1.itemPurseIndexCellTitleTv.setText("红包记录");
+        binding.activityMinePurseIndexCell1.itemPurseIndexCellTitleTv.setText("购物券记录");
         binding.activityMinePurseIndexCell2.itemPurseIndexCellTitleTv.setText("USDT地址");
         binding.activityMinePurseIndexCell3.itemPurseIndexCellTitleTv.setText("支付宝绑定");
         binding.activityMinePurseIndexCell4.itemPurseIndexCellTitleTv.setText("银行卡");

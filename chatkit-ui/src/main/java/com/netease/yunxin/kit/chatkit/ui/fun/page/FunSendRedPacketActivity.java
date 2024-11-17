@@ -293,7 +293,7 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
             binding.activityFunSendRedPacketToPeopleLl.setVisibility(View.GONE);
             binding.activityFunSendRedPacketGreetingLl.setVisibility(View.VISIBLE);
             binding.activityFunSendRedPacketCountLl.setVisibility(View.VISIBLE);
-//            binding.activityFunSendRedPacketPinChangeTypeTv.setText("拼手气红包");
+//            binding.activityFunSendRedPacketPinChangeTypeTv.setText("拼手气购物券");
         } else if (type == 2) {
             if (targetUserInfo != null) {
                 binding.activityFunSendRedPacketToPeopleNameTv.setText(targetUserInfo.getName());
@@ -303,7 +303,7 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
             binding.activityFunSendRedPacketToPeopleLl.setVisibility(View.VISIBLE);
             binding.activityFunSendRedPacketCountLl.setVisibility(View.GONE);
             binding.activityFunSendRedPacketGreetingLl.setVisibility(View.VISIBLE);
-//            binding.activityFunSendRedPacketPinChangeTypeTv.setText("专属红包");
+//            binding.activityFunSendRedPacketPinChangeTypeTv.setText("专属购物券");
         }
     }
 
@@ -315,7 +315,7 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
 //        else if (v == binding.activityFunSendRedPacketPinChangeTypeLl) {
 //            ActionSheet.createBuilder(this, getSupportFragmentManager())
 //                    .setCancelButtonTitle("取消")
-//                    .setOtherButtonTitles("拼手气红包", "专属红包")
+//                    .setOtherButtonTitles("拼手气购物券", "专属购物券")
 //                    .setCancelableOnTouchOutside(true)
 //                    .setListener(new ActionSheet.ActionSheetListener() {
 //                        @Override

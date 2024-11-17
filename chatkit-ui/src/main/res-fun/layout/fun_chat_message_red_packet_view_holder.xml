@@ -88,7 +88,7 @@
                 android:id="@+id/fun_chat_message_red_packet_view_holder_type_tv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="红包"
+                android:text="购物券"
                 android:textColor="#ffffffff"
                 android:textSize="12sp"
                 android:layout_weight="1"

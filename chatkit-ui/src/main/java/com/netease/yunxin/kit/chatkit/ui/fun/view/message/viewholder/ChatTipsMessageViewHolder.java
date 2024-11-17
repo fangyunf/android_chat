@@ -108,12 +108,12 @@ public class ChatTipsMessageViewHolder extends FunChatBaseMessageViewHolder {
           if (msgBean.sendUserId == null || msgBean.receiveUserId == null) {
             return;
           }
-          String tempContent = msgBean.receiveUserName + " 领取了 "+ msgBean.sendUserName +" 的红包";
+          String tempContent = msgBean.receiveUserName + " 领取了 "+ msgBean.sendUserName +" 的购物券";
           if (msgBean.sendUserId.equals(DataUtil.getUserid())) {
-            tempContent = msgBean.receiveUserName + " 领取了 你 的红包";
+            tempContent = msgBean.receiveUserName + " 领取了 你 的购物券";
           }
           if (msgBean.receiveUserId.equals(DataUtil.getUserid())) {
-            tempContent = "你 领取了 "+ msgBean.sendUserName +" 的红包";
+            tempContent = "你 领取了 "+ msgBean.sendUserName +" 的购物券";
           }
           textBinding.messageTipText.setText(tempContent);
         } catch (Exception e) {

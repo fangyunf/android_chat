@@ -102,15 +102,15 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
         }
         if (type == 2) {
             //已领完
-            binding.fragmentOpenRedPacketDialogGreetingTv.setText("手慢啦，红包已抢完");
+            binding.fragmentOpenRedPacketDialogGreetingTv.setText("手慢啦，购物券已抢完");
             binding.fragmentOpenRedPacketDialogBgIv.setImageResource(R.drawable.chat_red_packet_open_bg_cant_open);
             binding.fragmentOpenRedPacketDialogDetailRl.setVisibility(View.VISIBLE);
             binding.fragmentOpenRedPacketDialogOpenRl.setVisibility(View.GONE);
         }
         if (type == 3) {
-            //红包已退款，当前用户未领取
+            //购物券已退款，当前用户未领取
 
-            binding.fragmentOpenRedPacketDialogGreetingTv.setText("手慢啦，红包已抢完");
+            binding.fragmentOpenRedPacketDialogGreetingTv.setText("手慢啦，购物券已抢完");
             binding.fragmentOpenRedPacketDialogBgIv.setImageResource(R.drawable.chat_red_packet_open_bg_cant_open);
             binding.fragmentOpenRedPacketDialogDetailRl.setVisibility(View.VISIBLE);
             binding.fragmentOpenRedPacketDialogOpenRl.setVisibility(View.GONE);

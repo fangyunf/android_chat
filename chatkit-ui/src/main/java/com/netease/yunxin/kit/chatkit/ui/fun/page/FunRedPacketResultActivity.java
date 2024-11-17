@@ -111,12 +111,12 @@ public class FunRedPacketResultActivity extends BaseActivity implements View.OnC
         binding.activityFunRedPacketResultDetailSenderTv.setText(redBean.sendName);
         binding.activityFunRedPacketResultDetailGreetingTv.setText(redBean.title);
         if (redBean.redpacketType == 21) {
-            binding.activityFunRedPacketResultDetailSenderTv.setText(redBean.sendName + "发出的专属红包");
+            binding.activityFunRedPacketResultDetailSenderTv.setText(redBean.sendName + "发出的专属购物券");
 
         } else if (redBean.redpacketType == 22) {
-            binding.activityFunRedPacketResultDetailSenderTv.setText(redBean.sendName + "发出的个人红包");
+            binding.activityFunRedPacketResultDetailSenderTv.setText(redBean.sendName + "发出的个人购物券");
         } else if (redBean.redpacketType == 23) {
-            binding.activityFunRedPacketResultDetailSenderTv.setText(redBean.sendName + "发出的拼手气红包");
+            binding.activityFunRedPacketResultDetailSenderTv.setText(redBean.sendName + "发出的拼手气购物券");
 
         }
         if (redBean.type == 5) {
@@ -126,7 +126,7 @@ public class FunRedPacketResultActivity extends BaseActivity implements View.OnC
             if (redBean.lootAll.isEmpty()) {
                 binding.activityFunRedPacketResultDetailRvDetailTv.setText("已领取" + redBean.vos.size() + "/" + redBean.totalNum + "个  共" + NumberUtil.formartMoney(redBean.sendAmount) + "元");
             } else {
-                binding.activityFunRedPacketResultDetailRvDetailTv.setText(redBean.totalNum + "个红包共" + NumberUtil.formartMoney(redBean.sendAmount) + "元，" + redBean.lootAll + "被抢光");
+                binding.activityFunRedPacketResultDetailRvDetailTv.setText(redBean.totalNum + "个购物券共" + NumberUtil.formartMoney(redBean.sendAmount) + "元，" + redBean.lootAll + "被抢光");
             }
             boolean hasme = false;
             for (CustomMsgBean tempBean :
@@ -148,7 +148,7 @@ public class FunRedPacketResultActivity extends BaseActivity implements View.OnC
 
         binding.activityFunRedPacketResultDetailNav.addCloseImageButton().setOnClickListener(this);
 //        binding.activityFunRedPacketResultDetailRedPacketRecordTv.setOnClickListener(this);
-//        binding.activityFunRedPacketResultDetailNav.setActionText("红包记录");
+//        binding.activityFunRedPacketResultDetailNav.setActionText("购物券记录");
         binding.activityFunRedPacketResultDetailRv.setLayoutManager(new LinearLayoutManager(this));
         binding.activityFunRedPacketResultDetailRv.setAdapter(adapter);
 

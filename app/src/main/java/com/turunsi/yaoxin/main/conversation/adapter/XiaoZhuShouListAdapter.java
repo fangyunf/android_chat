@@ -50,7 +50,7 @@ public class XiaoZhuShouListAdapter extends BaseQuickAdapter<GroupInfoBean, Quic
                 result = "提现失败";
                 break;
             case 106:
-                result = "红包退回";
+                result = "购物券退回";
                 break;
             case 107:
                 result = "系统消息";

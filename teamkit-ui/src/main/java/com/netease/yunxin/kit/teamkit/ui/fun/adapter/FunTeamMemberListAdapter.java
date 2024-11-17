@@ -27,7 +27,7 @@ import com.yaoxin.appbase.utils.ToastUtils;
 public class FunTeamMemberListAdapter
     extends BaseTeamMemberListAdapter<FunTeamMemberListItemBinding> {
 
-  // 1：专属红包
+  // 1：专属购物券
   private int useType = 0;
   private Context mContext;
   public FunTeamMemberListAdapter(

@@ -79,7 +79,7 @@
                 android:id="@+id/activity_mine_bank_bill_detail_list_detail_cell2_title_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="22dp"
-                android:text="红包详情"
+                android:text="购物券详情"
                 android:textColor="#ff888888"
                 android:textSize="16sp"
                 />

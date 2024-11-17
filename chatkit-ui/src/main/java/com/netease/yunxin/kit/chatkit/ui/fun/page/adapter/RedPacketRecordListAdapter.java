@@ -40,11 +40,11 @@ public class RedPacketRecordListAdapter extends BaseQuickAdapter<CustomMsgBean, 
 
             roundedImageView.setVisibility(View.GONE);
             if (bean.type == 21) {
-                nameTv.setText("专属红包");
+                nameTv.setText("专属购物券");
             }if (bean.type == 22) {
-                nameTv.setText("个人红包");
+                nameTv.setText("个人购物券");
             }if (bean.type == 23) {
-                nameTv.setText("群红包");
+                nameTv.setText("群购物券");
             }
             quickViewHolder
                     .setText(R.id.item_fun_red_packet_result_detail_time_tv, TimeUtil.stampToDate(bean.createTime))
