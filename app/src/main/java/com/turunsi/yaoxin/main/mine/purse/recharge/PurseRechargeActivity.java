@@ -239,7 +239,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
                     });
         } else {
 
-            registerBean.type = payType;
+//            registerBean.type = payType;
             HttpUtil.apiW().pay_six(registerBean)
                     .enqueue(new CommonCallback<NetData>() {
                         @Override
