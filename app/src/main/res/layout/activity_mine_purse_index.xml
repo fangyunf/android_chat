@@ -156,9 +156,9 @@
                     android:layout_height="64dp"
                     android:layout_columnWeight="1"
                     app:bgColor="#545454"
-                    app:gLeftImg="@mipmap/purse_index_item_wx"
+                    app:gLeftImg="@mipmap/purse_index_item_kabao"
                     app:textColor="@color/white"
-                    app:gTitleText="绑定微信" />
+                    app:gTitleText="我的卡包" />
 
                 <com.yaoxin.appbase.view.GridIconTitleArrowTemplate
                     android:id="@+id/activity_mine_purse_index_bdzfb"
