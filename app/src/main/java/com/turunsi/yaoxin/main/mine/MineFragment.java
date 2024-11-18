@@ -334,8 +334,11 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         } else if (v == binding.fragmentMineXtszView) {
 //            SettingNewActivity.start(SettingNewActivity.class,getContext(),null);
         } else if (v == binding.fragmentMineHyzxView || v == binding.fragmentMineGotoUpgradeTv) {
-            MyHuiYuanListActivity.start(MyHuiYuanListActivity.class,context,null);
-
+//            MyHuiYuanListActivity.start(MyHuiYuanListActivity.class,context,null);
+                    XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_P2P_PAGE)
+                        .withParam(RouterConstant.CHAT_ID_KRY, DataUtil.getKeFuId())
+                        .withContext(getContext())
+                        .navigate();
 //            Activity that = getActivity();
 //
 //            if ("1".equals(DataUtil.getUserInfo().hy)) {
