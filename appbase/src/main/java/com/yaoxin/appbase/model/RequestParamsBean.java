@@ -9,6 +9,8 @@ public class RequestParamsBean {
     public String id;
     public String payChannel;
     public String zfb;
+    public String certNo;
+    public String usdt;
     public int amount;
     public int summary;
     private String phone1;

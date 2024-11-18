@@ -162,19 +162,22 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
                 });
 
         RegisterBean bean = new RegisterBean();
-        bean.type = 2;
         Context that = this;
         HttpUtil.apiW().bindCard_userZFB(bean)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        accountBean = new Gson().fromJson(body.data.toString(), UserBean.class);
-                        if (accountBean != null && !accountBean.phone.isEmpty()) {
+                        Type type = new TypeToken<List<UserBean>>() {
+                        }.getType();
+                        List<UserBean> tempList = new Gson().fromJson(body.data.toString(), type);
+
+                        if (!tempList.isEmpty()) {
+                            accountBean = tempList.get(0);
                             binding.activityMinePurseTixianAccoutTv.setText(accountBean.phone);
                         } else {
-                            ToastUtils.toastMsg("请先绑定支付宝账号");
+                            ToastUtils.toastMsg("请先绑定账号");
                             finish();
-                            BindAlipayActivity.start(BindAlipayActivity.class,that,null);
+//                            BindAlipayActivity.start(BindAlipayActivity.class,that,null);
                         }
                     }
 

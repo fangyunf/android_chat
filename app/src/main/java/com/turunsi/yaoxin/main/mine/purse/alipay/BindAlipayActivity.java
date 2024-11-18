@@ -45,6 +45,9 @@ public class BindAlipayActivity extends BaseActivity implements View.OnClickList
     String qrcodeImgUrl;
     UserBean bindBean;
     int _type = 0;
+
+    int _bindType = 2;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,26 +60,60 @@ public class BindAlipayActivity extends BaseActivity implements View.OnClickList
         binding.activityMineBindAlipayBindSuccessTv.setOnClickListener(this);
         binding.activityMineBindAlipayUploadLl.setOnClickListener(this);
 
-        binding.activityMineBindAlipayAccount.viewTitleTfWithoutBgTv.setText("支付宝账号");
-        binding.activityMineBindAlipayName.viewTitleTfWithoutBgTv.setText("真实姓名");
-        binding.activityMineBindAlipayAccount.viewTitleTfWithoutBgEt.setHint("请输入支付宝账号");
-        binding.activityMineBindAlipayName.viewTitleTfWithoutBgEt.setHint("请输入您的真实姓名");
+        if (extras != null && extras.get("type") != null) {
+            String tempType = (String) extras.get("type");
+            _bindType = Integer.parseInt(tempType);
+        }
+
+        binding.activityMineBindKaihuName.viewTitleTfWithoutBgLl.setVisibility(View.GONE);
+        switch (_bindType) {
+            case 1:
+                binding.activityMineBindAlipayNav.getTitleView().setText("微信");
+                binding.activityMineBindAlipayAccount.viewTitleTfWithoutBgTv.setText("微信账号");
+                binding.activityMineBindAlipayName.viewTitleTfWithoutBgTv.setText("真实姓名");
+                binding.activityMineBindAlipayAccount.viewTitleTfWithoutBgEt.setHint("请输入微信账号");
+                binding.activityMineBindAlipayName.viewTitleTfWithoutBgEt.setHint("请输入您的真实姓名");
+                break;
+            case 2:
+
+                binding.activityMineBindAlipayNav.getTitleView().setText("支付宝");
+                binding.activityMineBindAlipayAccount.viewTitleTfWithoutBgTv.setText("支付宝账号");
+                binding.activityMineBindAlipayName.viewTitleTfWithoutBgTv.setText("真实姓名");
+                binding.activityMineBindAlipayAccount.viewTitleTfWithoutBgEt.setHint("请输入支付宝账号");
+                binding.activityMineBindAlipayName.viewTitleTfWithoutBgEt.setHint("请输入您的真实姓名");
+                break;
+            case 3:
+                binding.activityMineBindAlipayNav.getTitleView().setText("银行卡");
+                binding.activityMineBindAlipayAccount.viewTitleTfWithoutBgTv.setText("银行卡");
+                binding.activityMineBindAlipayName.viewTitleTfWithoutBgTv.setText("真实姓名");
+                binding.activityMineBindAlipayAccount.viewTitleTfWithoutBgEt.setHint("请输入银行卡号");
+                binding.activityMineBindAlipayName.viewTitleTfWithoutBgEt.setHint("请输入您的真实姓名");
+                binding.activityMineBindKaihuName.viewTitleTfWithoutBgTv.setText("开户行");
+                binding.activityMineBindKaihuName.viewTitleTfWithoutBgEt.setHint("请输入开户行");
+                binding.activityMineBindKaihuName.viewTitleTfWithoutBgLl.setVisibility(View.VISIBLE);
+                binding.activityMineBindAlipayUploadLl.setVisibility(View.GONE);
+                break;
+        }
+        _requestData1();
     }
 
-    @Override
-    protected void _requestData() {
+    protected void _requestData1() {
         RegisterBean bean = new RegisterBean();
-        bean.type = 2;
+        bean.type = _bindType;
         HttpUtil.apiW().bindCard_userZFB(bean)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                        bindBean = new Gson().fromJson(body.data.toString(), UserBean.class);
-                        if (bindBean.phone.isEmpty()) {
+                        Type type = new TypeToken<List<UserBean>>() {
+                        }.getType();
+                        List<UserBean> tempList = new Gson().fromJson(body.data.toString(), type);
+//                        bindBean = new Gson().fromJson(body.data.toString(), UserBean.class);
+                        if (tempList.isEmpty()) {
                             _type = 0;
                         } else {
                             _type = 1;
+                            bindBean = tempList.get(0);
                         }
                         updateUI();
                     }
@@ -98,7 +135,7 @@ public class BindAlipayActivity extends BaseActivity implements View.OnClickList
             binding.activityMineBindAlipayGotoBindLl.setVisibility(View.VISIBLE);
         } else if (_type == 1) {
             if (!bindBean.phone.isEmpty()) {
-                binding.activityMineBindAlipayRebindContent.viewTitleDetailTemplateLeftTv.setText("已绑定支付宝");
+                binding.activityMineBindAlipayRebindContent.viewTitleDetailTemplateLeftTv.setText("已绑定");
                 binding.activityMineBindAlipayRebindContent.viewTitleDetailTemplateRightTv.setText(bindBean.phone);
             }
             binding.activityMineBindAlipayRebindLl.setVisibility(View.VISIBLE);
@@ -111,6 +148,7 @@ public class BindAlipayActivity extends BaseActivity implements View.OnClickList
             binding.activityMineBindAlipayBindSuccessLl.setVisibility(View.VISIBLE);
         }
     }
+
     @Override
     public void onClick(View v) {
         if (v == binding.activityMineBindAlipayNav.addCloseImageButton()) {
@@ -124,6 +162,7 @@ public class BindAlipayActivity extends BaseActivity implements View.OnClickList
         } else if (v == binding.activityMineBindAlipayBindTv) {
             String phone = getTextStr(binding.activityMineBindAlipayAccount.viewTitleTfWithoutBgEt);
             String name = getTextStr(binding.activityMineBindAlipayName.viewTitleTfWithoutBgEt);
+            String account = getTextStr(binding.activityMineBindKaihuName.viewTitleTfWithoutBgEt);
             if (phone.isEmpty()) {
                 ToastUtils.toastMsg("请输入手机号");
                 return;
@@ -133,12 +172,25 @@ public class BindAlipayActivity extends BaseActivity implements View.OnClickList
                 return;
             }
 
-            if (qrcodeImgUrl == null) {
-                ToastUtils.toastMsg("请上传支付宝收款码");
-                return;
+            if (_bindType == 3) {
+                if (account.isEmpty()) {
+                    ToastUtils.toastMsg("请输入开户行");
+                    return;
+                }
+            } else {
+
+                if (qrcodeImgUrl == null) {
+                    ToastUtils.toastMsg("请上传收款码");
+                    return;
+                }
             }
-            RequestParamsBean registerBean = new RequestParamsBean(phone,name,"2");
-            registerBean.zfb = qrcodeImgUrl;
+            RequestParamsBean registerBean = new RequestParamsBean(phone, name, "2");
+            registerBean.type = _bindType + "";
+            if (_bindType == 2 || _bindType == 1) {
+                registerBean.usdt = qrcodeImgUrl;
+            } else {
+                registerBean.certNo = account;
+            }
             HttpUtil.apiW().bindCard_createUptadeZFB1(registerBean)
                     .enqueue(new CommonCallback<NetData>() {
                         @Override

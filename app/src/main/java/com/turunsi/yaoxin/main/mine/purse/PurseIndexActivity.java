@@ -98,7 +98,7 @@ public class PurseIndexActivity extends BaseActivity implements View.OnClickList
         binding.activityMinePurseIndexHbjl.setOnClickListener(this);
         binding.activityMinePurseIndexLqmx.setOnClickListener(this);
         binding.activityMinePurseIndexSmrz.setOnClickListener(this);
-//        binding.activityMinePurseIndexWdkb.setOnClickListener(this);
+        binding.activityMinePurseIndexWdkb.setOnClickListener(this);
         binding.activityMinePurseIndexBdwx.setOnClickListener(this);
         binding.activityMinePurseIndexBdzfb.setOnClickListener(this);
     }
@@ -124,11 +124,16 @@ public class PurseIndexActivity extends BaseActivity implements View.OnClickList
         } else if (v == binding.activityMinePurseIndexBdzfb) {
             BindAlipayActivity.start(BindAlipayActivity.class,this,null);
         } else if (v == binding.activityMinePurseIndexBdwx) {
-            ToastUtils.toastMsg("敬请期待");
+            Map map = new HashMap();
+            map.put("type","1");
+            BindAlipayActivity.start(BindAlipayActivity.class,this,map);
         }
-//        else if (v == binding.activityMinePurseIndexWdkb) {
-//            ToastUtils.toastMsg("敬请期待");
-//        }
+        else if (v == binding.activityMinePurseIndexWdkb) {
+
+            Map map = new HashMap();
+            map.put("type","3");
+            BindAlipayActivity.start(BindAlipayActivity.class,this,map);
+        }
         else if (v == binding.activityMinePurseIndexSmrz) {
             ToastUtils.toastMsg("已完成实名");
 //            if (!Constant.isRunningRealName) {
