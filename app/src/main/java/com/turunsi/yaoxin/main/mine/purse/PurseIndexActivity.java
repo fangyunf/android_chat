@@ -96,7 +96,7 @@ public class PurseIndexActivity extends BaseActivity implements View.OnClickList
     private void _initCell() {
 
         binding.activityMinePurseIndexHbjl.setOnClickListener(this);
-        binding.activityMinePurseIndexLqmx.setOnClickListener(this);
+//        binding.activityMinePurseIndexLqmx.setOnClickListener(this);
         binding.activityMinePurseIndexSmrz.setOnClickListener(this);
 //        binding.activityMinePurseIndexWdkb.setOnClickListener(this);
         binding.activityMinePurseIndexBdwx.setOnClickListener(this);
@@ -119,9 +119,11 @@ public class PurseIndexActivity extends BaseActivity implements View.OnClickList
         } else if (v == binding.activityMinePurseIndexHbjl) {
 //            BillDetailListActivity.start(BillDetailListActivity.class,this,null);
             FunRedPacketRecordListActivity.start(FunRedPacketRecordListActivity.class,this,null);
-        } else if (v == binding.activityMinePurseIndexLqmx) {
-            BillDetailListActivity.start(BillDetailListActivity.class,this,null);
-        } else if (v == binding.activityMinePurseIndexBdzfb) {
+        }
+//        else if (v == binding.activityMinePurseIndexLqmx) {
+//            BillDetailListActivity.start(BillDetailListActivity.class,this,null);
+//        }
+        else if (v == binding.activityMinePurseIndexBdzfb) {
             BindAlipayActivity.start(BindAlipayActivity.class,this,null);
         } else if (v == binding.activityMinePurseIndexBdwx) {
             ToastUtils.toastMsg("敬请期待");

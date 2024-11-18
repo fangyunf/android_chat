@@ -35,26 +35,24 @@
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
                 >
-                <LinearLayout
+                <RelativeLayout
                     android:layout_marginTop="80dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:paddingHorizontal="20dp"
+                    android:paddingHorizontal="15dp"
                     >
 
-                    <com.netease.yunxin.kit.common.ui.widgets.ContactAvatarView
-                        android:id="@+id/cavIcon"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp" />
                     <LinearLayout
-                        android:layout_marginHorizontal="10dp"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
+                        android:background="@drawable/bg_white_rounded_10"
+                        android:layout_marginTop="40dp"
+                            android:paddingHorizontal="20dp"
+                        android:layout_width="match_parent"
                         android:orientation="vertical"
                         android:layout_height="wrap_content">
 
                         <LinearLayout
+                            android:layout_marginTop="60dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content">
                             <TextView
@@ -103,16 +101,53 @@
                                 android:src="@mipmap/mine_index_copy"
                                 />
                         </LinearLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/fragment_mine_index_wdqb_ll"
+                        android:layout_marginTop="20dp"
+                        android:layout_width="match_parent"
+                        android:layout_marginBottom="10dp"
+                        android:background="#daecdf"
+                        android:gravity="center_vertical"
+                        android:layout_height="50dp">
+                            <TextView
+                                android:layout_marginStart="10dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:text="我的钱包"
+                                android:textColor="#15224b"
+                                android:textSize="18sp"
+                                />
+                        <TextView
+                            android:layout_width="100dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_height="30dp"
+                            android:background="#15224b"
+                            android:text="立即进入"
+                            android:textColor="#ffffff"
+                            android:gravity="center"
+                            android:layout_marginEnd="20dp"
+                            />
+                    </RelativeLayout>
                     </LinearLayout>
+                    <com.netease.yunxin.kit.common.ui.widgets.ContactAvatarView
+                        android:id="@+id/cavIcon"
+                        android:layout_marginLeft="20dp"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp" />
 
                     <ImageView
                         android:id="@+id/fragment_mine_erweima_iv"
                         android:layout_width="32dp"
                         android:layout_height="28dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="80dp"
+                        android:layout_marginEnd="40dp"
                         android:src="@mipmap/mine_index_erweima"
                         />
 
-                </LinearLayout>
+                </RelativeLayout>
 
                 <LinearLayout
                     android:visibility="gone"
@@ -166,54 +201,6 @@
                     android:background="#F2F2F2"
                     android:layout_marginTop="10dp"
                     android:layout_height="wrap_content">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_marginBottom="10dp"
-                        android:layout_height="50dp">
-                        <LinearLayout
-                            android:id="@+id/fragment_mine_index_wdqb_ll"
-                            android:background="@color/white"
-                            android:layout_weight="1"
-                            android:layout_width="0dp"
-                            android:gravity="center"
-                            android:layout_height="match_parent">
-                            <ImageView
-                                android:layout_width="19dp"
-                                android:layout_height="19dp"
-                                android:src="@mipmap/mine_index_item_wdqb"
-                                />
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="5dp"
-                                android:text="我的钱包"
-                                android:textColor="#ff000000"
-                                android:textSize="12sp"
-                                />
-                        </LinearLayout>
-                        <LinearLayout
-                            android:id="@+id/fragment_mine_index_cdsc_ll"
-                            android:background="@color/white"
-                            android:layout_marginLeft="10dp"
-                            android:layout_weight="1"
-                            android:layout_width="0dp"
-                            android:gravity="center"
-                            android:layout_height="match_parent">
-                            <ImageView
-                                android:layout_width="19dp"
-                                android:layout_height="19dp"
-                                android:src="@mipmap/mine_index_item_cdsc"
-                                />
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="5dp"
-                                android:text="彩蛋商城"
-                                android:textColor="#ff000000"
-                                android:textSize="12sp"
-                                />
-                        </LinearLayout>
-                    </LinearLayout>
                     <com.yaoxin.appbase.view.IconTitleArrowTemplate
                         android:id="@+id/fragment_mine_ltsz_view"
                         android:layout_width="match_parent"
@@ -243,6 +230,7 @@
                         app:titleText="黑名单"
                         />
                     <com.yaoxin.appbase.view.IconTitleArrowTemplate
+                        android:visibility="gone"
                         android:id="@+id/fragment_mine_wdfh_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -271,7 +259,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:leftImg="@mipmap/mine_index_item_hyzx"
-                        app:titleText="会员中心"
+                        app:titleText="客服中心"
                         />
                     <com.yaoxin.appbase.view.IconTitleArrowTemplate
                         android:visibility="gone"

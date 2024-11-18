@@ -4,8 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tl="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:background="@color/color_F2F2F2"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@mipmap/purse_index_bg">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,30 +15,30 @@
         <com.yaoxin.appbase.navbar.NavToolbar
             android:id="@+id/activity_mine_purse_index_nav"
             style="@style/WhiteFontToolbar"
-            android:background="#3C3C3C"
-            app:back_icon="@mipmap/temp_ic_back_white"
+            android:background="@color/transparent"
+            app:back_icon="@mipmap/temp_ic_back"
             app:enable_under_divider="true"
             app:support_translucent_status_bar="false"
             app:title="我的钱包"
-            app:title_text_color="@color/white"
+            app:title_text_color="@color/black"
             app:under_divider_color="@android:color/transparent" />
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="202dp"
-            android:paddingHorizontal="15dp"
-            android:gravity="center_horizontal"
             android:background="@mipmap/purse_index_money_bg"
-            android:orientation="vertical">
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingHorizontal="15dp">
+
             <TextView
-                android:layout_marginTop="30dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
                 android:text="我的零钱"
                 android:textColor="@color/white"
-                android:textSize="12sp"
-                />
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/activity_mine_purse_index_balance_tv"
@@ -52,44 +52,45 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
                 android:layout_marginTop="20dp"
-                >
+                android:gravity="center_vertical">
 
                 <TextView
                     android:id="@+id/activity_mine_purse_index_tixian_tv"
- android:layout_width="100dp"
-                    android:layout_weight="1"
+                    android:layout_width="100dp"
                     android:layout_height="60dp"
+                    android:layout_weight="1"
 
-                    android:gravity="center"
                     android:background="@drawable/bg_f2f2f2_rounded_10"
+                    android:gravity="center"
                     android:text="提现"
                     android:textColor="@color/color_333333"
                     android:textSize="@dimen/text_size_15" />
-                <TextView
-                    android:layout_marginLeft="15dp"
 
+                <TextView
                     android:id="@+id/activity_mine_purse_index_recharge_tv"
 
                     android:layout_width="100dp"
+
                     android:layout_height="60dp"
+                    android:layout_marginLeft="15dp"
+                    android:background="#F46B34"
                     android:gravity="center"
-                    android:background="#060606"
                     android:text="充值"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_size_15" />
+
                 <TextView
-                    android:visibility="gone"
-                    android:layout_marginLeft="15dp"
                     android:id="@+id/activity_mine_purse_index_recharge_tv2"
                     android:layout_width="100dp"
                     android:layout_height="60dp"
-                    android:gravity="center"
+                    android:layout_marginLeft="15dp"
                     android:background="#060606"
+                    android:gravity="center"
                     android:text="充值2"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/text_size_15" />
+                    android:textSize="@dimen/text_size_15"
+                    android:visibility="gone" />
 
 
             </LinearLayout>
@@ -97,67 +98,79 @@
         </LinearLayout>
 
 
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:background="#545454"
-            android:layout_marginTop="10dp"
-            android:layout_height="wrap_content">
-            <com.yaoxin.appbase.view.IconTitleArrowTemplate
-                android:id="@+id/activity_mine_purse_index_hbjl"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/bg_white_rounded_10"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="17dp"
+                android:layout_marginTop="15dp"
+                android:text="钱包功能"
+                android:textColor="#ff000000"
+                android:textSize="14sp" />
+
+            <GridLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:leftImg="@mipmap/purse_index_item_hongbao"
-                app:bgColor="#545454"
-                app:textColor="@color/white"
-                app:titleText="红包记录"
-                />
-            <com.yaoxin.appbase.view.IconTitleArrowTemplate
-                android:id="@+id/activity_mine_purse_index_lqmx"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:leftImg="@mipmap/purse_index_item_mingxi"
-                app:titleText="零钱明细"
-                app:bgColor="#545454"
-                app:textColor="@color/white"
-                />
-                <com.yaoxin.appbase.view.IconTitleArrowTemplate
-                    android:visibility="visible"
+                android:columnCount="4"
+                android:paddingTop="20dp"
+                android:paddingBottom="10dp">
+
+                <com.yaoxin.appbase.view.GridIconTitleArrowTemplate
+                    android:id="@+id/activity_mine_purse_index_hbjl"
+                    android:layout_width="0dp"
+                    android:layout_height="64dp"
+                    android:layout_columnWeight="1"
+                    app:gLeftImg="@mipmap/purse_index_item_hongbao"
+                    app:gTitleText="红包记录" />
+
+<!--                <com.yaoxin.appbase.view.GridIconTitleArrowTemplate-->
+<!--                    android:id="@+id/activity_mine_purse_index_lqmx"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="64dp"-->
+<!--                    android:layout_columnWeight="1"-->
+<!--                    android:visibility="gone"-->
+<!--                    app:bgColor="#545454"-->
+<!--                    app:gLeftImg="@mipmap/purse_index_item_mingxi"-->
+<!--                    app:textColor="@color/white"-->
+<!--                    app:gTitleText="零钱明细" />-->
+
+                <com.yaoxin.appbase.view.GridIconTitleArrowTemplate
                     android:id="@+id/activity_mine_purse_index_smrz"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:leftImg="@mipmap/purse_index_item_smrz"
-                    app:titleText="实名认证"
+                    android:layout_width="0dp"
+                    android:layout_height="64dp"
+                    android:layout_columnWeight="1"
+                    android:visibility="visible"
                     app:bgColor="#545454"
+                    app:gLeftImg="@mipmap/purse_index_item_smrz"
                     app:textColor="@color/white"
-                    />
-            <!--                <com.yaoxin.appbase.view.IconTitleArrowTemplate-->
-            <!--                    android:id="@+id/activity_mine_purse_index_wdkb"-->
-            <!--                    android:layout_width="0dp"-->
-            <!--                    android:layout_columnWeight="1"-->
-            <!--                    android:layout_height="64dp"-->
-            <!--                    app:leftImg="@mipmap/purse_index_item_kabao"-->
-            <!--                    app:titleText="我的卡包"-->
-            <!--                    />-->
-            <com.yaoxin.appbase.view.IconTitleArrowTemplate
-                android:id="@+id/activity_mine_purse_index_bdwx"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:leftImg="@mipmap/purse_index_item_wx"
-                app:bgColor="#545454"
-                app:textColor="@color/white"
-                app:titleText="绑定微信"
-                />
-            <com.yaoxin.appbase.view.IconTitleArrowTemplate
-                android:id="@+id/activity_mine_purse_index_bdzfb"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:leftImg="@mipmap/purse_index_item_zfb"
-                app:bgColor="#545454"
-                app:textColor="@color/white"
-                app:titleText="绑定支付宝"
-                />
+                    app:gTitleText="实名认证" />
+                <com.yaoxin.appbase.view.GridIconTitleArrowTemplate
+                    android:id="@+id/activity_mine_purse_index_bdwx"
+                    android:layout_width="0dp"
+                    android:layout_height="64dp"
+                    android:layout_columnWeight="1"
+                    app:bgColor="#545454"
+                    app:gLeftImg="@mipmap/purse_index_item_wx"
+                    app:textColor="@color/white"
+                    app:gTitleText="绑定微信" />
+
+                <com.yaoxin.appbase.view.GridIconTitleArrowTemplate
+                    android:id="@+id/activity_mine_purse_index_bdzfb"
+                    android:layout_width="0dp"
+                    android:layout_height="64dp"
+                    android:layout_columnWeight="1"
+                    app:bgColor="#545454"
+                    app:gLeftImg="@mipmap/purse_index_item_zfb"
+                    app:textColor="@color/white"
+                    app:gTitleText="绑定支付宝" />
+            </GridLayout>
+
         </LinearLayout>
 
     </LinearLayout>

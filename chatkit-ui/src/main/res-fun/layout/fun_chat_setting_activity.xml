@@ -92,19 +92,6 @@
 <!--                    android:textSize="15sp" />-->
 
 
-                <TextView
-                    android:id="@+id/fun_chat_setting_activity_send_msg_rl"
-                    android:layout_width="100dp"
-                    android:layout_height="28dp"
-                    android:layout_marginTop="80dp"
-                    android:layout_alignParentEnd="true"
-                    android:text="发消息"
-                    android:textColor="#ffffffff"
-                    android:textSize="15sp"
-                    android:gravity="center"
-                    android:layout_marginRight="15dp"
-                    android:background="@drawable/bg_app_theme_color_rounded_10"
-                    />
                 <com.netease.yunxin.kit.common.ui.widgets.ContactAvatarView
                     android:id="@+id/fun_chat_setting_activity_avatarView"
                     android:layout_width="80dp"
@@ -168,4 +155,18 @@
         </LinearLayout>
     </LinearLayout>
 
+                <TextView
+                    android:id="@+id/fun_chat_setting_activity_send_msg_rl"
+                    android:layout_width="300dp"
+                    android:layout_height="44dp"
+                    android:layout_marginBottom="40dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:text="发消息"
+                    android:textColor="#ffffffff"
+                    android:textSize="15sp"
+                    android:gravity="center"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/bg_app_theme_color_rounded_10"
+                    />
 </RelativeLayout>

@@ -10,6 +10,10 @@
         <attr name="bgColor" format="color|reference" />
         <attr name="textColor" format="color|reference" />
     </declare-styleable>
+    <declare-styleable name="GridIconTitleArrowTemplate">
+        <attr name="gLeftImg" format="reference" />
+        <attr name="gTitleText" format="string" />
+    </declare-styleable>
     <declare-styleable name="ActionSheet">
         <attr name="actionSheetBackground" format="color|reference" />
         <attr name="cancelButtonBackground" format="color|reference" />
