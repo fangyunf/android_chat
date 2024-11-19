@@ -76,11 +76,10 @@
                     android:layout_height="60dp"
                     android:gravity="center"
                     android:background="#060606"
-                    android:text="充值"
+                    android:text="充值1"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_size_15" />
                 <TextView
-                    android:visibility="gone"
                     android:layout_marginLeft="15dp"
                     android:id="@+id/activity_mine_purse_index_recharge_tv2"
                     android:layout_width="100dp"
