@@ -113,7 +113,7 @@ public class BindAlipayActivity extends BaseActivity implements View.OnClickList
                             _type = 0;
                         } else {
                             _type = 1;
-                            bindBean = tempList.get(0);
+                            bindBean = tempList.get(tempList.size() - 1);
                         }
                         updateUI();
                     }
