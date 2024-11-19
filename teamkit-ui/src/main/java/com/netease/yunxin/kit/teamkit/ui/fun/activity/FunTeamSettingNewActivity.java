@@ -399,6 +399,7 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
 //            binding.funTeamSettingNewActivitySetGonggao.viewTitleArrowLl.setVisibility(View.VISIBLE);
             binding.editIcon.setVisibility(View.VISIBLE);
         }
+        binding.funTeamSettingNewActivityQuite.setText(groupInfoBean.rankState == 1 ? "解散群组" : "退出群组");
 
     }
 
@@ -482,6 +483,41 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
                 }
             },getSupportFragmentManager());
         } else if (view == binding.funTeamSettingNewActivityQuite) {
+            if (groupInfoBean.rankState == 1) {
+                CommonChoiceDialog dialog = new CommonChoiceDialog();
+            dialog
+                    .setTitleStr("温馨提示")
+                    .setContentStr("确定解散群聊吗?")
+                    .setNegativeStr("取消")
+                    .setPositiveStr("确定")
+                    .setConfirmListener(
+                            new ChoiceListener() {
+                                @Override
+                                public void onPositive() {
+
+                                    RegisterBean bean = new RegisterBean();
+                                    bean.groupId = groupId;
+                                    HttpUtil.apiW().group_dissolveGroup(bean)
+                                            .enqueue(new CommonCallback<NetData>() {
+                                                @Override
+                                                public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                                                    ToastUtils.toastMsg(body.msg);
+                                                    finish();
+                                                }
+
+                                                @Override
+                                                public void Failure(Call<NetData> call, Throwable t) {
+
+                                                }
+                                            });
+                                }
+
+                                @Override
+                                public void onNegative() {}
+                            })
+                    .show(getSupportFragmentManager());
+                return;
+            }
             CommonChoiceDialog dialog = new CommonChoiceDialog();
             dialog
                     .setTitleStr("温馨提示")

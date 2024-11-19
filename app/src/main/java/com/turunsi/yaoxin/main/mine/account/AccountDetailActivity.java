@@ -85,7 +85,6 @@ public class AccountDetailActivity extends BaseActivity implements View.OnClickL
     viewBinding.activityMineAccountDetailNav.addCloseImageButton().setOnClickListener(this);
     viewBinding.activityMineAccountDetailModifyHeadTv.setOnClickListener(this);
     viewBinding.activityMineAccountDetailModifyNameTv.setOnClickListener(this);
-    viewBinding.activityMineAccountDetailNav.getTitleView().setVisibility(View.GONE);
 //    viewBinding.activityMineAccountDetailUsername.viewTitleArrowLl.setOnClickListener(this);
 //    viewBinding.activityMineAccountDetailModifyHeadIvRl.setOnClickListener(this);
 //
@@ -106,6 +105,8 @@ public class AccountDetailActivity extends BaseActivity implements View.OnClickL
 //      viewBinding.activityMineAccountDetailUsername.viewTitleArrowRightTv.setVisibility(View.VISIBLE);
     viewBinding.activityMineAccountDetailNameTv.setText(DataUtil.getUserInfo().username);
 
+    viewBinding.activityMineAccountDetailDetailIdTv.setText(DataUtil.getUserInfo().memberCode);
+    viewBinding.activityMineAccountDetailPhoneNumTv.setText(DataUtil.getUserInfo().phoneNo);
   }
 
   @Override
