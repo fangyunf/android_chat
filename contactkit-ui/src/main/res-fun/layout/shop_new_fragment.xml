@@ -7,28 +7,42 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:orientation="vertical"
-    android:background="@color/color_F2F2F2"
+    android:background="@drawable/shop_fragment_bg"
     android:layout_height="match_parent">
 
-    <ScrollView
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fillViewport="true">
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        android:text="商城"
+        android:textColor="@color/color_333333"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:padding="30dp"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:gravity="center_vertical"
+        android:layout_marginHorizontal="15dp"
+        android:paddingHorizontal="15dp"
+        android:background="@drawable/bg_white_rounded_10"
+        android:layout_height="@dimen/dimen_50_dp">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:text="请输入您搜索的内容"
+            />
 
-            <ImageView
-                android:src="@drawable/shop_index"
-                android:id="@+id/longImageView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:scaleType="fitCenter" />
-        </LinearLayout>
-    </ScrollView>
-
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_search"
+            />
+    </LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_marginTop="10dp"
+        android:id="@+id/shop_new_fragment_rv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 </LinearLayout>

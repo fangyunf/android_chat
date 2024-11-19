@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tl="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_F2F2F2"
+    android:orientation="vertical">
+
+    <com.yaoxin.appbase.navbar.NavToolbar
+        android:id="@+id/activity_submit_order_nav"
+        style="@style/WhiteFontToolbar"
+        android:background="@color/color_white"
+        app:back_icon="@mipmap/temp_ic_back"
+        app:enable_under_divider="true"
+        app:support_translucent_status_bar="false"
+        app:title="提交订单"
+        app:title_text_color="@color/color_333333"
+        app:under_divider_color="@color/transparent" />
+
+    <LinearLayout
+        android:id="@+id/activity_submit_order_choose_address_ll"
+        android:layout_width="match_parent"
+        android:paddingHorizontal="15dp"
+        android:background="@color/color_white"
+        android:gravity="center_vertical"
+        android:layout_height="50dp">
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="收货地址"
+            android:textColor="@color/color_333333"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/submit_order_weizhi"
+            android:layout_marginHorizontal="5dp"
+            />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+
+        </LinearLayout>
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_height="20dp"
+            android:src="@drawable/submit_order_arrow"
+            />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:padding="10dp"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/activity_submit_order_shop_iv"
+            android:layout_width="111dp"
+            android:layout_height="111dp"/>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:orientation="vertical"
+            android:layout_marginHorizontal="10dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/activity_submit_order_shop_name_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="粉色2024毛衣"
+                android:textSize="16sp"
+                android:textColor="@color/color_333333"
+                />
+            <TextView
+                android:id="@+id/activity_submit_order_shop_price_tv"
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="￥598"
+                android:textSize="16sp"
+                android:textColor="@color/color_999999"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/activity_submit_order_shop_num_add"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/submit_order_jianhao"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1"
+                android:textSize="16sp"
+                android:textColor="@color/color_333333"
+                android:gravity="center"
+                android:layout_marginHorizontal="5dp"
+                />
+            <ImageView
+                android:id="@+id/activity_submit_order_shop_num_jianjian"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/submit_order_jiahao"
+                />
+        </LinearLayout>
+    </LinearLayout>
+    <TextView
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="支付方式"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:background="@drawable/bg_white_rounded_10"
+        android:padding="15dp"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+
+                android:id="@+id/activity_submit_order_yue_ll"
+            android:layout_width="match_parent"
+            android:gravity="center_vertical"
+            android:layout_height="40dp">
+
+            <ImageView
+                android:layout_width="20dp"
+
+                android:layout_height="20dp"
+                android:src="@drawable/submit_order_yue"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="余额支付"
+                android:textSize="16sp"
+                android:textColor="@color/color_333333"
+                android:layout_marginHorizontal="5dp"
+                android:layout_weight="1"
+                />
+            <ImageView
+                android:id="@+id/activity_submit_order_yue_ll_iv"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/submit_order_check"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/activity_submit_order_wx_ll"
+            android:layout_width="match_parent"
+            android:gravity="center_vertical"
+            android:layout_height="40dp">
+
+            <ImageView
+                android:layout_width="20dp"
+
+                android:layout_height="20dp"
+                android:src="@drawable/submit_order_wx"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="微信支付"
+                android:textSize="16sp"
+                android:textColor="@color/color_333333"
+                android:layout_marginHorizontal="5dp"
+                android:layout_weight="1"
+                />
+            <ImageView
+                android:id="@+id/activity_submit_order_wx_ll_iv"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/submit_order_uncheck"
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/color_white"
+        android:layout_marginTop="10dp"
+        android:paddingHorizontal="15dp"
+        android:gravity="center_vertical"
+        >
+<TextView
+    android:id="@+id/activity_submit_order_heji_tv"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="合计：￥598"
+android:textColor="#ff000000"
+android:textSize="17sp"
+    android:layout_weight="1"
+/>
+        <TextView
+    android:id="@+id/activity_submit_order_paynow_tv"
+            android:layout_width="170dp"
+            android:layout_height="50dp"
+            android:text="立即支付"
+            android:gravity="center"
+            android:textColor="@color/color_white"
+            android:textSize="16sp"
+            android:background="@drawable/fun_bg_app_theme_color_rounded_22"
+            />
+    </LinearLayout>
+</LinearLayout>
