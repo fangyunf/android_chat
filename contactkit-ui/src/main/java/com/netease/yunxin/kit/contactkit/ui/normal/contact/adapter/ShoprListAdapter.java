@@ -22,11 +22,11 @@ public int opt_type = 0;
     @Override
     protected void onBindViewHolder(@NonNull QuickViewHolder quickViewHolder, int i, @Nullable GroupInfoBean infoBean) {
             ImageView iv = quickViewHolder.getView(R.id.shop_fragment_item_cell_shop_iv);
-
+            GlideUtil.yh_loadImageRoundedCorner(getContext(), iv, infoBean.avatar, 22);
             TextView tv1 = quickViewHolder.getView(R.id.shop_fragment_item_cell_shop_name_tv);
             TextView tv2 = quickViewHolder.getView(R.id.shop_fragment_item_cell_shop_price_tv);
             tv1.setText(infoBean.name);
-            tv2.setText(infoBean.price + "元");
+            tv2.setText(infoBean.price1);
     }
     @NonNull
     @Override

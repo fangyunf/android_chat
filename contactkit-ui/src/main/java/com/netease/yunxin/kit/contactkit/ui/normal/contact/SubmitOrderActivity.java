@@ -12,17 +12,20 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.gson.Gson;
 import com.netease.nimlib.sdk.misc.DirCacheFileType;
 import com.netease.yunxin.kit.contactkit.ui.databinding.ActivitySubmitOrderBinding;
 import com.netease.yunxin.kit.corekit.im.IMKitClient;
 import com.netease.yunxin.kit.corekit.im.provider.FetchCallback;
 import com.netease.yunxin.kit.corekit.im.repo.MiscRepo;
 import com.yaoxin.appbase.activity.BaseActivity;
+import com.yaoxin.appbase.model.GroupInfoBean;
 import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.DialogAlertUtil;
+import com.yaoxin.appbase.utils.GlideUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
 
 import java.util.ArrayList;
@@ -34,7 +37,7 @@ import retrofit2.Response;
 public class SubmitOrderActivity extends BaseActivity implements View.OnClickListener {
 
   private ActivitySubmitOrderBinding viewBinding;
-
+GroupInfoBean infoBean = new GroupInfoBean();
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -42,13 +45,19 @@ public class SubmitOrderActivity extends BaseActivity implements View.OnClickLis
     viewBinding = ActivitySubmitOrderBinding.inflate(getLayoutInflater());
     viewBinding.activitySubmitOrderChooseAddressLl.setOnClickListener(this);
     setContentView(viewBinding.getRoot());
+    if (extras != null && extras.get("data") != null) {
+        infoBean = new Gson().fromJson((String) extras.get("data"), GroupInfoBean.class);
+    }
     initView();
   }
 
   private void initView() {
 
     viewBinding.activitySubmitOrderNav.addCloseImageButton().setOnClickListener(this);
-
+      GlideUtil.yh_loadImage(this, viewBinding.activitySubmitOrderShopIv, infoBean.avatar);
+      viewBinding.activitySubmitOrderShopNameTv.setText(infoBean.name);
+      viewBinding.activitySubmitOrderShopPriceTv.setText(infoBean.price1);
+      viewBinding.activitySubmitOrderHejiTv.setText("合计" + infoBean.price1);
   }
 
   @Override
