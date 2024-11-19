@@ -113,7 +113,7 @@ public class BindAlipayActivity extends BaseActivity implements View.OnClickList
                             _type = 0;
                         } else {
                             _type = 1;
-                            bindBean = tempList.get(tempList.size() - 1);
+                            bindBean = tempList.get(0);
                         }
                         updateUI();
                     }
@@ -190,6 +190,9 @@ public class BindAlipayActivity extends BaseActivity implements View.OnClickList
                 registerBean.usdt = qrcodeImgUrl;
             } else {
                 registerBean.certNo = account;
+            }
+            if (bindBean != null && bindBean.id > 0) {
+                registerBean.id = bindBean.id + "";
             }
             HttpUtil.apiW().bindCard_createUptadeZFB1(registerBean)
                     .enqueue(new CommonCallback<NetData>() {

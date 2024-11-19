@@ -146,14 +146,20 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
 
             bean.zfbNo = aliPayBean.phone;
             bean.name = aliPayBean.name;
+            bean.zfbUrl = aliPayBean.usdt;
+            bean.userUsdtId = aliPayBean.id + "";
         } else if (payType.equals("wxpay")) {
 
             bean.zfbNo = wxPayBean.phone;
             bean.name = wxPayBean.name;
+            bean.zfbUrl = wxPayBean.usdt;
+            bean.userUsdtId = wxPayBean.id +"";
         } else if (payType.equals("yhkpay")) {
 
             bean.zfbNo = yhkPayBean.phone;
             bean.name = yhkPayBean.name;
+            bean.zfbUrl = yhkPayBean.usdt;
+            bean.userUsdtId = yhkPayBean.id + "";
         }
         HttpUtil.apiW().withdraw_withdrawDeposit(bean)
                 .enqueue(new CommonCallback<NetData>() {
@@ -253,17 +259,17 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
                                 case "alipay":
                                     if (!tempList.isEmpty()) {
 
-                                        aliPayBean = tempList.get(tempList.size() - 1);
+                                        aliPayBean = tempList.get(0);
                                     }
                                     break;
                                 case "wechat":
                                     if (!tempList.isEmpty()) {
-                                        wxPayBean = tempList.get(tempList.size() - 1);
+                                        wxPayBean = tempList.get(0);
                                     }
                                     break;
                                 case "bank":
                                     if (!tempList.isEmpty()) {
-                                        yhkPayBean = tempList.get(tempList.size() - 1);
+                                        yhkPayBean = tempList.get(0);
                                     }
                                     break;
                             }

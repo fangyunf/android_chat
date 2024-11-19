@@ -9,6 +9,8 @@ public class UserBean {
     public String userName;
     public String phoneFix;
     public String inviteName;
+    public String usdt;
+    public String cardId;
 
     public String userAvatar;
     public String userMemberCode;
