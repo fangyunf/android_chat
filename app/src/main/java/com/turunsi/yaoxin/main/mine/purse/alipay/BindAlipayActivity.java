@@ -1,7 +1,6 @@
 package com.turunsi.yaoxin.main.mine.purse.alipay;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -26,12 +25,8 @@ import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.model.RequestParamsBean;
 import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
-import com.yaoxin.appbase.net.Constant;
 import com.yaoxin.appbase.net.HttpUtil;
-import com.yaoxin.appbase.utils.CommonCallBack;
 import com.yaoxin.appbase.utils.ToastUtils;
-import com.yaoxin.appbase.utils.UploadUtil;
-import com.zhihu.matisse.Matisse;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -42,8 +37,8 @@ import retrofit2.Response;
 
 public class BindAlipayActivity extends BaseActivity implements View.OnClickListener {
     ActivityMineBindAlipayBinding binding;
-    String qrcodeImgUrl;
-    UserBean bindBean;
+
+    List<UserBean> bindList;
     int _type = 0;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,7 +50,6 @@ public class BindAlipayActivity extends BaseActivity implements View.OnClickList
         binding.activityMineBindAlipayBindTv.setOnClickListener(this);
         binding.activityMineBindAlipayRebindTv.setOnClickListener(this);
         binding.activityMineBindAlipayBindSuccessTv.setOnClickListener(this);
-        binding.activityMineBindAlipayUploadLl.setOnClickListener(this);
 
         binding.activityMineBindAlipayAccount.viewTitleTfWithoutBgTv.setText("支付宝账号");
         binding.activityMineBindAlipayName.viewTitleTfWithoutBgTv.setText("真实姓名");
@@ -72,8 +66,9 @@ public class BindAlipayActivity extends BaseActivity implements View.OnClickList
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                        bindBean = new Gson().fromJson(body.data.toString(), UserBean.class);
-                        if (bindBean.phone.isEmpty()) {
+                        Type type = new TypeToken<List<UserBean>>() {}.getType();
+                        bindList = new Gson().fromJson(body.data.toString(), type);
+                        if (bindList.isEmpty()) {
                             _type = 0;
                         } else {
                             _type = 1;
@@ -97,9 +92,9 @@ public class BindAlipayActivity extends BaseActivity implements View.OnClickList
         if (_type == 0) {
             binding.activityMineBindAlipayGotoBindLl.setVisibility(View.VISIBLE);
         } else if (_type == 1) {
-            if (!bindBean.phone.isEmpty()) {
+            if (!bindList.isEmpty()) {
                 binding.activityMineBindAlipayRebindContent.viewTitleDetailTemplateLeftTv.setText("已绑定支付宝");
-                binding.activityMineBindAlipayRebindContent.viewTitleDetailTemplateRightTv.setText(bindBean.phone);
+                binding.activityMineBindAlipayRebindContent.viewTitleDetailTemplateRightTv.setText(bindList.get(0).phone);
             }
             binding.activityMineBindAlipayRebindLl.setVisibility(View.VISIBLE);
 
@@ -132,13 +127,11 @@ public class BindAlipayActivity extends BaseActivity implements View.OnClickList
                 ToastUtils.toastMsg("请输入姓名");
                 return;
             }
-
-            if (qrcodeImgUrl == null) {
-                ToastUtils.toastMsg("请上传支付宝收款码");
-                return;
-            }
             RequestParamsBean registerBean = new RequestParamsBean(phone,name,"2");
-            registerBean.zfb = qrcodeImgUrl;
+
+            if (!bindList.isEmpty()) {
+                registerBean.id = bindList.get(0).id + "";
+            }
             HttpUtil.apiW().bindCard_createUptadeZFB1(registerBean)
                     .enqueue(new CommonCallback<NetData>() {
                         @Override
@@ -155,25 +148,7 @@ public class BindAlipayActivity extends BaseActivity implements View.OnClickList
                     });
         } else if (v == binding.activityMineBindAlipayBindSuccessTv) {
             finish();
-        } else if (v == binding.activityMineBindAlipayUploadLl) {
-            UploadUtil.openPhotoLibrary(this, Constant.REQUEST_CODE_CHOOSE);
         }
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == Constant.REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
-            List<String> strings = Matisse.obtainPathResult(data);
-            if (!strings.isEmpty()) {
-                UploadUtil.uploadImage(strings.get(0), "", new CommonCallBack() {
-                    @Override
-                    public void onCallBackUserBean(UserBean userBean) {
-                        ToastUtils.toastMsg("上传成功");
-                        qrcodeImgUrl = userBean.url;
-                    }
-                });
-            }
-        }
-    }
 }

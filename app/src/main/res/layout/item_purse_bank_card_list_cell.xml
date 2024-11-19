@@ -3,62 +3,58 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingHorizontal="@dimen/dimen_16_dp"
+    android:paddingHorizontal="20dp"
     android:layout_marginBottom="@dimen/dimen_16_dp"
     >
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="132dp"
+        android:layout_height="100dp"
         >
         <ImageView
+            android:id="@+id/item_purse_bank_card_list_cell_bank_bg_iv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:scaleType="fitXY"
-            android:src="@mipmap/mine_fragment_purse_bank_card_list_bg"/>
+            android:src="@mipmap/bank_card_list_nyyh"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/dimen_16_dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="52dp"
             android:gravity="center_vertical"
+            android:orientation="vertical"
             >
 
             <TextView
-                android:layout_width="0dp"
-                android:layout_height="22dp"
+                android:id="@+id/item_purse_bank_card_list_cell_bank_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="建设银行"
-                android:textColor="#ffffffff"
+                android:textColor="@color/color_333333"
                 android:textSize="16sp"
                 android:layout_weight="1"
                 />
-            <RelativeLayout
+            <TextView
+                android:layout_marginTop="15dp"
+                android:id="@+id/item_purse_bank_card_list_cell_card_num"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <ImageView
-                    android:layout_width="@dimen/dimen_48_dp"
-                    android:layout_height="@dimen/dimen_26_dp"
-                    android:src="@mipmap/mine_fragment_purse_bank_card_list_unbind_bg"
-                    android:scaleType="fitXY"
-                    />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="20dp"
-                    android:text="解绑"
-                    android:textColor="#ffffffff"
-                    android:textSize="14sp"
-                    android:layout_centerInParent="true"
-                    />
-            </RelativeLayout>
+                android:layout_height="wrap_content"
+                android:text="****  ****  ****  9976"
+                android:textColor="#ff009c96"
+                android:textSize="24sp"
+                />
         </LinearLayout>
-
         <TextView
+            android:layout_marginTop="10dp"
+            android:id="@+id/item_purse_bank_card_list_cell_unbind_tv"
+            android:layout_marginEnd="10dp"
             android:layout_width="wrap_content"
-            android:layout_height="28dp"
-            android:text="**** **** **** 0719"
-            android:textColor="#ffffffff"
-            android:textSize="20sp"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="@dimen/dimen_25_dp"
+            android:layout_height="wrap_content"
+            android:text="解绑"
+            android:layout_alignParentEnd="true"
+            android:textColor="#ff666666"
+            android:textSize="14sp"
             />
+
     </RelativeLayout>
 </LinearLayout>

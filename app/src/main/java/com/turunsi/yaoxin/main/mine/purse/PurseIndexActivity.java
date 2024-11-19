@@ -126,7 +126,8 @@ public class PurseIndexActivity extends BaseActivity implements View.OnClickList
         else if (v == binding.activityMinePurseIndexBdzfb) {
             BindAlipayActivity.start(BindAlipayActivity.class,this,null);
         } else if (v == binding.activityMinePurseIndexBdwx) {
-            ToastUtils.toastMsg("敬请期待");
+//            ToastUtils.toastMsg("敬请期待");
+            BankCardListActivity.start(BankCardListActivity.class,this,null);
         }
 //        else if (v == binding.activityMinePurseIndexWdkb) {
 //            ToastUtils.toastMsg("敬请期待");

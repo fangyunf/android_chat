@@ -4,19 +4,41 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tl="http://schemas.android.com/apk/res-auto"
+    android:background="@mipmap/bank_card_list_bg"
     android:orientation="vertical">
 
     <com.yaoxin.appbase.navbar.NavToolbar
         android:id="@+id/activity_mine_purse_bank_card_list_nav"
         style="@style/WhiteFontToolbar"
-        android:background="@color/white"
-        app:back_icon="@mipmap/temp_ic_back"
+        android:background="@color/transparent"
+        app:back_icon="@mipmap/temp_ic_back_white"
         app:enable_under_divider="true"
         app:support_translucent_status_bar="false"
-        app:title="银行卡"
+        app:title=" "
         app:title_text_color="@color/color_333333"
-        app:under_divider_color="@color/color_d5d5d5" />
+        app:under_divider_color="@color/transparent" />
 
+    <LinearLayout
+        android:layout_marginVertical="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="20dp"
+        >
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="我的银行卡"
+            android:layout_weight="1"
+            android:textColor="#ffffffff"
+            android:textSize="18sp"
+            />
+        <ImageView
+            android:id="@+id/activity_mine_bank_card_list_add_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/bank_card_list_gsyh_add"
+            />
+    </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/activity_mine_purse_bank_card_list_rv"
         android:layout_width="match_parent"

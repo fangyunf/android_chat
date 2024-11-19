@@ -27,7 +27,15 @@ import retrofit2.http.Query;
  */
 public interface ServiceW {
 
-
+    //  好友列表
+    @POST("/bindCard/deleteZFB")
+    Call<NetData> bindCard_deleteZFB(
+            @Body RegisterBean userBean
+    );
+    @POST("/pay/sandPay")
+    Call<NetData> pay_sandPay(
+            @Body RequestParamsBean userBean
+    );
     @POST("pass/user/v1/login")
     Call<NetData<UserBean>> login(
             @Body UserBean userBean

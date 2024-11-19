@@ -9,6 +9,7 @@ import java.util.List;
 public class RegisterBean {
 
     public String fafId;
+    public String  userUsdtId;
     public String allDisturb;
     public String caiDanId  ;
     public String sound;
