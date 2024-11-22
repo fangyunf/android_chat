@@ -12,6 +12,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.SpannableString;
 import android.text.TextUtils;
@@ -66,6 +67,7 @@ import com.netease.yunxin.kit.common.ui.utils.ToastX;
 import com.netease.yunxin.kit.common.utils.KeyboardUtils;
 import com.netease.yunxin.kit.common.utils.NetworkUtils;
 import com.netease.yunxin.kit.common.utils.PermissionUtils;
+import com.netease.yunxin.kit.common.utils.SPUtils;
 import com.netease.yunxin.kit.common.utils.XKitUtils;
 import com.netease.yunxin.kit.corekit.im.IMKitClient;
 import com.yaoxin.appbase.model.CustomMsgBean;
@@ -200,6 +202,22 @@ public class MessageBottomLayout extends FrameLayout
     mBinding.inputEt.setOnFocusChangeListener(
         (v, hasFocus) ->
             mProxy.onTypeStateChange(!TextUtils.isEmpty(mBinding.inputEt.getText()) && hasFocus));
+    if (mProxy != null) {
+
+      new Handler().postDelayed(new Runnable() {
+    @Override
+    public void run() {
+        // 这里是1秒后需要执行的代码
+      String userid = DataUtil.getUserid();
+          String sessionId = mProxy.getSessionId();
+    String msgString = DataUtil.getStringValue(userid + sessionId + "input");
+    if (msgString != null && !msgString.isEmpty()) {
+     mBinding.inputEt.setText(msgString);
+    }
+    }
+}, 1000); // 延时1000毫秒，即1秒
+
+    }
   }
 
   public FunChatMessageBottomViewBinding getViewBinding() {
@@ -421,6 +439,11 @@ public class MessageBottomLayout extends FrameLayout
           if (TextUtils.isEmpty(s.toString())) {
             mBinding.inputEt.setHint(mEdieNormalHint);
           }
+          String userid = DataUtil.getUserid();
+          String sessionId = mProxy.getSessionId();
+          String value = s.toString();
+
+          DataUtil.putKeyValue(userid + sessionId + "input",value);
         }
       };
 
@@ -431,6 +454,7 @@ public class MessageBottomLayout extends FrameLayout
   public void sendText(ChatMessageBean replyMessage) {
 
     String msg = mBinding.inputEt.getEditableText().toString();
+        DataUtil.putKeyValue(DataUtil.getUserid() + mProxy.getSessionId() + "input","");
     if (msg.isEmpty()) {
 
       return;

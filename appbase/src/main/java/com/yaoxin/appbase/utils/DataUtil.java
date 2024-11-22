@@ -28,6 +28,14 @@ public class DataUtil {
         return Hawk.get(TOKEN,"");
     }
 
+    public static void putKeyValue(String key,String value) {
+        Hawk.put(key, value);
+    }
+
+    public static String getValue(String key) {
+        return Hawk.get(key,"");
+    }
+
     public static void putUserInfo(UserBean userBean) {
         Hawk.put(USERID, userBean);
     }
