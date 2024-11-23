@@ -206,14 +206,14 @@ public class FunConversationFragment extends ConversationBaseFragment {
                             viewBinding.marqueeView.startWithText(message);
                             viewBinding.marqueeView.startWithText(message, com.sunfusheng.marqueeview.R.anim.anim_bottom_in, com.sunfusheng.marqueeview.R.anim.anim_top_out);
                           } else {
-                            message = "通知：请大家尽快完成后台认证";
+                            message = "";
                             viewBinding.marqueeView.startWithText(message);
                             viewBinding.marqueeView.startWithText(message, com.sunfusheng.marqueeview.R.anim.anim_bottom_in, com.sunfusheng.marqueeview.R.anim.anim_top_out);
 
                           }
                         } else {
 
-                          String message = "通知：请大家尽快完成后台认证";
+                          String message = "";
                           viewBinding.marqueeView.startWithText(message);
                           viewBinding.marqueeView.startWithText(message, com.sunfusheng.marqueeview.R.anim.anim_bottom_in, com.sunfusheng.marqueeview.R.anim.anim_top_out);
 
@@ -223,7 +223,7 @@ public class FunConversationFragment extends ConversationBaseFragment {
                       @Override
                       public void Failure(Call<NetData> call, Throwable t) {
 
-                        String message = "通知：请大家尽快完成后台认证";
+                        String message = "";
                         viewBinding.marqueeView.startWithText(message);
                         viewBinding.marqueeView.startWithText(message, com.sunfusheng.marqueeview.R.anim.anim_bottom_in, com.sunfusheng.marqueeview.R.anim.anim_top_out);
 

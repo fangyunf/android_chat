@@ -128,6 +128,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import pub.devrel.easypermissions.EasyPermissions;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -476,11 +477,16 @@ public abstract class ChatBaseFragment extends BaseFragment {
                   Manifest.permission.READ_MEDIA_IMAGES, Manifest.permission.READ_MEDIA_VIDEO
                 };
           }
+          if (!EasyPermissions.hasPermissions(getContext(), permission)) {
+            // 请求相机权限
+            EasyPermissions.requestPermissions( getActivity(), "需要访问相册权限", Constant.RC_PHOTO_PICKER_PERM, permission);
+            return;
+        }
           if (PermissionUtils.hasPermissions(ChatBaseFragment.this.getContext(), permission)) {
 //            startPickMedia();
             UploadUtil.choosePhotoLibrary(ChatBaseFragment.this, 9);
           } else {
-            requestCameraPermission(permission, REQUEST_READ_EXTERNAL_STORAGE_PERMISSION_ALBUM);
+//            requestCameraPermission(permission, REQUEST_READ_EXTERNAL_STORAGE_PERMISSION_ALBUM);
           }
         }
 

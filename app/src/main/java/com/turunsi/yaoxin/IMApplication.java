@@ -135,6 +135,7 @@ public class IMApplication extends MultiDexApplication {
 
     private void initUIKit() {
         SDKOptions options = NimSDKOptionConfig.getSDKOptions(this, DataUtils.readAppKey(this));
+        options.teamNotificationMessageMarkUnread = true;
         IMKitClient.init(this, null, options);
         ALog.d(Constant.PROJECT_TAG, TAG, "initUIKit");
 
