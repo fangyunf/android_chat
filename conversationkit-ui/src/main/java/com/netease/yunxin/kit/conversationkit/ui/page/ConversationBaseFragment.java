@@ -61,7 +61,6 @@ public abstract class ConversationBaseFragment extends BaseFragment implements I
   protected ConversationViewModel viewModel;
   private IConversationCallback conversationCallback;
 
-  public int _type;
   private Observer<FetchResult<List<ConversationBean>>> changeObserver;
   private Observer<FetchResult<ConversationBean>> stickObserver;
   private Observer<FetchResult<List<UserInfo>>> userInfoObserver;
@@ -134,27 +133,27 @@ public abstract class ConversationBaseFragment extends BaseFragment implements I
 //                conversationView._type = _type;
                         conversationList = result.getData();
 
-                        ArrayList<ConversationBean> tempList = new ArrayList<>();
-                        if (conversationList != null) {
-                          for (ConversationBean tempBean : conversationList) {
-                            if (_type == 1 && tempBean.viewType == 2) {
-                              tempList.add(tempBean);
-                            } else if (_type == 0 && tempBean.viewType == 1){
-                              String userid = DataUtil.getUserid();
-                              String targetUserId = (String) tempBean.param;
-                              if (!userid.equals(targetUserId)) {
-                                tempList.add(tempBean);
-                              }
-//                              tempList.add(tempBean)
-                            }
-                          }
-                        }
-                        conversationList = tempList;
+//                        ArrayList<ConversationBean> tempList = new ArrayList<>();
+//                        if (conversationList != null) {
+//                          for (ConversationBean tempBean : conversationList) {
+//                            if (_type == 1 && tempBean.viewType == 2) {
+//                              tempList.add(tempBean);
+//                            } else if (_type == 0 && tempBean.viewType == 1){
+//                              String userid = DataUtil.getUserid();
+//                              String targetUserId = (String) tempBean.param;
+//                              if (!userid.equals(targetUserId)) {
+//                                tempList.add(tempBean);
+//                              }
+////                              tempList.add(tempBean)
+//                            }
+//                          }
+//                        }
+//                        conversationList = tempList;
                         finishLoadData();
                         if (result.getLoadStatus() == LoadStatus.Success) {
-                          conversationView.setData(tempList);
+                          conversationView.setData(conversationList);
                         } else if (result.getLoadStatus() == LoadStatus.Finish) {
-                          conversationView.addData(tempList);
+                          conversationView.addData(conversationList);
                         }
 
                         if (emptyView != null) {
