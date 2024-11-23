@@ -192,7 +192,7 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
                 if (page_type == 4) {
 
                     Intent resultIntent = new Intent();
-                    GroupInfoBean groupInfoBean1 = mContactModels.get(i);
+                    GroupInfoBean groupInfoBean1 = baseQuickAdapter.getItem(i);
                     resultIntent.putExtra("userInfo", new Gson().toJson(groupInfoBean1));
                     that.setResult(Activity.RESULT_OK, resultIntent);
                     that.finish();
@@ -202,7 +202,7 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
                     //发送名片
 
                     Intent resultIntent = new Intent();
-                    GroupInfoBean groupInfoBean1 = mContactModels.get(i);
+                    GroupInfoBean groupInfoBean1 = baseQuickAdapter.getItem(i);
                     resultIntent.putExtra("userInfo", new Gson().toJson(groupInfoBean1));
                     that.setResult(Activity.RESULT_OK, resultIntent);
 //                    that.finish();
