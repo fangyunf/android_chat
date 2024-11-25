@@ -17,6 +17,7 @@ import android.os.Vibrator;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.multidex.MultiDexApplication;
 
 import com.google.gson.Gson;
@@ -35,7 +36,12 @@ import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.msg.model.RevokeMsgNotification;
 import com.netease.nimlib.sdk.msg.model.ShowNotificationWhenRevokeFilter;
 import com.netease.nimlib.sdk.team.TeamService;
+import com.netease.nimlib.sdk.team.constant.TeamMessageNotifyTypeEnum;
 import com.netease.nimlib.sdk.team.model.IMMessageFilter;
+import com.netease.yunxin.kit.chatkit.model.TeamWithCurrentMember;
+import com.netease.yunxin.kit.chatkit.repo.ConversationRepo;
+import com.netease.yunxin.kit.chatkit.repo.TeamRepo;
+import com.netease.yunxin.kit.corekit.im.provider.FetchCallback;
 import com.netease.yunxin.kit.teamkit.ui.fun.activity.FunTeamMemberListActivity;
 import com.netease.yunxin.kit.teamkit.ui.normal.activity.TeamMemberListActivity;
 import com.orhanobut.hawk.Hawk;
@@ -84,6 +90,7 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class IMApplication extends MultiDexApplication {
 
@@ -244,17 +251,79 @@ public class IMApplication extends MultiDexApplication {
 
                         if (sessionType == SessionTypeEnum.P2P) { // 单聊会话
 
-                        } else if (sessionType == SessionTypeEnum.Team) { // 群聊会话
+                            boolean isNotice = ConversationRepo.isNotify(sessionId, SessionTypeEnum.P2P);
 
+                            if (isNotice) {
+                                mediaPlayer.start();
+                            }
+                        } else if (sessionType == SessionTypeEnum.Team) { // 群聊会话
+                            TeamRepo.queryTeamWithMember(
+                                    sessionId,
+                                    Objects.requireNonNull(IMKitClient.account()),
+                                    new FetchCallback<TeamWithCurrentMember>() {
+                                        @Override
+                                        public void onSuccess(@Nullable TeamWithCurrentMember param) {
+                                            boolean isMute = param.getTeam().getMessageNotifyType() == TeamMessageNotifyTypeEnum.Mute;
+                                            if (!isMute) {
+                                                mediaPlayer.start();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onFailed(int code) {
+                                        }
+
+                                        @Override
+                                        public void onException(@Nullable Throwable exception) {
+                                        }
+                                    });
                         }
-                        mediaPlayer.start();
                     }
                     if ("1".equals(shakeSoud)) {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            vibrator.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE));
-                        } else {
-                            vibrator.vibrate(500); // 简单震动
+                        // 获取会话 ID 和类型
+                        String sessionId = message.getSessionId();
+                        SessionTypeEnum sessionType = message.getSessionType();
+
+                        if (sessionType == SessionTypeEnum.P2P) { // 单聊会话
+
+                            boolean isNotice = ConversationRepo.isNotify(sessionId, SessionTypeEnum.P2P);
+
+                            if (isNotice) {
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                    vibrator.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE));
+                                } else {
+                                    vibrator.vibrate(500); // 简单震动
+                                }
+                            }
+                        } else if (sessionType == SessionTypeEnum.Team) { // 群聊会话
+                            TeamRepo.queryTeamWithMember(
+                                    sessionId,
+                                    Objects.requireNonNull(IMKitClient.account()),
+                                    new FetchCallback<TeamWithCurrentMember>() {
+                                        @Override
+                                        public void onSuccess(@Nullable TeamWithCurrentMember param) {
+                                            boolean isMute = param.getTeam().getMessageNotifyType() == TeamMessageNotifyTypeEnum.Mute;
+                                            if (!isMute) {
+
+                                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                                    vibrator.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE));
+                                                } else {
+                                                    vibrator.vibrate(500); // 简单震动
+                                                }
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onFailed(int code) {
+                                        }
+
+                                        @Override
+                                        public void onException(@Nullable Throwable exception) {
+                                        }
+                                    });
                         }
+
+
                     }
                     return false; // 不过滤
                 }
