@@ -97,7 +97,7 @@
                         android:ellipsize="end"
                         android:hint="@string/fun_chat_input_hint_tips"
                         android:imeOptions="actionSend"
-                        android:inputType="textMultiLine"
+                        android:inputType="text"
                         android:maxLength="2000"
                         android:paddingStart="@dimen/dimen_12_dp"
                         android:singleLine="true"
