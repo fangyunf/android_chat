@@ -20,6 +20,8 @@ import com.turunsi.yaoxin.utils.Constant;
 import com.turunsi.yaoxin.utils.DataUtils;
 import com.netease.yunxin.kit.alog.ALog;
 import com.netease.yunxin.kit.common.utils.ScreenUtils;
+import com.yaoxin.appbase.utils.AppProxy;
+
 import java.io.IOException;
 
 /** Nim SDK config info */
@@ -88,9 +90,10 @@ public class NimSDKOptionConfig {
   public static StatusBarNotificationConfig loadStatusBarNotificationConfig() {
     StatusBarNotificationConfig config = new StatusBarNotificationConfig();
     config.notificationEntrance = MainActivity.class;
+
     config.notificationSmallIconId = R.mipmap.yaoxin_icon;
     config.notificationColor = Color.parseColor("#3a9efb");
-//    config.notificationSound = NOTIFY_SOUND_KEY;
+//    config.notificationSound = "android.resource://" + AppProxy.getInstance().getContext().getPackageName() + "/" + R.raw.msg;//NOTIFY_SOUND_KEY;
     config.notificationFoldStyle = NotificationFoldStyle.ALL;
     config.downTimeEnableNotification = true;
     config.ledARGB = Color.GREEN;

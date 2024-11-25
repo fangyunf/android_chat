@@ -72,6 +72,7 @@ public class SettingNotifyNewActivity extends BaseActivity {
         viewBinding.activityMineSettingNotifyCell1.viewTitleArrowTv.setText("新消息通知");
         viewBinding.activityMineSettingNotifyCell1.viewTitleArrowRightTvSwitch.setVisibility(View.VISIBLE);
         viewBinding.activityMineSettingNotifyCell1.viewTitleArrowArrowIv.setVisibility(View.GONE);
+        viewBinding.activityMineSettingNotifyCell1.viewTitleArrowLl.setVisibility(View.GONE);
 
         viewBinding.activityMineSettingNotifyCell2.viewTitleArrowTv.setText("声音");
         viewBinding.activityMineSettingNotifyCell2.viewTitleArrowRightTvSwitch.setVisibility(View.VISIBLE);
@@ -110,7 +111,9 @@ public class SettingNotifyNewActivity extends BaseActivity {
 //                    SPUtils.getInstance().put("isCloseShake", isCloseShake);
 //                    updatConfig();
                 });
-
+        DataUtil.setStringValue(viewBinding.activityMineSettingNotifyCell2.viewTitleArrowRightTvSwitch.isSelected() ?"1":"0","ring_soud");
+        DataUtil.setStringValue(viewBinding.activityMineSettingNotifyCell3.viewTitleArrowRightTvSwitch.isSelected() ?"1":"0","shake_soud");
+//
     }
 
     void updateStatus(int type) {
@@ -132,17 +135,17 @@ public class SettingNotifyNewActivity extends BaseActivity {
                         if (type == 1) {
 //                            NIMClient.toggleNotification("1".equals(registerBean.allDisturb));
                         } else if (type == 2)  {
-
-                            StatusBarNotificationConfig config = NimSDKOptionConfig.loadStatusBarNotificationConfig();
-
-                            config.ring = !viewBinding.activityMineSettingNotifyCell2.viewTitleArrowRightTvSwitch.isSelected() ;
-                            config.vibrate = viewBinding.activityMineSettingNotifyCell3.viewTitleArrowRightTvSwitch.isSelected() ;
-                            NIMClient.updateStatusBarNotificationConfig(config);
+                            DataUtil.setStringValue(viewBinding.activityMineSettingNotifyCell2.viewTitleArrowRightTvSwitch.isSelected() ?"1":"0","ring_soud");
+//                            StatusBarNotificationConfig config = NimSDKOptionConfig.loadStatusBarNotificationConfig();
+//                            config.ring = !viewBinding.activityMineSettingNotifyCell2.viewTitleArrowRightTvSwitch.isSelected() ;
+//                            config.vibrate = viewBinding.activityMineSettingNotifyCell3.viewTitleArrowRightTvSwitch.isSelected() ;
+//                            NIMClient.updateStatusBarNotificationConfig(config);
                         } else if (type == 3)  {
-                            StatusBarNotificationConfig config = NimSDKOptionConfig.loadStatusBarNotificationConfig();
-                            config.ring = viewBinding.activityMineSettingNotifyCell2.viewTitleArrowRightTvSwitch.isSelected() ;
-                            config.vibrate = !viewBinding.activityMineSettingNotifyCell3.viewTitleArrowRightTvSwitch.isSelected() ;
-                            NIMClient.updateStatusBarNotificationConfig(config);
+                            DataUtil.setStringValue(viewBinding.activityMineSettingNotifyCell3.viewTitleArrowRightTvSwitch.isSelected() ?"1":"0","shake_soud");
+//                            StatusBarNotificationConfig config = NimSDKOptionConfig.loadStatusBarNotificationConfig();
+//                            config.ring = viewBinding.activityMineSettingNotifyCell2.viewTitleArrowRightTvSwitch.isSelected() ;
+//                            config.vibrate = !viewBinding.activityMineSettingNotifyCell3.viewTitleArrowRightTvSwitch.isSelected() ;
+//                            NIMClient.updateStatusBarNotificationConfig(config);
                         }
                         _requestData();
 

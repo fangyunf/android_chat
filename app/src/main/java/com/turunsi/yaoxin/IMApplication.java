@@ -9,7 +9,11 @@ import static com.yaoxin.appbase.net.Constant.RealName_Router;
 
 import android.app.Activity;
 import android.content.Context;
+import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
@@ -20,13 +24,17 @@ import com.heytap.msp.push.HeytapPushManager;
 import com.huawei.hms.support.common.ActivityMgr;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
+import com.netease.nimlib.sdk.RequestCallbackWrapper;
+import com.netease.nimlib.sdk.ResponseCode;
 import com.netease.nimlib.sdk.SDKOptions;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
+import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.CustomNotification;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.msg.model.RevokeMsgNotification;
 import com.netease.nimlib.sdk.msg.model.ShowNotificationWhenRevokeFilter;
+import com.netease.nimlib.sdk.team.TeamService;
 import com.netease.nimlib.sdk.team.model.IMMessageFilter;
 import com.netease.yunxin.kit.teamkit.ui.fun.activity.FunTeamMemberListActivity;
 import com.netease.yunxin.kit.teamkit.ui.normal.activity.TeamMemberListActivity;
@@ -83,7 +91,8 @@ public class IMApplication extends MultiDexApplication {
     private static boolean coldStart = false;
     private static int foregroundActCount = 0;
     private Activity currentActivity;
-
+    private MediaPlayer mediaPlayer;
+    Vibrator vibrator;
 
     @Override
     public void onCreate() {
@@ -108,6 +117,19 @@ public class IMApplication extends MultiDexApplication {
                 .setIsDebug(BuildConfig.DEBUG)
                 .setVersionName(BuildConfig.VERSION_NAME);
         initThirdPart();
+        mediaPlayer = MediaPlayer.create(this, R.raw.msg);
+        vibrator = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
+
+        if (vibrator != null && vibrator.hasVibrator()) { // 检查设备是否支持震动
+            // 创建一个震动效果，参数为震动时长（毫秒）
+            VibrationEffect vibrationEffect = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                vibrationEffect = VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE);
+                vibrator.vibrate(vibrationEffect);
+            }
+
+            // 开始震动
+        }
     }
 
     private void initThirdPart() {
@@ -212,6 +234,27 @@ public class IMApplication extends MultiDexApplication {
 //                        if (message.getContent().contains("receiveUserId") && message.getContent().contains("receiveUserName")) {
 //                            return true;
 //                        }
+                    }
+                    String ringSoud = DataUtil.getStringValue("ring_soud");
+                    String shakeSoud = DataUtil.getStringValue("shake_soud");
+                    if ("1".equals(ringSoud)) {
+                        // 获取会话 ID 和类型
+                        String sessionId = message.getSessionId();
+                        SessionTypeEnum sessionType = message.getSessionType();
+
+                        if (sessionType == SessionTypeEnum.P2P) { // 单聊会话
+
+                        } else if (sessionType == SessionTypeEnum.Team) { // 群聊会话
+
+                        }
+                        mediaPlayer.start();
+                    }
+                    if ("1".equals(shakeSoud)) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            vibrator.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE));
+                        } else {
+                            vibrator.vibrate(500); // 简单震动
+                        }
                     }
                     return false; // 不过滤
                 }
