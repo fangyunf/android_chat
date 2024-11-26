@@ -131,6 +131,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
         if (_type == 0) {
             binding.activityMinePurseRechargeQqPayBtn.setVisibility(View.GONE);
             binding.activityMinePurseRechargeWxPayBtn.setVisibility(View.GONE);
+            binding.activityMinePurseRechargeAliPayBtn.setText("充值");
         }
     }
     @Override
