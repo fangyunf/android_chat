@@ -931,6 +931,7 @@ public abstract class ChatBaseViewModel extends BaseViewModel {
                         IMMessageInfo message = iterator.next();
                         IMMessage message1 = message.getMessage();
                         String attachStr = message1.getAttachStr();
+                        String content = message1.getContent();
                         if (attachStr != null && attachStr.contains("adminIds")) {
                             try {
                                 CustomMsgBean msgBean = new Gson().fromJson(attachStr, CustomMsgBean.class);
@@ -948,6 +949,23 @@ public abstract class ChatBaseViewModel extends BaseViewModel {
                             }
 
                         }
+                        if (content != null && content.startsWith("{")) {
+                        try {
+                            CustomMsgBean msgBean = new Gson().fromJson(content, CustomMsgBean.class);
+
+                            if (msgBean.sendUserId != null && msgBean.sendUserName != null && msgBean.receiveUserName != null && msgBean.receiveUserId != null) {
+                                {
+                                    if (!msgBean.sendUserId.equals(DataUtil.getUserid()) && !msgBean.receiveUserId.equals(DataUtil.getUserid())) {
+                                        iterator.remove();
+                                    }
+
+                                }
+                            }
+
+                        } catch (Exception e) {
+
+                        }
+                    }
                     }
                 }
                 fetchPinInfo();
