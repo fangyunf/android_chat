@@ -167,7 +167,7 @@ public class MainActivity extends BaseActivity {
                             ParamsBean updateBean = new Gson().fromJson(body.data.toString(), ParamsBean.class);
 
                             UpdateFragment.showFragment(MainActivity.this,
-                                    true, updateBean.downloadUrl, "智美", updateBean.upMsg, BuildConfig.APPLICATION_ID, null);
+                                    true, updateBean.downloadUrl, "臻元", updateBean.upMsg, BuildConfig.APPLICATION_ID, null);
                         }
                     }
 
