@@ -18,6 +18,7 @@ import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 
+import okhttp3.HttpUrl;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -77,7 +78,18 @@ public abstract class CommonCallback<T> implements Callback<T> {
 //                        LoginActivity.cleanStart(App.getContext());
                         break;
                     default:
-                        onFailure(call, new NetServerException(netData.msg != null ? netData.msg : "", netData.code));
+                        boolean isSkip = false;
+                        try {
+                            String url = response.raw().request().url().url().toString();
+                            if (url.contains("caidan/groupCaidan")) {
+                                isSkip = true;
+                            }
+                        } catch (Exception e) {
+
+                        }
+                        if (!isSkip) {
+                            onFailure(call, new NetServerException(netData.msg != null ? netData.msg : "", netData.code));
+                        }
                         return;
                 }
 
