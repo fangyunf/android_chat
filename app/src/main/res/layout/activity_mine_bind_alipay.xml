@@ -34,7 +34,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="还没有绑定支付宝，快去绑定吧~"
+            android:text="还没有绑定，快去绑定吧~"
             android:textColor="#ff333333"
             android:textSize="15sp"
             />
@@ -99,6 +99,12 @@
             android:layout_width="match_parent"
 
             android:layout_height="wrap_content" />
+        <include
+            android:id="@+id/activity_mine_bind_kaihu_name"
+            layout="@layout/view_top_title_et"
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content" />
 
         <LinearLayout
             android:id="@+id/activity_mine_bind_alipay_upload_ll"
@@ -119,7 +125,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen_16_dp"
-                android:text="上传支付宝收款码"
+                android:text="上传收款码"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_size_16" />
             <TextView
@@ -162,7 +168,7 @@
             android:layout_marginTop="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="恭喜您！支付宝绑定成功！"
+            android:text="恭喜您！绑定成功！"
             android:textColor="#ff000000"
             android:textSize="15sp"
             />

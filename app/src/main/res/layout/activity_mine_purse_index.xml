@@ -58,7 +58,7 @@
 
                 <TextView
                     android:id="@+id/activity_mine_purse_index_tixian_tv"
- android:layout_width="100dp"
+                    android:layout_width="100dp"
                     android:layout_weight="1"
                     android:layout_height="60dp"
 
@@ -121,24 +121,16 @@
                 app:bgColor="#545454"
                 app:textColor="@color/white"
                 />
-                <com.yaoxin.appbase.view.IconTitleArrowTemplate
-                    android:visibility="visible"
-                    android:id="@+id/activity_mine_purse_index_smrz"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:leftImg="@mipmap/purse_index_item_smrz"
-                    app:titleText="实名认证"
-                    app:bgColor="#545454"
-                    app:textColor="@color/white"
-                    />
-            <!--                <com.yaoxin.appbase.view.IconTitleArrowTemplate-->
-            <!--                    android:id="@+id/activity_mine_purse_index_wdkb"-->
-            <!--                    android:layout_width="0dp"-->
-            <!--                    android:layout_columnWeight="1"-->
-            <!--                    android:layout_height="64dp"-->
-            <!--                    app:leftImg="@mipmap/purse_index_item_kabao"-->
-            <!--                    app:titleText="我的卡包"-->
-            <!--                    />-->
+            <com.yaoxin.appbase.view.IconTitleArrowTemplate
+                android:visibility="visible"
+                android:id="@+id/activity_mine_purse_index_smrz"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:leftImg="@mipmap/purse_index_item_smrz"
+                app:titleText="实名认证"
+                app:bgColor="#545454"
+                app:textColor="@color/white"
+                />
             <com.yaoxin.appbase.view.IconTitleArrowTemplate
                 android:id="@+id/activity_mine_purse_index_bdwx"
                 android:layout_width="match_parent"
@@ -156,6 +148,15 @@
                 app:bgColor="#545454"
                 app:textColor="@color/white"
                 app:titleText="绑定支付宝"
+                />
+            <com.yaoxin.appbase.view.IconTitleArrowTemplate
+                android:id="@+id/activity_mine_purse_index_wdkb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:leftImg="@mipmap/purse_index_item_kabao"
+                app:bgColor="#545454"
+                app:textColor="@color/white"
+                app:titleText="绑定银行卡"
                 />
         </LinearLayout>
 

@@ -7,6 +7,7 @@ public class UserBean {
      *
      * */
     public String userName;
+    public String usdt;
     public String phoneFix;
     public String inviteName;
 

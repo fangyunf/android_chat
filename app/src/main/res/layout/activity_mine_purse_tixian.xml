@@ -106,6 +106,13 @@
                 android:textSize="16sp"
                 />
         </LinearLayout>
+
+        <include
+            android:id="@+id/activity_mine_purse_tixianfangshi"
+            layout="@layout/view_title_tf_without_bg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_12_dp" />
         <TextView
             android:layout_marginTop="70dp"
             android:id="@+id/activity_mine_purse_tixian_tixian_btn"
