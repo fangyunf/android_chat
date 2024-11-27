@@ -82,6 +82,8 @@ public class FunConversationFragment extends ConversationBaseFragment {
 
   private FunConversationFragmentBinding viewBinding;
 
+  private boolean _needRefresh;
+
   public FunConversationFragment(int type) {
     _type = type;
   }
@@ -178,17 +180,18 @@ public class FunConversationFragment extends ConversationBaseFragment {
   }
   @Subscribe(threadMode = ThreadMode.MAIN)
   public void onMessageEvent(BaseEvent event) {
-//    if (event.getTag().equals("refreshConversationList")) {
-//      if (event.conversationList != null) {
-//        ArrayList<ConversationBean> tempList = new ArrayList<>();
-//        for (Object obj :
-//                event.conversationList) {
-//          tempList.add((ConversationBean) obj);
-//        }
-//        conversationList = tempList;
-//      }
-//      doOptWithIndex(topIndex);
-//    }
+    if (event.getTag().equals("refresh_chat_list")) {
+      _needRefresh = true;
+    }
+  }
+
+  @Override
+  public void onStart() {
+    super.onStart();
+    if (_needRefresh) {
+      _needRefresh = false;
+      requestMsg();
+    }
   }
 
   @Override
