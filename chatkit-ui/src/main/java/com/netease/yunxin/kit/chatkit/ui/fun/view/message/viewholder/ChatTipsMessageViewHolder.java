@@ -68,6 +68,9 @@ public class ChatTipsMessageViewHolder extends FunChatBaseMessageViewHolder {
     baseViewBinding.otherUserAvatar.setVisibility(View.GONE);
     baseViewBinding.myAvatar.setVisibility(View.GONE);
     baseViewBinding.myName.setVisibility(View.GONE);
+
+    baseViewBinding.chatBaseMessageViewHolderMineGradeIv.setVisibility(View.GONE);
+    baseViewBinding.chatBaseMessageViewHolderOtherGradeIv.setVisibility(View.GONE);
     baseViewBinding.messageStatus.setVisibility(View.GONE);
   }
 
