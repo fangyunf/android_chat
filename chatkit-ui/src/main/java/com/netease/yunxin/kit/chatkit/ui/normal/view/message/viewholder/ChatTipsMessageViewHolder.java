@@ -61,6 +61,8 @@ public class ChatTipsMessageViewHolder extends NormalChatBaseMessageViewHolder {
     baseViewBinding.myAvatar.setVisibility(View.GONE);
     baseViewBinding.myName.setVisibility(View.GONE);
     baseViewBinding.messageStatus.setVisibility(View.GONE);
+    baseViewBinding.chatBaseMessageViewHolderMineGradeIv.setVisibility(View.GONE);
+    baseViewBinding.chatBaseMessageViewHolderOtherGradeIv.setVisibility(View.GONE);
   }
 
   @Override
