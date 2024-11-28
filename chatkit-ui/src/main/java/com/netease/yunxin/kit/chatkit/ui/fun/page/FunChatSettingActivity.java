@@ -337,7 +337,7 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
                                         public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
                                             ToastUtils.toastMsg(body.msg);
-                                            deleteConversation(userBean.userId);
+//                                            deleteConversation(userBean.userId);
                                             finish();
                                         }
 
