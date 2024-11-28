@@ -22,6 +22,8 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.nanchen.wavesidebar.FirstLetterUtil;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.constant.DeleteTypeEnum;
@@ -53,19 +55,24 @@ import com.netease.yunxin.kit.corekit.im.model.UserInfo;
 import com.netease.yunxin.kit.corekit.im.provider.FetchCallback;
 import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
 import com.netease.yunxin.kit.corekit.route.XKitRouter;
+import com.yaoxin.appbase.model.GroupInfoBean;
 import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.BaseEvent;
+import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.DialogAlertUtil;
 import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import retrofit2.Call;
@@ -338,6 +345,7 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
 
                                             ToastUtils.toastMsg(body.msg);
 //                                            deleteConversation(userBean.userId);
+                                            reloadFriendData();
                                             finish();
                                         }
 
@@ -373,6 +381,42 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
             }
         });
 
+    }
+
+    private void reloadFriendData() {
+        HttpUtil.apiW().friends_friendList(new RegisterBean())
+                .enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+
+                        Type type = new TypeToken<List<GroupInfoBean>>() {
+                        }.getType();
+                        List<GroupInfoBean> mContactModels = new Gson().fromJson(body.data.toString(), type);
+                        for (GroupInfoBean tempBean :
+                                mContactModels) {
+                            if (tempBean.userId.equals(DataUtil.getKeFuId())) {
+                                mContactModels.remove(tempBean);
+                                break;
+                            }
+
+                        }
+                        Collections.sort(mContactModels, new Comparator<GroupInfoBean>() {
+                            @Override
+                            public int compare(GroupInfoBean o1, GroupInfoBean o2) {
+                                // 获取name的首字母并忽略大小写比较
+                                String firstLetter = FirstLetterUtil.getFirstLetter(o1.name);
+                                String secondLetter = FirstLetterUtil.getFirstLetter(o2.name);
+                                return firstLetter.compareTo(secondLetter);
+                            }
+                        });
+                        DataUtil.setFriendInfoList(mContactModels);
+                    }
+
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
+
+                    }
+                });
     }
 
     private void deleteConversation(String sesstionId) {

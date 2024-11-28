@@ -109,6 +109,7 @@ import com.yaoxin.appbase.net.Constant;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.BaseEvent;
 import com.yaoxin.appbase.utils.CommonCallBack;
+import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.DialogAlertUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
 import com.yaoxin.appbase.utils.UploadUtil;
@@ -400,6 +401,20 @@ public abstract class ChatBaseFragment extends BaseFragment {
       new IMessageProxy() {
         @Override
         public boolean sendTextMessage(String msg, ChatMessageBean replyMsg) {
+          if (getSessionType() == SessionTypeEnum.P2P) {
+            boolean isFriend = false;
+            for (GroupInfoBean tempBean :
+                    DataUtil.getFriendInfoList()) {
+              if (tempBean.userId.equals(getSessionId())) {
+                isFriend = true;
+                break;
+              }
+            }
+            if (!isFriend) {
+              ToastUtils.toastMsg("请先添加对方为好友");
+              return false;
+            }
+          }
           List<String> pushList = null;
           Map<String, Object> extension = null;
           if (TextUtils.isEmpty(msg) || TextUtils.getTrimmedLength(msg) < 1) {
@@ -431,6 +446,20 @@ public abstract class ChatBaseFragment extends BaseFragment {
 
         @Override
         public boolean sendRichTextMessage(String title, String content, ChatMessageBean replyMsg) {
+          if (getSessionType() == SessionTypeEnum.P2P) {
+            boolean isFriend = false;
+            for (GroupInfoBean tempBean :
+                    DataUtil.getFriendInfoList()) {
+              if (tempBean.userId.equals(getSessionId())) {
+                isFriend = true;
+                break;
+              }
+            }
+            if (!isFriend) {
+              ToastUtils.toastMsg("请先添加对方为好友");
+              return false;
+            }
+          }
           List<String> pushList = null;
           Map<String, Object> extension = null;
           if (TextUtils.isEmpty(title) || TextUtils.getTrimmedLength(title) < 1) {
@@ -467,6 +496,20 @@ public abstract class ChatBaseFragment extends BaseFragment {
 
         @Override
         public void pickMedia() {
+          if (getSessionType() == SessionTypeEnum.P2P) {
+            boolean isFriend = false;
+            for (GroupInfoBean tempBean :
+                    DataUtil.getFriendInfoList()) {
+              if (tempBean.userId.equals(getSessionId())) {
+                isFriend = true;
+                break;
+              }
+            }
+            if (!isFriend) {
+              ToastUtils.toastMsg("请先添加对方为好友");
+              return;
+            }
+          }
           String[] permission = new String[] {Manifest.permission.READ_EXTERNAL_STORAGE};
           // 根据系统版本判断，如果是Android13则采用Manifest.permission.READ_MEDIA_IMAGES
           if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -485,6 +528,20 @@ public abstract class ChatBaseFragment extends BaseFragment {
 
         @Override
         public void takePicture() {
+          if (getSessionType() == SessionTypeEnum.P2P) {
+            boolean isFriend = false;
+            for (GroupInfoBean tempBean :
+                    DataUtil.getFriendInfoList()) {
+              if (tempBean.userId.equals(getSessionId())) {
+                isFriend = true;
+                break;
+              }
+            }
+            if (!isFriend) {
+              ToastUtils.toastMsg("请先添加对方为好友");
+              return;
+            }
+          }
           if (PermissionUtils.hasPermissions(
               ChatBaseFragment.this.getContext(), Manifest.permission.CAMERA)) {
             startTakePicture();
@@ -505,6 +562,20 @@ public abstract class ChatBaseFragment extends BaseFragment {
 
         @Override
         public boolean sendFile() {
+          if (getSessionType() == SessionTypeEnum.P2P) {
+            boolean isFriend = false;
+            for (GroupInfoBean tempBean :
+                    DataUtil.getFriendInfoList()) {
+              if (tempBean.userId.equals(getSessionId())) {
+                isFriend = true;
+                break;
+              }
+            }
+            if (!isFriend) {
+              ToastUtils.toastMsg("请先添加对方为好友");
+               return false;
+            }
+          }
           String[] permission = new String[] {Manifest.permission.READ_EXTERNAL_STORAGE};
           // 根据系统版本判断，如果是Android13则采用Manifest.permission.READ_MEDIA_IMAGES
           if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -523,6 +594,20 @@ public abstract class ChatBaseFragment extends BaseFragment {
 
         @Override
         public boolean sendAudio(File audioFile, long audioLength, ChatMessageBean replyMsg) {
+          if (getSessionType() == SessionTypeEnum.P2P) {
+            boolean isFriend = false;
+            for (GroupInfoBean tempBean :
+                    DataUtil.getFriendInfoList()) {
+              if (tempBean.userId.equals(getSessionId())) {
+                isFriend = true;
+                break;
+              }
+            }
+            if (!isFriend) {
+              ToastUtils.toastMsg("请先添加对方为好友");
+              return true;
+            }
+          }
           // audio not support reply
           if (audioLength < AUDIO_MESSAGE_MIN_LENGTH) {
             ToastX.showShortToast(R.string.chat_message_audio_to_short);
@@ -534,6 +619,20 @@ public abstract class ChatBaseFragment extends BaseFragment {
 
         @Override
         public boolean sendCustomMessage(MsgAttachment attachment, String content) {
+          if (getSessionType() == SessionTypeEnum.P2P) {
+            boolean isFriend = false;
+            for (GroupInfoBean tempBean :
+                    DataUtil.getFriendInfoList()) {
+              if (tempBean.userId.equals(getSessionId())) {
+                isFriend = true;
+                break;
+              }
+            }
+            if (!isFriend) {
+              ToastUtils.toastMsg("请先添加对方为好友");
+              return true;
+            }
+          }
           viewModel.sendCustomMessage(attachment, content);
           return true;
         }
@@ -604,11 +703,39 @@ public abstract class ChatBaseFragment extends BaseFragment {
 
         @Override
         public void audioCall() {
+          if (getSessionType() == SessionTypeEnum.P2P) {
+            boolean isFriend = false;
+            for (GroupInfoBean tempBean :
+                    DataUtil.getFriendInfoList()) {
+              if (tempBean.userId.equals(getSessionId())) {
+                isFriend = true;
+                break;
+              }
+            }
+            if (!isFriend) {
+              ToastUtils.toastMsg("请先添加对方为好友");
+              return;
+            }
+          }
           ChatUtils.startAudioCall(getContext(), sessionID);
         }
 
         @Override
         public void sendMingPian() {
+          if (getSessionType() == SessionTypeEnum.P2P) {
+            boolean isFriend = false;
+            for (GroupInfoBean tempBean :
+                    DataUtil.getFriendInfoList()) {
+              if (tempBean.userId.equals(getSessionId())) {
+                isFriend = true;
+                break;
+              }
+            }
+            if (!isFriend) {
+              ToastUtils.toastMsg("请先添加对方为好友");
+              return;
+            }
+          }
           XKitRouter.withKey(Constant.FunSelected_User_ActivityKey)
                   .withParam("type","5")
                   .withParam("block", new CommonCallBack() {
@@ -656,6 +783,20 @@ public abstract class ChatBaseFragment extends BaseFragment {
 
         @Override
         public void sendShouCang() {
+          if (getSessionType() == SessionTypeEnum.P2P) {
+            boolean isFriend = false;
+            for (GroupInfoBean tempBean :
+                    DataUtil.getFriendInfoList()) {
+              if (tempBean.userId.equals(getSessionId())) {
+                isFriend = true;
+                break;
+              }
+            }
+            if (!isFriend) {
+              ToastUtils.toastMsg("请先添加对方为好友");
+              return;
+            }
+          }
           XKitRouter.withKey(Constant.CollectionListActivityKey)
                   .withParam("type","5")
 //                  .withParam("groupId",groupId)
@@ -666,6 +807,20 @@ public abstract class ChatBaseFragment extends BaseFragment {
         @Override
         public void sendRedPacket() {
 
+          if (getSessionType() == SessionTypeEnum.P2P) {
+            boolean isFriend = false;
+            for (GroupInfoBean tempBean :
+                    DataUtil.getFriendInfoList()) {
+              if (tempBean.userId.equals(getSessionId())) {
+                isFriend = true;
+                break;
+              }
+            }
+            if (!isFriend) {
+              ToastUtils.toastMsg("请先添加对方为好友");
+              return;
+            }
+          }
           if (getSessionType() == SessionTypeEnum.P2P) {
             HashMap map = new HashMap();
             map.put("sessionId",getSessionId());
