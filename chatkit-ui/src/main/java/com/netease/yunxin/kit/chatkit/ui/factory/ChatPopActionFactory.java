@@ -65,6 +65,9 @@ public class ChatPopActionFactory {
         if (message.getMessageData().getMessage().getAttachStr() != null && !message.getMessageData().getMessage().getAttachStr().isEmpty()) {
 
             actions.add(getDeleteAction(message));
+            if (message.getViewType() == MsgTypeEnum.image.getValue() || message.getViewType() == MsgTypeEnum.video.getValue()) {
+                actions.add(getTransmitAction(message));
+            }
             return actions;
         }
         if (customPopMenu == null
