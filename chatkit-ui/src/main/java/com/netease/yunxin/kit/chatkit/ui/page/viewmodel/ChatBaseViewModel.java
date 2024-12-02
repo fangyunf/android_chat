@@ -1107,6 +1107,48 @@ public abstract class ChatBaseViewModel extends BaseViewModel {
             if (result != null && result.getMessageList() != null) {
               if (direction == GetMessageDirectionEnum.FORWARD) {
                 Collections.reverse(result.getMessageList());
+                  // 创建一个迭代器，移除 attachStr 不为空的消息
+                  Iterator<IMMessageInfo> iterator = result.getMessageList().iterator();
+                  while (iterator.hasNext()) {
+                      IMMessageInfo message = iterator.next();
+                      IMMessage message1 = message.getMessage();
+                      String attachStr = message1.getAttachStr();
+                      String content = message1.getContent();
+                      if (attachStr != null && attachStr.contains("adminIds")) {
+                          try {
+                              CustomMsgBean msgBean = new Gson().fromJson(attachStr, CustomMsgBean.class);
+
+                              msgBean.result = new Gson().fromJson(msgBean.data, CustomMsgBean.class);
+                              if (msgBean.type == 21) {
+                                  if (DataUtil.getUserid().equals(msgBean.result.toUserId) || DataUtil.getUserid().equals(msgBean.result.fromUserId) || msgBean.result.adminIds.contains(DataUtil.getUserid())) {
+                                  } else {
+                                      iterator.remove();
+                                  }
+
+                              }
+                          } catch (Exception e) {
+
+                          }
+
+                      }
+                      if (content != null && content.startsWith("{")) {
+                          try {
+                              CustomMsgBean msgBean = new Gson().fromJson(content, CustomMsgBean.class);
+
+                              if (msgBean.sendUserId != null && msgBean.sendUserName != null && msgBean.receiveUserName != null && msgBean.receiveUserId != null) {
+                                  {
+                                      if (!msgBean.sendUserId.equals(DataUtil.getUserid()) && !msgBean.receiveUserId.equals(DataUtil.getUserid())) {
+                                          iterator.remove();
+                                      }
+
+                                  }
+                              }
+
+                          } catch (Exception e) {
+
+                          }
+                      }
+                  }
               }
               ALog.d(LIB_TAG, TAG, "fetchMoreMessage,reverse:" + result.getMessageList().size());
               onListFetchSuccess(anchor, needToScrollEnd, result.getMessageList(), direction);
