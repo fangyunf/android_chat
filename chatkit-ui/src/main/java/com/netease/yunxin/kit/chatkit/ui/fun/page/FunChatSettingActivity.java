@@ -37,6 +37,7 @@ import com.netease.yunxin.kit.common.ui.activities.BaseActivity;
 import com.netease.yunxin.kit.common.ui.utils.AvatarColor;
 import com.netease.yunxin.kit.common.ui.viewmodel.LoadStatus;
 import com.netease.yunxin.kit.common.utils.NetworkUtils;
+import com.netease.yunxin.kit.contactkit.ui.fun.addfriend.FunAddFriendVerifyActivity;
 import com.netease.yunxin.kit.contactkit.ui.fun.userinfo.FunCommentActivity;
 import com.netease.yunxin.kit.contactkit.ui.fun.userinfo.FunUserInfoActivity;
 import com.netease.yunxin.kit.contactkit.ui.model.ContactUserInfoBean;
@@ -62,6 +63,7 @@ import com.yaoxin.appbase.utils.ToastUtils;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -122,6 +124,7 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
         initData();
         initRequest();
         registerResult();
+        binding.funChatSettingActivityAddFriendTv.setOnClickListener(this);
     }
 
     void _reuestInfo() {
@@ -138,6 +141,10 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
                         {
                             binding.funChatSettingActivityMemo.rightTv.setText(userBean.remark);
                             binding.funChatSettingActivityMemo.rightTv.setVisibility(View.VISIBLE);
+                        }
+                        if ("0".equals(userBean.friend)) {
+                            binding.funChatSettingActivityContentLl.setVisibility(View.GONE);
+                            binding.funChatSettingActivityAddFriendTv.setVisibility(View.VISIBLE);
                         }
                     }
 
@@ -512,6 +519,11 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
     public void onClick(View view) {
         if (view == binding.funChatSettingActivityNav.addCloseImageButton()) {
             finish();
+        } else if (view == binding.funChatSettingActivityAddFriendTv) {
+
+            HashMap map = new HashMap();
+            map.put("user", new Gson().toJson(userBean));
+            FunAddFriendVerifyActivity.start(FunAddFriendVerifyActivity.class, this, map);
         }
     }
 }

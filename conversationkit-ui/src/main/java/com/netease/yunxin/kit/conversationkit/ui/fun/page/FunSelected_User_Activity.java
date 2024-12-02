@@ -99,6 +99,10 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
             binding.activityFunSelectedUserNav.getTitleView().setText("发送名片");
             binding.activityFunSelectedUserConfirmTv.setVisibility(View.GONE);
         }
+        if (page_type == 6) {
+            binding.activityFunSelectedUserNav.getTitleView().setText("转发");
+            binding.activityFunSelectedUserConfirmTv.setVisibility(View.GONE);
+        }
         _requestData1();
         _initView();
     }
@@ -114,6 +118,15 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
             if (groupInfoBean == null ) {
                 return;
             }
+            Collections.sort(groupInfoBean.userInfos, new Comparator<GroupInfoBean>() {
+                @Override
+                public int compare(GroupInfoBean o1, GroupInfoBean o2) {
+                    // 获取name的首字母并忽略大小写比较
+                    String firstLetter = FirstLetterUtil.getFirstLetter(o1.name);
+                    String secondLetter = FirstLetterUtil.getFirstLetter(o2.name);
+                    return firstLetter.compareTo(secondLetter);
+                }
+            });
             mContactModels.addAll(groupInfoBean.userInfos);
             adapter.contacts = mContactModels;
             adapter.setItems(mContactModels);
@@ -206,6 +219,16 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
                     resultIntent.putExtra("userInfo", new Gson().toJson(groupInfoBean1));
                     that.setResult(Activity.RESULT_OK, resultIntent);
 //                    that.finish();
+                    finish();
+                    return;
+                }
+                if (page_type == 6) {
+                    //发送名片
+                    Intent result = new Intent();
+                    ArrayList<String> array = new ArrayList<>();
+                    array.add(baseQuickAdapter.getItem(i).userId);
+                    result.putExtra(REQUEST_CONTACT_SELECTOR_KEY, array);
+                    setResult(RESULT_OK, result);
                     finish();
                     return;
                 }

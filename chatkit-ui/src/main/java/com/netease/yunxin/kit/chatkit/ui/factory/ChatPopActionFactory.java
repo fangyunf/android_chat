@@ -5,6 +5,7 @@
 package com.netease.yunxin.kit.chatkit.ui.factory;
 
 import android.text.TextUtils;
+
 import com.netease.nimlib.sdk.msg.constant.MsgDirectionEnum;
 import com.netease.nimlib.sdk.msg.constant.MsgStatusEnum;
 import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
@@ -17,11 +18,14 @@ import com.netease.yunxin.kit.chatkit.ui.view.popmenu.IChatPopMenu;
 import com.netease.yunxin.kit.chatkit.ui.view.popmenu.IChatPopMenuClickListener;
 import com.netease.yunxin.kit.common.ui.utils.ToastX;
 import com.netease.yunxin.kit.common.utils.NetworkUtils;
+
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
-/** 聊天界面长按弹窗工厂类，根据长按的消息返回对应的弹窗中的内容 */
+/**
+ * 聊天界面长按弹窗工厂类，根据长按的消息返回对应的弹窗中的内容
+ */
 public class ChatPopActionFactory {
 
     private static volatile ChatPopActionFactory instance;
@@ -30,7 +34,8 @@ public class ChatPopActionFactory {
 
     private WeakReference<IChatPopMenu> customPopMenu;
 
-    private ChatPopActionFactory() {}
+    private ChatPopActionFactory() {
+    }
 
     public static ChatPopActionFactory getInstance() {
         if (instance == null) {
@@ -62,6 +67,16 @@ public class ChatPopActionFactory {
         if (message.getMessageData() == null) {
             return actions;
         }
+
+//        if (message.getMessageData().getMessage().getAttachStr() != null && !message.getMessageData().getMessage().getAttachStr().isEmpty()) {
+//
+//            actions.add(getDeleteAction(message));
+//            if (message.getViewType() == MsgTypeEnum.image.getValue() || message.getViewType() == MsgTypeEnum.video.getValue()) {
+//                actions.add(getTransmitAction(message));
+//            }
+//            int viewType = message.getViewType();
+//            return actions;
+//        }
         if (customPopMenu == null
                 || customPopMenu.get() == null
                 || customPopMenu.get().showDefaultPopMenu()) {
@@ -87,16 +102,17 @@ public class ChatPopActionFactory {
             // 自定义消息，根据自定义消息的Type区分IMUIKIt内置从101开始，客户定义从1000开始
             if (message.getViewType() == MsgTypeEnum.text.getValue()
                     || message.getViewType() == ChatMessageType.RICH_TEXT_ATTACHMENT) {
+                actions.add(getTransmitAction(message));
                 actions.add(getCopyAction(message));
             }
 //      actions.add(getReplyAction(message));
-            if (message.getViewType() != MsgTypeEnum.audio.getValue()) {
-//        actions.add(getTransmitAction(message));
+            if (message.getViewType() == MsgTypeEnum.image.getValue() || message.getViewType() == MsgTypeEnum.video.getValue()) {
+                actions.add(getTransmitAction(message));
             }
 //      actions.add(getPinAction(message));
             actions.add(getDeleteAction(message));
-//      actions.add(getMultiSelectAction(message));
-            actions.add(getCollectionAction(message));
+            actions.add(getMultiSelectAction(message));
+//            actions.add(getCollectionAction(message));
             if (message.getMessageData().getMessage().getDirect() == MsgDirectionEnum.Out) {
                 actions.add(getRecallAction(message));
             }
