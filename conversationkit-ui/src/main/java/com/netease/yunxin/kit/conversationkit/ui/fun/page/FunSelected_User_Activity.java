@@ -49,6 +49,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 
 import retrofit2.Call;
@@ -117,6 +118,16 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
         if (page_type == 3 || page_type == 4) {
             if (groupInfoBean == null ) {
                 return;
+            }
+            if (page_type == 4) {
+
+                Iterator<GroupInfoBean> iterator = groupInfoBean.userInfos.iterator();
+                while (iterator.hasNext()) {
+                    GroupInfoBean userInfo = iterator.next();
+                    if (DataUtil.getUserid().equals(userInfo.userId)) {
+                        iterator.remove(); // 移除匹配的用户
+                    }
+                }
             }
             Collections.sort(groupInfoBean.userInfos, new Comparator<GroupInfoBean>() {
                 @Override
