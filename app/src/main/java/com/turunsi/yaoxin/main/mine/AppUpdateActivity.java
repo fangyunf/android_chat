@@ -71,11 +71,11 @@ public class AppUpdateActivity extends BaseActivity implements View.OnClickListe
                           if (tempBean.appType.equals("ANDROID")) {
 
                               _downLoadBean = tempBean;
-                              if (_currentVersion.equals(_downLoadBean.version)) {
-                                  binding.activityAppUpdateOptTv.setText("已是最新版本");
-                              } else {
+//                              if (_currentVersion.equals(_downLoadBean.version)) {
+//                                  binding.activityAppUpdateOptTv.setText("已是最新版本");
+//                              } else {
                                   binding.activityAppUpdateOptTv.setText("去更新");
-                              }
+//                              }
                               binding.activityAppUpdateLastedVersionTv.setText(_downLoadBean.version);
 
                           }

@@ -41,6 +41,7 @@ import com.netease.nimlib.sdk.team.TeamService;
 import com.netease.nimlib.sdk.team.constant.TeamMessageNotifyTypeEnum;
 import com.netease.yunxin.kit.alog.ALog;
 import com.netease.yunxin.kit.chatkit.model.TeamWithCurrentMember;
+import com.netease.yunxin.kit.chatkit.model.UserInfoWithTeam;
 import com.netease.yunxin.kit.chatkit.repo.ConversationRepo;
 import com.netease.yunxin.kit.chatkit.repo.TeamRepo;
 import com.netease.yunxin.kit.common.ui.dialog.ChoiceListener;
@@ -236,11 +237,11 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
 
     }
 
-    void _requestPeople(int page) {
+    void _requestPeople() {
         RegisterBean bean = new RegisterBean();
         bean.groupId = groupId;
-        bean.page = page +"";
-        bean.pageNo ="100";
+        bean.page = "1";
+        bean.pageNo ="20";
 
 //        LoadingDialog.showDialog(getSupportFragmentManager(),"加载中");
         HttpUtil.apiW().group_groupUserListPost(bean)
@@ -251,21 +252,11 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
                         Type type = new TypeToken<List<GroupInfoBean>>() {
                         }.getType();
                         List<GroupInfoBean> tempList = new Gson().fromJson(body.data.toString(), type);
-                        if (!tempList.isEmpty()) {
-                            groupInfoBean.userInfos.addAll(tempList);
-                            if (tempList.size() == 100) {
-                                _requestPeople((page + 1));
-                            } else {
-                                LoadingDialog.dismissDialog();
-                                requestYunXin();
-                                updateUI();
-                            }
-                        } else {
-                            LoadingDialog.dismissDialog();
-                            requestYunXin();
-                            updateUI();
 
-                        }
+                        groupInfoBean.userInfos.addAll(tempList);
+                        LoadingDialog.dismissDialog();
+                        requestYunXin();
+                        updateUI();
                     }
 
                     @Override
@@ -277,6 +268,24 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
                     public void end() {
                         super.end();
 
+                    }
+                });
+
+
+        TeamRepo.getMemberList(
+                groupId,
+                new FetchCallback<List<UserInfoWithTeam>>() {
+                    @Override
+                    public void onSuccess(@Nullable List<UserInfoWithTeam> param) {
+                        binding.tvName.setText(groupInfoBean.name + "(" +param.size()+"人)");
+                    }
+
+                    @Override
+                    public void onFailed(int code) {
+                    }
+
+                    @Override
+                    public void onException(@Nullable Throwable exception) {
                     }
                 });
     }
@@ -292,7 +301,7 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
 
                         groupInfoBean = new Gson().fromJson(body.data.toString(),GroupInfoBean.class);
                         groupInfoBean.userInfos.clear();
-                        _requestPeople(1);
+                        _requestPeople();
 
                     }
 
@@ -330,10 +339,27 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
                     }
                 });
     }
+//    public void requestTeamMembers(String teamId) {
+//        TeamRepo.getMemberList(
+//                teamId,
+//                new FetchCallback<List<UserInfoWithTeam>>() {
+//                    @Override
+//                    public void onSuccess(@Nullable List<UserInfoWithTeam> param) {
+//                    }
+//
+//                    @Override
+//                    public void onFailed(int code) {
+//                    }
+//
+//                    @Override
+//                    public void onException(@Nullable Throwable exception) {
+//                    }
+//                });
+//    }
     void updateUI() {
         GlideUtil.yh_loadImageRoundedCorner(this,binding.funTeamSettingNewActivityTeamIcon,groupInfoBean.head,30);
 
-        binding.tvName.setText(groupInfoBean.name + "(" +groupInfoBean.userInfos.size()+"人)");
+
 
         ArrayList<GroupInfoBean> maxList = new ArrayList<>();
         if (groupInfoBean.userInfos.size() > 3) {
