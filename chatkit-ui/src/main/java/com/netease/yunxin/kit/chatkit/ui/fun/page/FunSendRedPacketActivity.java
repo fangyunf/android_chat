@@ -23,8 +23,11 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.yunxin.kit.alog.ALog;
+import com.netease.yunxin.kit.chatkit.model.UserInfoWithTeam;
+import com.netease.yunxin.kit.chatkit.repo.TeamRepo;
 import com.netease.yunxin.kit.chatkit.ui.databinding.ActivityFunSendRedPacketBinding;
 import com.netease.yunxin.kit.corekit.im.model.UserInfo;
+import com.netease.yunxin.kit.corekit.im.provider.FetchCallback;
 import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
 import com.netease.yunxin.kit.corekit.route.XKitRouter;
 import com.yaoxin.appbase.activity.BaseActivity;
@@ -127,38 +130,54 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
         _updateUI();
     }
 
-    void _requestPeople(int page) {
-        RegisterBean bean = new RegisterBean();
-        bean.groupId = sessionId;
-        bean.page = page +"";
-        bean.pageNo ="100";
-
-        HttpUtil.apiW().group_groupUserListPost(bean)
-                .enqueue(new CommonCallback<NetData>() {
+    void _requestPeople() {
+        TeamRepo.getMemberList(
+                sessionId,
+                new FetchCallback<List<UserInfoWithTeam>>() {
                     @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-
-                        Type type = new TypeToken<List<GroupInfoBean>>() {
-                        }.getType();
-                        List<GroupInfoBean> tempList = new Gson().fromJson(body.data.toString(), type);
-                        if (!tempList.isEmpty()) {
-                            userList.addAll(tempList);
-                            if (tempList.size() == 100) {
-                                _requestPeople((page + 1));
-                                return;
-                            }
-                        }
-                        binding.activityFunSendRedPacketTeamMemberCountTv.setText("本群共"+userList.size()+"人");
-
-
-
+                    public void onSuccess(@Nullable List<UserInfoWithTeam> param) {
+                        binding.activityFunSendRedPacketTeamMemberCountTv.setText("本群共"+param.size()+"人");
                     }
 
                     @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
+                    public void onFailed(int code) {
+                    }
 
+                    @Override
+                    public void onException(@Nullable Throwable exception) {
                     }
                 });
+//        RegisterBean bean = new RegisterBean();
+//        bean.groupId = sessionId;
+//        bean.page = page +"";
+//        bean.pageNo ="100";
+//
+//        HttpUtil.apiW().group_groupUserListPost(bean)
+//                .enqueue(new CommonCallback<NetData>() {
+//                    @Override
+//                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+//
+//                        Type type = new TypeToken<List<GroupInfoBean>>() {
+//                        }.getType();
+//                        List<GroupInfoBean> tempList = new Gson().fromJson(body.data.toString(), type);
+//                        if (!tempList.isEmpty()) {
+//                            userList.addAll(tempList);
+//                            if (tempList.size() == 100) {
+//                                _requestPeople((page + 1));
+//                                return;
+//                            }
+//                        }
+//                        binding.activityFunSendRedPacketTeamMemberCountTv.setText("本群共"+userList.size()+"人");
+//
+//
+//
+//                    }
+//
+//                    @Override
+//                    public void Failure(Call<NetData> call, Throwable t) {
+//
+//                    }
+//                });
     }
     void _requestDataGroup() {
 
@@ -170,7 +189,7 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
                         groupInfoBean = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
-                        _requestPeople(1);
+                        _requestPeople();
                     }
 
                     @Override
