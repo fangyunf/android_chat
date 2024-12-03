@@ -153,6 +153,11 @@ public class FunTeamSettingNew_TeamUsersActivity extends BaseActivity implements
             public void onClick(@NonNull BaseQuickAdapter<GroupInfoBean, ?> baseQuickAdapter, @NonNull View view, int i) {
                 if (opt_type == null) {
 //                    if (selfBean.rankState == 1 || selfBean.rankState == 2) {
+                    GroupInfoBean item = baseQuickAdapter.getItem(i);
+                    if (selfBean.rankState == 3 && item.rankState == 3) {
+                        ToastUtils.toastMsg("非管理员不可私聊");
+                        return;
+                    }
                         XKitRouter.withKey(Constant.FunTeamUserInfoDetailActivityKey)
                                 .withParam("groupId",groupId)
                                 .withParam("userId",baseQuickAdapter.getItem(i).userId)

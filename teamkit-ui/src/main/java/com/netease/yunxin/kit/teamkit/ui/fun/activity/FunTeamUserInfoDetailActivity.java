@@ -163,56 +163,16 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
 
     }
     void _requestPeople(int page, String userId) {
-        RegisterBean bean = new RegisterBean();
-        bean.groupId = groupId;
-        bean.userId = userId;
-        HttpUtil.apiW().groupMember_groupMemberInfo(bean)
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-
-                        GroupInfoBean tempList = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
-                        groupInfoBean = tempList;
-                        if (groupInfoBean != null) {
-                            updateUI();
-                            _requestData1();
-                        }
-
-                    }
-
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
-
-                    }
-                });
 //        RegisterBean bean = new RegisterBean();
 //        bean.groupId = groupId;
-//        bean.page = page +"";
-//        bean.pageNo ="100";
-//        HttpUtil.apiW().group_groupUserListPost(bean)
+//        bean.userId = userId;
+//        HttpUtil.apiW().groupMember_groupMemberInfo(bean)
 //                .enqueue(new CommonCallback<NetData>() {
 //                    @Override
 //                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 //
-//                        Type type = new TypeToken<List<GroupInfoBean>>() {
-//                        }.getType();
-//                        List<GroupInfoBean> tempList = new Gson().fromJson(body.data.toString(), type);
-//
-//                        members.addAll(tempList);
-//                        if (!tempList.isEmpty()) {
-//                            if (tempList.size() == 100) {
-//                                _requestPeople((page + 1),userId);
-//                                return;
-//                            }
-//
-//                        }
-//                        for (GroupInfoBean temp:
-//                                members) {
-//                            if (temp.userId.equals(userId)) {
-//                                groupInfoBean = temp;
-//                                break;
-//                            }
-//                        }
+//                        GroupInfoBean tempList = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
+//                        groupInfoBean = tempList;
 //                        if (groupInfoBean != null) {
 //                            updateUI();
 //                            _requestData1();
@@ -225,6 +185,46 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
 //
 //                    }
 //                });
+        RegisterBean bean = new RegisterBean();
+        bean.groupId = groupId;
+        bean.page = page +"";
+        bean.pageNo ="100";
+        HttpUtil.apiW().group_groupUserListPost(bean)
+                .enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+
+                        Type type = new TypeToken<List<GroupInfoBean>>() {
+                        }.getType();
+                        List<GroupInfoBean> tempList = new Gson().fromJson(body.data.toString(), type);
+
+                        members.addAll(tempList);
+                        if (!tempList.isEmpty()) {
+                            if (tempList.size() == 100) {
+                                _requestPeople((page + 1),userId);
+                                return;
+                            }
+
+                        }
+                        for (GroupInfoBean temp:
+                                members) {
+                            if (temp.userId.equals(userId)) {
+                                groupInfoBean = temp;
+                                break;
+                            }
+                        }
+                        if (groupInfoBean != null) {
+                            updateUI();
+                            _requestData1();
+                        }
+
+                    }
+
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
+
+                    }
+                });
     }
 
     protected void _requestData1() {

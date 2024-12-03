@@ -400,6 +400,11 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
                             .withContext(that)
                             .navigate();
                 } else {
+                    GroupInfoBean groupInfoBean1 = maxList.get(i);
+                    if (groupInfoBean.rankState != 1 && groupInfoBean.rankState != 2 && groupInfoBean1.rankState == 3) {
+                        ToastUtils.toastMsg("非管理员不可私聊");
+                        return;
+                    }
                     XKitRouter.withKey(Constant.FunTeamUserInfoDetailActivityKey)
                             .withParam("groupId",groupId)
                             .withParam("userId",maxList.get(i).userId)
