@@ -117,7 +117,7 @@
         android:layout_marginTop="14dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="提现费率0.07，\n充值时间9:00-23:00，\n提现时间9:00-20:00"
+        android:text="提现费率0.07+2，\n充值时间9:00-23:00、提现时间9:00-20:00"
         android:textColor="#ff999999"
         android:textSize="14sp"
         />
