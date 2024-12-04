@@ -21,8 +21,11 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.nanchen.wavesidebar.FirstLetterUtil;
 import com.nanchen.wavesidebar.WaveSideBarView;
+import com.netease.yunxin.kit.chatkit.model.UserInfoWithTeam;
+import com.netease.yunxin.kit.chatkit.repo.TeamRepo;
 import com.netease.yunxin.kit.conversationkit.ui.databinding.ActivityFunSelectedUserBinding;
 import com.netease.yunxin.kit.conversationkit.ui.fun.page.adapter.Fun_Selected_UserListAdapter;
+import com.netease.yunxin.kit.corekit.im.provider.FetchCallback;
 import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
 import com.netease.yunxin.kit.corekit.model.ErrorMsg;
 import com.netease.yunxin.kit.corekit.model.ResultInfo;
@@ -85,9 +88,9 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
 
         if (page_type == 2) {
             binding.activityFunSelectedUserNav.getTitleView().setText("邀请好友");
-            for (GroupInfoBean tempBen : groupInfoBean.userInfos) {
-                ids.add(tempBen.userId);
-            }
+//            for (GroupInfoBean tempBen : groupInfoBean.userInfos) {
+//                ids.add(tempBen.userId);
+//            }
         }
         if (page_type == 3) {
             binding.activityFunSelectedUserNav.getTitleView().setText("移除成员");
@@ -104,7 +107,7 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
             binding.activityFunSelectedUserNav.getTitleView().setText("转发");
             binding.activityFunSelectedUserConfirmTv.setVisibility(View.GONE);
         }
-        _requestData1();
+        requestFirst();
         _initView();
     }
     @Override
@@ -114,6 +117,44 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
     }
 
 
+    private void requestFirst() {
+        if (page_type == 3 || page_type == 4 || page_type == 2) {
+
+            TeamRepo.getMemberList(
+                    groupInfoBean.groupId,
+                    new FetchCallback<List<UserInfoWithTeam>>() {
+                        @Override
+                        public void onSuccess(@Nullable List<UserInfoWithTeam> param) {
+                            groupInfoBean.userInfos.clear();
+                            ArrayList<GroupInfoBean> tempArrayList = new ArrayList<>();
+                            for (UserInfoWithTeam userInfoWithTeam: param) {
+                                GroupInfoBean temp = new GroupInfoBean();
+                                temp.name = userInfoWithTeam.getUserInfo().getName();
+                                temp.avatar = userInfoWithTeam.getUserInfo().getAvatar();
+                                temp.userId = userInfoWithTeam.getUserInfo().getAccount();
+                                tempArrayList.add(temp);
+                                if (page_type == 2) {
+                                    ids.add(temp.userId);
+                                }
+                            }
+                            groupInfoBean.userInfos.addAll(tempArrayList);
+
+                            _requestData1();
+                        }
+
+                        @Override
+                        public void onFailed(int code) {
+                        }
+
+                        @Override
+                        public void onException(@Nullable Throwable exception) {
+                        }
+                    });
+        } else {
+
+            _requestData1();
+        }
+    }
     protected void _requestData1() {
         if (page_type == 3 || page_type == 4) {
             if (groupInfoBean == null ) {

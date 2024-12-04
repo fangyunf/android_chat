@@ -51,7 +51,6 @@
                 android:id="@+id/fun_add_friend_verify_activity_name_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:text="会飞的洋芋"
                 android:textColor="@color/color_333333"
                 android:textSize="22sp"
                 />

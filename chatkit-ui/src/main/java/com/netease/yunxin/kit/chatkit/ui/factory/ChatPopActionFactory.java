@@ -102,16 +102,16 @@ public class ChatPopActionFactory {
             // 自定义消息，根据自定义消息的Type区分IMUIKIt内置从101开始，客户定义从1000开始
             if (message.getViewType() == MsgTypeEnum.text.getValue()
                     || message.getViewType() == ChatMessageType.RICH_TEXT_ATTACHMENT) {
-                actions.add(getTransmitAction(message));
+//                actions.add(getTransmitAction(message));
                 actions.add(getCopyAction(message));
             }
 //      actions.add(getReplyAction(message));
             if (message.getViewType() == MsgTypeEnum.image.getValue() || message.getViewType() == MsgTypeEnum.video.getValue()) {
-                actions.add(getTransmitAction(message));
+//                actions.add(getTransmitAction(message));
             }
 //      actions.add(getPinAction(message));
             actions.add(getDeleteAction(message));
-            actions.add(getMultiSelectAction(message));
+//            actions.add(getMultiSelectAction(message));
 //            actions.add(getCollectionAction(message));
             if (message.getMessageData().getMessage().getDirect() == MsgDirectionEnum.Out) {
                 actions.add(getRecallAction(message));

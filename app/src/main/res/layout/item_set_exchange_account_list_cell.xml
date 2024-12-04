@@ -25,7 +25,6 @@
             android:id="@+id/item_set_exchange_account_list_cell_name_tv"
             android:layout_width="wrap_content"
             android:layout_height="25dp"
-            android:text="会飞的洋芋"
             android:textColor="#ff000000"
             android:textSize="18sp"
             />

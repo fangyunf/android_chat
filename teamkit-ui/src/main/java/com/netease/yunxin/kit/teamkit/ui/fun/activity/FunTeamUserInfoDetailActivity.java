@@ -214,6 +214,11 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
                             }
                         }
                         if (groupInfoBean != null) {
+                            if (rankState == 3 && groupInfoBean.rankState == 3) {
+                                ToastUtils.toastMsg("非管理员不可私聊");
+                                finish();
+                                return;
+                            }
                             updateUI();
                             _requestData1();
                         }
