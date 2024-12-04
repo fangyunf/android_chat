@@ -68,7 +68,7 @@ public class FunConversationP2PViewHolder extends FunConversationBaseViewHolder 
 
       viewBinding.nameTv.setText(name);
       List<GroupInfoBean> friendInfoList = DataUtil.getFriendInfoList();
-      if (!friendInfoList.isEmpty()) {
+      if (friendInfoList != null && !friendInfoList.isEmpty()) {
         for (GroupInfoBean tempBean :friendInfoList) {
           if (tempBean.userId.equals((String) data.param)) {
             viewBinding.funConversationViewHolderIdTv.setVisibility(View.VISIBLE);
