@@ -309,7 +309,7 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
             } else {
                 if (yhkPayBean != null) {
                     payType = "yhkpay";
-                    binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setText("银行卡：" + wxPayBean.phone);
+                    binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setText("银行卡：" + yhkPayBean.phone);
                 }
             }
         }
