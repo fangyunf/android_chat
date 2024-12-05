@@ -863,23 +863,23 @@ public abstract class ChatBaseMessageViewHolder extends CommonBaseMessageViewHol
    * @param messageBean 待展示消息
    */
   protected void onCommonViewVisibleConfig(ChatMessageBean messageBean) {
+
+    baseViewBinding.chatBaseMessageViewHolderOtherGradeIv.setVisibility(View.GONE);
+    baseViewBinding.chatBaseMessageViewHolderMineGradeIv.setVisibility(View.GONE);
     if (MessageHelper.isReceivedMessage(messageBean) || isForwardMsg()) {
       // 收到消息当前用户头像隐藏，对方用户头像显示
       baseViewBinding.myAvatar.setVisibility(View.GONE);
       baseViewBinding.chatBaseMessageViewHolderMineGradeIv.setVisibility(View.GONE);
       baseViewBinding.otherUserAvatar.setVisibility(View.VISIBLE);
-      updateUIGrade(baseViewBinding.chatBaseMessageViewHolderOtherGradeIv,false,messageBean.getMessageData().getFromUser().getAccount());
+      if ( messageBean.getMessageData() != null && messageBean.getMessageData().getFromUser() != null) {
+        updateUIGrade(baseViewBinding.chatBaseMessageViewHolderOtherGradeIv,false,messageBean.getMessageData().getFromUser().getAccount());
+      }
     } else {
       // 发送消息当前用户头像显示，对方用户头像隐藏
       baseViewBinding.myAvatar.setVisibility(View.VISIBLE);
       updateUIGrade(baseViewBinding.chatBaseMessageViewHolderMineGradeIv,true,"");
       baseViewBinding.otherUserAvatar.setVisibility(View.GONE);
       baseViewBinding.chatBaseMessageViewHolderOtherGradeIv.setVisibility(View.GONE);
-    }
-    if (messageBean.getMessageData().getMessage().getSessionType() == SessionTypeEnum.P2P) {
-
-      baseViewBinding.chatBaseMessageViewHolderOtherGradeIv.setVisibility(View.GONE);
-      baseViewBinding.chatBaseMessageViewHolderMineGradeIv.setVisibility(View.GONE);
     }
     // 撤回消息消息状态隐藏
     if (messageBean.isRevoked()) {
