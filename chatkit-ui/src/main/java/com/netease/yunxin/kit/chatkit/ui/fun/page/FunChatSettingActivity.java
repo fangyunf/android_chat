@@ -59,6 +59,7 @@ import com.yaoxin.appbase.utils.BaseEvent;
 import com.yaoxin.appbase.utils.DialogAlertUtil;
 import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
+import com.yaoxin.appbase.view.LoadingDialog;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -130,6 +131,7 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
     void _reuestInfo() {
         RegisterBean bean = new RegisterBean();
         bean.userId = accId;
+        LoadingDialog.showDialog(getSupportFragmentManager(),"加载中...");
         HttpUtil.apiW().friends_searchByUserIdF(bean)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
@@ -151,6 +153,11 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
                     @Override
                     public void Failure(Call<NetData> call, Throwable t) {
 
+                    }
+                    @Override
+                    public void end() {
+                        super.end();
+                        LoadingDialog.dismissDialog();
                     }
                 });
     }
@@ -331,6 +338,9 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
                     @Override
                     public void clickType(int type) {
                         if (type == 1) {
+                            if (userBean == null) {
+                                ToastUtils.toastMsg("网络错误");
+                            }
                             RegisterBean bean = new RegisterBean();
                             bean.memberCode = userBean.memberCode;
                             HttpUtil.apiW().friends_delFriend(bean)
