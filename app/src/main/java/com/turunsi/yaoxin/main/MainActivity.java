@@ -270,6 +270,9 @@ public class MainActivity extends BaseActivity {
         mCurrentTab = view;
         resetTabSkin();
         StatusBarUtils.setStatusBarLightMode(this, true, true);
+        if (view == activityMainBinding.contactBtnGroup) {
+            mContactFragment._requestData();
+        }
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")

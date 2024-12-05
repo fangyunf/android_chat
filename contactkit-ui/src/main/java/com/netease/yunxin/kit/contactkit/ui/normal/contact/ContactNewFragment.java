@@ -113,11 +113,10 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
     @Override
     public void onPause() {
         super.onPause();
-        _requestData();
+//        _requestData();
     }
 
-    @Override
-    protected void _requestData() {
+    public void _requestData() {
         HttpUtil.apiW().friends_friendList(new RegisterBean())
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
