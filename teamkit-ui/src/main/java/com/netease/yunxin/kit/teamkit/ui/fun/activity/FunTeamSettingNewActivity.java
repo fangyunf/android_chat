@@ -384,6 +384,11 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
 //                if (maxList.size() > 3 || i > 4) {
 //                    return;
 //                }
+                if (groupInfoBean == null) {
+                    ToastUtils.toastMsg("请重试");
+                    finish();
+                    return;
+                }
                 if (i == maxList.size()) {
                     DataUtil.setStringValue(new Gson().toJson(groupInfoBean),"groupInfo");
 
@@ -403,10 +408,6 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
                             .navigate();
                 } else {
                     GroupInfoBean groupInfoBean1 = maxList.get(i);
-                    if (groupInfoBean == null) {
-                        ToastUtils.toastMsg("请重试");
-                        return;
-                    }
                     if (groupInfoBean.rankState != 1 && groupInfoBean.rankState != 2 && groupInfoBean1.rankState == 3) {
                         ToastUtils.toastMsg("非管理员不可私聊");
                         return;

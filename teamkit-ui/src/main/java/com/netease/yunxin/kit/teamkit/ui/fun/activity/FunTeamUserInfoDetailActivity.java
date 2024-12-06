@@ -32,11 +32,14 @@ import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.DensityUtils;
 import com.yaoxin.appbase.utils.GlideUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
+import com.yaoxin.appbase.view.LoadingDialog;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -51,7 +54,11 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
     int addFriendsState;
     boolean isFriend = false;
     GroupInfoBean friendBean;
-    ArrayList<GroupInfoBean> members = new ArrayList<>();
+//    ArrayList<GroupInfoBean> members = new ArrayList<>();
+
+    String groupMasterUserId = "";
+    String inviteName = "";
+    List<String> managerUserIdList = new ArrayList<>();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -128,7 +135,10 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
         binding.funTeamUserInfoDetailAccountTv.setVisibility(View.GONE);
         if (rankState == 1 || rankState == 2) {
             binding.funTeamUserInfoDetailAccountTv.setVisibility(View.VISIBLE);
-            binding.funTeamUserInfoDetailYaoqingren.viewTitleArrowLl.setVisibility(View.VISIBLE);
+            if (groupInfoBean != null && groupInfoBean.inviteName != null && !groupInfoBean.inviteName.isEmpty()) {
+                binding.funTeamUserInfoDetailYaoqingren.viewTitleArrowRightTv.setText(groupInfoBean.inviteName);
+                binding.funTeamUserInfoDetailYaoqingren.viewTitleArrowLl.setVisibility(View.VISIBLE);
+            }
             binding.funTeamUserInfoDetailJinzhi.viewTitleArrowLl.setVisibility(View.VISIBLE);
             binding.funTeamUserInfoDetailTichu.viewTitleArrowLl.setVisibility(View.VISIBLE);
             binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowLl.setOnClickListener(this);
@@ -146,26 +156,26 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
             binding.funTeamUserInfoDetailJinzhi.viewTitleArrowRightTvSwitch.setSelected(groupInfoBean.forbidState == 1);
         }
         binding.funTeamUserInfoDetailYaoqingren.viewTitleArrowRightTv.setVisibility(View.VISIBLE);
-        binding.funTeamUserInfoDetailYaoqingren.viewTitleArrowRightTv.setText(groupInfoBean.inviteName);
     }
      void requestDataWith(String groupId,String userId) {
+         LoadingDialog.showDialog(getSupportFragmentManager(),"加载中");
         HttpUtil.apiW().group_groupHomeInfo(groupId)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                         GroupInfoBean tempGroupInfoBean = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
                         rankState = tempGroupInfoBean.rankState;
-                        _requestPeople(1,userId);
+                        _requestPeople(userId);
 
                     }
                     @Override
                     public void Failure(Call<NetData> call, Throwable t) {
-
+                        LoadingDialog.dismissDialog();
                     }
                 });
 
     }
-    void _requestPeople(int page, String userId) {
+    void _requestPeople( String userId) {
 //        TeamRepo.getMemberList(
 //                groupId,
 //                new FetchCallback<List<UserInfoWithTeam>>() {
@@ -206,7 +216,7 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
 //                });
         RegisterBean bean = new RegisterBean();
         bean.groupId = groupId;
-        bean.page = page +"";
+        bean.page = "1";
         bean.pageNo ="100";
         HttpUtil.apiW().group_groupUserListPost(bean)
                 .enqueue(new CommonCallback<NetData>() {
@@ -217,38 +227,134 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
                         }.getType();
                         List<GroupInfoBean> tempList = new Gson().fromJson(body.data.toString(), type);
 
-                        members.addAll(tempList);
-                        if (!tempList.isEmpty()) {
-                            if (tempList.size() == 100) {
-                                _requestPeople((page + 1),userId);
-                                return;
+                        for (GroupInfoBean groupInfoBean : tempList) {
+                            if (groupInfoBean.rankState == 1) {
+                                groupMasterUserId = groupInfoBean.userId;
+                            } else if (groupInfoBean.rankState == 2) {
+                                managerUserIdList.add(groupInfoBean.userId);
                             }
+                            if (groupInfoBean.userId.equals(userId)) {
+                                inviteName = groupInfoBean.inviteName;
+                            }
+                        }
+                        requestYunXin(userId);
 
-                        }
-                        for (GroupInfoBean temp:
-                                members) {
-                            if (temp.userId.equals(userId)) {
-                                groupInfoBean = temp;
-                                break;
-                            }
-                        }
-                        if (groupInfoBean != null) {
-                            if (rankState == 3 && groupInfoBean.rankState == 3) {
-                                ToastUtils.toastMsg("非管理员不可私聊");
-                                finish();
-                                return;
-                            }
-                            updateUI();
-                            _requestData1();
-                        }
+
+//                        if (!tempList.isEmpty()) {
+//                            if (tempList.size() == 100) {
+//                                _requestPeople((page + 1),userId);
+//                                return;
+//                            }
+//
+//                        }
+
 
                     }
 
                     @Override
                     public void Failure(Call<NetData> call, Throwable t) {
-
+                        LoadingDialog.dismissDialog();
                     }
                 });
+    }
+
+
+    private void requestYunXin(String userId) {
+
+        RegisterBean bean = new RegisterBean();
+        bean.userId = userId;
+        HttpUtil.apiW().friends_searchByUserIdF(bean)
+                .enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                        GroupInfoBean userBean = new Gson().fromJson(body.data.toString(),GroupInfoBean.class);
+                        if (userBean.userId.equals(groupMasterUserId)) {
+                            userBean.rankState = 1;
+                        } else if (managerUserIdList.contains(userBean.userId)) {
+                            userBean.rankState = 2;
+                        } else {
+                            userBean.rankState = 3;
+                        }
+                        userBean.inviteName = inviteName;
+                        groupInfoBean = userBean;
+                        if (rankState == 3 && groupInfoBean.rankState == 3) {
+
+                            LoadingDialog.dismissDialog();
+                            ToastUtils.toastMsg("非管理员不可私聊");
+                            finish();
+                            return;
+                        }
+                        updateUI();
+                        _requestData1();
+                    }
+
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
+                        LoadingDialog.dismissDialog();
+                    }
+                });
+
+
+//        TeamRepo.getMemberList(
+//                groupId,
+//                new FetchCallback<List<UserInfoWithTeam>>() {
+//                    @Override
+//                    public void onSuccess(@Nullable List<UserInfoWithTeam> param) {
+//
+//
+//                        ArrayList<GroupInfoBean> tempArrayList = new ArrayList<>();
+//                        for (UserInfoWithTeam userInfoWithTeam: param) {
+//                            GroupInfoBean temp = new GroupInfoBean();
+//                            temp.name = userInfoWithTeam.getUserInfo().getName();
+//                            temp.avatar = userInfoWithTeam.getUserInfo().getAvatar();
+//                            temp.userId = userInfoWithTeam.getUserInfo().getAccount();
+//                            try {
+//                                temp.memberCode = (String) userInfoWithTeam.getUserInfo().getExtensionMap().get("memberCode");
+//                            } catch (Exception e) {
+//
+//                            }
+//                            if (temp.userId.equals(groupMasterUserId)) {
+//                                temp.rankState = 1;
+//                            } else if (managerUserIdList.contains(temp.userId)) {
+//                                temp.rankState = 2;
+//                            } else {
+//                                temp.rankState = 3;
+//                            }
+//                            tempArrayList.add(temp);
+//                        }
+//
+////                        members.addAll(tempArrayList);
+//                        for (GroupInfoBean temp:
+//                                tempArrayList) {
+//                            if (temp.userId.equals(userId)) {
+//                                groupInfoBean = temp;
+//                                break;
+//                            }
+//                        }
+//                        if (groupInfoBean != null) {
+//                            if (rankState == 3 && groupInfoBean.rankState == 3) {
+//
+//                                LoadingDialog.dismissDialog();
+//                                ToastUtils.toastMsg("非管理员不可私聊");
+//                                finish();
+//                                return;
+//                            }
+//                            updateUI();
+//                            _requestData1();
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onFailed(int code) {
+//                        LoadingDialog.dismissDialog();
+//                    }
+//
+//                    @Override
+//                    public void onException(@Nullable Throwable exception) {
+//                        LoadingDialog.dismissDialog();
+//                    }
+//                });
+
     }
 
     protected void _requestData1() {
@@ -257,6 +363,7 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                        LoadingDialog.dismissDialog();
                         Type userListType = new TypeToken<List<GroupInfoBean>>() {
                         }.getType();
                         List<GroupInfoBean> userList = new Gson().fromJson(body.data.toString(),userListType);
@@ -303,12 +410,20 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
                                         }
                                     });
                         }
+                        if (groupInfoBean != null) {
+                            if (groupInfoBean.rankState != 3 && rankState == 3) {
+                                binding.funTeamUserInfoDetailBottomTv.setVisibility(View.VISIBLE);
+                            }
+                            if (groupInfoBean.userId.equals(DataUtil.getUserid())) {
+                                binding.funTeamUserInfoDetailBottomTv.setVisibility(View.GONE);
+                            }
+                        }
 
                     }
 
                     @Override
                     public void Failure(Call<NetData> call, Throwable t) {
-
+                        LoadingDialog.dismissDialog();
                     }
                 });
 

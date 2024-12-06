@@ -29,9 +29,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.chad.library.adapter4.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.nanchen.wavesidebar.FirstLetterUtil;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.StickTopSessionInfo;
+import com.netease.yunxin.kit.chatkit.model.UserInfoWithTeam;
 import com.netease.yunxin.kit.chatkit.repo.ConversationRepo;
+import com.netease.yunxin.kit.chatkit.repo.TeamRepo;
 import com.netease.yunxin.kit.common.utils.SizeUtils;
 import com.netease.yunxin.kit.corekit.im.provider.FetchCallback;
 import com.netease.yunxin.kit.corekit.route.XKitRouter;
@@ -58,6 +61,8 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import retrofit2.Call;
@@ -78,6 +83,9 @@ public class FunTeamSettingNew_TeamUsersActivity extends BaseActivity implements
 
     ArrayList selectArray = new ArrayList<>();
     ArrayList unSelectArray = new ArrayList<>();
+
+    String groupMasterUserId = "";
+    List<String> managerUserIdList = new ArrayList<>();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
 
@@ -143,10 +151,10 @@ public class FunTeamSettingNew_TeamUsersActivity extends BaseActivity implements
                 }
             }
         });
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 6);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 5);
         binding.funTeamSettingNewTeamUsersActivityRv.setLayoutManager(gridLayoutManager);
         CommonGridSpacingItemDecoration gridSpacingItemDecoration =
-                new CommonGridSpacingItemDecoration(6, SizeUtils.dp2px(10), false);
+                new CommonGridSpacingItemDecoration(5, SizeUtils.dp2px(10), false);
         binding.funTeamSettingNewTeamUsersActivityRv.addItemDecoration(gridSpacingItemDecoration);
         binding.funTeamSettingNewTeamUsersActivityRv.setAdapter(adapter);
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener<GroupInfoBean>() {
@@ -200,6 +208,9 @@ public class FunTeamSettingNew_TeamUsersActivity extends BaseActivity implements
     }
 
     protected void _requestData(int page) {
+
+
+
         RegisterBean bean = new RegisterBean();
         bean.groupId = groupId;
         bean.page = page + "";
@@ -212,14 +223,70 @@ public class FunTeamSettingNew_TeamUsersActivity extends BaseActivity implements
 
                         Type type = new TypeToken<List<GroupInfoBean>>(){}.getType();
                         List<GroupInfoBean> tempList = new Gson().fromJson(body.data.toString(), type);
-                        if (!tempList.isEmpty()) {
-                            dataList.addAll(tempList);
-                            if (tempList.size() == 100) {
-                                _requestData((page + 1));
-                                return;
+                        for (GroupInfoBean groupInfoBean : tempList) {
+                            if (groupInfoBean.rankState == 1) {
+                                groupMasterUserId = groupInfoBean.userId;
+                            } else if (groupInfoBean.rankState == 2) {
+                                managerUserIdList.add(groupInfoBean.userId);
                             }
-
                         }
+                        requestYunXin();
+//                        if (!tempList.isEmpty()) {
+//                            dataList.addAll(tempList);
+//                            if (tempList.size() == 100) {
+//                                _requestData((page + 1));
+//                                return;
+//                            }
+//
+//                        }
+
+                    }
+
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
+                        LoadingDialog.dismissDialog();
+                    }
+                });
+    }
+
+    private void requestYunXin() {
+
+//        LoadingDialog.showDialog(getSupportFragmentManager(), "请求中");
+        TeamRepo.getMemberList(
+                groupId,
+                new FetchCallback<List<UserInfoWithTeam>>() {
+                    @Override
+                    public void onSuccess(@Nullable List<UserInfoWithTeam> param) {
+                        ArrayList<GroupInfoBean> tempArrayList = new ArrayList<>();
+                        for (UserInfoWithTeam userInfoWithTeam: param) {
+                            GroupInfoBean temp = new GroupInfoBean();
+                            temp.name = userInfoWithTeam.getUserInfo().getName();
+                            temp.avatar = userInfoWithTeam.getUserInfo().getAvatar();
+                            temp.userId = userInfoWithTeam.getUserInfo().getAccount();
+                            if (temp.userId.equals(groupMasterUserId)) {
+                                temp.rankState = 1;
+                            } else if (managerUserIdList.contains(temp.userId)) {
+                                temp.rankState = 2;
+                            } else {
+                                temp.rankState = 3;
+                            }
+                            tempArrayList.add(temp);
+                        }
+                        Collections.sort(tempArrayList, new Comparator<GroupInfoBean>() {
+                            @Override
+                            public int compare(GroupInfoBean o1, GroupInfoBean o2) {
+                                if (o1.rankState > o2.rankState) {
+                                    return 1; // o1 排在 o2 后面
+                                } else if (o1.rankState < o2.rankState) {
+                                    return -1; // o1 排在 o2 前面
+                                } else {
+                                    return 0; // 相等时，保持原来的顺序
+                                }
+                            }
+                        });
+
+                        dataList.addAll(tempArrayList);
+
                         if (opt_type != null) {
                             for (int i = dataList.size() - 1; i >= 0; i--) {
                                 GroupInfoBean tempBean = (GroupInfoBean) dataList.get(i);
@@ -244,15 +311,21 @@ public class FunTeamSettingNew_TeamUsersActivity extends BaseActivity implements
                             }
                         }
                         updateUI();
-                        LoadingDialog.dismissDialog();
 
+                        LoadingDialog.dismissDialog();
                     }
 
                     @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
+                    public void onFailed(int code) {
+                        LoadingDialog.dismissDialog();
+                    }
+
+                    @Override
+                    public void onException(@Nullable Throwable exception) {
                         LoadingDialog.dismissDialog();
                     }
                 });
+
     }
 
     void updateUI() {

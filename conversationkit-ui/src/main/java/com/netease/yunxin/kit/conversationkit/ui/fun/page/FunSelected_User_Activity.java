@@ -44,6 +44,7 @@ import com.yaoxin.appbase.utils.DialogAlertUtil;
 import com.yaoxin.appbase.utils.PinnedHeaderDecoration;
 import com.yaoxin.appbase.utils.TeamIconUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
+import com.yaoxin.appbase.view.LoadingDialog;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -118,8 +119,9 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
 
 
     private void requestFirst() {
-        if (page_type == 3 || page_type == 4 || page_type == 2) {
+        if (page_type == 3 || page_type == 4) {
 
+            LoadingDialog.showDialog(getSupportFragmentManager(), "请求中");
             TeamRepo.getMemberList(
                     groupInfoBean.groupId,
                     new FetchCallback<List<UserInfoWithTeam>>() {
@@ -139,15 +141,18 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
                             }
                             groupInfoBean.userInfos.addAll(tempArrayList);
 
+                            LoadingDialog.dismissDialog();
                             _requestData1();
                         }
 
                         @Override
                         public void onFailed(int code) {
+                            LoadingDialog.dismissDialog();
                         }
 
                         @Override
                         public void onException(@Nullable Throwable exception) {
+                            LoadingDialog.dismissDialog();
                         }
                     });
         } else {

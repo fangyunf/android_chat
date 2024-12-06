@@ -82,6 +82,7 @@ public class FunConversationFragment extends ConversationBaseFragment {
 
   private FunConversationFragmentBinding viewBinding;
 
+
   public FunConversationFragment(int type) {
     _type = type;
   }
