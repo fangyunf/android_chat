@@ -52,6 +52,7 @@ import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.GlideUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
 import com.yaoxin.appbase.view.CommonGridSpacingItemDecoration;
+import com.yaoxin.appbase.view.LoadingDialog;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -193,6 +194,8 @@ public class FunTeamSettingNew_TeamUsersActivity extends BaseActivity implements
         bean.groupId = groupId;
         bean.page = page + "";
         bean.pageNo ="100";
+
+        LoadingDialog.showDialog(getSupportFragmentManager(), "请求中");
         HttpUtil.apiW().group_groupUserListPost(bean)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
@@ -231,6 +234,7 @@ public class FunTeamSettingNew_TeamUsersActivity extends BaseActivity implements
                                 }
                             }
                         }
+                        LoadingDialog.dismissDialog();
                         updateUI();
 
                     }
@@ -238,6 +242,7 @@ public class FunTeamSettingNew_TeamUsersActivity extends BaseActivity implements
                     @Override
                     public void Failure(Call<NetData> call, Throwable t) {
 
+                        LoadingDialog.dismissDialog();
                     }
                 });
     }
