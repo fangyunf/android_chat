@@ -298,7 +298,7 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
         binding.funChatSettingActivityClearAddBlackList.titTv.setText("加入黑名单");
         binding.funChatSettingActivityClearAddBlackList.funTitleTfArrowViewSwitch.setVisibility(View.VISIBLE);
         binding.funChatSettingActivityClearAddBlackList.arrowIcon.setVisibility(View.GONE);
-
+        binding.funChatSettingActivityClearAddBlackList.funTitleTfArrowViewLl.setVisibility(View.GONE);
         binding.funChatSettingActivityClearAddBlackList.funTitleTfArrowViewSwitch.setOnClickListener(
                 (View v) -> {
                     RegisterBean registerBean = new RegisterBean();

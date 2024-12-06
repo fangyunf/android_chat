@@ -267,8 +267,6 @@
                             android:layout_width="0dp"
                             android:layout_columnWeight="1"
                             android:layout_height="64dp"
-                            app:leftImg="@mipmap/mine_index_item_hmd"
-                            app:titleText="黑名单"
                             />
 <!--                        <com.yaoxin.appbase.view.IconTitleArrowTemplate-->
 <!--                            android:id="@+id/fragment_mine_wdfh_view"-->
@@ -347,12 +345,11 @@
                             app:titleText="分享应用"
                             />
                         <com.yaoxin.appbase.view.IconTitleArrowTemplate
+
                             android:id="@+id/fragment_mine_yysj_view"
                             android:layout_width="0dp"
                             android:layout_height="64dp"
                             android:layout_columnWeight="1"
-                            app:leftImg="@mipmap/mine_index_item_yysj"
-                            app:titleText="应用升级"
                             />
                         <com.yaoxin.appbase.view.IconTitleArrowTemplate
                             android:id="@+id/fragment_mine_xtsz_view"

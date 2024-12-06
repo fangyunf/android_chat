@@ -895,21 +895,21 @@ public abstract class ChatBaseFragment extends BaseFragment {
                   }
                 }
                 tempName = name;
-                DialogAlertUtil.showSheetView(getActivity(), getActivity().getSupportFragmentManager(), new String[]{"@此人","踢出此人"}, new DialogAlertUtil.DialogAlertUtilCallBack() {
+                DialogAlertUtil.showSheetView(getActivity(), getActivity().getSupportFragmentManager(), new String[]{"@此人","专属红包","踢出此人"}, new DialogAlertUtil.DialogAlertUtilCallBack() {
                   @Override
                   public void clickType(int type) {
                     if (type == 1) {
                       aitManager.insertReplyAit(account, tempName);
                     }
-//                    else if (type == 2) {
-//
-//                      HashMap map = new HashMap();
-//                      map.put("sessionId",sessionID);
-//                      map.put("sessionType","2");
-//                      map.put("userInfo",new Gson().toJson(messageBean.getMessageData().getFromUser()));
-//                      FunSendRedPacketActivity.start(FunSendRedPacketActivity.class,getContext(),map);
-//                    }
                     else if (type == 2) {
+
+                      HashMap map = new HashMap();
+                      map.put("sessionId",sessionID);
+                      map.put("sessionType","2");
+                      map.put("userInfo",new Gson().toJson(messageBean.getMessageData().getFromUser()));
+                      FunSendRedPacketActivity.start(FunSendRedPacketActivity.class,getContext(),map);
+                    }
+                    else if (type == 3) {
                       ArrayList list = new ArrayList<>();
                       list.add(messageBean.getMessageData().getFromUser().getAccount());
                       RegisterBean registerBean = new RegisterBean();

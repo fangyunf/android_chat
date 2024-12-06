@@ -324,9 +324,9 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 //            startActivity(new Intent(getContext(), SettingNotifyActivity.class));
             startActivity(new Intent(getContext(), SettingNotifyNewActivity.class));
         } else if (v == binding.fragmentMineHmdView) {
-            XKitRouter.withKey(RouterConstant.PATH_FUN_MY_BLACK_PAGE)
-                    .withContext(requireContext())
-                    .navigate();
+//            XKitRouter.withKey(RouterConstant.PATH_FUN_MY_BLACK_PAGE)
+//                    .withContext(requireContext())
+//                    .navigate();
         } else if (v == binding.fragmentMineMmszView) {
             Mine_Pwd_Set_ManagerActivity.start(Mine_Pwd_Set_ManagerActivity.class,getContext(),null);
 
@@ -465,8 +465,8 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         if (v == binding.fragmentMineFxyyView) {
             DownLoadActivity.start(DownLoadActivity.class,getContext(),null);
         }
-        if (v == binding.fragmentMineYysjView)
-            AppUpdateActivity.start(AppUpdateActivity.class,getContext(),null);
+//        if (v == binding.fragmentMineYysjView)
+//            AppUpdateActivity.start(AppUpdateActivity.class,getContext(),null);
 
     }
 }
