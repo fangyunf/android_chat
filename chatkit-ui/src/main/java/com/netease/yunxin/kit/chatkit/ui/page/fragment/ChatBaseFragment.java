@@ -405,7 +405,7 @@ public abstract class ChatBaseFragment extends BaseFragment {
             boolean isFriend = false;
             for (GroupInfoBean tempBean :
                     DataUtil.getFriendInfoList()) {
-              if (tempBean.userId.equals(getSessionId())) {
+              if (tempBean.userId.equals(getSessionId()) || DataUtil.getKeFuId().equals(getSessionId())) {
                 isFriend = true;
                 break;
               }
@@ -450,7 +450,7 @@ public abstract class ChatBaseFragment extends BaseFragment {
             boolean isFriend = false;
             for (GroupInfoBean tempBean :
                     DataUtil.getFriendInfoList()) {
-              if (tempBean.userId.equals(getSessionId())) {
+              if (tempBean.userId.equals(getSessionId())|| DataUtil.getKeFuId().equals(getSessionId())) {
                 isFriend = true;
                 break;
               }
@@ -500,7 +500,7 @@ public abstract class ChatBaseFragment extends BaseFragment {
             boolean isFriend = false;
             for (GroupInfoBean tempBean :
                     DataUtil.getFriendInfoList()) {
-              if (tempBean.userId.equals(getSessionId())) {
+              if (tempBean.userId.equals(getSessionId())|| DataUtil.getKeFuId().equals(getSessionId())) {
                 isFriend = true;
                 break;
               }
@@ -532,7 +532,7 @@ public abstract class ChatBaseFragment extends BaseFragment {
             boolean isFriend = false;
             for (GroupInfoBean tempBean :
                     DataUtil.getFriendInfoList()) {
-              if (tempBean.userId.equals(getSessionId())) {
+              if (tempBean.userId.equals(getSessionId())|| DataUtil.getKeFuId().equals(getSessionId())) {
                 isFriend = true;
                 break;
               }
@@ -566,7 +566,7 @@ public abstract class ChatBaseFragment extends BaseFragment {
             boolean isFriend = false;
             for (GroupInfoBean tempBean :
                     DataUtil.getFriendInfoList()) {
-              if (tempBean.userId.equals(getSessionId())) {
+              if (tempBean.userId.equals(getSessionId())|| DataUtil.getKeFuId().equals(getSessionId())) {
                 isFriend = true;
                 break;
               }
@@ -598,7 +598,7 @@ public abstract class ChatBaseFragment extends BaseFragment {
             boolean isFriend = false;
             for (GroupInfoBean tempBean :
                     DataUtil.getFriendInfoList()) {
-              if (tempBean.userId.equals(getSessionId())) {
+              if (tempBean.userId.equals(getSessionId())|| DataUtil.getKeFuId().equals(getSessionId())) {
                 isFriend = true;
                 break;
               }
@@ -623,7 +623,7 @@ public abstract class ChatBaseFragment extends BaseFragment {
             boolean isFriend = false;
             for (GroupInfoBean tempBean :
                     DataUtil.getFriendInfoList()) {
-              if (tempBean.userId.equals(getSessionId())) {
+              if (tempBean.userId.equals(getSessionId())|| DataUtil.getKeFuId().equals(getSessionId())) {
                 isFriend = true;
                 break;
               }
@@ -707,7 +707,7 @@ public abstract class ChatBaseFragment extends BaseFragment {
             boolean isFriend = false;
             for (GroupInfoBean tempBean :
                     DataUtil.getFriendInfoList()) {
-              if (tempBean.userId.equals(getSessionId())) {
+              if (tempBean.userId.equals(getSessionId())|| DataUtil.getKeFuId().equals(getSessionId())) {
                 isFriend = true;
                 break;
               }
@@ -726,7 +726,7 @@ public abstract class ChatBaseFragment extends BaseFragment {
             boolean isFriend = false;
             for (GroupInfoBean tempBean :
                     DataUtil.getFriendInfoList()) {
-              if (tempBean.userId.equals(getSessionId())) {
+              if (tempBean.userId.equals(getSessionId())|| DataUtil.getKeFuId().equals(getSessionId())) {
                 isFriend = true;
                 break;
               }
@@ -787,7 +787,7 @@ public abstract class ChatBaseFragment extends BaseFragment {
             boolean isFriend = false;
             for (GroupInfoBean tempBean :
                     DataUtil.getFriendInfoList()) {
-              if (tempBean.userId.equals(getSessionId())) {
+              if (tempBean.userId.equals(getSessionId())|| DataUtil.getKeFuId().equals(getSessionId())) {
                 isFriend = true;
                 break;
               }
@@ -811,7 +811,7 @@ public abstract class ChatBaseFragment extends BaseFragment {
             boolean isFriend = false;
             for (GroupInfoBean tempBean :
                     DataUtil.getFriendInfoList()) {
-              if (tempBean.userId.equals(getSessionId())) {
+              if (tempBean.userId.equals(getSessionId())|| DataUtil.getKeFuId().equals(getSessionId())) {
                 isFriend = true;
                 break;
               }
