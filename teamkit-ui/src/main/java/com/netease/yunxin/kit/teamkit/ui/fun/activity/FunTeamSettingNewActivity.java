@@ -46,6 +46,7 @@ import com.netease.yunxin.kit.chatkit.repo.ConversationRepo;
 import com.netease.yunxin.kit.chatkit.repo.TeamRepo;
 import com.netease.yunxin.kit.common.ui.dialog.ChoiceListener;
 import com.netease.yunxin.kit.common.ui.dialog.CommonChoiceDialog;
+import com.netease.yunxin.kit.common.utils.SPUtils;
 import com.netease.yunxin.kit.corekit.im.IMKitClient;
 import com.netease.yunxin.kit.corekit.im.provider.FetchCallback;
 import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
@@ -292,6 +293,7 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
     @Override
     protected void _requestData() {
 //        RegisterBean bean = new RegisterBean();
+        SPUtils.getInstance().put("reloadTeamSettingData", false);
 //        bean.groupId = groupId;
         LoadingDialog.showDialog(getSupportFragmentManager(),"加载中");
         HttpUtil.apiW().group_groupHomeInfo(groupId)
@@ -401,6 +403,10 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
                             .navigate();
                 } else {
                     GroupInfoBean groupInfoBean1 = maxList.get(i);
+                    if (groupInfoBean == null) {
+                        ToastUtils.toastMsg("请重试");
+                        return;
+                    }
                     if (groupInfoBean.rankState != 1 && groupInfoBean.rankState != 2 && groupInfoBean1.rankState == 3) {
                         ToastUtils.toastMsg("非管理员不可私聊");
                         return;
@@ -839,6 +845,12 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(BaseEvent event) {
         if ("reloadTeamSettingData".equals(event.getTag())) {
+            SPUtils.getInstance().put("reloadTeamSettingData", true);
+        }
+    }
+    protected void onStart() {
+        super.onStart();
+        if (SPUtils.getInstance().getBoolean("reloadTeamSettingData")) {
             _requestData();
         }
     }

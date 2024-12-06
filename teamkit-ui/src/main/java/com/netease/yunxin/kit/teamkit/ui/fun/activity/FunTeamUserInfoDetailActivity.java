@@ -12,6 +12,9 @@ import androidx.core.content.ContextCompat;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.netease.yunxin.kit.chatkit.model.UserInfoWithTeam;
+import com.netease.yunxin.kit.chatkit.repo.TeamRepo;
+import com.netease.yunxin.kit.corekit.im.provider.FetchCallback;
 import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
 import com.netease.yunxin.kit.corekit.route.XKitRouter;
 import com.netease.yunxin.kit.teamkit.ui.databinding.FunTeamUserInfoDetailBinding;
@@ -163,6 +166,22 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
 
     }
     void _requestPeople(int page, String userId) {
+//        TeamRepo.getMemberList(
+//                groupId,
+//                new FetchCallback<List<UserInfoWithTeam>>() {
+//                    @Override
+//                    public void onSuccess(@Nullable List<UserInfoWithTeam> param) {
+//                        binding.tvName.setText(groupInfoBean.name + "(" +param.size()+"人)");
+//                    }
+//
+//                    @Override
+//                    public void onFailed(int code) {
+//                    }
+//
+//                    @Override
+//                    public void onException(@Nullable Throwable exception) {
+//                    }
+//                });
 //        RegisterBean bean = new RegisterBean();
 //        bean.groupId = groupId;
 //        bean.userId = userId;

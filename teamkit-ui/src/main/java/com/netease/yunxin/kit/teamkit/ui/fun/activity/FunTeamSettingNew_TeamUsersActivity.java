@@ -52,6 +52,7 @@ import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.GlideUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
 import com.yaoxin.appbase.view.CommonGridSpacingItemDecoration;
+import com.yaoxin.appbase.view.LoadingDialog;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -153,6 +154,11 @@ public class FunTeamSettingNew_TeamUsersActivity extends BaseActivity implements
             public void onClick(@NonNull BaseQuickAdapter<GroupInfoBean, ?> baseQuickAdapter, @NonNull View view, int i) {
                 if (opt_type == null) {
 //                    if (selfBean.rankState == 1 || selfBean.rankState == 2) {
+                    if (selfBean == null) {
+                        ToastUtils.toastMsg("网络错误");
+                        finish();
+                        return;
+                    }
                     GroupInfoBean item = baseQuickAdapter.getItem(i);
                     if (selfBean.rankState == 3 && item.rankState == 3) {
                         ToastUtils.toastMsg("非管理员不可私聊");
@@ -198,6 +204,7 @@ public class FunTeamSettingNew_TeamUsersActivity extends BaseActivity implements
         bean.groupId = groupId;
         bean.page = page + "";
         bean.pageNo ="100";
+        LoadingDialog.showDialog(getSupportFragmentManager(), "请求中");
         HttpUtil.apiW().group_groupUserListPost(bean)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
@@ -237,12 +244,13 @@ public class FunTeamSettingNew_TeamUsersActivity extends BaseActivity implements
                             }
                         }
                         updateUI();
+                        LoadingDialog.dismissDialog();
 
                     }
 
                     @Override
                     public void Failure(Call<NetData> call, Throwable t) {
-
+                        LoadingDialog.dismissDialog();
                     }
                 });
     }
