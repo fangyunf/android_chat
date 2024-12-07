@@ -23,6 +23,11 @@ import androidx.fragment.app.Fragment;
 
 import com.google.gson.Gson;
 //import com.king.camera.scan.CameraScan;
+import com.king.app.dialog.AppDialog;
+import com.king.app.dialog.AppDialogConfig;
+import com.king.app.updater.AppUpdater;
+import com.king.app.updater.callback.UpdateCallback;
+import com.king.app.updater.http.OkHttpManager;
 import com.netease.lava.nertc.sdk.NERtcOption;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
@@ -85,6 +90,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -165,8 +171,9 @@ public class MainActivity extends BaseActivity {
                         if (body.data != null) {
                             ParamsBean updateBean = new Gson().fromJson(body.data.toString(), ParamsBean.class);
 
-                            UpdateFragment.showFragment(MainActivity.this,
-                                    true, updateBean.downloadUrl, "巴黎世家", updateBean.upMsg, BuildConfig.APPLICATION_ID, null);
+                            showUpdate(updateBean.downloadUrl,updateBean.upMsg);
+//                            UpdateFragment.showFragment(MainActivity.this,
+//                                    true, updateBean.downloadUrl, "巴黎世家", updateBean.upMsg, BuildConfig.APPLICATION_ID, null);
                         }
                     }
 
@@ -177,6 +184,61 @@ public class MainActivity extends BaseActivity {
                 });
     }
 
+    private void showUpdate(String downLoadUrl,String updateMsg) {
+        if (downLoadUrl == null || downLoadUrl.isEmpty()) {
+            return;
+        }
+
+        //简单DialogFragment升级
+        AppDialogConfig config = new AppDialogConfig(this);
+        config.setTitle("应用升级")
+                .setConfirm("升级")
+                .setContent(updateMsg)
+                .setOnClickConfirm(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        AppUpdater appUpdater = new AppUpdater.Builder(MainActivity.this)
+                                .setUrl(downLoadUrl)
+                                .build();
+                        appUpdater.setHttpManager(OkHttpManager.getInstance()) // 使用OkHttp的实现进行下载
+                                .setUpdateCallback(new UpdateCallback() { // 更新回调
+                                    @Override
+                                    public void onDownloading(boolean isDownloading) {
+                                        // 下载中：isDownloading为true时，表示已经在下载，即之前已经启动了下载；为false时，表示当前未开始下载，即将开始下载
+                                    }
+
+                                    @Override
+                                    public void onStart(String url) {
+                                        // 开始下载
+                                    }
+
+                                    @Override
+                                    public void onProgress(long progress, long total, boolean isChanged) {
+                                        // 下载进度更新：建议在isChanged为true时，才去更新界面的进度；因为实际的进度变化频率很高
+                                    }
+
+                                    @Override
+                                    public void onFinish(File file) {
+                                        // 下载完成
+                                    }
+
+                                    @Override
+                                    public void onError(Exception e) {
+                                        // 下载失败
+                                    }
+
+                                    @Override
+                                    public void onCancel() {
+                                        // 取消下载
+                                    }
+                                }).start();
+
+                        AppDialog.INSTANCE.dismissDialogFragment(getSupportFragmentManager());
+                    }
+                });
+        AppDialog.INSTANCE.showDialogFragment(getSupportFragmentManager(), config);
+
+    }
     private void initData() {
         SettingRepo.getShowReadStatus(
                 new FetchCallback<Boolean>() {

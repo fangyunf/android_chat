@@ -13,7 +13,7 @@ android {
         create("release") {
             keyAlias = "balishijia"
             keyPassword = "Qqqq1111"
-            storeFile = file("balishijia")
+            storeFile = file("balishijia.jks")
             storePassword = "Qqqq1111"
         }
     }
@@ -22,7 +22,7 @@ android {
         minSdk = 21
         targetSdk = 33
         versionCode = 1
-        versionName = "1.0.31"
+        versionName = "1.0.32"
         multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -92,10 +92,11 @@ dependencies {
     implementation("com.huawei.hms:push:6.3.0.302")
     implementation("com.meizu.flyme.internet:push-internal:4.1.0")
     implementation("com.huawei.agconnect:agconnect-core:1.6.5.300")
+    implementation("com.github.jenly1314.AppUpdater:app-updater:1.2.0")
+    implementation("com.github.jenly1314.AppUpdater:app-dialog:1.2.0")
 
     implementation("com.google.code.gson:gson:2.9.0")
     implementation("commons-codec:commons-codec:1.10")
     implementation("androidx.annotation:annotation:1.3.0")
-
 
 }
