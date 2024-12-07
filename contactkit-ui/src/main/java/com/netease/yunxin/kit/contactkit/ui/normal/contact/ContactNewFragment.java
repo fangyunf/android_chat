@@ -113,7 +113,7 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
     @Override
     public void onPause() {
         super.onPause();
-//        _requestData();
+        _requestData();
     }
 
     public void _requestData() {
