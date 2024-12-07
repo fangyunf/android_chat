@@ -84,11 +84,16 @@ public class FunConversationFragment extends ConversationBaseFragment {
 
   private boolean _needRefresh;
 
-  public FunConversationFragment(int type) {
-    _type = type;
-  }
 
   public FunConversationFragment() {
+  }
+  // 创建实例的方法，使用 arguments 传递参数
+  public static FunConversationFragment newInstance(int type) {
+    FunConversationFragment fragment = new FunConversationFragment();
+    Bundle args = new Bundle();
+    args.putInt("type", type);
+    fragment.setArguments(args);
+    return fragment;
   }
 
   private int topIndex;
@@ -97,6 +102,11 @@ public class FunConversationFragment extends ConversationBaseFragment {
       @NonNull LayoutInflater inflater,
       @Nullable ViewGroup container,
       @Nullable Bundle savedInstanceState) {
+    // 获取传递的参数
+    if (getArguments() != null) {
+      _type = getArguments().getInt("type");
+    }
+
     viewBinding = FunConversationFragmentBinding.inflate(inflater, container, false);
     initView();
     if (_type == 1) {
