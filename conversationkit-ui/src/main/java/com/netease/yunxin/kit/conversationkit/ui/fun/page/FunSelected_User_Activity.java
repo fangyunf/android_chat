@@ -119,6 +119,11 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
 
 
     private void requestFirst() {
+        if (groupInfoBean == null) {
+            ToastUtils.toastMsg("网络错误，请重试");
+            finish();
+            return;
+        }
         if (page_type == 3 || page_type == 4) {
 
             LoadingDialog.showDialog(getSupportFragmentManager(), "请求中");
