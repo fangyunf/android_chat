@@ -171,6 +171,7 @@ public abstract class ChatBaseFragment extends BaseFragment {
   protected ActivityResultLauncher<String[]> permissionLauncher;
 
   protected ActivityResultLauncher<Intent> locationLauncher;
+  protected ActivityResultLauncher<Intent> collectionLauncher;
 
   private Observer<FetchResult<List<ChatMessageBean>>> messageLiveDataObserver;
   private Observer<FetchResult<List<ChatMessageBean>>> messageRecLiveDataObserver;
@@ -675,7 +676,7 @@ public abstract class ChatBaseFragment extends BaseFragment {
                   .withParam("type","5")
 //                  .withParam("groupId",groupId)
                   .withContext(getContext())
-                  .navigate();
+                  .navigate(collectionLauncher);
         }
 
         @Override
@@ -1436,6 +1437,9 @@ public abstract class ChatBaseFragment extends BaseFragment {
     locationLauncher =
         registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(), this::onSelectLocation);
+    collectionLauncher =
+        registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(), this::onSelectCollection);
   }
 
   public void showForwardConfirmDialog(SessionTypeEnum type, ArrayList<String> sessionIds) {}
@@ -1637,6 +1641,19 @@ public abstract class ChatBaseFragment extends BaseFragment {
       if (locationBean != null) {
         viewModel.sendLocationMessage(locationBean);
       }
+    }
+  }
+
+  protected void onSelectCollection(ActivityResult result) {
+    if (result.getResultCode() != Activity.RESULT_OK) {
+      return;
+    }
+    ALog.d(LIB_TAG, LOG_TAG, "send location result");
+    Intent data = result.getData();
+    if (data != null) {
+
+      String text = data.getStringExtra("text");
+      messageProxy.sendTextMessage(text, null);
     }
   }
 

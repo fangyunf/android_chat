@@ -67,16 +67,18 @@ public class ChatPopActionFactory {
         if (message.getMessageData() == null) {
             return actions;
         }
+        int viewType = message.getViewType();
 
-//        if (message.getMessageData().getMessage().getAttachStr() != null && !message.getMessageData().getMessage().getAttachStr().isEmpty()) {
-//
-//            actions.add(getDeleteAction(message));
-//            if (message.getViewType() == MsgTypeEnum.image.getValue() || message.getViewType() == MsgTypeEnum.video.getValue()) {
-//                actions.add(getTransmitAction(message));
-//            }
-//            int viewType = message.getViewType();
-//            return actions;
-//        }
+        if (viewType == 0 &&message.getMessageData().getMessage().getAttachStr() != null && !message.getMessageData().getMessage().getAttachStr().isEmpty()) {
+
+            actions.add(getDeleteAction(message));
+            if (message.getMessageData().getMessage().getAttachStr().contains("memberCode")) {
+                if (message.getMessageData().getMessage().getDirect() == MsgDirectionEnum.Out) {
+                    actions.add(getRecallAction(message));
+                }
+            }
+            return actions;
+        }
         if (customPopMenu == null
                 || customPopMenu.get() == null
                 || customPopMenu.get().showDefaultPopMenu()) {
@@ -85,10 +87,10 @@ public class ChatPopActionFactory {
                     || message.getMessageData().getMessage().isInBlackList()) {
                 if (message.getViewType() == MsgTypeEnum.text.getValue()) {
                     actions.add(getCopyAction(message));
+                    actions.add(getCollectionAction(message));
                 }
                 actions.add(getDeleteAction(message));
 //        actions.add(getMultiSelectAction(message));
-                actions.add(getCollectionAction(message));
                 return actions;
             }
 
@@ -104,6 +106,7 @@ public class ChatPopActionFactory {
                     || message.getViewType() == ChatMessageType.RICH_TEXT_ATTACHMENT) {
 //                actions.add(getTransmitAction(message));
                 actions.add(getCopyAction(message));
+                actions.add(getCollectionAction(message));
             }
 //      actions.add(getReplyAction(message));
             if (message.getViewType() == MsgTypeEnum.image.getValue() || message.getViewType() == MsgTypeEnum.video.getValue()) {
