@@ -49,6 +49,8 @@ import retrofit2.Response;
 public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.OnClickListener {
     FunTeamUserInfoDetailBinding binding;
     GroupInfoBean groupInfoBean;
+    GroupInfoBean groupInfoBeanNew;
+    GroupInfoBean teamSettingBean;
     String groupId;
     int rankState;
     int addFriendsState;
@@ -164,8 +166,9 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                         GroupInfoBean tempGroupInfoBean = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
+                        groupInfoBeanNew = tempGroupInfoBean;
                         rankState = tempGroupInfoBean.rankState;
-                        _requestPeople(userId);
+                        requestTeamSetting(userId);
 
                     }
                     @Override
@@ -174,6 +177,21 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
                     }
                 });
 
+    }
+    private void requestTeamSetting(String userId) {
+        HttpUtil.apiW().group_groupManage(groupId)
+                .enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                        teamSettingBean = new Gson().fromJson(body.data.toString(),GroupInfoBean.class);
+                        _requestPeople(userId);
+                    }
+
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
+                        LoadingDialog.dismissDialog();
+                    }
+                });
     }
     void _requestPeople( String userId) {
 //        TeamRepo.getMemberList(
@@ -277,7 +295,7 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
                         }
                         userBean.inviteName = inviteName;
                         groupInfoBean = userBean;
-                        if (rankState == 3 && groupInfoBean.rankState == 3) {
+                        if (rankState == 3 && groupInfoBean.rankState == 3 && teamSettingBean != null && teamSettingBean.addFriendsState == 0) {
 
                             LoadingDialog.dismissDialog();
                             ToastUtils.toastMsg("非管理员不可私聊");

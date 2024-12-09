@@ -78,6 +78,7 @@ public class FunTeamSettingNew_TeamUsersActivity extends BaseActivity implements
     String opt_type;
     TeamSettingUserListAdapter adapter = new TeamSettingUserListAdapter();
     GroupInfoBean selfBean;
+    GroupInfoBean teamSettingBean;
     ArraySet selectSet = new ArraySet<>();
     ArraySet unSelectSet = new ArraySet<>();
 
@@ -162,13 +163,13 @@ public class FunTeamSettingNew_TeamUsersActivity extends BaseActivity implements
             public void onClick(@NonNull BaseQuickAdapter<GroupInfoBean, ?> baseQuickAdapter, @NonNull View view, int i) {
                 if (opt_type == null) {
 //                    if (selfBean.rankState == 1 || selfBean.rankState == 2) {
-                    if (selfBean == null) {
+                    if (selfBean == null || teamSettingBean == null) {
                         ToastUtils.toastMsg("网络错误");
                         finish();
                         return;
                     }
                     GroupInfoBean item = baseQuickAdapter.getItem(i);
-                    if (selfBean.rankState == 3 && item.rankState == 3) {
+                    if (selfBean.rankState == 3 && item.rankState == 3 && teamSettingBean.addFriendsState == 0) {
                         ToastUtils.toastMsg("非管理员不可私聊");
                         return;
                     }
@@ -230,7 +231,7 @@ public class FunTeamSettingNew_TeamUsersActivity extends BaseActivity implements
                                 managerUserIdList.add(groupInfoBean.userId);
                             }
                         }
-                        requestYunXin();
+                        requestTeamSetting();
 //                        if (!tempList.isEmpty()) {
 //                            dataList.addAll(tempList);
 //                            if (tempList.size() == 100) {
@@ -248,7 +249,21 @@ public class FunTeamSettingNew_TeamUsersActivity extends BaseActivity implements
                     }
                 });
     }
+    private void requestTeamSetting() {
+        HttpUtil.apiW().group_groupManage(groupId)
+                .enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                        teamSettingBean = new Gson().fromJson(body.data.toString(),GroupInfoBean.class);
+                        requestYunXin();
+                    }
 
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
+                        LoadingDialog.dismissDialog();
+                    }
+                });
+    }
     private void requestYunXin() {
 
 //        LoadingDialog.showDialog(getSupportFragmentManager(), "请求中");

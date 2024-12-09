@@ -112,6 +112,7 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
     TeamSettingUserInfoAdapter adapter;// = new TeamSettingUserInfoAdapter(true, new ArrayList<>());
 
     protected ActivityResultLauncher<Intent> launcher;
+    GroupInfoBean teamSettingBean;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -303,7 +304,7 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
 
                         groupInfoBean = new Gson().fromJson(body.data.toString(),GroupInfoBean.class);
                         groupInfoBean.userInfos.clear();
-                        _requestPeople();
+                        requestTeamSetting();
 
                     }
 
@@ -320,6 +321,22 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
                 });
     }
 
+    private void requestTeamSetting() {
+        HttpUtil.apiW().group_groupManage(groupId)
+                .enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                        teamSettingBean = new Gson().fromJson(body.data.toString(),GroupInfoBean.class);
+
+                        _requestPeople();
+                    }
+
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
+                        LoadingDialog.dismissDialog();
+                    }
+                });
+    }
     private void requestYunXin() {
         TeamRepo.queryTeamWithMember(
                 groupId,
@@ -384,7 +401,7 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
 //                if (maxList.size() > 3 || i > 4) {
 //                    return;
 //                }
-                if (groupInfoBean == null) {
+                if (groupInfoBean == null || teamSettingBean == null) {
                     ToastUtils.toastMsg("请重试");
                     finish();
                     return;
@@ -408,7 +425,7 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
                             .navigate();
                 } else {
                     GroupInfoBean groupInfoBean1 = maxList.get(i);
-                    if (groupInfoBean.rankState != 1 && groupInfoBean.rankState != 2 && groupInfoBean1.rankState == 3) {
+                    if (groupInfoBean.rankState == 3 && groupInfoBean1.rankState == 3 && teamSettingBean.addFriendsState == 0) {
                         ToastUtils.toastMsg("非管理员不可私聊");
                         return;
                     }

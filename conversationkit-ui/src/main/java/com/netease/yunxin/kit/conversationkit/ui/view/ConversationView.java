@@ -75,6 +75,9 @@ public class ConversationView extends FrameLayout {
               if (loadMoreListener != null
                   && loadMoreListener.hasMore()
                   && adapter.getItemCount() < position + LOAD_MORE_DIFF) {
+                if (adapter.getItemCount() == 0) {
+                  return;
+                }
                 ConversationBean last = adapter.getData(adapter.getItemCount() - 1);
                 loadMoreListener.loadMore(last);
               }
