@@ -18,11 +18,11 @@ android {
         }
     }
     defaultConfig {
-        applicationId = "com.turunsi.zhimei"
+        applicationId = "com.turunsi.nanshannan"
         minSdk = 21
         targetSdk = 33
         versionCode = 1
-        versionName = "1.0.19"
+        versionName = "1.0.0"
         multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -95,6 +95,8 @@ dependencies {
     implementation("com.google.code.gson:gson:2.9.0")
     implementation("commons-codec:commons-codec:1.10")
     implementation("androidx.annotation:annotation:1.3.0")
+    implementation("com.github.jenly1314.AppUpdater:app-updater:1.2.0")
+    implementation("com.github.jenly1314.AppUpdater:app-dialog:1.2.0")
 
 
 }
