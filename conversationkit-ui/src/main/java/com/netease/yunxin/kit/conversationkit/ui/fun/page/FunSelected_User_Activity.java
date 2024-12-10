@@ -120,7 +120,7 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
 
     private void requestFirst() {
 
-        if (page_type == 3 || page_type == 4) {
+        if (page_type == 3 || page_type == 4 || page_type == 2) {
             if (groupInfoBean == null) {
                 ToastUtils.toastMsg("网络错误，请重试");
                 finish();
