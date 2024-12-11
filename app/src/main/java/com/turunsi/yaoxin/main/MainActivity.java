@@ -320,12 +320,16 @@ public class MainActivity extends BaseActivity {
         }
         if (view == activityMainBinding.conversationBtnGroup) {
             AppProxy.getInstance().showType = 1;
-            mConversationFragment.getConversationView().adapter.notifyDataSetChanged();
+            if (mConversationFragment != null && mConversationFragment.getConversationView() != null && mConversationFragment.getConversationView().adapter != null) {
+                mConversationFragment.getConversationView().adapter.notifyDataSetChanged();
+            }
 
         }
         if (view == activityMainBinding.conversationBtnGroup1) {
             AppProxy.getInstance().showType = 2;
-            mConversationFragment1.getConversationView().adapter.notifyDataSetChanged();
+            if (mConversationFragment1 != null && mConversationFragment1.getConversationView() != null && mConversationFragment1.getConversationView().adapter != null) {
+                mConversationFragment1.getConversationView().adapter.notifyDataSetChanged();
+            }
         }
         resetTabStyle();
         mCurrentTab = view;

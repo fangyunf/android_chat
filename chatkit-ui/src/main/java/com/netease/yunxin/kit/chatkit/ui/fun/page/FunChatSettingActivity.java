@@ -306,6 +306,10 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
 
         binding.funChatSettingActivityClearAddBlackList.funTitleTfArrowViewSwitch.setOnClickListener(
                 (View v) -> {
+                    if (userBean == null) {
+                        finish();
+                        return;
+                    }
                     RegisterBean registerBean = new RegisterBean();
                     if (binding.funChatSettingActivityClearAddBlackList.funTitleTfArrowViewSwitch.isSelected()) {
                         registerBean.state = 0;
