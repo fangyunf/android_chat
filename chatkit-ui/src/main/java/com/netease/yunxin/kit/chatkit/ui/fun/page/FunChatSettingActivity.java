@@ -25,6 +25,7 @@ import com.google.gson.Gson;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
+import com.netease.nimlib.sdk.msg.model.RecentContact;
 import com.netease.nimlib.sdk.msg.model.StickTopSessionInfo;
 import com.netease.yunxin.kit.alog.ALog;
 import com.netease.yunxin.kit.chatkit.repo.ConversationRepo;
@@ -252,7 +253,10 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
                     @Override
                     public void clickType(int type) {
                         if (type == 1) {
+
+
                             NIMClient.getService(MsgService.class).clearChattingHistory(userBean.userId,SessionTypeEnum.P2P);
+                            NIMClient.getService(MsgService.class).clearServerHistory(userBean.userId,SessionTypeEnum.P2P);
 
                             EventBus.getDefault().post(new BaseEvent("clearP2PMessageList"));
                         }
