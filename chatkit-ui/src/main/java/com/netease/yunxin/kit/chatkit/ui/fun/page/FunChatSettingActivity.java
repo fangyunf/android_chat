@@ -37,10 +37,9 @@ import com.netease.yunxin.kit.chatkit.ui.model.CloseChatPageEvent;
 import com.netease.yunxin.kit.chatkit.ui.page.viewmodel.ChatSettingViewModel;
 import com.netease.yunxin.kit.common.ui.activities.BaseActivity;
 import com.netease.yunxin.kit.common.ui.utils.AvatarColor;
-import com.netease.yunxin.kit.common.ui.utils.ToastX;
-import com.netease.yunxin.kit.common.ui.viewmodel.FetchResult;
 import com.netease.yunxin.kit.common.ui.viewmodel.LoadStatus;
 import com.netease.yunxin.kit.common.utils.NetworkUtils;
+import com.netease.yunxin.kit.contactkit.ui.fun.addfriend.FunAddFriendVerifyActivity;
 import com.netease.yunxin.kit.contactkit.ui.fun.userinfo.FunCommentActivity;
 import com.netease.yunxin.kit.contactkit.ui.fun.userinfo.FunUserInfoActivity;
 import com.netease.yunxin.kit.contactkit.ui.model.ContactUserInfoBean;
@@ -51,7 +50,6 @@ import com.netease.yunxin.kit.corekit.event.EventNotify;
 import com.netease.yunxin.kit.corekit.im.IMKitClient;
 import com.netease.yunxin.kit.corekit.im.model.FriendInfo;
 import com.netease.yunxin.kit.corekit.im.model.UserInfo;
-import com.netease.yunxin.kit.corekit.im.provider.FetchCallback;
 import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
 import com.netease.yunxin.kit.corekit.route.XKitRouter;
 import com.yaoxin.appbase.model.NetData;
@@ -63,11 +61,12 @@ import com.yaoxin.appbase.utils.BaseEvent;
 import com.yaoxin.appbase.utils.DialogAlertUtil;
 import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
+import com.yaoxin.appbase.view.LoadingDialog;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -128,11 +127,13 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
         initData();
         initRequest();
         registerResult();
+        binding.funChatSettingActivityAddFriendTv.setOnClickListener(this);
     }
 
     void _reuestInfo() {
         RegisterBean bean = new RegisterBean();
         bean.userId = accId;
+        LoadingDialog.showDialog(getSupportFragmentManager(),"加载中...");
         HttpUtil.apiW().friends_searchByUserIdF(bean)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
@@ -145,11 +146,20 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
                             binding.funChatSettingActivityMemo.rightTv.setText(userBean.remark);
                             binding.funChatSettingActivityMemo.rightTv.setVisibility(View.VISIBLE);
                         }
+                        if ("0".equals(userBean.friend)) {
+                            binding.funChatSettingActivityContentLl.setVisibility(View.GONE);
+                            binding.funChatSettingActivityAddFriendTv.setVisibility(View.VISIBLE);
+                        }
                     }
 
                     @Override
                     public void Failure(Call<NetData> call, Throwable t) {
 
+                    }
+                    @Override
+                    public void end() {
+                        super.end();
+                        LoadingDialog.dismissDialog();
                     }
                 });
     }
@@ -333,6 +343,9 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
                     @Override
                     public void clickType(int type) {
                         if (type == 1) {
+                            if (userBean == null) {
+                                ToastUtils.toastMsg("网络错误");
+                            }
                             RegisterBean bean = new RegisterBean();
                             bean.memberCode = userBean.memberCode;
                             HttpUtil.apiW().friends_delFriend(bean)
@@ -341,7 +354,6 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
                                         public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
                                             ToastUtils.toastMsg(body.msg);
-                                            deleteConversation(userBean.userId);
                                             finish();
                                         }
 
@@ -378,31 +390,6 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
         });
 
     }
-
-    private void deleteConversation(String sesstionId) {
-        ConversationRepo.deleteSession(
-                sesstionId,
-                SessionTypeEnum.P2P,
-                DeleteTypeEnum.LOCAL_AND_REMOTE,
-                true,
-                new FetchCallback<Void>() {
-                    @Override
-                    public void onSuccess(@Nullable Void param) {
-
-                        EventBus.getDefault().post(new BaseEvent("refresh_chat_list"));
-                    }
-
-                    @Override
-                    public void onFailed(int code) {
-                        ALog.d(LIB_TAG, TAG, "deleteConversation,onFailed:" + code);
-                    }
-
-                    @Override
-                    public void onException(@Nullable Throwable exception) {
-                        ALog.d(LIB_TAG, TAG, "deleteConversation,onException");
-                    }
-                });
-    }
     private void registerResult() {
         commentLauncher =
                 registerForActivityResult(
@@ -415,7 +402,7 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
                                 userInfoData.friendInfo.setAlias(comment);
                                 viewModel1.updateAlias(userInfoData.data.getAccount(), comment);
                                 if (userBean != null) {
-                                RegisterBean bean = new RegisterBean();
+                                    RegisterBean bean = new RegisterBean();
                                     bean.memberCode = userBean.memberCode;
                                     bean.alias = comment;
                                     HttpUtil.apiW().friends_updateRemark(bean)
@@ -547,6 +534,11 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
     public void onClick(View view) {
         if (view == binding.funChatSettingActivityNav.addCloseImageButton()) {
             finish();
+        } else if (view == binding.funChatSettingActivityAddFriendTv) {
+
+            HashMap map = new HashMap();
+            map.put("user", new Gson().toJson(userBean));
+            FunAddFriendVerifyActivity.start(FunAddFriendVerifyActivity.class, this, map);
         }
     }
 }
