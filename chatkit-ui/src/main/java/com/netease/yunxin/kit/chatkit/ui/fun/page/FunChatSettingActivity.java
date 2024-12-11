@@ -148,6 +148,7 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
                         }
                         if ("0".equals(userBean.friend)) {
                             binding.funChatSettingActivityContentLl.setVisibility(View.GONE);
+                            binding.funChatSettingActivitySendMsgRl.setVisibility(View.GONE);
                             binding.funChatSettingActivityAddFriendTv.setVisibility(View.VISIBLE);
                         }
                     }
@@ -345,6 +346,7 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
                         if (type == 1) {
                             if (userBean == null) {
                                 ToastUtils.toastMsg("网络错误");
+                                return;
                             }
                             RegisterBean bean = new RegisterBean();
                             bean.memberCode = userBean.memberCode;
