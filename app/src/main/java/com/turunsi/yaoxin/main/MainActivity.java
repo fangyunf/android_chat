@@ -171,7 +171,8 @@ public class MainActivity extends BaseActivity {
 
                         if (body.data != null) {
                             ParamsBean updateBean = new Gson().fromJson(body.data.toString(), ParamsBean.class);
-                            showUpdate(updateBean.downloadUrl,updateBean.upMsg);}
+                            showUpdate(updateBean.downloadUrl,updateBean.upMsg);
+                        }
                     }
 
                     @Override
@@ -180,7 +181,6 @@ public class MainActivity extends BaseActivity {
                     }
                 });
     }
-
 
     private void showUpdate(String downLoadUrl,String updateMsg) {
         if (downLoadUrl == null || downLoadUrl.isEmpty()) {
@@ -272,9 +272,9 @@ public class MainActivity extends BaseActivity {
         List<Fragment> fragments = new ArrayList<>();
 
         changeStatusBarColor(R.color.fun_page_bg_color);
-        mConversationFragment = new FunConversationFragment(0);
+        mConversationFragment =  FunConversationFragment.newInstance(0);
 //        AppProxy.getInstance().showType = 1;
-        mConversationFragment1 = new FunConversationFragment(1);
+        mConversationFragment1 =  FunConversationFragment.newInstance(1);
 //        mConversationFragment1._type = 1;
         mContactFragment = new ContactNewFragment();
 

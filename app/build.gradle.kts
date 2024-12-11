@@ -91,6 +91,8 @@ dependencies {
     implementation("com.huawei.hms:push:6.3.0.302")
     implementation("com.meizu.flyme.internet:push-internal:4.1.0")
     implementation("com.huawei.agconnect:agconnect-core:1.6.5.300")
+    implementation("com.github.jenly1314.AppUpdater:app-updater:1.2.0")
+    implementation("com.github.jenly1314.AppUpdater:app-dialog:1.2.0")
 
     implementation("com.google.code.gson:gson:2.9.0")
     implementation("commons-codec:commons-codec:1.10")
