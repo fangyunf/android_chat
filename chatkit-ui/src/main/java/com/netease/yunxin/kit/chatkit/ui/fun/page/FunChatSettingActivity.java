@@ -148,6 +148,7 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
                         }
                         if ("0".equals(userBean.friend)) {
                             binding.funChatSettingActivityContentLl.setVisibility(View.GONE);
+                            binding.funChatSettingActivitySendMsgRl.setVisibility(View.GONE);
                             binding.funChatSettingActivityAddFriendTv.setVisibility(View.VISIBLE);
                         }
                     }
