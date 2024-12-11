@@ -461,7 +461,7 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
                 public void clickType(int type) {
                     if (type == 1) {
                         NIMClient.getService(MsgService.class).clearChattingHistory(groupId,SessionTypeEnum.Team);
-
+                        NIMClient.getService(MsgService.class).clearServerHistory(groupId,SessionTypeEnum.Team);
                         EventBus.getDefault().post(new BaseEvent("clearTeamMessageList"));
                     }
                 }
