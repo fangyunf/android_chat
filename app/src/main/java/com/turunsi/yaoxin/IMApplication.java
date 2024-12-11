@@ -329,7 +329,7 @@ public class IMApplication extends MultiDexApplication {
                 }
             });
 
-            CrashReport.initCrashReport(getApplicationContext(), "4af2c8d514", false);
+            CrashReport.initCrashReport(getApplicationContext(), "0fd2ddb379", false);
         }
     }
 
