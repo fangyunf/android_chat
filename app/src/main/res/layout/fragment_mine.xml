@@ -192,6 +192,7 @@
                                 />
                         </LinearLayout>
                         <LinearLayout
+                            android:visibility="gone"
                             android:id="@+id/fragment_mine_index_cdsc_ll"
                             android:background="@color/white"
                             android:layout_marginLeft="10dp"
