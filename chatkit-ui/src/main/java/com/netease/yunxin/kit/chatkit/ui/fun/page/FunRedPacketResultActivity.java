@@ -70,7 +70,11 @@ public class FunRedPacketResultActivity extends BaseActivity implements View.OnC
 
     @Override
     protected void _requestData() {
-        if (redpacketId.isEmpty()) return;
+        if (redpacketId == null || redpacketId.isEmpty()) {
+            ToastUtils.toastMsg("网络错误");
+            finish();
+            return;
+        }
         RegisterBean bean = new RegisterBean();
         bean.redpacketId = redpacketId;
         HttpUtil.apiW().red_redpacketDetail(bean)
