@@ -269,8 +269,10 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
                     @Override
                     public void clickType(int type) {
                         if (type == 1) {
-
-
+                            if (userBean == null) {
+                                ToastUtils.toastMsg("网络错误");
+                                return;
+                            }
                             NIMClient.getService(MsgService.class).clearChattingHistory(userBean.userId,SessionTypeEnum.P2P);
                             NIMClient.getService(MsgService.class).clearServerHistory(userBean.userId,SessionTypeEnum.P2P);
 
@@ -307,6 +309,11 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
         binding.funChatSettingActivityClearAddBlackList.funTitleTfArrowViewLl.setVisibility(View.GONE);
         binding.funChatSettingActivityClearAddBlackList.funTitleTfArrowViewSwitch.setOnClickListener(
                 (View v) -> {
+
+                    if (userBean == null) {
+                        ToastUtils.toastMsg("网络错误");
+                        return;
+                    }
                     RegisterBean registerBean = new RegisterBean();
                     if (binding.funChatSettingActivityClearAddBlackList.funTitleTfArrowViewSwitch.isSelected()) {
                         registerBean.state = 0;
@@ -344,6 +351,7 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
                     @Override
                     public void clickType(int type) {
                         if (type == 1) {
+
                             if (userBean == null) {
                                 ToastUtils.toastMsg("网络错误");
                                 return;
