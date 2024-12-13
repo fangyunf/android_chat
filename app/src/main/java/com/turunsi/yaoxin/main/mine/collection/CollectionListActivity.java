@@ -46,6 +46,16 @@ public class CollectionListActivity extends BaseActivity implements View.OnClick
             public void onClick(@NonNull BaseQuickAdapter<CollectInfo, ?> baseQuickAdapter, @NonNull View view, int i) {
                 CollectInfo item = adapter.getItem(i);
                 String content = item.getData();
+                if (item.getType() == 1) {
+
+                    Intent result = new Intent();
+                    result.putExtra("text", content);
+                    result.putExtra("type", 1);
+                    setResult(RESULT_OK, result);
+                    finish();
+
+                    return;
+                }
                 try {
                     content = AESUtil.msgAseDecrypt(content);
                 }catch (Exception e) {
@@ -53,6 +63,7 @@ public class CollectionListActivity extends BaseActivity implements View.OnClick
                 }
                 Intent result = new Intent();
                 result.putExtra("text", content);
+                result.putExtra("type", 0);
                 setResult(RESULT_OK, result);
                 finish();
             }
@@ -116,7 +127,7 @@ public class CollectionListActivity extends BaseActivity implements View.OnClick
                             long id = tempInfo.getId();
                             String data = tempInfo.getData();
                             String ext = tempInfo.getExt();
-                            if (tempInfo.getType() == 1024) {
+                            if (type == 1024 || type == 1) {
                                 dataList.add(tempInfo);
                             }
                         }

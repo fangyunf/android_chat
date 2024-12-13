@@ -111,6 +111,7 @@ import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.BaseEvent;
 import com.yaoxin.appbase.utils.CommonCallBack;
 import com.yaoxin.appbase.utils.DialogAlertUtil;
+import com.yaoxin.appbase.utils.ImageUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
 import com.yaoxin.appbase.utils.UploadUtil;
 import com.zhihu.matisse.Matisse;
@@ -121,6 +122,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -128,6 +130,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import pub.devrel.easypermissions.EasyPermissions;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -677,6 +681,10 @@ public abstract class ChatBaseFragment extends BaseFragment {
 //                  .withParam("groupId",groupId)
                   .withContext(getContext())
                   .navigate(collectionLauncher);
+        }
+        @Override
+        public void sendImageMessage(File imageFile) {
+          viewModel.sendImageMessage(imageFile);
         }
 
         @Override
@@ -1653,10 +1661,21 @@ public abstract class ChatBaseFragment extends BaseFragment {
     if (data != null) {
 
       String text = data.getStringExtra("text");
-      messageProxy.sendTextMessage(text, null);
+      int type = data.getIntExtra("type",0);
+      if (type == 1) {
+//        messageProxy.sendImageMessage();
+        downloadImage(text,getContext());
+      } else {
+        messageProxy.sendTextMessage(text, null);
+      }
     }
   }
 
+  private void downloadImage(String imageUrl, Context context) {
+    File outputFile = new File(getContext().getExternalFilesDir(null), "downloaded_image.jpg");
+    ImageUtil.downloadImageSync(imageUrl, outputFile);
+    messageProxy.sendImageMessage(outputFile);
+  }
   protected abstract void initData(Bundle bundle);
 
   @Override

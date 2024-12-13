@@ -1,5 +1,7 @@
 package com.yaoxin.appbase.utils;
 
+import static com.netease.yunxin.kit.common.utils.ThreadUtils.runOnUiThread;
+
 import android.Manifest;
 import android.app.Activity;
 import android.content.ContentValues;
@@ -9,12 +11,20 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.yaoxin.appbase.net.Constant;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import pub.devrel.easypermissions.EasyPermissions;
 
 public class ImageUtil {
@@ -93,5 +103,63 @@ public class ImageUtil {
         } else {
             ToastUtils.toastMsg("保存失败");
         }
+    }
+
+    public static void downloadImage(String imageUrl, File outputFile) {
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder()
+                .url(imageUrl)
+                .build();
+
+        try {
+            Response response = client.newCall(request).execute();
+            if (response.isSuccessful()) {
+                InputStream inputStream = response.body().byteStream();
+                FileOutputStream fileOutputStream = new FileOutputStream(outputFile);
+
+                byte[] buffer = new byte[1024];
+                int byteCount;
+                while ((byteCount = inputStream.read(buffer)) != -1) {
+                    fileOutputStream.write(buffer, 0, byteCount);
+                }
+
+                fileOutputStream.close();
+                inputStream.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void downloadImageSync(final String imageUrl, final File outputFile) {
+        // 创建一个新线程执行下载操作
+        Thread downloadThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    // 在新线程中执行下载操作
+                    ImageUtil.downloadImage(imageUrl, outputFile);
+                    // 下载完成后可以做进一步操作
+                    // 例如：更新UI（记得要在主线程中更新UI）
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        // 启动线程
+        downloadThread.start();
+
+        // 等待线程完成后再执行其他操作
+        try {
+            downloadThread.join();  // 等待线程执行完成
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        // 继续执行下载完成后的后续操作
+        // 注意：下载任务完成后在此位置可以进行后续工作
+        Log.d("Download", "Image download completed and thread has finished.");
     }
 }

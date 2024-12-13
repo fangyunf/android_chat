@@ -109,8 +109,8 @@ public class ChatPopActionFactory {
                 actions.add(getCollectionAction(message));
             }
 //      actions.add(getReplyAction(message));
-            if (message.getViewType() == MsgTypeEnum.image.getValue() || message.getViewType() == MsgTypeEnum.video.getValue()) {
-//                actions.add(getTransmitAction(message));
+            if (message.getViewType() == MsgTypeEnum.image.getValue()) {
+                actions.add(getCollectionAction(message));
             }
 //      actions.add(getPinAction(message));
             actions.add(getDeleteAction(message));

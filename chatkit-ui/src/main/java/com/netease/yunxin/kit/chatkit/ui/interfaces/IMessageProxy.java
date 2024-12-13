@@ -47,6 +47,7 @@ public interface IMessageProxy {
   void sendMingPian();
   void sendZhuanZhang();
   void sendShouCang();
+  void sendImageMessage(File imageFile);
 
   String getSessionId();
 
