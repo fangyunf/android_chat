@@ -128,8 +128,7 @@
         <!-- Fun -->
         <activity android:name=".fun.page.FunChatP2PActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize"
-            android:launchMode="singleTask"/>
+            android:windowSoftInputMode="adjustResize"/>
 
         <activity android:name=".fun.page.FunChatTeamActivity"
             android:screenOrientation="portrait"
