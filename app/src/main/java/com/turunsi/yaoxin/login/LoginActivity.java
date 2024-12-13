@@ -97,6 +97,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         });
         changeTitleWithType(0);
 
+        if (BuildConfig.DEBUG) {
+            binding.activityLoginTf1.viewTitleTfCountEt.setText("19111111003");
+            binding.activityLoginTf3.viewTitleTfCountEt.setText("w123456");
+        }
     }
 
     void changeTitleWithType(int type) {
