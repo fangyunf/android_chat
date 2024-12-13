@@ -1,5 +1,6 @@
 package com.turunsi.yaoxin.main.mine.collection;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Pair;
@@ -19,6 +20,7 @@ import com.yaoxin.appbase.activity.BaseActivity;
 import com.turunsi.yaoxin.databinding.ActivityMineCollectionListBinding;
 import com.turunsi.yaoxin.main.mine.collection.adapter.CollectionListAdapter;
 import com.turunsi.yaoxin.main.mine.collection.bean.CollectionListBean;
+import com.yaoxin.appbase.utils.AESUtil;
 import com.yaoxin.appbase.utils.DialogAlertUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
 
@@ -39,6 +41,33 @@ public class CollectionListActivity extends BaseActivity implements View.OnClick
          adapter = new CollectionListAdapter();
         binding.activityMineCollectionListRv.setAdapter(adapter);
 
+        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener<CollectInfo>() {
+            @Override
+            public void onClick(@NonNull BaseQuickAdapter<CollectInfo, ?> baseQuickAdapter, @NonNull View view, int i) {
+                CollectInfo item = adapter.getItem(i);
+                String content = item.getData();
+                if (item.getType() == 1) {
+
+                    Intent result = new Intent();
+                    result.putExtra("text", content);
+                    result.putExtra("type", 1);
+                    setResult(RESULT_OK, result);
+                    finish();
+
+                    return;
+                }
+                try {
+                    content = AESUtil.msgAseDecrypt(content);
+                }catch (Exception e) {
+
+                }
+                Intent result = new Intent();
+                result.putExtra("text", content);
+                result.putExtra("type", 0);
+                setResult(RESULT_OK, result);
+                finish();
+            }
+        });
         adapter.setOnItemLongClickListener(new BaseQuickAdapter.OnItemLongClickListener<CollectInfo>() {
             @Override
             public boolean onLongClick(@NonNull BaseQuickAdapter<CollectInfo, ?> baseQuickAdapter, @NonNull View view, int i) {
@@ -98,7 +127,7 @@ public class CollectionListActivity extends BaseActivity implements View.OnClick
                             long id = tempInfo.getId();
                             String data = tempInfo.getData();
                             String ext = tempInfo.getExt();
-                            if (tempInfo.getType() == 1024) {
+                            if (type == 1024 || type == 1) {
                                 dataList.add(tempInfo);
                             }
                         }

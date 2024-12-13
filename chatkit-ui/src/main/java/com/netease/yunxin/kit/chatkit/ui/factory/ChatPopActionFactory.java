@@ -62,11 +62,15 @@ public class ChatPopActionFactory {
         if (message.getMessageData() == null) {
             return actions;
         }
-        if (message.getMessageData().getMessage().getAttachStr() != null && !message.getMessageData().getMessage().getAttachStr().isEmpty()) {
+        int viewType = message.getViewType();
+
+        if (viewType == 0 &&message.getMessageData().getMessage().getAttachStr() != null && !message.getMessageData().getMessage().getAttachStr().isEmpty()) {
 
             actions.add(getDeleteAction(message));
-            if (message.getViewType() == MsgTypeEnum.image.getValue() || message.getViewType() == MsgTypeEnum.video.getValue()) {
-                actions.add(getTransmitAction(message));
+            if (message.getMessageData().getMessage().getAttachStr().contains("memberCode")) {
+                if (message.getMessageData().getMessage().getDirect() == MsgDirectionEnum.Out) {
+                    actions.add(getRecallAction(message));
+                }
             }
             return actions;
         }
@@ -76,13 +80,12 @@ public class ChatPopActionFactory {
             if (message.getMessageData().getMessage().getStatus() == MsgStatusEnum.fail
                     || message.getMessageData().getMessage().getStatus() == MsgStatusEnum.sending
                     || message.getMessageData().getMessage().isInBlackList()) {
-
                 if (message.getViewType() == MsgTypeEnum.text.getValue()) {
                     actions.add(getCopyAction(message));
+                    actions.add(getCollectionAction(message));
                 }
                 actions.add(getDeleteAction(message));
 //        actions.add(getMultiSelectAction(message));
-                actions.add(getCollectionAction(message));
                 return actions;
             }
 
@@ -96,17 +99,18 @@ public class ChatPopActionFactory {
             // 自定义消息，根据自定义消息的Type区分IMUIKIt内置从101开始，客户定义从1000开始
             if (message.getViewType() == MsgTypeEnum.text.getValue()
                     || message.getViewType() == ChatMessageType.RICH_TEXT_ATTACHMENT) {
-                actions.add(getTransmitAction(message));
+//                actions.add(getTransmitAction(message));
                 actions.add(getCopyAction(message));
+                actions.add(getCollectionAction(message));
             }
 //      actions.add(getReplyAction(message));
-            if (message.getViewType() != MsgTypeEnum.audio.getValue()) {
-//        actions.add(getTransmitAction(message));
+            if (message.getViewType() == MsgTypeEnum.image.getValue()) {
+                actions.add(getCollectionAction(message));
             }
 //      actions.add(getPinAction(message));
             actions.add(getDeleteAction(message));
-//      actions.add(getMultiSelectAction(message));
-            actions.add(getCollectionAction(message));
+//            actions.add(getMultiSelectAction(message));
+//            actions.add(getCollectionAction(message));
             if (message.getMessageData().getMessage().getDirect() == MsgDirectionEnum.Out) {
                 actions.add(getRecallAction(message));
             }
