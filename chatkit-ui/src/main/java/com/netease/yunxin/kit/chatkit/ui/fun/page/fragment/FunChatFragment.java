@@ -208,7 +208,7 @@ public abstract class FunChatFragment extends ChatBaseFragment {
                                             UserBean userInfo = new Gson().fromJson(body.data.toString(), UserBean.class);
                                             XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_SETTING_PAGE)
                                                     .withParam(RouterConstant.CHAT_ID_KRY, userInfo.userId)
-                                                    .withParam("type", "1")
+                                                    .withParam("type", "2")
                                                     .withContext(requireActivity())
                                                     .navigate();
                                         }

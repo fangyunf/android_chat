@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -57,6 +58,7 @@ import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
+import com.yaoxin.appbase.utils.AppProxy;
 import com.yaoxin.appbase.utils.BaseEvent;
 import com.yaoxin.appbase.utils.DialogAlertUtil;
 import com.yaoxin.appbase.utils.StatusBarUtils;
@@ -119,7 +121,7 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
         setContentView(binding.getRoot());
         binding.funChatSettingActivityNav.addCloseImageButton().setOnClickListener(this);
         binding.funChatSettingActivityNav.getTitleView().setText("聊天设置");
-        if (type == 1) {
+        if (type == 1 || type == 2) {
             binding.funChatSettingActivityNav.getTitleView().setText("查看主页");
 
         }
@@ -268,7 +270,7 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
                 DialogAlertUtil.showAlert("确认删除聊天记录吗？", new DialogAlertUtil.DialogAlertUtilCallBack() {
                     @Override
                     public void clickType(int type) {
-                        if (type == 1) {
+                        if (type == 1 || type == 2) {
                             if (userBean == null) {
                                 ToastUtils.toastMsg("网络错误");
                                 return;
@@ -350,7 +352,7 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
                 DialogAlertUtil.showAlert("确定删除好友吗？", new DialogAlertUtil.DialogAlertUtilCallBack() {
                     @Override
                     public void clickType(int type) {
-                        if (type == 1) {
+                        if (type == 1 || type == 2) {
 
                             if (userBean == null) {
                                 ToastUtils.toastMsg("网络错误");
@@ -384,7 +386,7 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
         binding.funChatSettingActivitySendMsgRl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (type == 1) {
+                if (type == 1 || type == 2) {
                     if (userInfoData == null || userInfoData.data == null) {
                         return;
                     }
@@ -392,7 +394,7 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
                             .withParam(RouterConstant.CHAT_ID_KRY, userInfoData.data.getAccount())
                             .withContext(FunChatSettingActivity.this)
                             .navigate();
-                    finish();
+//                    finish();
                 } else  {
                     finish();
                 }
