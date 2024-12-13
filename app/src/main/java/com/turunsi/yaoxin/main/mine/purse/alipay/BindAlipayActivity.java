@@ -189,7 +189,7 @@ public class BindAlipayActivity extends BaseActivity implements View.OnClickList
             if (_bindType == 2 || _bindType == 1) {
                 registerBean.usdt = qrcodeImgUrl;
             } else {
-                registerBean.certNo = account;
+                registerBean.usdt = account;
             }
             if (bindBean != null && bindBean.id > 0) {
                 registerBean.id = bindBean.id + "";
