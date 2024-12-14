@@ -55,7 +55,7 @@ public class FunRedPacketResultActivity extends BaseActivity implements View.OnC
         if (extras != null && extras.get("redpacketId") != null) {
             redpacketId = (String) extras.get("redpacketId");
         }
-        _requestData();
+        _requestData1();
         binding = ActivityFunRedPacketResultDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         _initView();
@@ -68,8 +68,8 @@ public class FunRedPacketResultActivity extends BaseActivity implements View.OnC
         binding.activityFunRedPacketResultDetailNav.setPadding(0, BarUtils.getStatusBarHeight(), 0, 0);
     }
 
-    @Override
-    protected void _requestData() {
+//    @Override
+    protected void _requestData1() {
         if (redpacketId == null || redpacketId.isEmpty()) {
             ToastUtils.toastMsg("网络错误");
             finish();
