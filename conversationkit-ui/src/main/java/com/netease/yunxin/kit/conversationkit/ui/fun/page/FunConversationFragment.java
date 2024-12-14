@@ -238,7 +238,7 @@ public class FunConversationFragment extends ConversationBaseFragment {
                             @Override
                             public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                               NIMClient.getService(MsgService.class).clearChattingHistory(kefuId,SessionTypeEnum.P2P);
-                              NIMClient.getService(MsgService.class).clearServerHistory(kefuId,SessionTypeEnum.P2P);
+//                              NIMClient.getService(MsgService.class).clearServerHistory(kefuId,SessionTypeEnum.P2P);
                             }
 
                             @Override
@@ -278,7 +278,7 @@ public class FunConversationFragment extends ConversationBaseFragment {
       @Override
       public void onSuccess(Void param) {
         NIMClient.getService(MsgService.class).clearChattingHistory(account,SessionTypeEnum.P2P);
-        NIMClient.getService(MsgService.class).clearServerHistory(account,SessionTypeEnum.P2P);
+//        NIMClient.getService(MsgService.class).clearServerHistory(account,SessionTypeEnum.P2P);
         // 保存成功
       }
 
@@ -315,7 +315,7 @@ public class FunConversationFragment extends ConversationBaseFragment {
       @Override
       public void onSuccess(Void param) {
         NIMClient.getService(MsgService.class).clearChattingHistory(account,SessionTypeEnum.Team);
-        NIMClient.getService(MsgService.class).clearServerHistory(account,SessionTypeEnum.Team);
+//        NIMClient.getService(MsgService.class).clearServerHistory(account,SessionTypeEnum.Team);
         // 保存成功
       }
 
