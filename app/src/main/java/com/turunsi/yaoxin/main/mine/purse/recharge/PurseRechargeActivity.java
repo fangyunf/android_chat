@@ -232,7 +232,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
                         public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                             UserBean userBean = new Gson().fromJson(body.data.toString(),UserBean.class);
 //                        RechargeScanFragment.showV(getSupportFragmentManager(),payType.equals("wxpay")?"请使用微信扫码":"请使用支付宝扫码",userBean.payUrl);
-                            startAlipayPayment(userBean.url);
+                            startAlipayPayment(userBean.payUrl);
                         }
 
                         @Override
@@ -249,7 +249,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
                         public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                             UserBean userBean = new Gson().fromJson(body.data.toString(),UserBean.class);
 //                        RechargeScanFragment.showV(getSupportFragmentManager(),payType.equals("wxpay")?"请使用微信扫码":"请使用支付宝扫码",userBean.payUrl);
-                            startAlipayPayment(userBean.url);
+                            startAlipayPayment(userBean.payUrl);
                         }
 
                         @Override
