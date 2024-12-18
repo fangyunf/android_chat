@@ -129,8 +129,10 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
         binding.activityMinePurseRechargeAliPayBtn.setOnClickListener(this);
 
         if (_type == 0) {
-            binding.activityMinePurseRechargeQqPayBtn.setVisibility(View.GONE);
-            binding.activityMinePurseRechargeWxPayBtn.setVisibility(View.GONE);
+//            binding.activityMinePurseRechargeQqPayBtn.setVisibility(View.GONE);
+            binding.activityMinePurseRechargeWxPayBtn.setText("支付宝支付1");
+            binding.activityMinePurseRechargeAliPayBtn.setText("支付宝支付2");
+            binding.activityMinePurseRechargeQqPayBtn.setText("微信支付");
         }
     }
     @Override
@@ -201,7 +203,12 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
                 return;
             }
             payType = "qqpay";
-            rechargeMoney(inputMoney);
+            if (_type == 0) {
+                payType = "wxpay";
+                rechargeMoneyNew(inputMoney);
+            } else {
+                rechargeMoney(inputMoney);
+            }
         } else if (v == binding.activityMinePurseRechargeWxPayBtn) {
             String inputMoney = getTextStr(binding.activityMinePurseRechargeEt);
             if (inputMoney.isEmpty()) {
@@ -217,7 +224,11 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
                 return;
             }
             payType = "alipay";
-            rechargeMoney(inputMoney);
+            if (_type == 0) {
+                rechargeMoneyNew(inputMoney);
+            } else {
+                rechargeMoney(inputMoney);
+            }
         }
 
     }
@@ -258,6 +269,25 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
                         }
                     });
         }
+    }
+    void rechargeMoneyNew(String inputMoney) {
+        RequestParamsBean registerBean = new RequestParamsBean();
+        registerBean.amount = NumberUtil.formartUploadMoney(inputMoney);
+        registerBean.type = payType;
+        HttpUtil.apiW().pay_sixwx(registerBean)
+                .enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                        UserBean userBean = new Gson().fromJson(body.data.toString(),UserBean.class);
+//                        RechargeScanFragment.showV(getSupportFragmentManager(),payType.equals("wxpay")?"请使用微信扫码":"请使用支付宝扫码",userBean.payUrl);
+                        startAlipayPayment(userBean.url);
+                    }
+
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
+
+                    }
+                });
     }
     private void startAlipayPayment(String url) {
         if ( url != null) {

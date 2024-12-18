@@ -85,6 +85,14 @@ public class FunConversationFragment extends ConversationBaseFragment {
   private boolean _needRefresh;
 
 
+  // 创建实例的方法，使用 arguments 传递参数
+  public static FunConversationFragment newInstance(int type) {
+    FunConversationFragment fragment = new FunConversationFragment();
+    Bundle args = new Bundle();
+    args.putInt("type", type);
+    fragment.setArguments(args);
+    return fragment;
+  }
   public FunConversationFragment() {
   }
 
@@ -120,7 +128,7 @@ public class FunConversationFragment extends ConversationBaseFragment {
     });
     StatusBarUtils.setStatusBarLightMode(getActivity(), true, true);
     ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) viewBinding.funConversationFragmentTopLl.getLayoutParams();
-    layoutParams.topMargin = BarUtils.getStatusBarHeight();
+    layoutParams.topMargin = BarUtils.getStatusBarHeight() + SizeUtils.dp2px(20);
     viewBinding.funConversationFragmentTopLl.setLayoutParams(layoutParams);
 
     new Timer().schedule(new TimerTask() {
