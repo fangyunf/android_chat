@@ -84,13 +84,17 @@ public class FunConversationFragment extends ConversationBaseFragment {
 
   private boolean _needRefresh;
 
-  public FunConversationFragment(int type) {
-    _type = type;
-  }
 
   public FunConversationFragment() {
   }
 
+  public static FunConversationFragment newInstance(int type) {
+    FunConversationFragment fragment = new FunConversationFragment();
+    Bundle args = new Bundle();
+    args.putInt("type", type);
+    fragment.setArguments(args);
+    return fragment;
+  }
   private int topIndex;
   @Override
   public View initViewAndGetRootView(
@@ -98,6 +102,10 @@ public class FunConversationFragment extends ConversationBaseFragment {
       @Nullable ViewGroup container,
       @Nullable Bundle savedInstanceState) {
     viewBinding = FunConversationFragmentBinding.inflate(inflater, container, false);
+    // 获取传递的参数
+    if (getArguments() != null) {
+      _type = getArguments().getInt("type");
+    }
     initView();
     if (_type == 1) {
       viewBinding.funConversationFragmentTitleTv.setText("群聊");
