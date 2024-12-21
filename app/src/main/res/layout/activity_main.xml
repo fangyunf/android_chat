@@ -49,14 +49,18 @@
                 android:drawableTop="@mipmap/mine_tabbar_msg_sel"
                 android:text="@string/tab_session_tab_text" />
 
-            <View android:id="@+id/conversation_dot"
-                android:layout_width="@dimen/dimen_6_dp"
-                android:layout_height="@dimen/dimen_6_dp"
-                android:layout_alignRight="@+id/conversation"
-                android:layout_marginLeft="@dimen/dimen_10_dp"
-                android:layout_marginTop="@dimen/dimen_7_dp"
-                android:background="@drawable/bg_conversation_red_dot"
-                android:visibility="gone"/>
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/conversation_dot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/conversation"
+                android:text="99+"
+                android:layout_marginLeft="-10dp"
+                android:paddingHorizontal="5dp"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:background="@drawable/bg_conversation_red_dot"/>
 
         </RelativeLayout>
 
@@ -79,15 +83,19 @@
                 android:drawableTop="@mipmap/mine_tabbar_msg_group_normal"
                 android:text="群聊" />
 
-            <View android:id="@+id/conversation_dot1"
-                android:layout_width="@dimen/dimen_6_dp"
-                android:layout_height="@dimen/dimen_6_dp"
-                android:layout_alignRight="@+id/conversation1"
-                android:layout_marginLeft="@dimen/dimen_10_dp"
-                android:layout_marginTop="@dimen/dimen_7_dp"
-                android:background="@drawable/bg_conversation_red_dot"
-                android:visibility="gone"/>
 
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/conversation_dot1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/conversation1"
+                android:text="99+"
+                android:layout_marginLeft="-10dp"
+                android:paddingHorizontal="5dp"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:background="@drawable/bg_conversation_red_dot"/>
         </RelativeLayout>
 
 

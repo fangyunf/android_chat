@@ -392,6 +392,7 @@ public class MainActivity extends BaseActivity {
                             if (conversationFragment == mConversationFragment) {
                                 if (singleChatUnreadCount > 0) {
                                     activityMainBinding.conversationDot.setVisibility(View.VISIBLE);
+                                    activityMainBinding.conversationDot.setText(singleChatUnreadCount > 99 ? "99+" : singleChatUnreadCount + "");
                                 } else {
                                     activityMainBinding.conversationDot.setVisibility(View.GONE);
 
@@ -400,6 +401,8 @@ public class MainActivity extends BaseActivity {
                           if (conversationFragment == mConversationFragment1) {
                             if (groupChatUnreadCount > 0) {
                               activityMainBinding.conversationDot1.setVisibility(View.VISIBLE);
+                                activityMainBinding.conversationDot1.setText(groupChatUnreadCount > 99 ? "99+" : groupChatUnreadCount + "");
+
                             } else {
                               activityMainBinding.conversationDot1.setVisibility(View.GONE);
 
