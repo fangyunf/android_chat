@@ -96,25 +96,25 @@ public class SettingNewActivity extends BaseActivity implements View.OnClickList
     } else if (v == viewBinding.activityMineSetNewDeleteCache.viewTitleArrowLl) {
       startActivity(new Intent(SettingNewActivity.this, ClearCacheActivity.class));
 
-        DialogAlertUtil.showAlert("确定清空缓存吗？", new DialogAlertUtil.DialogAlertUtilCallBack() {
-            @Override
-            public void clickType(int type) {
-                if (type == 1) {
-                    MiscRepo.INSTANCE.clearCacheSize(
-                            getSDKFileType(),
-                            new FetchCallback<Void>() {
-                                @Override
-                                public void onSuccess(@Nullable Void param) {}
-
-                                @Override
-                                public void onFailed(int code) {}
-
-                                @Override
-                                public void onException(@Nullable Throwable exception) {}
-                            });
-                }
-            }
-        },getSupportFragmentManager());
+//        DialogAlertUtil.showAlert("确定清空缓存吗？", new DialogAlertUtil.DialogAlertUtilCallBack() {
+//            @Override
+//            public void clickType(int type) {
+//                if (type == 1) {
+//                    MiscRepo.INSTANCE.clearCacheSize(
+//                            getSDKFileType(),
+//                            new FetchCallback<Void>() {
+//                                @Override
+//                                public void onSuccess(@Nullable Void param) {}
+//
+//                                @Override
+//                                public void onFailed(int code) {}
+//
+//                                @Override
+//                                public void onException(@Nullable Throwable exception) {}
+//                            });
+//                }
+//            }
+//        },getSupportFragmentManager());
     } else if (v == viewBinding.activityMineSetNewDeleteRecord.viewTitleArrowLl) {
         DialogAlertUtil.showAlert("确定清空聊天记录吗？", new DialogAlertUtil.DialogAlertUtilCallBack() {
             @Override

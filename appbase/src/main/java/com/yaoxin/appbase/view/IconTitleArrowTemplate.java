@@ -15,6 +15,8 @@ import androidx.annotation.Nullable;
 import com.yaoxin.appbase.R;
 
 public class IconTitleArrowTemplate extends LinearLayout {
+    public TextView rightTv;
+    public ImageView rightIv;
     public IconTitleArrowTemplate(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init(context,attrs);
@@ -23,6 +25,8 @@ public class IconTitleArrowTemplate extends LinearLayout {
         // Inflate the XML layout
         LayoutInflater.from(context).inflate(R.layout.icon_title_arrow_template, this, true);
         TextView titleTv = findViewById(R.id.icon_title_arrow_template_title_tv);
+        rightTv = findViewById(R.id.icon_title_arrow_template_right_tv);
+        rightIv = findViewById(R.id.icon_title_arrow_template_right_iv);
         ImageView imgIv = findViewById(R.id.icon_title_arrow_template_left_iv);
         LinearLayout bgLL = findViewById(R.id.icon_title_arrow_template_ll);
 

@@ -167,6 +167,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_height="wrap_content">
                     <LinearLayout
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_marginBottom="10dp"
                         android:layout_height="50dp">
@@ -216,11 +217,27 @@
                         </LinearLayout>
                     </LinearLayout>
                     <com.yaoxin.appbase.view.IconTitleArrowTemplate
+                        android:visibility="gone"
                         android:id="@+id/fragment_mine_ltsz_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:leftImg="@mipmap/mine_index_item_ltsz"
                         app:titleText="聊天设置"
+                        />
+                    <com.yaoxin.appbase.view.IconTitleArrowTemplate
+                        android:id="@+id/fragment_mine_qbye_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:leftImg="@mipmap/mine_index_item_qbye"
+                        app:titleText="钱包余额"
+                        />
+                    <com.yaoxin.appbase.view.IconTitleArrowTemplate
+                        android:layout_marginTop="10dp"
+                        android:id="@+id/fragment_mine_qbgl_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:leftImg="@mipmap/mine_index_item_qbgl"
+                        app:titleText="钱包管理"
                         />
                     <com.yaoxin.appbase.view.IconTitleArrowTemplate
                         android:id="@+id/fragment_mine_ysgl_view"
@@ -237,6 +254,21 @@
                         app:titleText="账户管理"
                         />
                     <com.yaoxin.appbase.view.IconTitleArrowTemplate
+                        android:id="@+id/fragment_mine_sz_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:leftImg="@mipmap/mine_index_item_sz"
+                        app:titleText="设置"
+                        />
+                    <com.yaoxin.appbase.view.IconTitleArrowTemplate
+                        android:id="@+id/fragment_mine_kf_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:leftImg="@mipmap/mine_index_item_kf"
+                        app:titleText="客服"
+                        />
+                    <com.yaoxin.appbase.view.IconTitleArrowTemplate
+                        android:visibility="gone"
                         android:id="@+id/fragment_mine_hmd_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -244,6 +276,7 @@
                         app:titleText="黑名单"
                         />
                     <com.yaoxin.appbase.view.IconTitleArrowTemplate
+                        android:visibility="gone"
                         android:id="@+id/fragment_mine_wdfh_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -268,6 +301,7 @@
                     <!--                            app:titleText="彩蛋商城"-->
                     <!--                            />-->
                     <com.yaoxin.appbase.view.IconTitleArrowTemplate
+                        android:visibility="gone"
                         android:id="@+id/fragment_mine_hyzx_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -284,6 +318,7 @@
                         />
 
                     <com.yaoxin.appbase.view.IconTitleArrowTemplate
+                        android:visibility="gone"
                         android:layout_marginTop="10dp"
                         android:id="@+id/fragment_mine_mmsz_view"
                         android:layout_width="match_parent"
@@ -292,11 +327,12 @@
                         app:titleText="密码设置"
                         />
                     <com.yaoxin.appbase.view.IconTitleArrowTemplate
+                        android:layout_marginTop="10dp"
                         android:id="@+id/fragment_mine_fxyy_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:leftImg="@mipmap/mine_index_item_fxyy"
-                        app:titleText="分享应用"
+                        app:titleText="下载地址"
                         />
                     <com.yaoxin.appbase.view.IconTitleArrowTemplate
                         android:id="@+id/fragment_mine_yysj_view"
@@ -305,6 +341,13 @@
                         app:leftImg="@mipmap/mine_index_item_yysj"
                         app:titleText="应用升级"
                         />
+<!--                    <com.yaoxin.appbase.view.IconTitleArrowTemplate-->
+<!--                        android:id="@+id/fragment_mine_yysj_view"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        app:leftImg="@mipmap/mine_index_item_yysj"-->
+<!--                        app:titleText="应用升级"-->
+<!--                        />-->
                     <com.yaoxin.appbase.view.IconTitleArrowTemplate
                         android:visibility="gone"
                         android:id="@+id/fragment_mine_xtsz_view"

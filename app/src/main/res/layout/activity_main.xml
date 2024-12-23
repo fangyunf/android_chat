@@ -31,27 +31,6 @@
         tools:ignore="MissingConstraints">
 
         <RelativeLayout
-            android:id="@+id/conversation_btn_shop"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:onClick="tabClick"
-            android:layout_weight="1">
-
-            <TextView
-                android:id="@+id/conversation_shop"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:drawablePadding="3dp"
-                android:gravity="center"
-                android:textSize="12sp"
-                android:textColor="@color/tab_checked_color"
-                android:drawableTop="@mipmap/mine_tabbar_shop_sel"
-                android:text="商城" />
-
-
-        </RelativeLayout>
-        <RelativeLayout
             android:id="@+id/conversation_btn_group"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -66,8 +45,8 @@
                 android:drawablePadding="3dp"
                 android:gravity="center"
                 android:textSize="12sp"
-                android:textColor="@color/tab_unchecked_color"
-                android:drawableTop="@mipmap/mine_tabbar_msg_normal"
+                android:textColor="@color/tab_checked_color"
+                android:drawableTop="@mipmap/mine_tabbar_msg_sel"
                 android:text="@string/tab_session_tab_text" />
 
             <View android:id="@+id/conversation_dot"
@@ -80,8 +59,30 @@
                 android:visibility="gone"/>
 
         </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/conversation_btn_shop"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:onClick="tabClick"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/conversation_shop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:drawablePadding="3dp"
+                android:gravity="center"
+                android:textSize="12sp"
+                android:textColor="@color/tab_unchecked_color"
+                android:drawableTop="@mipmap/mine_tabbar_shop_normal"
+                android:text="商城" />
+
+
+        </RelativeLayout>
 
         <RelativeLayout
+            android:visibility="gone"
             android:id="@+id/conversation_btn_group1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
