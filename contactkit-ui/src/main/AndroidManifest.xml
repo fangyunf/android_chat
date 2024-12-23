@@ -85,6 +85,14 @@
             android:name=".fun.addfriend.FunAddFriendActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".normal.contact.SubmitOrderActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".normal.contact.OrderAddressActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
 
 
         <activity

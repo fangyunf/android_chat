@@ -51,6 +51,7 @@ public class GroupInfoBean {
     public int grade;
     public int groupMemberNum;
     public int price;
+    public String price1;
 
     private String index;
     public String getIndex() {
