@@ -566,12 +566,8 @@ public class MainActivity extends BaseActivity {
             switch (requestCode) {
                 case REQUEST_CODE_SCAN:
 //          String result = CameraScan.parseScanResult(data);
-                    String content = data.getStringExtra(CODED_CONTENT);
-                    String result = content;
-                    String[] split = content.split("\\.");
-                    if (split.length == 3) {
-                        result = split[1];
-                    }
+
+                    String result = data.getStringExtra(CODED_CONTENT);
 
                     if (result != null) {
                         RegisterBean bean = new RegisterBean();

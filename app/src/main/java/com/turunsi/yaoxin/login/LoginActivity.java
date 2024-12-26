@@ -96,10 +96,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             }
         });
         changeTitleWithType(0);
-
+//        13100000001  mengliao1111
         if (BuildConfig.DEBUG) {
-            binding.activityLoginTf1.viewTitleTfCountEt.setText("19111111003");
-            binding.activityLoginTf3.viewTitleTfCountEt.setText("w123456");
+            binding.activityLoginTf1.viewTitleTfCountEt.setText("18616821287");
+            binding.activityLoginTf3.viewTitleTfCountEt.setText("12345678a");
         }
     }
 

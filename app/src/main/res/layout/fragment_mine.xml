@@ -318,7 +318,6 @@
                         />
 
                     <com.yaoxin.appbase.view.IconTitleArrowTemplate
-                        android:visibility="gone"
                         android:layout_marginTop="10dp"
                         android:id="@+id/fragment_mine_mmsz_view"
                         android:layout_width="match_parent"
@@ -327,7 +326,6 @@
                         app:titleText="密码设置"
                         />
                     <com.yaoxin.appbase.view.IconTitleArrowTemplate
-                        android:layout_marginTop="10dp"
                         android:id="@+id/fragment_mine_fxyy_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
