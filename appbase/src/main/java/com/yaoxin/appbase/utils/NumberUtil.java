@@ -34,8 +34,9 @@ public class NumberUtil {
     public static int formartUploadMoney(String money) {
         int formattedValue;
 
-        if (!money.isEmpty()) {
-            formattedValue = (int)(Double.parseDouble(money) * 100);
+        if (money != null && !money.isEmpty()) {
+            double value = Double.parseDouble(money);
+            formattedValue = (int) Math.round(value * 100);
         } else {
             formattedValue = 0;
         }
