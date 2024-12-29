@@ -67,7 +67,7 @@ public class FunRedPacketResultActivity extends BaseActivity implements View.OnC
         binding.activityFunRedPacketResultDetailNav.setLayoutParams(params);
         binding.activityFunRedPacketResultDetailNav.setPadding(0, BarUtils.getStatusBarHeight(), 0, 0);
     }
-    
+
     protected void _requestData1() {
         if (redpacketId == null || redpacketId.isEmpty()) {
             ToastUtils.toastMsg("网络错误");
