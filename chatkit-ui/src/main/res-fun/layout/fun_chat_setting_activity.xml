@@ -106,6 +106,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/fun_chat_setting_activity_content_ll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_white_rounded_10"
@@ -169,4 +170,18 @@
                     android:layout_marginRight="15dp"
                     android:background="@drawable/bg_app_theme_color_rounded_10"
                     />
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/fun_chat_setting_activity_add_friend_tv"
+        android:layout_width="253dp"
+        android:layout_height="52dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/fun_bg_app_theme_color_rounded_26"
+        android:gravity="center"
+        android:text="添加好友"
+        android:textColor="#ffffffff"
+        android:textSize="18sp" />
+
 </RelativeLayout>

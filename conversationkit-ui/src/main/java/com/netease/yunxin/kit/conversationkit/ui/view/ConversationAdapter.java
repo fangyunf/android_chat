@@ -333,6 +333,10 @@ public class ConversationAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
   @Override
   public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {
+    if (position < 0 || position >= conversationList.size()) {
+      return;
+    }
+
     holder.onBindData(optData().get(position), position);
     holder.setItemOnClickListener(clickListener);
   }
