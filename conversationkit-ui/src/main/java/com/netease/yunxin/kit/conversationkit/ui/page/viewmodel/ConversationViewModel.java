@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.MutableLiveData;
 
+import com.netease.nimlib.sdk.InvocationFuture;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.friend.model.MuteListChangedNotify;
@@ -16,6 +17,7 @@ import com.netease.nimlib.sdk.msg.constant.DeleteTypeEnum;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
 import com.netease.nimlib.sdk.msg.model.StickTopSessionInfo;
+import com.netease.nimlib.sdk.team.TeamService;
 import com.netease.nimlib.sdk.team.model.Team;
 import com.netease.yunxin.kit.alog.ALog;
 import com.netease.yunxin.kit.chatkit.model.ConversationInfo;
@@ -194,12 +196,16 @@ public class ConversationViewModel extends BaseViewModel {
       for (RecentContact recentContact : recentContacts) {
           if (recentContact.getSessionType() == SessionTypeEnum.P2P) {
               if (!recentContact.getContactId().equals(DataUtil.getUserid())) {
+
                   // 单聊
                   singleChatUnreadCount += recentContact.getUnreadCount();
               }
           } else if (recentContact.getSessionType() == SessionTypeEnum.Team) {
-              // 群组
-              groupChatUnreadCount += recentContact.getUnreadCount();
+              Team team = NIMClient.getService(TeamService.class).queryTeamBlock(recentContact.getContactId());
+              if (team != null && !team.mute()) {
+                  // 群组
+                  groupChatUnreadCount += recentContact.getUnreadCount();
+              }
           }
       }
 
