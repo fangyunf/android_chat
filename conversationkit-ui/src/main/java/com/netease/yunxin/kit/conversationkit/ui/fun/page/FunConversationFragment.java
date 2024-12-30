@@ -96,13 +96,6 @@ public class FunConversationFragment extends ConversationBaseFragment {
   public FunConversationFragment() {
   }
 
-  public static FunConversationFragment newInstance(int type) {
-    FunConversationFragment fragment = new FunConversationFragment();
-    Bundle args = new Bundle();
-    args.putInt("type", type);
-    fragment.setArguments(args);
-    return fragment;
-  }
   private int topIndex;
   @Override
   public View initViewAndGetRootView(
