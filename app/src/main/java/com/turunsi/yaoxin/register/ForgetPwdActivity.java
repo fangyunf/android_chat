@@ -51,6 +51,7 @@ public class ForgetPwdActivity extends BaseActivity implements View.OnClickListe
         binding.forgetPwdActivityPwd2Tf.viewTitleTfEt.setHint("请输入密码");
 
         binding.forgetPwdActivityCodeTf.btnCaptcha.setVisibility(View.VISIBLE);
+        binding.forgetPwdActivityBtn.setOnClickListener(this);
         CountDownView mCountDownView = binding.forgetPwdActivityCodeTf.btnCaptcha;
         mCountDownView.setUserEdit(binding.forgetPwdActivityPhoneTf.viewTitleTfEt);
         mCountDownView.setCountDownTime(60);
