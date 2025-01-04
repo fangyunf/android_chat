@@ -11,10 +11,12 @@ public class RequestParamsBean {
     public String zfb;
     public String certNo;
     public String usdt;
+    public String name;
+    public String configId;
+    public String payWay;
     public int amount;
     public int summary;
     private String phone1;
-    private String name;
     public String type;
     private String deviceId;
     private String clientType;

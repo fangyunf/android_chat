@@ -24,6 +24,7 @@ public class UserBean {
 //    为1是会员    0或者空为非会员
     public String hy;
     public String qrCode;
+    public String qrcode;
     public String payUrl;
     public String username;
     public String balance;
