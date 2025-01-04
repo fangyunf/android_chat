@@ -22,6 +22,7 @@ import com.yaoxin.appbase.model.RequestParamsBean;
 import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
+import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.DialogAlertUtil;
 import com.yaoxin.appbase.utils.NumberUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
@@ -242,14 +243,18 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
                     });
         } else {
 
-//            registerBean.type = payType;
-            HttpUtil.apiW().pay_six(registerBean)
+            registerBean.name = "12";
+            registerBean.configId = "1";
+            registerBean.payWay = "ypay";
+            registerBean.userId = DataUtil.getUserid();
+            registerBean.type = "alipay";
+            HttpUtil.apiW().pay_yPay(registerBean)
                     .enqueue(new CommonCallback<NetData>() {
                         @Override
                         public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                             UserBean userBean = new Gson().fromJson(body.data.toString(),UserBean.class);
 //                        RechargeScanFragment.showV(getSupportFragmentManager(),payType.equals("wxpay")?"请使用微信扫码":"请使用支付宝扫码",userBean.payUrl);
-                            startAlipayPayment(userBean.payUrl);
+                            startAlipayPayment(userBean.h5_qrurl);
                         }
 
                         @Override
