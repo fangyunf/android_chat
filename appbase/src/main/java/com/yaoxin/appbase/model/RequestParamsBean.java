@@ -14,6 +14,7 @@ public class RequestParamsBean {
     public String name;
     public String configId;
     public String payWay;
+    public String userId;
     public int amount;
     public int summary;
     private String phone1;

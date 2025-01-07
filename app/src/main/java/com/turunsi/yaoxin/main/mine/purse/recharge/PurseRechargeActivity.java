@@ -22,6 +22,7 @@ import com.yaoxin.appbase.model.RequestParamsBean;
 import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
+import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.DialogAlertUtil;
 import com.yaoxin.appbase.utils.NumberUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
@@ -246,6 +247,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
             registerBean.configId = "2";
             registerBean.payWay = "sypay";
             registerBean.type = payType;
+            registerBean.userId = DataUtil.getUserid();
             HttpUtil.apiW().pay_syPay(registerBean)
                     .enqueue(new CommonCallback<NetData>() {
                         @Override
