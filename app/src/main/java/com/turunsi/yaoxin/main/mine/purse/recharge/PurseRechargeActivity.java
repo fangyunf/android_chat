@@ -130,7 +130,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
 
         if (_type == 0) {
             binding.activityMinePurseRechargeQqPayBtn.setVisibility(View.GONE);
-            binding.activityMinePurseRechargeWxPayBtn.setVisibility(View.GONE);
+//            binding.activityMinePurseRechargeWxPayBtn.setVisibility(View.GONE);
         }
     }
     @Override
@@ -245,7 +245,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
             registerBean.name = "12";
             registerBean.configId = "2";
             registerBean.payWay = "sypay";
-            registerBean.type = "alipay";
+            registerBean.type = payType;
             HttpUtil.apiW().pay_syPay(registerBean)
                     .enqueue(new CommonCallback<NetData>() {
                         @Override
