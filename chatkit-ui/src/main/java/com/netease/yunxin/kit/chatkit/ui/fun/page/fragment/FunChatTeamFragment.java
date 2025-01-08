@@ -139,7 +139,7 @@ public class FunChatTeamFragment extends FunChatFragment {
     chatView.setAitManager(aitManager);
     refreshView();
     _requestData();
-    startTimer();
+//    startTimer();
   }
   private void startTimer() {
     timer = new Timer();
