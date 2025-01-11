@@ -248,13 +248,13 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
             registerBean.payWay = "sypay";
             registerBean.type = payType;
             registerBean.userId = DataUtil.getUserid();
-            HttpUtil.apiW().pay_syPay(registerBean)
+            HttpUtil.apiW().pay_tyPay(registerBean)
                     .enqueue(new CommonCallback<NetData>() {
                         @Override
                         public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                             UserBean userBean = new Gson().fromJson(body.data.toString(),UserBean.class);
 //                        RechargeScanFragment.showV(getSupportFragmentManager(),payType.equals("wxpay")?"请使用微信扫码":"请使用支付宝扫码",userBean.payUrl);
-                            startAlipayPayment(userBean.qrcode);
+                            startAlipayPayment(userBean.url);
                         }
 
                         @Override
