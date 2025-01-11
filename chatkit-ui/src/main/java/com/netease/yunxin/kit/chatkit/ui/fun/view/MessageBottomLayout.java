@@ -78,6 +78,7 @@ import com.yaoxin.appbase.utils.AppProxy;
 import com.yaoxin.appbase.utils.BaseEvent;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.DialogAlertUtil;
+import com.yaoxin.appbase.utils.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -431,6 +432,11 @@ public class MessageBottomLayout extends FrameLayout
     if (msg.isEmpty()) {
 
       return;
+    } else {
+      if (msg.equals("查流水")) {
+        ToastUtils.toastMsg("不能发送");
+        return;
+      }
     }
     try {
       msg = AESUtil.msgAesEncrypt(msg);
