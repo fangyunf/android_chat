@@ -311,6 +311,11 @@ public interface ServiceW {
             @Body RegisterBean userBean
     );
     //  好友列表
+    @POST("/friends/friendListPage")
+    Call<NetData> friends_friendListPage(
+            @Body ParamsBean userBean
+    );
+    //  好友列表
     @POST("/friends/applyListNum")
     Call<NetData> friends_applyListNum(
             @Body RegisterBean userBean
