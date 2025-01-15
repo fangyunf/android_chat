@@ -22,6 +22,7 @@ import com.yaoxin.appbase.activity.BaseActivity;
 import com.turunsi.yaoxin.databinding.ActivityMinePurseRechargeBinding;
 import com.yaoxin.appbase.model.CustomMsgBean;
 import com.yaoxin.appbase.model.NetData;
+import com.yaoxin.appbase.model.ParamsBean;
 import com.yaoxin.appbase.model.PayParamsBean;
 import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.model.RequestParamsBean;
@@ -269,7 +270,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
 //            rechargeMoney("5000");
             binding.activityMinePurseRechargeEt.setText("5000");
         } else if (v == binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgLl || v == binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt) {
-            if (_bankCardList != null || !_bankCardList.isEmpty()) {
+            if (_bankCardList != null && !_bankCardList.isEmpty()) {
                 List<String> titles = new ArrayList<>();
                 for (PayParamsBean payParamsBean : _bankCardList) {
                     titles.add(payParamsBean.bankName + " （" + payParamsBean.getBankCardNo() + "）");
@@ -397,8 +398,8 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
             return;
         }
 
-        RequestParamsBean registerBean = new RequestParamsBean();
-        registerBean.amount = amount;
+        ParamsBean registerBean = new ParamsBean();
+        registerBean.amount = amount + "";
         registerBean.goodsTitle = "123";
         registerBean.goodsDesc = "1234";
         registerBean.description = "12345";
@@ -464,6 +465,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
                             ToastUtils.toastMsg(payParamsBean.error_msg);
                         }  else {
                             ToastUtils.toastMsg(body.msg);
+                            finish();
                         }
                     }
 

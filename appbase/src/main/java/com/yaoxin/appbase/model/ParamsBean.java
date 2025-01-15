@@ -15,6 +15,18 @@ public class ParamsBean {
     public String absolutePathUrl;
     public String deviceId;
     public String clientType;
+    public String amount;
+
+
+    public String goodsTitle;
+    public String goodsDesc;
+    public String description;
+    public String token_no;
+    public String in_member_id;
+    public String out_member_id;
+
+    public String configId;
+    public String userId;
     public ParamsBean() {
         deviceId = DeviceUtils.getDeviceId(AppProxy.getInstance().getContext());
         clientType = Constant.clientType;

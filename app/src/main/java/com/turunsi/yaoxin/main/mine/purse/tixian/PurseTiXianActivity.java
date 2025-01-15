@@ -13,11 +13,16 @@ import androidx.annotation.Nullable;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.netease.yunxin.kit.common.ui.dialog.ChoiceListener;
+import com.netease.yunxin.kit.common.ui.dialog.CommonChoiceDialog;
 import com.turunsi.yaoxin.R;
 import com.turunsi.yaoxin.main.mine.purse.alipay.BindAlipayActivity;
+import com.turunsi.yaoxin.main.mine.purse.alipay.BindBankCardActivity;
+import com.turunsi.yaoxin.main.mine.purse.recharge.PurseRechargeActivity;
 import com.yaoxin.appbase.activity.BaseActivity;
 import com.turunsi.yaoxin.databinding.ActivityMinePurseTixianBinding;
 import com.yaoxin.appbase.model.NetData;
+import com.yaoxin.appbase.model.ParamsBean;
 import com.yaoxin.appbase.model.PayParamsBean;
 import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.model.RequestParamsBean;
@@ -36,6 +41,7 @@ import com.yaoxin.appbase.view.pwdkeyboard.Keyboard;
 import com.yaoxin.appbase.view.pwdkeyboard.PayEditText;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -54,6 +60,7 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
     private int completedRequests = 0;
     PayParamsBean _selectCardBean;
 
+    List<PayParamsBean> _bankCardList;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -196,8 +203,8 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
             return;
         }
 
-        RequestParamsBean registerBean = new RequestParamsBean();
-        registerBean.amount = NumberUtil.formartUploadMoney(inputMoney);
+        ParamsBean registerBean = new ParamsBean();
+        registerBean.amount = NumberUtil.formartUploadMoney(inputMoney) + "";
         registerBean.configId = "3";
         registerBean.goodsTitle = "123";
         registerBean.goodsDesc = "1234";
@@ -252,6 +259,48 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
                     }
                 });
 
+        HttpUtil.apiW().bindCard_bindingCards()
+                .enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+//                        UserBean bean = new Gson().fromJson(body.data.toString(),UserBean.class);
+//                        binding.activityMinePurseRechargeAccountTv.setText("¥"+NumberUtil.formartMoney(bean.balance));
+
+                        Type type = new TypeToken<List<PayParamsBean>>() {}.getType();
+                        List<PayParamsBean> tempList = new Gson().fromJson(body.data.toString(), type);
+                        _bankCardList = tempList;
+                        if (tempList != null && !tempList.isEmpty()) {
+                            _selectCardBean = tempList.get(0);
+                        }
+                        if (_selectCardBean == null) {
+                            CommonChoiceDialog dialog = new CommonChoiceDialog();
+                            dialog
+                                    .setTitleStr("提示")
+                                    .setContentStr("暂无银行卡，是否前往绑定银行卡?")
+                                    .setNegativeStr("取消")
+                                    .setPositiveStr("确定")
+                                    .setConfirmListener(
+                                            new ChoiceListener() {
+                                                @Override
+                                                public void onPositive() {
+                                                    BindBankCardActivity.start(BindBankCardActivity.class, PurseTiXianActivity.this, null);
+                                                }
+
+                                                @Override
+                                                public void onNegative() {}
+                                            })
+                                    .show(getSupportFragmentManager());
+                        } else {
+                            binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setText(_selectCardBean.bankName+ " （" + _selectCardBean.getBankCardNo() + "）");
+                        }
+                    }
+
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
+
+                    }
+                });
+
 //        RegisterBean bean = new RegisterBean();
 //        bean.type = 1;
 //        HttpUtil.apiW().bindCard_userZFB(bean)
@@ -282,19 +331,19 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
 
     public void startAllRequests() {
         // 发起支付宝请求
-        RegisterBean alipayBean = new RegisterBean();
-        alipayBean.type = 2;
-        makeRequest(alipayBean, "alipay");
-
-        // 发起微信请求
-        RegisterBean wechatBean = new RegisterBean();
-        wechatBean.type = 1;
-        makeRequest(wechatBean, "wechat");
-
-        // 发起银行卡请求
-        RegisterBean bankBean = new RegisterBean();
-        bankBean.type = 3;
-        makeRequest(bankBean, "bank");
+//        RegisterBean alipayBean = new RegisterBean();
+//        alipayBean.type = 2;
+//        makeRequest(alipayBean, "alipay");
+//
+//        // 发起微信请求
+//        RegisterBean wechatBean = new RegisterBean();
+//        wechatBean.type = 1;
+//        makeRequest(wechatBean, "wechat");
+//
+//        // 发起银行卡请求
+//        RegisterBean bankBean = new RegisterBean();
+//        bankBean.type = 3;
+//        makeRequest(bankBean, "bank");
     }
 
     private void makeRequest(RegisterBean bean, String requestType) {
@@ -439,36 +488,53 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
             binding.activityMinePurseTixianMoneyEt.setText(accountMoeny);
         } else if (v == binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgLl || v == binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt) {
 
-            DialogAlertUtil.showSheetView(this, getSupportFragmentManager(), new String[]{"支付宝", "微信", "银行卡"}, new DialogAlertUtil.DialogAlertUtilCallBack() {
-                @Override
-                public void clickType(int type) {
-                    if (type == 1) {
-                        if (aliPayBean != null) {
-                            binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setText("支付宝:" + aliPayBean.phone);
-                        } else {
-                            ToastUtils.toastMsg("请绑定支付宝账号");
-                            return;
-                        }
-                        payType = "alipay";
-                    } else if (type == 2) {
-                        if (wxPayBean != null) {
-                            binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setText("微信:" + wxPayBean.phone);
-                        } else {
-                            ToastUtils.toastMsg("请绑定微信账号");
-                            return;
-                        }
-                        payType = "wxpay";
-                    } else if (type == 3) {
-                        if (yhkPayBean != null) {
-                            binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setText("银行卡:" + yhkPayBean.phone);
-                        } else {
-                            ToastUtils.toastMsg("请绑定银行卡账号");
-                            return;
-                        }
-                        payType = "yhkpay";
-                    }
+            if (_bankCardList != null && !_bankCardList.isEmpty()) {
+                List<String> titles = new ArrayList<>();
+                for (PayParamsBean payParamsBean : _bankCardList) {
+                    titles.add(payParamsBean.bankName + " （" + payParamsBean.getBankCardNo() + "）");
                 }
-            });
+                String[] titlesArray = titles.toArray(new String[0]);
+                DialogAlertUtil.showSheetView(this, getSupportFragmentManager(), titlesArray, new DialogAlertUtil.DialogAlertUtilCallBack() {
+                    @Override
+                    public void clickType(int type) {
+                        if (type > 0) {
+                            _selectCardBean = _bankCardList.get(type - 1);
+                            binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setText(_selectCardBean.bankName+ " （" + _selectCardBean.getBankCardNo() + "）");
+                        }
+                    }
+                });
+            }
+
+//            DialogAlertUtil.showSheetView(this, getSupportFragmentManager(), new String[]{"支付宝", "微信", "银行卡"}, new DialogAlertUtil.DialogAlertUtilCallBack() {
+//                @Override
+//                public void clickType(int type) {
+//                    if (type == 1) {
+//                        if (aliPayBean != null) {
+//                            binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setText("支付宝:" + aliPayBean.phone);
+//                        } else {
+//                            ToastUtils.toastMsg("请绑定支付宝账号");
+//                            return;
+//                        }
+//                        payType = "alipay";
+//                    } else if (type == 2) {
+//                        if (wxPayBean != null) {
+//                            binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setText("微信:" + wxPayBean.phone);
+//                        } else {
+//                            ToastUtils.toastMsg("请绑定微信账号");
+//                            return;
+//                        }
+//                        payType = "wxpay";
+//                    } else if (type == 3) {
+//                        if (yhkPayBean != null) {
+//                            binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setText("银行卡:" + yhkPayBean.phone);
+//                        } else {
+//                            ToastUtils.toastMsg("请绑定银行卡账号");
+//                            return;
+//                        }
+//                        payType = "yhkpay";
+//                    }
+//                }
+//            });
         }
     }
 

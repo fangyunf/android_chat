@@ -384,12 +384,12 @@ public interface ServiceW {
     //  好友列表
     @POST("/pay/adaPay")
     Call<NetData> pay_adaPay(
-            @Body RequestParamsBean userBean
+            @Body ParamsBean userBean
     );
     //  好友列表
-    @POST("/pay/balancepay")
+    @POST("/pay/balancePay")
     Call<NetData> pay_balancepay(
-            @Body RequestParamsBean userBean
+            @Body ParamsBean userBean
     );
     //  好友列表
     @POST("/pay/createCardConfirm")
