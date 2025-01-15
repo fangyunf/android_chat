@@ -49,6 +49,7 @@ import com.netease.yunxin.kit.corekit.route.XKitRouter;
 import com.yaoxin.appbase.fragment.BaseFragment;
 import com.yaoxin.appbase.model.GroupInfoBean;
 import com.yaoxin.appbase.model.NetData;
+import com.yaoxin.appbase.model.ParamsBean;
 import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
@@ -121,25 +122,32 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
         super.onPause();
         _requestData();
     }
-
-    @Override
-    protected void _requestData() {
-        HttpUtil.apiW().friends_friendList(new RegisterBean())
+    protected void _requestMemeber(int page) {
+        ParamsBean registerBean = new ParamsBean();
+        registerBean.page = page ;
+        HttpUtil.apiW().friends_friendListPage(registerBean)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
+                        if (page == 1) {
+                            mContactModels.clear();
+                        }
                         Type type = new TypeToken<List<GroupInfoBean>>() {
                         }.getType();
-                        mContactModels = new Gson().fromJson(body.data.toString(), type);
+                        List<GroupInfoBean> tempBeanList = new Gson().fromJson(body.data.toString(), type);
                         for (GroupInfoBean tempBean :
-                                mContactModels) {
-                            if (tempBean.userId.equals(DataUtil.getKeFuId())) {
-                                mContactModels.remove(tempBean);
-                                break;
+                                tempBeanList) {
+                            if (!tempBean.userId.equals(DataUtil.getKeFuId())) {
+                                mContactModels.add(tempBean);
                             }
 
                         }
+                        if (tempBeanList.size() == 100) {
+                            _requestMemeber(page + 1);
+                            return;
+                        }
+
                         Collections.sort(mContactModels, new Comparator<GroupInfoBean>() {
                             @Override
                             public int compare(GroupInfoBean o1, GroupInfoBean o2) {
@@ -164,6 +172,11 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
 
                     }
                 });
+    }
+    @Override
+    protected void _requestData() {
+
+        _requestMemeber(1);
 
         HttpUtil.apiW().friends_applyListNum(new RegisterBean())
                 .enqueue(new CommonCallback<NetData>() {
