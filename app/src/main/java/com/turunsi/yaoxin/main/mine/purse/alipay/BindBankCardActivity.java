@@ -134,6 +134,7 @@ public class BindBankCardActivity extends BaseActivity implements View.OnClickLi
         registerBean.bankPhone = phone;
         registerBean.idNumber = idcard;
         registerBean.configId = "3";
+        registerBean.userId = DataUtil.getUserid();
 
         LoadingDialog.showDialog(getSupportFragmentManager(),"获取中..");
         HttpUtil.apiW().pay_createCardApply(registerBean)
