@@ -18,16 +18,20 @@ import com.turunsi.yaoxin.main.mine.purse.alipay.BindAlipayActivity;
 import com.yaoxin.appbase.activity.BaseActivity;
 import com.turunsi.yaoxin.databinding.ActivityMinePurseTixianBinding;
 import com.yaoxin.appbase.model.NetData;
+import com.yaoxin.appbase.model.PayParamsBean;
 import com.yaoxin.appbase.model.RegisterBean;
+import com.yaoxin.appbase.model.RequestParamsBean;
 import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.pswkeyboard.OnPasswordInputFinish;
 import com.yaoxin.appbase.pswkeyboard.widget.PopEnterPassword;
+import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.DialogAlertUtil;
 import com.yaoxin.appbase.utils.NumberUtil;
 import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
+import com.yaoxin.appbase.view.LoadingDialog;
 import com.yaoxin.appbase.view.pwdkeyboard.Keyboard;
 import com.yaoxin.appbase.view.pwdkeyboard.PayEditText;
 
@@ -48,6 +52,7 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
     UserBean yhkPayBean;
     private final Object lock = new Object();
     private int completedRequests = 0;
+    PayParamsBean _selectCardBean;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -176,6 +181,54 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
                 });
     }
 
+
+
+    public void tiXianNew() {
+        String inputMoney = getTextStr(binding.activityMinePurseTixianMoneyEt);
+
+        if (inputMoney.isEmpty()) {
+            ToastUtils.toastMsg("请输入金额");
+            return;
+        }
+
+        if (_selectCardBean == null) {
+            ToastUtils.toastMsg("请选择卡号");
+            return;
+        }
+
+        RequestParamsBean registerBean = new RequestParamsBean();
+        registerBean.amount = NumberUtil.formartUploadMoney(inputMoney);
+        registerBean.configId = "3";
+        registerBean.goodsTitle = "123";
+        registerBean.goodsDesc = "1234";
+        registerBean.in_member_id = _selectCardBean.orderCode;
+        registerBean.out_member_id = "0";
+
+        LoadingDialog.showDialog(getSupportFragmentManager(),"获取中..");
+        HttpUtil.apiW().pay_balancepay(registerBean)
+                .enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+
+                        PayParamsBean payParamsBean = new Gson().fromJson(body.data.toString(), PayParamsBean.class);
+                        if (!payParamsBean.error_msg.isEmpty()) {
+                            ToastUtils.toastMsg(payParamsBean.error_msg);
+                        }  else {
+                            ToastUtils.toastMsg(body.msg);
+                        }
+                    }
+
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
+
+                    }
+
+                    @Override
+                    public void end() {
+                        LoadingDialog.dismissDialog();
+                    }
+                });
+    }
     @Override
     protected void onPause() {
         super.onPause();
@@ -347,27 +400,28 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
 //            });
 //        }
         else if (v == binding.activityMinePurseTixianTixianBtn) {
-            String textStr = getTextStr(binding.activityMinePurseTixianMoneyEt);
-            if (textStr.isEmpty()) {
-                ToastUtils.toastMsg("请输入金额");
-                return;
-            }
-            if (textStr.isEmpty() && Integer.parseInt(textStr) < 100) {
-                ToastUtils.toastMsg("金额必须大于100");
-                return;
-            }
-            PopEnterPassword popEnterPassword = new PopEnterPassword(this, new OnPasswordInputFinish() {
-                @Override
-                public void inputFinish(String password) {
-//                        sendRedWithPwd(password);
-                    tiXianClick(password);
-
-                }
-
-            }, textStr);
-            // 显示窗口
-            popEnterPassword.showAtLocation(binding.activityMinePurseTixianLl,
-                    Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); // 设置layout在PopupWindow中显示的位置
+            tiXianNew();
+//            String textStr = getTextStr(binding.activityMinePurseTixianMoneyEt);
+//            if (textStr.isEmpty()) {
+//                ToastUtils.toastMsg("请输入金额");
+//                return;
+//            }
+//            if (textStr.isEmpty() && Integer.parseInt(textStr) < 100) {
+//                ToastUtils.toastMsg("金额必须大于100");
+//                return;
+//            }
+//            PopEnterPassword popEnterPassword = new PopEnterPassword(this, new OnPasswordInputFinish() {
+//                @Override
+//                public void inputFinish(String password) {
+////                        sendRedWithPwd(password);
+//                    tiXianClick(password);
+//
+//                }
+//
+//            }, textStr);
+//            // 显示窗口
+//            popEnterPassword.showAtLocation(binding.activityMinePurseTixianLl,
+//                    Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); // 设置layout在PopupWindow中显示的位置
 //            if (accountBean == null || accountBean.name.isEmpty() || accountBean.phone.isEmpty() || accountBean.zfb.isEmpty()) {
 //                String inputMoney = getTextStr(binding.activityMinePurseTixianMoneyEt);
 //

@@ -13,6 +13,7 @@ import com.netease.yunxin.kit.corekit.route.XKitRouter;
 import com.turunsi.yaoxin.R;
 import com.turunsi.yaoxin.login.RealNameSetActivity;
 import com.turunsi.yaoxin.main.mine.purse.alipay.BindAlipayActivity;
+import com.turunsi.yaoxin.main.mine.purse.alipay.BindBankCardActivity;
 import com.turunsi.yaoxin.main.mine.purse.bill.BillDetailListActivity;
 import com.turunsi.yaoxin.main.mine.purse.pwdmanager.PursePwdManagerSetActivity;
 import com.turunsi.yaoxin.main.mine.purse.tixian.PurseTiXianAddAccountActivity;
@@ -130,9 +131,10 @@ public class PurseIndexActivity extends BaseActivity implements View.OnClickList
         }
         else if (v == binding.activityMinePurseIndexWdkb) {
 
-            Map map = new HashMap();
-            map.put("type","3");
-            BindAlipayActivity.start(BindAlipayActivity.class,this,map);
+            BindBankCardActivity.start(BindBankCardActivity.class,this,null);
+//            Map map = new HashMap();
+//            map.put("type","3");
+//            BindAlipayActivity.start(BindAlipayActivity.class,this,map);
         }
         else if (v == binding.activityMinePurseIndexSmrz) {
             ToastUtils.toastMsg("已完成实名");

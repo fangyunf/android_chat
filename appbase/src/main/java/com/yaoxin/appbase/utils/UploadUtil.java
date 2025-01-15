@@ -104,7 +104,7 @@ public class UploadUtil {
                 .countable(true)
                 .maxSelectable(1)
                 .capture(true)
-                .captureStrategy(new CaptureStrategy(true, "com.turunsi.hongyi.IMKitFileProvider"))
+                .captureStrategy(new CaptureStrategy(true, "com.turunsi.mengliao1.IMKitFileProvider"))
                 .imageEngine(new GlideEngine())
                 .forResult(Constant.REQUEST_CODE_CHOOSE);
 

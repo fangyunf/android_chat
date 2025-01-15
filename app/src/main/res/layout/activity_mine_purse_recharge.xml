@@ -205,8 +205,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dimen_12_dp" />
+        <include
+            android:id="@+id/activity_mine_purse_recharge_get_code"
+            layout="@layout/view_title_tf_without_bg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_12_dp" />
 
         <LinearLayout
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:orientation="vertical"
             android:layout_height="wrap_content">
@@ -290,7 +297,6 @@
             android:textSize="14sp"
             />
         <TextView
-            android:visibility="gone"
             android:layout_marginTop="35dp"
             android:id="@+id/activity_mine_purse_recharge_recharge_rl"
             android:layout_width="301dp"

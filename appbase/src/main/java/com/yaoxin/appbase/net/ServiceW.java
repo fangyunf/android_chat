@@ -112,6 +112,8 @@ public interface ServiceW {
     );
     @GET("/home/balance")
     Call<NetData> home_balance();
+    @POST("/bindCard/bindingCards")
+    Call<NetData> bindCard_bindingCards();
     @GET("/home/myQrCode")
     Call<NetData> home_myQrCode();
     @POST("/home/logout")
@@ -371,6 +373,32 @@ public interface ServiceW {
     //  好友列表
     @POST("/bindCard/createUptadeZFB")
     Call<NetData> bindCard_createUptadeZFB1(
+            @Body RequestParamsBean userBean
+    );
+
+    //  好友列表
+    @POST("/pay/createCardApply")
+    Call<NetData> pay_createCardApply(
+            @Body RequestParamsBean userBean
+    );
+    //  好友列表
+    @POST("/pay/adaPay")
+    Call<NetData> pay_adaPay(
+            @Body RequestParamsBean userBean
+    );
+    //  好友列表
+    @POST("/pay/balancepay")
+    Call<NetData> pay_balancepay(
+            @Body RequestParamsBean userBean
+    );
+    //  好友列表
+    @POST("/pay/createCardConfirm")
+    Call<NetData> pay_createCardconfirm(
+            @Body RequestParamsBean userBean
+    );
+    //  好友列表
+    @POST("/pay/adaPayConfirm")
+    Call<NetData> pay_adaPayConfirm(
             @Body RequestParamsBean userBean
     );
     //  好友列表
