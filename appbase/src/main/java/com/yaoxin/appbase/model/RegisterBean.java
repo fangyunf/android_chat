@@ -24,6 +24,7 @@ public class RegisterBean {
     public String phone;
     public String zfbUrl;
     public String userUsdtId;
+    public String memberId;
     public String zfb;
     public String payPassword;
     public String phoneNo;

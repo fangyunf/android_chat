@@ -13,6 +13,7 @@ public class PayParamsBean {
     public String prod_mode;
     public String error_code;
     public String id;
+    public String usdt;
     public String app_id;
     public String mer_cust_id;
     public String object;
@@ -22,11 +23,18 @@ public class PayParamsBean {
     public String bankCardNo;
     public String bankName;
     public String order_no;
+    public String certNo;
 
 
     public String getBankCardNo() {
         return bankCardNo != null && bankCardNo.length() >= 4
                 ? bankCardNo.substring(bankCardNo.length() - 4)
+                : "未知";
+    }
+
+    public String getBankCardNo1() {
+        return certNo != null && certNo.length() >= 4
+                ? certNo.substring(certNo.length() - 4)
                 : "未知";
     }
 }

@@ -76,14 +76,6 @@ public class BindBankCardActivity extends BaseActivity implements View.OnClickLi
         binding.activityMineBindBankcardYuliuPhone.viewTitleTfWithoutBgEt.setHint("请输入预留手机号");
         binding.activityMineBindBankcardVerifyCode.viewTitleTfWithoutBgEt.setHint("请输入验证码");
 
-        if (BuildConfig.DEBUG) {
-            binding.activityMineBindBankcardName.viewTitleTfWithoutBgEt.setText("万运浩");
-            binding.activityMineBindBankcardIdCard.viewTitleTfWithoutBgEt.setText("320911199304010018");
-            binding.activityMineBindBankcardCardNum.viewTitleTfWithoutBgEt.setText("6230580000095169152");
-            binding.activityMineBindBankcardBankName.viewTitleTfWithoutBgEt.setText("平安银行");
-            binding.activityMineBindBankcardYuliuPhone.viewTitleTfWithoutBgEt.setText("17721111165");
-            binding.activityMineBindBankcardVerifyCode.viewTitleTfWithoutBgEt.setText("123456");
-        }
     }
 
 
@@ -190,10 +182,46 @@ public class BindBankCardActivity extends BaseActivity implements View.OnClickLi
                          payParamsBean = new Gson().fromJson(body.data.toString(), PayParamsBean.class);
                          if (payParamsBean.error_msg != null && !payParamsBean.error_msg.isEmpty()) {
                            ToastUtils.toastMsg(payParamsBean.error_msg);
+                             LoadingDialog.dismissDialog();
                          }  else {
-                             ToastUtils.toastMsg(body.msg);
-                             finish();
+                             bindNext();
                          }
+                    }
+
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
+
+                        LoadingDialog.dismissDialog();
+                    }
+
+                });
+
+    }
+    void bindNext() {
+
+        String phone = getTextStr(binding.activityMineBindBankcardYuliuPhone.viewTitleTfWithoutBgEt);
+        String name = getTextStr(binding.activityMineBindBankcardName.viewTitleTfWithoutBgEt);
+        String cardNum = getTextStr(binding.activityMineBindBankcardCardNum.viewTitleTfWithoutBgEt);
+        RequestParamsBean registerBean = new RequestParamsBean();
+        registerBean.name = name;
+        registerBean.certNo = cardNum;
+        registerBean.phone = phone;
+        registerBean.usdt = payParamsBean.member_id;
+
+        registerBean.userId = DataUtil.getUserid();
+        registerBean.type = "3";
+
+        HttpUtil.apiW().card_buildCard(registerBean)
+                .enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+
+                        if (body.code == 200) {
+                            ToastUtils.toastMsg("绑卡成功");
+                            finish();
+                        } else {
+                            ToastUtils.toastMsg(body.msg);
+                        }
                     }
 
                     @Override

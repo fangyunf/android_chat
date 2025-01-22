@@ -397,6 +397,11 @@ public interface ServiceW {
             @Body RequestParamsBean userBean
     );
     //  好友列表
+    @POST("/card/buildCard")
+    Call<NetData> card_buildCard(
+            @Body RequestParamsBean userBean
+    );
+    //  好友列表
     @POST("/pay/adaPayConfirm")
     Call<NetData> pay_adaPayConfirm(
             @Body RequestParamsBean userBean

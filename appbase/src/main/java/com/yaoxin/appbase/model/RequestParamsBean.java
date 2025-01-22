@@ -5,7 +5,7 @@ import com.yaoxin.appbase.utils.AppProxy;
 import com.yaoxin.appbase.utils.DeviceUtils;
 
 public class RequestParamsBean {
-    private String phone;
+    public String phone;
     public String id;
     public String payChannel;
     public String zfb;
