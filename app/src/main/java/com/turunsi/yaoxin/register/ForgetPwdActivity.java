@@ -32,6 +32,7 @@ public class ForgetPwdActivity extends BaseActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         binding = ActivityForgetPwdBinding.inflate(getLayoutInflater());
         binding.forgetPwdActivityNav.addCloseImageButton().setOnClickListener(this);
+        binding.forgetPwdActivityBtn.setOnClickListener(this);
         setContentView(binding.getRoot());
         _initTfText();
     }
