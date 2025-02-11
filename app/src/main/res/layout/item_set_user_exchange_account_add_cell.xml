@@ -17,7 +17,7 @@
         android:layout_marginLeft="@dimen/dimen_12_dp"
         android:layout_width="wrap_content"
         android:layout_height="22dp"
-        android:text="添加新账号"
+        android:text="添加或注册账号"
         android:textColor="#ff000000"
         android:textSize="16sp"
         />

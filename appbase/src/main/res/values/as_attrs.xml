@@ -6,6 +6,7 @@
     </declare-styleable>
     <declare-styleable name="IconTitleArrowTemplate">
         <attr name="leftImg" format="reference" />
+        <attr name="hideImg" format="boolean" />
         <attr name="titleText" format="string" />
         <attr name="bgColor" format="color|reference" />
         <attr name="textColor" format="color|reference" />

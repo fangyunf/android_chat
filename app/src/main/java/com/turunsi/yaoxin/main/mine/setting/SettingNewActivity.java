@@ -71,6 +71,13 @@ public class SettingNewActivity extends BaseActivity implements View.OnClickList
     viewBinding.activityMineSetNewExchangeAcount.viewTitleArrowLl.setOnClickListener(this);
     viewBinding.activityMineSetNewZhuxiao.viewTitleArrowLl.setOnClickListener(this);
 
+    viewBinding.activityMineSetNewTzsy.setOnClickListener(this);
+    viewBinding.activityMineSetNewQchc.setOnClickListener(this);
+    viewBinding.activityMineSetNewQksyltjl.setOnClickListener(this);
+    viewBinding.activityMineSetNewXzdz.setOnClickListener(this);
+    viewBinding.activityMineSetNewGywm.setOnClickListener(this);
+    viewBinding.activityMineSetNewZxzh.setOnClickListener(this);
+
 
     viewBinding.activityMineSetNewNoticeVoice.viewTitleArrowTv.setText("通知声音");
     viewBinding.activityMineSetNewDeleteCache.viewTitleArrowTv.setText("清空缓存");
@@ -91,9 +98,9 @@ public class SettingNewActivity extends BaseActivity implements View.OnClickList
 
   @Override
   public void onClick(View v) {
-    if (v == viewBinding.activityMineSetNewNoticeVoice.viewTitleArrowLl) {
+    if (v == viewBinding.activityMineSetNewNoticeVoice.viewTitleArrowLl || v == viewBinding.activityMineSetNewTzsy) {
       startActivity(new Intent(SettingNewActivity.this, SettingNotifyNewActivity.class));
-    } else if (v == viewBinding.activityMineSetNewDeleteCache.viewTitleArrowLl) {
+    } else if (v == viewBinding.activityMineSetNewDeleteCache.viewTitleArrowLl ||v == viewBinding.activityMineSetNewQchc) {
       startActivity(new Intent(SettingNewActivity.this, ClearCacheActivity.class));
 
 //        DialogAlertUtil.showAlert("确定清空缓存吗？", new DialogAlertUtil.DialogAlertUtilCallBack() {
@@ -115,7 +122,7 @@ public class SettingNewActivity extends BaseActivity implements View.OnClickList
 //                }
 //            }
 //        },getSupportFragmentManager());
-    } else if (v == viewBinding.activityMineSetNewDeleteRecord.viewTitleArrowLl) {
+    } else if (v == viewBinding.activityMineSetNewDeleteRecord.viewTitleArrowLl || v == viewBinding.activityMineSetNewQksyltjl) {
         DialogAlertUtil.showAlert("确定清空聊天记录吗？", new DialogAlertUtil.DialogAlertUtilCallBack() {
             @Override
             public void clickType(int type) {
@@ -124,7 +131,7 @@ public class SettingNewActivity extends BaseActivity implements View.OnClickList
                 }
             }
         },getSupportFragmentManager());
-    } else if (v == viewBinding.activityMineSetNewAboutUs.viewTitleArrowLl) {
+    } else if (v == viewBinding.activityMineSetNewAboutUs.viewTitleArrowLl || v == viewBinding.activityMineSetNewGywm) {
 
         AboutUsNewActivity.start(AboutUsNewActivity.class,this,null);
     }  else if (v == viewBinding.activityMineSetNewLoginOut.viewTitleArrowLl) {
@@ -136,9 +143,9 @@ public class SettingNewActivity extends BaseActivity implements View.OnClickList
     } else if (v == viewBinding.activityMineSetNewNav.addCloseImageButton()) {
       finish();
 
-    } else if (v == viewBinding.activityMineSetNewDownload.viewTitleArrowLl) {
+    } else if (v == viewBinding.activityMineSetNewDownload.viewTitleArrowLl || v == viewBinding.activityMineSetNewXzdz) {
         DownLoadActivity.start(DownLoadActivity.class,this,null);
-    } else if (v == viewBinding.activityMineSetNewZhuxiao.viewTitleArrowLl) {
+    } else if (v == viewBinding.activityMineSetNewZhuxiao.viewTitleArrowLl || v == viewBinding.activityMineSetNewZxzh) {
         DialogAlertUtil.showAlert("确定注销账号吗？", new DialogAlertUtil.DialogAlertUtilCallBack() {
             @Override
             public void clickType(int type) {

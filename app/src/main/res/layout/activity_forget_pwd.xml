@@ -51,10 +51,11 @@
             android:layout_height="@dimen/dimen_40_dp"
             android:layout_marginTop="@dimen/dimen_16_dp" />
 
-        <Button
+        <TextView
             android:id="@+id/forget_pwd_activity_btn"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_44_dp"
+            android:gravity="center"
             android:layout_marginTop="@dimen/dimen_16_dp"
             android:background="@drawable/fun_bg_app_theme_color_rounded_22"
             android:text="确定"

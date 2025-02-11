@@ -8,6 +8,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragment_mine_root_cl"
+    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -19,15 +20,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-
-            <ImageView
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/fragment_mine_person_bg"
-                android:scaleType="centerCrop"
-                />
             <LinearLayout
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_width="match_parent"
@@ -35,82 +27,94 @@
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
                 >
-                <LinearLayout
-                    android:layout_marginTop="80dp"
+                <RelativeLayout
+                    android:paddingTop="70dp"
+                    android:paddingHorizontal="15dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:paddingHorizontal="20dp"
-                    >
-
-                    <com.netease.yunxin.kit.common.ui.widgets.ContactAvatarView
-                        android:id="@+id/cavIcon"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp" />
-                    <LinearLayout
-                        android:layout_marginHorizontal="10dp"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:layout_height="wrap_content">
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
-                            <TextView
-                                android:id="@+id/tvName"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-
-                                android:singleLine="true"
-                                android:text=""
-                                android:textColor="@color/color_333333"
-                                android:textSize="18sp"
-                                tools:ignore="SpUsage" />
-                            <ImageView
-                                android:layout_marginLeft="5dp"
-                                android:visibility="gone"
-                                android:id="@+id/fragment_mine_grade_iv"
-                                android:layout_width="46dp"
-                                android:layout_height="18dp"/>
-                            <ImageView
-                                android:layout_marginLeft="10dp"
-                                android:id="@+id/fragment_mine_edit_iv"
-                                android:layout_width="@dimen/dimen_20_dp"
-                                android:layout_height="@dimen/dimen_20_dp"
-                                android:src="@mipmap/mine_index_bj"
-                                android:layout_alignParentEnd="true"
-                                android:layout_alignParentBottom="true"
-                                />
-                        </LinearLayout>
-                        <LinearLayout
-                            android:layout_marginTop="10dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
-
-                            <TextView
-                                android:id="@+id/tvAccount"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:singleLine="true"
-                                android:textColor="#666666"
-                                android:textSize="14sp" />
-                            <ImageView
-                                android:layout_marginLeft="10dp"
-                                android:id="@+id/fragment_mine_copy_iv"
-                                android:layout_width="@dimen/dimen_20_dp"
-                                android:layout_height="@dimen/dimen_20_dp"
-                                android:src="@mipmap/mine_index_copy"
-                                />
-                        </LinearLayout>
-                    </LinearLayout>
-
+                    android:layout_height="wrap_content">
                     <ImageView
                         android:id="@+id/fragment_mine_erweima_iv"
                         android:layout_width="32dp"
                         android:layout_height="28dp"
                         android:src="@mipmap/mine_index_erweima"
                         />
+                    <TextView
+                        android:id="@+id/fragment_mine_edit_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="编辑"
+                        android:padding="10dp"
+                        android:textColor="#ff1685e5"
+                        android:layout_alignParentEnd="true"
+                        android:textSize="14sp"
+                        />
+
+<!--                    <ImageView-->
+<!--                        android:layout_marginLeft="10dp"-->
+<!--                        android:id="@+id/fragment_mine_edit_iv"-->
+<!--                        android:layout_width="@dimen/dimen_20_dp"-->
+<!--                        android:layout_height="@dimen/dimen_20_dp"-->
+<!--                        android:src="@mipmap/mine_index_bj"-->
+<!--                        android:layout_alignParentEnd="true"-->
+<!--                        />-->
+                </RelativeLayout>
+                <LinearLayout
+                    android:layout_marginTop="30dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    >
+
+                    <com.netease.yunxin.kit.common.ui.widgets.ContactAvatarView
+                        android:id="@+id/cavIcon"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/tvName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:singleLine="true"
+                            android:text=""
+                            android:textColor="@color/color_333333"
+                            android:textSize="18sp"
+                            tools:ignore="SpUsage" />
+                        <ImageView
+                            android:layout_marginLeft="5dp"
+                            android:visibility="gone"
+                            android:id="@+id/fragment_mine_grade_iv"
+                            android:layout_width="46dp"
+                            android:layout_height="18dp"/>
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_marginTop="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/tvAccount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:singleLine="true"
+                            android:textColor="#666666"
+                            android:textSize="14sp" />
+                        <ImageView
+                            android:visibility="gone"
+                            android:layout_marginLeft="10dp"
+                            android:id="@+id/fragment_mine_copy_iv"
+                            android:layout_width="@dimen/dimen_20_dp"
+                            android:layout_height="@dimen/dimen_20_dp"
+                            android:src="@mipmap/mine_index_copy"
+                            />
+                    </LinearLayout>
+
+
 
                 </LinearLayout>
 
@@ -163,7 +167,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:orientation="vertical"
-                    android:background="#F2F2F2"
+                    android:background="@color/white"
                     android:layout_marginTop="10dp"
                     android:layout_height="wrap_content">
                     <LinearLayout
@@ -224,43 +228,121 @@
                         app:leftImg="@mipmap/mine_index_item_ltsz"
                         app:titleText="聊天设置"
                         />
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_marginHorizontal="15dp"
+                        android:layout_height="wrap_content">
+
+                        <com.yaoxin.appbase.view.IconTitleArrowTemplate_1
+                            android:id="@+id/fragment_mine_sztxtp_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:leftImg="@mipmap/mine_index_item_sztxtp"
+                            app:titleText="设置头像图片"
+                            />
+                    </RelativeLayout>
+<!--                    <RelativeLayout-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_marginTop="15dp"-->
+<!--                        android:layout_marginHorizontal="15dp"-->
+<!--                        android:layout_height="wrap_content">-->
+
+<!--                        <com.yaoxin.appbase.view.IconTitleArrowTemplate_1-->
+<!--                            android:id="@+id/fragment_mine_qbye_view"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            app:leftImg="@mipmap/mine_index_item_qbye"-->
+<!--                            app:titleText="钱包余额"-->
+<!--                            />-->
+<!--                    </RelativeLayout>-->
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_marginHorizontal="15dp"
+                        android:layout_height="wrap_content">
+
+                        <com.yaoxin.appbase.view.IconTitleArrowTemplate_1
+                            android:layout_marginTop="10dp"
+                            android:id="@+id/fragment_mine_qbgl_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:leftImg="@mipmap/mine_index_item_qbgl"
+                            app:titleText="资产权益"
+                            />
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_marginHorizontal="15dp"
+                        android:layout_height="wrap_content">
+
+                        <com.yaoxin.appbase.view.IconTitleArrowTemplate_1
+                            android:layout_marginTop="10dp"
+                            android:id="@+id/fragment_mine_zhgl_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:leftImg="@mipmap/mine_index_item_zhgl"
+                            app:titleText="账户管理"
+                            />
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_marginHorizontal="15dp"
+                        android:layout_height="wrap_content">
+
+
+                        <com.yaoxin.appbase.view.IconTitleArrowTemplate_1
+                            android:layout_marginTop="10dp"
+                            android:id="@+id/fragment_mine_mmsz_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:leftImg="@mipmap/mine_index_item_mmsz"
+                            app:titleText="密码设置"
+                            />
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_marginHorizontal="15dp"
+                        android:layout_height="wrap_content">
+
+
+
+                        <com.yaoxin.appbase.view.IconTitleArrowTemplate_1
+                            android:layout_marginTop="10dp"
+                            android:id="@+id/fragment_mine_sz_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:leftImg="@mipmap/mine_index_item_sz"
+                            app:titleText="通用设置"
+                            />
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_marginHorizontal="15dp"
+                        android:layout_height="wrap_content">
+
+
+
+                        <com.yaoxin.appbase.view.IconTitleArrowTemplate_1
+                            android:layout_marginTop="10dp"
+                            android:id="@+id/fragment_mine_tcdl_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:leftImg="@mipmap/mine_index_item_tcdl"
+                            app:titleText="退出登录"
+                            />
+                    </RelativeLayout>
+
                     <com.yaoxin.appbase.view.IconTitleArrowTemplate
-                        android:id="@+id/fragment_mine_qbye_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:leftImg="@mipmap/mine_index_item_qbye"
-                        app:titleText="钱包余额"
-                        />
-                    <com.yaoxin.appbase.view.IconTitleArrowTemplate
-                        android:layout_marginTop="10dp"
-                        android:id="@+id/fragment_mine_qbgl_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:leftImg="@mipmap/mine_index_item_qbgl"
-                        app:titleText="钱包管理"
-                        />
-                    <com.yaoxin.appbase.view.IconTitleArrowTemplate
+                        android:visibility="gone"
                         android:id="@+id/fragment_mine_ysgl_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:leftImg="@mipmap/mine_index_item_ysgl"
                         app:titleText="隐私管理"
                         />
+
                     <com.yaoxin.appbase.view.IconTitleArrowTemplate
-                        android:id="@+id/fragment_mine_zhgl_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:leftImg="@mipmap/mine_index_item_zhgl"
-                        app:titleText="账户管理"
-                        />
-                    <com.yaoxin.appbase.view.IconTitleArrowTemplate
-                        android:id="@+id/fragment_mine_sz_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:leftImg="@mipmap/mine_index_item_sz"
-                        app:titleText="设置"
-                        />
-                    <com.yaoxin.appbase.view.IconTitleArrowTemplate
+                        android:visibility="gone"
                         android:id="@+id/fragment_mine_kf_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -318,14 +400,7 @@
                         />
 
                     <com.yaoxin.appbase.view.IconTitleArrowTemplate
-                        android:layout_marginTop="10dp"
-                        android:id="@+id/fragment_mine_mmsz_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:leftImg="@mipmap/mine_index_item_mmsz"
-                        app:titleText="密码设置"
-                        />
-                    <com.yaoxin.appbase.view.IconTitleArrowTemplate
+                        android:visibility="gone"
                         android:id="@+id/fragment_mine_fxyy_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -333,6 +408,7 @@
                         app:titleText="下载地址"
                         />
                     <com.yaoxin.appbase.view.IconTitleArrowTemplate
+                        android:visibility="gone"
                         android:id="@+id/fragment_mine_yysj_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

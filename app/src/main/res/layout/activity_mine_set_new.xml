@@ -25,66 +25,165 @@
 
 
     <LinearLayout
-        android:layout_marginHorizontal="15dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@drawable/bg_f2f2f2_rounded_10"
-        >
-        <include
-            android:id="@+id/activity_mine_set_new_notice_voice"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            layout="@layout/view_title_arrow"
-            />
+        android:layout_height="wrap_content">
 
-        <include
-            android:id="@+id/activity_mine_set_new_delete_cache"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            layout="@layout/view_title_arrow"
-            />
-
-        <include
-            android:id="@+id/activity_mine_set_new_delete_record"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            layout="@layout/view_title_arrow"
-            />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:layout_height="wrap_content">
 
 
-        <include
-            android:id="@+id/activity_mine_set_new_about_us"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            layout="@layout/view_title_arrow"
-            />
-        <include
-            android:id="@+id/activity_mine_set_new_download"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            layout="@layout/view_title_arrow"
-            />
-        <include
-            android:id="@+id/activity_mine_set_new_exchange_acount"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            layout="@layout/view_title_arrow"
-            />
-        <include
-            android:id="@+id/activity_mine_set_new_zhuxiao"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            layout="@layout/view_title_arrow"
-            />
+            <com.yaoxin.appbase.view.IconTitleArrowTemplate_1
+                android:layout_marginTop="10dp"
+                android:id="@+id/activity_mine_set_new_tzsy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:hideImg= "true"
+                app:titleText="通知声音"
+                />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:layout_height="wrap_content">
 
-        <include
-            android:id="@+id/activity_mine_set_new_login_out"
+
+            <com.yaoxin.appbase.view.IconTitleArrowTemplate_1
+                android:layout_marginTop="10dp"
+                android:id="@+id/activity_mine_set_new_qchc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:hideImg= "true"
+                app:titleText="清除缓存"
+                />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:layout_height="wrap_content">
+
+
+            <com.yaoxin.appbase.view.IconTitleArrowTemplate_1
+                android:layout_marginTop="10dp"
+                android:id="@+id/activity_mine_set_new_qksyltjl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:hideImg= "true"
+                app:titleText="清空所有聊天记录"
+                />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:layout_height="wrap_content">
+
+
+            <com.yaoxin.appbase.view.IconTitleArrowTemplate_1
+                android:layout_marginTop="10dp"
+                android:id="@+id/activity_mine_set_new_xzdz"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:hideImg= "true"
+                app:titleText="下载地址"
+                />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:layout_height="wrap_content">
+
+
+            <com.yaoxin.appbase.view.IconTitleArrowTemplate_1
+                android:layout_marginTop="10dp"
+                android:id="@+id/activity_mine_set_new_gywm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:hideImg= "true"
+                app:titleText="关于我们"
+                />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:layout_height="wrap_content">
+
+
+            <com.yaoxin.appbase.view.IconTitleArrowTemplate_1
+                android:visibility="gone"
+                android:layout_marginTop="10dp"
+                android:id="@+id/activity_mine_set_new_zxzh"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:hideImg= "true"
+                app:titleText="注销账号"
+                />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:visibility="gone"
+            android:layout_marginHorizontal="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            layout="@layout/view_title_arrow"
-            />
+            android:orientation="vertical"
+            android:background="@drawable/bg_f2f2f2_rounded_10"
+            >
+            <include
+                android:id="@+id/activity_mine_set_new_notice_voice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/view_title_arrow"
+                />
 
+            <include
+                android:id="@+id/activity_mine_set_new_delete_cache"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/view_title_arrow"
+                />
+
+            <include
+                android:id="@+id/activity_mine_set_new_delete_record"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/view_title_arrow"
+                />
+
+
+            <include
+                android:id="@+id/activity_mine_set_new_about_us"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/view_title_arrow"
+                />
+            <include
+                android:id="@+id/activity_mine_set_new_download"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/view_title_arrow"
+                />
+            <include
+                android:id="@+id/activity_mine_set_new_exchange_acount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/view_title_arrow"
+                />
+            <include
+                android:id="@+id/activity_mine_set_new_zhuxiao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/view_title_arrow"
+                />
+
+            <include
+                android:id="@+id/activity_mine_set_new_login_out"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/view_title_arrow"
+                />
+
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>
 

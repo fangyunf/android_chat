@@ -9,14 +9,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="fitXY"
-        android:src="@mipmap/jinzita_common_page_bg"
-        />
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="vertical"
@@ -38,16 +33,12 @@
             android:id="@+id/activity_mine_pwd_set_mager_set_login_pwd_ll"
             android:layout_marginTop="15dp"
             android:layout_width="match_parent"
-            android:background="@drawable/bg_white_rounded_20"
+            android:background="@drawable/bg_f6f6f6_rounded_28"
             android:layout_marginHorizontal="15dp"
             android:paddingHorizontal="10dp"
             android:gravity="center_vertical"
             android:layout_height="52dp">
 
-            <ImageView
-                android:layout_width="18dp"
-                android:src="@mipmap/activity_mine_pwd_set_mager_set_login_pwd"
-                android:layout_height="22dp"/>
             <TextView
                 android:layout_marginLeft="10dp"
                 android:layout_width="wrap_content"
@@ -66,16 +57,12 @@
             android:id="@+id/activity_mine_pwd_set_mager_set_pay_pwd_ll"
             android:layout_marginTop="15dp"
             android:layout_width="match_parent"
-            android:background="@drawable/bg_white_rounded_20"
+            android:background="@drawable/bg_f6f6f6_rounded_28"
             android:layout_marginHorizontal="15dp"
             android:paddingHorizontal="10dp"
             android:gravity="center_vertical"
             android:layout_height="52dp">
 
-            <ImageView
-                android:layout_width="24dp"
-                android:src="@mipmap/activity_mine_pwd_set_mager_set_pay_pwd"
-                android:layout_height="21dp"/>
             <TextView
                 android:layout_marginLeft="10dp"
                 android:layout_width="wrap_content"
@@ -94,16 +81,12 @@
             android:id="@+id/activity_mine_pwd_set_mager_set_login_zx_ll"
             android:layout_marginTop="15dp"
             android:layout_width="match_parent"
-            android:background="@drawable/bg_white_rounded_20"
+            android:background="@drawable/bg_f6f6f6_rounded_28"
             android:layout_marginHorizontal="15dp"
             android:paddingHorizontal="10dp"
             android:gravity="center_vertical"
-            android:layout_height="52dp">
+            android:layout_height="56dp">
 
-            <ImageView
-                android:layout_width="18dp"
-                android:src="@mipmap/activity_mine_pwd_set_mager_zx"
-                android:layout_height="22dp"/>
             <TextView
                 android:layout_marginLeft="10dp"
                 android:layout_width="wrap_content"
