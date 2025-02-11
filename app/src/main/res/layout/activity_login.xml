@@ -5,12 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/activity_login_bg_iv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="fitXY"
-        android:src="@mipmap/common_login_bg" />
 
     <ImageView
         android:visibility="gone"
@@ -25,11 +19,11 @@
         android:id="@+id/activity_login_title_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="80dp"
+        android:layout_marginLeft="20dp"
         android:text="注册"
         android:textColor="#ff000000"
-        android:textSize="21sp"
+        android:textSize="24sp"
         />
     <LinearLayout
         android:layout_marginTop="190dp"
@@ -49,53 +43,61 @@
 
             <include
                 android:id="@+id/activity_login_tf1"
-                layout="@layout/view_title_tf_count"
+                layout="@layout/view_title_tf_count_1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <include
                 android:id="@+id/activity_login_tf2"
-                layout="@layout/view_title_tf_count"
+                layout="@layout/view_title_tf_count_1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen_13_dp" />
 
             <include
                 android:id="@+id/activity_login_tf3"
-                layout="@layout/view_title_tf_count"
+                layout="@layout/view_title_tf_count_1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen_13_dp" />
-            <TextView
-                android:id="@+id/activity_login_forget_tv"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginTop="@dimen/dimen_10_dp"
-                android:text="忘记密码？"
-                android:layout_marginEnd="30dp"
-                android:textColor="@color/color_666666"
-                android:textSize="@dimen/text_size_15" />
+                android:paddingHorizontal="20dp"
+                android:layout_marginTop="10dp"
+                >
+                <TextView
+                    android:id="@+id/activity_login_register_tv"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/dimen_10_dp"
+                    android:text="新用户注册"
+                    android:textColor="@color/app_theme_color"
+                    android:textSize="@dimen/text_size_15" />
+                <TextView
+                    android:id="@+id/activity_login_forget_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:text="忘记密码"
+                    android:textColor="@color/color_666666"
+                    android:textSize="@dimen/text_size_15" />
+            </LinearLayout>
+
             <TextView
                 android:id="@+id/activity_login_login_tv"
-                android:layout_width="253dp"
+                android:layout_width="370dp"
                 android:layout_height="56dp"
                 android:layout_marginTop="@dimen/dimen_13_dp"
-                android:background="@drawable/bg_3339ff_rounded_28"
+                android:background="@drawable/bg_app_theme_color_rounded_10"
                 android:gravity="center"
                 android:text="登录"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
 
-            <TextView
-                android:id="@+id/activity_login_register_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/dimen_10_dp"
-                android:text="没有账号,去注册"
-                android:textColor="@color/app_theme_color"
-                android:textSize="@dimen/text_size_15" />
+
         </LinearLayout>
 
 <!--        <LinearLayout-->

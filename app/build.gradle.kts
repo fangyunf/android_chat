@@ -11,14 +11,14 @@ android {
     compileSdk = 33
     signingConfigs {
         create("release") {
-            keyAlias = "mengliao1"
+            keyAlias = "youyibao"
             keyPassword = "qqqq1111"
-            storeFile = file("mengliao1.jks")
+            storeFile = file("youyibao.jks")
             storePassword = "qqqq1111"
         }
     }
     defaultConfig {
-        applicationId = "com.turunsi.mengliao1"
+        applicationId = "com.turunsi.youyibao"
         minSdk = 21
         targetSdk = 33
         versionCode = 1

@@ -52,6 +52,7 @@ public class ChatMingPianMessageViewHolder extends FunChatBaseMessageViewHolder 
         bean.result = new Gson().fromJson(bean.data, CustomMsgBean.class);
         GlideUtil.yh_loadImage(viewBinding.funChatMessageMingpianHeadIv.getContext(),viewBinding.funChatMessageMingpianHeadIv,bean.result.avatar);
         viewBinding.funChatMessageMingpianNameTv.setText(bean.result.name);
+        viewBinding.funChatMessageMingpianIdTv.setText(bean.result.memberCode);
 
       } catch (Exception e) {
 

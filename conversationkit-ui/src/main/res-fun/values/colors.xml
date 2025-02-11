@@ -3,7 +3,7 @@
     <color name="fun_conversation_page_bg_color">#ededed</color>
     <color name="fun_conversation_secondary_page_bg_color">#ededed</color>
     <color name="fun_conversation_search_text_color">#4d000000</color>
-    <color name="fun_conversation_item_bg_color">#ffffff</color>
+    <color name="fun_conversation_item_bg_color">#F6F6F6</color>
     <color name="fun_conversation_item_title_text_color">#333333</color>
     <color name="fun_conversation_item_sub_title_text_color">#999999</color>
     <color name="fun_conversation_item_time_text_color">#cccccc</color>

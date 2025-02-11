@@ -60,6 +60,7 @@
 
         </RelativeLayout>
         <RelativeLayout
+            android:visibility="gone"
             android:id="@+id/conversation_btn_shop"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

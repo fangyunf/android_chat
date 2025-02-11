@@ -23,9 +23,9 @@
             android:layout_height="wrap_content">
 
             <com.netease.yunxin.kit.common.ui.widgets.BackTitleBar
-                app:titleTextColor="@color/color_white"
+                app:titleTextColor="@color/black"
                 android:id="@+id/titleBar"
-                android:background="@color/color_71C280"
+                android:background="@color/color_white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
