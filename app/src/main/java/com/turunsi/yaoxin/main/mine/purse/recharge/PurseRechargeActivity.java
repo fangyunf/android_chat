@@ -154,13 +154,13 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
             }
             rechargeMoney(inputMoney);
         } else if (v == binding.activityMinePurseRechargeMoney100) {
-            rechargeMoney("100");
-        } else if (v == binding.activityMinePurseRechargeMoney300) {
-            rechargeMoney("300");
-        } else if (v == binding.activityMinePurseRechargeMoney500) {
-            rechargeMoney("500");
-        } else if (v == binding.activityMinePurseRechargeMoney1000) {
             rechargeMoney("1000");
+        } else if (v == binding.activityMinePurseRechargeMoney300) {
+            rechargeMoney("1500");
+        } else if (v == binding.activityMinePurseRechargeMoney500) {
+            rechargeMoney("2000");
+        } else if (v == binding.activityMinePurseRechargeMoney1000) {
+            rechargeMoney("2500");
         } else if (v == binding.activityMinePurseRechargeMoney3000) {
             rechargeMoney("3000");
         } else if (v == binding.activityMinePurseRechargeMoney5000) {
