@@ -23,6 +23,7 @@ public class RegisterBean {
     public String zfbNo;
     public String phone;
     public String zfbUrl;
+    public String userUsdtId;
     public String zfb;
     public String payPassword;
     public String phoneNo;

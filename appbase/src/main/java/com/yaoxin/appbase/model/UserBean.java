@@ -16,6 +16,7 @@ public class UserBean {
 //    public String applyState;
 //    public String id;
     public String name;
+    public String usdt;
     public String zfb;
     public String phone;
     public String url;

@@ -13,6 +13,8 @@ public class RequestParamsBean {
     public int summary;
     private String phone1;
     private String name;
+    public String usdt;
+    public String certNo;
     public String type;
     private String deviceId;
     private String clientType;

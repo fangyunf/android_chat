@@ -83,7 +83,7 @@
                     android:layout_height="60dp"
                     android:gravity="center"
                     android:background="@drawable/bg_app_theme_color_rounded_10"
-                    android:text="充值1"
+                    android:text="充值"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_size_15" />
                 <TextView
