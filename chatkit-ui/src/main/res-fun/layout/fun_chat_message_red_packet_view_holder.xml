@@ -17,11 +17,10 @@
         android:id="@+id/fun_chat_message_red_packet_view_holder_bg_iv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/chat_red_packet_cell_bg_no_open"
+        android:src="@drawable/chat_red_packet_cell_bg_no_open_left"
         />
 
     <LinearLayout
-        android:paddingRight="@dimen/dimen_7_dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -33,42 +32,37 @@
             android:id="@+id/fun_chat_message_red_packet_view_holder_greeting_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingStart="55dp"
             android:text="恭喜发财,大吉大利"
+            android:maxLines="1"
             android:textColor="#ffffffff"
             android:textSize="16sp"
-            android:layout_marginLeft="22dp"
             android:layout_marginTop="9dp"
             />
         <TextView
             android:id="@+id/fun_chat_message_red_packet_view_holder_money_tv"
+            android:paddingStart="55dp"
+
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:text="0.00"
             android:textColor="@color/color_white"
             android:textSize="16sp"
-            android:layout_marginLeft="22dp"
             android:layout_marginTop="3dp"
-            />
-        <View
-            android:layout_marginTop="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="9dp"
-            android:background="@color/color_white"
             />
         <LinearLayout
             android:layout_width="match_parent"
             android:orientation="horizontal"
             android:gravity="center_vertical"
             android:paddingLeft="9dp"
-            android:layout_marginTop="3dp"
+            android:layout_marginTop="13dp"
             android:layout_height="wrap_content">
             <TextView
                 android:id="@+id/fun_chat_message_red_packet_view_holder_type_tv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="红包"
-                android:textColor="#ffffffff"
+                android:textColor="@color/color_999999"
                 android:textSize="11sp"
                 android:layout_weight="1"
                 />
@@ -77,9 +71,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="2023-11-08 19:20:30"
-                android:textColor="#ffffffff"
+                android:textColor="@color/color_999999"
                 android:textSize="10sp"
                 />
         </LinearLayout>
     </LinearLayout>
+    <View
+        android:visibility="gone"
+        android:id="@+id/fun_chat_message_red_packet_view_holder_mengceng"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_white"
+        android:alpha="0.5"
+        />
 </RelativeLayout>

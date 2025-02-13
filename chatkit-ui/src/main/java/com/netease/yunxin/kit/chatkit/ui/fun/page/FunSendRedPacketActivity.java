@@ -44,6 +44,7 @@ import com.yaoxin.appbase.utils.AppProxy;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.GlideUtil;
 import com.yaoxin.appbase.utils.NumberUtil;
+import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
 import com.yaoxin.appbase.view.actionsheet.ActionSheet;
 import com.yaoxin.appbase.view.pwdkeyboard.Keyboard;
@@ -86,6 +87,7 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
         setContentView(binding.getRoot());
         payEditText = binding.PayEditTextPay;
         keyboard = binding.KeyboardViewPay;
+        StatusBarUtils.transtStatusBar(this, binding.activityFunSendRedPacketNav);
         if (extras.get("sessionId") != null) {
             sessionId = (String) extras.get("sessionId");
         }

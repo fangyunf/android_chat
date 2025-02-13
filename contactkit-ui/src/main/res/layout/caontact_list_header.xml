@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:background="@color/color_ededed"
+    android:background="@color/color_white"
     android:layout_height="wrap_content">
     <LinearLayout
         android:id="@+id/caontact_list_header_new_haoyou_ll"
@@ -77,7 +77,77 @@
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="22dp"
-            android:text="群聊列表"
+            android:text="群聊"
+            android:textColor="#ff000000"
+            android:textSize="16sp"
+            />
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_1_dp"
+        android:background="#F2F2F2"
+        />
+    <LinearLayout
+
+        android:id="@+id/caontact_list_header_new_heimingdan_ll"
+        android:paddingVertical="@dimen/dimen_14_dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="@dimen/dimen_16_dp"
+        >
+
+
+        <RelativeLayout
+            android:layout_width="47dp"
+            android:layout_height="47dp">
+            <ImageView
+                android:src="@mipmap/caontact_list_header_heimingdan"
+                android:layout_width="42dp"
+                android:layout_alignParentBottom="true"
+                android:layout_height="42dp"/>
+        </RelativeLayout>
+        <TextView
+            android:layout_marginLeft="@dimen/dimen_8_dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="22dp"
+            android:text="黑名单"
+            android:textColor="#ff000000"
+            android:textSize="16sp"
+            />
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_1_dp"
+        android:background="#F2F2F2"
+        />
+    <LinearLayout
+
+        android:id="@+id/caontact_list_header_new_kefu_ll"
+        android:paddingVertical="@dimen/dimen_14_dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="@dimen/dimen_16_dp"
+        >
+
+
+        <RelativeLayout
+            android:layout_width="47dp"
+            android:layout_height="47dp">
+            <ImageView
+                android:src="@mipmap/caontact_list_header_kefu"
+                android:layout_width="42dp"
+                android:layout_alignParentBottom="true"
+                android:layout_height="42dp"/>
+        </RelativeLayout>
+        <TextView
+            android:layout_marginLeft="@dimen/dimen_8_dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="22dp"
+            android:text="客服"
             android:textColor="#ff000000"
             android:textSize="16sp"
             />

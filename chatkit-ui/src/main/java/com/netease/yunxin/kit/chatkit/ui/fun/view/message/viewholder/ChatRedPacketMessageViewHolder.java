@@ -7,6 +7,7 @@ package com.netease.yunxin.kit.chatkit.ui.fun.view.message.viewholder;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
@@ -19,8 +20,10 @@ import com.netease.yunxin.kit.chatkit.ui.databinding.ChatBaseMessageViewHolderBi
 import com.netease.yunxin.kit.chatkit.ui.databinding.FunChatMessageRedPacketViewHolderBinding;
 import com.netease.yunxin.kit.chatkit.ui.databinding.FunChatMessageRichTextViewHolderBinding;
 import com.netease.yunxin.kit.chatkit.ui.model.ChatMessageBean;
+import com.netease.yunxin.kit.common.utils.SizeUtils;
 import com.yaoxin.appbase.model.CustomMsgBean;
 import com.yaoxin.appbase.utils.DataUtil;
+import com.yaoxin.appbase.utils.DeviceUtils;
 import com.yaoxin.appbase.utils.NumberUtil;
 import com.yaoxin.appbase.utils.TimeUtil;
 
@@ -56,13 +59,33 @@ public class ChatRedPacketMessageViewHolder extends FunChatBaseMessageViewHolder
 
       CustomMsgBean bean = new Gson().fromJson(message.getMessageData().getMessage().getAttachStr(), CustomMsgBean.class);
       bean.result = new Gson().fromJson(bean.data, CustomMsgBean.class);
+
       if (hasDraw) {
-        viewBinding.funChatMessageRedPacketViewHolderBgIv.setImageResource( (bean.type == 21) ? R.drawable.chat_redpacket_purple_bg_is_open:R.drawable.chat_red_packet_cell_bg_is_open);
-
+        viewBinding.funChatMessageRedPacketViewHolderMengceng.setVisibility(View.VISIBLE);
+//        viewBinding.funChatMessageRedPacketViewHolderBgIv.setImageResource( (bean.type == 21) ? R.drawable.chat_redpacket_purple_bg_is_open:R.drawable.chat_red_packet_cell_bg_is_open);
       } else {
-
-        viewBinding.funChatMessageRedPacketViewHolderBgIv.setImageResource( (bean.type == 21) ? R.drawable.chat_redpacket_purple_bg_no_open:R.drawable.chat_red_packet_cell_bg_no_open);
+        viewBinding.funChatMessageRedPacketViewHolderMengceng.setVisibility(View.GONE);
+//        viewBinding.funChatMessageRedPacketViewHolderBgIv.setImageResource( (bean.type == 21) ? R.drawable.chat_redpacket_purple_bg_no_open:R.drawable.chat_red_packet_cell_bg_no_open);
       }
+
+      TextView greetTv = viewBinding.funChatMessageRedPacketViewHolderGreetingTv;
+      TextView moneyTv = viewBinding.funChatMessageRedPacketViewHolderMoneyTv;
+
+      int paddingStart = SizeUtils.dp2px(10);; // 你可以根据需要调整这个值
+      if (bean.sendUserId.equals(DataUtil.getUserid())) {
+        viewBinding.funChatMessageRedPacketViewHolderBgIv.setImageResource( (bean.type == 21) ? R.drawable.chat_redpacket_purple_bg_no_open_right:R.drawable.chat_red_packet_cell_bg_no_open_right);
+      } else {
+        paddingStart = SizeUtils.dp2px(55);; // 你可以根据需要调整这个值
+        viewBinding.funChatMessageRedPacketViewHolderBgIv.setImageResource( (bean.type == 21) ? R.drawable.chat_redpacket_purple_bg_no_open_left:R.drawable.chat_red_packet_cell_bg_no_open_left);
+
+      }
+
+      int paddingTop = greetTv.getPaddingTop();
+      int paddingEnd = greetTv.getPaddingEnd();
+      int paddingBottom = greetTv.getPaddingBottom();
+      greetTv.setPadding(paddingStart, paddingTop, paddingEnd, paddingBottom);
+      moneyTv.setPadding(paddingStart, paddingTop, paddingEnd, paddingBottom);
+
       if (bean.type == 21) {
         viewBinding.funChatMessageRedPacketViewHolderGreetingTv.setText(bean.result.toUserName);
         viewBinding.funChatMessageRedPacketViewHolderTypeTv.setText("专属红包");
