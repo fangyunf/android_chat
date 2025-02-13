@@ -109,7 +109,7 @@ public class BindAlipayActivity extends BaseActivity implements View.OnClickList
                         }.getType();
                         List<UserBean> tempList = new Gson().fromJson(body.data.toString(), type);
 //                        bindBean = new Gson().fromJson(body.data.toString(), UserBean.class);
-                        if (tempList.isEmpty()) {
+                        if (tempList == null || tempList.isEmpty()) {
                             _type = 0;
                         } else {
                             _type = 1;

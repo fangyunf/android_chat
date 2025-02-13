@@ -257,18 +257,18 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
                             // 根据请求类型保存数据
                             switch (requestType) {
                                 case "alipay":
-                                    if (!tempList.isEmpty()) {
+                                    if (tempList != null && !tempList.isEmpty()) {
 
                                         aliPayBean = tempList.get(0);
                                     }
                                     break;
                                 case "wechat":
-                                    if (!tempList.isEmpty()) {
+                                    if (tempList != null && !tempList.isEmpty()) {
                                         wxPayBean = tempList.get(0);
                                     }
                                     break;
                                 case "bank":
-                                    if (!tempList.isEmpty()) {
+                                    if (tempList != null && !tempList.isEmpty()) {
                                         yhkPayBean = tempList.get(0);
                                     }
                                     break;
