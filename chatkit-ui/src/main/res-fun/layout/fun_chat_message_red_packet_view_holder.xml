@@ -54,8 +54,8 @@
             android:layout_width="match_parent"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:paddingLeft="9dp"
-            android:layout_marginTop="13dp"
+            android:paddingHorizontal="9dp"
+            android:layout_marginTop="15dp"
             android:layout_height="wrap_content">
             <TextView
                 android:id="@+id/fun_chat_message_red_packet_view_holder_type_tv"
