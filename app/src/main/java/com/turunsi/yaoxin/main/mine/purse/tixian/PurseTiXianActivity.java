@@ -46,8 +46,8 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
     UserBean aliPayBean;
     UserBean wxPayBean;
     UserBean yhkPayBean;
-    private final Object lock = new Object();
-    private int completedRequests = 0;
+//    private final Object lock = new Object();
+//    private int completedRequests = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -233,15 +233,15 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
         alipayBean.type = 2;
         makeRequest(alipayBean, "alipay");
 
-        // 发起微信请求
-        RegisterBean wechatBean = new RegisterBean();
-        wechatBean.type = 1;
-        makeRequest(wechatBean, "wechat");
-
-        // 发起银行卡请求
-        RegisterBean bankBean = new RegisterBean();
-        bankBean.type = 3;
-        makeRequest(bankBean, "bank");
+//        // 发起微信请求
+//        RegisterBean wechatBean = new RegisterBean();
+//        wechatBean.type = 1;
+//        makeRequest(wechatBean, "wechat");
+//
+//        // 发起银行卡请求
+//        RegisterBean bankBean = new RegisterBean();
+//        bankBean.type = 3;
+//        makeRequest(bankBean, "bank");
     }
 
     private void makeRequest(RegisterBean bean, String requestType) {
@@ -251,48 +251,49 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                         Type type = new TypeToken<List<UserBean>>() {
                         }.getType();
-                        List<UserBean> tempList = new Gson().fromJson(body.data.toString(), type);
-
-                        synchronized (lock) {
-                            // 根据请求类型保存数据
-                            switch (requestType) {
-                                case "alipay":
-                                    if (tempList != null && !tempList.isEmpty()) {
-
-                                        aliPayBean = tempList.get(0);
-                                    }
-                                    break;
-                                case "wechat":
-                                    if (tempList != null && !tempList.isEmpty()) {
-                                        wxPayBean = tempList.get(0);
-                                    }
-                                    break;
-                                case "bank":
-                                    if (tempList != null && !tempList.isEmpty()) {
-                                        yhkPayBean = tempList.get(0);
-                                    }
-                                    break;
-                            }
-
-                            completedRequests++;
-
-                            // 检查是否所有请求都完成了
-                            if (completedRequests == 3) {
-                                handleAllRequestsCompleted();
-                            }
-                        }
+//                        List<UserBean> tempList = new Gson().fromJson(body.data.toString(), type);
+                        aliPayBean = new Gson().fromJson(body.data.toString(), UserBean.class);
+                        handleAllRequestsCompleted();
+//                        synchronized (lock) {
+//                            // 根据请求类型保存数据
+//                            switch (requestType) {
+//                                case "alipay":
+//                                    if (tempList != null && !tempList.isEmpty()) {
+//
+//                                        aliPayBean = tempList.get(0);
+//                                    }
+//                                    break;
+//                                case "wechat":
+//                                    if (tempList != null && !tempList.isEmpty()) {
+//                                        wxPayBean = tempList.get(0);
+//                                    }
+//                                    break;
+//                                case "bank":
+//                                    if (tempList != null && !tempList.isEmpty()) {
+//                                        yhkPayBean = tempList.get(0);
+//                                    }
+//                                    break;
+//                            }
+//
+//                            completedRequests++;
+//
+//                            // 检查是否所有请求都完成了
+//                            if (completedRequests == 1) {
+//                                handleAllRequestsCompleted();
+//                            }
+//                        }
                     }
 
                     @Override
                     public void Failure(Call<NetData> call, Throwable t) {
-                        synchronized (lock) {
-                            completedRequests++;
-
-                            // 即使失败也要检查是否所有请求都完成了
-                            if (completedRequests == 3) {
+//                        synchronized (lock) {
+//                            completedRequests++;
+//
+//                            // 即使失败也要检查是否所有请求都完成了
+//                            if (completedRequests == 3) {
                                 handleAllRequestsCompleted();
-                            }
-                        }
+//                            }
+//                        }
                     }
                 });
     }
@@ -385,36 +386,36 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
             binding.activityMinePurseTixianMoneyEt.setText(accountMoeny);
         } else if (v == binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgLl || v == binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt) {
 
-            DialogAlertUtil.showSheetView(this, getSupportFragmentManager(), new String[]{"支付宝", "微信", "银行卡"}, new DialogAlertUtil.DialogAlertUtilCallBack() {
-                @Override
-                public void clickType(int type) {
-                    if (type == 1) {
-                        if (aliPayBean != null) {
-                            binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setText("支付宝:" + aliPayBean.phone);
-                        } else {
-                            ToastUtils.toastMsg("请绑定支付宝账号");
-                            return;
-                        }
-                        payType = "alipay";
-                    } else if (type == 2) {
-                        if (wxPayBean != null) {
-                            binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setText("微信:" + wxPayBean.phone);
-                        } else {
-                            ToastUtils.toastMsg("请绑定微信账号");
-                            return;
-                        }
-                        payType = "wxpay";
-                    } else if (type == 3) {
-                        if (yhkPayBean != null) {
-                            binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setText("银行卡:" + yhkPayBean.phone);
-                        } else {
-                            ToastUtils.toastMsg("请绑定银行卡账号");
-                            return;
-                        }
-                        payType = "yhkpay";
-                    }
-                }
-            });
+//            DialogAlertUtil.showSheetView(this, getSupportFragmentManager(), new String[]{"支付宝", "微信", "银行卡"}, new DialogAlertUtil.DialogAlertUtilCallBack() {
+//                @Override
+//                public void clickType(int type) {
+//                    if (type == 1) {
+//                        if (aliPayBean != null) {
+//                            binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setText("支付宝:" + aliPayBean.phone);
+//                        } else {
+//                            ToastUtils.toastMsg("请绑定支付宝账号");
+//                            return;
+//                        }
+//                        payType = "alipay";
+//                    } else if (type == 2) {
+//                        if (wxPayBean != null) {
+//                            binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setText("微信:" + wxPayBean.phone);
+//                        } else {
+//                            ToastUtils.toastMsg("请绑定微信账号");
+//                            return;
+//                        }
+//                        payType = "wxpay";
+//                    } else if (type == 3) {
+//                        if (yhkPayBean != null) {
+//                            binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setText("银行卡:" + yhkPayBean.phone);
+//                        } else {
+//                            ToastUtils.toastMsg("请绑定银行卡账号");
+//                            return;
+//                        }
+//                        payType = "yhkpay";
+//                    }
+//                }
+//            });
         }
     }
 

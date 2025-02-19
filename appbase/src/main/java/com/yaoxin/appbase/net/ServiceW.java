@@ -5,6 +5,7 @@ package com.yaoxin.appbase.net;
 import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.ParamsBean;
 import com.yaoxin.appbase.model.RegisterBean;
+import com.yaoxin.appbase.model.RequestParams1Bean;
 import com.yaoxin.appbase.model.RequestParamsBean;
 import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.ServiceBase;
@@ -227,6 +228,11 @@ public interface ServiceW {
     Call<NetData> customer_systemAppUser(
             @Body RegisterBean userBean
     );
+    //  修改群头像昵称
+    @POST("/aideNews/systemAllAppUser")
+    Call<NetData> aideNews_systemAllAppUser(
+            @Body RegisterBean userBean
+    );
     //   转让群主
     @POST("/group/transferGroup")
     Call<NetData> group_transferGroup(
@@ -366,6 +372,10 @@ public interface ServiceW {
     @POST("/bindCard/createUptadeZFB")
     Call<NetData> bindCard_createUptadeZFB1(
             @Body RequestParamsBean userBean
+    );
+    @POST("/bindCard/createUptadeZFB")
+    Call<NetData> bindCard_createUptadeZFB2(
+            @Body RequestParams1Bean userBean
     );
     //  好友列表
     @POST("/aideNews/aideMsg")

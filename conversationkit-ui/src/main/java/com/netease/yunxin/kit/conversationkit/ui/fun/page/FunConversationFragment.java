@@ -280,12 +280,23 @@ public class FunConversationFragment extends ConversationBaseFragment {
     }
     if (_type == 0) {
 
-      HttpUtil.apiW().customer_systemAppUser(new RegisterBean())
+      HttpUtil.apiW().aideNews_systemAllAppUser(new RegisterBean())
               .enqueue(new CommonCallback<NetData>() {
                 @Override
                 public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                  String  kefuId = body.data.toString().replace("\"","");
+                  Gson gson = new Gson();
+
+                  // 定义目标类型
+                  Type stringArrayType = new TypeToken<String[]>() {}.getType();
+
+                  // 解析 JSON 字符串
+                  String[] stringArray = gson.fromJson(body.data.toString(), stringArrayType);
+
+                  String  kefuId = "";
+                  if (stringArray != null && stringArray.length > 0) {
+                    kefuId = stringArray[0];
+                  }
                   requestKefu(kefuId);
 
                   String  xiaozhushouId = "10086";

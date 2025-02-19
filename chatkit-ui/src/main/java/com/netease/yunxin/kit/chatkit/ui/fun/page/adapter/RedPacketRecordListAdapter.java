@@ -38,7 +38,7 @@ public class RedPacketRecordListAdapter extends BaseQuickAdapter<CustomMsgBean, 
                     .setText(R.id.item_fun_red_packet_result_detail_money_tv, NumberUtil.formartMoney(bean.amount) + "元");
             GlideUtil.yh_loadImageRoundedCorner(getContext(),quickViewHolder.getView(R.id.item_fun_red_packet_result_detail_head_iv),bean.avatar,20);
             for (GroupInfoBean tempBean : DataUtil.getFriendInfoList()) {
-                if (tempBean.userId.equals(bean.userId)) {
+                if (tempBean != null && tempBean.userId.equals(bean.userId)) {
                     if (tempBean.remark != null &&!tempBean.remark.isEmpty()) {
                         quickViewHolder.setText(R.id.item_fun_red_packet_result_detail_username_tv,tempBean.remark);
                     }

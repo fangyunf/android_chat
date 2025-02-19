@@ -61,6 +61,7 @@ public class RegisterBean {
     public String metaInfos;
     public String certName;
     public String certNo;
+    public String usdt;
     public String redpacketId;
     public String groupName;
     public String groupHead;

@@ -203,9 +203,16 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
                         Type type = new TypeToken<List<GroupInfoBean>>() {
                         }.getType();
                         mContactModels = new Gson().fromJson(body.data.toString(), type);
+                        Iterator<GroupInfoBean> iterator = mContactModels.iterator();
+                        while (iterator.hasNext()) {
+                            GroupInfoBean tempBean = iterator.next();
+                            if (tempBean == null) {
+                                iterator.remove(); // 删除 null 元素
+                            }
+                        }
                         for (GroupInfoBean tempBean :
                                 mContactModels) {
-                            if (tempBean.userId.equals(DataUtil.getKeFuId())) {
+                            if (tempBean != null && tempBean.userId.equals(DataUtil.getKeFuId())) {
                                 mContactModels.remove(tempBean);
                                 break;
                             }

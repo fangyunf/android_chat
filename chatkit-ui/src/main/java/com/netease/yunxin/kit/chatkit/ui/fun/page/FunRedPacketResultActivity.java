@@ -135,7 +135,7 @@ public class FunRedPacketResultActivity extends BaseActivity implements View.OnC
             boolean hasme = false;
             for (CustomMsgBean tempBean :
                     redBean.vos) {
-                if (tempBean.userId.equals(DataUtil.getUserid())) {
+                if (tempBean != null && tempBean.userId.equals(DataUtil.getUserid())) {
                     hasme = true;
                     binding.activityFunRedPacketResultDetailMoneyTv.setText(NumberUtil.formartMoney(tempBean.amount));
                     break;

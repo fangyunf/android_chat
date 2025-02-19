@@ -387,7 +387,7 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
                         List<GroupInfoBean> userList = new Gson().fromJson(body.data.toString(),userListType);
                         for (GroupInfoBean tempBean :
                                 userList) {
-                            if (tempBean.userId.equals(groupInfoBean.userId)) {
+                            if (tempBean != null && tempBean.userId.equals(groupInfoBean.userId)) {
                                 isFriend = true;
                                 friendBean = tempBean;
 //                                binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowLl.setVisibility(View.VISIBLE);

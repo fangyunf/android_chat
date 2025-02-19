@@ -163,6 +163,7 @@
 <!--                    app:titleText="我的卡包"-->
 <!--                    />-->
                 <com.yaoxin.appbase.view.IconTitleArrowTemplate
+                    android:visibility="gone"
                     android:id="@+id/activity_mine_purse_index_bdwx"
                     android:layout_width="0dp"
                     android:layout_columnWeight="1"

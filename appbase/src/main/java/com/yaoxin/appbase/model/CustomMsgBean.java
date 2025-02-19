@@ -55,7 +55,7 @@ public class CustomMsgBean {
     public boolean isHasOpened() {
         for (CustomMsgBean tempBean :
                 vos) {
-            if (tempBean.userId.equals(DataUtil.getUserid())) {
+            if (tempBean != null && tempBean.userId.equals(DataUtil.getUserid())) {
                 return true;
             }
         }

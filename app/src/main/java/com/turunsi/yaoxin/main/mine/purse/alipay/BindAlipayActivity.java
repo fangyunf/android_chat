@@ -23,12 +23,14 @@ import com.yaoxin.appbase.model.GroupInfoBean;
 import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.ParamsBean;
 import com.yaoxin.appbase.model.RegisterBean;
+import com.yaoxin.appbase.model.RequestParams1Bean;
 import com.yaoxin.appbase.model.RequestParamsBean;
 import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.Constant;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.CommonCallBack;
+import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
 import com.yaoxin.appbase.utils.UploadUtil;
 import com.zhihu.matisse.Matisse;
@@ -107,13 +109,13 @@ public class BindAlipayActivity extends BaseActivity implements View.OnClickList
 
                         Type type = new TypeToken<List<UserBean>>() {
                         }.getType();
-                        List<UserBean> tempList = new Gson().fromJson(body.data.toString(), type);
-//                        bindBean = new Gson().fromJson(body.data.toString(), UserBean.class);
-                        if (tempList == null || tempList.isEmpty()) {
+//                        List<UserBean> tempList = new Gson().fromJson(body.data.toString(), type);
+                        bindBean = new Gson().fromJson(body.data.toString(), UserBean.class);
+                        if (bindBean == null ) {
                             _type = 0;
                         } else {
                             _type = 1;
-                            bindBean = tempList.get(0);
+//                            bindBean = tempList.get(0);
                         }
                         updateUI();
                     }
@@ -184,17 +186,20 @@ public class BindAlipayActivity extends BaseActivity implements View.OnClickList
                     return;
                 }
             }
-            RequestParamsBean registerBean = new RequestParamsBean(phone, name, "2");
-            registerBean.type = _bindType + "";
-            if (_bindType == 2 || _bindType == 1) {
-                registerBean.usdt = qrcodeImgUrl;
-            } else {
-                registerBean.certNo = account;
-            }
+            RequestParams1Bean registerBean = new RequestParams1Bean(phone, name, 2);
+            registerBean.type = _bindType ;
+//            if (_bindType == 2 || _bindType == 1) {
+//                registerBean.usdt = qrcodeImgUrl;
+//            } else {
+//                registerBean.certNo = account;
+//            }
             if (bindBean != null && bindBean.id > 0) {
+
                 registerBean.id = bindBean.id + "";
             }
-            HttpUtil.apiW().bindCard_createUptadeZFB1(registerBean)
+            registerBean.userId = DataUtil.getUserid();
+            registerBean.zfb = qrcodeImgUrl;
+            HttpUtil.apiW().bindCard_createUptadeZFB2(registerBean)
                     .enqueue(new CommonCallback<NetData>() {
                         @Override
                         public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {

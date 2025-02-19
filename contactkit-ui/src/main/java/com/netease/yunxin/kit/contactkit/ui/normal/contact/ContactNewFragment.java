@@ -63,6 +63,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import retrofit2.Call;
@@ -125,9 +126,16 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
                         Type type = new TypeToken<List<GroupInfoBean>>() {
                         }.getType();
                         mContactModels = new Gson().fromJson(body.data.toString(), type);
+                        Iterator<GroupInfoBean> iterator = mContactModels.iterator();
+                        while (iterator.hasNext()) {
+                            GroupInfoBean tempBean = iterator.next();
+                            if (tempBean == null) {
+                                iterator.remove(); // 删除 null 元素
+                            }
+                        }
                         for (GroupInfoBean tempBean :
                                 mContactModels) {
-                            if (tempBean.userId.equals(DataUtil.getKeFuId())) {
+                            if (tempBean != null && tempBean.userId.equals(DataUtil.getKeFuId())) {
                                 mContactModels.remove(tempBean);
                                 break;
                             }
