@@ -5,6 +5,7 @@ package com.yaoxin.appbase.net;
 import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.ParamsBean;
 import com.yaoxin.appbase.model.RegisterBean;
+import com.yaoxin.appbase.model.RequestParams1Bean;
 import com.yaoxin.appbase.model.RequestParamsBean;
 import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.ServiceBase;
@@ -27,7 +28,10 @@ import retrofit2.http.Query;
  */
 public interface ServiceW {
 
-
+    @POST("/bindCard/createUptadeZFB")
+    Call<NetData> bindCard_createUptadeZFB2(
+            @Body RequestParams1Bean userBean
+    );
     @POST("pass/user/v1/login")
     Call<NetData<UserBean>> login(
             @Body UserBean userBean
