@@ -6,7 +6,7 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:background="@color/color_F2F2F2"
+    android:background="@color/color_white"
     android:layout_height="match_parent">
 
 
@@ -48,7 +48,7 @@
                 <ImageView
                     android:id="@+id/contact_new_fragment_more_iv"
 
-                    android:src="@mipmap/conversation_index_pop_more"
+                    android:src="@mipmap/contanct_index_pop_more"
                     android:layout_width="25dp"
                     android:layout_height="25dp"/>
             </LinearLayout>
@@ -104,10 +104,9 @@
 
 <!--        </LinearLayout>-->
         <LinearLayout
-            android:visibility="gone"
             android:background="@color/color_white"
             android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
+            android:layout_width="100dp"
             android:layout_height="40dp">
             <TextView
                 android:id="@+id/contact_new_fragment_friend_tv"
@@ -115,9 +114,9 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="好友列表"
+                android:text="好友"
                 android:textColor="@drawable/fun_common_text_color_selector"
-                android:textSize="18sp"
+                android:textSize="14sp"
                 />
             <TextView
                 android:id="@+id/contact_new_fragment_group_tv"
@@ -125,11 +124,12 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="群组列表"
+                android:text="群组"
                 android:textColor="@drawable/fun_common_text_color_selector"
-                android:textSize="18sp"
+                android:textSize="14sp"
                 />
             <LinearLayout
+                android:visibility="gone"
                 android:id="@+id/contact_new_fragment_new_friend_ll"
                 android:layout_width="0dp"
                 android:layout_weight="1"

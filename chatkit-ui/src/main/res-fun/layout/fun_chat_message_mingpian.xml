@@ -2,41 +2,50 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:layout_width="193dp"
+    android:layout_width="200dp"
     android:layout_marginHorizontal="5dp"
     android:background="@drawable/bg_white_rounded_10"
-    android:layout_height="226dp">
+    android:layout_height="90dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:background="@drawable/fun_chat_mingpian_bg"
+        android:gravity="center_vertical"
         >
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/fun_chat_message_mingpian_head_iv"
             android:layout_width="36dp"
             android:layout_height="36dp"
             app:riv_corner_radius="5dp"
+            android:layout_marginLeft="15dp"
             android:scaleType="centerCrop"
             />
-        <TextView
-            android:id="@+id/fun_chat_message_mingpian_name_tv"
+        <LinearLayout
+            android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="张晓汐"
-            android:textColor="#ff000001"
-            android:textSize="14sp"
-            android:layout_marginVertical="15dp"
-            />
-        <TextView
-            android:id="@+id/fun_chat_message_mingpian_id_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#ff999999"
-            android:textSize="14sp"
-            />
+            android:orientation="vertical"
+            android:layout_marginLeft="15dp"
+            >
+            <TextView
+                android:id="@+id/fun_chat_message_mingpian_name_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="张晓汐"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                />
+
+            <TextView
+                android:id="@+id/fun_chat_message_mingpian_id_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#ff999999"
+                android:textSize="14sp"
+                android:text="333"
+                />
+        </LinearLayout>
+
     </LinearLayout>
 
 </LinearLayout>

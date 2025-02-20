@@ -20,6 +20,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <ImageView
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:scaleType="fitXY"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/mine_top_bg"
+                />
             <LinearLayout
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_width="match_parent"
@@ -277,20 +286,6 @@
 
                         <com.yaoxin.appbase.view.IconTitleArrowTemplate_1
                             android:layout_marginTop="10dp"
-                            android:id="@+id/fragment_mine_hyzx_view"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            app:leftImg="@mipmap/mine_index_item_hyzx"
-                            app:titleText="会员中心"
-                            />
-                    </RelativeLayout>
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_marginHorizontal="15dp"
-                        android:layout_height="wrap_content">
-
-                        <com.yaoxin.appbase.view.IconTitleArrowTemplate_1
-                            android:layout_marginTop="10dp"
                             android:id="@+id/fragment_mine_zhgl_view"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -327,6 +322,21 @@
                             android:layout_height="wrap_content"
                             app:leftImg="@mipmap/mine_index_item_sz"
                             app:titleText="通用设置"
+                            />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_marginHorizontal="15dp"
+                        android:layout_height="wrap_content">
+
+                        <com.yaoxin.appbase.view.IconTitleArrowTemplate_1
+                            android:layout_marginTop="10dp"
+                            android:id="@+id/fragment_mine_hyzx_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:leftImg="@mipmap/mine_index_item_hyzx"
+                            app:titleText="靓号中心"
                             />
                     </RelativeLayout>
                     <RelativeLayout

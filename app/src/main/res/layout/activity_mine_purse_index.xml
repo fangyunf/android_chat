@@ -7,6 +7,12 @@
     android:background="@color/white"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/purse_index_money_bg_1"
+        android:scaleType="fitXY"
+        />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -15,7 +21,7 @@
         <com.yaoxin.appbase.navbar.NavToolbar
             android:id="@+id/activity_mine_purse_index_nav"
             style="@style/WhiteFontToolbar"
-            android:background="@color/white"
+            android:background="@color/transparent"
             app:back_icon="@mipmap/temp_ic_back"
             app:enable_under_divider="true"
             app:support_translucent_status_bar="false"
@@ -30,13 +36,12 @@
             android:layout_height="202dp"
             android:paddingHorizontal="15dp"
             android:gravity="center_horizontal"
-            android:background="@mipmap/purse_index_money_bg"
             android:orientation="vertical">
             <TextView
                 android:layout_marginTop="30dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="我的零钱"
+                android:text="总资产"
                 android:textColor="@color/color_683F06"
                 android:textSize="12sp"
                 />
@@ -50,13 +55,6 @@
                 android:textColor="@color/color_683F06"
                 android:textSize="35sp" />
 
-            <View
-                android:layout_marginTop="20dp"
-                android:layout_width="match_parent"
-                android:layout_marginHorizontal="20dp"
-                android:layout_height="1dp"
-                android:background="@color/color_683F06"
-                />
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -68,17 +66,14 @@
  android:layout_width="150dp"
                     android:layout_weight="1"
                     android:layout_height="60dp"
-
+                    android:background="@color/white"
                     android:gravity="center"
                     android:text="提现"
                     android:textColor="@color/color_683F06"
                     android:textSize="@dimen/text_size_15" />
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="25dp"
-                    android:background="@color/color_683F06"
-                    />
+
                 <TextView
+                    android:layout_marginStart="10dp"
 
                     android:id="@+id/activity_mine_purse_index_recharge_tv"
 
@@ -86,6 +81,8 @@
                     android:layout_height="60dp"
                     android:gravity="center"
                     android:text="充值"
+                    android:background="@color/white"
+
                     android:textColor="@color/color_683F06"
                     android:textSize="@dimen/text_size_15" />
                 <TextView
@@ -124,7 +121,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:leftImg="@mipmap/purse_index_item_hongbao"
-                    app:titleText="通知声音"
+                    app:titleText="红包记录"
                     />
             </RelativeLayout>
             <RelativeLayout

@@ -7,31 +7,20 @@
 
 
     <ImageView
-        android:visibility="gone"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="120dp"
         android:id="@+id/activity_login_title_iv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/common_login_title_login" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:src="@mipmap/login_bg_1" />
 
-    <TextView
-        android:id="@+id/activity_login_title_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
-        android:layout_marginLeft="20dp"
-        android:text="注册"
-        android:textColor="#ff000000"
-        android:textSize="24sp"
-        />
+
     <LinearLayout
-        android:layout_marginTop="120dp"
-        android:background="@drawable/white_bg_rounded_top_20"
+        android:layout_marginTop="220dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <TextView
+            android:visibility="gone"
             android:layout_gravity="center_horizontal"
             android:id="@+id/activity_login_type_tv"
             android:layout_width="165dp"
@@ -43,7 +32,15 @@
             android:textColor="@color/white"
             android:textSize="14sp" />
 
-
+        <TextView
+            android:id="@+id/activity_login_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="注册"
+            android:layout_gravity="center_horizontal"
+            android:textColor="#ff000000"
+            android:textSize="24sp"
+            />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

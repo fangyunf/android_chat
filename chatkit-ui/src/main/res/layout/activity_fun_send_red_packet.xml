@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <ImageView
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scaleType="fitXY"
@@ -20,12 +21,12 @@
 
             android:id="@+id/activity_fun_send_red_packet_nav"
             style="@style/WhiteFontToolbar"
-            android:background="@color/transparent"
-            app:back_icon="@mipmap/temp_ic_back_white"
+            android:background="@color/color_white"
+            app:back_icon="@mipmap/temp_ic_back"
             app:enable_under_divider="true"
             app:support_translucent_status_bar="false"
             app:title="发红包"
-            app:title_text_color="@color/color_white"
+            app:title_text_color="@color/black"
             app:under_divider_color="@color/transparent"
 
             />
@@ -269,7 +270,7 @@
                     android:layout_marginTop="@dimen/dimen_28_dp"
                     android:layout_width="160dp"
                     android:layout_height="44dp"
-                    android:text="塞钱进红包"
+                    android:text="发红包"
                     android:textColor="#ffffffff"
                     android:textSize="16sp"
                     android:gravity="center"

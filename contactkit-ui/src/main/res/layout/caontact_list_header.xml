@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:background="@color/color_white"
+    android:background="#F0F4FF"
     android:layout_height="wrap_content">
     <LinearLayout
         android:id="@+id/caontact_list_header_new_haoyou_ll"
@@ -54,6 +54,7 @@
         />
     <LinearLayout
 
+        android:visibility="gone"
         android:id="@+id/caontact_list_header_new_qunliao_ll"
         android:paddingVertical="@dimen/dimen_14_dp"
         android:layout_width="match_parent"
@@ -83,6 +84,8 @@
             />
     </LinearLayout>
     <View
+
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_1_dp"
         android:background="#F2F2F2"

@@ -66,9 +66,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 //        binding.activityLoginIsCheckedTxt2.setOnClickListener(this);
 //        binding.activityLoginIsCheckedTxt4.setOnClickListener(this);
 //        binding.activityLoginIsAgreeLl.setOnClickListener(this);
-//        binding.activityLoginTf1.viewTitleTfCountTitleTv.setText("手机号");
-//        binding.activityLoginTf2.viewTitleTfCountTitleTv.setText("验证码");
-//        binding.activityLoginTf3.viewTitleTfCountTitleTv.setText("密码");
+        binding.activityLoginTf1.viewTitleTfCountTitleTv.setText("手机号");
+        binding.activityLoginTf2.viewTitleTfCountTitleTv.setText("验证码");
+        binding.activityLoginTf3.viewTitleTfCountTitleTv.setText("密码");
         binding.activityLoginTf1.viewTitleTfCountEt.setHint("输入手机号");
         binding.activityLoginTf2.viewTitleTfCountEt.setHint("输入验证码");
         binding.activityLoginTf3.viewTitleTfCountEt.setHint("输入密码");
@@ -115,7 +115,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             binding.activityLoginRegisterTv.setText("注册账号");
             binding.activityLoginForgetTv.setVisibility(View.VISIBLE);
             binding.activityLoginRegisterTv.setVisibility(View.VISIBLE);
-            binding.activityLoginTitleIv.setImageResource(R.mipmap.common_login_title_login);
+            binding.activityLoginTitleIv.setImageResource(R.mipmap.login_bg_1);
         } else if (type == 1) {
             binding.activityLoginTf2.viewRoundTfLl.setVisibility(View.VISIBLE);
             binding.activityLoginTf2.viewTitleTfCountCaptcha.setVisibility(View.VISIBLE);
@@ -125,7 +125,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             binding.activityLoginRegisterTv.setText("已有账号，去登录");
             binding.activityLoginRegisterTv.setVisibility(View.VISIBLE);
             binding.activityLoginForgetTv.setVisibility(View.GONE);
-            binding.activityLoginTitleIv.setImageResource(R.mipmap.common_login_title_register);
+            binding.activityLoginTitleIv.setImageResource(R.mipmap.login_bg_2);
         } else if (type == 2) {
             binding.activityLoginTf2.viewRoundTfLl.setVisibility(View.VISIBLE);
             binding.activityLoginTf2.viewTitleTfCountCaptcha.setVisibility(View.VISIBLE);
@@ -136,7 +136,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             binding.activityLoginRegisterTv.setText("已有账号，去登录");
             binding.activityLoginRegisterTv.setVisibility(View.VISIBLE);
             binding.activityLoginForgetTv.setVisibility(View.GONE);
-            binding.activityLoginTitleIv.setImageResource(R.mipmap.common_login_title_forget);
+            binding.activityLoginTitleIv.setImageResource(R.mipmap.login_bg_3);
         }
     }
     @Override
