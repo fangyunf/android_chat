@@ -74,10 +74,11 @@ dependencies {
     api("com.makeramen:roundedimageview:2.3.0")
 //    api("com.github.jenly1314:zxing-lite:3.0.1")
     api("pub.devrel:easypermissions:3.0.0")
-    api("com.github.yuzhiqiang1993:zxing:2.2.9")
+//    api("com.github.yuzhiqiang1993:zxing:2.2.9")
     api("com.liulishuo.filedownloader:library:1.7.5")
     api(project(":matisse"))
     api(project(":WaveSideBar"))
     api(project(":marqueeview"))
+    api(project(":zxinglibrary"))
 
 }
