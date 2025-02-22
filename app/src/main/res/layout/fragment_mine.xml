@@ -329,6 +329,16 @@
                             app:titleText="通用设置"
                             />
                     </RelativeLayout>
+
+                    <com.yaoxin.appbase.view.IconTitleArrowTemplate_1
+                        android:layout_marginHorizontal="15dp"
+                        android:layout_marginTop="10dp"
+                        android:id="@+id/fragment_mine_ysgl_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:leftImg="@mipmap/mine_index_item_ysgl"
+                        app:titleText="隐私管理"
+                        />
                     <RelativeLayout
                         android:layout_width="wrap_content"
                         android:layout_marginHorizontal="15dp"
@@ -346,14 +356,6 @@
                             />
                     </RelativeLayout>
 
-                    <com.yaoxin.appbase.view.IconTitleArrowTemplate
-                        android:visibility="gone"
-                        android:id="@+id/fragment_mine_ysgl_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:leftImg="@mipmap/mine_index_item_ysgl"
-                        app:titleText="隐私管理"
-                        />
 
                     <com.yaoxin.appbase.view.IconTitleArrowTemplate
                         android:visibility="gone"
