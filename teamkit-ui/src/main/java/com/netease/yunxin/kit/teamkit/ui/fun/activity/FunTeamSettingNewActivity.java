@@ -390,7 +390,7 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
 
         }
         binding.funTeamSettingNewActivityIdTv.setText("ID: " + groupInfoBean.groupId);
-        adapter = new TeamSettingUserInfoAdapter(groupInfoBean.rankState == 1,maxList);
+        adapter = new TeamSettingUserInfoAdapter((groupInfoBean.rankState == 1 || groupInfoBean.rankState == 2),maxList);
 
         binding.funTeamSettingNewActivityMemberRv.setAdapter(adapter);
         Context that = this;
