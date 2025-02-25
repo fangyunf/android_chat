@@ -466,7 +466,20 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
             ToastUtils.toastMsg("复制成功");
         }
         if (v == binding.fragmentMineFxyyView) {
-            DownLoadActivity.start(DownLoadActivity.class,getContext(),null);
+//            DownLoadActivity.start(DownLoadActivity.class,getContext(),null);
+            String textToCopy = "梦聊安装地址：\n" +
+                    "苹果：https://testflight.apple.com/join/J8SxRQZX\n" +
+                    "安卓：http://sxa.sixeight.cn/mengliao.apk";
+
+            // 获取剪切板管理器
+            ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+
+            // 创建ClipData对象并将文本复制到剪切板
+            ClipData clip = ClipData.newPlainText("label", textToCopy);
+            clipboard.setPrimaryClip(clip);
+
+            // 提示用户内容已复制
+            ToastUtils.toastMsg("已复制到剪切板");
         }
         if (v == binding.fragmentMineYysjView)
             AppUpdateActivity.start(AppUpdateActivity.class,getContext(),null);

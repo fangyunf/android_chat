@@ -36,7 +36,7 @@
         android:id="@+id/icon_title_arrow_template_right_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="123"
+        android:text=""
         android:textColor="#ff666666"
         android:layout_marginLeft="10dp"
         android:textSize="14sp"

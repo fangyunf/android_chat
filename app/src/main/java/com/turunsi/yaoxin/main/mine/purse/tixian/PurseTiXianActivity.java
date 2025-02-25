@@ -409,6 +409,10 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
                 ToastUtils.toastMsg("请输入金额");
                 return;
             }
+            if (textStr.contains(".")) {
+                ToastUtils.toastMsg("请只能提现整数金额");
+                return;
+            }
 //            if (textStr.isEmpty() && Integer.parseInt(textStr) < 100) {
 //                ToastUtils.toastMsg("金额必须大于100");
 //                return;

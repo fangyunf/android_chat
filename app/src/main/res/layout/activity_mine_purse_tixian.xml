@@ -113,6 +113,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dimen_12_dp" />
+
+        <TextView
+            android:layout_marginTop="@dimen/dimen_20_dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginStart="15dp"
+            android:text="注：\n
+1, 提现费率0.06外加单笔2元，最低提现30起步\n
+2, 充值时间24小时，提现早9点到晚24点\n
+3, 提现金额必须是整数，到帐时间2小时左右\n"
+            android:textColor="#999999"
+            android:textSize="14sp"
+            />
         <TextView
             android:layout_marginTop="70dp"
             android:id="@+id/activity_mine_purse_tixian_tixian_btn"
