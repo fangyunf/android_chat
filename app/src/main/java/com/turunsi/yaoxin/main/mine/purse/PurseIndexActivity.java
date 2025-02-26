@@ -109,7 +109,10 @@ public class PurseIndexActivity extends BaseActivity implements View.OnClickList
         if (v == binding.activityMinePurseIndexNav.addCloseImageButton()) {
             finish();
         } else if (v == binding.activityMinePurseIndexRechargeTv) {
-            PurseRechargeActivity.start(PurseRechargeActivity.class,this,null);
+//            PurseRechargeActivity.start(PurseRechargeActivity.class,this,null);
+            Map map = new HashMap();
+            map.put("type", "1");
+            PurseRechargeActivity.start(PurseRechargeActivity.class,this,map);
         } else if (v == binding.activityMinePurseIndexRechargeTv2) {
             Map map = new HashMap();
             map.put("type", "1");
