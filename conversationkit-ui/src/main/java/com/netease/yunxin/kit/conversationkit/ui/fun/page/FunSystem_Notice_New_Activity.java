@@ -60,6 +60,7 @@ public class FunSystem_Notice_New_Activity extends BaseActivity implements View.
         binding.activitySystemNoticeNewXttzLl.setOnClickListener(this);
         binding.activitySystemNoticeNewQtzLl.setOnClickListener(this);
         binding.activitySystemNoticeNewQbxxLl.setOnClickListener(this);
+        binding.activitySystemNoticeNewXzsLl.setOnClickListener(this);
         HttpUtil.apiW().friends_applyListNum(new RegisterBean())
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
@@ -107,10 +108,16 @@ public class FunSystem_Notice_New_Activity extends BaseActivity implements View.
                     .withParam("type","1")
                     .withContext(this)
                     .navigate();
-        }  else if (view == binding.activitySystemNoticeNewQbxxLl){
+        }  else if (view == binding.activitySystemNoticeNewXzsLl){
             XKitRouter.withKey(Constant.XiaoZhuShouActivityKey)
                     .withContext(this)
                     .navigate();
+        }  else if (view == binding.activitySystemNoticeNewQbxxLl){
+            FunSystem_Notice_New_QianBao_Activity.start(FunSystem_Notice_New_QianBao_Activity.class,this,null);
+//            XKitRouter.withKey(Constant.XiaoZhuShouActivityKey)
+
+//                    .withContext(this)
+//                    .navigate();
         }
     }
 }

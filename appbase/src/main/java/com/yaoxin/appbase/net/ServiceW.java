@@ -310,6 +310,11 @@ public interface ServiceW {
             @Body RegisterBean userBean
     );
     //  好友列表
+    @POST("/send/queryRecharge")
+    Call<NetData> send_queryCharge(
+            @Body RegisterBean userBean
+    );
+    //  好友列表
     @POST("/group/groupConsentOrRefuse")
     Call<NetData> group_groupConsentOrRefuse(
             @Body RegisterBean userBean

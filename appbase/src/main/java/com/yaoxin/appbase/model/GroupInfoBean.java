@@ -8,8 +8,11 @@ import java.util.List;
 
 public class GroupInfoBean {
     public String title;
+    public String amount;
+    public String balance;
     public String money;
     public String payTerm;
+    public String statue;
     public String payMsg;
     public String msg;
     public String createTime;
