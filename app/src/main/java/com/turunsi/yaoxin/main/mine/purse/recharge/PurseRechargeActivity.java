@@ -62,9 +62,9 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
     }
     void _initRecycleView() {
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 5);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 4);
         Recharge_GridSpacingItemDecoration gridSpacingItemDecoration =
-                new Recharge_GridSpacingItemDecoration(5, SizeUtils.dp2px( 10f), false);
+                new Recharge_GridSpacingItemDecoration(4, SizeUtils.dp2px( 10f), false);
         gridSpacingItemDecoration.leftSpace = SizeUtils.dp2px( 3f);
         recyclerView.addItemDecoration(gridSpacingItemDecoration);
         recyclerView.setLayoutManager(gridLayoutManager);
@@ -77,9 +77,6 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
         list.add("1000");
         list.add("2000");
         list.add("5000");
-        list.add("10000");
-        list.add("50000");
-        list.add("100000");
         adpter.setItems(list);
         adpter.selectStr = "100";
         binding.activityMinePurseRechargeDetailTv.setText("≈" + adpter.selectStr+"CNY");

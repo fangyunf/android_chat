@@ -251,8 +251,12 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                         Type type = new TypeToken<List<UserBean>>() {
                         }.getType();
-//                        List<UserBean> tempList = new Gson().fromJson(body.data.toString(), type);
-                        aliPayBean = new Gson().fromJson(body.data.toString(), UserBean.class);
+                        List<UserBean> tempList = new Gson().fromJson(body.data.toString(), type);
+                        if (tempList != null && !tempList.isEmpty()) {
+                            aliPayBean = tempList.get(0);
+                        }
+
+//                        aliPayBean = new Gson().fromJson(body.data.toString(), UserBean.class);
                         handleAllRequestsCompleted();
 //                        synchronized (lock) {
 //                            // 根据请求类型保存数据
