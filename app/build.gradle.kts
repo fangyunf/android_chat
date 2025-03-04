@@ -11,18 +11,18 @@ android {
     compileSdk = 33
     signingConfigs {
         create("release") {
-            keyAlias = "fanyu"
+            keyAlias = "meishi"
             keyPassword = "qqqq1111"
-            storeFile = file("fanyu.jks")
+            storeFile = file("meishi.jks")
             storePassword = "qqqq1111"
         }
     }
     defaultConfig {
-        applicationId = "com.turunsi.fanyu"
+        applicationId = "com.turunsi.meishi"
         minSdk = 21
         targetSdk = 33
         versionCode = 1
-        versionName = "1.0.1"
+        versionName = "1.0.0"
         multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

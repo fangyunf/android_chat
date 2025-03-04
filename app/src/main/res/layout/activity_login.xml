@@ -15,10 +15,17 @@
 
 
     <LinearLayout
-        android:layout_marginTop="220dp"
+        android:layout_marginTop="120dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+        <ImageView
+            android:layout_gravity="center_horizontal"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@mipmap/yaoxin_icon"
+
+            />
         <TextView
             android:visibility="gone"
             android:layout_gravity="center_horizontal"

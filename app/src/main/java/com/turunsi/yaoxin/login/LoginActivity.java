@@ -97,10 +97,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         });
         changeTitleWithType(0);
 
-        if (BuildConfig.DEBUG) {
-            binding.activityLoginTf1.viewTitleTfCountEt.setText("18616821287");
-            binding.activityLoginTf3.viewTitleTfCountEt.setText("a1234567");
-        }
     }
 
     void changeTitleWithType(int type) {
@@ -115,7 +111,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             binding.activityLoginRegisterTv.setText("注册账号");
             binding.activityLoginForgetTv.setVisibility(View.VISIBLE);
             binding.activityLoginRegisterTv.setVisibility(View.VISIBLE);
-            binding.activityLoginTitleIv.setImageResource(R.mipmap.login_bg_1);
+//            binding.activityLoginTitleIv.setImageResource(R.mipmap.login_bg_1);
         } else if (type == 1) {
             binding.activityLoginTf2.viewRoundTfLl.setVisibility(View.VISIBLE);
             binding.activityLoginTf2.viewTitleTfCountCaptcha.setVisibility(View.VISIBLE);
@@ -125,7 +121,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             binding.activityLoginRegisterTv.setText("已有账号，去登录");
             binding.activityLoginRegisterTv.setVisibility(View.VISIBLE);
             binding.activityLoginForgetTv.setVisibility(View.GONE);
-            binding.activityLoginTitleIv.setImageResource(R.mipmap.login_bg_2);
+//            binding.activityLoginTitleIv.setImageResource(R.mipmap.login_bg_2);
         } else if (type == 2) {
             binding.activityLoginTf2.viewRoundTfLl.setVisibility(View.VISIBLE);
             binding.activityLoginTf2.viewTitleTfCountCaptcha.setVisibility(View.VISIBLE);
@@ -136,7 +132,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             binding.activityLoginRegisterTv.setText("已有账号，去登录");
             binding.activityLoginRegisterTv.setVisibility(View.VISIBLE);
             binding.activityLoginForgetTv.setVisibility(View.GONE);
-            binding.activityLoginTitleIv.setImageResource(R.mipmap.login_bg_3);
+//            binding.activityLoginTitleIv.setImageResource(R.mipmap.login_bg_3);
         }
     }
     @Override
