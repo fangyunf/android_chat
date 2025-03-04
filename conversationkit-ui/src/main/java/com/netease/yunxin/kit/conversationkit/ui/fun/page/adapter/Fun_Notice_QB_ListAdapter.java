@@ -32,7 +32,7 @@ public class Fun_Notice_QB_ListAdapter extends BaseQuickAdapter<GroupInfoBean, Q
         String contentStr = "";
         
         if ("充值成功".equals(infoBean.statue)) {
-            contentStr = "充值成功,充值"+ NumberUtil.formartMoney(infoBean.amount) +"元到您的余额,账户余额剩余"+NumberUtil.formartMoney(infoBean.balance)+"元";
+            contentStr = "充值成功,充值"+ NumberUtil.formartMoney(infoBean.amount) +"元到您的余额";
         } else if ("充值中".equals(infoBean.statue)) {
             contentStr = "充值中,充值"+NumberUtil.formartMoney(infoBean.amount)+"元";
         } else if ("充值失败".equals(infoBean.statue)) {
@@ -40,9 +40,9 @@ public class Fun_Notice_QB_ListAdapter extends BaseQuickAdapter<GroupInfoBean, Q
         } else if ("提现审核中".equals(infoBean.statue)) {
             contentStr = "发起申请提现操作:提现"+ NumberUtil.formartMoney(infoBean.amount) +"元";
         } else if ("提现成功".equals(infoBean.statue)) {
-            contentStr = "您提现"+ NumberUtil.formartMoney(infoBean.amount)+"元审核通过,账户余额剩余"+ NumberUtil.formartMoney(infoBean.balance) +"元,注意查看银行短信通知";
+            contentStr = "您提现"+ NumberUtil.formartMoney(infoBean.amount)+"元审核通过,注意查看银行短信通知";
         } else if ("提现失败".equals(infoBean.statue)) {
-            contentStr = "您提现"+NumberUtil.formartMoney(infoBean.amount)+"元失败,账户余额剩余"+ NumberUtil.formartMoney(infoBean.balance)+"元";
+            contentStr = "您提现"+NumberUtil.formartMoney(infoBean.amount)+"元失败";
         }
         tv3.setText(contentStr);
     }
