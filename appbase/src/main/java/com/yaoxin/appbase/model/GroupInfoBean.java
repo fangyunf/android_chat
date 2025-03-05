@@ -9,6 +9,7 @@ import java.util.List;
 public class GroupInfoBean {
     public String title;
     public String amount;
+    public String remitAmount;
     public String balance;
     public String money;
     public String payTerm;

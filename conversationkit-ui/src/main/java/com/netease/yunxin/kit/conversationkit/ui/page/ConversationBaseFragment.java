@@ -179,6 +179,11 @@ public abstract class ConversationBaseFragment extends BaseFragment implements I
                           .withContext(ConversationBaseFragment.this.requireContext())
                           .navigate();
                   return true;
+                } else if (targetId.equals(DataUtil.getQianbaoxiaoxiId())) {
+                  XKitRouter.withKey(Constant.QianBaoXiaoxiActivityKey)
+                          .withContext(ConversationBaseFragment.this.requireContext())
+                          .navigate();
+                  return true;
                 }
               }
               boolean result = false;
@@ -208,6 +213,11 @@ public abstract class ConversationBaseFragment extends BaseFragment implements I
                 String targetId = (String) data.param;
                 if (targetId.equals(DataUtil.getXiaoZhuShouId())) {
                   XKitRouter.withKey(Constant.XiaoZhuShouActivityKey)
+                          .withContext(ConversationBaseFragment.this.requireContext())
+                          .navigate();
+                  return true;
+                } else if (targetId.equals(DataUtil.getQianbaoxiaoxiId())) {
+                  XKitRouter.withKey(Constant.QianBaoXiaoxiActivityKey)
                           .withContext(ConversationBaseFragment.this.requireContext())
                           .navigate();
                   return true;
@@ -464,7 +474,7 @@ public abstract class ConversationBaseFragment extends BaseFragment implements I
   private void showStickDialog(BaseBean data) {
     if (data.param != null && DataUtil.getKeFuId() != null) {
       String targetId = (String) data.param;
-      if (targetId.equals(DataUtil.getKeFuId()) || targetId.equals(DataUtil.getXiaoZhuShouId())) {
+      if (targetId.equals(DataUtil.getKeFuId()) || targetId.equals(DataUtil.getXiaoZhuShouId())  || targetId.equals(DataUtil.getQianbaoxiaoxiId()) ) {
         return;
       }
     }

@@ -256,12 +256,15 @@ public class FunConversationFragment extends ConversationBaseFragment {
                   String  kefuId = body.data.toString().replace("\"","");
                   requestKefu(kefuId);
 
-                  String  xiaozhushouId = "10086";
+//                  String  xiaozhushouId = "10086";
+                  String  qianbaoXiaoxiId = "10087";
                   DataUtil.putKeFuId(kefuId);
-                  DataUtil.putXiaoZhuShouId(xiaozhushouId);
+//                  DataUtil.putXiaoZhuShouId(xiaozhushouId);
+                  DataUtil.putQianBaoXiaoXiId(qianbaoXiaoxiId);
 
                   boolean hasKefu = false;
                   boolean hasXiaoZhushou = false;
+                  boolean hasQianBao = false;
 
                   for (ConversationBean tempBean :
                           conversationList) {
@@ -270,19 +273,29 @@ public class FunConversationFragment extends ConversationBaseFragment {
 
                     }
                   }
+//                  for (ConversationBean tempBean :
+//                          conversationList) {
+//                    if (tempBean.infoData.getContactId().equals(xiaozhushouId)) {
+//                      hasXiaoZhushou = true;
+//
+//                    }
+//                  }
                   for (ConversationBean tempBean :
                           conversationList) {
-                    if (tempBean.infoData.getContactId().equals(xiaozhushouId)) {
-                      hasXiaoZhushou = true;
+                    if (tempBean.infoData.getContactId().equals(qianbaoXiaoxiId)) {
+                      hasQianBao = true;
 
                     }
+                  }
+                  if (!hasQianBao) {
+                    sendMessage(qianbaoXiaoxiId);
                   }
                   if (!hasKefu) {
                     sendMessage(kefuId);
                   }
-                  if (!hasXiaoZhushou) {
-                    sendMessage(xiaozhushouId);
-                  }
+//                  if (!hasXiaoZhushou) {
+//                    sendMessage(xiaozhushouId);
+//                  }
                 }
 
                 @Override

@@ -315,6 +315,11 @@ public interface ServiceW {
             @Body RegisterBean userBean
     );
     //  好友列表
+    @POST("/send/queryPayWith")
+    Call<NetData> send_queryPayWith(
+            @Body RegisterBean userBean
+    );
+    //  好友列表
     @POST("/group/groupConsentOrRefuse")
     Call<NetData> group_groupConsentOrRefuse(
             @Body RegisterBean userBean
