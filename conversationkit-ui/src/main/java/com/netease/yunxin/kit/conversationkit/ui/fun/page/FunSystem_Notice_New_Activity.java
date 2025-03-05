@@ -1,5 +1,7 @@
 package com.netease.yunxin.kit.conversationkit.ui.fun.page;
 
+import static com.netease.yunxin.kit.conversationkit.ui.common.ConversationConstant.LIB_TAG;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +11,9 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,10 +21,18 @@ import com.chad.library.adapter4.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.nanchen.wavesidebar.WaveSideBarView;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.msg.MsgService;
+import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
+import com.netease.nimlib.sdk.msg.model.RecentContact;
+import com.netease.yunxin.kit.alog.ALog;
+import com.netease.yunxin.kit.common.ui.viewmodel.FetchResult;
+import com.netease.yunxin.kit.common.ui.viewmodel.LoadStatus;
 import com.netease.yunxin.kit.conversationkit.ui.databinding.ActivityFunSelectedUserBinding;
 import com.netease.yunxin.kit.conversationkit.ui.databinding.ActivitySystemNoticeNew1Binding;
 import com.netease.yunxin.kit.conversationkit.ui.fun.page.adapter.Fun_Selected_UserListAdapter;
 import com.netease.yunxin.kit.conversationkit.ui.page.ConversationBaseFragment;
+import com.netease.yunxin.kit.conversationkit.ui.page.viewmodel.ConversationViewModel;
 import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
 import com.netease.yunxin.kit.corekit.route.XKitRouter;
 import com.yaoxin.appbase.activity.BaseActivity;
@@ -82,6 +95,27 @@ public class FunSystem_Notice_New_Activity extends BaseActivity implements View.
 
                     }
                 });
+
+        List<RecentContact> recentContacts = NIMClient.getService(MsgService.class).queryRecentContactsBlock();
+
+        int singleChatUnreadCount = 0;
+
+        for (RecentContact recentContact : recentContacts) {
+            if (recentContact.getSessionType() == SessionTypeEnum.P2P) {
+                if (recentContact.getContactId().equals(DataUtil.getUserid())) {
+                    // 单聊
+                    singleChatUnreadCount += recentContact.getUnreadCount();
+                }
+            }
+        }
+
+        if (singleChatUnreadCount > 0) {
+            binding.activitySystemNoticeNewQbxxNumTv.setText(singleChatUnreadCount + "");
+            binding.activitySystemNoticeNewQbxxNumTv.setVisibility(View.VISIBLE);
+        } else {
+            binding.activitySystemNoticeNewQbxxNumTv.setVisibility(View.GONE);
+        }
+
     }
     @Override
     protected void onDestroy() {
@@ -113,6 +147,7 @@ public class FunSystem_Notice_New_Activity extends BaseActivity implements View.
                     .withContext(this)
                     .navigate();
         }  else if (view == binding.activitySystemNoticeNewQbxxLl){
+            NIMClient.getService(MsgService.class).clearUnreadCount(DataUtil.getUserid(), SessionTypeEnum.P2P);
             FunSystem_Notice_New_QianBao_Activity.start(FunSystem_Notice_New_QianBao_Activity.class,this,null);
 //            XKitRouter.withKey(Constant.XiaoZhuShouActivityKey)
 

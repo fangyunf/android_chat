@@ -203,4 +203,12 @@
             android:layout_height="wrap_content"
             tools:ignore="MissingConstraints" />
     </LinearLayout>
+    <View
+        android:visibility="gone"
+        android:id="@+id/fun_conversation_fragment_test"
+        android:layout_marginTop="100dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@color/app_theme_color"
+        />
 </RelativeLayout>

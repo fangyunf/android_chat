@@ -51,6 +51,7 @@ import com.netease.yunxin.kit.corekit.im.IMKitClient;
 import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
 import com.netease.yunxin.kit.corekit.route.XKitRouter;
 import com.sunfusheng.marqueeview.IMarqueeItem;
+import com.yaoxin.appbase.BuildConfig;
 import com.yaoxin.appbase.model.GroupInfoBean;
 import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.RegisterBean;
@@ -121,6 +122,15 @@ public class FunConversationFragment extends ConversationBaseFragment {
     }, 1500);
     EventBus.getDefault().register(this);
     searchWord();
+//    if (BuildConfig.DEBUG) {
+//      viewBinding.funConversationFragmentTest.setVisibility(View.VISIBLE);
+//      viewBinding.funConversationFragmentTest.setOnClickListener(new View.OnClickListener() {
+//        @Override
+//        public void onClick(View view) {
+//          sendTestMessage(DataUtil.getUserid());
+//        }
+//      });
+//    }
     return viewBinding.getRoot();
   }
 
@@ -362,6 +372,41 @@ public class FunConversationFragment extends ConversationBaseFragment {
       public void onSuccess(Void param) {
         NIMClient.getService(MsgService.class).clearChattingHistory(account,SessionTypeEnum.P2P);
 //        NIMClient.getService(MsgService.class).clearServerHistory(account,SessionTypeEnum.P2P);
+        // 保存成功
+      }
+
+      @Override
+      public void onFailed(int code) {
+        // 保存失败
+      }
+
+      @Override
+      public void onException(Throwable exception) {
+        // 保存异常
+      }
+    });
+  }
+  private void sendTestMessage(String account) {
+    // 自定义消息内容
+//    Map<String, Object> content = new HashMap<>();
+//    content.put("type", "custom");
+//    content.put("data", "这是自定义会话记录的内容");
+
+    // 设置自定义消息配置
+    CustomMessageConfig config = new CustomMessageConfig();
+    config.enableUnreadCount = true; // 自定义消息不计入未读数
+
+    // 构建自定义消息
+    IMMessage message = MessageBuilder.createCustomMessage(account, SessionTypeEnum.P2P, null,
+            null, config, null);
+
+
+    message.setConfig(config);
+
+    // 保存自定义消息
+    NIMClient.getService(MsgService.class).saveMessageToLocal(message, true).setCallback(new RequestCallback<Void>() {
+      @Override
+      public void onSuccess(Void param) {
         // 保存成功
       }
 
