@@ -17,6 +17,7 @@ public class CustomMsgBean {
     public String receiveUserId;
     public int type;
     public String amount;
+    public String msg;
     public String createTime;
     public String fromUserId;
     public String id;

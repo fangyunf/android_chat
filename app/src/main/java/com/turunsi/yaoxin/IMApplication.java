@@ -85,6 +85,7 @@ import com.yaoxin.appbase.model.CustomMsgBean;
 import com.yaoxin.appbase.utils.AppProxy;
 import com.yaoxin.appbase.utils.BaseEvent;
 import com.yaoxin.appbase.utils.DataUtil;
+import com.yaoxin.appbase.utils.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -195,6 +196,11 @@ public class IMApplication extends MultiDexApplication {
                                     BaseEvent baseEvent = new BaseEvent("egg_open_notice");
                                     baseEvent.customMsgBean = msgBean;
                                     EventBus.getDefault().post(baseEvent);
+                                } else if (msgBean.type == 18) {
+                                    ToastUtils.toastMsg(msgBean.msg);
+//                                    BaseEvent baseEvent = new BaseEvent("egg_open_notice");
+//                                    baseEvent.customMsgBean = msgBean;
+//                                    EventBus.getDefault().post(baseEvent);
                                 }
                             }
                             // 根据需要处理通知内容
