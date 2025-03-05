@@ -355,7 +355,7 @@ public class MessageBottomLayout extends FrameLayout
         });
     mBinding.inputEt.setOnEditorActionListener(
         (v, actionId, event) -> {
-          if (actionId == EditorInfo.IME_ACTION_SEND) {
+          if (actionId == EditorInfo.IME_ACTION_SEND || actionId == 0) {
             sendText(replyMessage);
           }
           return true;
