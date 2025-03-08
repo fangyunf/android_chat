@@ -17,6 +17,7 @@
         android:id="@+id/fun_chat_message_red_packet_view_holder_bg_iv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:scaleType="fitXY"
         android:src="@drawable/chat_red_packet_cell_bg_no_open_left"
         />
 
@@ -62,7 +63,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="红包"
-                android:textColor="@color/color_999999"
+                android:textColor="@color/color_white"
                 android:textSize="11sp"
                 android:layout_weight="1"
                 />
@@ -71,7 +72,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="2023-11-08 19:20:30"
-                android:textColor="@color/color_999999"
+                android:textColor="@color/color_white"
                 android:textSize="10sp"
                 />
         </LinearLayout>
