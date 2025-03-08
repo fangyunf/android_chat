@@ -85,6 +85,14 @@
             android:name=".fun.page.FunRedPacketRecordListActivity"
             android:screenOrientation="portrait"
              />
+        <activity
+            android:name=".fun.page.FunZhuanZhangResultActivity"
+            android:screenOrientation="portrait"
+             />
+        <activity
+            android:name=".fun.page.FunSendZhuanZhangActivity"
+            android:screenOrientation="portrait"
+             />
 
         <activity
             android:name=".fun.page.FunRedPacketResultActivity"
