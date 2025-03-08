@@ -101,11 +101,14 @@ public class ChatPopActionFactory {
                     || message.getViewType() == ChatMessageType.RICH_TEXT_ATTACHMENT) {
 //                actions.add(getTransmitAction(message));
                 actions.add(getCopyAction(message));
+                actions.add(getTransmitAction(message));
                 actions.add(getCollectionAction(message));
+
             }
 //      actions.add(getReplyAction(message));
             if (message.getViewType() == MsgTypeEnum.image.getValue()) {
                 actions.add(getCollectionAction(message));
+                actions.add(getTransmitAction(message));
             }
 //      actions.add(getPinAction(message));
             actions.add(getDeleteAction(message));
