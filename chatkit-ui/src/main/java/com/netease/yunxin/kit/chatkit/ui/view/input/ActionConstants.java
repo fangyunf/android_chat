@@ -12,6 +12,7 @@ public class ActionConstants {
   // input view album action
   public static final String ACTION_TYPE_ALBUM = "ACTION_TYPE_ALBUM";
   // input view file action
+  public static final String ACTION_TYPE_ZHUAN_ZHANG = "ACTION_TYPE_ZHUAN_ZHANG";
   public static final String ACTION_TYPE_FILE = "ACTION_TYPE_FILE";
   public static final String ACTION_TYPE_SHOPPING_COUPON = "ACTION_TYPE_SHOPPING_COUPON";
   public static final String ACTION_TYPE_MING_PIAN = "ACTION_TYPE_MingPian";

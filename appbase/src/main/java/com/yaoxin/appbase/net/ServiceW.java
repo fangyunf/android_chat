@@ -68,6 +68,11 @@ public interface ServiceW {
     Call<NetData> friends_appFriendApplyEd(
             @Body RegisterBean userBean
     );
+
+    @POST("/red/zz")
+    Call<NetData> red_zz(
+            @Body RegisterBean userBean
+    );
     @POST("/friends/updateRemark")
     Call<NetData> friends_updateRemark(
             @Body RegisterBean userBean

@@ -88,6 +88,9 @@ public class FunChatViewHolderFactory extends ChatMessageViewHolderFactory
             if (msgBean.type == 526) {
               return 526;
             }
+            if (msgBean.type == 28) {
+              return 28;
+            }
           } catch (Exception exception) {
 
           }
