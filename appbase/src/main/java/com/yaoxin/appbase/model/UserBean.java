@@ -7,6 +7,7 @@ public class UserBean {
      *
      * */
     public String userName;
+    public String h5_qrurl;
     public String phoneFix;
     public String inviteName;
     public String usdt;

@@ -28,6 +28,11 @@ import retrofit2.http.Query;
 public interface ServiceW {
 
 
+    //  好友列表
+    @POST("/pay/yPay")
+    Call<NetData> pay_yPay(
+            @Body RequestParamsBean userBean
+    );
     @POST("pass/user/v1/login")
     Call<NetData<UserBean>> login(
             @Body UserBean userBean
