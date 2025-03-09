@@ -14,7 +14,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-
     <com.yaoxin.appbase.navbar.NavToolbar
 
         android:id="@+id/activity_system_notice_new_1_qb_nav"
@@ -28,6 +27,97 @@
         app:under_divider_color="@color/transparent"
 
         />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:paddingHorizontal="40dp"
+        android:background="@color/color_white"
+        android:layout_height="40dp">
+
+        <RelativeLayout
+            android:id="@+id/activity_system_notice_new_1_qb_swith_rl_1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/activity_system_notice_new_1_qb_swith_rl_1_tv"
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="充值"
+                android:textColor="@color/color_333333"
+                android:textSize="14sp"
+                android:gravity="center"
+                android:layout_gravity="center"
+                />
+            <View
+                android:id="@+id/activity_system_notice_new_1_qb_swith_rl_1_iv"
+                android:layout_width="20dp"
+                android:layout_height="4dp"
+                android:background="@color/app_theme_color"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/activity_system_notice_new_1_qb_swith_rl_2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/activity_system_notice_new_1_qb_swith_rl_2_tv"
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="提现"
+                android:textColor="@color/color_333333"
+                android:textSize="14sp"
+                android:gravity="center"
+                android:layout_gravity="center"
+                />
+            <View
+                android:visibility="gone"
+                android:id="@+id/activity_system_notice_new_1_qb_swith_rl_2_iv"
+                android:layout_width="20dp"
+                android:layout_height="4dp"
+                android:background="@color/app_theme_color"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/activity_system_notice_new_1_qb_swith_rl_3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/activity_system_notice_new_1_qb_swith_rl_3_tv"
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="小助手"
+                android:textColor="@color/color_333333"
+                android:textSize="14sp"
+                android:gravity="center"
+                android:layout_gravity="center"
+                />
+            <View
+                android:visibility="gone"
+                android:id="@+id/activity_system_notice_new_1_qb_swith_rl_3_iv"
+                android:layout_width="20dp"
+                android:layout_height="4dp"
+                android:background="@color/app_theme_color"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                />
+        </RelativeLayout>
+    </LinearLayout>
     <com.scwang.smart.refresh.layout.SmartRefreshLayout
         android:id="@+id/activity_system_notice_new_1_qb_sml"
         android:layout_width="match_parent"

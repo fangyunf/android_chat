@@ -97,6 +97,7 @@
         />
 </LinearLayout>
 <LinearLayout
+    android:visibility="gone"
     android:id="@+id/activity_system_notice_new_xzs_ll"
     android:layout_width="match_parent"
     android:layout_marginTop="10dp"

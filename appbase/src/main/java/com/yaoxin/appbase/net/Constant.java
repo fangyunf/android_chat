@@ -31,6 +31,7 @@ public class Constant {
     public static final String CollectionListActivityKey = "CollectionListActivityKey";
     public static final String BaseWebViewActivityKey = "BaseWebViewActivityKey";
     public static final String XiaoZhuShouActivityKey = "XiaoZhuShouActivityKey";
+    public static final String QianBaoXiaoxiActivityKey = "QianBaoXiaoxiActivityKey";
     public static final int RC_PHOTO_PICKER_PERM = 123;
     public static final int RC_PHOTO_CAMERA_PERM = 124;
     public static final int REQUEST_CODE_CHOOSE = 23;

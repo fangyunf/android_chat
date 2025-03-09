@@ -46,6 +46,7 @@ public class RegisterBean {
     public String alias;
     public String remark;
     public String pageNo;
+    public int pageSize;
     public String page;
     public String userId;
     public String groupId;

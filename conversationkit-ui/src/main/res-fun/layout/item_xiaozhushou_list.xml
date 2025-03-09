@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="162dp"
+    android:background="@drawable/bg_f2f2f2_rounded_10"
+    android:layout_marginHorizontal="15dp"
+    android:gravity="center_vertical"
+    android:layout_marginTop="@dimen/dimen_8_dp"
+    
+    >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_marginLeft="15dp"
+        >
+        <TextView
+            android:id="@+id/item_xiaozhushou_list_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="22dp"
+            android:text="提现成功"
+            android:textColor="#ff000000"
+            android:textSize="16sp"
+            />
+        <TextView
+            android:id="@+id/item_xiaozhushou_list_money_title_tv"
+            android:layout_marginTop="11dp"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:text="金额"
+            android:textColor="#ff888888"
+            android:textSize="14sp"
+            />
+
+        <TextView
+            android:id="@+id/item_xiaozhushou_list_money_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="42dp"
+            android:text="¥0.00"
+            android:textColor="@color/app_theme_color"
+            android:textSize="30sp"
+            />
+    </LinearLayout>
+    
+    <View
+        android:layout_width="1dp"
+        android:layout_height="100dp"
+        android:layout_marginLeft="20dp"
+        android:background="#C0C0C0"
+        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginLeft="20dp"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/item_xiaozhushou_list_tyle1_title_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:text="收款方式"
+                android:textColor="#888888"
+                android:textSize="14sp"
+                />
+            <TextView
+                android:id="@+id/item_xiaozhushou_list_tyle1_detail_tv"
+                android:layout_marginLeft="@dimen/dimen_10_dp"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:text=" 银行"
+                android:textColor="#ff000000"
+                android:textSize="14sp"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="@dimen/dimen_6_dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/item_xiaozhushou_list_tyle2_title_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:text="交易状态"
+                android:textColor="#888888"
+                android:textSize="14sp"
+                />
+            <TextView
+                android:id="@+id/item_xiaozhushou_list_tyle2_detail_tv"
+
+                android:layout_marginLeft="@dimen/dimen_10_dp"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:text=" 银行"
+                android:textColor="#ff000000"
+                android:textSize="14sp"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="@dimen/dimen_6_dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/item_xiaozhushou_list_tyle3_title_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:text="申请时间"
+                android:textColor="#888888"
+                android:textSize="14sp"
+                />
+            <TextView
+                android:layout_marginLeft="@dimen/dimen_10_dp"
+
+                android:id="@+id/item_xiaozhushou_list_time_tv"
+                android:layout_alignParentEnd="true"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:text="2023-03-09 12:17:09"
+                android:textColor="#ff000000"
+                android:textSize="14sp"
+                />
+        </LinearLayout>
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+    </RelativeLayout>
+
+
+
+</LinearLayout>

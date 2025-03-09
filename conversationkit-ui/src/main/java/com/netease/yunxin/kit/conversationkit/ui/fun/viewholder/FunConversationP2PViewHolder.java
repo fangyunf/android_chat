@@ -47,6 +47,14 @@ public class FunConversationP2PViewHolder extends FunConversationBaseViewHolder 
               data.infoData.getAvatarName(),
               AvatarColor.avatarColor(data.infoData.getContactId()));
       viewBinding.nameTv.setText(name);
+    } else if (data.param.equals(DataUtil.getQianbaoxiaoxiId())) {
+
+      String name = "钱包消息";
+      viewBinding.avatarView.setData(
+              com.yaoxin.appbase.R.mipmap.app_default_base_icon_xiaozhushou,
+              data.infoData.getAvatarName(),
+              AvatarColor.avatarColor(data.infoData.getContactId()));
+      viewBinding.nameTv.setText(name);
     } else {
 //      https://ao/defaultAvatar/8.png
 
@@ -86,8 +94,11 @@ public class FunConversationP2PViewHolder extends FunConversationBaseViewHolder 
         layoutParams.height = 0;
       }
     }
+    if (data.param.equals(DataUtil.getUserid())) {
+      layoutParams.height = 0;
+    }
 
-    viewBinding.rootLayout.setLayoutParams(layoutParams);
+      viewBinding.rootLayout.setLayoutParams(layoutParams);
 //    viewBinding.rootLayout.setBackground(viewBinding.rootLayout.getContext().getDrawable(com.yaoxin.appbase.R.drawable.bg_white_rounded_12));
 //    ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) viewBinding.rootLayout.getLayoutParams();
 //    if (data.param.equals(DataUtil.getUserid()) || AppProxy.getInstance().showType == 2) {
