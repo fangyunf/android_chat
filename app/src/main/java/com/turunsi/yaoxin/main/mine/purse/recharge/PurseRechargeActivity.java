@@ -97,8 +97,8 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
         adpter1 = new Recharge_PayType_Adpter();
         List<String> list1 = new ArrayList<>();
         list1.add("支付宝");
-        list1.add("微信");
-        list1.add("银行卡");
+//        list1.add("微信");
+//        list1.add("银行卡");
 //        list1.add("USDT");
         adpter1.setItems(list1);
         adpter1.payType = "支付宝";
