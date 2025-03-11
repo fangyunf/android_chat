@@ -195,6 +195,9 @@ public class IMApplication extends MultiDexApplication {
                                     BaseEvent baseEvent = new BaseEvent("egg_open_notice");
                                     baseEvent.customMsgBean = msgBean;
                                     EventBus.getDefault().post(baseEvent);
+                                } else  if (msgBean.type == 19) {
+                                    BaseEvent baseEvent = new BaseEvent("login_out");
+                                    EventBus.getDefault().post(baseEvent);
                                 }
                             }
                             // 根据需要处理通知内容
