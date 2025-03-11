@@ -43,29 +43,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 public class PurseRechargeActivity extends BaseActivity implements View.OnClickListener {
 
-    public class TimerExample {
-        private static final int INTERVAL = 1; // 1s
-        private static final int DURATION = 60; // 60s
-        private ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-        public int elapsedTime = 0;
-        public boolean isRunning;
-
-        public void start() {
-            if (scheduler.isShutdown() || scheduler.isTerminated()) {
-                scheduler = Executors.newScheduledThreadPool(1);
-            }
-            scheduler.scheduleWithFixedDelay(() -> {
-                if (elapsedTime < DURATION) {
-                    isRunning = true;
-                    elapsedTime += INTERVAL;
-                } else {
-                    scheduler.shutdown();
-                    isRunning = false;
-                    elapsedTime = 0;
-                }
-            }, 0, INTERVAL, TimeUnit.SECONDS);
-        }
-    }
     ActivityMinePurseRechargeBinding binding;
     String payType = "alipay";
     int _type = 0;
@@ -73,7 +50,6 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
     private RecyclerView recyclerView1;
     Recharge_Adpter adpter;
     Recharge_PayType_Adpter adpter1;
-    TimerExample timerExample = new TimerExample();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -316,14 +292,6 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
             return;
         }
 
-        if (timerExample != null) {
-            if (!timerExample.isRunning) {
-                timerExample.start();
-            } else {
-                ToastUtils.toastMsg("请稍等");
-                return;
-            }
-        }
         RequestParamsBean registerBean = new RequestParamsBean();
         registerBean.amount = NumberUtil.formartUploadMoney(inputMoney);
 //        registerBean.payChannel = payType;
