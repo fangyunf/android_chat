@@ -133,6 +133,7 @@
                     app:textColor="@color/white"
                     />
             <com.yaoxin.appbase.view.IconTitleArrowTemplate
+                android:visibility="gone"
                 android:id="@+id/activity_mine_purse_index_bdwx"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -151,6 +152,7 @@
                 app:titleText="绑定支付宝"
                 />
             <com.yaoxin.appbase.view.IconTitleArrowTemplate
+                android:visibility="gone"
                 android:id="@+id/activity_mine_purse_index_wdkb"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
