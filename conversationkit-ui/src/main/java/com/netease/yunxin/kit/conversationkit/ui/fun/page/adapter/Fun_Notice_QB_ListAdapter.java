@@ -34,11 +34,11 @@ public class Fun_Notice_QB_ListAdapter extends BaseQuickAdapter<GroupInfoBean, Q
         String contentStr = "";
         if (type == 0) {
             if (infoBean.state == 1) {
-                contentStr = "成功充值"+ infoBean.amount +"元到您的余额";
+                contentStr = "成功充值"+ NumberUtil.formartMoney(infoBean.amount) +"元到您的余额";
             } else if (infoBean.state == 0) {
-                contentStr = "充值中, 充值"+ infoBean.amount +"元";
+                contentStr = "充值中, 充值"+ NumberUtil.formartMoney(infoBean.amount) +"元";
             } else {
-                contentStr = "充值"+ infoBean.amount +"元失败";
+                contentStr = "充值"+ NumberUtil.formartMoney(infoBean.amount) +"元失败";
             }
         } else {
             if (infoBean.state == 0) {
