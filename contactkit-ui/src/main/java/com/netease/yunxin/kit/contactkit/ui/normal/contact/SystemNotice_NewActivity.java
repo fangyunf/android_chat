@@ -15,6 +15,7 @@ import com.yaoxin.appbase.model.GroupInfoBean;
 import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
+import com.yaoxin.appbase.utils.DataUtil;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -48,6 +49,7 @@ public class SystemNotice_NewActivity extends BaseActivity implements View.OnCli
                         List<GroupInfoBean> tempList = new Gson().fromJson(body.data.toString(), type);
                         adapter.setItems(tempList);
                         adapter.notifyDataSetChanged();
+                        DataUtil.setStringValue(tempList.size() + "" , "system_notice_size");
                     }
 
                     @Override

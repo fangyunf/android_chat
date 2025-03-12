@@ -168,7 +168,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
             rechargeMoney(inputMoney);
         } else if (v == binding.activityMinePurseRechargeMoney100) {
 //            rechargeMoney("100");
-            binding.activityMinePurseRechargeEt.setText("100");
+            binding.activityMinePurseRechargeEt.setText("200");
         } else if (v == binding.activityMinePurseRechargeMoney300) {
 //            rechargeMoney("300");
             binding.activityMinePurseRechargeEt.setText("300");

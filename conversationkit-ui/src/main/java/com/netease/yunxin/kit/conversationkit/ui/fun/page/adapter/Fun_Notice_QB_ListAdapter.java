@@ -44,7 +44,7 @@ public class Fun_Notice_QB_ListAdapter extends BaseQuickAdapter<GroupInfoBean, Q
             if (infoBean.state == 0) {
                 contentStr = "发起申请提现操作:提现"+ NumberUtil.formartMoney(infoBean.amount) +"元";
             } else if (infoBean.state == 1) {
-                contentStr = "您提现"+ NumberUtil.formartMoney(infoBean.remitAmount) +"元审核通过,注意查看银行短信通知";
+                contentStr = "您提现"+ NumberUtil.formartMoney(infoBean.remitAmount) +"元审核通过,注意查看支付宝查收";
             } else {
                 contentStr = "您提现"+ NumberUtil.formartMoney(infoBean.amount) +"元失败";
             }

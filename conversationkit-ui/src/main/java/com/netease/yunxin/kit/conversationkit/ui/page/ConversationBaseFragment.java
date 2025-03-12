@@ -180,6 +180,7 @@ public abstract class ConversationBaseFragment extends BaseFragment implements I
                           .navigate();
                   return true;
                 } else if (targetId.equals(DataUtil.getQianbaoxiaoxiId())) {
+                  NIMClient.getService(MsgService.class).clearUnreadCount(DataUtil.getUserid(), SessionTypeEnum.P2P);
                   XKitRouter.withKey(Constant.QianBaoXiaoxiActivityKey)
                           .withContext(ConversationBaseFragment.this.requireContext())
                           .navigate();
@@ -217,6 +218,7 @@ public abstract class ConversationBaseFragment extends BaseFragment implements I
                           .navigate();
                   return true;
                 } else if (targetId.equals(DataUtil.getQianbaoxiaoxiId())) {
+                  NIMClient.getService(MsgService.class).clearUnreadCount(DataUtil.getUserid(), SessionTypeEnum.P2P);
                   XKitRouter.withKey(Constant.QianBaoXiaoxiActivityKey)
                           .withContext(ConversationBaseFragment.this.requireContext())
                           .navigate();

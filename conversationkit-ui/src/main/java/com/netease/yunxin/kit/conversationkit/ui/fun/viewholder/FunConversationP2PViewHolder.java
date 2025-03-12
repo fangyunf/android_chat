@@ -8,6 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.msg.MsgService;
+import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
+import com.netease.nimlib.sdk.msg.model.RecentContact;
 import com.netease.yunxin.kit.common.ui.utils.AvatarColor;
 import com.netease.yunxin.kit.common.utils.SizeUtils;
 import com.netease.yunxin.kit.conversationkit.ui.R;
@@ -48,7 +53,23 @@ public class FunConversationP2PViewHolder extends FunConversationBaseViewHolder 
               AvatarColor.avatarColor(data.infoData.getContactId()));
       viewBinding.nameTv.setText(name);
     } else if (data.param.equals(DataUtil.getQianbaoxiaoxiId())) {
+      List<RecentContact> recentContacts = NIMClient.getService(MsgService.class).queryRecentContactsBlock();
+      int singleChatUnreadCount = 0;
 
+      for (RecentContact recentContact : recentContacts) {
+        if (recentContact.getSessionType() == SessionTypeEnum.P2P) {
+          if (recentContact.getContactId().equals(DataUtil.getUserid())) {
+            // 单聊
+            singleChatUnreadCount += recentContact.getUnreadCount();
+          }
+        }
+      }
+      if (singleChatUnreadCount > 0) {
+        viewBinding.unreadTv.setText(singleChatUnreadCount + "");
+        viewBinding.unreadTv.setVisibility(View.VISIBLE);
+      } else {
+        viewBinding.unreadTv.setVisibility(View.GONE);
+      }
       String name = "钱包消息";
       viewBinding.avatarView.setData(
               com.yaoxin.appbase.R.mipmap.app_default_base_icon_xiaozhushou,

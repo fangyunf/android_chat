@@ -33,6 +33,7 @@ import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.CustomMessageConfig;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
+import com.netease.nimlib.sdk.msg.model.RecentContact;
 import com.netease.yunxin.kit.chatkit.model.ConversationInfo;
 import com.netease.yunxin.kit.common.ui.widgets.ContentListPopView;
 import com.netease.yunxin.kit.common.ui.widgets.TitleBarView;
@@ -143,6 +144,52 @@ public class FunConversationFragment extends ConversationBaseFragment {
       conversationView.adapter.notifyDataSetChanged();
     }
 
+    HttpUtil.apiW().customer_noticeList()
+            .enqueue(new CommonCallback<NetData>() {
+              @Override
+              public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                Type type = new TypeToken<List<GroupInfoBean>>() {}.getType();
+                List<GroupInfoBean> tempList = new Gson().fromJson(body.data.toString(), type);
+                boolean hasUnReadNotice = false;
+                boolean hasUnReadQBNotice = false;
+                if (!tempList.isEmpty()) {
+                  String systemNoticeSize = DataUtil.getStringValue("system_notice_size");
+
+                  if (systemNoticeSize == null) {
+                    hasUnReadNotice = true;
+                  } else {
+                    if (Integer.parseInt(systemNoticeSize) != tempList.size()) {
+                      hasUnReadNotice = true;
+                    }
+                  }
+                }
+                List<RecentContact> recentContacts = NIMClient.getService(MsgService.class).queryRecentContactsBlock();
+
+                int singleChatUnreadCount = 0;
+
+                for (RecentContact recentContact : recentContacts) {
+                  if (recentContact.getSessionType() == SessionTypeEnum.P2P) {
+                    if (recentContact.getContactId().equals(DataUtil.getUserid())) {
+                      // 单聊
+                      singleChatUnreadCount += recentContact.getUnreadCount();
+                    }
+                  }
+                }
+                if (singleChatUnreadCount > 0) {
+                  hasUnReadQBNotice = true;
+                }
+                if (hasUnReadNotice || hasUnReadQBNotice) {
+                  viewBinding.funConversationFragmentNoticeDot.setVisibility(View.VISIBLE);
+                } else {
+                  viewBinding.funConversationFragmentNoticeDot.setVisibility(View.GONE);
+                }
+              }
+
+              @Override
+              public void Failure(Call<NetData> call, Throwable t) {
+
+              }
+            });
 
   }
 
@@ -313,6 +360,7 @@ public class FunConversationFragment extends ConversationBaseFragment {
 
                 }
               });
+
   }
   void requestKefu(String kefuId) {
     RegisterBean bean = new RegisterBean();

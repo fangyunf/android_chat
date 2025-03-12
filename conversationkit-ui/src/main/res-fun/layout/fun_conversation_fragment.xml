@@ -42,12 +42,21 @@
                     android:gravity="center_vertical"
                     android:paddingRight="10dp"
                     android:layout_height="match_parent">
-                    <ImageView
-                        android:id="@+id/fun_conversation_fragment_search_iv"
-                        android:layout_marginHorizontal="10dp"
-                        android:src="@mipmap/conversation_list_index_notice_icon"
+                    <RelativeLayout
                         android:layout_width="25dp"
-                        android:layout_height="25dp"/>
+                        android:layout_height="25dp">
+                        <ImageView
+                            android:id="@+id/fun_conversation_fragment_search_iv"
+                            android:src="@mipmap/conversation_list_index_notice_icon"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"/>
+                        <View android:id="@+id/fun_conversation_fragment_notice_dot"
+                            android:layout_width="6dp"
+                            android:visibility="gone"
+                            android:layout_height="6dp"
+                            android:layout_alignParentEnd="true"
+                            android:background="@drawable/bg_conversation_red_dot"/>
+                    </RelativeLayout>
                     <TextView
                         android:id="@+id/fun_conversation_fragment_title_tv"
                         android:layout_width="0dp"

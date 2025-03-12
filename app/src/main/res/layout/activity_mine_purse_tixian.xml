@@ -120,10 +120,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:layout_marginStart="15dp"
-            android:text="注：\n
-1, 提现费率0.06外加单笔2元，最低提现30起步\n
-2, 充值时间24小时，提现早9点到晚24点\n
-3, 提现金额必须是整数，到帐时间2小时左右\n"
+            android:text="充值/提现说明：
+\n1.支付宝充值提现最低200起步
+\n2.充值提现时间上午8点到晚上22点
+\n3.充值未到账及时联系客服
+\n4提现手续费为0.6加2元手续费"
             android:textColor="#999999"
             android:textSize="14sp"
             />

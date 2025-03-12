@@ -122,7 +122,7 @@
                     android:layout_width="0dp"
                     android:layout_height="53dp"
                     android:layout_weight="1"
-                    android:text="100"
+                    android:text="200"
                     android:textColor="@color/black"
                     android:background="@drawable/bg_f2f2f2_rounded_4"
                     android:gravity="center"
@@ -285,7 +285,7 @@
             android:layout_marginTop="@dimen/dimen_20_dp"
             android:layout_width="wrap_content"
             android:layout_height="64dp"
-            android:text="充值说明：\n1.充值实时到账\n2.充值未到账情况联系客服处理"
+            android:text="充值说明：\n1.支付宝充值提现最低200起步\n2.充值提现时间上午8点到晚上22点\n3.充值未到账及时联系客服"
             android:textColor="#999999"
             android:textSize="14sp"
             />
