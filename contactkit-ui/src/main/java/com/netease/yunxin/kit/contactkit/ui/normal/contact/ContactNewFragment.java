@@ -150,6 +150,7 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
                                 return firstLetter.compareTo(secondLetter);
                             }
                         });
+                        binding.contactNewFragmentFriendCountTv.setText("好友(" + mContactModels.size() + "人)");
                         DataUtil.setFriendInfoList(mContactModels);
                         adapter.contacts = mContactModels;
                         if (_selectIndex == 0) {

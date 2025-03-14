@@ -14,6 +14,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -213,6 +214,7 @@ public class MessageBottomLayout extends FrameLayout
     String msgString = DataUtil.getStringValue(userid + sessionId + "input");
     if (msgString != null && !msgString.isEmpty()) {
      mBinding.inputEt.setText(msgString);
+      mBinding.funChatMessageBottomViewSendTv.setVisibility(mBinding.inputEt.getText().length() == 0 ? GONE : VISIBLE);
     }
     }
 }, 1000); // 延时1000毫秒，即1秒
@@ -346,6 +348,7 @@ public class MessageBottomLayout extends FrameLayout
     // input view
     mBinding.inputEt.addTextChangedListener(msgInputTextWatcher);
 
+    mBinding.funChatMessageBottomViewSendTv.setOnClickListener(v -> sendText(replyMessage));
     mBinding.inputEt.setOnTouchListener(
         (v, event) -> {
           if (event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -355,8 +358,14 @@ public class MessageBottomLayout extends FrameLayout
         });
     mBinding.inputEt.setOnEditorActionListener(
         (v, actionId, event) -> {
-          if (actionId == EditorInfo.IME_ACTION_SEND || actionId == 0) {
+          if (actionId == EditorInfo.IME_ACTION_SEND) {
             sendText(replyMessage);
+          } else if (actionId == 0) {
+            int cursorPosition = mBinding.inputEt.getSelectionStart();
+            String text = mBinding.inputEt.getText().toString();
+            String newText = text.substring(0, cursorPosition) + "\n" + text.substring(cursorPosition);
+            mBinding.inputEt.setText(newText);
+            mBinding.inputEt.setSelection(cursorPosition + 1);
           }
           return true;
         });
@@ -422,6 +431,9 @@ public class MessageBottomLayout extends FrameLayout
 
         @Override
         public void afterTextChanged(Editable s) {
+
+          String value = s.toString();
+          mBinding.funChatMessageBottomViewSendTv.setVisibility(mBinding.inputEt.getText().length() == 0 ? GONE : VISIBLE);
           if (!canRender) {
             canRender = true;
             return;
@@ -441,7 +453,6 @@ public class MessageBottomLayout extends FrameLayout
           }
           String userid = DataUtil.getUserid();
           String sessionId = mProxy.getSessionId();
-          String value = s.toString();
 
           DataUtil.putKeyValue(userid + sessionId + "input",value);
         }
@@ -449,6 +460,7 @@ public class MessageBottomLayout extends FrameLayout
 
   public void clearInputEditTextChange() {
     mBinding.inputEt.removeTextChangedListener(msgInputTextWatcher);
+    mBinding.funChatMessageBottomViewSendTv.setVisibility(mBinding.inputEt.getText().length() == 0 ? GONE : VISIBLE);
   }
 
   public void sendText(ChatMessageBean replyMessage) {
@@ -483,6 +495,7 @@ public class MessageBottomLayout extends FrameLayout
         }
       }
     }
+    mBinding.funChatMessageBottomViewSendTv.setVisibility(mBinding.inputEt.getText().length() == 0 ? GONE : VISIBLE);
   }
 
   public void clearInput() {

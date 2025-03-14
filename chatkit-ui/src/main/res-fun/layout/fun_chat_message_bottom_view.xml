@@ -217,7 +217,7 @@
             <RelativeLayout
 
                 android:layout_marginStart="@dimen/dimen_46_dp"
-                android:layout_width="@dimen/dimen_32_dp"
+                android:layout_width="44dp"
                 android:layout_height="44dp"
                 >
                 <RadioButton
@@ -229,6 +229,18 @@
                     android:button="@null"
                     android:checked="false"
                     android:clickable="false" />
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/fun_chat_message_bottom_view_send_tv"
+                    android:layout_centerInParent="true"
+                    android:layout_width="50dp"
+                    android:layout_height="30dp"
+                    android:text="发送"
+                    android:textSize="14sp"
+                    android:background="@drawable/bg_app_theme_color_rounded_10"
+                    android:gravity="center"
+                    android:textColor="@color/color_white"
+                    />
             </RelativeLayout>
 
 
