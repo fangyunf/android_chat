@@ -134,7 +134,7 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
                         mContactModels = new Gson().fromJson(body.data.toString(), type);
                         for (GroupInfoBean tempBean :
                                 mContactModels) {
-                            if (tempBean.userId.equals(DataUtil.getKeFuId())) {
+                            if (tempBean == null || tempBean.userId.equals(DataUtil.getKeFuId())) {
                                 mContactModels.remove(tempBean);
                                 break;
                             }
