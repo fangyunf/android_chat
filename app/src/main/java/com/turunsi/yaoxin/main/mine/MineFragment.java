@@ -347,8 +347,8 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         } else if (v == binding.fragmentMineTcdlView) {
             showLogin();
         } else if (v == binding.fragmentMineHyzxView || v == binding.fragmentMineGotoUpgradeTv) {
-            MyHuiYuanListActivity.start(MyHuiYuanListActivity.class,context,null);
-
+//            MyHuiYuanListActivity.start(MyHuiYuanListActivity.class,context,null);
+            DownLoadActivity.start(DownLoadActivity.class,getContext(),null);
 //            Activity that = getActivity();
 //
 //            if ("1".equals(DataUtil.getUserInfo().hy)) {

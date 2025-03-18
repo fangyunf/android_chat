@@ -78,7 +78,7 @@ public class MessageHelper {
   private static final String TAG = "MessageUtil";
 
   // @信息高亮颜色值
-  private static final int AT_HIGHLIGHT = R.color.color_007aff;
+  private static final int AT_HIGHLIGHT = com.yaoxin.appbase.R.color.black;
   private static final ChatCustom chatCustom = new ChatCustom();
 
   /**
