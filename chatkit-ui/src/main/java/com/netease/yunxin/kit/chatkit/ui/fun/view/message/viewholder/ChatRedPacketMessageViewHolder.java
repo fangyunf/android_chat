@@ -71,11 +71,11 @@ public class ChatRedPacketMessageViewHolder extends FunChatBaseMessageViewHolder
       TextView greetTv = viewBinding.funChatMessageRedPacketViewHolderGreetingTv;
       TextView moneyTv = viewBinding.funChatMessageRedPacketViewHolderMoneyTv;
 
-      int paddingStart = SizeUtils.dp2px(10);; // 你可以根据需要调整这个值
+      int paddingStart = SizeUtils.dp2px(55);; // 你可以根据需要调整这个值
       if (DataUtil.getUserid().equals(bean.result.fromUserId)) {
         viewBinding.funChatMessageRedPacketViewHolderBgIv.setImageResource( (bean.type == 21) ? R.drawable.chat_redpacket_purple_bg_no_open_right:R.drawable.chat_red_packet_cell_bg_no_open_right);
       } else {
-        paddingStart = SizeUtils.dp2px(55);; // 你可以根据需要调整这个值
+//        paddingStart = SizeUtils.dp2px(55);; // 你可以根据需要调整这个值
         viewBinding.funChatMessageRedPacketViewHolderBgIv.setImageResource( (bean.type == 21) ? R.drawable.chat_redpacket_purple_bg_no_open_left:R.drawable.chat_red_packet_cell_bg_no_open_left);
 
       }

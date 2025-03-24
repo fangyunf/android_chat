@@ -29,7 +29,7 @@ public class Fun_Selected_UserListAdapter extends BaseQuickAdapter<GroupInfoBean
         ImageView selectIv = quickViewHolder.getView(R.id.cell_fun_selected_user_list_selected_iv);
 
         TextView tv = quickViewHolder.getView(R.id.cell_fun_selected_user_list_tv_index);
-        quickViewHolder.setText(R.id.cell_fun_selected_user_list_name_tv, infoBean.name);
+        quickViewHolder.setText(R.id.cell_fun_selected_user_list_name_tv, (infoBean.remark != null && infoBean.remark.length() > 0) ? infoBean.remark: infoBean.name);
         GlideUtil.yh_loadImageRoundedCorner(getContext(), iv, infoBean.avatar, 22);
 //        selectIv.setVisibility(infoBean.isSelected ? View.VISIBLE:View.GONE);
         selectIv.setSelected(infoBean.isSelected);
