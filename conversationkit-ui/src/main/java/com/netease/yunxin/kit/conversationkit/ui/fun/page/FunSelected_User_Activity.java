@@ -129,6 +129,15 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
                     }
                 }
             }
+            List<GroupInfoBean> friendInfoList = DataUtil.getFriendInfoList();
+            for (GroupInfoBean userInfo : groupInfoBean.userInfos) {
+                for (GroupInfoBean friendInfo : friendInfoList) {
+                    if (userInfo.userId.equals(friendInfo.userId)) {
+                        userInfo.remark = friendInfo.remark;
+                        break;
+                    }
+                }
+            }
             Collections.sort(groupInfoBean.userInfos, new Comparator<GroupInfoBean>() {
                 @Override
                 public int compare(GroupInfoBean o1, GroupInfoBean o2) {
