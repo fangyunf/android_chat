@@ -60,6 +60,12 @@ public interface ServiceW {
     Call<NetData> friends_applyList(
             @Body RegisterBean userBean
     );
+
+    //  好友列表
+    @POST("/friends/friendListPage")
+    Call<NetData> friends_friendListPage(
+            @Body ParamsBean userBean
+    );
     @POST("/friends/appFriendApplyEd")
     Call<NetData> friends_appFriendApplyEd(
             @Body RegisterBean userBean

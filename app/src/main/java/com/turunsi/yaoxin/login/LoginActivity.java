@@ -130,6 +130,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             binding.activityLoginForgetTv.setVisibility(View.GONE);
             binding.activityLoginTitleIv.setImageResource(R.mipmap.common_login_title_forget);
         }
+        if (BuildConfig.DEBUG) {
+            binding.activityLoginTf1.viewTitleTfCountEt.setText("13761543036");
+            binding.activityLoginTf3.viewTitleTfCountEt.setText("a1234567");
+        }
     }
     @Override
     public void onClick(View v) {
