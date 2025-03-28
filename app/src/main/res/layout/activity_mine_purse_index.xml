@@ -151,7 +151,7 @@
                 android:id="@+id/activity_mine_purse_index_wdkb"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:titleText="绑定银行卡"
+                app:titleText="我的卡包"
                 />
         </LinearLayout>
 

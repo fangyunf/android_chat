@@ -18,6 +18,7 @@ import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
 import com.netease.yunxin.kit.corekit.route.XKitRouter;
 import com.yaoxin.appbase.model.GroupInfoBean;
 import com.yaoxin.appbase.net.Constant;
+import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.GlideUtil;
 
 import java.util.List;
@@ -40,11 +41,24 @@ public class ContactUserListAdapter extends BaseQuickAdapter<GroupInfoBean, Quic
             TextView numTv = quickViewHolder.getView(R.id.caontact_list_header_new_friend_num_tv);
             LinearLayout qunliaoLL = quickViewHolder.getView(R.id.caontact_list_header_new_qunliao_ll);
             LinearLayout haoyouLL = quickViewHolder.getView(R.id.caontact_list_header_new_haoyou_ll);
+            LinearLayout kefuLL = quickViewHolder.getView(R.id.caontact_list_header_new_kefu_ll);
+            LinearLayout hmdLL = quickViewHolder.getView(R.id.caontact_list_header_new_hmd_ll);
             qunliaoLL.setOnClickListener(v -> {
                 MyGroupListActivity.start(MyGroupListActivity.class, getContext(), null);
             });
             haoyouLL.setOnClickListener(v -> {
                 XKitRouter.withKey(RouterConstant.PATH_FUN_MY_NOTIFICATION_PAGE)
+                        .withContext(getContext())
+                        .navigate();
+            });
+            kefuLL.setOnClickListener(v -> {
+                XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_P2P_PAGE)
+                    .withParam(RouterConstant.CHAT_ID_KRY, DataUtil.getKeFuId())
+                    .withContext(getContext())
+                    .navigate();
+            });
+            hmdLL.setOnClickListener(v -> {
+                XKitRouter.withKey(RouterConstant.PATH_FUN_MY_BLACK_PAGE)
                         .withContext(getContext())
                         .navigate();
             });
