@@ -26,7 +26,11 @@ import retrofit2.http.Query;
  * on 2018/11/14.
  */
 public interface ServiceW {
-
+    //  好友列表
+    @POST("/pay/tyPay")
+    Call<NetData> pay_tyPay(
+            @Body RequestParamsBean userBean
+    );
     @POST("/red/zz")
     Call<NetData> red_zz(
             @Body RegisterBean userBean
