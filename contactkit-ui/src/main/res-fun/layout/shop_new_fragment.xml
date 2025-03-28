@@ -7,15 +7,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/shop_fragment_bg"
+    android:background="@mipmap/jinzita_common_page_bg"
     android:layout_height="match_parent">
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="商城"
-        android:textColor="@color/color_333333"
-        android:textSize="16sp"
+        android:textColor="@color/color_white"
+        android:textSize="30sp"
         android:gravity="center"
         android:padding="30dp"
         />

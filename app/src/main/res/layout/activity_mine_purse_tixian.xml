@@ -30,6 +30,7 @@
             app:under_divider_color="@color/transparent" />
 
         <include
+            android:visibility="gone"
             android:id="@+id/activity_mine_purse_my_lingqian"
             layout="@layout/view_title_tf_without_bg"
             android:layout_width="match_parent"

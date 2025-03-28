@@ -17,6 +17,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -30,11 +31,13 @@ import com.netease.yunxin.kit.contactkit.ui.fun.blacklist.FunBlackList_NewActivi
 import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
 import com.netease.yunxin.kit.corekit.route.XKitRouter;
 import com.turunsi.yaoxin.AppSkinConfig;
+import com.turunsi.yaoxin.IMApplication;
 import com.turunsi.yaoxin.R;
 import com.turunsi.yaoxin.databinding.FragmentMineBinding;
 import com.turunsi.yaoxin.eggs.EggListIndexActivity;
 import com.turunsi.yaoxin.eggs.EggSuccessDialogFragment;
 import com.turunsi.yaoxin.eggs.GroupListActivity;
+import com.turunsi.yaoxin.login.LoginActivity;
 import com.turunsi.yaoxin.login.RealNameSetActivity;
 import com.turunsi.yaoxin.main.mine.account.AccountAnQuanManagerActivity;
 import com.turunsi.yaoxin.main.mine.account.AccountDetailActivity;
@@ -90,6 +93,8 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
     private FragmentMineBinding binding;
     private ActivityResultLauncher<Intent> launcher;
 
+    String _iosDownLoadUrl = "";
+    String _androidDownLoadUrl = "";
     @Nullable
     @Override
     public View onCreateView(
@@ -180,6 +185,30 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                     public void Failure(Call<NetData> call, Throwable t) {
                     }
                 });
+
+
+        HttpUtil.apiW().customer_about(new RegisterBean())
+                .enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+
+                        DownLoadBean downLoadBean = new Gson().fromJson(body.data.toString(),DownLoadBean.class);
+                        for (DownLoadBean tempBean : downLoadBean.linkUrl) {
+                            if (tempBean.appType.equals("IOS")) {
+                                _iosDownLoadUrl = tempBean.downloadUrl;
+                            }
+                            if (tempBean.appType.equals("ANDROID")) {
+                                _androidDownLoadUrl = tempBean.downloadUrl;
+                            }
+
+                        }
+                    }
+
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
+
+                    }
+                });
     }
 
     private void _initItems() {
@@ -202,6 +231,11 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         binding.fragmentMineIndexCdscLl.setOnClickListener(this);
         binding.fragmentMineIndexWdqbLl.setOnClickListener(this);
         binding.fragmentMineWdfhView.setOnClickListener(this);
+        binding.fragmentMineZcqyView.setOnClickListener(this);
+        binding.fragmentMineTyszView.setOnClickListener(this);
+        binding.fragmentMineTcdlView.setOnClickListener(this);
+        binding.fragmentMineCopyIos.setOnClickListener(this);
+        binding.fragmentMineCopyAndroid.setOnClickListener(this);
 
 //        binding.mineFragmentMyManagerItem1.viewMineFragmentItemCellCl.setOnClickListener(this);
 //        binding.mineFragmentMyManagerItem2.viewMineFragmentItemCellCl.setOnClickListener(this);
@@ -331,8 +365,8 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         } else if (v == binding.fragmentMineMmszView) {
             Mine_Pwd_Set_ManagerActivity.start(Mine_Pwd_Set_ManagerActivity.class,getContext(),null);
 
-        } else if (v == binding.fragmentMineXtszView) {
-//            SettingNewActivity.start(SettingNewActivity.class,getContext(),null);
+        } else if (v == binding.fragmentMineTyszView) {
+            SettingNewActivity.start(SettingNewActivity.class,getContext(),null);
         } else if (v == binding.fragmentMineHyzxView || v == binding.fragmentMineGotoUpgradeTv) {
             MyHuiYuanListActivity.start(MyHuiYuanListActivity.class,context,null);
 
@@ -466,9 +500,56 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
             AppUpdateActivity.start(AppUpdateActivity.class,getContext(),null);
         if (v == binding.fragmentMineIndexCdscLl) {
             EggListIndexActivity.start(EggListIndexActivity.class,getContext(),null);
-        } else if (v == binding.fragmentMineIndexWdqbLl) {
+        } else if (v == binding.fragmentMineZcqyView) {
             PurseIndexActivity.start(PurseIndexActivity.class,context,null);
+        } else if (v == binding.fragmentMineTcdlView) {
+            //退出登录
+            showLogin();
+        } else if (v == binding.fragmentMineCopyIos) {
+
+            // 获取剪切板管理器
+            ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+
+            // 创建一个ClipData对象，包含要复制的文本
+            ClipData clip = ClipData.newPlainText("label", _iosDownLoadUrl);
+
+            // 将ClipData对象放入剪切板
+            clipboard.setPrimaryClip(clip);
+            ToastUtils.toastMsg("复制成功");
+        } else if (v == binding.fragmentMineCopyAndroid) {
+
+            // 获取剪切板管理器
+            ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+
+            // 创建一个ClipData对象，包含要复制的文本
+            ClipData clip = ClipData.newPlainText("label", _androidDownLoadUrl);
+
+            // 将ClipData对象放入剪切板
+            clipboard.setPrimaryClip(clip);
+            ToastUtils.toastMsg("复制成功");
         }
 
+    }
+    void showLogin() {
+        IMKitClient.logoutIM(
+                new com.netease.yunxin.kit.corekit.im.login.LoginCallback<Void>() {
+                    @Override
+                    public void onError(int errorCode, @NonNull String errorMsg) {
+                        Toast.makeText(
+                                        getActivity(),
+                                        "error code is " + errorCode + ", message is " + errorMsg,
+                                        Toast.LENGTH_SHORT)
+                                .show();
+                    }
+
+                    @Override
+                    public void onSuccess(@Nullable Void data) {
+
+                        DataUtil.deleteLoginUserInfoList(DataUtil.getUserInfo());
+                        DataUtil.deleteData();
+                        startActivity(new Intent(getActivity(), LoginActivity.class));
+                        getActivity().finish();
+                    }
+                });
     }
 }
