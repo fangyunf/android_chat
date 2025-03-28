@@ -24,6 +24,7 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:background="@color/app_theme_color"
             android:id="@+id/topLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -42,23 +43,24 @@
                     android:gravity="center_vertical"
                     android:paddingRight="10dp"
                     android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/fun_conversation_fragment_title_tv"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="对话"
+                        android:gravity="start"
+
+                        android:textColor="@color/color_white"
+                        android:textSize="26sp"
+                        />
                     <ImageView
                         android:id="@+id/fun_conversation_fragment_search_iv"
                         android:layout_marginHorizontal="10dp"
                         android:src="@mipmap/conversation_list_index_notice_icon"
                         android:layout_width="25dp"
                         android:layout_height="25dp"/>
-                    <TextView
-                        android:id="@+id/fun_conversation_fragment_title_tv"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:text="消息"
-                        android:gravity="center"
-
-                        android:textColor="#ff151515"
-                        android:textSize="16sp"
-                        />
                     <ImageView
                         android:id="@+id/fun_conversation_fragment_more_iv"
 
@@ -84,15 +86,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="32dp"
                     android:autofillHints=""
-                    android:background="@drawable/bg_f2f2f2_rounded_10"
-                    android:drawableStart="@drawable/ic_search"
+                    android:background="@drawable/bg_app_theme_color_rounded_10_line_1"
+                    android:drawableStart="@drawable/icon_search"
                     android:drawablePadding="5dp"
                     android:hint="搜索"
                     android:maxLines="1"
                     android:paddingStart="15dp"
                     android:paddingEnd="15dp"
                     android:textColor="@color/color_333333"
-                    android:textColorHint="@color/color_666666"
+                    android:textColorHint="@color/color_white"
                     android:textSize="14dp" />
 
             </LinearLayout>
@@ -116,7 +118,7 @@
                     app:mvDirection="bottom_to_top"
                     app:mvInterval="3000"
                     app:mvSingleLine="true"
-                    app:mvTextColor="@color/color_333333"
+                    app:mvTextColor="@color/color_white"
                     app:mvTextSize="14sp" />
 
             </LinearLayout>
