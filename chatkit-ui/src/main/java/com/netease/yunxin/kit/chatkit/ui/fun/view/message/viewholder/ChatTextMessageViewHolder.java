@@ -14,6 +14,7 @@ import com.netease.yunxin.kit.chatkit.ui.common.MessageHelper;
 import com.netease.yunxin.kit.chatkit.ui.databinding.ChatBaseMessageViewHolderBinding;
 import com.netease.yunxin.kit.chatkit.ui.databinding.FunChatMessageTextViewHolderBinding;
 import com.netease.yunxin.kit.chatkit.ui.model.ChatMessageBean;
+import com.yaoxin.appbase.utils.DataUtil;
 
 /** view holder for Text message */
 public class ChatTextMessageViewHolder extends FunChatBaseMessageViewHolder {
@@ -39,6 +40,14 @@ public class ChatTextMessageViewHolder extends FunChatBaseMessageViewHolder {
     }
     if (properties.getMessageTextColor() != null) {
       textBinding.messageText.setTextColor(properties.getMessageTextColor());
+    } else {
+        if (message.getMessageData().getFromUser() != null && message.getMessageData().getFromUser().getAccount().equals(DataUtil.getUserid())) {
+          textBinding.messageText.setTextColor(
+                  parent.getContext().getResources().getColor(R.color.color_white));
+      } else  {
+          textBinding.messageText.setTextColor(
+                  parent.getContext().getResources().getColor(R.color.color_333333));
+      }
     }
     if (message.getMessageData().getMessage().getMsgType() == MsgTypeEnum.text) {
 

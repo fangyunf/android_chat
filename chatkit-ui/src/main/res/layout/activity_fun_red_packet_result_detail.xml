@@ -9,7 +9,7 @@
         android:layout_height="wrap_content">
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="120dp"
+            android:layout_height="200dp"
             android:src="@drawable/chat_red_packet_open_result_top_bg"
             android:scaleType="fitXY"
             />

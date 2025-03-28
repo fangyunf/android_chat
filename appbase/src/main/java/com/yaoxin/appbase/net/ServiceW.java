@@ -27,7 +27,10 @@ import retrofit2.http.Query;
  */
 public interface ServiceW {
 
-
+    @POST("/red/zz")
+    Call<NetData> red_zz(
+            @Body RegisterBean userBean
+    );
     @POST("pass/user/v1/login")
     Call<NetData<UserBean>> login(
             @Body UserBean userBean

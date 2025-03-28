@@ -215,7 +215,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-
+                android:visibility="gone"
                 android:layout_marginStart="@dimen/dimen_46_dp"
                 android:layout_width="@dimen/dimen_32_dp"
                 android:layout_height="44dp"
@@ -235,13 +235,81 @@
         </FrameLayout>
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/fun_chat_message_bottom_view_opt_ll"
+        android:paddingVertical="10dp"
+        android:paddingHorizontal="30dp"
+        app:layout_constraintTop_toBottomOf="@+id/inputBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:id="@+id/fun_chat_message_bottom_view_opt_0"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_centerInParent="true"
+                android:layout_width="@dimen/dimen_25_dp"
+                android:layout_height="@dimen/dimen_25_dp"
+                android:src="@drawable/bottom_layout_item_0"
+                />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/fun_chat_message_bottom_view_opt_1"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_centerInParent="true"
+                android:layout_width="@dimen/dimen_25_dp"
+                android:layout_height="@dimen/dimen_25_dp"
+                android:src="@drawable/bottom_layout_item_1"
+                />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/fun_chat_message_bottom_view_opt_2"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_centerInParent="true"
+                android:layout_width="@dimen/dimen_25_dp"
+                android:layout_height="@dimen/dimen_25_dp"
+                android:src="@drawable/bottom_layout_item_2"
+                />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/fun_chat_message_bottom_view_opt_3"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_centerInParent="true"
+                android:layout_width="@dimen/dimen_25_dp"
+                android:layout_height="@dimen/dimen_25_dp"
+                android:src="@drawable/bottom_layout_item_3"
+                />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/fun_chat_message_bottom_view_opt_4"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_centerInParent="true"
+                android:layout_width="@dimen/dimen_25_dp"
+                android:layout_height="@dimen/dimen_25_dp"
+                android:src="@drawable/bottom_layout_item_4"
+                />
+        </RelativeLayout>
+    </LinearLayout>
     <FrameLayout
         android:id="@+id/inputMoreLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inputBarLayout">
+        app:layout_constraintTop_toBottomOf="@+id/fun_chat_message_bottom_view_opt_ll">
 
         <com.netease.yunxin.kit.chatkit.ui.view.emoji.EmojiPickerView
             android:id="@+id/emojiPickerView"

@@ -238,21 +238,22 @@ public class MainActivity extends BaseActivity {
 
     }
     private void initData() {
-        SettingRepo.getShowReadStatus(
-                new FetchCallback<Boolean>() {
-                    @Override
-                    public void onSuccess(@Nullable Boolean param) {
-                        ChatConfigManager.showReadStatus = param;
-                    }
-
-                    @Override
-                    public void onFailed(int code) {
-                    }
-
-                    @Override
-                    public void onException(@Nullable Throwable exception) {
-                    }
-                });
+        ChatConfigManager.showReadStatus = false;
+//        SettingRepo.getShowReadStatus(
+//                new FetchCallback<Boolean>() {
+//                    @Override
+//                    public void onSuccess(@Nullable Boolean param) {
+//                        ChatConfigManager.showReadStatus = false;
+//                    }
+//
+//                    @Override
+//                    public void onFailed(int code) {
+//                    }
+//
+//                    @Override
+//                    public void onException(@Nullable Throwable exception) {
+//                    }
+//                });
     }
 
     @Override
