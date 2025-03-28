@@ -224,8 +224,6 @@ public class MessageBottomLayout extends FrameLayout
         sendRedPacket();
       }
     });
-    boolean isP2P = mProxy.getSessionType() == SessionTypeEnum.P2P;
-    mBinding.funChatMessageBottomViewOpt4.setVisibility(isP2P ? VISIBLE : GONE);
     mBinding.funChatMessageBottomViewOpt4.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
@@ -234,6 +232,9 @@ public class MessageBottomLayout extends FrameLayout
     });
   }
 
+  public View getOpt4() {
+    return mBinding.funChatMessageBottomViewOpt4;
+  }
   public FunChatMessageBottomViewBinding getViewBinding() {
     return mBinding;
   }
