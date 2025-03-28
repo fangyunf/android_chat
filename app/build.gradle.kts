@@ -11,14 +11,14 @@ android {
     compileSdk = 33
     signingConfigs {
         create("release") {
-            keyAlias = "zhimei"
-            keyPassword = "Qqqq1111"
-            storeFile = file("zhimei.jks")
-            storePassword = "Qqqq1111"
+            keyAlias = "tingmei"
+            keyPassword = "qqqq1111"
+            storeFile = file("tingmei.jks")
+            storePassword = "qqqq1111"
         }
     }
     defaultConfig {
-        applicationId = "com.turunsi.zhimei"
+        applicationId = "com.turunsi.tingmei"
         minSdk = 21
         targetSdk = 33
         versionCode = 1

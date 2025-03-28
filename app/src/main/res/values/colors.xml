@@ -12,7 +12,7 @@
     <color name="color_white">#FFFFFFFF</color>
     <color name="color_00C00E">#00C00E</color>
     <color name="color_333333">#ff333333</color>
-    <color name="color_884EEF">#B09964</color>
+    <color name="color_884EEF">#FC6930</color>
     <color name="color_E8E8E8">#E8E8E8</color>
     <color name="color_9D9D9D">#9D9D9D</color>
     <color name="color_FF8A0B">#FF8A0B</color>
@@ -24,7 +24,7 @@
     <color name="tab_unchecked_color">#999999</color>
     <color name="color_a6adb6">#ffa6adb6</color>
     <color name="color_666666">#666666</color>
-    <color name="color_8B5FD8">#B09964</color>
+    <color name="color_8B5FD8">#FC6930</color>
     <color name="color_FF3A3A">#FF3A3A</color>
     <color name="color_24CE70">#24CE70</color>
     <color name="color_e9eff5">#E9EFF5</color>
@@ -32,14 +32,14 @@
     <color name="color_eff1f4">#EFF1F4</color>
     <color name="transparent">#00000000</color>
     <color name="transparent_half">#30000000</color>
-    <color name="fun_tab_checked_color">#B09964</color>
+    <color name="fun_tab_checked_color">#FC6930</color>
 
     <color name="fun_page_bg_color">#ededed</color>
     <color name="normal_page_bg_color">#FFFFFF</color>
     <color name="color_101113">#101113</color>
     <color name="color_ededed">#ededed</color>
     <color name="color_58be6b">#58be6b</color>
-    <color name="color_9A75DB">#B09964</color>
+    <color name="color_9A75DB">#FC6930</color>
 
     <color name="color_999999">#999999</color>
 </resources>
