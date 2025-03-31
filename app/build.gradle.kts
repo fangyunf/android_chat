@@ -11,14 +11,14 @@ android {
     compileSdk = 33
     signingConfigs {
         create("release") {
-            keyAlias = "hongyi"
-            keyPassword = "Qqqq1111"
-            storeFile = file("hongyi.jks")
-            storePassword = "Qqqq1111"
+            keyAlias = "zhoumo"
+            keyPassword = "qqqq1111"
+            storeFile = file("zhoumo.jks")
+            storePassword = "qqqq1111"
         }
     }
     defaultConfig {
-        applicationId = "com.turunsi.hongyi"
+        applicationId = "com.turunsi.zhoumo"
         minSdk = 21
         targetSdk = 33
         versionCode = 1

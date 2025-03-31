@@ -4,7 +4,7 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.turunsi.hongyi",
+  "applicationId": "com.turunsi.zhoumo",
   "variantName": "release",
   "elements": [
     {
@@ -13,7 +13,7 @@
       "attributes": [],
       "versionCode": 1,
       "versionName": "1.0.11",
-      "outputFile": "hongyi_release_v1.0.11.apk"
+      "outputFile": "zhoumo_release_v1.0.11.apk"
     }
   ],
   "elementType": "File"
