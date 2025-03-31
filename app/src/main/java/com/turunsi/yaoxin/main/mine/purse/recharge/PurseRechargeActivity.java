@@ -294,7 +294,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
 
         RequestParamsBean registerBean = new RequestParamsBean();
         registerBean.amount = NumberUtil.formartUploadMoney(inputMoney);
-//        registerBean.payChannel = payType;
+        registerBean.type = payType;
 //        if (_type == 1) {
 //            registerBean.type = payType;
 //            HttpUtil.apiW().pay_sixL(registerBean)
@@ -313,7 +313,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
 //                    });
 //        } else {
 
-            HttpUtil.apiW().pay_six(registerBean)
+            HttpUtil.apiW().pay_xxPay(registerBean)
                     .enqueue(new CommonCallback<NetData>() {
                         @Override
                         public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {

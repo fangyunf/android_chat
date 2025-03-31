@@ -303,6 +303,20 @@
                         android:layout_marginHorizontal="15dp"
                         android:layout_height="wrap_content">
 
+                        <com.yaoxin.appbase.view.IconTitleArrowTemplate_1
+                            android:layout_marginTop="10dp"
+                            android:id="@+id/fragment_mine_wdfh_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:leftImg="@mipmap/mine_index_item_zhgl"
+                            app:titleText="我的副号"
+                            />
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_marginHorizontal="15dp"
+                        android:layout_height="wrap_content">
+
 
                         <com.yaoxin.appbase.view.IconTitleArrowTemplate_1
                             android:layout_marginTop="10dp"
@@ -373,14 +387,14 @@
                         app:leftImg="@mipmap/mine_index_item_hmd"
                         app:titleText="黑名单"
                         />
-                    <com.yaoxin.appbase.view.IconTitleArrowTemplate
-                        android:visibility="gone"
-                        android:id="@+id/fragment_mine_wdfh_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:leftImg="@mipmap/mine_index_item_wdfh"
-                        app:titleText="我的副号"
-                        />
+<!--                    <com.yaoxin.appbase.view.IconTitleArrowTemplate-->
+<!--                        android:visibility="gone"-->
+<!--                        android:id="@+id/fragment_mine_wdfh_view"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        app:leftImg="@mipmap/mine_index_item_wdfh"-->
+<!--                        app:titleText="我的副号"-->
+<!--                        />-->
                     <!--                        <com.yaoxin.appbase.view.IconTitleArrowTemplate-->
                     <!--                            android:id="@+id/fragment_mine_wdfh_view"-->
                     <!--                            android:layout_width="0dp"-->
