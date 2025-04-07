@@ -21,6 +21,7 @@ import com.turunsi.yaoxin.databinding.ActivityMineSetNewBinding;
 import com.turunsi.yaoxin.databinding.ActivityMineZhuxiaoConfirmBinding;
 import com.turunsi.yaoxin.login.LoginActivity;
 import com.turunsi.yaoxin.main.mine.DownLoadActivity;
+import com.turunsi.yaoxin.main.mine.purse.pwdmanager.PursePwdManagerSetActivity;
 import com.yaoxin.appbase.activity.BaseActivity;
 import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.net.CommonCallback;
@@ -30,6 +31,7 @@ import com.yaoxin.appbase.utils.DialogAlertUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import retrofit2.Call;
@@ -61,27 +63,31 @@ public class ZhuXiaoConfrimActivity extends BaseActivity implements View.OnClick
       finish();
 
     } else if (v == viewBinding.activityMineZhuxiaoConfirmTv) {
-         DialogAlertUtil.showAlert("确定注销账号吗？", new DialogAlertUtil.DialogAlertUtilCallBack() {
-             @Override
-             public void clickType(int type) {
-                 if (type == 1) {
-                     HttpUtil.apiW().home_logout()
-                             .enqueue(new CommonCallback<NetData>() {
-                                 @Override
-                                 public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                                     ToastUtils.toastMsg("注销成功");
-                                     showLogin();
-                                 }
 
-                                 @Override
-                                 public void Failure(Call<NetData> call, Throwable t) {
-
-                                 }
-                             });
-
-                 }
-             }
-         },getSupportFragmentManager());
+         HashMap map = new HashMap();
+         map.put("type","100");
+         PursePwdManagerSetActivity.start(PursePwdManagerSetActivity.class,this,map);
+//         DialogAlertUtil.showAlert("确定注销账号吗？", new DialogAlertUtil.DialogAlertUtilCallBack() {
+//             @Override
+//             public void clickType(int type) {
+//                 if (type == 1) {
+//                     HttpUtil.apiW().home_logout()
+//                             .enqueue(new CommonCallback<NetData>() {
+//                                 @Override
+//                                 public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+//                                     ToastUtils.toastMsg("注销成功");
+//                                     showLogin();
+//                                 }
+//
+//                                 @Override
+//                                 public void Failure(Call<NetData> call, Throwable t) {
+//
+//                                 }
+//                             });
+//
+//                 }
+//             }
+//         },getSupportFragmentManager());
     }
   }
 

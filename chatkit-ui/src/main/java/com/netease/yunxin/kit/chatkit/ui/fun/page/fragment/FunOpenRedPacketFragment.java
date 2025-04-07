@@ -47,6 +47,7 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
     private OpenRedPacketBlock block;
     FragmentOpenRedPacketDialogBinding binding;
     private CustomMsgBean redBean;
+    private CustomMsgBean openReusltBean;
     private String redPacketId;
     private String groupId;
     private int type;
@@ -119,7 +120,6 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
     public static void showV(FragmentManager fragmentManager, String redPacketId,int type,String groupId,CustomMsgBean sendBean, IMMessage messageInfo, OpenRedPacketBlock block1) {
         FunOpenRedPacketFragment fragment = new  FunOpenRedPacketFragment();
         fragment.redPacketId = redPacketId;
-        fragment.messageInfo = messageInfo;
         fragment.type = type;
         fragment.groupId = groupId;
         fragment.sendBean = sendBean;
@@ -131,7 +131,10 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
 //            fragment._requestData();
 //        }
         fragment.showNow(fragmentManager,"FunOpenRedPacketFragment");
-        fragment.updateMessage();
+        if (messageInfo != null) {
+            fragment.messageInfo = messageInfo;
+            fragment.updateMessage();
+        }
     }
 
 
@@ -150,6 +153,7 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
                         .enqueue(new CommonCallback<NetData>() {
                             @Override
                             public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                                openReusltBean = new Gson().fromJson(body.data.toString(), CustomMsgBean.class);
                                 gotoRedPacketDetail(true);
                                 sendTipMsg(true);
                             }
@@ -165,6 +169,8 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
                         .enqueue(new CommonCallback<NetData>() {
                             @Override
                             public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                                openReusltBean = new Gson().fromJson(body.data.toString(), CustomMsgBean.class);
+
                                 gotoRedPacketDetail(true);
                                 sendTipMsg(false);
                             }
@@ -180,6 +186,7 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
                         .enqueue(new CommonCallback<NetData>() {
                             @Override
                             public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                                openReusltBean = new Gson().fromJson(body.data.toString(), CustomMsgBean.class);
 
                                 gotoRedPacketDetail(true);
                                 sendTipMsg(true);
@@ -211,6 +218,10 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
         msgBean.receiveUserName = DataUtil.getUserInfo().username;
         msgBean.sendUserId = sendBean.result.fromUserId;
         msgBean.sendUserName = sendBean.result.sendName;
+        if (msgBean.sendUserId == null || msgBean.sendUserId.isEmpty()) {
+            msgBean.sendUserId = openReusltBean.sendUserId;
+            msgBean.sendUserName = openReusltBean.sendUserName;
+        }
         msg.setContent(new Gson().toJson(msgBean));
         CustomMessageConfig messageConfig = new CustomMessageConfig();
         messageConfig.enableUnreadCount = false;

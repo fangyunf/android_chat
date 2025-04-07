@@ -48,5 +48,6 @@ dependencies {
     implementation("androidx.recyclerview:recyclerview:1.2.1") 
     implementation("com.github.bumptech.glide:glide:4.13.1")
     implementation(project(":appbase"))
+    implementation(project(":chatkit-ui"))
 }
 

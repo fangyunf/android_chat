@@ -129,6 +129,9 @@ public interface ServiceW {
     Call<NetData> home_myQrCode();
     @POST("/home/logout")
     Call<NetData> home_logout();
+    @POST("/home/logout")
+    Call<NetData> home_logout1(
+            @Body RegisterBean userBean);
 
     @POST("/red/recivePersonRedpacket")
     Call<NetData> red_recivePersonRedpacket(
@@ -176,6 +179,10 @@ public interface ServiceW {
     );
     @POST("/group/groupUserListPost")
     Call<NetData> group_groupUserListPost(
+            @Body RegisterBean userBean
+    );
+    @POST("/red/vlqzsb")
+    Call<NetData> red_vlqzsb(
             @Body RegisterBean userBean
     );
 
