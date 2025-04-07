@@ -47,6 +47,7 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
     private OpenRedPacketBlock block;
     FragmentOpenRedPacketDialogBinding binding;
     private CustomMsgBean redBean;
+    private CustomMsgBean redResultBean;
     private String redPacketId;
     private String groupId;
     private int type;
@@ -151,7 +152,7 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
                             @Override
                             public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                                 gotoRedPacketDetail(true);
-                                sendTipMsg(true);
+//                                sendTipMsg(true);
                             }
 
                             @Override
@@ -165,6 +166,7 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
                         .enqueue(new CommonCallback<NetData>() {
                             @Override
                             public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                                redResultBean = new Gson().fromJson(body.data.toString(), CustomMsgBean.class);
                                 gotoRedPacketDetail(true);
                                 sendTipMsg(false);
                             }
@@ -180,7 +182,7 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
                         .enqueue(new CommonCallback<NetData>() {
                             @Override
                             public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-
+                                redResultBean = new Gson().fromJson(body.data.toString(), CustomMsgBean.class);
                                 gotoRedPacketDetail(true);
                                 sendTipMsg(true);
                             }
@@ -205,18 +207,31 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
         }
     }
     void sendTipMsg(boolean isGroup) {
-        IMMessage msg = MessageBuilder.createTipMessage(groupId, isGroup ? SessionTypeEnum.Team :SessionTypeEnum.P2P);
-        CustomMsgBean msgBean = new CustomMsgBean();
-        msgBean.receiveUserId = DataUtil.getUserid();
-        msgBean.receiveUserName = DataUtil.getUserInfo().username;
-        msgBean.sendUserId = sendBean.result.fromUserId;
-        msgBean.sendUserName = sendBean.result.sendName;
-        msg.setContent(new Gson().toJson(msgBean));
-        CustomMessageConfig messageConfig = new CustomMessageConfig();
-        messageConfig.enableUnreadCount = false;
-        msg.setConfig(messageConfig);
-        ChatRepo.sendMessage(msg, null);
-        updateMessage();
+        boolean isExit = false;
+        if (redResultBean != null && !redResultBean.vos.isEmpty()) {
+            for (CustomMsgBean bean :
+                    redResultBean.vos) {
+                if (bean.sendUserId.equals(DataUtil.getUserid())) {
+                    isExit = true;
+                    break;
+                }
+            }
+        }
+        if (isExit) {
+
+            IMMessage msg = MessageBuilder.createTipMessage(groupId, isGroup ? SessionTypeEnum.Team :SessionTypeEnum.P2P);
+            CustomMsgBean msgBean = new CustomMsgBean();
+            msgBean.receiveUserId = DataUtil.getUserid();
+            msgBean.receiveUserName = DataUtil.getUserInfo().username;
+            msgBean.sendUserId = sendBean.result.fromUserId;
+            msgBean.sendUserName = sendBean.result.sendName;
+            msg.setContent(new Gson().toJson(msgBean));
+            CustomMessageConfig messageConfig = new CustomMessageConfig();
+            messageConfig.enableUnreadCount = false;
+            msg.setConfig(messageConfig);
+            ChatRepo.sendMessage(msg, null);
+            updateMessage();
+        }
     }
 
     void gotoRedPacketDetail(boolean needToast) {
