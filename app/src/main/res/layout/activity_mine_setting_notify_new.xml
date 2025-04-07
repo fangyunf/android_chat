@@ -47,6 +47,11 @@
             layout="@layout/view_title_arrow_template"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+        <include
+            android:id="@+id/activity_mine_setting_notify_cell4"
+            layout="@layout/view_title_arrow_template"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
 <!--    <RelativeLayout-->

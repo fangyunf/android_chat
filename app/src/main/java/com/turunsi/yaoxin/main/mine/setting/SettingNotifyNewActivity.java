@@ -14,8 +14,11 @@ import com.google.gson.Gson;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.SDKOptions;
 import com.netease.nimlib.sdk.StatusBarNotificationConfig;
+import com.netease.nimlib.sdk.msg.MsgService;
+import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.yunxin.kit.common.ui.viewmodel.LoadStatus;
 import com.netease.yunxin.kit.common.utils.SPUtils;
+import com.netease.yunxin.kit.corekit.im.repo.MiscRepo;
 import com.turunsi.yaoxin.NimSDKOptionConfig;
 import com.turunsi.yaoxin.databinding.ActivityMineSettingNotifyBinding;
 import com.turunsi.yaoxin.databinding.ActivityMineSettingNotifyNewBinding;
@@ -25,8 +28,12 @@ import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
+import com.yaoxin.appbase.utils.BaseEvent;
 import com.yaoxin.appbase.utils.DataUtil;
+import com.yaoxin.appbase.utils.DialogAlertUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -82,6 +89,8 @@ public class SettingNotifyNewActivity extends BaseActivity {
         viewBinding.activityMineSettingNotifyCell3.viewTitleArrowRightTvSwitch.setVisibility(View.VISIBLE);
         viewBinding.activityMineSettingNotifyCell3.viewTitleArrowArrowIv.setVisibility(View.GONE);
 
+        viewBinding.activityMineSettingNotifyCell4.viewTitleArrowTv.setText("清除聊天记录");
+
         viewBinding.activityMineSettingNotifyCell1.viewTitleArrowRightTvSwitch.setSelected("1".equals(userBean.allDisturb));
         viewBinding.activityMineSettingNotifyCell1.viewTitleArrowRightTvSwitch.setOnClickListener(
                 v -> {
@@ -110,6 +119,18 @@ public class SettingNotifyNewActivity extends BaseActivity {
 //                    isCloseShake = !isCloseShake;
 //                    SPUtils.getInstance().put("isCloseShake", isCloseShake);
 //                    updatConfig();
+                });
+        viewBinding.activityMineSettingNotifyCell4.viewTitleArrowLl.setOnClickListener(
+                v -> {
+                    DialogAlertUtil.showAlert("确定清空聊天记录吗？", new DialogAlertUtil.DialogAlertUtilCallBack() {
+                        @Override
+                        public void clickType(int type) {
+                            if (type == 1) {
+                                MiscRepo.INSTANCE.clearMessageCache();
+                            }
+                        }
+                    },getSupportFragmentManager());
+
                 });
         DataUtil.setStringValue(viewBinding.activityMineSettingNotifyCell2.viewTitleArrowRightTvSwitch.isSelected() ?"1":"0","ring_soud");
         DataUtil.setStringValue(viewBinding.activityMineSettingNotifyCell3.viewTitleArrowRightTvSwitch.isSelected() ?"1":"0","shake_soud");
