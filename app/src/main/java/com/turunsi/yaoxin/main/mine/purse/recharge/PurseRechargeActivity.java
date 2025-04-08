@@ -28,6 +28,7 @@ import com.yaoxin.appbase.model.RequestParamsBean;
 import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
+import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.DialogAlertUtil;
 import com.yaoxin.appbase.utils.NumberUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
@@ -295,6 +296,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
         RequestParamsBean registerBean = new RequestParamsBean();
         registerBean.amount = NumberUtil.formartUploadMoney(inputMoney);
         registerBean.type = payType;
+        registerBean.userId = DataUtil.getUserid();
 //        if (_type == 1) {
 //            registerBean.type = payType;
 //            HttpUtil.apiW().pay_sixL(registerBean)
