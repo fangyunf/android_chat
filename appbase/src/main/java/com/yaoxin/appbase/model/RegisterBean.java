@@ -13,6 +13,7 @@ public class RegisterBean {
     public String caiDanId  ;
     public String sound;
     public String check;
+    public String sms;
     public String shake;
     public String phoneAdd;
     public String idAdd;

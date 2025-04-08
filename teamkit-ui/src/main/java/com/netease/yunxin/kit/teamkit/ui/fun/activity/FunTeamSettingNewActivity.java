@@ -94,6 +94,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import retrofit2.Call;
@@ -189,6 +190,9 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
 
         binding.funTeamSettingNewActivityTeamSetting.viewTitleArrowTv.setText("群设置");
         binding.funTeamSettingNewActivityTeamSetting.viewTitleArrowLl.setOnClickListener(this);
+
+        binding.funTeamSettingNewActivityVlqHb.viewTitleArrowTv.setText("未领取红包专区");
+        binding.funTeamSettingNewActivityVlqHb.viewTitleArrowLl.setOnClickListener(this);
 
         binding.funTeamSettingNewActivityTeamUpgrade.viewTitleArrowTv.setText("群升级");
         binding.funTeamSettingNewActivityTeamUpgrade.viewTitleArrowLl.setOnClickListener(this);
@@ -425,6 +429,10 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
 //            } else {
             finish();
 //            }
+        } else if (view == binding.funTeamSettingNewActivityVlqHb.viewTitleArrowLl) {
+            Map map = new HashMap();
+            map.put("groupId",groupId);
+            FunTeamSettingNew_Vlq_HB_ListActivity.start(FunTeamSettingNew_Vlq_HB_ListActivity.class,this,map);
         } else if (view == binding.funTeamSettingNewActivityMiandarao.viewTitleArrowRightTvSwitch) {
             boolean isOpen = binding.funTeamSettingNewActivityMiandarao.viewTitleArrowRightTvSwitch.isSelected();
             // 以设置 “仅管理员消息提醒” 为例

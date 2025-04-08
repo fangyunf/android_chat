@@ -19,6 +19,7 @@ import com.netease.yunxin.kit.chatkit.ui.databinding.ChatBaseMessageViewHolderBi
 import com.netease.yunxin.kit.chatkit.ui.databinding.FunChatMessageRedPacketViewHolderBinding;
 import com.netease.yunxin.kit.chatkit.ui.databinding.FunChatMessageRichTextViewHolderBinding;
 import com.netease.yunxin.kit.chatkit.ui.model.ChatMessageBean;
+import com.netease.yunxin.kit.common.utils.SizeUtils;
 import com.yaoxin.appbase.model.CustomMsgBean;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.NumberUtil;

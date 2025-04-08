@@ -47,6 +47,7 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
     private OpenRedPacketBlock block;
     FragmentOpenRedPacketDialogBinding binding;
     private CustomMsgBean redBean;
+    private CustomMsgBean openReusltBean;
     private String redPacketId;
     private String groupId;
     private int type;
@@ -119,7 +120,6 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
     public static void showV(FragmentManager fragmentManager, String redPacketId,int type,String groupId,CustomMsgBean sendBean, IMMessage messageInfo, OpenRedPacketBlock block1) {
         FunOpenRedPacketFragment fragment = new  FunOpenRedPacketFragment();
         fragment.redPacketId = redPacketId;
-        fragment.messageInfo = messageInfo;
         fragment.type = type;
         fragment.groupId = groupId;
         fragment.sendBean = sendBean;
@@ -131,7 +131,10 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
 //            fragment._requestData();
 //        }
         fragment.showNow(fragmentManager,"FunOpenRedPacketFragment");
-        fragment.updateMessage();
+        if (messageInfo != null) {
+            fragment.messageInfo = messageInfo;
+            fragment.updateMessage();
+        }
     }
 
 
@@ -150,6 +153,7 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
                         .enqueue(new CommonCallback<NetData>() {
                             @Override
                             public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                                openReusltBean = new Gson().fromJson(body.data.toString(), CustomMsgBean.class);
                                 gotoRedPacketDetail(true);
                                 sendTipMsg(true);
                             }
@@ -165,6 +169,8 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
                         .enqueue(new CommonCallback<NetData>() {
                             @Override
                             public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                                openReusltBean = new Gson().fromJson(body.data.toString(), CustomMsgBean.class);
+
                                 gotoRedPacketDetail(true);
                                 sendTipMsg(false);
                             }
@@ -180,6 +186,7 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
                         .enqueue(new CommonCallback<NetData>() {
                             @Override
                             public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                                openReusltBean = new Gson().fromJson(body.data.toString(), CustomMsgBean.class);
 
                                 gotoRedPacketDetail(true);
                                 sendTipMsg(true);
@@ -205,17 +212,33 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
         }
     }
     void sendTipMsg(boolean isGroup) {
-        IMMessage msg = MessageBuilder.createTipMessage(groupId, isGroup ? SessionTypeEnum.Team :SessionTypeEnum.P2P);
-        CustomMsgBean msgBean = new CustomMsgBean();
-        msgBean.receiveUserId = DataUtil.getUserid();
-        msgBean.receiveUserName = DataUtil.getUserInfo().username;
-        msgBean.sendUserId = sendBean.result.fromUserId;
-        msgBean.sendUserName = sendBean.result.sendName;
-        msg.setContent(new Gson().toJson(msgBean));
-        CustomMessageConfig messageConfig = new CustomMessageConfig();
-        messageConfig.enableUnreadCount = false;
-        msg.setConfig(messageConfig);
-        ChatRepo.sendMessage(msg, null);
+        boolean isExit = false;
+        if (openReusltBean != null && !openReusltBean.vos.isEmpty()) {
+            for (CustomMsgBean bean :
+                    openReusltBean.vos) {
+                if (bean.userId.equals(DataUtil.getUserid())) {
+                    isExit = true;
+                    break;
+                }
+            }
+        }
+        if (isExit) {
+            IMMessage msg = MessageBuilder.createTipMessage(groupId, isGroup ? SessionTypeEnum.Team : SessionTypeEnum.P2P);
+            CustomMsgBean msgBean = new CustomMsgBean();
+            msgBean.receiveUserId = DataUtil.getUserid();
+            msgBean.receiveUserName = DataUtil.getUserInfo().username;
+            msgBean.sendUserId = sendBean.result.fromUserId;
+            msgBean.sendUserName = sendBean.result.sendName;
+            if (msgBean.sendUserId == null || msgBean.sendUserId.isEmpty()) {
+                msgBean.sendUserId = openReusltBean.sendId;
+                msgBean.sendUserName = openReusltBean.sendName;
+            }
+            msg.setContent(new Gson().toJson(msgBean));
+            CustomMessageConfig messageConfig = new CustomMessageConfig();
+            messageConfig.enableUnreadCount = false;
+            msg.setConfig(messageConfig);
+            ChatRepo.sendMessage(msg, null);
+        }
 //        updateMessage();
     }
 

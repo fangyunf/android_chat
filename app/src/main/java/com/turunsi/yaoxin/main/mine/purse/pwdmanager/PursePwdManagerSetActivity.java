@@ -1,15 +1,22 @@
 package com.turunsi.yaoxin.main.mine.purse.pwdmanager;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.gson.Gson;
 import com.netease.yunxin.kit.alog.ALog;
+import com.netease.yunxin.kit.corekit.im.IMKitClient;
+import com.turunsi.yaoxin.IMApplication;
 import com.turunsi.yaoxin.R;
+import com.turunsi.yaoxin.login.LoginActivity;
+import com.turunsi.yaoxin.main.mine.setting.ZhuXiaoConfrimActivity;
 import com.turunsi.yaoxin.utils.IMUtil;
 import com.yaoxin.appbase.activity.BaseActivity;
 import com.turunsi.yaoxin.databinding.ActivityMinePursePwdManagerSetBinding;
@@ -33,7 +40,7 @@ import retrofit2.Response;
 
 public class PursePwdManagerSetActivity extends BaseActivity implements View.OnClickListener {
     ActivityMinePursePwdManagerSetBinding binding;
-    //0:设置支付密码  1：修改支付密码  2：忘记支付密码
+    //0:设置支付密码  1：修改支付密码  2：忘记支付密码 100：确认注销
     private int type = 0;
 
     @Override
@@ -83,6 +90,12 @@ public class PursePwdManagerSetActivity extends BaseActivity implements View.OnC
             binding.activityMinePursePwdManagerSetNav.setTitle("忘记支付密码");
 
             _initForgetCell();
+        } else if (type == 100) {
+            binding.activityMinePursePwdManagerSetNav.setTitle("注销账号");
+            binding.activityMinePursePwdManagerSetSetPwd.viewTitleTfWithoutBgLl.setVisibility(View.GONE);
+            binding.activityMinePursePwdManagerSetConfirmPwd.viewTitleTfWithoutBgLl.setVisibility(View.GONE);
+
+            binding.activityMinePursePwdManagerSetPhone.viewTitleTfWithoutBgTv.setText("手机号");
         }
     }
     private void _initSetCell() {
@@ -152,6 +165,7 @@ public class PursePwdManagerSetActivity extends BaseActivity implements View.OnC
             map.put("type","2");
             PursePwdManagerSetActivity.start(PursePwdManagerSetActivity.class,this,map);
         } else if (v == binding.activityMineAddressAddSaveRl) {
+
             String phone = getTextStr(binding.activityMinePursePwdManagerSetPhone.viewTitleTfWithoutBgEt);
             if (phone.length() != 11) {
                 ToastUtils.toastMsg("手机格式错误");
@@ -160,6 +174,25 @@ public class PursePwdManagerSetActivity extends BaseActivity implements View.OnC
             String code = getTextStr(binding.activityMinePursePwdManagerGetCode.viewTitleTfWithoutBgEt);
             if (code.length() > 6) {
                 ToastUtils.toastMsg("验证码错误");
+                return;
+            }
+            if (type == 100) {
+
+                RegisterBean bean = new RegisterBean();
+                bean.sms = code;
+                HttpUtil.apiW().home_logout1(bean)
+                        .enqueue(new CommonCallback<NetData>() {
+                            @Override
+                            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                                ToastUtils.toastMsg("注销成功");
+                                showLogin();
+                            }
+
+                            @Override
+                            public void Failure(Call<NetData> call, Throwable t) {
+
+                            }
+                        });
                 return;
             }
             String pwd1 = getTextStr(binding.activityMinePursePwdManagerSetSetPwd.viewTitleTfWithoutBgEt);
@@ -190,4 +223,29 @@ public class PursePwdManagerSetActivity extends BaseActivity implements View.OnC
         }
     }
 
+    void showLogin() {
+        IMKitClient.logoutIM(
+                new com.netease.yunxin.kit.corekit.im.login.LoginCallback<Void>() {
+                    @Override
+                    public void onError(int errorCode, @NonNull String errorMsg) {
+                        Toast.makeText(
+                                        PursePwdManagerSetActivity.this,
+                                        "error code is " + errorCode + ", message is " + errorMsg,
+                                        Toast.LENGTH_SHORT)
+                                .show();
+                    }
+
+                    @Override
+                    public void onSuccess(@Nullable Void data) {
+                        if (getApplicationContext() instanceof IMApplication) {
+                            ((IMApplication) getApplicationContext())
+                                    .clearActivity(PursePwdManagerSetActivity.this);
+                        }
+                        DataUtil.deleteLoginUserInfoList(DataUtil.getUserInfo());
+                        DataUtil.deleteData();
+                        startActivity(new Intent(PursePwdManagerSetActivity.this, LoginActivity.class));
+                        finish();
+                    }
+                });
+    }
 }

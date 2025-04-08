@@ -135,7 +135,6 @@
                     app:titleText="实名认证"
                     />
             <com.yaoxin.appbase.view.IconTitleArrowTemplate
-                android:visibility="gone"
                 android:id="@+id/activity_mine_purse_index_bdwx"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

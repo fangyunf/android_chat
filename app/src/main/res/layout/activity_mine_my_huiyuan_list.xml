@@ -25,6 +25,7 @@
             app:under_divider_color="@color/transparent" />
 
         <LinearLayout
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingHorizontal="15dp"
