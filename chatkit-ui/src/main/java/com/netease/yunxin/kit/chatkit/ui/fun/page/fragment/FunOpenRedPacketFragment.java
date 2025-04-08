@@ -211,7 +211,7 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
         if (redResultBean != null && !redResultBean.vos.isEmpty()) {
             for (CustomMsgBean bean :
                     redResultBean.vos) {
-                if (bean.sendUserId.equals(DataUtil.getUserid())) {
+                if (bean.userId.equals(DataUtil.getUserid())) {
                     isExit = true;
                     break;
                 }
