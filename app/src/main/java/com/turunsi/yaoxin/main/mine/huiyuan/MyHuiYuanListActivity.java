@@ -111,6 +111,12 @@ public class MyHuiYuanListActivity extends BaseActivity implements View.OnClickL
             @Override
             public void onClick(@NonNull BaseQuickAdapter<HuiYuanBean, ?> baseQuickAdapter, @NonNull View view, int i) {
 
+                // 现在 position 是居中的 item 的位置
+                adapter.setItems(dataBean.list.get(i).memberCode);
+                adapter.selectNumber = 0;
+                dataBean.currentIndex = i;
+                adapter.notifyDataSetChanged();
+                binding.activityMineMyHuiyuanListIntroduceTv.setText("以下是" + dataBean.list.get(i).memberConfig.productName);
             }
         });
         // 设置卡片左右间距
@@ -130,24 +136,24 @@ public class MyHuiYuanListActivity extends BaseActivity implements View.OnClickL
             }
         });
         // 监听 RecyclerView 滚动以获取当前居中的项目
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    // 当滚动停止时
-                    View centerView = snapHelper.findSnapView(layoutManager);
-                    if (centerView != null) {
-                        int i = layoutManager.getPosition(centerView);
-                        // 现在 position 是居中的 item 的位置
-                        adapter.setItems(dataBean.list.get(i).memberCode);
-                        adapter.selectNumber = 0;
-                        dataBean.currentIndex = i;
-                        adapter.notifyDataSetChanged();
-                        binding.activityMineMyHuiyuanListIntroduceTv.setText("以下是" + dataBean.list.get(i).memberConfig.productName);
-                    }
-                }
-            }
-        });
+//        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+//                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+//                    // 当滚动停止时
+//                    View centerView = snapHelper.findSnapView(layoutManager);
+//                    if (centerView != null) {
+//                        int i = layoutManager.getPosition(centerView);
+//                        // 现在 position 是居中的 item 的位置
+//                        adapter.setItems(dataBean.list.get(i).memberCode);
+//                        adapter.selectNumber = 0;
+//                        dataBean.currentIndex = i;
+//                        adapter.notifyDataSetChanged();
+//                        binding.activityMineMyHuiyuanListIntroduceTv.setText("以下是" + dataBean.list.get(i).memberConfig.productName);
+//                    }
+//                }
+//            }
+//        });
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
