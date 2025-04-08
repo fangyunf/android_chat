@@ -69,6 +69,7 @@ import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.BaseEvent;
+import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.GlideUtil;
 import com.yaoxin.appbase.utils.NumberUtil;
 
@@ -100,6 +101,8 @@ public class FunChatTeamFragment extends FunChatFragment {
   private Timer timer;
   private TimerTask timerTask;
 
+  private List<String> adminIds = new ArrayList<>();
+  String qunzhuId = "";
   @Override
   protected void initData(Bundle bundle) {
     ALog.d(LIB_TAG, TAG, "initData");
@@ -184,7 +187,39 @@ public class FunChatTeamFragment extends FunChatFragment {
               }
             });
 
+    _requestData111();
+  }
+  protected void _requestData111() {
+    RegisterBean bean = new RegisterBean();
+    bean.groupId = sessionID;
+    bean.page = "1";
+    bean.pageNo ="100";
+    HttpUtil.apiW().group_groupUserListPost(bean)
+            .enqueue(new CommonCallback<NetData>() {
+              @Override
+              public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
+                Type type = new TypeToken<List<GroupInfoBean>>(){}.getType();
+                List<GroupInfoBean> tempList = new Gson().fromJson(body.data.toString(), type);
+                for (GroupInfoBean groupInfoBean : tempList) {
+                  if (groupInfoBean.rankState == 1) {
+                    qunzhuId = groupInfoBean.userId;
+                  } else if (groupInfoBean.rankState == 2) {
+                    if (groupInfoBean.userId != null) {
+                      adminIds.add(groupInfoBean.userId);
+                    }
+                  }
+                }
+                DataUtil.adminIds = adminIds;
+                DataUtil.qunzhuId = qunzhuId;
+                refreshView();
+              }
+
+              @Override
+              public void Failure(Call<NetData> call, Throwable t) {
+
+              }
+            });
   }
   void _requestCaiData() {
     RegisterBean registerBean = new RegisterBean();

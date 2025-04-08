@@ -38,6 +38,8 @@ import com.netease.yunxin.kit.common.utils.SizeUtils;
 import com.netease.yunxin.kit.corekit.im.IMKitClient;
 import com.netease.yunxin.kit.corekit.im.model.UserInfo;
 import com.netease.yunxin.kit.corekit.im.provider.FetchCallback;
+import com.yaoxin.appbase.utils.DataUtil;
+
 import java.util.List;
 import java.util.Map;
 
@@ -488,6 +490,8 @@ public abstract class ChatBaseMessageViewHolder extends CommonBaseMessageViewHol
     if (userInfoUIOption.otherUserAvatarVisible != null) {
       baseViewBinding.otherUserAvatar.setVisibility(
           userInfoUIOption.otherUserAvatarVisible ? View.VISIBLE : View.GONE);
+      baseViewBinding.otherUserAvatarRole.setVisibility(
+          userInfoUIOption.otherUserAvatarVisible ? View.VISIBLE : View.GONE);
     }
     // 自定义设置对方用户昵称文字颜色
     if (userInfoUIOption.otherUserNicknameColor != null) {
@@ -810,10 +814,20 @@ public abstract class ChatBaseMessageViewHolder extends CommonBaseMessageViewHol
       // 收到消息当前用户头像隐藏，对方用户头像显示
       baseViewBinding.myAvatar.setVisibility(View.GONE);
       baseViewBinding.otherUserAvatar.setVisibility(View.VISIBLE);
+      baseViewBinding.otherUserAvatarRole.setVisibility(View.GONE);
+      String targetId = messageBean.getMessageData().getFromUser().getAccount();
+      if (DataUtil.adminIds.contains(targetId)) {
+        baseViewBinding.otherUserAvatarRole.setVisibility(View.VISIBLE);
+        baseViewBinding.otherUserAvatarRole.setText("管理");
+      } else if (DataUtil.qunzhuId.equals(targetId)) {
+        baseViewBinding.otherUserAvatarRole.setVisibility(View.VISIBLE);
+        baseViewBinding.otherUserAvatarRole.setText("群主");
+      }
     } else {
       // 发送消息当前用户头像显示，对方用户头像隐藏
       baseViewBinding.myAvatar.setVisibility(View.VISIBLE);
       baseViewBinding.otherUserAvatar.setVisibility(View.GONE);
+      baseViewBinding.otherUserAvatarRole.setVisibility(View.GONE);
     }
     // 撤回消息消息状态隐藏
     if (messageBean.isRevoked()) {

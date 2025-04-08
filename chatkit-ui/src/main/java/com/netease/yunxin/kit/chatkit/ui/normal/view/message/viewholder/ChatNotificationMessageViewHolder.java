@@ -78,6 +78,7 @@ public class ChatNotificationMessageViewHolder extends NormalChatBaseMessageView
   protected void onCommonViewVisibleConfig(ChatMessageBean messageBean) {
     baseViewBinding.otherUsername.setVisibility(View.GONE);
     baseViewBinding.otherUserAvatar.setVisibility(View.GONE);
+    baseViewBinding.otherUserAvatarRole.setVisibility(View.GONE);
     baseViewBinding.myAvatar.setVisibility(View.GONE);
     baseViewBinding.myName.setVisibility(View.GONE);
     baseViewBinding.messageStatus.setVisibility(View.GONE);

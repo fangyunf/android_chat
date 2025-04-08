@@ -42,14 +42,28 @@
                 android:textSize="12sp"
                 />
         </LinearLayout>
-        <TextView
-            android:id="@+id/item_purse_bill_detail_list_money_tv"
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="25dp"
-            android:text="-66.00"
-            android:textColor="#ff000000"
-            android:textSize="18sp"
-            />
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/item_purse_bill_detail_list_money_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:text="-66.00"
+                android:textColor="#ff000000"
+                android:textSize="18sp"
+                />
+            <TextView
+                android:id="@+id/item_purse_bill_detail_list_yue_money_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:text=""
+                android:textColor="#ff000000"
+                android:textSize="18sp"
+                />
+        </LinearLayout>
     </LinearLayout>
     <View
         android:layout_width="match_parent"

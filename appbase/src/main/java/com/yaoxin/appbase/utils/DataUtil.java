@@ -13,6 +13,9 @@ import java.util.List;
  */
 public class DataUtil {
 
+
+    public static List<String> adminIds = new ArrayList<>();
+    public static String qunzhuId = "";
     private static final String TOKEN = "token";
     private static final String USERID = "user_id";
     private static final String USERInfoList = "USERInfoList2";

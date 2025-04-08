@@ -75,6 +75,9 @@ public abstract class FunChatFragment extends ChatBaseFragment {
     @Override
     public View initViewAndGetRootView(
             @NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
+
+        DataUtil.adminIds = new ArrayList<>();
+        DataUtil.qunzhuId = "";
         viewBinding = FunChatFragmentBinding.inflate(inflater, container, false);
         chatView = viewBinding.chatView;
         changeStatusBarColor(R.color.color_white);

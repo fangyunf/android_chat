@@ -4,7 +4,7 @@ public class BillDetailBean {
     public String title;
     public String userId;
     public String id;
-    public String balance;
+    public double balance;
     public double amount;
     public int moduleType;
     public String traceId;
