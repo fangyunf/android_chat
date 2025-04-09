@@ -24,11 +24,15 @@ import com.turunsi.yaoxin.main.mine.DownLoadActivity;
 import com.turunsi.yaoxin.main.mine.purse.pwdmanager.PursePwdManagerSetActivity;
 import com.yaoxin.appbase.activity.BaseActivity;
 import com.yaoxin.appbase.model.NetData;
+import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
+import com.yaoxin.appbase.utils.CommonNetUtil;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.DialogAlertUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
+import com.yaoxin.appbase.view.loginlib.utils.LoginLoader;
+import com.yaoxin.appbase.view.loginlib.view.CountDownView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -55,6 +59,25 @@ public class ZhuXiaoConfrimActivity extends BaseActivity implements View.OnClick
     viewBinding.activityMineZhuxiaoConfirmNav.addCloseImageButton().setOnClickListener(this);
     viewBinding.activityMineZhuxiaoConfirmTv.setOnClickListener(this);
 
+
+      viewBinding.activityMineZhuxiaoConfirmGetCode.viewTitleTfWithoutBgTv.setText("验证码");
+
+      viewBinding.activityMineZhuxiaoConfirmGetCode.btnCaptcha.setVisibility(View.VISIBLE);
+
+      CountDownView mCountDownView = viewBinding.activityMineZhuxiaoConfirmGetCode.btnCaptcha;
+      mCountDownView.needVerify = false;
+      mCountDownView.setCountDownTime(60);
+      mCountDownView.setCaptchaListener(new LoginLoader.CaptchaListener() {
+          @Override
+          public void onPre() {
+              String phone = DataUtil.getUserInfo().phoneNo;
+              CommonNetUtil.getPhoneCode(phone);
+          }
+
+          @Override
+          public void onComplete(String phoneOrEmail) {
+          }
+      });
   }
 
   @Override
@@ -64,30 +87,30 @@ public class ZhuXiaoConfrimActivity extends BaseActivity implements View.OnClick
 
     } else if (v == viewBinding.activityMineZhuxiaoConfirmTv) {
 
-         HashMap map = new HashMap();
-         map.put("type","100");
-         PursePwdManagerSetActivity.start(PursePwdManagerSetActivity.class,this,map);
-//         DialogAlertUtil.showAlert("确定注销账号吗？", new DialogAlertUtil.DialogAlertUtilCallBack() {
-//             @Override
-//             public void clickType(int type) {
-//                 if (type == 1) {
-//                     HttpUtil.apiW().home_logout()
-//                             .enqueue(new CommonCallback<NetData>() {
-//                                 @Override
-//                                 public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-//                                     ToastUtils.toastMsg("注销成功");
-//                                     showLogin();
-//                                 }
-//
-//                                 @Override
-//                                 public void Failure(Call<NetData> call, Throwable t) {
-//
-//                                 }
-//                             });
-//
-//                 }
-//             }
-//         },getSupportFragmentManager());
+//         HashMap map = new HashMap();
+//         map.put("type","100");
+//         PursePwdManagerSetActivity.start(PursePwdManagerSetActivity.class,this,map);
+
+         String code = getTextStr(viewBinding.activityMineZhuxiaoConfirmGetCode.viewTitleTfWithoutBgEt);
+         if (code.length() != 6) {
+             ToastUtils.toastMsg("验证码错误");
+             return;
+         }
+         RegisterBean bean = new RegisterBean();
+         bean.sms = code;
+         HttpUtil.apiW().home_logout1(bean)
+                 .enqueue(new CommonCallback<NetData>() {
+                     @Override
+                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                         ToastUtils.toastMsg("注销成功");
+                         showLogin();
+                     }
+
+                     @Override
+                     public void Failure(Call<NetData> call, Throwable t) {
+
+                     }
+                 });
     }
   }
 

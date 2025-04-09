@@ -52,7 +52,7 @@ public class AccountCodeDialogFragment extends BaseDialogFragment implements Vie
         return binding.getRoot();
     }
     private Bitmap generateQRCode(String text, Context context) {
-        String resultStr = text;
+        String resultStr = "1232323213588882583285828358238582858285821238128388128381283818212323232135888825832858283582385828582858212381283881283812838182." + text + ".adasdasd11312adasdadae12123adadad";
         QRCodeWriter writer = new QRCodeWriter();
         try {
             int width = 512;

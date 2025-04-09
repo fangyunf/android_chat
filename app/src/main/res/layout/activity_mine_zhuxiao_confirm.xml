@@ -79,6 +79,12 @@
                 android:textColor="#999999"
                 />
         </LinearLayout>
+        <include
+            android:id="@+id/activity_mine_zhuxiao_confirm_get_code"
+            layout="@layout/view_top_title_et"
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content" />
     </LinearLayout>
     <TextView
         android:id="@+id/activity_mine_zhuxiao_confirm_tv"
