@@ -28,6 +28,7 @@ import com.yaoxin.appbase.model.RequestParamsBean;
 import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
+import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.DialogAlertUtil;
 import com.yaoxin.appbase.utils.NumberUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
@@ -103,12 +104,12 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
         recyclerView1.setLayoutManager(new LinearLayoutManager(this));
         adpter1 = new Recharge_PayType_Adpter();
         List<String> list1 = new ArrayList<>();
-        list1.add("支付宝");
-//        list1.add("微信");
+        list1.add("支付宝1");
+        list1.add("支付宝2");
 //        list1.add("银行卡");
 //        list1.add("USDT");
         adpter1.setItems(list1);
-        adpter1.payType = "支付宝";
+        adpter1.payType = "支付宝1";
         recyclerView1.setAdapter(adpter1);
         adpter1.notifyDataSetChanged();
         adpter1.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener<String>() {
@@ -292,6 +293,29 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
             return;
         }
 
+        if ( "支付宝1".equals(adpter1.payType)) {
+
+            RequestParamsBean registerBean = new RequestParamsBean();
+            registerBean.amount = NumberUtil.formartUploadMoney(inputMoney);
+            registerBean.type = "alipay";
+            registerBean.userId = DataUtil.getUserid();
+
+            HttpUtil.apiW().pay_xxPay(registerBean)
+                    .enqueue(new CommonCallback<NetData>() {
+                        @Override
+                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                            UserBean userBean = new Gson().fromJson(body.data.toString(),UserBean.class);
+//                        RechargeScanFragment.showV(getSupportFragmentManager(),payType.equals("wxpay")?"请使用微信扫码":"请使用支付宝扫码",userBean.payUrl);
+                            startAlipayPayment(userBean.url);
+                        }
+
+                        @Override
+                        public void Failure(Call<NetData> call, Throwable t) {
+
+                        }
+                    });
+            return;
+        }
         RequestParamsBean registerBean = new RequestParamsBean();
         registerBean.amount = NumberUtil.formartUploadMoney(inputMoney);
 //        registerBean.payChannel = payType;

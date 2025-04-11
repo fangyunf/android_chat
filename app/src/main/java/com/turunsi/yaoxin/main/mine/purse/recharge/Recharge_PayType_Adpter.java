@@ -28,7 +28,7 @@ public class Recharge_PayType_Adpter extends
     tv.setText(orderListBean);
     stateIv.setSelected(payType.equals(orderListBean));
     switch (orderListBean) {
-      case "支付宝":
+      case "支付宝":case "支付宝1":case "支付宝2":
         iconIv.setImageResource(R.mipmap.recharge_index_zfb);
         break;
       case "微信":
