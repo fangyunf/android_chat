@@ -91,6 +91,7 @@
                 android:layout_height="11dp"/>
         </LinearLayout>
         <LinearLayout
+            android:visibility="gone"
             android:id="@+id/activity_mine_pwd_set_mager_set_login_zx_ll"
             android:layout_marginTop="15dp"
             android:layout_width="match_parent"
