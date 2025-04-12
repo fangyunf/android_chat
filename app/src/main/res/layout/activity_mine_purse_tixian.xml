@@ -122,9 +122,9 @@
             android:layout_marginTop="14dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="注:提现费率0.035外加单笔2;
-\n充值时间24小时 提现9点到晚9:30
-\n到账时间2小时左右"
+            android:text="注：提现费率0.06外加单笔2；
+\n充值时间24小时 提现早9:00点到晚21:30点
+\n到账时间为2小时左右"
             android:layout_gravity="start"
             android:layout_marginLeft="30dp"
             android:textColor="#ff999999"
