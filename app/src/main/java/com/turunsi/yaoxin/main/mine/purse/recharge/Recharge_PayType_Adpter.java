@@ -26,20 +26,30 @@ public class Recharge_PayType_Adpter extends
     ImageView stateIv = quickViewHolder.findView(R.id.activity_mine_purse_recharge_paytype_item_state_icon);
     tv.setText(orderListBean);
     stateIv.setSelected(payType.equals(orderListBean));
-    switch (orderListBean) {
-      case "支付宝":
-        iconIv.setImageResource(R.mipmap.recharge_index_zfb);
-        break;
-      case "微信":
-        iconIv.setImageResource(R.mipmap.recharge_index_wx);
-        break;
-      case "银行卡":
-        iconIv.setImageResource(R.mipmap.recharge_index_szrmb);
-        break;
-      case "USDT":
-        iconIv.setImageResource(R.mipmap.recharge_index_bi);
-        break;
+    if (orderListBean.contains("支付宝")) {
+
+      iconIv.setImageResource(R.mipmap.recharge_index_zfb);
+    }  else if (orderListBean.contains("微信")) {
+
+      iconIv.setImageResource(R.mipmap.recharge_index_wx);
+    } else  {
+
+      iconIv.setImageResource(R.mipmap.recharge_index_bi);
     }
+//    switch (orderListBean) {
+//      case "支付宝":
+//        iconIv.setImageResource(R.mipmap.recharge_index_zfb);
+//        break;
+//      case "微信":
+//        iconIv.setImageResource(R.mipmap.recharge_index_wx);
+//        break;
+//      case "银行卡":
+//        iconIv.setImageResource(R.mipmap.recharge_index_szrmb);
+//        break;
+//      case "USDT":
+//        iconIv.setImageResource(R.mipmap.recharge_index_bi);
+//        break;
+//    }
 //    tv.setText(orderListBean);
 //    tv.setSelected(selectStr.equals(orderListBean));
 

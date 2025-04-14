@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 
 
 import com.netease.yunxin.kit.corekit.route.XKitRouter;
+import com.yaoxin.appbase.BuildConfig;
 import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.utils.AESUtil;
 import com.yaoxin.appbase.utils.AppProxy;
@@ -62,6 +63,10 @@ public abstract class CommonCallback<T> implements Callback<T> {
                         }
                         break;
                     case 777:// 版本更新
+                        if (BuildConfig.DEBUG) {
+
+                        } else {
+
                         if (!Constant.isRunningRealName) {
                             Constant.isRunningRealName = true;
                             XKitRouter.withKey(Constant.RealName_Router)
@@ -70,6 +75,7 @@ public abstract class CommonCallback<T> implements Callback<T> {
                         }
 
 
+                        }
                         break;
                     case -101://认证过期
                         ToastUtils.toastMsg(((NetData) t).msg);

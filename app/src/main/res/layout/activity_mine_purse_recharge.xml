@@ -150,19 +150,35 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="我的账单"
-                android:layout_weight="1"
+                android:text="充值金额"
                 android:textColor="#ff000000"
                 android:textSize="14sp"
                 />
-            <TextView
-                android:id="@+id/activity_mine_purse_recharge_detail_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="≈200CNY"
-                android:textColor="#ff000001"
-                android:textSize="15sp"
+
+            <EditText
+                android:id="@+id/activity_mine_purse_recharge_et1"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_marginStart="15dp"
+                android:layout_height="match_parent"
+                android:textSize="20sp"
+                android:hint="请输入金额"
+                android:background="@null"
+                android:textColorHint="@color/color_999999"
+                android:textColor="@color/black"
+                android:cursorVisible="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+
                 />
+<!--            <TextView-->
+<!--                android:id="@+id/activity_mine_purse_recharge_detail_tv"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="≈200CNY"-->
+<!--                android:textColor="#ff000001"-->
+<!--                android:textSize="15sp"-->
+<!--                />-->
         </LinearLayout>
         <LinearLayout
             android:layout_marginTop="10dp"

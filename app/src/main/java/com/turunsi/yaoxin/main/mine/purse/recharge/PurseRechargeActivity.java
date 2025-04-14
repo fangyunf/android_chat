@@ -80,14 +80,14 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
         list.add("5000");
         adpter.setItems(list);
         adpter.selectStr = "100";
-        binding.activityMinePurseRechargeDetailTv.setText("≈" + adpter.selectStr+"CNY");
+//        binding.activityMinePurseRechargeDetailTv.setText("≈" + adpter.selectStr+"CNY");
         recyclerView.setAdapter(adpter);
         adpter.notifyDataSetChanged();
         adpter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener<String>() {
             @Override
             public void onClick(@NonNull BaseQuickAdapter<String, ?> baseQuickAdapter, @NonNull View view, int i) {
                 adpter.selectStr = adpter.getItem(i);
-                binding.activityMinePurseRechargeDetailTv.setText("≈" + adpter.selectStr+"CNY");
+//                binding.activityMinePurseRechargeDetailTv.setText("≈" + adpter.selectStr+"CNY");
                 adpter.notifyDataSetChanged();
             }
         });
@@ -96,12 +96,12 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
         recyclerView1.setLayoutManager(new LinearLayoutManager(this));
         adpter1 = new Recharge_PayType_Adpter();
         List<String> list1 = new ArrayList<>();
-        list1.add("支付宝");
-//        list1.add("微信");
-//        list1.add("银行卡");
-//        list1.add("USDT");
+        list1.add("支付宝充值一");
+        list1.add("微信充值一");
+        list1.add("支付宝充值二");
+        list1.add("微信充值二");
         adpter1.setItems(list1);
-        adpter1.payType = "支付宝";
+        adpter1.payType = "支付宝充值一";
         recyclerView1.setAdapter(adpter1);
         adpter1.notifyDataSetChanged();
         adpter1.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener<String>() {
@@ -109,17 +109,17 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
             public void onClick(@NonNull BaseQuickAdapter<String, ?> baseQuickAdapter, @NonNull View view, int i) {
                 adpter1.payType = adpter1.getItem(i);
                 switch (adpter1.payType) {
-                    case "支付宝":
+                    case "支付宝充值一":
                         payType = "alipay";
                         break;
-                    case "微信":
+                    case "微信充值一":
                         payType = "wxpay";
                         break;
-                    case "银行卡":
-                        payType = "bank";
+                    case "支付宝充值二":
+                        payType = "alipay";
                         break;
-                    case "USDT":
-                        payType = "";
+                    case "微信充值二":
+                        payType = "wxpay";
                         break;
                 }
                 adpter1.notifyDataSetChanged();
@@ -281,31 +281,90 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
 
     }
     void rechargeMoney(String inputMoney) {
+        String inputMoney1 = getTextStr(binding.activityMinePurseRechargeEt1);
+        if (!inputMoney1.isEmpty()) {
+            inputMoney = inputMoney1;
+        }
         if (payType.equals("")) {
             return;
         }
-        RequestParamsBean registerBean = new RequestParamsBean();
-        registerBean.amount = NumberUtil.formartUploadMoney(inputMoney);
+        if ("支付宝充值一".equals(adpter1.payType)){
+            RequestParamsBean registerBean = new RequestParamsBean();
+            registerBean.amount = NumberUtil.formartUploadMoney(inputMoney);
+            HttpUtil.apiW().pay_six(registerBean)
+                    .enqueue(new CommonCallback<NetData>() {
+                        @Override
+                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                            UserBean userBean = new Gson().fromJson(body.data.toString(),UserBean.class);
+                            startAlipayPayment(userBean.url);
+                        }
 
-        registerBean.name = "12";
-        registerBean.configId = "2";
-        registerBean.payWay = "sypay";
-        registerBean.type = payType;
-        registerBean.userId = DataUtil.getUserid();
-        HttpUtil.apiW().pay_tyPay(registerBean)
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        UserBean userBean = new Gson().fromJson(body.data.toString(),UserBean.class);
+                        @Override
+                        public void Failure(Call<NetData> call, Throwable t) {
+
+                        }
+                    });
+        } else if ("微信充值一".equals(adpter1.payType)) {
+
+            RequestParamsBean registerBean = new RequestParamsBean();
+            registerBean.amount = NumberUtil.formartUploadMoney(inputMoney);
+            registerBean.type = payType;
+
+            HttpUtil.apiW().pay_sixwx(registerBean)
+                    .enqueue(new CommonCallback<NetData>() {
+                        @Override
+                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                            UserBean userBean = new Gson().fromJson(body.data.toString(),UserBean.class);
 //                        RechargeScanFragment.showV(getSupportFragmentManager(),payType.equals("wxpay")?"请使用微信扫码":"请使用支付宝扫码",userBean.payUrl);
-                        startAlipayPayment(userBean.url);
-                    }
+                            startAlipayPayment(userBean.url);
+                        }
 
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
+                        @Override
+                        public void Failure(Call<NetData> call, Throwable t) {
 
-                    }
-                });
+                        }
+                    });
+        } else if ("支付宝充值二".equals(adpter1.payType)) {
+
+            RequestParamsBean registerBean = new RequestParamsBean();
+            registerBean.amount = NumberUtil.formartUploadMoney(inputMoney);
+            registerBean.type = payType;
+
+            HttpUtil.apiW().pay_sixwx(registerBean)
+                    .enqueue(new CommonCallback<NetData>() {
+                        @Override
+                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                            UserBean userBean = new Gson().fromJson(body.data.toString(),UserBean.class);
+//                        RechargeScanFragment.showV(getSupportFragmentManager(),payType.equals("wxpay")?"请使用微信扫码":"请使用支付宝扫码",userBean.payUrl);
+                            startAlipayPayment(userBean.url);
+                        }
+
+                        @Override
+                        public void Failure(Call<NetData> call, Throwable t) {
+
+                        }
+                    });
+        } else if ("微信充值二".equals(adpter1.payType)) {
+
+            RequestParamsBean registerBean = new RequestParamsBean();
+            registerBean.amount = NumberUtil.formartUploadMoney(inputMoney);
+            registerBean.type = payType;
+
+            HttpUtil.apiW().pay_sixL(registerBean)
+                    .enqueue(new CommonCallback<NetData>() {
+                        @Override
+                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                            UserBean userBean = new Gson().fromJson(body.data.toString(),UserBean.class);
+//                        RechargeScanFragment.showV(getSupportFragmentManager(),payType.equals("wxpay")?"请使用微信扫码":"请使用支付宝扫码",userBean.payUrl);
+                            startAlipayPayment(userBean.url);
+                        }
+
+                        @Override
+                        public void Failure(Call<NetData> call, Throwable t) {
+
+                        }
+                    });
+        }
 //        registerBean.payChannel = payType;
 //        if (_type == 1) {
 //            registerBean.type = payType;
