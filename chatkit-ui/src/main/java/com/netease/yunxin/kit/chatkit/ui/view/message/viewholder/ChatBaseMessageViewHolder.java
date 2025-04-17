@@ -815,7 +815,10 @@ public abstract class ChatBaseMessageViewHolder extends CommonBaseMessageViewHol
       baseViewBinding.myAvatar.setVisibility(View.GONE);
       baseViewBinding.otherUserAvatar.setVisibility(View.VISIBLE);
       baseViewBinding.otherUserAvatarRole.setVisibility(View.GONE);
-      String targetId = messageBean.getMessageData().getFromUser().getAccount();
+      String targetId = "";
+      if (messageBean.getMessageData() != null && messageBean.getMessageData().getFromUser() != null) {
+        targetId = messageBean.getMessageData().getFromUser().getAccount();
+      }
       if (DataUtil.adminIds.contains(targetId)) {
         baseViewBinding.otherUserAvatarRole.setVisibility(View.VISIBLE);
         baseViewBinding.otherUserAvatarRole.setText("管理");
