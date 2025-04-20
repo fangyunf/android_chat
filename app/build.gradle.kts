@@ -18,11 +18,11 @@ android {
         }
     }
     defaultConfig {
-        applicationId = "com.turunsi.wanlida"
+        applicationId = "com.turunsi.liuliuba"
         minSdk = 21
         targetSdk = 33
         versionCode = 1
-        versionName = "1.0.5"
+        versionName = "1.0.0"
         multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
