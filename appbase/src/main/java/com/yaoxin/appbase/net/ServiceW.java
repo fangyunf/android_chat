@@ -354,6 +354,11 @@ public interface ServiceW {
             @Body RequestParamsBean userBean
     );
     //  好友列表
+    @POST("/pay/gsPay")
+    Call<NetData> pay_gsPay(
+            @Body RequestParamsBean userBean
+    );
+    //  好友列表
     @POST("/pay/tyPay")
     Call<NetData> pay_tyPay(
             @Body RequestParamsBean userBean

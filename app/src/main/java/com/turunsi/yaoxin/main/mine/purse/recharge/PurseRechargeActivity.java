@@ -76,7 +76,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
         recyclerView.setLayoutManager(gridLayoutManager);
         adpter = new Recharge_Adpter();
         List<String> list = new ArrayList<>();
-        list.add("100");
+//        list.add("100");
         list.add("200");
         list.add("300");
         list.add("500");
@@ -87,7 +87,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
         list.add("50000");
         list.add("100000");
         adpter.setItems(list);
-        adpter.selectStr = "100";
+        adpter.selectStr = "200";
         binding.activityMinePurseRechargeDetailTv.setText("≈" + adpter.selectStr+"CNY");
         recyclerView.setAdapter(adpter);
         adpter.notifyDataSetChanged();
@@ -295,11 +295,49 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
 
         RequestParamsBean registerBean = new RequestParamsBean();
         registerBean.amount = NumberUtil.formartUploadMoney(inputMoney);
+        registerBean.name = "12";
+        registerBean.configId = "1";
+        registerBean.payWay = "syPay";
         registerBean.type = payType;
         registerBean.userId = DataUtil.getUserid();
-//        if (_type == 1) {
-//            registerBean.type = payType;
-//            HttpUtil.apiW().pay_sixL(registerBean)
+        HttpUtil.apiW().pay_gsPay(registerBean)
+                .enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                        UserBean userBean = new Gson().fromJson(body.data.toString(),UserBean.class);
+//                        RechargeScanFragment.showV(getSupportFragmentManager(),payType.equals("wxpay")?"请使用微信扫码":"请使用支付宝扫码",userBean.payUrl);
+                        startAlipayPayment(userBean.url);
+                    }
+
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
+
+                    }
+                });
+
+//        RequestParamsBean registerBean = new RequestParamsBean();
+//        registerBean.amount = NumberUtil.formartUploadMoney(inputMoney);
+//        registerBean.type = payType;
+//        registerBean.userId = DataUtil.getUserid();
+////        if (_type == 1) {
+////            registerBean.type = payType;
+////            HttpUtil.apiW().pay_sixL(registerBean)
+////                    .enqueue(new CommonCallback<NetData>() {
+////                        @Override
+////                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+////                            UserBean userBean = new Gson().fromJson(body.data.toString(),UserBean.class);
+//////                        RechargeScanFragment.showV(getSupportFragmentManager(),payType.equals("wxpay")?"请使用微信扫码":"请使用支付宝扫码",userBean.payUrl);
+////                            startAlipayPayment(userBean.url);
+////                        }
+////
+////                        @Override
+////                        public void Failure(Call<NetData> call, Throwable t) {
+////
+////                        }
+////                    });
+////        } else {
+//
+//            HttpUtil.apiW().pay_xxPay(registerBean)
 //                    .enqueue(new CommonCallback<NetData>() {
 //                        @Override
 //                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
@@ -313,22 +351,6 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
 //
 //                        }
 //                    });
-//        } else {
-
-            HttpUtil.apiW().pay_xxPay(registerBean)
-                    .enqueue(new CommonCallback<NetData>() {
-                        @Override
-                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                            UserBean userBean = new Gson().fromJson(body.data.toString(),UserBean.class);
-//                        RechargeScanFragment.showV(getSupportFragmentManager(),payType.equals("wxpay")?"请使用微信扫码":"请使用支付宝扫码",userBean.payUrl);
-                            startAlipayPayment(userBean.url);
-                        }
-
-                        @Override
-                        public void Failure(Call<NetData> call, Throwable t) {
-
-                        }
-                    });
 //        }
     }
     private void startAlipayPayment(String url) {
