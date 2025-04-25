@@ -117,7 +117,7 @@ public class FunAddFriendVerifyActivity extends BaseActivity implements View.OnC
             //1 同意,2 拒绝
             RegisterBean bean = new RegisterBean();
             bean.id = userBean.id;
-            bean.type = isAgree ? 1 : 2;
+            bean.state = isAgree ? 1 : 2;
             HttpUtil.apiW().group_groupConsentOrRefuse(bean)
                     .enqueue(new CommonCallback<NetData>() {
                         @Override
