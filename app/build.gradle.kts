@@ -22,7 +22,7 @@ android {
         minSdk = 21
         targetSdk = 33
         versionCode = 1
-        versionName = "1.0.7"
+        versionName = "1.0.8"
         multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -97,6 +97,5 @@ dependencies {
     implementation("com.google.code.gson:gson:2.9.0")
     implementation("commons-codec:commons-codec:1.10")
     implementation("androidx.annotation:annotation:1.3.0")
-
-
+    implementation("com.alipay.sdk:alipaysdk-android:+@aar")
 }

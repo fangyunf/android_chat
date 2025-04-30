@@ -1,14 +1,20 @@
 package com.turunsi.yaoxin.main.mine.purse.recharge;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.text.method.DigitsKeyListener;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,6 +22,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.alipay.sdk.app.AlipayApi;
+import com.alipay.sdk.app.PayTask;
 import com.chad.library.adapter4.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.netease.yunxin.kit.common.utils.SizeUtils;
@@ -35,6 +43,7 @@ import com.yaoxin.appbase.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -47,6 +56,49 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
     private RecyclerView recyclerView1;
     Recharge_Adpter adpter;
     Recharge_PayType_Adpter adpter1;
+    private static final int SDK_PAY_FLAG = 1;
+
+    private Handler mHandler = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == SDK_PAY_FLAG) {
+                @SuppressWarnings("unchecked")
+                Map<String, String> result = (Map<String, String>) msg.obj;
+                Log.d("Alipay", "Result === " + result.toString());
+
+                // 支付结果处理逻辑
+                String resultStatus = result.get("resultStatus");
+
+                switch (resultStatus) {
+                    case "9000":
+                        Toast.makeText(PurseRechargeActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
+                        break;
+                    case "8000":
+                        Toast.makeText(PurseRechargeActivity.this, "支付结果正在确认中", Toast.LENGTH_SHORT).show();
+                        break;
+                    case "4000":
+                        Toast.makeText(PurseRechargeActivity.this, "支付失败", Toast.LENGTH_SHORT).show();
+                        break;
+                    case "5000":
+                        Toast.makeText(PurseRechargeActivity.this, "重复请求", Toast.LENGTH_SHORT).show();
+                        break;
+                    case "6001":
+                        Toast.makeText(PurseRechargeActivity.this, "用户取消支付", Toast.LENGTH_SHORT).show();
+                        break;
+                    case "6002":
+                        Toast.makeText(PurseRechargeActivity.this, "网络连接出错", Toast.LENGTH_SHORT).show();
+                        break;
+                    case "6004":
+                        Toast.makeText(PurseRechargeActivity.this, "支付结果未知，请稍后查询", Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        Toast.makeText(PurseRechargeActivity.this, "其他支付状态：" + resultStatus, Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        }
+    };
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -280,6 +332,22 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
         }
 
     }
+    /**
+     * 启动支付宝支付
+     * @param orderInfo 后台返回的 orderInfo（即 iOS 中 response[@"data"][@"url"]）
+     */
+    private void startAlipay(String orderInfo) {
+        Runnable payRunnable = () -> {
+            PayTask alipay = new PayTask(PurseRechargeActivity.this);
+            Map<String, String> result = alipay.payV2(orderInfo, true);
+            Message msg = new Message();
+            msg.what = SDK_PAY_FLAG;
+            msg.obj = result;
+            mHandler.sendMessage(msg);
+        };
+        Thread payThread = new Thread(payRunnable);
+        payThread.start();
+    }
     void rechargeMoney(String inputMoney) {
         String inputMoney1 = getTextStr(binding.activityMinePurseRechargeEt1);
         if (!inputMoney1.isEmpty()) {
@@ -296,7 +364,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
                         @Override
                         public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                             UserBean userBean = new Gson().fromJson(body.data.toString(),UserBean.class);
-                            startAlipayPayment(userBean.url);
+                            startAlipayPayment1(userBean.url);
                         }
 
                         @Override
@@ -336,7 +404,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
                         public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                             UserBean userBean = new Gson().fromJson(body.data.toString(),UserBean.class);
 //                        RechargeScanFragment.showV(getSupportFragmentManager(),payType.equals("wxpay")?"请使用微信扫码":"请使用支付宝扫码",userBean.payUrl);
-                            startAlipayPayment(userBean.url);
+                            startAlipayPayment1(userBean.url);
                         }
 
                         @Override
@@ -399,6 +467,14 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
 //                        }
 //                    });
 //        }
+    }
+    private void startAlipayPayment1(String url){
+        if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("alipay://")) {
+            startAlipayPayment(url);
+        } else {
+            startAlipay(url);
+        }
+
     }
     private void startAlipayPayment(String url) {
         if ( url != null) {
