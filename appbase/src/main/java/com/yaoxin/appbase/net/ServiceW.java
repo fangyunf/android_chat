@@ -318,6 +318,11 @@ public interface ServiceW {
             @Body RegisterBean userBean
     );
     //  好友列表
+    @POST("/friends/friendLists")
+    Call<NetData> friends_friendLists(
+            @Body ParamsBean userBean
+    );
+    //  好友列表
     @POST("/group/groupConsentOrRefuse")
     Call<NetData> group_groupConsentOrRefuse(
             @Body RegisterBean userBean

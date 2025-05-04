@@ -15,6 +15,7 @@ public class ParamsBean {
     public String absolutePathUrl;
     public String deviceId;
     public String clientType;
+    public int page;
     public ParamsBean() {
         deviceId = DeviceUtils.getDeviceId(AppProxy.getInstance().getContext());
         clientType = Constant.clientType;
