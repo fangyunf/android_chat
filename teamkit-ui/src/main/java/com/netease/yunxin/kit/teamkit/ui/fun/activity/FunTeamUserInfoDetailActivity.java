@@ -376,6 +376,7 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
     }
 
     protected void _requestData1() {
+        LoadingDialog.dismissDialog();
         List<GroupInfoBean> userList = DataUtil.getFriendInfoList();
         for (GroupInfoBean tempBean :
                 userList) {
