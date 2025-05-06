@@ -376,74 +376,75 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
     }
 
     protected void _requestData1() {
-        RegisterBean bean = new RegisterBean();
-        HttpUtil.apiW().friends_friendList(bean)
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        LoadingDialog.dismissDialog();
-                        Type userListType = new TypeToken<List<GroupInfoBean>>() {
-                        }.getType();
-                        List<GroupInfoBean> userList = new Gson().fromJson(body.data.toString(),userListType);
-                        for (GroupInfoBean tempBean :
-                                userList) {
-                            if (tempBean != null && tempBean.userId.equals(groupInfoBean.userId)) {
-                                isFriend = true;
-                                friendBean = tempBean;
+        List<GroupInfoBean> userList = DataUtil.getFriendInfoList();
+        for (GroupInfoBean tempBean :
+                userList) {
+            if (tempBean != null && tempBean.userId.equals(groupInfoBean.userId)) {
+                isFriend = true;
+                friendBean = tempBean;
 //                                binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowLl.setVisibility(View.VISIBLE);
-                                binding.funTeamUserInfoDetailBottomTv.setText("发消息");
-                                binding.funTeamUserInfoDetailBottomTv.setVisibility(View.VISIBLE);
+                binding.funTeamUserInfoDetailBottomTv.setText("发消息");
+                binding.funTeamUserInfoDetailBottomTv.setVisibility(View.VISIBLE);
 
-                                break;
-                            }
-                        }
-                        if (rankState == 1 || rankState == 2) {
-                            if (isFriend) {
-                                binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowRightTv.setVisibility(View.VISIBLE);
-                                if (friendBean != null) {
-                                    binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowRightTv.setText(friendBean.remark);
+                break;
+            }
+        }
+        if (rankState == 1 || rankState == 2) {
+            if (isFriend) {
+                binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowRightTv.setVisibility(View.VISIBLE);
+                if (friendBean != null) {
+                    binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowRightTv.setText(friendBean.remark);
+                }
+                binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowLl.setVisibility(View.VISIBLE);
+            }
+            binding.funTeamUserInfoDetailBottomTv.setVisibility(View.VISIBLE);
+        } else {
+            HttpUtil.apiW().group_groupManage(groupId)
+                    .enqueue(new CommonCallback<NetData>() {
+                        @Override
+                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+
+                            GroupInfoBean tempBean = new Gson().fromJson(body.data.toString(),GroupInfoBean.class);
+
+                            if (tempBean.addFriendsState == 1) {
+                                if (!isFriend) {
+                                    binding.funTeamUserInfoDetailBottomTv.setVisibility(View.VISIBLE);
                                 }
-                                binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowLl.setVisibility(View.VISIBLE);
-                            }
-                            binding.funTeamUserInfoDetailBottomTv.setVisibility(View.VISIBLE);
-                        } else {
-                            HttpUtil.apiW().group_groupManage(groupId)
-                                    .enqueue(new CommonCallback<NetData>() {
-                                        @Override
-                                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                                            GroupInfoBean tempBean = new Gson().fromJson(body.data.toString(),GroupInfoBean.class);
-
-                                            if (tempBean.addFriendsState == 1) {
-                                                if (!isFriend) {
-                                                    binding.funTeamUserInfoDetailBottomTv.setVisibility(View.VISIBLE);
-                                                }
-
-                                            }
-                                        }
-
-                                        @Override
-                                        public void Failure(Call<NetData> call, Throwable t) {
-
-                                        }
-                                    });
-                        }
-                        if (groupInfoBean != null) {
-                            if (groupInfoBean.rankState != 3 && rankState == 3) {
-                                binding.funTeamUserInfoDetailBottomTv.setVisibility(View.VISIBLE);
-                            }
-                            if (groupInfoBean.userId.equals(DataUtil.getUserid())) {
-                                binding.funTeamUserInfoDetailBottomTv.setVisibility(View.GONE);
                             }
                         }
 
-                    }
+                        @Override
+                        public void Failure(Call<NetData> call, Throwable t) {
 
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
-                        LoadingDialog.dismissDialog();
-                    }
-                });
+                        }
+                    });
+        }
+        if (groupInfoBean != null) {
+            if (groupInfoBean.rankState != 3 && rankState == 3) {
+                binding.funTeamUserInfoDetailBottomTv.setVisibility(View.VISIBLE);
+            }
+            if (groupInfoBean.userId.equals(DataUtil.getUserid())) {
+                binding.funTeamUserInfoDetailBottomTv.setVisibility(View.GONE);
+            }
+        }
+//        RegisterBean bean = new RegisterBean();
+//        HttpUtil.apiW().friends_friendList(bean)
+//                .enqueue(new CommonCallback<NetData>() {
+//                    @Override
+//                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+//                        LoadingDialog.dismissDialog();
+//                        Type userListType = new TypeToken<List<GroupInfoBean>>() {
+//                        }.getType();
+//
+//
+//                    }
+//
+//                    @Override
+//                    public void Failure(Call<NetData> call, Throwable t) {
+//                        LoadingDialog.dismissDialog();
+//                    }
+//                });
 
 
     }

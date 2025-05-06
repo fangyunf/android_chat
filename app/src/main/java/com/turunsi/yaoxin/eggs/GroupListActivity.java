@@ -25,6 +25,7 @@ import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.BaseEvent;
+import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -100,24 +101,29 @@ public class GroupListActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void _requestData() {
         super._requestData();
-        HttpUtil.apiW().group_userGroups(new RegisterBean())
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                        Type type = new TypeToken<List<GroupInfoBean>>() {}.getType();
+        dataList = DataUtil.getGroupInfoList();
 
-                         dataList = new Gson().fromJson(body.data.toString(),type);
-
-                        adapter.setItems(dataList);
-                        adapter.notifyDataSetChanged();
-                    }
-
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
-
-                    }
-                });
+        adapter.setItems(dataList);
+        adapter.notifyDataSetChanged();
+//        HttpUtil.apiW().group_userGroups(new RegisterBean())
+//                .enqueue(new CommonCallback<NetData>() {
+//                    @Override
+//                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+//
+//                        Type type = new TypeToken<List<GroupInfoBean>>() {}.getType();
+//
+//                         dataList = new Gson().fromJson(body.data.toString(),type);
+//
+//                        adapter.setItems(dataList);
+//                        adapter.notifyDataSetChanged();
+//                    }
+//
+//                    @Override
+//                    public void Failure(Call<NetData> call, Throwable t) {
+//
+//                    }
+//                });
     }
 
     @Override

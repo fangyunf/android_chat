@@ -15,6 +15,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,14 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.nanchen.wavesidebar.FirstLetterUtil;
 import com.nanchen.wavesidebar.WaveSideBarView;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.RequestCallback;
+import com.netease.nimlib.sdk.friend.FriendService;
+import com.netease.nimlib.sdk.friend.model.Friend;
+import com.netease.nimlib.sdk.team.TeamService;
+import com.netease.nimlib.sdk.team.model.Team;
+import com.netease.nimlib.sdk.uinfo.UserService;
+import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 import com.netease.yunxin.kit.contactkit.ui.R;
 import com.netease.yunxin.kit.contactkit.ui.contact.BaseContactFragment;
 import com.netease.yunxin.kit.contactkit.ui.databinding.ContactFragmentBinding;
@@ -66,6 +75,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -118,62 +128,137 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
         _requestData();
     }
 
-    protected void _requestMemeber(int page) {
-        ParamsBean registerBean = new ParamsBean();
-        registerBean.page = page ;
-        HttpUtil.apiW().friends_friendLists(registerBean)
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+    protected void _requestGroup() {
+        // 获取当前用户加入的所有群组（默认不包含群成员信息）
+        TeamService teamService = NIMClient.getService(TeamService.class);
 
-                        if (page == 1) {
-                            mContactModels.clear();
-                        }
-                        Type type = new TypeToken<List<GroupInfoBean>>() {
-                        }.getType();
-                        List<GroupInfoBean> tempBeanList = new Gson().fromJson(body.data.toString(), type);
-                        for (GroupInfoBean tempBean :
-                                tempBeanList) {
-                            if (!tempBean.userId.equals(DataUtil.getKeFuId())) {
-                                mContactModels.add(tempBean);
-                            }
+        teamService.queryTeamList().setCallback(new RequestCallback<List<Team>>() {
+            @Override
+            public void onSuccess(List<Team> teams) {
+                groupListDataList.clear();
+                for (Team team : teams) {
+                    GroupInfoBean groupInfoBean = new GroupInfoBean();
+                    groupInfoBean.groupId = team.getId();
+                    groupInfoBean.name = team.getName();
+                    groupInfoBean.head = team.getIcon();
+                    groupListDataList.add(groupInfoBean);
+                    Log.d("GroupList", "Group ID: " + team.getId() + ", Name: " + team.getName());
+                }
+                DataUtil.setGroupInfoList(groupListDataList);
+                if (_selectIndex == 1) {
+                    binding.contactNewFragmentRv.setAdapter(groupListAdapter);
+                    groupListAdapter.setItems(groupListDataList);
+                    groupListAdapter.notifyDataSetChanged();
+                }
 
-                        }
-                        if (tempBeanList.size() == 100) {
-                            _requestMemeber(page + 1);
-                            return;
-                        }
+            }
 
-                        Collections.sort(mContactModels, new Comparator<GroupInfoBean>() {
-                            @Override
-                            public int compare(GroupInfoBean o1, GroupInfoBean o2) {
-                                // 获取name的首字母并忽略大小写比较
-                                String firstLetter = FirstLetterUtil.getFirstLetter(o1.name);
-                                String secondLetter = FirstLetterUtil.getFirstLetter(o2.name);
-                                return firstLetter.compareTo(secondLetter);
-                            }
-                        });
-                        binding.contactNewFragmentFriendCountTv.setText("好友(" + mContactModels.size() + "人)");
-                        DataUtil.setFriendInfoList(mContactModels);
-                        adapter.contacts = mContactModels;
-                        if (_selectIndex == 0) {
-                            adapter.setItems(mContactModels);
-                            binding.contactNewFragmentRv.setAdapter(adapter);
-                            adapter.notifyDataSetChanged();
+            @Override
+            public void onFailed(int code) {
+                Log.e("GroupList", "获取群组失败，错误码：" + code);
+            }
 
-                        }
-                    }
+            @Override
+            public void onException(Throwable exception) {
+                exception.printStackTrace();
+            }
+        });
+    }
+    protected void _requestMemeber() {
+        List<String> friendAccounts = NIMClient.getService(FriendService.class).getFriendAccounts();
+        List<NimUserInfo> userInfos = NIMClient.getService(UserService.class).getUserInfoList(friendAccounts);
+        mContactModels.clear();
+        if (userInfos == null || userInfos.size() == 0) {
+            return;
+        }
+        for (NimUserInfo friend : userInfos) {
+            if (friend.getAccount() != null && !friend.getAccount().equals(DataUtil.getKeFuId())) {
 
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
+                GroupInfoBean groupInfoBean = new GroupInfoBean();
+                groupInfoBean.name = friend.getName();
+                groupInfoBean.avatar = friend.getAvatar();
+                groupInfoBean.userId = friend.getAccount();
+//                groupInfoBean.remark = friend.get
+                mContactModels.add(groupInfoBean);
+            }
+//            groupInfoBean.name = friend.getRemark() != null ? friend.getRemark() : friend.getName();
+        }
 
-                    }
-                });
+//
+        Collections.sort(mContactModels, new Comparator<GroupInfoBean>() {
+            @Override
+            public int compare(GroupInfoBean o1, GroupInfoBean o2) {
+                // 获取name的首字母并忽略大小写比较
+                String firstLetter = FirstLetterUtil.getFirstLetter(o1.name);
+                String secondLetter = FirstLetterUtil.getFirstLetter(o2.name);
+                return firstLetter.compareTo(secondLetter);
+            }
+        });
+        binding.contactNewFragmentFriendCountTv.setText("好友(" + mContactModels.size() + "人)");
+        DataUtil.setFriendInfoList(mContactModels);
+        adapter.contacts = mContactModels;
+        if (_selectIndex == 0) {
+            adapter.setItems(mContactModels);
+            binding.contactNewFragmentRv.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
+
+        }
+
+//        ParamsBean registerBean = new ParamsBean();
+//        registerBean.page = page ;
+//        HttpUtil.apiW().friends_friendLists(registerBean)
+//                .enqueue(new CommonCallback<NetData>() {
+//                    @Override
+//                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+//
+//                        if (page == 1) {
+//                            mContactModels.clear();
+//                        }
+//                        Type type = new TypeToken<List<GroupInfoBean>>() {
+//                        }.getType();
+//                        List<GroupInfoBean> tempBeanList = new Gson().fromJson(body.data.toString(), type);
+//                        for (GroupInfoBean tempBean :
+//                                tempBeanList) {
+//                            if (!tempBean.userId.equals(DataUtil.getKeFuId())) {
+//                                mContactModels.add(tempBean);
+//                            }
+//
+//                        }
+//                        if (tempBeanList.size() == 100) {
+//                            _requestMemeber(page + 1);
+//                            return;
+//                        }
+//
+//                        Collections.sort(mContactModels, new Comparator<GroupInfoBean>() {
+//                            @Override
+//                            public int compare(GroupInfoBean o1, GroupInfoBean o2) {
+//                                // 获取name的首字母并忽略大小写比较
+//                                String firstLetter = FirstLetterUtil.getFirstLetter(o1.name);
+//                                String secondLetter = FirstLetterUtil.getFirstLetter(o2.name);
+//                                return firstLetter.compareTo(secondLetter);
+//                            }
+//                        });
+//                        binding.contactNewFragmentFriendCountTv.setText("好友(" + mContactModels.size() + "人)");
+//                        DataUtil.setFriendInfoList(mContactModels);
+//                        adapter.contacts = mContactModels;
+//                        if (_selectIndex == 0) {
+//                            adapter.setItems(mContactModels);
+//                            binding.contactNewFragmentRv.setAdapter(adapter);
+//                            adapter.notifyDataSetChanged();
+//
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void Failure(Call<NetData> call, Throwable t) {
+//
+//                    }
+//                });
     }
     public void _requestData() {
 
-        _requestMemeber(1);
-
+        _requestMemeber();
+        _requestGroup();
 //        HttpUtil.apiW().friends_friendList(new RegisterBean())
 //                .enqueue(new CommonCallback<NetData>() {
 //                    @Override
@@ -257,26 +342,26 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
                     }
                 });
 
-        HttpUtil.apiW().group_userGroups(new RegisterBean())
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-
-                        Type type = new TypeToken<List<GroupInfoBean>>() {}.getType();
-
-                        groupListDataList = new Gson().fromJson(body.data.toString(),type);
-                        if (_selectIndex == 1) {
-                            binding.contactNewFragmentRv.setAdapter(groupListAdapter);
-                            groupListAdapter.setItems(groupListDataList);
-                            groupListAdapter.notifyDataSetChanged();
-                        }
-                    }
-
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
-
-                    }
-                });
+//        HttpUtil.apiW().group_userGroups(new RegisterBean())
+//                .enqueue(new CommonCallback<NetData>() {
+//                    @Override
+//                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+//
+//                        Type type = new TypeToken<List<GroupInfoBean>>() {}.getType();
+//
+//                        groupListDataList = new Gson().fromJson(body.data.toString(),type);
+//                        if (_selectIndex == 1) {
+//                            binding.contactNewFragmentRv.setAdapter(groupListAdapter);
+//                            groupListAdapter.setItems(groupListDataList);
+//                            groupListAdapter.notifyDataSetChanged();
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void Failure(Call<NetData> call, Throwable t) {
+//
+//                    }
+//                });
 
         RegisterBean bean = new RegisterBean();
         bean.pageNo = "0";

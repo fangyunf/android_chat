@@ -17,6 +17,7 @@ public class DataUtil {
     private static final String USERID = "user_id";
     private static final String USERInfoList = "USERInfoList2";
     private static final String FriendList = "FriendList";
+    private static final String GroupList = "GroupList";
     private static final String KEFU_ID = "kefu_id";
     private static final String XIAOZHUSHOU_ID = "xiaozhushou_id";
 
@@ -105,8 +106,15 @@ public class DataUtil {
     public static void setFriendInfoList(List<GroupInfoBean> friendInfoList) {
         Hawk.put(FriendList, friendInfoList);
     }
+    public static void setGroupInfoList(List<GroupInfoBean> friendInfoList) {
+        Hawk.put(GroupList, friendInfoList);
+    }
     public static List<GroupInfoBean> getFriendInfoList() {
         List<GroupInfoBean> tempList = Hawk.get(FriendList);
+        return tempList != null ? tempList : new ArrayList<>();
+    }
+    public static List<GroupInfoBean> getGroupInfoList() {
+        List<GroupInfoBean> tempList = Hawk.get(GroupList);
         return tempList != null ? tempList : new ArrayList<>();
     }
 

@@ -195,60 +195,101 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
             adapter.notifyDataSetChanged();
             return;
         }
-        HttpUtil.apiW().friends_friendList(new RegisterBean())
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                        Type type = new TypeToken<List<GroupInfoBean>>() {
-                        }.getType();
-                        mContactModels = new Gson().fromJson(body.data.toString(), type);
-                        Iterator<GroupInfoBean> iterator = mContactModels.iterator();
-                        while (iterator.hasNext()) {
-                            GroupInfoBean tempBean = iterator.next();
-                            if (tempBean == null) {
-                                iterator.remove(); // 删除 null 元素
-                            }
-                        }
-                        for (GroupInfoBean tempBean :
-                                mContactModels) {
-                            if (tempBean != null && tempBean.userId.equals(DataUtil.getKeFuId())) {
-                                mContactModels.remove(tempBean);
-                                break;
-                            }
+        mContactModels.addAll(DataUtil.getFriendInfoList());
+        Iterator<GroupInfoBean> iterator = mContactModels.iterator();
+        while (iterator.hasNext()) {
+            GroupInfoBean tempBean = iterator.next();
+            if (tempBean == null) {
+                iterator.remove(); // 删除 null 元素
+            }
+        }
+        for (GroupInfoBean tempBean :
+                mContactModels) {
+            if (tempBean != null && tempBean.userId.equals(DataUtil.getKeFuId())) {
+                mContactModels.remove(tempBean);
+                break;
+            }
 
-                        }
+        }
 
-                        Collections.sort(mContactModels, new Comparator<GroupInfoBean>() {
-                            @Override
-                            public int compare(GroupInfoBean o1, GroupInfoBean o2) {
-                                // 获取name的首字母并忽略大小写比较
-                                String firstLetter = FirstLetterUtil.getFirstLetter(o1.name);
-                                String secondLetter = FirstLetterUtil.getFirstLetter(o2.name);
-                                return firstLetter.compareTo(secondLetter);
-                            }
-                        });
-                        if (page_type == 2) {
-                            ArrayList<GroupInfoBean> tempArray = new ArrayList<>();
-                            for (GroupInfoBean tempBean :mContactModels) {
-                                if (!ids.contains(tempBean.userId)) {
-                                    tempArray.add(tempBean);
-                                }
-                            }
-                            mContactModels = tempArray;
-                        } else {
+        Collections.sort(mContactModels, new Comparator<GroupInfoBean>() {
+            @Override
+            public int compare(GroupInfoBean o1, GroupInfoBean o2) {
+                // 获取name的首字母并忽略大小写比较
+                String firstLetter = FirstLetterUtil.getFirstLetter(o1.name);
+                String secondLetter = FirstLetterUtil.getFirstLetter(o2.name);
+                return firstLetter.compareTo(secondLetter);
+            }
+        });
+        if (page_type == 2) {
+            ArrayList<GroupInfoBean> tempArray = new ArrayList<>();
+            for (GroupInfoBean tempBean :mContactModels) {
+                if (!ids.contains(tempBean.userId)) {
+                    tempArray.add(tempBean);
+                }
+            }
+            mContactModels = tempArray;
+        } else {
 
-                        }
-                        adapter.contacts = mContactModels;
-                        adapter.setItems(mContactModels);
-                        adapter.notifyDataSetChanged();
-                    }
-
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
-
-                    }
-                });
+        }
+        adapter.contacts = mContactModels;
+        adapter.setItems(mContactModels);
+        adapter.notifyDataSetChanged();
+//        HttpUtil.apiW().friends_friendList(new RegisterBean())
+//                .enqueue(new CommonCallback<NetData>() {
+//                    @Override
+//                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+//
+//                        Type type = new TypeToken<List<GroupInfoBean>>() {
+//                        }.getType();
+//                        mContactModels = new Gson().fromJson(body.data.toString(), type);
+//                        Iterator<GroupInfoBean> iterator = mContactModels.iterator();
+//                        while (iterator.hasNext()) {
+//                            GroupInfoBean tempBean = iterator.next();
+//                            if (tempBean == null) {
+//                                iterator.remove(); // 删除 null 元素
+//                            }
+//                        }
+//                        for (GroupInfoBean tempBean :
+//                                mContactModels) {
+//                            if (tempBean != null && tempBean.userId.equals(DataUtil.getKeFuId())) {
+//                                mContactModels.remove(tempBean);
+//                                break;
+//                            }
+//
+//                        }
+//
+//                        Collections.sort(mContactModels, new Comparator<GroupInfoBean>() {
+//                            @Override
+//                            public int compare(GroupInfoBean o1, GroupInfoBean o2) {
+//                                // 获取name的首字母并忽略大小写比较
+//                                String firstLetter = FirstLetterUtil.getFirstLetter(o1.name);
+//                                String secondLetter = FirstLetterUtil.getFirstLetter(o2.name);
+//                                return firstLetter.compareTo(secondLetter);
+//                            }
+//                        });
+//                        if (page_type == 2) {
+//                            ArrayList<GroupInfoBean> tempArray = new ArrayList<>();
+//                            for (GroupInfoBean tempBean :mContactModels) {
+//                                if (!ids.contains(tempBean.userId)) {
+//                                    tempArray.add(tempBean);
+//                                }
+//                            }
+//                            mContactModels = tempArray;
+//                        } else {
+//
+//                        }
+//                        adapter.contacts = mContactModels;
+//                        adapter.setItems(mContactModels);
+//                        adapter.notifyDataSetChanged();
+//                    }
+//
+//                    @Override
+//                    public void Failure(Call<NetData> call, Throwable t) {
+//
+//                    }
+//                });
     }
 
 
