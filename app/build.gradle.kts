@@ -11,18 +11,18 @@ android {
     compileSdk = 33
     signingConfigs {
         create("release") {
-            keyAlias = "xiaohaitun"
+            keyAlias = "youyibao"
             keyPassword = "qqqq1111"
-            storeFile = file("xiaohaitun.jks")
+            storeFile = file("youyibao.jks")
             storePassword = "qqqq1111"
         }
     }
     defaultConfig {
-        applicationId = "com.turunsi.xiaohaitun"
+        applicationId = "com.turunsi.youyibao"
         minSdk = 21
         targetSdk = 33
         versionCode = 1
-        versionName = "1.0.16"
+        versionName = "1.0.17"
         multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
