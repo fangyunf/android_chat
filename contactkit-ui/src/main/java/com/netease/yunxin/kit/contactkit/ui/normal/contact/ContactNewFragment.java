@@ -178,6 +178,7 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
                 groupInfoBean.name = friend.getName();
                 groupInfoBean.avatar = friend.getAvatar();
                 groupInfoBean.userId = friend.getAccount();
+                groupInfoBean.memberCode = (String) friend.getExtensionMap().get("memberCode");
 //                groupInfoBean.remark = friend.get
                 mContactModels.add(groupInfoBean);
             }
