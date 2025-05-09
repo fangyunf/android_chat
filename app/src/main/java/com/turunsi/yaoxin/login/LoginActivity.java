@@ -66,9 +66,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 //        binding.activityLoginIsCheckedTxt2.setOnClickListener(this);
 //        binding.activityLoginIsCheckedTxt4.setOnClickListener(this);
 //        binding.activityLoginIsAgreeLl.setOnClickListener(this);
-        binding.activityLoginTf1.viewTitleTfCountTitleTv.setText("手机号");
-        binding.activityLoginTf2.viewTitleTfCountTitleTv.setText("验证码");
-        binding.activityLoginTf3.viewTitleTfCountTitleTv.setText("密码");
+        binding.activityLoginTf1.viewTitleTfCountIv.setImageResource(R.mipmap.login_icon_phone);
+        binding.activityLoginTf2.viewTitleTfCountIv.setImageResource(R.mipmap.login_icon_code);
+        binding.activityLoginTf3.viewTitleTfCountIv.setImageResource(R.mipmap.login_icon_password);
         binding.activityLoginTf1.viewTitleTfCountEt.setHint("输入手机号");
         binding.activityLoginTf2.viewTitleTfCountEt.setHint("输入验证码");
         binding.activityLoginTf3.viewTitleTfCountEt.setHint("输入密码");

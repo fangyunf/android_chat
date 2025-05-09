@@ -5,25 +5,24 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:paddingHorizontal="30dp"
+    android:paddingHorizontal="20dp"
+    android:background="@drawable/bg_gray_rounded_25"
+    android:layout_marginHorizontal="20dp"
     android:orientation="vertical"
     >
 
-    <TextView
-        android:id="@+id/view_title_tf_count_title_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="输入账号"
-        android:textColor="#ff000000"
-        android:textSize="16sp"
-        />
 
     <LinearLayout
+        android:paddingVertical="10dp"
         android:layout_width="match_parent"
-        android:layout_marginTop="20dp"
         android:gravity="center_vertical"
         android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/view_title_tf_count_iv"
+            android:layout_width="24dp"
+            android:layout_height="24dp"/>
         <EditText
+            android:layout_marginLeft="10dp"
             android:id="@+id/view_title_tf_count_et"
             android:layout_width="0dp"
             android:layout_weight="1"

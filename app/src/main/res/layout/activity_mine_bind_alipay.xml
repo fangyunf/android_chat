@@ -136,6 +136,14 @@
                 android:text="请勿上传截图的收款码，请在二维码收款界面，点击保存收款码，上传图片 点击上传"
                 android:textColor="@color/color_999999"
                 android:textSize="@dimen/text_size_12" />
+            <TextView
+                android:paddingHorizontal="@dimen/dimen_16_dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_16_dp"
+                android:text="提示：绑定的支付宝账号实名和注册账户的实名必须要一致，否则提现不到账，自行负责"
+                android:textColor="@color/color_red_f04c62"
+                android:textSize="@dimen/text_size_16" />
         </LinearLayout>
         <TextView
             android:id="@+id/activity_mine_bind_alipay_bind_tv"
