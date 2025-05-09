@@ -86,13 +86,13 @@ public class FunConversationFragment extends ConversationBaseFragment {
 
 
   // 创建实例的方法，使用 arguments 传递参数
-  public static FunConversationFragment newInstance(int type) {
-    FunConversationFragment fragment = new FunConversationFragment();
-    Bundle args = new Bundle();
-    args.putInt("type", type);
-    fragment.setArguments(args);
-    return fragment;
-  }
+//  public static FunConversationFragment newInstance(int type) {
+//    FunConversationFragment fragment = new FunConversationFragment();
+//    Bundle args = new Bundle();
+//    args.putInt("type", type);
+//    fragment.setArguments(args);
+//    return fragment;
+//  }
   public FunConversationFragment() {
   }
 
@@ -104,16 +104,16 @@ public class FunConversationFragment extends ConversationBaseFragment {
       @Nullable Bundle savedInstanceState) {
     viewBinding = FunConversationFragmentBinding.inflate(inflater, container, false);
     // 获取传递的参数
-    if (getArguments() != null) {
-      _type = getArguments().getInt("type");
-    }
+//    if (getArguments() != null) {
+//      _type = getArguments().getInt("type");
+//    }
     initView();
-    if (_type == 1) {
-      viewBinding.funConversationFragmentTitleTv.setText("群聊");
-    } else {
+//    if (_type == 1) {
+//      viewBinding.funConversationFragmentTitleTv.setText("群聊");
+//    } else {
       viewBinding.funConversationFragmentTitleTv.setText("消息");
 
-    }
+//    }
     viewBinding.funConversationFragmentSearchLl.setOnClickListener(v -> {
               XKitRouter.withKey("SearchNewActivity")
                 .withContext(requireContext())
@@ -145,19 +145,19 @@ public class FunConversationFragment extends ConversationBaseFragment {
   @Override
   public void onPause() {
     super.onPause();
-    if (_type == 0) {
+//    if (_type == 0) {
       if (!AppProxy.searchKeyWord0.isEmpty()) {
         viewBinding.funConversationFragmentEt.setText("");
         AppProxy.searchKeyWord0 = "";
         conversationView.adapter.notifyDataSetChanged();
       }
-    } else {
-      if (!AppProxy.searchKeyWord1.isEmpty()) {
-        viewBinding.funConversationFragmentEt.setText("");
-        AppProxy.searchKeyWord1 = "";
-        conversationView.adapter.notifyDataSetChanged();
-      }
-    }
+//    } else {
+//      if (!AppProxy.searchKeyWord1.isEmpty()) {
+//        viewBinding.funConversationFragmentEt.setText("");
+//        AppProxy.searchKeyWord1 = "";
+//        conversationView.adapter.notifyDataSetChanged();
+//      }
+//    }
 
 
   }
@@ -177,11 +177,11 @@ public class FunConversationFragment extends ConversationBaseFragment {
       @Override
       public void afterTextChanged(Editable s) {
         String string = s.toString();
-        if (_type == 0) {
+//        if (_type == 0) {
           AppProxy.getInstance().searchKeyWord0 = string;
-        } else {
-          AppProxy.getInstance().searchKeyWord1 = string;
-        }
+//        } else {
+//          AppProxy.getInstance().searchKeyWord1 = string;
+//        }
 
         conversationView.adapter.notifyDataSetChanged();
       }
@@ -246,7 +246,7 @@ public class FunConversationFragment extends ConversationBaseFragment {
 
                       }
                     });
-    if (_type == 1) {
+//    if (_type == 1) {
 
 
       HttpUtil.apiW().group_userGroups(new RegisterBean())
@@ -278,8 +278,8 @@ public class FunConversationFragment extends ConversationBaseFragment {
 
                 }
               });
-    }
-    if (_type == 0) {
+//    }
+//    if (_type == 0) {
 
       HttpUtil.apiW().customer_systemAppUser(new RegisterBean())
               .enqueue(new CommonCallback<NetData>() {
@@ -323,7 +323,7 @@ public class FunConversationFragment extends ConversationBaseFragment {
 
                 }
               });
-    }
+//    }
   }
   void requestKefu(String kefuId) {
     RegisterBean bean = new RegisterBean();
@@ -465,8 +465,8 @@ public class FunConversationFragment extends ConversationBaseFragment {
 
   private void initView() {
     conversationView = viewBinding.conversationView;
-    conversationView._type = _type;
-    conversationView.adapter._type = _type;
+//    conversationView._type = _type;
+//    conversationView.adapter._type = _type;
 
 
     networkErrorView = viewBinding.errorTv;

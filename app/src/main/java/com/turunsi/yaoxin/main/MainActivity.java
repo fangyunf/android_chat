@@ -111,7 +111,7 @@ public class MainActivity extends BaseActivity {
     //  private BaseContactFragment mContactFragment;
     private ContactNewFragment mContactFragment;
     private ConversationBaseFragment mConversationFragment;
-    private ConversationBaseFragment mConversationFragment1;
+//    private ConversationBaseFragment mConversationFragment1;
     public static final int REQUEST_CODE_SCAN = 0x01;
 
     //皮肤变更事件
@@ -273,15 +273,10 @@ public class MainActivity extends BaseActivity {
         List<Fragment> fragments = new ArrayList<>();
 
         changeStatusBarColor(R.color.fun_page_bg_color);
-        mConversationFragment =  FunConversationFragment.newInstance(0);
-//        AppProxy.getInstance().showType = 1;
-        mConversationFragment1 =  FunConversationFragment.newInstance(1);
-//        mConversationFragment1._type = 1;
+        mConversationFragment = new FunConversationFragment();
         mContactFragment = new ContactNewFragment();
 
-        fragments.add(new ShopNewFragment());
         fragments.add(mConversationFragment);
-        fragments.add(mConversationFragment1);
         fragments.add(mContactFragment);
 
         fragments.add(new MineFragment());
@@ -302,7 +297,6 @@ public class MainActivity extends BaseActivity {
         super.onResume();
         initContactFragment(mContactFragment);
         initConversationFragment(mConversationFragment);
-        initConversationFragment(mConversationFragment1);
     }
 
     @Override
@@ -326,12 +320,12 @@ public class MainActivity extends BaseActivity {
             }
 
         }
-        if (view == activityMainBinding.conversationBtnGroup1) {
-            AppProxy.getInstance().showType = 2;
-            if (mConversationFragment1 != null && mConversationFragment1.getConversationView() != null && mConversationFragment1.getConversationView().adapter != null) {
-                mConversationFragment1.getConversationView().adapter.notifyDataSetChanged();
-            }
-        }
+//        if (view == activityMainBinding.conversationBtnGroup1) {
+//            AppProxy.getInstance().showType = 2;
+//            if (mConversationFragment1 != null && mConversationFragment1.getConversationView() != null && mConversationFragment1.getConversationView().adapter != null) {
+//                mConversationFragment1.getConversationView().adapter.notifyDataSetChanged();
+//            }
+//        }
         resetTabStyle();
         mCurrentTab = view;
         resetTabSkin();
@@ -341,14 +335,14 @@ public class MainActivity extends BaseActivity {
     @SuppressLint("UseCompatLoadingForDrawables")
     private void resetTabSkin() {
         if (mCurrentTab == activityMainBinding.contactBtnGroup) {
-            activityMainBinding.viewPager.setCurrentItem(3, false);
+            activityMainBinding.viewPager.setCurrentItem(1, false);
             activityMainBinding.contact.setTextColor(
                     getResources().getColor(R.color.fun_tab_checked_color));
             activityMainBinding.contact.setCompoundDrawablesWithIntrinsicBounds(
                     null, getResources().getDrawable(R.mipmap.mine_tabbar_txl_sel), null, null);
             changeStatusBarColor(R.color.fun_page_bg_color);
         } else if (mCurrentTab == activityMainBinding.myselfBtnGroup) {
-            activityMainBinding.viewPager.setCurrentItem(4, false);
+            activityMainBinding.viewPager.setCurrentItem(2, false);
             activityMainBinding.mine.setTextColor(
                     getResources().getColor(R.color.fun_tab_checked_color));
             activityMainBinding.mine.setCompoundDrawablesWithIntrinsicBounds(
@@ -356,7 +350,7 @@ public class MainActivity extends BaseActivity {
 
             changeStatusBarColor(R.color.color_white);
         } else if (mCurrentTab == activityMainBinding.conversationBtnGroup) {
-            activityMainBinding.viewPager.setCurrentItem(1, false);
+            activityMainBinding.viewPager.setCurrentItem(0, false);
             activityMainBinding.conversation.setTextColor(
                     getResources().getColor(R.color.fun_tab_checked_color));
             activityMainBinding.conversation.setCompoundDrawablesWithIntrinsicBounds(
@@ -398,21 +392,21 @@ public class MainActivity extends BaseActivity {
                             }
 
                             if (conversationFragment == mConversationFragment) {
-                                if (singleChatUnreadCount > 0) {
+                                if (singleChatUnreadCount + groupChatUnreadCount > 0) {
                                     activityMainBinding.conversationDot.setVisibility(View.VISIBLE);
                                 } else {
                                     activityMainBinding.conversationDot.setVisibility(View.GONE);
 
                                 }
                             }
-                          if (conversationFragment == mConversationFragment1) {
-                            if (groupChatUnreadCount > 0) {
-                              activityMainBinding.conversationDot1.setVisibility(View.VISIBLE);
-                            } else {
-                              activityMainBinding.conversationDot1.setVisibility(View.GONE);
-
-                            }
-                          }
+//                          if (conversationFragment == mConversationFragment1) {
+//                            if (groupChatUnreadCount > 0) {
+//                              activityMainBinding.conversationDot1.setVisibility(View.VISIBLE);
+//                            } else {
+//                              activityMainBinding.conversationDot1.setVisibility(View.GONE);
+//
+//                            }
+//                          }
                         }
                     });
         }
