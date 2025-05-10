@@ -31,7 +31,6 @@
         tools:ignore="MissingConstraints">
 
         <RelativeLayout
-            android:visibility="gone"
             android:id="@+id/conversation_btn_shop"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -67,8 +66,8 @@
                 android:drawablePadding="3dp"
                 android:gravity="center"
                 android:textSize="12sp"
-                android:textColor="@color/tab_checked_color"
-                android:drawableTop="@mipmap/mine_tabbar_msg_sel"
+                android:textColor="@color/tab_unchecked_color"
+                android:drawableTop="@mipmap/mine_tabbar_msg_normal"
                 android:text="@string/tab_session_tab_text" />
 
             <View android:id="@+id/conversation_dot"
@@ -87,7 +86,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:onClick="tabClick"
-            android:visibility="gone"
             android:layout_weight="1">
 
             <TextView

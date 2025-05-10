@@ -30,7 +30,7 @@ public class FunConversationActivity extends BaseActivity {
     viewBinding = FunConversationActivityBinding.inflate(LayoutInflater.from(this));
     setContentView(viewBinding.getRoot());
     FragmentManager fragmentManager = getSupportFragmentManager();
-    FunConversationFragment fragment = new FunConversationFragment();
+    FunConversationFragment fragment = FunConversationFragment.newInstance(0);
     fragmentManager
         .beginTransaction()
         .add(R.id.conversation_container, fragment)
