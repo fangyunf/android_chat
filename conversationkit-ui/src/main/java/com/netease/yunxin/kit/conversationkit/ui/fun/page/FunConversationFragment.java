@@ -111,7 +111,7 @@ public class FunConversationFragment extends ConversationBaseFragment {
 //    if (_type == 1) {
 //      viewBinding.funConversationFragmentTitleTv.setText("群聊");
 //    } else {
-      viewBinding.funConversationFragmentTitleTv.setText("消息");
+      viewBinding.funConversationFragmentTitleTv.setText("对话");
 
 //    }
     viewBinding.funConversationFragmentSearchLl.setOnClickListener(v -> {
@@ -486,6 +486,15 @@ public class FunConversationFragment extends ConversationBaseFragment {
 //                .withContext(requireContext())
 //                .navigate();
         FunSystem_Notice_New_Activity.start(FunSystem_Notice_New_Activity.class,getContext(),null);
+      }
+    });
+    viewBinding.funConversationFragmentKefuIv.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_P2P_PAGE)
+                .withParam(RouterConstant.CHAT_ID_KRY, DataUtil.getKeFuId())
+                .withContext(getContext())
+                .navigate();
       }
     });
 
