@@ -117,6 +117,7 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
         binding.contactNewFragmentMoreIv.setOnClickListener(this);
         _initViews();
         _requestData();
+        _requestMemeber();
         return binding.getRoot();
     }
 
@@ -258,7 +259,7 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
     }
     public void _requestData() {
 
-        _requestMemeber();
+//        _requestMemeber();
         _requestGroup();
 //        HttpUtil.apiW().friends_friendList(new RegisterBean())
 //                .enqueue(new CommonCallback<NetData>() {
