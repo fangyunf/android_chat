@@ -4,13 +4,19 @@
 
 package com.netease.yunxin.kit.chatkit.ui.view.message.viewholder;
 
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
+
 import com.netease.nimlib.sdk.msg.constant.MsgDirectionEnum;
 import com.netease.nimlib.sdk.msg.constant.MsgStatusEnum;
 import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
@@ -38,6 +44,8 @@ import com.netease.yunxin.kit.common.utils.SizeUtils;
 import com.netease.yunxin.kit.corekit.im.IMKitClient;
 import com.netease.yunxin.kit.corekit.im.model.UserInfo;
 import com.netease.yunxin.kit.corekit.im.provider.FetchCallback;
+import com.yaoxin.appbase.model.GroupInfoBean;
+import com.yaoxin.appbase.utils.AppProxy;
 import com.yaoxin.appbase.utils.DataUtil;
 
 import java.util.List;
@@ -810,25 +818,33 @@ public abstract class ChatBaseMessageViewHolder extends CommonBaseMessageViewHol
    * @param messageBean 待展示消息
    */
   protected void onCommonViewVisibleConfig(ChatMessageBean messageBean) {
+    baseViewBinding.chatBaseMessageViewHolderOtherGradeIv.setVisibility(View.GONE);
+    baseViewBinding.chatBaseMessageViewHolderMineGradeIv.setVisibility(View.GONE);
     if (MessageHelper.isReceivedMessage(messageBean) || isForwardMsg()) {
       // 收到消息当前用户头像隐藏，对方用户头像显示
       baseViewBinding.myAvatar.setVisibility(View.GONE);
       baseViewBinding.otherUserAvatar.setVisibility(View.VISIBLE);
       baseViewBinding.otherUserAvatarRole.setVisibility(View.GONE);
-      String targetId = "";
+//      String targetId = "";
       if (messageBean.getMessageData() != null && messageBean.getMessageData().getFromUser() != null) {
-        targetId = messageBean.getMessageData().getFromUser().getAccount();
+//        targetId = messageBean.getMessageData().getFromUser().getAccount();
+        updateUIGrade(baseViewBinding.chatBaseMessageViewHolderOtherGradeIv,false,messageBean.getMessageData().getFromUser().getAccount());
+
       }
-      if (DataUtil.adminIds.contains(targetId)) {
-        baseViewBinding.otherUserAvatarRole.setVisibility(View.VISIBLE);
-        baseViewBinding.otherUserAvatarRole.setText("管理");
-      } else if (DataUtil.qunzhuId.equals(targetId)) {
-        baseViewBinding.otherUserAvatarRole.setVisibility(View.VISIBLE);
-        baseViewBinding.otherUserAvatarRole.setText("群主");
-      }
+//      if (DataUtil.adminIds.contains(targetId)) {
+//        baseViewBinding.otherUserAvatarRole.setVisibility(View.VISIBLE);
+//        baseViewBinding.otherUserAvatarRole.setText("管理");
+//      } else if (DataUtil.qunzhuId.equals(targetId)) {
+//        baseViewBinding.otherUserAvatarRole.setVisibility(View.VISIBLE);
+//        baseViewBinding.otherUserAvatarRole.setText("群主");
+//      } else {
+
+//      }
     } else {
       // 发送消息当前用户头像显示，对方用户头像隐藏
       baseViewBinding.myAvatar.setVisibility(View.VISIBLE);
+      updateUIGrade(baseViewBinding.chatBaseMessageViewHolderMineGradeIv,true,"");
+
       baseViewBinding.otherUserAvatar.setVisibility(View.GONE);
       baseViewBinding.otherUserAvatarRole.setVisibility(View.GONE);
     }
@@ -838,6 +854,53 @@ public abstract class ChatBaseMessageViewHolder extends CommonBaseMessageViewHol
     }
   }
 
+  private void updateUIGrade(ImageView gradeIv, boolean isSelf, String userId) {
+    if (isSelf) {
+
+      gradeIv.setVisibility(View.GONE);
+      if (DataUtil.getUserInfo().grade > 0) {
+
+        gradeIv.setVisibility(View.VISIBLE);
+        String imageName = "mine_grade_level_" + DataUtil.getUserInfo().grade;
+        Resources resources = AppProxy.getInstance().getContext().getResources();
+        int resId = resources.getIdentifier(imageName, "mipmap", AppProxy.getInstance().getContext().getPackageName());
+        // 如果找到了资源，则可以使用这个ID获取Drawable
+        Drawable drawable = null;
+        if (resId > 0) {
+          drawable = ContextCompat.getDrawable(AppProxy.getInstance().getContext(), resId);
+        }
+        // 如果需要将drawable设置到ImageView中
+        if (drawable != null) {
+          gradeIv.setImageDrawable(drawable);
+        }
+      }
+    } else {
+
+      gradeIv.setVisibility(View.GONE);
+      if (!DataUtil.getGroupMemberList().isEmpty()) {
+        for (GroupInfoBean groupInfoBean : DataUtil.getGroupMemberList()) {
+          if (groupInfoBean.userId.equals(userId)) {
+            if (groupInfoBean.grade > 0) {
+              gradeIv.setVisibility(View.VISIBLE);
+              String imageName = "mine_grade_level_" + groupInfoBean.grade;
+              Resources resources = AppProxy.getInstance().getContext().getResources();
+              int resId = resources.getIdentifier(imageName, "mipmap", AppProxy.getInstance().getContext().getPackageName());
+              // 如果找到了资源，则可以使用这个ID获取Drawable
+              Drawable drawable = null;
+              if (resId > 0) {
+                drawable = ContextCompat.getDrawable(AppProxy.getInstance().getContext(), resId);
+              }
+              // 如果需要将drawable设置到ImageView中
+              if (drawable != null) {
+                gradeIv.setImageDrawable(drawable);
+              }
+            }
+            break;
+          }
+        }
+      }
+    }
+  }
   /**
    * 用户设置消息体的背景，如根据不同消息方向展示不同的背景图
    *

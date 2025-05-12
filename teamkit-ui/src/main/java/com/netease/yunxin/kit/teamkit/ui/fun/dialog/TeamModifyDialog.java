@@ -23,10 +23,10 @@ public class TeamModifyDialog extends BaseDialogFragment implements View.OnClick
         }
         if (v == binding.funTeamModifyDialogConfirmTv) {
             String textStr = getTextStr(binding.funTeamModifyDialogEt);
-            if (textStr.isEmpty()) {
-                ToastUtils.toastMsg("请输入内容");
-                return;
-            }
+//            if (textStr.isEmpty()) {
+//                ToastUtils.toastMsg("请输入内容");
+//                return;
+//            }
             if (_block != null) {
                 _block.returnResult(textStr);
                 dismiss();

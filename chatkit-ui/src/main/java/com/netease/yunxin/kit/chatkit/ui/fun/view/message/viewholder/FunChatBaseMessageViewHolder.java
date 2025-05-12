@@ -103,6 +103,10 @@ class FunChatBaseMessageViewHolder extends ChatBaseMessageViewHolder {
       baseViewBinding.otherUserAvatar.setVisibility(View.GONE);
       baseViewBinding.otherUserAvatarRole.setVisibility(View.GONE);
       baseViewBinding.otherUsername.setVisibility(View.GONE);
+
+
+      baseViewBinding.chatBaseMessageViewHolderMineGradeIv.setVisibility(View.GONE);
+      baseViewBinding.chatBaseMessageViewHolderOtherGradeIv.setVisibility(View.GONE);
     }
     baseViewBinding.chatSelectorCb.setBackgroundResource(R.drawable.fun_chat_radio_button_selector);
   }

@@ -272,6 +272,7 @@ public class FunChatTeamFragment extends FunChatFragment {
     ALog.d(LIB_TAG, TAG, "initViewModel");
     viewModel = new ViewModelProvider(this).get(ChatTeamViewModel.class);
     viewModel.init(sessionID, SessionTypeEnum.Team);
+    viewModel._requestPeople(1);
   }
 
   @Override

@@ -17,6 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.ResponseCode;
@@ -83,16 +84,25 @@ import com.netease.yunxin.kit.corekit.im.provider.UserInfoObserver;
 import com.netease.yunxin.kit.corekit.im.repo.CommonRepo;
 import com.netease.yunxin.kit.corekit.im.repo.SettingRepo;
 import com.yaoxin.appbase.model.CustomMsgBean;
+import com.yaoxin.appbase.model.GroupInfoBean;
+import com.yaoxin.appbase.model.NetData;
+import com.yaoxin.appbase.model.RegisterBean;
+import com.yaoxin.appbase.net.CommonCallback;
+import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.DataUtil;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Response;
 
 /** chat info view model fetch and send messages for chat page */
 public abstract class ChatBaseViewModel extends BaseViewModel {
@@ -137,6 +147,7 @@ public abstract class ChatBaseViewModel extends BaseViewModel {
   private final int messagePageSize = 100;
   private final String Orientation_Vertical = "90";
 
+    List<GroupInfoBean> memberList = new ArrayList<>();
   private final EventObserver<List<IMMessageInfo>> receiveMessageObserver =
       new EventObserver<List<IMMessageInfo>>() {
         @Override
@@ -907,6 +918,37 @@ public abstract class ChatBaseViewModel extends BaseViewModel {
     }
   }
 
+    public   void _requestPeople(int page) {
+        RegisterBean bean = new RegisterBean();
+        bean.groupId = getSessionId();
+        bean.page = page +"";
+        bean.pageNo ="100";
+        memberList.clear();
+        HttpUtil.apiW().group_groupUserListPost(bean)
+                .enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+
+                        Type type = new TypeToken<List<GroupInfoBean>>() {
+                        }.getType();
+                        List<GroupInfoBean> tempList = new Gson().fromJson(body.data.toString(), type);
+                        if (!tempList.isEmpty()) {
+                            memberList.addAll(tempList);
+                            if (tempList.size() == 100) {
+                                _requestPeople((page + 1));
+                            } else {
+                                DataUtil.setGroupMemberInfoList(memberList);
+                            }
+                        }
+
+                    }
+
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
+
+                    }
+                });
+    }
   public abstract void sendReceipt(IMMessage message);
 
   public void initFetch(IMMessage anchor, boolean needToScrollEnd) {

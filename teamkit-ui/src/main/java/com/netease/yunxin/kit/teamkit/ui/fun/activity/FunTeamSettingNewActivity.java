@@ -112,7 +112,7 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
     TeamSettingUserInfoAdapter adapter;// = new TeamSettingUserInfoAdapter(true, new ArrayList<>());
 
     protected ActivityResultLauncher<Intent> launcher;
-
+    List<GroupInfoBean> memberList = new ArrayList<>();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         Intent intent = getIntent();
@@ -247,7 +247,9 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
         bean.page = page +"";
         bean.pageNo ="100";
 
+        memberList.clear();
 //        LoadingDialog.showDialog(getSupportFragmentManager(),"加载中");
+
         HttpUtil.apiW().group_groupUserListPost(bean)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
@@ -258,9 +260,12 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
                         List<GroupInfoBean> tempList = new Gson().fromJson(body.data.toString(), type);
                         if (!tempList.isEmpty()) {
                             groupInfoBean.userInfos.addAll(tempList);
+                            memberList.addAll(tempList);
                             if (tempList.size() == 100) {
                                 _requestPeople((page + 1));
                             } else {
+                                DataUtil.setGroupMemberInfoList(memberList);
+
                                 LoadingDialog.dismissDialog();
                                 requestYunXin();
                                 updateUI();

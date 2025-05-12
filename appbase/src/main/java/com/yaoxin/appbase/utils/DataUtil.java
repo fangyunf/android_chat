@@ -101,9 +101,17 @@ public class DataUtil {
         Hawk.put(FriendList, friendInfoList);
     }
     public static List<GroupInfoBean> getFriendInfoList() {
-        return Hawk.get(FriendList);
+        List<GroupInfoBean> tempList = Hawk.get(FriendList);
+        return tempList != null ? tempList : new ArrayList<>();
     }
 
+    public static void setGroupMemberInfoList(List<GroupInfoBean> friendInfoList) {
+        Hawk.put("GroupMemberInfoList", friendInfoList);
+    }
+    public static List<GroupInfoBean> getGroupMemberList() {
+        List<GroupInfoBean> tempList = Hawk.get("GroupMemberInfoList");
+        return tempList != null ? tempList : new ArrayList<>();
+    }
     public static void updateLoginUserInfoList(UserBean userBean) {
         ArrayList<UserBean> arrayList = Hawk.get(USERInfoList);
         if (arrayList == null) {
