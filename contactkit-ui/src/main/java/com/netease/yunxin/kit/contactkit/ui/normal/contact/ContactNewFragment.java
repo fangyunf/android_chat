@@ -64,9 +64,14 @@ import com.yaoxin.appbase.net.Constant;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.AppProxy;
 import com.yaoxin.appbase.utils.BarUtils;
+import com.yaoxin.appbase.utils.BaseEvent;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.PinnedHeaderDecoration;
 import com.yaoxin.appbase.utils.StatusBarUtils;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -100,6 +105,7 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
     List<UserBean> verifyList = new ArrayList<>();
 
     int _selectIndex = 0;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -118,10 +124,24 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
         _initViews();
         _requestData();
         _requestMemeber();
+        EventBus.getDefault().register(this);
         return binding.getRoot();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
 
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(BaseEvent event) {
+        if (event.getTag().equals("refreshFriendList")) {
+            _requestMemeber();
+        }
+
+    }
 
     @Override
     public void onPause() {
@@ -165,6 +185,7 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
             }
         });
     }
+
     protected void _requestMemeber() {
         List<String> friendAccounts = NIMClient.getService(FriendService.class).getFriendAccounts();
         List<NimUserInfo> userInfos = NIMClient.getService(UserService.class).getUserInfoList(friendAccounts);
@@ -257,6 +278,7 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
 //                    }
 //                });
     }
+
     public void _requestData() {
 
 //        _requestMemeber();
@@ -371,7 +393,7 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        NetData listData = new Gson().fromJson(body.data.toString(),NetData.class);
+                        NetData listData = new Gson().fromJson(body.data.toString(), NetData.class);
                         Gson gson = new Gson();
                         verifyList =
                                 gson.fromJson(new Gson().toJson(listData.data), new TypeToken<List<UserBean>>() {
@@ -421,8 +443,8 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
                 UserBean bean = baseQuickAdapter.getItem(i);
                 bean.page_type = 100;
                 HashMap map = new HashMap();
-                map.put("user",new Gson().toJson(bean));
-                FunAddFriendVerifyActivity.start(FunAddFriendVerifyActivity.class,that,map);
+                map.put("user", new Gson().toJson(bean));
+                FunAddFriendVerifyActivity.start(FunAddFriendVerifyActivity.class, that, map);
             }
         });
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener<GroupInfoBean>() {
@@ -458,18 +480,18 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
         adapter.addOnItemChildClickListener(R.id.contact_index_headview_3_ll, new BaseQuickAdapter.OnItemChildClickListener<GroupInfoBean>() {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<GroupInfoBean, ?> baseQuickAdapter, @NonNull View view, int i) {
-            XKitRouter.withKey(RouterConstant.PATH_FUN_MY_NOTIFICATION_PAGE)
-                    .withContext(requireContext())
-                    .navigate();
+                XKitRouter.withKey(RouterConstant.PATH_FUN_MY_NOTIFICATION_PAGE)
+                        .withContext(requireContext())
+                        .navigate();
             }
         });
         adapter.addOnItemChildClickListener(R.id.contact_index_headview_4_ll, new BaseQuickAdapter.OnItemChildClickListener<GroupInfoBean>() {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<GroupInfoBean, ?> baseQuickAdapter, @NonNull View view, int i) {
-            XKitRouter.withKey(RouterConstant.PATH_FUN_MY_NOTIFICATION_PAGE)
-                    .withParam("type","1")
-                    .withContext(requireContext())
-                    .navigate();
+                XKitRouter.withKey(RouterConstant.PATH_FUN_MY_NOTIFICATION_PAGE)
+                        .withParam("type", "1")
+                        .withContext(requireContext())
+                        .navigate();
             }
         });
         adapter.addOnItemChildClickListener(R.id.contact_index_headview_5_ll, new BaseQuickAdapter.OnItemChildClickListener<GroupInfoBean>() {
@@ -478,7 +500,7 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
 //                XKitRouter.withKey(Constant.XiaoZhuShouActivityKey)
 //                        .withContext(requireContext())
 //                        .navigate();
-                SystemNotice_NewActivity.start(SystemNotice_NewActivity.class,requireContext(),null);
+                SystemNotice_NewActivity.start(SystemNotice_NewActivity.class, requireContext(), null);
             }
         });
 
@@ -556,6 +578,6 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
 
     public void setContactCallback(IContactCallback contactCallback) {
         this.contactCallback = contactCallback;
-        this.contactCallback.updateUnreadCount(applyNumBean.friendApplyNum+applyNumBean.groupApplyNum);
+        this.contactCallback.updateUnreadCount(applyNumBean.friendApplyNum + applyNumBean.groupApplyNum);
     }
 }

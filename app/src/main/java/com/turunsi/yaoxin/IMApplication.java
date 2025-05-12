@@ -199,6 +199,9 @@ public class IMApplication extends MultiDexApplication {
                                 } else  if (msgBean.type == 18) {
                                     BaseEvent baseEvent = new BaseEvent("login_out");
                                     EventBus.getDefault().post(baseEvent);
+                                } else  if (msgBean.type == 15 || msgBean.type == 2) {
+                                    BaseEvent baseEvent = new BaseEvent("refreshFriendList");
+                                    EventBus.getDefault().post(baseEvent);
                                 }
                             }
                             // 根据需要处理通知内容
