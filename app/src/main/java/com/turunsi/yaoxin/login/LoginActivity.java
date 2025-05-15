@@ -14,7 +14,6 @@ import com.google.gson.Gson;
 import com.netease.yunxin.kit.common.utils.SPUtils;
 import com.netease.yunxin.kit.common.utils.SizeUtils;
 import com.netease.yunxin.kit.corekit.route.XKitRouter;
-import com.turunsi.yaoxin.BuildConfig;
 import com.turunsi.yaoxin.R;
 import com.turunsi.yaoxin.utils.IMUtil;
 import com.yaoxin.appbase.activity.BaseActivity;

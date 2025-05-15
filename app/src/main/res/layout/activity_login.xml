@@ -7,11 +7,19 @@
 
 
     <ImageView
+        android:visibility="gone"
         android:id="@+id/activity_login_title_iv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitXY"
         android:src="@mipmap/login_bg_1" />
+    <ImageView
+        android:layout_centerHorizontal="true"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="100dp"
+        android:scaleType="fitXY"
+        android:src="@mipmap/yaoxin_icon" />
 
 
     <LinearLayout
