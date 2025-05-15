@@ -243,7 +243,7 @@ public class MainActivity extends BaseActivity {
                 new FetchCallback<Boolean>() {
                     @Override
                     public void onSuccess(@Nullable Boolean param) {
-                        ChatConfigManager.showReadStatus = false;
+                        ChatConfigManager.showReadStatus = param;
                     }
 
                     @Override
