@@ -63,6 +63,8 @@ import com.yaoxin.appbase.utils.PinnedHeaderDecoration;
 import com.yaoxin.appbase.utils.StatusBarUtils;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -112,7 +114,24 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
         binding.contactNewFragmentMoreIv.setOnClickListener(this);
         _initViews();
         _requestData();
+        EventBus.getDefault().register(this);
         return binding.getRoot();
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(BaseEvent event) {
+        if (event.getTag().equals("refreshFriendList")) {
+            _requestFreiend();
+        }
+
     }
 
 
@@ -123,9 +142,8 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
         _requestData();
     }
 
-    @Override
-    protected void _requestData() {
-//        _requestMemeber(1);
+    void _requestFreiend() {
+
         HttpUtil.apiW().friends_friendList(new RegisterBean())
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
@@ -166,6 +184,51 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
 
                     }
                 });
+    }
+    @Override
+    protected void _requestData() {
+//        _requestMemeber(1);
+        _requestFreiend();
+//        HttpUtil.apiW().friends_friendList(new RegisterBean())
+//                .enqueue(new CommonCallback<NetData>() {
+//                    @Override
+//                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+//
+//                        Type type = new TypeToken<List<GroupInfoBean>>() {
+//                        }.getType();
+//                        mContactModels = new Gson().fromJson(body.data.toString(), type);
+//                        for (GroupInfoBean tempBean :
+//                                mContactModels) {
+//                            if (tempBean.userId.equals(DataUtil.getKeFuId())) {
+//                                mContactModels.remove(tempBean);
+//                                break;
+//                            }
+//
+//                        }
+//                        Collections.sort(mContactModels, new Comparator<GroupInfoBean>() {
+//                            @Override
+//                            public int compare(GroupInfoBean o1, GroupInfoBean o2) {
+//                                // 获取name的首字母并忽略大小写比较
+//                                String firstLetter = FirstLetterUtil.getFirstLetter(o1.name);
+//                                String secondLetter = FirstLetterUtil.getFirstLetter(o2.name);
+//                                return firstLetter.compareTo(secondLetter);
+//                            }
+//                        });
+//                        DataUtil.setFriendInfoList(mContactModels);
+//                        adapter.contacts = mContactModels;
+//                        if (_selectIndex == 0) {
+//                            adapter.setItems(mContactModels);
+//                            binding.contactNewFragmentRv.setAdapter(adapter);
+//                            adapter.notifyDataSetChanged();
+//
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void Failure(Call<NetData> call, Throwable t) {
+//
+//                    }
+//                });
 
         HttpUtil.apiW().friends_applyListNum(new RegisterBean())
                 .enqueue(new CommonCallback<NetData>() {
