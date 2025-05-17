@@ -17,8 +17,8 @@ public class Constant {
 
     public static final String BASE_URL = "https://ml.shijiezhixin.cn/";
     public static final String BASE_URL_H5 = "https://ml.shijiezhixin.cn";
-    public static final String ENCODE_KEY = "wesecretpaddingg";
-    public static final String MSG_ENCODE_KEY = "wallstreetimchat";
+    public static final String ENCODE_KEY = "A1b2C3d4E5f6G7h8";
+    public static final String MSG_ENCODE_KEY = "A1b2C3d4E5f6G7h8";
 
     public static final String clientType = "Android";
     public static final String RealName_Router = "RealName_Router";
