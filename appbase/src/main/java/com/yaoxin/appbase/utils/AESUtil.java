@@ -34,7 +34,7 @@ public class AESUtil {
      */
     public static String aesEncrypt(String sSrc) throws Exception {
         Cipher cipher = Cipher.getInstance(CipherMode);
-        byte[] raw = Constant.ENCODE_KEY1.getBytes("UTF-8");
+        byte[] raw = Constant.ENCODE_NEW_KEY.getBytes("UTF-8");
         SecretKeySpec skeySpec = new SecretKeySpec(raw, CipherMode);
         cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
         byte[] encrypted = cipher.doFinal(sSrc.getBytes("UTF-8"));
@@ -63,7 +63,7 @@ public class AESUtil {
     }
     public static String aseDecrypt(String strToDecrypt) throws Exception {
         Cipher cipher = Cipher.getInstance(CipherMode);
-        byte[] raw = Constant.ENCODE_KEY.getBytes("UTF-8");
+        byte[] raw = Constant.ENCODE_OLD_KEY.getBytes("UTF-8");
         SecretKeySpec skeySpec = new SecretKeySpec(raw, CipherMode);
         cipher.init(Cipher.DECRYPT_MODE, skeySpec);
         byte[] decodedBytes = Base64.decode(strToDecrypt, Base64.DEFAULT);
@@ -72,7 +72,7 @@ public class AESUtil {
     }
     public static String aseDecrypt1(String strToDecrypt) throws Exception {
         Cipher cipher = Cipher.getInstance(CipherMode);
-        byte[] raw = Constant.ENCODE_KEY1.getBytes("UTF-8");
+        byte[] raw = Constant.ENCODE_NEW_KEY.getBytes("UTF-8");
         SecretKeySpec skeySpec = new SecretKeySpec(raw, CipherMode);
         cipher.init(Cipher.DECRYPT_MODE, skeySpec);
         byte[] decodedBytes = Base64.decode(strToDecrypt, Base64.DEFAULT);
@@ -82,26 +82,26 @@ public class AESUtil {
 
     public static String msgAesEncrypt(String sSrc) throws Exception {
         Cipher cipher = Cipher.getInstance(CipherMode);
-        byte[] raw = Constant.MSG_ENCODE_KEY1.getBytes("UTF-8");
+        byte[] raw = Constant.ENCODE_OLD_KEY.getBytes("UTF-8");
         SecretKeySpec skeySpec = new SecretKeySpec(raw, CipherMode);
         cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
         byte[] encrypted = cipher.doFinal(sSrc.getBytes("UTF-8"));
         return new String(Base64.encode(encrypted, Base64.DEFAULT));
     }
 
-    public static String msgAseDecrypt(String strToDecrypt) throws Exception {
-        if (containsChineseCharacters(strToDecrypt)) {
-            return strToDecrypt;
-        }
-
-        Cipher cipher = Cipher.getInstance(CipherMode);
-        byte[] raw = Constant.MSG_ENCODE_KEY.getBytes("UTF-8");
-        SecretKeySpec skeySpec = new SecretKeySpec(raw, CipherMode);
-        cipher.init(Cipher.DECRYPT_MODE, skeySpec);
-        byte[] decodedBytes = Base64.decode(strToDecrypt, Base64.DEFAULT);
-        byte[] decrypted = cipher.doFinal(decodedBytes);
-        return new String(decrypted, StandardCharsets.UTF_8);
-    }
+//    public static String msgAseDecrypt(String strToDecrypt) throws Exception {
+//        if (containsChineseCharacters(strToDecrypt)) {
+//            return strToDecrypt;
+//        }
+//
+//        Cipher cipher = Cipher.getInstance(CipherMode);
+//        byte[] raw = Constant.MSG_ENCODE_KEY.getBytes("UTF-8");
+//        SecretKeySpec skeySpec = new SecretKeySpec(raw, CipherMode);
+//        cipher.init(Cipher.DECRYPT_MODE, skeySpec);
+//        byte[] decodedBytes = Base64.decode(strToDecrypt, Base64.DEFAULT);
+//        byte[] decrypted = cipher.doFinal(decodedBytes);
+//        return new String(decrypted, StandardCharsets.UTF_8);
+//    }
     public static boolean isChineseCharacter(char c) {
         Character.UnicodeBlock ub = Character.UnicodeBlock.of(c);
         return ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS
