@@ -41,7 +41,7 @@ public abstract class CommonCallback<T> implements Callback<T> {
                     case 200:
                         try {
                             if (netData.data != null) {
-                                netData.data = AESUtil.aseDecrypt(netData.data.toString());
+                                netData.data = AESUtil.decryptWithFallback(netData.data.toString());
                             }
                         } catch (Exception e) {
                             throw new RuntimeException(e);

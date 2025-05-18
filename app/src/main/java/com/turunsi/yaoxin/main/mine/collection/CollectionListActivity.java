@@ -57,7 +57,7 @@ public class CollectionListActivity extends BaseActivity implements View.OnClick
                     return;
                 }
                 try {
-                    content = AESUtil.msgAseDecrypt(content);
+                    content = AESUtil.decryptWithFallback(content);
                 }catch (Exception e) {
 
                 }

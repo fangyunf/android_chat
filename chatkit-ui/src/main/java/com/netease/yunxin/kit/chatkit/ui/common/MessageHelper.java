@@ -411,7 +411,7 @@ public class MessageHelper {
       value = "";
     }
     try {
-      value = AESUtil.msgAseDecrypt(value);
+      value = AESUtil.decryptWithFallback(value);
     } catch (Exception e) {
 
     }
@@ -529,7 +529,7 @@ public class MessageHelper {
 //      clipData = ClipData.newPlainText(null, messageInfo.getMessage().getContent());
       String content = messageInfo.getMessage().getContent();
       try {
-        content = AESUtil.msgAseDecrypt(content);
+        content = AESUtil.decryptWithFallback(content);
       } catch (Exception e) {
 
       }

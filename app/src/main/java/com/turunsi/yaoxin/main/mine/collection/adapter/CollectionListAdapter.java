@@ -25,7 +25,7 @@ public class CollectionListAdapter extends BaseQuickAdapter<CollectInfo, QuickVi
     protected void onBindViewHolder(@NonNull QuickViewHolder quickViewHolder, int i, @Nullable CollectInfo orderListBean) {
         String content = orderListBean.getData();
         try {
-            content = AESUtil.msgAseDecrypt(content);
+            content = AESUtil.decryptWithFallback(content);
         }catch (Exception e) {
 
         }

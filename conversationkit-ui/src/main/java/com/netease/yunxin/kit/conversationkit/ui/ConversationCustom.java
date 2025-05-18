@@ -23,7 +23,7 @@ public class ConversationCustom {
 //          return conversationInfo.getContent();
           String content = conversationInfo.getContent();
           try {
-            content = AESUtil.msgAseDecrypt(content);
+            content = AESUtil.decryptWithFallback(content);
           } catch (Exception e) {
 
           }
