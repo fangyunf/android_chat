@@ -56,8 +56,16 @@ public class AESUtil {
                 System.out.println("解密成功（使用 ENCODE_KEY）");
                 return result;
             } catch (Exception e2) {
-                System.err.println("解密彻底失败: " + e2.getMessage());
-                throw new RuntimeException("无法解密数据，请检查密钥和加密模式", e2);
+                try {
+                    // 降级用 ENCODE_KEY 解密
+                    String result = aseDecrypt2(encryptedData);
+                    System.out.println("解密成功（使用 ENCODE_KEY）");
+                    return result;
+                } catch (Exception e3) {
+                    System.err.println("解密彻底失败: " + e2.getMessage());
+                    throw new RuntimeException("无法解密数据，请检查密钥和加密模式", e2);
+                }
+//                throw new RuntimeException("无法解密数据，请检查密钥和加密模式", e2);
             }
         }
     }
@@ -79,10 +87,19 @@ public class AESUtil {
         byte[] decrypted = cipher.doFinal(decodedBytes);
         return new String(decrypted, StandardCharsets.UTF_8);
     }
+    public static String aseDecrypt2(String strToDecrypt) throws Exception {
+        Cipher cipher = Cipher.getInstance(CipherMode);
+        byte[] raw = Constant.ENCODE_OLD_KEY1.getBytes("UTF-8");
+        SecretKeySpec skeySpec = new SecretKeySpec(raw, CipherMode);
+        cipher.init(Cipher.DECRYPT_MODE, skeySpec);
+        byte[] decodedBytes = Base64.decode(strToDecrypt, Base64.DEFAULT);
+        byte[] decrypted = cipher.doFinal(decodedBytes);
+        return new String(decrypted, StandardCharsets.UTF_8);
+    }
 
     public static String msgAesEncrypt(String sSrc) throws Exception {
         Cipher cipher = Cipher.getInstance(CipherMode);
-        byte[] raw = Constant.ENCODE_OLD_KEY.getBytes("UTF-8");
+        byte[] raw = Constant.ENCODE_OLD_KEY1.getBytes("UTF-8");
         SecretKeySpec skeySpec = new SecretKeySpec(raw, CipherMode);
         cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
         byte[] encrypted = cipher.doFinal(sSrc.getBytes("UTF-8"));

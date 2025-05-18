@@ -18,6 +18,7 @@ public class Constant {
     public static final String BASE_URL = "https://ml.shijiezhixin.cn/";
     public static final String BASE_URL_H5 = "https://ml.shijiezhixin.cn";
     public static final String ENCODE_OLD_KEY = "wesecretpaddingg";
+    public static final String ENCODE_OLD_KEY1 = "wallstreetimchat";
     public static final String ENCODE_NEW_KEY = "A1b2C3d4E5f6G7h8";
 //    public static final String MSG_ENCODE_KEY = "wallstreetimchat";
 //    public static final String MSG_ENCODE_KEY1 = "A1b2C3d4E5f6G7h8";
