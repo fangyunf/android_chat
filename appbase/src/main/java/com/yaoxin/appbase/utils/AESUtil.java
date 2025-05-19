@@ -34,7 +34,7 @@ public class AESUtil {
      */
     public static String aesEncrypt(String sSrc) throws Exception {
         Cipher cipher = Cipher.getInstance(CipherMode);
-        byte[] raw = Constant.ENCODE_NEW_KEY.getBytes("UTF-8");
+        byte[] raw = Constant.API_ENCODE_KEY.getBytes("UTF-8");
         SecretKeySpec skeySpec = new SecretKeySpec(raw, CipherMode);
         cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
         byte[] encrypted = cipher.doFinal(sSrc.getBytes("UTF-8"));
@@ -42,9 +42,12 @@ public class AESUtil {
     }
 
     public static String decryptWithFallback(String encryptedData) {
+        if (containsChineseCharacters(encryptedData)) {
+            return encryptedData;
+        }
         try {
             // 优先尝试用 ENCODE_KEY1 解密
-            String result = aseDecrypt1(encryptedData);
+            String result = aseDecrypt(encryptedData);
             System.out.println("解密成功（使用 ENCODE_KEY1）");
             return result;
         } catch (Exception e1) {
@@ -52,7 +55,7 @@ public class AESUtil {
 
             try {
                 // 降级用 ENCODE_KEY 解密
-                String result = aseDecrypt(encryptedData);
+                String result = aseDecrypt1(encryptedData);
                 System.out.println("解密成功（使用 ENCODE_KEY）");
                 return result;
             } catch (Exception e2) {
@@ -65,13 +68,12 @@ public class AESUtil {
                     System.err.println("解密彻底失败: " + e2.getMessage());
                     throw new RuntimeException("无法解密数据，请检查密钥和加密模式", e2);
                 }
-//                throw new RuntimeException("无法解密数据，请检查密钥和加密模式", e2);
             }
         }
     }
     public static String aseDecrypt(String strToDecrypt) throws Exception {
         Cipher cipher = Cipher.getInstance(CipherMode);
-        byte[] raw = Constant.ENCODE_OLD_KEY.getBytes("UTF-8");
+        byte[] raw = Constant.MSG_ENCODE_KEY.getBytes("UTF-8");
         SecretKeySpec skeySpec = new SecretKeySpec(raw, CipherMode);
         cipher.init(Cipher.DECRYPT_MODE, skeySpec);
         byte[] decodedBytes = Base64.decode(strToDecrypt, Base64.DEFAULT);
@@ -80,7 +82,7 @@ public class AESUtil {
     }
     public static String aseDecrypt1(String strToDecrypt) throws Exception {
         Cipher cipher = Cipher.getInstance(CipherMode);
-        byte[] raw = Constant.ENCODE_NEW_KEY.getBytes("UTF-8");
+        byte[] raw = Constant.API_ENCODE_KEY.getBytes("UTF-8");
         SecretKeySpec skeySpec = new SecretKeySpec(raw, CipherMode);
         cipher.init(Cipher.DECRYPT_MODE, skeySpec);
         byte[] decodedBytes = Base64.decode(strToDecrypt, Base64.DEFAULT);
@@ -89,7 +91,7 @@ public class AESUtil {
     }
     public static String aseDecrypt2(String strToDecrypt) throws Exception {
         Cipher cipher = Cipher.getInstance(CipherMode);
-        byte[] raw = Constant.ENCODE_OLD_KEY1.getBytes("UTF-8");
+        byte[] raw = Constant.OLD_API_ENCODE_KEY.getBytes("UTF-8");
         SecretKeySpec skeySpec = new SecretKeySpec(raw, CipherMode);
         cipher.init(Cipher.DECRYPT_MODE, skeySpec);
         byte[] decodedBytes = Base64.decode(strToDecrypt, Base64.DEFAULT);
@@ -99,7 +101,7 @@ public class AESUtil {
 
     public static String msgAesEncrypt(String sSrc) throws Exception {
         Cipher cipher = Cipher.getInstance(CipherMode);
-        byte[] raw = Constant.ENCODE_OLD_KEY1.getBytes("UTF-8");
+        byte[] raw = Constant.MSG_ENCODE_KEY.getBytes("UTF-8");
         SecretKeySpec skeySpec = new SecretKeySpec(raw, CipherMode);
         cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
         byte[] encrypted = cipher.doFinal(sSrc.getBytes("UTF-8"));
