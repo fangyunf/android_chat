@@ -163,6 +163,7 @@ public class MainActivity extends BaseActivity {
     }
 
     void _update() {
+//        showUpdate("123","456");
         HttpUtil.apiW().customer_versionCkeck("AOS", BuildConfig.VERSION_NAME)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
@@ -188,6 +189,8 @@ public class MainActivity extends BaseActivity {
 
         //简单DialogFragment升级
         AppDialogConfig config = new AppDialogConfig(this);
+        config.setHideCancel(true)
+                .setCancel(null);
         config.setTitle("应用升级")
                 .setConfirm("升级")
                 .setContent(updateMsg)
@@ -230,10 +233,12 @@ public class MainActivity extends BaseActivity {
                                     }
                                 }).start();
 
-                        AppDialog.INSTANCE.dismissDialogFragment(getSupportFragmentManager());
+                        AppDialog.INSTANCE.dismissDialog();
+
                     }
                 });
-        AppDialog.INSTANCE.showDialogFragment(getSupportFragmentManager(), config);
+        AppDialog.INSTANCE.showDialog( config,false);
+//        AppDialog.setCancelable(false); // 禁止返回键取消
 
     }
     private void initData() {
@@ -261,6 +266,11 @@ public class MainActivity extends BaseActivity {
         if (!CallKitUI.INSTANCE.getInit()) {
             configCallKit();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
     }
 
     private void initView() {
