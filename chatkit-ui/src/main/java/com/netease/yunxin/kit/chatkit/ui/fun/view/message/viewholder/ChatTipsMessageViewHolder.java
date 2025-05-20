@@ -117,6 +117,7 @@ public class ChatTipsMessageViewHolder extends FunChatBaseMessageViewHolder {
           tempContent = "你 领取了 "+ msgBean.sendUserName +" 的红包";
         }
         textBinding.messageTipText.setText(tempContent);
+        baseViewBinding.baseRoot.setVisibility(View.GONE);
       } else  {
         textBinding.messageTipText.setText(content);
       }
