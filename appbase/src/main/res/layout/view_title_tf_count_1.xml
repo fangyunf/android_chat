@@ -43,7 +43,6 @@
             android:id="@+id/view_title_tf_count_eye_rl"
             android:layout_width="40dp"
             android:visibility="gone"
-            android:background="#F5F6FA"
             android:layout_height="40dp">
 
             <ImageView

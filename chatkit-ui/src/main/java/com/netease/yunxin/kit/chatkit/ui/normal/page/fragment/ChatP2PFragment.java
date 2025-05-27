@@ -70,7 +70,7 @@ public class ChatP2PFragment extends NormalChatFragment {
     chatView
         .getTitleBar()
         .setOnBackIconClickListener(v -> requireActivity().onBackPressed())
-        .setActionImg(R.drawable.ic_more_point)
+        .setActionImg(R.drawable.chat_detail_more)
         .setActionListener(
             v -> {
               chatView.hideCurrentInput();

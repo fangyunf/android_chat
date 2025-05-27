@@ -115,7 +115,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             binding.activityLoginRegisterTv.setText("注册账号");
             binding.activityLoginForgetTv.setVisibility(View.VISIBLE);
             binding.activityLoginRegisterTv.setVisibility(View.VISIBLE);
-            binding.activityLoginTitleIv.setImageResource(R.mipmap.common_login_title_login);
+//            binding.activityLoginTitleIv.setImageResource(R.mipmap.common_login_title_login);
         } else if (type == 1) {
             binding.activityLoginTf2.viewRoundTfLl.setVisibility(View.VISIBLE);
             binding.activityLoginTf2.viewTitleTfCountCaptcha.setVisibility(View.VISIBLE);
@@ -125,7 +125,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             binding.activityLoginRegisterTv.setText("已有账号，去登录");
             binding.activityLoginRegisterTv.setVisibility(View.VISIBLE);
             binding.activityLoginForgetTv.setVisibility(View.GONE);
-            binding.activityLoginTitleIv.setImageResource(R.mipmap.common_login_title_register);
+//            binding.activityLoginTitleIv.setImageResource(R.mipmap.common_login_title_register);
         } else if (type == 2) {
             binding.activityLoginTf2.viewRoundTfLl.setVisibility(View.VISIBLE);
             binding.activityLoginTf2.viewTitleTfCountCaptcha.setVisibility(View.VISIBLE);
@@ -136,7 +136,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             binding.activityLoginRegisterTv.setText("已有账号，去登录");
             binding.activityLoginRegisterTv.setVisibility(View.VISIBLE);
             binding.activityLoginForgetTv.setVisibility(View.GONE);
-            binding.activityLoginTitleIv.setImageResource(R.mipmap.common_login_title_forget);
+//            binding.activityLoginTitleIv.setImageResource(R.mipmap.common_login_title_forget);
         }
     }
     @Override

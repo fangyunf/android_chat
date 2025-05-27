@@ -395,6 +395,9 @@ public class ConversationAdapter extends RecyclerView.Adapter<BaseViewHolder> {
   }
 
   public ConversationBean getData(int index) {
+    if (index < 0 || index >= optData().size()) {
+      return null;
+    }
     return optData().get(index);
 //    ArrayList<ConversationBean> tempArr = new ArrayList<>();
 //    for (ConversationBean tempBean: conversationList) {

@@ -80,7 +80,7 @@ public class ChatTeamFragment extends NormalChatFragment {
     chatView
         .getTitleBar()
         .setOnBackIconClickListener(v -> requireActivity().onBackPressed())
-        .setActionImg(R.drawable.ic_more_point)
+        .setActionImg(R.drawable.chat_detail_more)
         .setActionListener(
             v -> {
               // go to team setting
