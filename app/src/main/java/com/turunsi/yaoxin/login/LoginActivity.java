@@ -66,9 +66,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 //        binding.activityLoginIsCheckedTxt2.setOnClickListener(this);
 //        binding.activityLoginIsCheckedTxt4.setOnClickListener(this);
 //        binding.activityLoginIsAgreeLl.setOnClickListener(this);
-//        binding.activityLoginTf1.viewTitleTfCountTitleTv.setText("手机号");
-//        binding.activityLoginTf2.viewTitleTfCountTitleTv.setText("验证码");
-//        binding.activityLoginTf3.viewTitleTfCountTitleTv.setText("密码");
+        binding.activityLoginTf1.viewTitleTfCountTitleTv.setText("手机号");
+        binding.activityLoginTf2.viewTitleTfCountTitleTv.setText("验证码");
+        binding.activityLoginTf3.viewTitleTfCountTitleTv.setText("密码");
         binding.activityLoginTf1.viewTitleTfCountEt.setHint("输入手机号");
         binding.activityLoginTf2.viewTitleTfCountEt.setHint("输入验证码");
         binding.activityLoginTf3.viewTitleTfCountEt.setHint("输入密码");
@@ -110,7 +110,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             binding.activityLoginTf2.viewRoundTfLl.setVisibility(View.GONE);
             binding.activityLoginLoginTv.setText("登录");
             binding.activityLoginTitleTv.setText("登录");
-            binding.activityLoginTypeTv.setText("手机号登录");
+//            binding.activityLoginTypeTv.setText("手机号登录");
             binding.activityLoginForgetTv.setText("忘记密码");
             binding.activityLoginRegisterTv.setText("注册账号");
             binding.activityLoginForgetTv.setVisibility(View.VISIBLE);
@@ -120,7 +120,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             binding.activityLoginTf2.viewRoundTfLl.setVisibility(View.VISIBLE);
             binding.activityLoginTf2.viewTitleTfCountCaptcha.setVisibility(View.VISIBLE);
             binding.activityLoginLoginTv.setText("注册");
-            binding.activityLoginTypeTv.setText("手机号注册");
+//            binding.activityLoginTypeTv.setText("手机号注册");
             binding.activityLoginTitleTv.setText("注册");
             binding.activityLoginRegisterTv.setText("已有账号，去登录");
             binding.activityLoginRegisterTv.setVisibility(View.VISIBLE);
@@ -130,7 +130,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             binding.activityLoginTf2.viewRoundTfLl.setVisibility(View.VISIBLE);
             binding.activityLoginTf2.viewTitleTfCountCaptcha.setVisibility(View.VISIBLE);
             binding.activityLoginLoginTv.setText("找回密码");
-            binding.activityLoginTypeTv.setText("忘记密码");
+//            binding.activityLoginTypeTv.setText("忘记密码");
             binding.activityLoginTitleTv.setText("找回密码");
             binding.activityLoginForgetTv.setVisibility(View.GONE);
             binding.activityLoginRegisterTv.setText("已有账号，去登录");

@@ -11,10 +11,10 @@
     <color name="color_F2F2F2">#F2F2F2</color>
     <color name="color_white">#FFFFFFFF</color>
     <color name="color_D92926">#D92926</color>
-    <color name="color_8B5FD8">#4167B2</color>
+    <color name="color_8B5FD8">#9F39FF</color>
     <color name="color_333333">#ff333333</color>
-    <color name="color_B591F5">#4167B2</color>
-    <color name="color_884EEF">#4167B2</color>
+    <color name="color_B591F5">#9F39FF</color>
+    <color name="color_884EEF">#9F39FF</color>
     <color name="color_E8E8E8">#E8E8E8</color>
     <color name="color_9D9D9D">#9D9D9D</color>
     <!-- nim -->
@@ -37,7 +37,7 @@
     <color name="color_101113">#101113</color>
     <color name="color_ededed">#ededed</color>
     <color name="color_58be6b">#58be6b</color>
-    <color name="color_9A75DB">#4167B2</color>
+    <color name="color_9A75DB">#9F39FF</color>
 
     <color name="color_999999">#999999</color>
     <color name="color_d5d5d5">#d5d5d5</color>
@@ -46,10 +46,10 @@
 
     <color name="color_ffe935">#ffe935</color>
     <color name="color_ff666666">#ff666666</color>
-    <color name="app_theme_color">#4167B2</color>
+    <color name="app_theme_color">#9F39FF</color>
     <color name="color_DC513F">#DC513F</color>
-    <color name="app_chat_send_pop_bg">#6AA9FF</color>
-    <color name="app_chat_receive_pop_bg">#FFFFFF</color>
+    <color name="app_chat_send_pop_bg">#251642</color>
+    <color name="app_chat_receive_pop_bg">#251642</color>
     <color name="wx_theme_color">#59b269</color>
     <color name="app_chat_view_bg_color">#F1F1F1</color>
     <color name="app_theme_red_color">#FF0000</color>
