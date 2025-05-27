@@ -36,7 +36,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "668"
+rootProject.name = "santi"
 include(":app")
 include(":conversationkit-ui")
 include(":teamkit-ui")
