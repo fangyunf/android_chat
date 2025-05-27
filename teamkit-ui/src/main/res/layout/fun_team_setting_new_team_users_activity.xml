@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_white"
+    android:background="@color/color_160B2C"
     android:gravity="center_horizontal"
     >
 
@@ -12,12 +12,12 @@
 
         android:id="@+id/fun_team_setting_new_team_users_activity_nav"
         style="@style/WhiteFontToolbar"
-        android:background="#ffffff"
-        app:back_icon="@mipmap/temp_ic_back"
+        android:background="@color/transparent"
+        app:back_icon="@mipmap/temp_ic_back_white"
         app:enable_under_divider="true"
         app:support_translucent_status_bar="false"
         app:title="查看群成员"
-        app:title_text_color="@color/color_333333"
+        app:title_text_color="@color/color_white"
         app:under_divider_color="@color/transparent" />
     <EditText
         android:id="@+id/fun_team_setting_new_team_users_activity_search_et"

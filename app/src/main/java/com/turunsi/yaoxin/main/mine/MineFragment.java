@@ -27,6 +27,7 @@ import androidx.core.content.ContextCompat;
 
 import com.google.gson.Gson;
 import com.netease.yunxin.kit.chatkit.ui.fun.page.FunChatSettingActivity;
+import com.netease.yunxin.kit.chatkit.ui.fun.page.FunRedPacketRecordListActivity;
 import com.netease.yunxin.kit.contactkit.ui.fun.blacklist.FunBlackList_NewActivity;
 import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
 import com.netease.yunxin.kit.corekit.route.XKitRouter;
@@ -51,6 +52,7 @@ import com.turunsi.yaoxin.main.mine.fuhao.MyFuHaoListActivity;
 import com.turunsi.yaoxin.main.mine.huiyuan.MyHuiYuanListActivity;
 import com.turunsi.yaoxin.main.mine.order.OrderListActivity;
 import com.turunsi.yaoxin.main.mine.purse.PurseIndexActivity;
+import com.turunsi.yaoxin.main.mine.purse.alipay.BindAlipayActivity;
 import com.turunsi.yaoxin.main.mine.purse.pwdmanager.PursePwdManagerSetActivity;
 import com.turunsi.yaoxin.main.mine.setting.ExchangeAccountActivity;
 import com.turunsi.yaoxin.main.mine.setting.Mine_Account_Anquan_Activity;
@@ -160,7 +162,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                         UserBean bean = new Gson().fromJson(body.data.toString(),UserBean.class);
-//                        binding.fragmentMineQbyeView.rightTv.setText("￥ " + NumberUtil.formartMoney(bean.balance));
+                        binding.fragmentMineYueLlTv.setText( NumberUtil.formartMoney(bean.balance));
                     }
 
                     @Override
@@ -210,6 +212,13 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         binding.fragmentMineSzView.setOnClickListener(this);
         binding.fragmentMineQbglView.setOnClickListener(this);
         binding.fragmentMineTcdlView.setOnClickListener(this);
+
+
+        binding.fragmentMineSztxtpView.setOnClickListener(this);
+        binding.fragmentMineJyjlView.setOnClickListener(this);
+        binding.fragmentMineSmrzView.setOnClickListener(this);
+        binding.fragmentMineQbkView.setOnClickListener(this);
+        binding.fragmentMineYueLl.setOnClickListener(this);
 //        binding.fragmentMineQbyeView.rightIv.setVisibility(View.GONE);
 //        binding.fragmentMineQbyeView.rightTv.setVisibility(View.VISIBLE);
 
@@ -479,13 +488,24 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
             AppUpdateActivity.start(AppUpdateActivity.class,getContext(),null);
         if (v == binding.fragmentMineIndexCdscLl) {
             EggListIndexActivity.start(EggListIndexActivity.class,getContext(),null);
-        } else if (v == binding.fragmentMineIndexWdqbLl || v == binding.fragmentMineQbglView) {
+        } else if (v == binding.fragmentMineIndexWdqbLl || v == binding.fragmentMineQbglView || v == binding.fragmentMineYueLl) {
             PurseIndexActivity.start(PurseIndexActivity.class,context,null);
         } else if (v == binding.fragmentMineKfView) {
             XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_P2P_PAGE)
                     .withParam(RouterConstant.CHAT_ID_KRY, DataUtil.getKeFuId())
                     .withContext(getContext())
                     .navigate();
+        } else if (v == binding.fragmentMineSztxtpView) {
+
+            AccountDetailActivity.start(AccountDetailActivity.class,getContext(),null);
+        } else if (v == binding.fragmentMineJyjlView) {
+
+            FunRedPacketRecordListActivity.start(FunRedPacketRecordListActivity.class,getContext(),null);
+        } else if (v == binding.fragmentMineSmrzView) {
+            ToastUtils.toastMsg("已完成实名");
+        } else if (v == binding.fragmentMineQbkView) {
+
+            BindAlipayActivity.start(BindAlipayActivity.class,getContext(),null);
         }
 
     }

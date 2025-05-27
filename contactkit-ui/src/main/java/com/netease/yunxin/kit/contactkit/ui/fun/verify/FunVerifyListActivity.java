@@ -63,6 +63,7 @@ public class FunVerifyListActivity extends BaseActivity implements View.OnClickL
       }
       super.onCreate(savedInstanceState);
       binding = FunVerifyFriendListActivityBinding.inflate(getLayoutInflater());
+      transtStatusBar(binding.funVerifyFriendListActivityNav);
       setContentView(binding.getRoot());
       binding.funVerifyFriendListActivityNav.addCloseImageButton().setOnClickListener(this);
 

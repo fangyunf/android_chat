@@ -503,6 +503,7 @@ public class MainActivity extends BaseActivity {
         CustomConfig.configContactKit(this);
         CustomConfig.configConversation(this);
         CustomConfig.configChatKit(this);
+
     }
 
     //皮肤变更事件

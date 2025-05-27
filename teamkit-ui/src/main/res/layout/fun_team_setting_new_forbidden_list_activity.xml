@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_ededed"
+    android:background="@color/color_160B2C"
     android:gravity="center_horizontal"
     >
 
@@ -12,13 +12,13 @@
 
         android:id="@+id/fun_team_setting_new_forbidden_list_activity_nav"
         style="@style/WhiteFontToolbar"
-        android:background="#ffffff"
-        app:back_icon="@mipmap/temp_ic_back"
+        android:background="@color/transparent"
+        app:back_icon="@mipmap/temp_ic_back_white"
         app:enable_under_divider="true"
         app:support_translucent_status_bar="false"
         app:title="禁止领取红包"
-        app:title_text_color="@color/color_333333"
-        app:under_divider_color="@color/color_d5d5d5" />
+        app:title_text_color="@color/color_white"
+        app:under_divider_color="@color/transparent" />
 
     <!--搜索框-->
     <com.nanchen.wavesidebar.SearchEditText
@@ -46,7 +46,6 @@
         android:layout_below="@+id/main_search">
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/fun_team_setting_new_forbidden_list_activity_rv"
-            android:background="@color/color_white"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             />

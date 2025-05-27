@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/color_F2F2F2"
+    android:background="@color/color_160B2C"
     >
 
 <LinearLayout
@@ -16,18 +16,18 @@
     <com.yaoxin.appbase.navbar.NavToolbar
         android:id="@+id/fun_team_user_info_detail_nav"
         style="@style/WhiteFontToolbar"
-        android:background="@color/color_white"
-        app:back_icon="@mipmap/temp_ic_back"
+        android:background="@color/transparent"
+        app:back_icon="@mipmap/temp_ic_back_white"
         app:enable_under_divider="true"
         app:support_translucent_status_bar="false"
         app:title="详细信息"
-        app:title_text_color="@color/color_333333"
+        app:title_text_color="@color/color_white"
         app:under_divider_color="@android:color/transparent" />
     <LinearLayout
         android:paddingVertical="30dp"
         android:layout_width="match_parent"
         android:gravity="center_vertical"
-        android:background="@color/color_white"
+        android:background="@color/color_160B2C"
         android:layout_height="wrap_content">
         <com.makeramen.roundedimageview.RoundedImageView
             android:layout_width="80dp"
@@ -53,7 +53,7 @@
                     android:maxWidth="250dp"
                     android:layout_height="wrap_content"
                     android:text="1234"
-                    android:textColor="@color/color_333333"
+                    android:textColor="@color/color_white"
                     android:textSize="17sp"
                     />
                 <ImageView
@@ -68,7 +68,7 @@
                 android:layout_marginTop="@dimen/dimen_8_dp"
                 android:layout_width="wrap_content"
                 android:text="5678"
-                android:textColor="@color/color_666666"
+                android:textColor="@color/color_white"
                 android:textSize="12sp"
                 android:layout_height="wrap_content"
 
@@ -85,7 +85,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:orientation="vertical"
-            android:background="@drawable/bg_white_rounded_12"
+            android:background="@drawable/bg_251642_rounded_10"
             android:layout_height="wrap_content">
             <include
                 android:id="@+id/fun_team_user_info_detail_yaoqingren"
@@ -129,7 +129,7 @@
         android:text="加好友"
         android:layout_alignParentBottom="true"
         android:gravity="center"
-        android:background="@color/color_white"
-        android:textColor="@color/color_333333"
+        android:background="@color/app_theme_color"
+        android:textColor="@color/color_white"
         android:textSize="15sp" />
 </RelativeLayout>

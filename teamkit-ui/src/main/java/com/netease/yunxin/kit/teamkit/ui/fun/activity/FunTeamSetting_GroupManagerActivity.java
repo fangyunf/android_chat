@@ -85,6 +85,7 @@ public class FunTeamSetting_GroupManagerActivity extends BaseActivity implements
         }
         setContentView(binding.getRoot());
         _initView();
+        transtStatusBar(binding.funTeamSettingGroupManagerActivityNav);
 
     }
 

@@ -8,6 +8,7 @@
 <resources>
     <color name="color_white">#FFFFFF</color>
     <color name="color_e6605c">#ffe6605c</color>
+    <color name="color_160B2C">#160B2C</color>
     <color name="color_e0ecff">#ffe0ecff</color>
     <color name="color_b9d3ff">#ffb9d3ff</color>
     <color name="color_dedede">#ffdedede</color>

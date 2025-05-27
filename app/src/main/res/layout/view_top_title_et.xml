@@ -10,6 +10,7 @@
     android:paddingHorizontal="@dimen/dimen_15_dp">
 
     <TextView
+        android:visibility="gone"
         android:id="@+id/view_title_tf_without_bg_tv"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/dimen_22_dp"
@@ -18,7 +19,6 @@
         android:textSize="@dimen/text_size_16" />
 
     <RelativeLayout
-        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         >
@@ -26,14 +26,14 @@
             android:id="@+id/view_title_tf_without_bg_et"
             android:layout_width="match_parent"
             android:layout_height="44dp"
-            android:background="@drawable/bg_f2f2f2_rounded_10"
+            android:background="@drawable/bg_251642_rounded_10"
             android:cursorVisible="true"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:hint="请输入"
             android:paddingHorizontal="@dimen/dimen_12_dp"
-            android:textColor="@color/black"
-            android:textColorHint="@color/color_999999"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
             android:textSize="@dimen/text_size_15" />
         <com.yaoxin.appbase.view.loginlib.view.CountDownView
             android:id="@+id/btn_captcha"

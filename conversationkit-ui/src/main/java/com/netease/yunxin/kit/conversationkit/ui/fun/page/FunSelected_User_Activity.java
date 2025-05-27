@@ -80,6 +80,8 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
         binding = ActivityFunSelectedUserBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        transtStatusBar(binding.activityFunSelectedUserNav);
+
         binding.activityFunSelectedUserNav.addCloseImageButton().setOnClickListener(this);
         binding.activityFunSelectedUserConfirmTv.setOnClickListener(this);
 

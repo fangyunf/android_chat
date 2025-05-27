@@ -69,6 +69,7 @@ public class PurseIndexActivity extends BaseActivity implements View.OnClickList
                 BillDetailListActivity.start(BillDetailListActivity.class,that,null);
             }
         });
+
     }
 
     @Override

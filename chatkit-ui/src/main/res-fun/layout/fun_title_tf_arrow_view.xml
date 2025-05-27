@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:text="@string/chat_message_signal"
         android:layout_weight="1"
-        android:textColor="@color/color_666666"
+        android:textColor="@color/color_white"
         android:textSize="@dimen/text_size_14"/>
 
     <TextView

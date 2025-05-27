@@ -6,7 +6,7 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:background="@color/color_F2F2F2"
+    android:background="@color/color_160B2C"
     android:layout_height="match_parent">
 
 
@@ -18,7 +18,7 @@
 
         <LinearLayout
             android:id="@+id/contact_new_fragment_top_ll"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="55dp"
             android:layout_width="match_parent"
             android:paddingHorizontal="15dp"
             android:layout_height="wrap_content">
@@ -42,13 +42,13 @@
                     android:text="联系人"
                     android:gravity="center"
 
-                    android:textColor="#ff151515"
+                    android:textColor="@color/color_white"
                     android:textSize="16sp"
                     />
                 <ImageView
                     android:id="@+id/contact_new_fragment_more_iv"
 
-                    android:src="@mipmap/conversation_index_pop_more"
+                    android:src="@mipmap/contact_fragment_add"
                     android:layout_width="25dp"
                     android:layout_height="25dp"/>
             </LinearLayout>
@@ -168,7 +168,7 @@
 
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/color_white"
+            android:background="@color/transparent"
             android:layout_below="@+id/main_search">
 
             <androidx.recyclerview.widget.RecyclerView

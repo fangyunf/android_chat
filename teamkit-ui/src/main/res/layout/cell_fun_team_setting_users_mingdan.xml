@@ -42,7 +42,7 @@
             android:layout_width="0dp"
             android:layout_height="22dp"
             android:text="哔哩吧啦"
-            android:textColor="#ff000000"
+            android:textColor="@color/color_white"
             android:textSize="16sp"
             />
         <TextView

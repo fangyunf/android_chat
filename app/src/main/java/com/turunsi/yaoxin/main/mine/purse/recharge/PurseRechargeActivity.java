@@ -64,6 +64,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
         if (extras.get("type") != null) {
             _type = Integer.parseInt((String) extras.get("type"));
         }
+        transtStatusBar(binding.activityMinePurseRechargeNav);
         _initCell();
     }
     void _initRecycleView() {

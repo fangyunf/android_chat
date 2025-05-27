@@ -9,7 +9,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/color_white"
+    android:background="@color/color_160B2C"
 
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -19,12 +19,12 @@
 
         android:id="@+id/activity_fun_selected_user_nav"
         style="@style/WhiteFontToolbar"
-        android:background="#ffffff"
-        app:back_icon="@mipmap/temp_ic_back"
+        android:background="@color/transparent"
+        app:back_icon="@mipmap/temp_ic_back_white"
         app:enable_under_divider="true"
         app:support_translucent_status_bar="false"
         app:title="创建群聊"
-        app:title_text_color="@color/color_333333"
+        app:title_text_color="@color/color_white"
         app:under_divider_color="@color/transparent"
 
         />
@@ -36,9 +36,9 @@
         android:paddingHorizontal="@dimen/dimen_14_dp"
         android:textSize="15sp"
         android:hint="搜索"
-        android:textColorHint="@color/color_999999"
-        android:textColor="@color/black"
-        android:background="@drawable/bg_f2f2f2_rounded_10"
+        android:textColorHint="@color/color_white"
+        android:textColor="@color/color_white"
+        android:background="@drawable/bg_251642_rounded_10"
         android:cursorVisible="true"
         android:focusable="true"
         android:focusableInTouchMode="true"
@@ -53,7 +53,7 @@
             android:layout_height="match_parent">
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/activity_fun_selected_user_rv"
-                android:background="@color/color_white"
+                android:background="@color/transparent"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 />

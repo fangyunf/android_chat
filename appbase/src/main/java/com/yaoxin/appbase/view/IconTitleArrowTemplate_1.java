@@ -44,7 +44,7 @@ public class IconTitleArrowTemplate_1 extends LinearLayout {
             int textColor = a
                     .getColor(
                             R.styleable.IconTitleArrowTemplate_textColor,
-                            Color.BLACK);
+                            Color.WHITE);
             a.recycle();
 
             // Apply custom attributes to views

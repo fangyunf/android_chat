@@ -4,6 +4,7 @@
 
 package com.netease.yunxin.kit.chatkit.ui.fun.view.message.viewholder;
 
+import android.graphics.Color;
 import android.text.style.ImageSpan;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +30,7 @@ public class ChatTextMessageViewHolder extends FunChatBaseMessageViewHolder {
     textBinding =
         FunChatMessageTextViewHolderBinding.inflate(
             LayoutInflater.from(parent.getContext()), getMessageContainer(), true);
+    textBinding.messageText.setTextColor(Color.WHITE); // 直接写死颜色
   }
 
   @Override

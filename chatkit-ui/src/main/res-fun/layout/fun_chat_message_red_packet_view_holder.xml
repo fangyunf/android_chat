@@ -17,6 +17,7 @@
         android:id="@+id/fun_chat_message_red_packet_view_holder_bg_iv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:scaleType="fitXY"
         android:src="@drawable/chat_red_packet_cell_bg_no_open"
         />
 
@@ -32,7 +33,7 @@
             android:id="@+id/fun_chat_message_red_packet_view_holder_greeting_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingStart="15dp"
+            android:paddingStart="55dp"
             android:text="恭喜发财,大吉大利"
             android:maxLines="1"
             android:textColor="#ffffffff"
@@ -41,7 +42,7 @@
             />
         <TextView
             android:id="@+id/fun_chat_message_red_packet_view_holder_money_tv"
-            android:paddingStart="15dp"
+            android:paddingStart="55dp"
 
             android:layout_width="wrap_content"
             android:layout_height="20dp"

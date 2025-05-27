@@ -33,6 +33,7 @@ public class FunAddFriendVerifyActivity extends BaseActivity implements View.OnC
 
         transtStatusBar(binding.funAddFriendVerifyActivityNav);
         binding.funAddFriendVerifyActivitySendRl.setOnClickListener(this);
+        transtStatusBar(binding.funAddFriendVerifyActivityNav);
 
         String result = getIntent().getStringExtra("user");
 

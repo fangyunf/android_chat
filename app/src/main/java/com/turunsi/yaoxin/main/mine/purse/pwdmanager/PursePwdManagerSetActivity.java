@@ -45,6 +45,7 @@ public class PursePwdManagerSetActivity extends BaseActivity implements View.OnC
         binding.activityMinePursePwdManagerSetForgetPwdTv.setOnClickListener(this);
         binding.activityMineAddressAddSaveRl.setOnClickListener(this);
 
+        transtStatusBar(binding.activityMinePursePwdManagerSetNav);
         if (extras != null) {
             String typeString = (String)extras.get("type");
             type = Integer.parseInt(typeString);

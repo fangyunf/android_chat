@@ -3,6 +3,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:background="@color/color_160B2C"
     android:layout_height="match_parent">
 
 <LinearLayout
@@ -13,11 +14,11 @@
         android:id="@+id/fun_add_friend_verify_activity_nav"
         style="@style/WhiteFontToolbar"
         android:background="@color/transparent"
-        app:back_icon="@mipmap/temp_ic_back"
+        app:back_icon="@mipmap/temp_ic_back_white"
         app:enable_under_divider="true"
         app:support_translucent_status_bar="false"
         app:title="添加好友"
-        app:title_text_color="@color/color_333333"
+        app:title_text_color="@color/color_white"
         app:under_divider_color="@color/transparent" />
 
     <LinearLayout
@@ -46,7 +47,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:text=""
-                android:textColor="@color/color_333333"
+                android:textColor="@color/color_white"
                 android:textSize="22sp"
                 />
             <TextView
@@ -55,7 +56,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="22dp"
                 android:text="ID:87988656"
-                android:textColor="@color/color_333333"
+                android:textColor="@color/color_white"
                 android:textSize="16sp"
                 />
         </LinearLayout>
@@ -72,7 +73,7 @@
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:text="验证信息"
-            android:textColor="@color/color_333333"
+            android:textColor="@color/color_white"
             android:textSize="14sp"
             />
         <EditText
@@ -82,9 +83,9 @@
             android:layout_height="86dp"
             android:textSize="@dimen/text_size_16"
             android:hint="请输入"
-            android:textColorHint="@color/color_999999"
-            android:textColor="@color/black"
-            android:background="@drawable/bg_f2f2f2_rounded_10"
+            android:textColorHint="@color/color_white"
+            android:textColor="@color/color_white"
+            android:background="@drawable/bg_251642_rounded_10"
             android:cursorVisible="true"
             android:focusable="true"
             android:focusableInTouchMode="true"
@@ -135,7 +136,7 @@
             android:text="拒绝"
             android:gravity="center"
             android:layout_marginTop="14dp"
-            android:textColor="@color/black"
+            android:textColor="@color/color_white"
             android:textSize="16sp" />
     </LinearLayout>
 </LinearLayout>

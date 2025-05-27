@@ -5,6 +5,8 @@
 package com.turunsi.yaoxin;
 
 import android.content.Context;
+import android.graphics.Color;
+
 import com.netease.yunxin.kit.chatkit.ui.ChatKitClient;
 import com.netease.yunxin.kit.chatkit.ui.ChatUIConfig;
 import com.netease.yunxin.kit.contactkit.ui.ContactUIConfig;

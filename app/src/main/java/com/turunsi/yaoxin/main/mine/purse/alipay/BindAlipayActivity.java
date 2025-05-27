@@ -62,6 +62,7 @@ public class BindAlipayActivity extends BaseActivity implements View.OnClickList
         binding.activityMineBindAlipayBindSuccessTv.setOnClickListener(this);
         binding.activityMineBindAlipayUploadLl.setOnClickListener(this);
 
+        transtStatusBar(binding.activityMineBindAlipayNav);
         if (extras != null && extras.get("type") != null) {
             String tempType = (String) extras.get("type");
             _bindType = Integer.parseInt(tempType);
