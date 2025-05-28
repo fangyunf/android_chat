@@ -46,6 +46,7 @@ public class SettingNotifyNewActivity extends BaseActivity {
             }
         });
         setContentView(viewBinding.getRoot());
+        transtStatusBar(viewBinding.activityMineSettingNotifyNav);
     }
 
     @Override

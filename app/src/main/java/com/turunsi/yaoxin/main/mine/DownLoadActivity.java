@@ -35,6 +35,7 @@ public class DownLoadActivity extends BaseActivity implements View.OnClickListen
     viewBinding = ActivityMineDownLoadBinding.inflate(getLayoutInflater());
     setContentView(viewBinding.getRoot());
     initView();
+    transtStatusBar(viewBinding.activityMineDownLoadNav);
   }
 
   private void initView() {

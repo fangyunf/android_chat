@@ -53,6 +53,7 @@
 <!--        />-->
     <LinearLayout
 
+        android:visibility="gone"
         android:id="@+id/caontact_list_header_new_qunliao_ll"
         android:paddingVertical="@dimen/dimen_14_dp"
         android:layout_width="match_parent"

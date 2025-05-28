@@ -68,7 +68,7 @@ public class ExchangeAccountActivity extends BaseActivity implements View.OnClic
         viewBinding.activityExchangeAccountRv.setAdapter(adapter);
 
         viewBinding.activityExchangeAccountTuichuTv.setOnClickListener(this);
-
+transtStatusBar(viewBinding.activityExchangeAccountNav);
         _requastData();
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener<UserBean>() {
             @Override

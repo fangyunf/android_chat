@@ -40,6 +40,7 @@ import java.util.Map;
 /** conversation adapter */
 public class ConversationAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
+  public int _type;
   private final String TAG = "ConversationAdapter";
   private IConversationFactory viewHolderFactory = new DefaultViewHolderFactory();
   private final List<ConversationBean> conversationList = new ArrayList<>();
@@ -119,10 +120,20 @@ public class ConversationAdapter extends RecyclerView.Adapter<BaseViewHolder> {
       }
     } else {
       int insertIndex = searchComparatorIndex(data);
-      conversationList.add(insertIndex, data);
+      if (_type == 1 && data.viewType == 2) {
+        conversationList.add(insertIndex, data);
 
-      if (isShow) {
-        notifyItemInserted(insertIndex);
+        if (isShow) {
+          notifyItemInserted(insertIndex);
+        }
+
+      } else if (_type == 0 && data.viewType == 1){
+        conversationList.add(insertIndex, data);
+
+        if (isShow) {
+          notifyItemInserted(insertIndex);
+        }
+
       }
     }
     layoutManager.scrollToPosition(position);

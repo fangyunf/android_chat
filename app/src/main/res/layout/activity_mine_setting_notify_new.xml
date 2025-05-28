@@ -11,18 +11,18 @@
     android:layout_height="match_parent"
     android:id="@+id/cl_root"
     android:orientation="vertical"
-    android:background="@color/white"
+    android:background="@color/color_160B2C"
     tools:ignore="MissingDefaultResource">
 
     <com.yaoxin.appbase.navbar.NavToolbar
         android:id="@+id/activity_mine_setting_notify_nav"
         style="@style/WhiteFontToolbar"
         android:background="@android:color/transparent"
-        app:back_icon="@mipmap/temp_ic_back"
+        app:back_icon="@mipmap/temp_ic_back_white"
         app:enable_under_divider="true"
         app:support_translucent_status_bar="false"
         app:title="消息提醒"
-        app:title_text_color="@color/color_333333"
+        app:title_text_color="@color/white"
         app:under_divider_color="@android:color/transparent" />
 
 

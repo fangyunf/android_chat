@@ -45,6 +45,7 @@ public class ZHGLNewActivity extends BaseActivity implements View.OnClickListene
     viewBinding = ActivityMineZhglNewBinding.inflate(getLayoutInflater());
     setContentView(viewBinding.getRoot());
     initView();
+    transtStatusBar(viewBinding.activityMineSetNewNav);
   }
 
   private void initView() {

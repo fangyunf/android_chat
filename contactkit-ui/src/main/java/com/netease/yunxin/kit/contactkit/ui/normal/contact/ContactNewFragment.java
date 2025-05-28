@@ -364,6 +364,8 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
             resetState();
             binding.contactNewFragmentFriendTv.setSelected(true);
 
+            binding.contactNewFragmentFriendTvLine.setVisibility(View.VISIBLE);
+            binding.contactNewFragmentGroupTvLine.setVisibility(View.GONE);
             _selectIndex = 0;
             binding.contactNewFragmentMainSideBar.setVisibility(View.VISIBLE);
             binding.contactNewFragmentRv.setAdapter(adapter);
@@ -373,6 +375,8 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
         } else if (v == binding.contactNewFragmentGroupTv) {
             resetState();
             _selectIndex = 1;
+            binding.contactNewFragmentFriendTvLine.setVisibility(View.GONE);
+            binding.contactNewFragmentGroupTvLine.setVisibility(View.VISIBLE);
             binding.contactNewFragmentGroupTv.setSelected(true);
             binding.contactNewFragmentRv.setAdapter(groupListAdapter);
             groupListAdapter.setItems(groupListDataList);

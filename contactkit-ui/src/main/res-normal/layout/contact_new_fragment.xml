@@ -104,32 +104,80 @@
 
 <!--        </LinearLayout>-->
         <LinearLayout
-            android:visibility="gone"
-            android:background="@color/color_white"
+            android:background="@color/transparent"
             android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="40dp">
-            <TextView
-                android:id="@+id/contact_new_fragment_friend_tv"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="好友列表"
-                android:textColor="@drawable/fun_common_text_color_selector"
-                android:textSize="18sp"
-                />
-            <TextView
-                android:id="@+id/contact_new_fragment_group_tv"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="群组列表"
-                android:textColor="@drawable/fun_common_text_color_selector"
-                android:textSize="18sp"
-                />
+            <RelativeLayout
+                android:layout_marginLeft="20dp"
+                android:layout_width="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/contact_new_fragment_friend_tv"
+                    android:layout_width="40dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="好友"
+                    android:textColor="@color/color_white"
+                    android:textSize="18sp"
+                    />
+                <View
+                    android:id="@+id/contact_new_fragment_friend_tv_line"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+
+                    android:layout_marginTop="5dp"
+                    android:layout_width="30dp"
+                    android:layout_height="4dp"
+                    android:background="@color/color_white"
+                    />
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_marginLeft="20dp"
+                android:layout_width="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/contact_new_fragment_group_tv"
+                    android:layout_width="40dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="群聊"
+                    android:textColor="@color/color_white"
+                    android:textSize="18sp"
+                    />
+                <View
+                    android:visibility="gone"
+                    android:id="@+id/contact_new_fragment_group_tv_line"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+
+                    android:layout_marginTop="5dp"
+                    android:layout_width="30dp"
+                    android:layout_height="4dp"
+                    android:background="@color/color_white"
+                    />
+            </RelativeLayout>
+<!--            <TextView-->
+<!--                android:layout_marginLeft="20dp"-->
+<!--                android:id="@+id/contact_new_fragment_group_tv"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_weight="1"-->
+<!--                android:gravity="center"-->
+<!--                android:text="群聊"-->
+<!--                android:textColor="@color/color_white"-->
+<!--                android:textSize="18sp"-->
+<!--                />-->
             <LinearLayout
+                android:visibility="gone"
                 android:id="@+id/contact_new_fragment_new_friend_ll"
                 android:layout_width="0dp"
                 android:layout_weight="1"

@@ -45,6 +45,7 @@ public class AboutUsNewActivity extends BaseActivity implements View.OnClickList
     viewBinding = ActivityMineAboutUsNewBinding.inflate(getLayoutInflater());
     setContentView(viewBinding.getRoot());
     initView();
+    transtStatusBar(viewBinding.activityMineAboutUsNewNav);
   }
 
   private void initView() {

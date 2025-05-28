@@ -86,13 +86,23 @@ public class FunConversationFragment extends ConversationBaseFragment {
 
   public FunConversationFragment() {
   }
-
+  public static FunConversationFragment newInstance(int type) {
+    FunConversationFragment fragment = new FunConversationFragment();
+    Bundle args = new Bundle();
+    args.putInt("type", type);
+    fragment.setArguments(args);
+    return fragment;
+  }
   private int topIndex;
   @Override
   public View initViewAndGetRootView(
       @NonNull LayoutInflater inflater,
       @Nullable ViewGroup container,
       @Nullable Bundle savedInstanceState) {
+    // 获取传递的参数
+    if (getArguments() != null) {
+      _type = getArguments().getInt("type");
+    }
     viewBinding = FunConversationFragmentBinding.inflate(inflater, container, false);
     initView();
     viewBinding.funConversationFragmentTitleTv.setText("消息");
@@ -127,10 +137,18 @@ public class FunConversationFragment extends ConversationBaseFragment {
   @Override
   public void onPause() {
     super.onPause();
-    if (!AppProxy.searchKeyWord0.isEmpty()) {
-      viewBinding.funConversationFragmentEt.setText("");
-      AppProxy.searchKeyWord0 = "";
-      conversationView.adapter.notifyDataSetChanged();
+    if (_type == 0) {
+      if (!AppProxy.searchKeyWord0.isEmpty()) {
+        viewBinding.funConversationFragmentEt.setText("");
+        AppProxy.searchKeyWord0 = "";
+        conversationView.adapter.notifyDataSetChanged();
+      }
+    } else {
+      if (!AppProxy.searchKeyWord1.isEmpty()) {
+        viewBinding.funConversationFragmentEt.setText("");
+        AppProxy.searchKeyWord1 = "";
+        conversationView.adapter.notifyDataSetChanged();
+      }
     }
 
 
@@ -151,7 +169,11 @@ public class FunConversationFragment extends ConversationBaseFragment {
       @Override
       public void afterTextChanged(Editable s) {
         String string = s.toString();
+        if (_type == 0) {
           AppProxy.getInstance().searchKeyWord0 = string;
+        } else {
+          AppProxy.getInstance().searchKeyWord1 = string;
+        }
 
         conversationView.adapter.notifyDataSetChanged();
       }
@@ -216,16 +238,17 @@ public class FunConversationFragment extends ConversationBaseFragment {
 
                       }
                     });
-
+    if (_type == 1) {
 
       HttpUtil.apiW().group_userGroups(new RegisterBean())
               .enqueue(new CommonCallback<NetData>() {
                 @Override
                 public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                  Type type = new TypeToken<List<GroupInfoBean>>() {}.getType();
+                  Type type = new TypeToken<List<GroupInfoBean>>() {
+                  }.getType();
 
-                  List<GroupInfoBean> dataList = new Gson().fromJson(body.data.toString(),type);
+                  List<GroupInfoBean> dataList = new Gson().fromJson(body.data.toString(), type);
 
                   for (GroupInfoBean tempGroupInfo : dataList) {
                     boolean hasConversation = false;
@@ -247,16 +270,17 @@ public class FunConversationFragment extends ConversationBaseFragment {
 
                 }
               });
-
+    }
+    if (_type == 0) {
       HttpUtil.apiW().customer_systemAppUser(new RegisterBean())
               .enqueue(new CommonCallback<NetData>() {
                 @Override
                 public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                  String  kefuId = body.data.toString().replace("\"","");
+                  String kefuId = body.data.toString().replace("\"", "");
                   requestKefu(kefuId);
 
-                  String  xiaozhushouId = "10086";
+                  String xiaozhushouId = "10086";
                   DataUtil.putKeFuId(kefuId);
                   DataUtil.putXiaoZhuShouId(xiaozhushouId);
 
@@ -290,6 +314,7 @@ public class FunConversationFragment extends ConversationBaseFragment {
 
                 }
               });
+    }
   }
   void requestKefu(String kefuId) {
     RegisterBean bean = new RegisterBean();
@@ -432,6 +457,9 @@ public class FunConversationFragment extends ConversationBaseFragment {
   private void initView() {
     conversationView = viewBinding.conversationView;
 
+
+    conversationView._type = _type;
+    conversationView.adapter._type = _type;
 
     networkErrorView = viewBinding.errorTv;
     emptyView = viewBinding.emptyLayout;

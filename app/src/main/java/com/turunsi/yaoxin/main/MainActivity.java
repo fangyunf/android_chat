@@ -111,6 +111,7 @@ public class MainActivity extends BaseActivity {
     //  private BaseContactFragment mContactFragment;
     private ContactNewFragment mContactFragment;
     private ConversationBaseFragment mConversationFragment;
+    private ConversationBaseFragment mConversationFragment1;
     public static final int REQUEST_CODE_SCAN = 0x01;
 
     //皮肤变更事件
@@ -271,13 +272,13 @@ public class MainActivity extends BaseActivity {
         List<Fragment> fragments = new ArrayList<>();
 
         changeStatusBarColor(R.color.fun_page_bg_color);
-        mConversationFragment =  new FunConversationFragment();
-//        AppProxy.getInstance().showType = 1;
-//        mConversationFragment1._type = 1;
+        mConversationFragment =  FunConversationFragment.newInstance(0);
+        mConversationFragment1 =  FunConversationFragment.newInstance(1);
         mContactFragment = new ContactNewFragment();
 
         fragments.add(mConversationFragment);
-        fragments.add(new ShopNewFragment());
+        fragments.add(mConversationFragment1);
+//        fragments.add(new ShopNewFragment());
         fragments.add(mContactFragment);
 
         fragments.add(new MineFragment());
@@ -298,6 +299,7 @@ public class MainActivity extends BaseActivity {
         super.onResume();
         initContactFragment(mContactFragment);
         initConversationFragment(mConversationFragment);
+        initConversationFragment(mConversationFragment1);
     }
 
     @Override
@@ -316,10 +318,12 @@ public class MainActivity extends BaseActivity {
         }
         if (view == activityMainBinding.conversationBtnGroup) {
             AppProxy.getInstance().showType = 1;
-            if (mConversationFragment != null && mConversationFragment.getConversationView() != null && mConversationFragment.getConversationView().adapter != null) {
-                mConversationFragment.getConversationView().adapter.notifyDataSetChanged();
-            }
+            mConversationFragment.getConversationView().adapter.notifyDataSetChanged();
 
+        }
+        if (view == activityMainBinding.conversationBtnGroup1) {
+            AppProxy.getInstance().showType = 2;
+            mConversationFragment1.getConversationView().adapter.notifyDataSetChanged();
         }
         resetTabStyle();
         mCurrentTab = view;
@@ -387,10 +391,21 @@ public class MainActivity extends BaseActivity {
                             }
 
                             if (conversationFragment == mConversationFragment) {
-                                if (singleChatUnreadCount + groupChatUnreadCount > 0) {
+                                if (singleChatUnreadCount > 0) {
                                     activityMainBinding.conversationDot.setVisibility(View.VISIBLE);
+//                                    activityMainBinding.conversationDot.setText(singleChatUnreadCount > 99 ? "99+" : singleChatUnreadCount + "");
                                 } else {
                                     activityMainBinding.conversationDot.setVisibility(View.GONE);
+
+                                }
+                            }
+                            if (conversationFragment == mConversationFragment1) {
+                                if (groupChatUnreadCount > 0) {
+                                    activityMainBinding.conversationDot1.setVisibility(View.VISIBLE);
+//                                    activityMainBinding.conversationDot1.setText(groupChatUnreadCount > 99 ? "99+" : groupChatUnreadCount + "");
+
+                                } else {
+                                    activityMainBinding.conversationDot1.setVisibility(View.GONE);
 
                                 }
                             }

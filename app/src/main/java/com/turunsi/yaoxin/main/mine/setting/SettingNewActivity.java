@@ -55,6 +55,7 @@ public class SettingNewActivity extends BaseActivity implements View.OnClickList
 //    changeStatusBarColor(R.color.color_e9eff5);
     viewBinding = ActivityMineSetNewBinding.inflate(getLayoutInflater());
     setContentView(viewBinding.getRoot());
+    transtStatusBar(viewBinding.activityMineSetNewNav);
     initView();
   }
 
