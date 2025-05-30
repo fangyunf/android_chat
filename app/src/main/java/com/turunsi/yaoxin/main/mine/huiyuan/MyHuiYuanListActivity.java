@@ -60,6 +60,7 @@ public class MyHuiYuanListActivity extends BaseActivity implements View.OnClickL
 
     HuiYuanBean dataBean = new HuiYuanBean();
 
+    int selectIndex = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -117,6 +118,8 @@ public class MyHuiYuanListActivity extends BaseActivity implements View.OnClickL
                 dataBean.currentIndex = i;
                 adapter.notifyDataSetChanged();
                 binding.activityMineMyHuiyuanListIntroduceTv.setText("以下是" + dataBean.list.get(i).memberConfig.productName);
+                selectIndex = i;
+                _requestData();
             }
         });
         // 设置卡片左右间距
@@ -184,6 +187,15 @@ public class MyHuiYuanListActivity extends BaseActivity implements View.OnClickL
 
                         topAdapter.notifyDataSetChanged();
                         adapter.notifyDataSetChanged();
+                        if (selectIndex != 0) {
+
+                            adapter.setItems(dataBean.list.get(selectIndex).memberCode);
+                            adapter.selectNumber = 0;
+                            dataBean.currentIndex = selectIndex;
+                            adapter.notifyDataSetChanged();
+                            binding.activityMineMyHuiyuanListIntroduceTv.setText("以下是" + dataBean.list.get(selectIndex).memberConfig.productName);
+
+                        }
 
                     }
 
