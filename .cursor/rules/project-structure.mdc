@@ -1,0 +1,8 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Project Structure Guide
+
+The main entry point is [index.js](mdc:index.js), which loads configuration from [config.js](mdc:config.js).
