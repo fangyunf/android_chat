@@ -227,6 +227,8 @@ public class MessageBottomLayout extends FrameLayout
         break;
       case ActionConstants.ACTION_TYPE_SHOPPING_COUPON:
         sendRedPacket();
+      case ActionConstants.ACTION_TYPE_SHOPPING_ZHUANZHANG:
+        mProxy.sendZhuanZhang();
         break;
       case ActionConstants.ACTION_TYPE_MORE:
         switchMore();

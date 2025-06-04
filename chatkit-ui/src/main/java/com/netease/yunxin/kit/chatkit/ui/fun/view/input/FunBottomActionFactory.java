@@ -43,9 +43,9 @@ public class FunBottomActionFactory {
         new ActionItem(
             ActionConstants.ACTION_TYPE_SHOPPING_COUPON, R.drawable.chat_fragment_toolbar_redpacket, R.string.chat_message_shopping_coupon));
 
-//    actions.add(
-//            new ActionItem(
-//                    ActionConstants.ACTION_TYPE_SHOU_CANG, R.drawable.chat_fragment_toolbar_shoucang, R.string.chat_message_shou_cang));
+    actions.add(
+            new ActionItem(
+                    ActionConstants.ACTION_TYPE_SHOPPING_ZHUANZHANG, R.drawable.chat_fragment_toolbar_shoucang, R.string.chat_message_zhuanzhang));
 
 //    if (sessionType == SessionTypeEnum.P2P) {
 //      actions.add(
