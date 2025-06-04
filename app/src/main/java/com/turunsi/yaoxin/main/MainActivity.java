@@ -268,7 +268,7 @@ public class MainActivity extends BaseActivity {
 //    boolean isCommonSkin =
 //        AppSkinConfig.getInstance().getAppSkinStyle() == AppSkinConfig.AppSkin.commonSkin;
         ALog.d(Constant.PROJECT_TAG, "MainActivity:initView");
-        //    loadConfig();
+            loadConfig();
         List<Fragment> fragments = new ArrayList<>();
 
         changeStatusBarColor(R.color.fun_page_bg_color);
@@ -515,8 +515,8 @@ public class MainActivity extends BaseActivity {
     }
 
     private void loadConfig() {
-        CustomConfig.configContactKit(this);
-        CustomConfig.configConversation(this);
+//        CustomConfig.configContactKit(this);
+//        CustomConfig.configConversation(this);
         CustomConfig.configChatKit(this);
 
     }

@@ -86,6 +86,7 @@ public class FunTeamSettingNew_TeamUsersActivity extends BaseActivity implements
         binding =
                 FunTeamSettingNewTeamUsersActivityBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        transtStatusBar(binding.funTeamSettingNewTeamUsersActivityNav);
         _initView();
 
         if ("1".equals(opt_type)) {

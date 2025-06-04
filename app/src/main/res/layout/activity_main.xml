@@ -76,7 +76,7 @@
                 android:textSize="12sp"
                 android:textColor="@color/tab_unchecked_color"
                 android:drawableTop="@mipmap/mine_tabbar_shop_normal"
-                android:text="商城" />
+                android:text="群聊" />
 
 
         </RelativeLayout>

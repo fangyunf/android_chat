@@ -9,6 +9,7 @@ import android.graphics.Color;
 
 import com.netease.yunxin.kit.chatkit.ui.ChatKitClient;
 import com.netease.yunxin.kit.chatkit.ui.ChatUIConfig;
+import com.netease.yunxin.kit.chatkit.ui.view.message.MessageProperties;
 import com.netease.yunxin.kit.contactkit.ui.ContactUIConfig;
 import com.netease.yunxin.kit.conversationkit.ui.ConversationKitClient;
 import com.netease.yunxin.kit.conversationkit.ui.ConversationUIConfig;
@@ -57,7 +58,8 @@ public class CustomConfig {
     //            }
     //        };
     // 设置是否展示标题栏、右侧按钮图片和右侧按钮点击事件
-    //    chatUIConfig.messageProperties = new MessageProperties();
+        chatUIConfig.messageProperties = new MessageProperties();
+        chatUIConfig.messageProperties.setUserNickColor(Color.WHITE);
 
     //    chatUIConfig.messageProperties.showTitleBar = false;
     //    chatUIConfig.messageProperties.titleBarRightRes = R.drawable.ic_user_setting;

@@ -49,6 +49,7 @@ public class AccountAnQuanManagerActivity extends BaseActivity implements View.O
                 ActivityAccountAnquanManagerBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         _initView();
+        transtStatusBar(binding.activityAccountAnquanManagerNav);
 
     }
 
