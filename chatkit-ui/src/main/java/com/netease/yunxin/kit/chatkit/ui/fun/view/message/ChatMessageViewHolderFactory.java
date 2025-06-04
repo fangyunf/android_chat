@@ -33,6 +33,7 @@ import com.netease.yunxin.kit.chatkit.ui.fun.view.message.viewholder.ChatRichTex
 import com.netease.yunxin.kit.chatkit.ui.fun.view.message.viewholder.ChatTextMessageViewHolder;
 import com.netease.yunxin.kit.chatkit.ui.fun.view.message.viewholder.ChatTipsMessageViewHolder;
 import com.netease.yunxin.kit.chatkit.ui.fun.view.message.viewholder.ChatVideoMessageViewHolder;
+import com.netease.yunxin.kit.chatkit.ui.fun.view.message.viewholder.ChatZhuanZhangMessageViewHolder;
 import com.netease.yunxin.kit.chatkit.ui.model.ChatMessageBean;
 import com.netease.yunxin.kit.chatkit.ui.view.message.viewholder.ChatBaseMessageViewHolder;
 import com.netease.yunxin.kit.chatkit.ui.view.message.viewholder.CommonBaseMessageViewHolder;
@@ -81,6 +82,8 @@ public abstract class ChatMessageViewHolderFactory implements IChatFactory {
       viewHolder = new ChatRichTextMessageViewHolder(viewHolderBinding, viewType);
     } else if (viewType == ChatMessageType.RedPacket_ATTACHMENT) {
       viewHolder = new ChatRedPacketMessageViewHolder(viewHolderBinding, viewType);
+    } else if (viewType == ChatMessageType.ZhuanZhang_ATTACHMENT) {
+      viewHolder = new ChatZhuanZhangMessageViewHolder(viewHolderBinding, viewType);
     } else if (viewType == ChatMessageType.MingPian_ATTACHMENT) {
       viewHolder = new ChatMingPianMessageViewHolder(viewHolderBinding, viewType);
     } else {

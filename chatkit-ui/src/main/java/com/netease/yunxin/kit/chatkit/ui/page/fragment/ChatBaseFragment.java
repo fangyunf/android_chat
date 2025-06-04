@@ -66,6 +66,7 @@ import com.netease.yunxin.kit.chatkit.ui.custom.MingPianAttachment;
 import com.netease.yunxin.kit.chatkit.ui.custom.RichTextAttachment;
 import com.netease.yunxin.kit.chatkit.ui.dialog.ChatBaseForwardSelectDialog;
 import com.netease.yunxin.kit.chatkit.ui.fun.page.FunSendRedPacketActivity;
+import com.netease.yunxin.kit.chatkit.ui.fun.page.FunSendZhuanZhangActivity;
 import com.netease.yunxin.kit.chatkit.ui.interfaces.IChatView;
 import com.netease.yunxin.kit.chatkit.ui.interfaces.IMessageItemClickListener;
 import com.netease.yunxin.kit.chatkit.ui.interfaces.IMessageLoadHandler;
@@ -669,7 +670,14 @@ public abstract class ChatBaseFragment extends BaseFragment {
         public void sendImageMessage(File imageFile) {
           viewModel.sendImageMessage(imageFile);
         }
-
+        @Override
+        public void sendZhuanZhang() {
+          if (getSessionType() == SessionTypeEnum.P2P) {
+            HashMap map = new HashMap();
+            map.put("sessionId",getSessionId());
+            FunSendZhuanZhangActivity.start(FunSendZhuanZhangActivity.class,getContext(),map);
+          }
+        }
         @Override
         public void sendRedPacket() {
 

@@ -44,6 +44,7 @@ public interface IMessageProxy {
 
   void audioCall();
   void sendRedPacket();
+  void sendZhuanZhang();
   void sendMingPian();
   void sendShouCang();
   void sendImageMessage(File imageFile);

@@ -420,7 +420,6 @@
                     </RelativeLayout>
 
                     <com.yaoxin.appbase.view.IconTitleArrowTemplate_1
-                        android:visibility="gone"
                         android:layout_marginHorizontal="15dp"
                         android:layout_marginTop="10dp"
                         android:id="@+id/fragment_mine_qbk_view"
@@ -431,7 +430,6 @@
                         />
 
                     <com.yaoxin.appbase.view.IconTitleArrowTemplate_1
-                        android:visibility="gone"
                         android:layout_marginHorizontal="15dp"
                         android:layout_marginTop="10dp"
                         android:id="@+id/fragment_mine_ysgl_view"

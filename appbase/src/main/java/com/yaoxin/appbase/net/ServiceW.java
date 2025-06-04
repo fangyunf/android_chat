@@ -27,7 +27,10 @@ import retrofit2.http.Query;
  * on 2018/11/14.
  */
 public interface ServiceW {
-
+    @POST("/red/zz")
+    Call<NetData> red_zz(
+            @Body RegisterBean userBean
+    );
     @POST("/bindCard/createUptadeZFB")
     Call<NetData> bindCard_createUptadeZFB2(
             @Body RequestParams1Bean userBean
