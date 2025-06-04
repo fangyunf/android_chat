@@ -16,10 +16,10 @@ public class Constant {
 //    public static final String MSG_ENCODE_KEY = "carefullanimchat";
 
 
-    public static final String BASE_URL = "http://lbb.cdjfj.cn/";
-    public static final String BASE_URL_H5 = "http://lbb.cdjfj.cn";
-    public static final String ENCODE_KEY = "wesecretpaddingg";
-    public static final String MSG_ENCODE_KEY = "wallstreetimchat";
+    public static final String BASE_URL = "http://tirsome.zhblock.com/";
+    public static final String BASE_URL_H5 = "http://tirsome.zhblock.com";
+    public static final String ENCODE_KEY = "B7cLd9gFqZpX4hVy";
+    public static final String MSG_ENCODE_KEY = "B7cLd9gFqZpX4hVy";
 
     public static final String clientType = "Android";
     public static final String RealName_Router = "RealName_Router";
