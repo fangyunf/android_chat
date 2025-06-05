@@ -10,7 +10,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="#160B2C"
+    android:background="@color/app_chat_view_bg_color"
     >
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,7 +25,7 @@
             <com.netease.yunxin.kit.common.ui.widgets.BackTitleBar
                 app:titleTextColor="@color/black"
                 android:id="@+id/titleBar"
-                android:background="@color/transparent"
+                android:background="@color/color_white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -42,11 +42,11 @@
                 android:visibility="gone"
                 tools:ignore="SpUsage" />
 
-<!--            <View-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="0.25dp"-->
-<!--                android:layout_gravity="bottom"-->
-<!--                android:background="@color/color_d5d5d5" />-->
+            <!--            <View-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="0.25dp"-->
+            <!--                android:layout_gravity="bottom"-->
+            <!--                android:background="@color/color_d5d5d5" />-->
 
         </FrameLayout>
 

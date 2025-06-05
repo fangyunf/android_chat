@@ -77,11 +77,11 @@ public abstract class FunChatFragment extends ChatBaseFragment {
             @NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
         viewBinding = FunChatFragmentBinding.inflate(inflater, container, false);
         chatView = viewBinding.chatView;
-        changeStatusBarColor(R.color.color_160B2C);
+        changeStatusBarColor(R.color.color_white);
 
-        chatView.getTitleBar().setActionImg(R.drawable.chat_detail_more);
-        chatView.getTitleBar().getTitleTextView().setTextColor(getResources().getColor(R.color.color_white));
-        chatView.getTitleBar().getBackImageView().setImageDrawable(getResources().getDrawable(R.drawable.temp_ic_back_white));
+//        chatView.getTitleBar().setActionImg(R.drawable.chat_detail_more);
+//        chatView.getTitleBar().getTitleTextView().setTextColor(getResources().getColor(R.color.color_white));
+//        chatView.getTitleBar().getBackImageView().setImageDrawable(getResources().getDrawable(R.drawable.temp_ic_back_white));
 //        viewBinding.chatView.getTitleBar().getBackImageView().setImageResource(com.yaoxin.appbase.R.mipmap.temp_ic_back_white);
 //        StatusBarUtils.setStatusBarLightMode(getActivity(), true, true);
 //        try {
