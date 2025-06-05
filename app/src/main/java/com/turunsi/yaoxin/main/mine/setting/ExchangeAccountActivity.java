@@ -92,13 +92,13 @@ public class ExchangeAccountActivity extends BaseActivity implements View.OnClic
                 }
             }
         });
-//        adapter.addOnItemChildClickListener(R.id.item_set_exchange_account_list_cell_delete_tv, new BaseQuickAdapter.OnItemChildClickListener<UserBean>() {
-//            @Override
-//            public void onItemClick(@NonNull BaseQuickAdapter<UserBean, ?> baseQuickAdapter, @NonNull View view, int i) {
-//                DataUtil.deleteLoginUserInfoList(baseQuickAdapter.getItem(i));
-//                _requastData();
-//            }
-//        });
+        adapter.addOnItemChildClickListener(R.id.item_set_exchange_account_list_cell_delete_tv, new BaseQuickAdapter.OnItemChildClickListener<UserBean>() {
+            @Override
+            public void onItemClick(@NonNull BaseQuickAdapter<UserBean, ?> baseQuickAdapter, @NonNull View view, int i) {
+                DataUtil.deleteLoginUserInfoList(baseQuickAdapter.getItem(i));
+                _requastData();
+            }
+        });
 
 
     }

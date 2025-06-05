@@ -46,11 +46,14 @@ public class ExchangeAccountAdapter extends BaseQuickAdapter<UserBean, QuickView
                     .setText(R.id.item_set_exchange_account_list_cell_id_tv, "ID：" + orderListBean.memberCode);
             RoundedImageView iv = quickViewHolder.getView(R.id.item_set_exchange_account_list_cell_head_iv);
             TextView dangqianTv = quickViewHolder.getView(R.id.item_set_exchange_account_list_cell_current_tv);
+            TextView deletenTv = quickViewHolder.getView(R.id.item_set_exchange_account_list_cell_delete_tv);
             GlideUtil.yh_loadImage(iv.getContext(), iv, orderListBean.avatar);
             if (orderListBean.userId.equals(DataUtil.getUserid())) {
                 dangqianTv.setVisibility(View.VISIBLE);
+                deletenTv.setVisibility(View.GONE);
             } else {
                 dangqianTv.setVisibility(View.GONE);
+                deletenTv.setVisibility(View.VISIBLE);
             }
         }
     }
