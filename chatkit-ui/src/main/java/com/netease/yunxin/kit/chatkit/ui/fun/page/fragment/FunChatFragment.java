@@ -38,6 +38,7 @@ import com.netease.yunxin.kit.chatkit.ui.dialog.ChatBaseForwardSelectDialog;
 import com.netease.yunxin.kit.chatkit.ui.fun.FunChatForwardSelectDialog;
 import com.netease.yunxin.kit.chatkit.ui.fun.FunChatMessageForwardConfirmDialog;
 import com.netease.yunxin.kit.chatkit.ui.fun.page.FunRedPacketResultActivity;
+import com.netease.yunxin.kit.chatkit.ui.fun.page.FunZhuanZhangResultActivity;
 import com.netease.yunxin.kit.chatkit.ui.model.ChatMessageBean;
 import com.netease.yunxin.kit.chatkit.ui.page.fragment.ChatBaseFragment;
 import com.netease.yunxin.kit.chatkit.ui.view.input.ActionConstants;
@@ -189,6 +190,15 @@ public abstract class FunChatFragment extends ChatBaseFragment {
             if (!messageInfo.getMessage().getAttachStr().isEmpty()) {
                 CustomMsgBean msgBean = new Gson().fromJson(messageInfo.getMessage().getAttachStr(), CustomMsgBean.class);
                 msgBean.result = new Gson().fromJson(msgBean.data, CustomMsgBean.class);
+                if (msgBean.type == 28) {
+                    HashMap map = new HashMap();
+                    map.put("bean",new Gson().toJson(msgBean.result));
+                    Activity context = getActivity();
+                    if (context != null) {
+                        FunZhuanZhangResultActivity.start(FunZhuanZhangResultActivity.class,context,map);
+                    }
+                    return;
+                }
                 if (msgBean.type == 10086) {
                     for (GroupInfoBean bean : DataUtil.getFriendInfoList()) {
                         if (bean.memberCode.equals(msgBean.result.memberCode)) {
