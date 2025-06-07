@@ -30,7 +30,7 @@ public class ChatTextMessageViewHolder extends FunChatBaseMessageViewHolder {
     textBinding =
         FunChatMessageTextViewHolderBinding.inflate(
             LayoutInflater.from(parent.getContext()), getMessageContainer(), true);
-    textBinding.messageText.setTextColor(Color.WHITE); // 直接写死颜色
+//    textBinding.messageText.setTextColor(Color.WHITE); // 直接写死颜色
   }
 
   @Override
