@@ -125,8 +125,9 @@
                     android:maxLines="1"
                     android:paddingStart="15dp"
                     android:paddingEnd="15dp"
-                    android:textColor="@color/color_333333"
-                    android:textColorHint="@color/color_666666"
+                    android:textColor="@color/color_white"
+                    android:textColorHint="@color/color_white"
+                    android:background="@null"
                     android:textSize="14dp" />
 
                 <ImageView

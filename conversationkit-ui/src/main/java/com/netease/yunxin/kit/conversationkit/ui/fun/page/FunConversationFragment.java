@@ -648,7 +648,7 @@ public class FunConversationFragment extends ConversationBaseFragment {
 
           Paint paint = new Paint();
           paint.setColor(
-              parent.getResources().getColor(R.color.fun_conversation_item_divide_line_color));
+              parent.getResources().getColor(com.yaoxin.appbase.R.color.transparent));
           canvas.drawRect(left, top, right, bottom, paint);
         }
       }

@@ -65,7 +65,7 @@
                 android:layout_height="match_parent"
                 android:padding="8dp"
                 app:sidebar_lazy_respond="false"
-                app:sidebar_text_color="@color/black"/>
+                app:sidebar_text_color="@color/color_white"/>
 
 
         </FrameLayout>
