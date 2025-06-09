@@ -104,11 +104,17 @@
     </RelativeLayout>
 
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/activity_fun_red_packet_record_list_rv"
+    <com.scwang.smart.refresh.layout.SmartRefreshLayout
+        android:id="@+id/activity_fun_red_packet_record_list_sl"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dimen_14_dp" />
+        android:layout_height="match_parent">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/activity_fun_red_packet_record_list_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_14_dp" />
+
+    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 
 </LinearLayout>
     <LinearLayout

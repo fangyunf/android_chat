@@ -62,6 +62,7 @@ public class PurseIndexActivity extends BaseActivity implements View.OnClickList
         binding.activityMinePurseIndexRechargeTv.setOnClickListener(this);
         binding.activityMinePurseIndexRechargeTv2.setOnClickListener(this);
         binding.activityMinePurseIndexTixianTv.setOnClickListener(this);
+        binding.activityMinePurseIndexZdTv.setOnClickListener(this);
         Context that = this;
         binding.activityMinePurseIndexNav.setActionClickListener(new ICallBack() {
             @Override
@@ -124,7 +125,7 @@ public class PurseIndexActivity extends BaseActivity implements View.OnClickList
         } else if (v == binding.activityMinePurseIndexHbjl) {
 //            BillDetailListActivity.start(BillDetailListActivity.class,this,null);
             FunRedPacketRecordListActivity.start(FunRedPacketRecordListActivity.class,this,null);
-        } else if (v == binding.activityMinePurseIndexLqmx) {
+        } else if (v == binding.activityMinePurseIndexLqmx || v == binding.activityMinePurseIndexZdTv) {
             BillDetailListActivity.start(BillDetailListActivity.class,this,null);
         } else if (v == binding.activityMinePurseIndexBdzfb) {
             BindAlipayActivity.start(BindAlipayActivity.class,this,null);
