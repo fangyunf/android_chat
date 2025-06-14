@@ -215,7 +215,6 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:visibility="gone"
                 android:layout_marginStart="@dimen/dimen_46_dp"
                 android:layout_width="@dimen/dimen_32_dp"
                 android:layout_height="44dp"
@@ -236,6 +235,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:visibility="gone"
         android:id="@+id/fun_chat_message_bottom_view_opt_ll"
         android:paddingVertical="10dp"
         android:paddingHorizontal="30dp"

@@ -37,15 +37,21 @@ public class FunBottomActionFactory {
 
     actions.add(
             new ActionItem(
-                    ActionConstants.ACTION_TYPE_MING_PIAN, R.drawable.chat_fragment_toolbar_person_card, R.string.chat_message_ming_pian));
-
-    actions.add(
-        new ActionItem(
-            ActionConstants.ACTION_TYPE_SHOPPING_COUPON, R.drawable.chat_fragment_toolbar_redpacket, R.string.chat_message_shopping_coupon));
-
+                    ActionConstants.ACTION_TYPE_SHOPPING_COUPON, R.drawable.chat_fragment_toolbar_redpacket, R.string.chat_message_shopping_coupon));
     actions.add(
             new ActionItem(
-                    ActionConstants.ACTION_TYPE_SHOU_CANG, R.drawable.chat_fragment_toolbar_shoucang, R.string.chat_message_shou_cang));
+                    ActionConstants.ACTION_TYPE_MING_PIAN, R.drawable.chat_fragment_toolbar_person_card, R.string.chat_message_ming_pian));
+
+
+    if (sessionType == SessionTypeEnum.P2P) {
+
+      actions.add(
+              new ActionItem(
+                      ActionConstants.ACTION_TYPE_ZHUAN_ZHANG, R.drawable.chat_fragment_toolbar_zhuanzhang, R.string.chat_message_zhuanzhang));
+    }
+//    actions.add(
+//            new ActionItem(
+//                    ActionConstants.ACTION_TYPE_SHOU_CANG, R.drawable.chat_fragment_toolbar_shoucang, R.string.chat_message_shou_cang));
 
 //    if (sessionType == SessionTypeEnum.P2P) {
 //      actions.add(

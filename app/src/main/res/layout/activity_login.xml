@@ -22,18 +22,16 @@
         android:src="@mipmap/common_login_title_login" />
 
     <LinearLayout
-        android:visibility="gone"
         android:layout_width="wrap_content"
         android:orientation="vertical"
         android:layout_marginTop="40dp"
-        android:layout_centerHorizontal="true"
+        android:layout_marginStart="20dp"
         android:layout_height="wrap_content">
         <TextView
-            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="享悦"
-            android:textColor="@color/white"
+            android:text="Hello!"
+            android:textColor="@color/black"
             android:textSize="30sp"
             />
         <ImageView
@@ -46,7 +44,6 @@
 
         <TextView
             android:layout_marginTop="20dp"
-            android:layout_gravity="center"
             android:id="@+id/activity_login_title_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -67,6 +64,60 @@
             android:layout_height="match_parent"
             android:src="@mipmap/login_content_bg"
             />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:paddingHorizontal="20dp"
+            android:layout_height="50dp">
+            <RelativeLayout
+                android:id="@+id/activity_login_login_rl"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_centerInParent="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="登录"
+                    android:textColor="#ff000000"
+                    android:textSize="20sp"
+                    />
+                <View
+                    android:id="@+id/activity_login_login_rl_line"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_width="32dp"
+                    android:layout_height="3dp"
+                    android:background="@drawable/green_yellow_jianbian_8"
+                    />
+            </RelativeLayout>
+            <RelativeLayout
+
+                android:id="@+id/activity_login_register_rl"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_centerInParent="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="注册"
+                    android:textColor="#ff000000"
+                    android:textSize="20sp"
+                    />
+                <View
+
+                    android:visibility="gone"
+                    android:id="@+id/activity_login_register_rl_line"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_width="32dp"
+                    android:layout_height="3dp"
+                    android:background="@drawable/green_yellow_jianbian_8"
+                    />
+            </RelativeLayout>
+        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -110,13 +161,14 @@
                 android:layout_width="253dp"
                 android:layout_height="56dp"
                 android:layout_marginTop="@dimen/dimen_13_dp"
-                android:background="@drawable/bg_3339ff_rounded_28"
+                android:background="@drawable/green_yellow_jianbian_8"
                 android:gravity="center"
                 android:text="登录"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="20sp" />
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/activity_login_register_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

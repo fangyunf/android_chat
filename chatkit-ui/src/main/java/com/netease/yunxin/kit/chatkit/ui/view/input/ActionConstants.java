@@ -16,6 +16,7 @@ public class ActionConstants {
   public static final String ACTION_TYPE_SHOPPING_COUPON = "ACTION_TYPE_SHOPPING_COUPON";
   public static final String ACTION_TYPE_MING_PIAN = "ACTION_TYPE_MingPian";
   public static final String ACTION_TYPE_SHOU_CANG = "ACTION_TYPE_SHOU_CANG";
+  public static final String ACTION_TYPE_ZHUAN_ZHANG = "ACTION_TYPE_ZHUAN_ZHANG";
   // input view more action
   public static final String ACTION_TYPE_MORE = "ACTION_TYPE_MORE";
 

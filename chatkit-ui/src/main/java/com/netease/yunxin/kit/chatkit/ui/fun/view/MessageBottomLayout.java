@@ -260,6 +260,8 @@ public class MessageBottomLayout extends FrameLayout
         break;
       case ActionConstants.ACTION_TYPE_SHOPPING_COUPON:
         sendRedPacket();
+      case ActionConstants.ACTION_TYPE_ZHUAN_ZHANG:
+        sendZhuanZhang();
         break;
       case ActionConstants.ACTION_TYPE_MORE:
         switchMore();
@@ -771,6 +773,11 @@ public class MessageBottomLayout extends FrameLayout
 
   public void sendRedPacket() {
     mProxy.sendRedPacket();
+
+  }
+
+  public void sendZhuanZhang() {
+    mProxy.sendZhuanZhang();
 
   }
   public void setMute(boolean mute) {

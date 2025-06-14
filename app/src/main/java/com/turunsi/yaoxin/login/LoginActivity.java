@@ -62,6 +62,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         binding.activityLoginForgetTv.setOnClickListener(this);
         binding.activityLoginRegisterTv.setOnClickListener(this);
         binding.activityLoginLoginTv.setOnClickListener(this);
+        binding.activityLoginLoginRl.setOnClickListener(this);
+        binding.activityLoginRegisterRl.setOnClickListener(this);
 //        binding.activityLoginIsAgreeLl.setOnClickListener(this);
 //        binding.activityLoginIsCheckedTxt2.setOnClickListener(this);
 //        binding.activityLoginIsCheckedTxt4.setOnClickListener(this);
@@ -160,6 +162,30 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 binding.activityLoginTf3.viewTitleTfCountEt.setTransformationMethod(null);
 
             }
+        } else if (v == binding.activityLoginRegisterRl) {
+
+            binding.activityLoginRegisterRlLine.setVisibility(View.VISIBLE);
+            binding.activityLoginLoginRlLine.setVisibility(View.GONE);
+
+            binding.activityLoginTf2.viewRoundTfLl.setVisibility(View.VISIBLE);
+            binding.activityLoginTf2.viewTitleTfCountCaptcha.setVisibility(View.VISIBLE);
+            binding.activityLoginLoginTv.setText("注册");
+            binding.activityLoginTitleTv.setText("注册");
+            binding.activityLoginRegisterTv.setText("已有账号，去登录");
+            binding.activityLoginRegisterTv.setVisibility(View.VISIBLE);
+            binding.activityLoginForgetTv.setVisibility(View.GONE);
+            binding.activityLoginTitleIv.setImageResource(R.mipmap.common_login_title_register);
+
+        } else if (v == binding.activityLoginLoginRl) {
+
+            binding.activityLoginRegisterRlLine.setVisibility(View.GONE);
+            binding.activityLoginLoginRlLine.setVisibility(View.VISIBLE);
+            binding.activityLoginTf2.viewRoundTfLl.setVisibility(View.GONE);
+            binding.activityLoginLoginTv.setText("登录");
+            binding.activityLoginTitleTv.setText("登录");
+            binding.activityLoginForgetTv.setText("忘记密码");
+            binding.activityLoginForgetTv.setVisibility(View.VISIBLE);
+            binding.activityLoginRegisterTv.setVisibility(View.VISIBLE);
         }
         else if (v == binding.activityLoginForgetTv) {
 //            ForgetPwdActivity.start(ForgetPwdActivity.class, this, null);
