@@ -9,12 +9,11 @@
 
 
     <ImageView
-        android:visibility="gone"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@mipmap/jinzita_common_page_bg"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/purse_index_top_bg"
         android:scaleType="fitXY"
         />
     <LinearLayout
@@ -26,27 +25,38 @@
             android:id="@+id/activity_mine_purse_index_nav"
             style="@style/WhiteFontToolbar"
             android:background="@color/transparent"
-            app:back_icon="@mipmap/temp_ic_back"
+            app:back_icon="@mipmap/temp_ic_back_white"
             app:enable_under_divider="true"
 
             app:support_translucent_status_bar="false"
             app:title="资产权益"
-            app:title_text_color="@color/color_black"
+            app:title_text_color="@color/white"
             app:under_divider_color="@color/transparent" />
 
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="202dp"
+            android:layout_height="242dp"
             android:layout_marginHorizontal="15dp"
+            android:layout_marginTop="80dp"
+            android:gravity="center_horizontal"
             android:paddingHorizontal="20dp"
-            android:background="@mipmap/purse_index_money_bg"
+            android:background="@drawable/bg_white_rounded_10_alpha"
             android:orientation="vertical">
             <TextView
+                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="40dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="总资产"
+                android:text="资金安全有保障"
+                android:textColor="#ffff6004"
+                android:textSize="14sp"
+                />
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="可用余额"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 />
@@ -63,34 +73,20 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="end"
                 android:layout_marginTop="20dp"
 
                 >
 
                 <TextView
-                    android:layout_marginLeft="15dp"
-
-                    android:id="@+id/activity_mine_purse_index_recharge_tv"
-
-                    android:layout_width="100dp"
-                    android:layout_height="32dp"
-                    android:gravity="center"
-
-                    android:background="@drawable/bg_app_theme_color_rounded_10"
-
-                    android:textColor="@color/white"
-                    android:text="充值"
-                    android:textSize="@dimen/text_size_15" />
-                <TextView
                     android:id="@+id/activity_mine_purse_index_tixian_tv"
- android:layout_width="100dp"
-                    android:layout_height="32dp"
+ android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="48dp"
 
                     android:gravity="center"
                     android:background="@drawable/bg_white_rounded_10"
                     android:text="提现"
-                    android:textColor="@color/app_theme_color"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/text_size_15" />
                 <TextView
                     android:visibility="gone"
@@ -104,6 +100,21 @@
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_size_15" />
 
+                <TextView
+
+                    android:id="@+id/activity_mine_purse_index_recharge_tv"
+
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="48dp"
+                    android:gravity="center"
+
+                    android:background="@drawable/green_yellow_jianbian_8"
+
+                    android:textColor="@color/black"
+                    android:text="充值"
+                    android:textSize="@dimen/text_size_15" />
 
             </LinearLayout>
 

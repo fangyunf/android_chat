@@ -93,10 +93,10 @@
         android:layout_height="50dp"
         android:layout_marginBottom="80dp"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/bg_app_theme_color_rounded_10"
+        android:background="@drawable/green_yellow_jianbian_8"
         android:gravity="center"
         android:text="确定"
-        android:textColor="#ffffffff"
+        android:textColor="@color/black"
         android:textSize="16sp"
         />
 </RelativeLayout>
