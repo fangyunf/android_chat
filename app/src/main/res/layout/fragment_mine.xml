@@ -267,6 +267,7 @@
                         />
 
                     <com.yaoxin.appbase.view.IconTitleArrowTemplate
+                        android:visibility="gone"
                         android:id="@+id/fragment_mine_wdfh_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
