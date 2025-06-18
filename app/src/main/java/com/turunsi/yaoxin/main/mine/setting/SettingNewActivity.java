@@ -62,6 +62,7 @@ public class SettingNewActivity extends BaseActivity implements View.OnClickList
 
     viewBinding.activityMineSetNewNav.addCloseImageButton().setOnClickListener(this);
     viewBinding.activityMineSetNewNoticeVoice.viewTitleArrowLl.setOnClickListener(this);
+    viewBinding.activityMineSetNewAnquanSet.viewTitleArrowLl.setOnClickListener(this);
     viewBinding.activityMineSetNewDeleteCache.viewTitleArrowLl.setOnClickListener(this);
     viewBinding.activityMineSetNewDeleteRecord.viewTitleArrowLl.setOnClickListener(this);
     viewBinding.activityMineSetNewAboutUs.viewTitleArrowLl.setOnClickListener(this);
@@ -73,6 +74,7 @@ public class SettingNewActivity extends BaseActivity implements View.OnClickList
 
 
     viewBinding.activityMineSetNewNoticeVoice.viewTitleArrowTv.setText("通知声音");
+    viewBinding.activityMineSetNewAnquanSet.viewTitleArrowTv.setText("安全设置");
     viewBinding.activityMineSetNewDeleteCache.viewTitleArrowTv.setText("清空缓存");
     viewBinding.activityMineSetNewDeleteRecord.viewTitleArrowTv.setText("清空所有聊天记录");
     viewBinding.activityMineSetNewAboutUs.viewTitleArrowTv.setText("关于我们");
@@ -139,6 +141,9 @@ public class SettingNewActivity extends BaseActivity implements View.OnClickList
 
     } else if (v == viewBinding.activityMineSetNewDownload.viewTitleArrowLl) {
         DownLoadActivity.start(DownLoadActivity.class,this,null);
+    } else if (v == viewBinding.activityMineSetNewAnquanSet.viewTitleArrowLl) {
+
+        AnQuanSetNewActivity.start(AnQuanSetNewActivity.class,this,null);
     } else if (v == viewBinding.activityMineSetNewZhuxiao.viewTitleArrowLl) {
         DialogAlertUtil.showAlert("确定注销账号吗？", new DialogAlertUtil.DialogAlertUtilCallBack() {
             @Override

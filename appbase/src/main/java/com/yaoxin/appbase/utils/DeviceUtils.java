@@ -3,6 +3,7 @@ package com.yaoxin.appbase.utils;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -238,22 +239,31 @@ public class DeviceUtils {
      */
     @SuppressLint("HardwareIds")
     public static String getDeviceId(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences("device_id", Context.MODE_PRIVATE);
+        String deviceId = prefs.getString("device_id", null);
 
-        String deviceId=null;
-        android.telephony.TelephonyManager tm =
-                (android.telephony.TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
-            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
-                deviceId = tm.getDeviceId();
+        if (deviceId == null) {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+                TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+                if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
+                    deviceId = tm.getDeviceId();
+                }
             }
+
+            // 若 deviceId 仍为空，使用 ANDROID_ID
+            if (TextUtils.isEmpty(deviceId)) {
+                deviceId = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+            }
+
+            // 若 ANDROID_ID 也为空（极少见），生成 UUID
+            if (TextUtils.isEmpty(deviceId)) {
+                deviceId = UUID.randomUUID().toString();
+            }
+
+            // 保存到 SharedPreferences，确保下次能获取到同一个 ID
+            prefs.edit().putString("device_id", deviceId).apply();
         }
-        if (TextUtils.isEmpty(deviceId)) {
-            deviceId = android.provider.Settings.Secure.getString(context.getContentResolver(),
-                    android.provider.Settings.Secure.ANDROID_ID);
-        }
-        if(TextUtils.isEmpty(deviceId)) {
-            deviceId = UUID.randomUUID().toString();
-        }
+
         return deviceId;
     }
 

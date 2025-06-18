@@ -151,6 +151,9 @@
             android:name=".about.AboutActivity"
             android:screenOrientation="portrait"
             android:exported="false" />
+        <activity
+            android:name=".main.mine.setting.AnQuanSetNewActivity"
+            android:exported="false" />
 
         <activity
             android:name=".main.mine.setting.SettingActivity"

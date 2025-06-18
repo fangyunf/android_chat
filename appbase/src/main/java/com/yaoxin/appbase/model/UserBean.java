@@ -10,6 +10,7 @@ public class UserBean {
     public String phoneFix;
     public String inviteName;
     public String usdt;
+    public String state;
     public String cardId;
 
     public String userAvatar;
