@@ -172,7 +172,7 @@ public class ExchangeAccountActivity extends BaseActivity implements View.OnClic
 
                         DataUtil.putUserInfo(userBean);
                         DataUtil.putToken(userBean.token);
-                        DataUtil.addLoginUserInfoList(userBean);
+//                        DataUtil.addLoginUserInfoList(userBean);
                         IMUtil.loginIM(that,userBean.userId,userBean.imToken);
                     }
                 });
