@@ -122,8 +122,8 @@
             android:layout_marginTop="14dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1.充值时间9点到晚11点，提现时间9点到晚8点
-\n2:到账时间1小时内"
+            android:text="1.充值时间9点到晚11点，提现时间9点到晚10点
+\n2:到账时间1小时内\n3:提现300起"
             android:layout_gravity="start"
             android:layout_marginLeft="30dp"
             android:textColor="#ff999999"
