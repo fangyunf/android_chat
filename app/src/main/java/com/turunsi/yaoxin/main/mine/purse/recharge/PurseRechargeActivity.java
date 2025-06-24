@@ -148,32 +148,32 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
         recyclerView1.setLayoutManager(new LinearLayoutManager(this));
         adpter1 = new Recharge_PayType_Adpter();
         List<String> list1 = new ArrayList<>();
-        list1.add("支付宝充值一");
-        list1.add("微信充值一");
-        list1.add("支付宝充值二");
-        list1.add("微信充值二");
+        list1.add("微信，支付宝充值");
+//        list1.add("微信充值一");
+//        list1.add("支付宝充值二");
+//        list1.add("微信充值二");
         adpter1.setItems(list1);
-        adpter1.payType = "支付宝充值一";
+        adpter1.payType = "微信，支付宝充值";
         recyclerView1.setAdapter(adpter1);
         adpter1.notifyDataSetChanged();
         adpter1.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener<String>() {
             @Override
             public void onClick(@NonNull BaseQuickAdapter<String, ?> baseQuickAdapter, @NonNull View view, int i) {
                 adpter1.payType = adpter1.getItem(i);
-                switch (adpter1.payType) {
-                    case "支付宝充值一":
-                        payType = "alipay";
-                        break;
-                    case "微信充值一":
-                        payType = "wxpay";
-                        break;
-                    case "支付宝充值二":
-                        payType = "alipay";
-                        break;
-                    case "微信充值二":
-                        payType = "wxpay";
-                        break;
-                }
+//                switch (adpter1.payType) {
+//                    case "支付宝充值一":
+//                        payType = "alipay";
+//                        break;
+//                    case "微信充值一":
+//                        payType = "wxpay";
+//                        break;
+//                    case "支付宝充值二":
+//                        payType = "alipay";
+//                        break;
+//                    case "微信充值二":
+//                        payType = "wxpay";
+//                        break;
+//                }
                 adpter1.notifyDataSetChanged();
             }
         });
@@ -356,7 +356,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
         if (payType.equals("")) {
             return;
         }
-        if ("支付宝充值一".equals(adpter1.payType)){
+        if ("微信，支付宝充值".equals(adpter1.payType)){
             RequestParamsBean registerBean = new RequestParamsBean();
             registerBean.amount = NumberUtil.formartUploadMoney(inputMoney);
             HttpUtil.apiW().pay_six(registerBean)
