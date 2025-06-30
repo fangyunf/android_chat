@@ -32,7 +32,7 @@
             android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="龙御台"
+            android:text="斑马优选"
             android:textColor="@color/white"
             android:textSize="30sp"
             />
