@@ -12,6 +12,8 @@ plugins {
 android {
     compileSdk = 33
 
+    namespace="com.netease.yunxin.kit.conversationkit.ui"
+
     defaultConfig {
         minSdk = 21
         targetSdk = 33
@@ -20,22 +22,23 @@ android {
         buildConfigField("String", "versionName", "\"9.7.0\"")
     }
 
-    buildTypes {
-        getByName("release") {
-            isMinifyEnabled = true
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-        }
-    }
+//    buildTypes {
+//        getByName("release") {
+//            isMinifyEnabled = true
+//            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+//        }
+//    }
 
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 
     sourceSets["main"].res.srcDirs("src/main/res","src/main/res-fun","src/main/res-normal")
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 }
 

@@ -7,6 +7,7 @@ android {
     compileSdk = 33
     buildFeatures {
         viewBinding = true
+        buildConfig = true // 显式启用 BuildConfig 生成
     }
     defaultConfig {
         minSdk = 21
@@ -25,8 +26,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 }
 

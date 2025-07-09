@@ -11,6 +11,7 @@ plugins {
 
 android {
     compileSdk = 33
+    namespace = "com.netease.yunxin.kit.teamkit.ui"
 
     defaultConfig {
         minSdk = 21
@@ -19,22 +20,23 @@ android {
         buildConfigField("String", "versionName", "\"9.7.0\"")
     }
 
-    buildTypes {
-        getByName("release") {
-            isMinifyEnabled = true
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-        }
-    }
+//    buildTypes {
+//        getByName("release") {
+//            isMinifyEnabled = true
+//            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+//        }
+//    }
 
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 
     sourceSets["main"].res.srcDirs("src/main/res","src/main/res-fun","src/main/res-normal")
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 }
 
@@ -42,7 +44,8 @@ dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 //    api("com.netease.yunxin.kit.chat:chatkit:9.7.0")
 //    api("com.netease.yunxin.kit.common:common-ui:1.3.3")
-    api("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.0")
+//    api("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.0")
+    api("org.jetbrains.kotlin:kotlin-stdlib-common:2.0.20")
     implementation("androidx.appcompat:appcompat:1.4.2") 
     implementation("com.google.android.material:material:1.5.0") 
     implementation("androidx.recyclerview:recyclerview:1.2.1") 

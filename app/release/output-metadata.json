@@ -11,10 +11,27 @@
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 2,
-      "versionName": "1.0.59",
-      "outputFile": "bailishijia_release_v1.0.59.apk"
+      "versionCode": 3,
+      "versionName": "1.0.60",
+      "outputFile": "bailishijia_release_v1.0.60.apk"
     }
   ],
-  "elementType": "File"
+  "elementType": "File",
+  "baselineProfiles": [
+    {
+      "minApi": 28,
+      "maxApi": 30,
+      "baselineProfiles": [
+        "baselineProfiles/1/bailishijia_release_v1.0.60.dm"
+      ]
+    },
+    {
+      "minApi": 31,
+      "maxApi": 2147483647,
+      "baselineProfiles": [
+        "baselineProfiles/0/bailishijia_release_v1.0.60.dm"
+      ]
+    }
+  ],
+  "minSdkVersionForDexing": 21
 }

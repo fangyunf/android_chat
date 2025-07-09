@@ -11,12 +11,16 @@ plugins {
 
 android {
     compileSdk = 33
-
+    namespace="com.netease.yunxin.kit.locationkit"
     defaultConfig {
         minSdk = 21
         targetSdk = 33
         consumerProguardFiles("consumer-rules.pro")
         buildConfigField("String", "versionName", "\"9.7.0\"")
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 
     buildTypes {
@@ -27,8 +31,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 }
 

@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 
 android {
+    namespace = "com.sunfusheng.marqueeview"
     compileSdkVersion 33
     defaultConfig {
         minSdkVersion 21

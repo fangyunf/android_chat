@@ -5,9 +5,12 @@
 
 plugins {
     id("com.android.application")
+    id("org.jetbrains.kotlin.android")
+    id("kotlin-kapt")
 }
 
 android {
+    namespace = "com.turunsi.yaoxin"
     compileSdk = 34
     signingConfigs {
         create("release") {
@@ -37,11 +40,12 @@ android {
 
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 
     packagingOptions {
