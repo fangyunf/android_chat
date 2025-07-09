@@ -11,7 +11,7 @@ plugins {
 
 android {
     compileSdk = 33
-    namespace="com.netease.yunxin.kit.locationkit"
+    namespace = "com.netease.yunxin.kit.locationkit"
     defaultConfig {
         minSdk = 21
         targetSdk = 33
@@ -25,8 +25,10 @@ android {
 
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = true
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+            )
         }
     }
 
