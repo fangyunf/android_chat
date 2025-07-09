@@ -69,7 +69,8 @@ dependencies {
 
     api("com.github.gzu-liyujiang.AndroidPicker:WheelPicker:4.1.13")
     api("com.netease.yunxin.kit.chat:chatkit:9.7.0")
-    api("com.netease.yunxin.kit.common:common-ui:1.3.3")
+//    api("com.netease.yunxin.kit.common:common-ui:1.3.3")
+    api("com.netease.yunxin.kit.common:common-ui:1.4.0")
     api("org.greenrobot:eventbus:3.1.1")
     api("com.makeramen:roundedimageview:2.3.0")
 //    api("com.github.jenly1314:zxing-lite:3.0.1")

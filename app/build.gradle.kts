@@ -8,7 +8,7 @@ plugins {
 }
 
 android {
-    compileSdk = 33
+    compileSdk = 34
     signingConfigs {
         create("release") {
             keyAlias = "balishijia"
@@ -20,9 +20,9 @@ android {
     defaultConfig {
         applicationId = "com.turunsi.balishijia"
         minSdk = 21
-        targetSdk = 33
-        versionCode = 2
-        versionName = "1.0.59"
+        targetSdk = 34
+        versionCode = 3
+        versionName = "1.0.60"
         multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

@@ -83,6 +83,9 @@
     <!-- 8.0+系统需要-->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+
     <application android:name=".IMApplication"
         android:allowBackup="true"
         android:icon="@mipmap/yaoxin_icon"
