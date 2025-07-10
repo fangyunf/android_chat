@@ -36,32 +36,30 @@ import retrofit2.Response;
 
 public class ZHGLNewActivity extends BaseActivity implements View.OnClickListener {
 
-  private ActivityMineZhglNewBinding viewBinding;
+    private ActivityMineZhglNewBinding viewBinding;
 
-  @Override
-  protected void onCreate(@Nullable Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 //    changeStatusBarColor(R.color.color_e9eff5);
-    viewBinding = ActivityMineZhglNewBinding.inflate(getLayoutInflater());
-    setContentView(viewBinding.getRoot());
-    initView();
-    transtStatusBar(viewBinding.activityMineSetNewNav);
-  }
+        viewBinding = ActivityMineZhglNewBinding.inflate(getLayoutInflater());
+        setContentView(viewBinding.getRoot());
+        initView();
+        transtStatusBar(viewBinding.activityMineSetNewNav);
+    }
 
-  private void initView() {
+    private void initView() {
 
-    viewBinding.activityMineSetNewNav.addCloseImageButton().setOnClickListener(this);
-    viewBinding.activityMineZhglNewQhzh.setOnClickListener(this);
-    viewBinding.activityMineZhglNewZx.setOnClickListener(this);
+        viewBinding.activityMineSetNewNav.addCloseImageButton().setOnClickListener(this);
+        viewBinding.activityMineZhglNewQhzh.setOnClickListener(this);
+        viewBinding.activityMineZhglNewZx.setOnClickListener(this);
 
-  }
+    }
 
-  @Override
-  public void onClick(View v) {
-    if (v == viewBinding.activityMineZhglNewZx) {
-        DialogAlertUtil.showAlert("确定注销账号吗？", new DialogAlertUtil.DialogAlertUtilCallBack() {
-            @Override
-            public void clickType(int type) {
+    @Override
+    public void onClick(View v) {
+        if (v == viewBinding.activityMineZhglNewZx) {
+            DialogAlertUtil.showAlert("确定注销账号吗？", type -> {
                 if (type == 1) {
                     HttpUtil.apiW().home_logout()
                             .enqueue(new CommonCallback<NetData>() {
@@ -76,42 +74,39 @@ public class ZHGLNewActivity extends BaseActivity implements View.OnClickListene
 
                                 }
                             });
-
                 }
-            }
-        },getSupportFragmentManager());
-    } else if (v == viewBinding.activityMineZhglNewQhzh) {
-        ExchangeAccountActivity.start(ExchangeAccountActivity.class,this,null);
-
-    }  else if (v == viewBinding.activityMineSetNewNav.addCloseImageButton()) {
-        finish();
+            }, getSupportFragmentManager());
+        } else if (v == viewBinding.activityMineZhglNewQhzh) {
+            ExchangeAccountActivity.start(ExchangeAccountActivity.class, this, null);
+        } else if (v == viewBinding.activityMineSetNewNav.addCloseImageButton()) {
+            finish();
+        }
     }
-  }
 
-  void showLogin() {
-    IMKitClient.logoutIM(
-            new com.netease.yunxin.kit.corekit.im.login.LoginCallback<Void>() {
-              @Override
-              public void onError(int errorCode, @NonNull String errorMsg) {
-                Toast.makeText(
-                                ZHGLNewActivity.this,
-                                "error code is " + errorCode + ", message is " + errorMsg,
-                                Toast.LENGTH_SHORT)
-                        .show();
-              }
+    void showLogin() {
+        IMKitClient.logoutIM(
+                new com.netease.yunxin.kit.corekit.im.login.LoginCallback<Void>() {
+                    @Override
+                    public void onError(int errorCode, @NonNull String errorMsg) {
+                        Toast.makeText(
+                                        ZHGLNewActivity.this,
+                                        "error code is " + errorCode + ", message is " + errorMsg,
+                                        Toast.LENGTH_SHORT)
+                                .show();
+                    }
 
-              @Override
-              public void onSuccess(@Nullable Void data) {
-                if (getApplicationContext() instanceof IMApplication) {
-                  ((IMApplication) getApplicationContext())
-                          .clearActivity(ZHGLNewActivity.this);
-                }
-                  DataUtil.deleteLoginUserInfoList(DataUtil.getUserInfo());
-                DataUtil.deleteData();
-                startActivity(new Intent(ZHGLNewActivity.this, LoginActivity.class));
-                finish();
-              }
-            });
-  }
+                    @Override
+                    public void onSuccess(@Nullable Void data) {
+                        if (getApplicationContext() instanceof IMApplication) {
+                            ((IMApplication) getApplicationContext())
+                                    .clearActivity(ZHGLNewActivity.this);
+                        }
+                        DataUtil.deleteLoginUserInfoList(DataUtil.getUserInfo());
+                        DataUtil.deleteData();
+                        startActivity(new Intent(ZHGLNewActivity.this, LoginActivity.class));
+                        finish();
+                    }
+                });
+    }
 
 }

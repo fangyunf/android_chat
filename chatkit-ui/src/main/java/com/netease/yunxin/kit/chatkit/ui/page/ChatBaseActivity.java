@@ -6,54 +6,58 @@ package com.netease.yunxin.kit.chatkit.ui.page;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import com.netease.yunxin.kit.chatkit.ui.databinding.ChatActivityLayoutBinding;
 import com.netease.yunxin.kit.chatkit.ui.model.CloseChatPageEvent;
 import com.netease.yunxin.kit.common.ui.activities.BaseActivity;
 import com.netease.yunxin.kit.corekit.event.EventCenter;
 import com.netease.yunxin.kit.corekit.event.EventNotify;
 
-/** BaseActivity for Chat include P2P chat page and Team chat page */
+/**
+ * BaseActivity for Chat include P2P chat page and Team chat page
+ */
 public abstract class ChatBaseActivity extends BaseActivity {
 
-  ChatActivityLayoutBinding binding;
+    ChatActivityLayoutBinding binding;
 
-  protected final EventNotify<CloseChatPageEvent> closeEventNotify =
-      new EventNotify<CloseChatPageEvent>() {
-        @Override
-        public void onNotify(@NonNull CloseChatPageEvent message) {
-          finish();
-        }
+    protected final EventNotify<CloseChatPageEvent> closeEventNotify =
+            new EventNotify<CloseChatPageEvent>() {
+                @Override
+                public void onNotify(@NonNull CloseChatPageEvent message) {
+                    finish();
+                }
 
-        @NonNull
-        @Override
-        public String getEventType() {
-          return CloseChatPageEvent.EVENT_TYPE;
-        }
-      };
+                @NonNull
+                @Override
+                public String getEventType() {
+                    return CloseChatPageEvent.EVENT_TYPE;
+                }
+            };
 
-  @Override
-  protected void onCreate(@Nullable Bundle savedInstanceState) {
-    super.onCreate(null);
-    EventCenter.notifyEventSync(new CloseChatPageEvent());
-    EventCenter.registerEventNotify(closeEventNotify);
-    binding = ChatActivityLayoutBinding.inflate(LayoutInflater.from(this));
-    setContentView(binding.getRoot());
-    initChat();
-  }
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(null);
+        EventCenter.notifyEventSync(new CloseChatPageEvent());
+        EventCenter.registerEventNotify(closeEventNotify);
+        binding = ChatActivityLayoutBinding.inflate(LayoutInflater.from(this));
+        setContentView(binding.getRoot());
+        initChat();
+    }
 
-  protected abstract void initChat();
+    protected abstract void initChat();
 
-  @Override
-  protected void onStop() {
-    super.onStop();
-    //stop message audio
-  }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        //stop message audio
+    }
 
-  @Override
-  protected void onDestroy() {
-    super.onDestroy();
-    EventCenter.unregisterEventNotify(closeEventNotify);
-  }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventCenter.unregisterEventNotify(closeEventNotify);
+    }
 }

@@ -10,16 +10,14 @@
     android:id="@+id/chat_message_input_root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/color_white">
+    android:background="#0e061d">
 
     <LinearLayout
         android:id="@+id/inputBarLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:background="@drawable/bg_f4f4f4_rounded_22"
         android:gravity="center_horizontal"
-        android:layout_marginHorizontal="10dp">
+        android:orientation="horizontal">
 
         <FrameLayout
             android:id="@+id/inputLeftLayout"
@@ -30,20 +28,19 @@
             android:layout_marginBottom="@dimen/dimen_4_dp">
 
             <RelativeLayout
-
                 android:layout_width="@dimen/dimen_32_dp"
-                android:layout_height="44dp"
-                >
+                android:layout_height="44dp">
 
                 <RadioButton
                     android:id="@+id/inputAudioRb"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:background="@drawable/fun_ic_chat_input_audio"
+                    android:layout_width="@dimen/dimen_20_dp"
+                    android:layout_height="@dimen/dimen_20_dp"
                     android:layout_centerInParent="true"
+                    android:background="@drawable/fun_ic_chat_input_audio"
                     android:button="@null"
                     android:checked="false"
-                    android:clickable="false" />
+                    android:clickable="false"
+                    android:scaleType="fitStart" />
             </RelativeLayout>
 
         </FrameLayout>
@@ -58,7 +55,7 @@
                 android:id="@+id/inputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/color_white"
+                android:background="@color/color_221740"
                 app:corner_radius="@dimen/dimen_4_dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -82,10 +79,11 @@
                         android:maxLength="20"
                         android:paddingStart="@dimen/dimen_12_dp"
                         android:singleLine="true"
-                        android:textStyle="bold"
+                        android:textColor="@color/color_white"
                         android:textColorHint="@color/color_b3b7bc"
                         android:textCursorDrawable="@null"
                         android:textSize="@dimen/text_size_16"
+                        android:textStyle="bold"
                         android:visibility="gone"
                         tools:ignore="LabelFor" />
 
@@ -93,7 +91,7 @@
                         android:id="@+id/inputEt"
                         android:layout_width="match_parent"
                         android:layout_height="44dp"
-                        android:background="#f4f4f4"
+                        android:background="@color/color_221740"
                         android:ellipsize="end"
                         android:hint="@string/fun_chat_input_hint_tips"
                         android:imeOptions="actionSend"
@@ -101,50 +99,49 @@
                         android:maxLength="2000"
                         android:paddingStart="@dimen/dimen_12_dp"
                         android:singleLine="true"
-                        android:textColorHint="@color/color_b3b7bc"
+                        android:textColor="@color/color_white"
+                        android:textColorHint="@color/color_white"
                         android:textCursorDrawable="@null"
                         android:textSize="@dimen/text_size_16"
                         tools:ignore="LabelFor" />
                 </LinearLayout>
-
-
+                
                 <TextView
                     android:id="@+id/inputAudioTv"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dimen_40_dp"
-                    android:background="@color/color_white"
+                    android:layout_height="@dimen/dimen_44_dp"
+                    android:background="@color/color_221740"
                     android:clickable="true"
                     android:focusable="true"
                     android:gravity="center"
                     android:text="@string/chat_input_audio_record_title"
-                    android:textColor="@color/fun_chat_input_send_audio_color"
+                    android:textColor="@color/color_white"
                     android:textSize="@dimen/text_size_16"
-                    android:textStyle="bold"
                     android:visibility="gone" />
 
 
-<!--                <FrameLayout-->
-<!--                    android:id="@+id/chatMsgInputSwitchLayout"-->
-<!--                    android:layout_width="@dimen/dimen_32_dp"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:layout_gravity="end">-->
+                <!--                <FrameLayout-->
+                <!--                    android:id="@+id/chatMsgInputSwitchLayout"-->
+                <!--                    android:layout_width="@dimen/dimen_32_dp"-->
+                <!--                    android:layout_height="match_parent"-->
+                <!--                    android:layout_gravity="end">-->
 
-<!--                    <ImageView-->
-<!--                        android:id="@+id/chatMsgInputSwitch"-->
-<!--                        android:layout_width="@dimen/dimen_20_dp"-->
-<!--                        android:layout_height="@dimen/dimen_20_dp"-->
-<!--                        android:layout_marginTop="@dimen/dimen_10_dp"-->
-<!--                        android:layout_marginEnd="@dimen/dimen_10_dp"-->
-<!--                        android:src="@drawable/ic_chat_open_rich_text" />-->
-<!--                </FrameLayout>-->
+                <!--                    <ImageView-->
+                <!--                        android:id="@+id/chatMsgInputSwitch"-->
+                <!--                        android:layout_width="@dimen/dimen_20_dp"-->
+                <!--                        android:layout_height="@dimen/dimen_20_dp"-->
+                <!--                        android:layout_marginTop="@dimen/dimen_10_dp"-->
+                <!--                        android:layout_marginEnd="@dimen/dimen_10_dp"-->
+                <!--                        android:src="@drawable/ic_chat_open_rich_text" />-->
+                <!--                </FrameLayout>-->
 
                 <TextView
                     android:id="@+id/inputMuteTv"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:alpha="0.8"
                     android:background="@color/color_e3e4e4"
                     android:gravity="center_vertical"
-                    android:alpha="0.8"
                     android:paddingStart="@dimen/dimen_12_dp"
                     android:text="@string/chat_team_all_mute"
                     android:visibility="gone" />
@@ -197,15 +194,13 @@
             android:layout_marginBottom="@dimen/dimen_4_dp">
 
             <RelativeLayout
-
                 android:layout_width="@dimen/dimen_32_dp"
-                android:layout_height="44dp"
-                >
-                <RadioButton
+                android:layout_height="44dp">
 
+                <RadioButton
+                    android:id="@+id/inputEmojiRb"
                     android:layout_width="21dp"
                     android:layout_height="21dp"
-                    android:id="@+id/inputEmojiRb"
                     android:layout_centerInParent="true"
                     android:layout_gravity="bottom"
                     android:background="@drawable/chat_fragment_toolbar_emoji"
@@ -215,11 +210,11 @@
             </RelativeLayout>
 
             <RelativeLayout
-
-                android:layout_marginStart="@dimen/dimen_46_dp"
                 android:layout_width="@dimen/dimen_32_dp"
                 android:layout_height="44dp"
-                >
+                android:layout_marginStart="@dimen/dimen_46_dp"
+                android:visibility="gone">
+
                 <RadioButton
                     android:id="@+id/inputMoreRb"
                     android:layout_width="24dp"
@@ -249,11 +244,19 @@
             android:layout_height="wrap_content"
             android:visibility="gone" />
 
+        <!--                <androidx.viewpager2.widget.ViewPager2-->
+        <!--                    android:id="@+id/actionsPanelVp"-->
+        <!--                    android:layout_width="match_parent"-->
+        <!--                    android:layout_height="@dimen/dimen_188_dp"-->
+        <!--                    android:visibility="gone" />-->
+
+        <!--我修改的地方-->
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/actionsPanelVp"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_188_dp"
+            android:layout_height="@dimen/dimen_60_dp"
             android:visibility="gone" />
+
     </FrameLayout>
 
     <androidx.constraintlayout.widget.Group
