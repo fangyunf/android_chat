@@ -118,6 +118,9 @@ public class AlbumLoader extends CursorLoader {
 
     private static final String BUCKET_ORDER_BY = "datetaken DESC";
 
+    //修改成读取最新的时间
+    public static final String ORDER_BY = MediaStore.Files.FileColumns.DATE_ADDED + " DESC";
+
     private AlbumLoader(Context context, String selection, String[] selectionArgs) {
         super(
                 context,
@@ -125,7 +128,7 @@ public class AlbumLoader extends CursorLoader {
                 beforeAndroidTen() ? PROJECTION : PROJECTION_29,
                 selection,
                 selectionArgs,
-                BUCKET_ORDER_BY
+                ORDER_BY
         );
     }
 
