@@ -201,6 +201,37 @@ public class MessageBottomLayout extends FrameLayout
         mBinding.inputEt.setOnFocusChangeListener(
                 (v, hasFocus) ->
                         mProxy.onTypeStateChange(!TextUtils.isEmpty(mBinding.inputEt.getText()) && hasFocus));
+
+        mBinding.funChatMessageBottomViewOpt0.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onAlbumClick();
+            }
+        });
+        mBinding.funChatMessageBottomViewOpt1.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onCameraClick();
+            }
+        });
+        mBinding.funChatMessageBottomViewOpt2.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mProxy.sendMingPian();
+            }
+        });
+        mBinding.funChatMessageBottomViewOpt3.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendRedPacket();
+            }
+        });
+        mBinding.funChatMessageBottomViewOpt4.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mProxy.sendZhuanZhang();
+            }
+        });
     }
 
     public FunChatMessageBottomViewBinding getViewBinding() {

@@ -11,9 +11,9 @@
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 1,
-      "versionName": "1.0.8",
-      "outputFile": "santi_release_v1.0.8.apk"
+      "versionCode": 2,
+      "versionName": "1.0.9",
+      "outputFile": "santi_release_v1.0.9.apk"
     }
   ],
   "elementType": "File"
