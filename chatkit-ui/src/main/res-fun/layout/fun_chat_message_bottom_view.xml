@@ -105,7 +105,7 @@
                         android:textSize="@dimen/text_size_16"
                         tools:ignore="LabelFor" />
                 </LinearLayout>
-                
+
                 <TextView
                     android:id="@+id/inputAudioTv"
                     android:layout_width="match_parent"
@@ -225,8 +225,6 @@
                     android:checked="false"
                     android:clickable="false" />
             </RelativeLayout>
-
-
         </FrameLayout>
     </LinearLayout>
 
@@ -244,17 +242,10 @@
             android:layout_height="wrap_content"
             android:visibility="gone" />
 
-        <!--                <androidx.viewpager2.widget.ViewPager2-->
-        <!--                    android:id="@+id/actionsPanelVp"-->
-        <!--                    android:layout_width="match_parent"-->
-        <!--                    android:layout_height="@dimen/dimen_188_dp"-->
-        <!--                    android:visibility="gone" />-->
-
-        <!--我修改的地方-->
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/actionsPanelVp"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_60_dp"
+            android:layout_height="@dimen/dimen_188_dp"
             android:visibility="gone" />
 
     </FrameLayout>
