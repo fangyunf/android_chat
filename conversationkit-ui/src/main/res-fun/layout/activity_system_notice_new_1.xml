@@ -1,22 +1,19 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2022 NetEase, Inc. All rights reserved.
   ~ Use of this source code is governed by a MIT license that can be
   ~ found in the LICENSE file.
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/color_white"
 
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
+    android:orientation="vertical">
 
 
     <com.yaoxin.appbase.navbar.NavToolbar
-
         android:id="@+id/activity_system_notice_new_nav"
         style="@style/WhiteFontToolbar"
         android:background="#ffffff"
@@ -29,107 +26,109 @@
 
         />
 
-<LinearLayout
-    android:id="@+id/activity_system_notice_new_xttz_ll"
-    android:layout_width="match_parent"
-    android:layout_marginTop="10dp"
-    android:gravity="center_vertical"
-    android:paddingHorizontal="15dp"
-    android:layout_height="wrap_content">
-    <ImageView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:src="@drawable/system_notice_xttz"
-        />
-    <TextView
-        android:layout_marginHorizontal="10dp"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/activity_system_notice_new_xttz_ll"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="系统通知"
-        android:textColor="#ff000000"
-        android:textSize="15sp"
-        />
-    <TextView
-        android:visibility="gone"
-        android:id="@+id/activity_system_notice_new_xttz_num_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="18dp"
-        android:gravity="center"
-        android:minWidth="18dp"
-        android:text="99"
-        android:textColor="@color/color_white"
-        android:textSize="12sp"
-        android:background="@drawable/fun_bg_red_rounded_9"
-        />
-</LinearLayout>
-<LinearLayout
-    android:id="@+id/activity_system_notice_new_qtz_ll"
-    android:layout_width="match_parent"
-    android:layout_marginTop="10dp"
-    android:gravity="center_vertical"
-    android:paddingHorizontal="15dp"
-    android:layout_height="wrap_content">
-    <ImageView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:src="@drawable/system_notice_quntongzhi"
-        />
-    <TextView
-        android:layout_marginHorizontal="10dp"
-        android:layout_width="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="15dp">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/system_notice_xttz" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_weight="1"
+            android:text="系统通知"
+            android:textColor="#ff000000"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/activity_system_notice_new_xttz_num_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="18dp"
+            android:background="@drawable/fun_bg_red_rounded_9"
+            android:gravity="center"
+            android:minWidth="18dp"
+            android:text="99"
+            android:textColor="@color/color_white"
+            android:textSize="12sp"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/activity_system_notice_new_qtz_ll"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="群通知"
-        android:textColor="#ff000000"
-        android:textSize="15sp"
-        />
-    <TextView
-        android:id="@+id/activity_system_notice_new_qtz_num_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="18dp"
-        android:gravity="center"
-        android:minWidth="18dp"
-        android:text="99"
-        android:textColor="@color/color_white"
-        android:textSize="12sp"
-        android:background="@drawable/fun_bg_red_rounded_9"
-        />
-</LinearLayout>
-<LinearLayout
-    android:id="@+id/activity_system_notice_new_qbxx_ll"
-    android:layout_width="match_parent"
-    android:layout_marginTop="10dp"
-    android:gravity="center_vertical"
-    android:paddingHorizontal="15dp"
-    android:layout_height="wrap_content">
-    <ImageView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:src="@drawable/system_notice_qianbao"
-        />
-    <TextView
-        android:layout_marginHorizontal="10dp"
-        android:layout_width="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="15dp">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/system_notice_quntongzhi" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_weight="1"
+            android:text="群通知"
+            android:textColor="#ff000000"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/activity_system_notice_new_qtz_num_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="18dp"
+            android:background="@drawable/fun_bg_red_rounded_9"
+            android:gravity="center"
+            android:minWidth="18dp"
+            android:text="99"
+            android:textColor="@color/color_white"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/activity_system_notice_new_qbxx_ll"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="钱包消息"
-        android:textColor="#ff000000"
-        android:textSize="15sp"
-        />
-    <TextView
-        android:visibility="gone"
-        android:id="@+id/activity_system_notice_new_qbxx_num_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="18dp"
-        android:gravity="center"
-        android:minWidth="18dp"
-        android:text="99"
-        android:textColor="@color/color_white"
-        android:textSize="12sp"
-        android:background="@drawable/fun_bg_red_rounded_9"
-        />
-</LinearLayout>
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="15dp">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/system_notice_qianbao" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_weight="1"
+            android:text="钱包消息"
+            android:textColor="#ff000000"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/activity_system_notice_new_qbxx_num_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="18dp"
+            android:background="@drawable/fun_bg_red_rounded_9"
+            android:gravity="center"
+            android:minWidth="18dp"
+            android:text="99"
+            android:textColor="@color/color_white"
+            android:textSize="12sp"
+            android:visibility="gone" />
+    </LinearLayout>
 
 
 </LinearLayout>

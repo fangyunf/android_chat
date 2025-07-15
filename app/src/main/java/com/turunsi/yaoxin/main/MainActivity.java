@@ -112,7 +112,6 @@ public class MainActivity extends BaseActivity {
     private ContactNewFragment mContactFragment;
     private ConversationBaseFragment mConversationFragment;
     public static final int REQUEST_CODE_SCAN = 0x01;
-
     //皮肤变更事件
     EventNotify<SkinEvent> skinNotify =
             new EventNotify<SkinEvent>() {
@@ -167,10 +166,9 @@ public class MainActivity extends BaseActivity {
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-
                         if (body.data != null) {
                             ParamsBean updateBean = new Gson().fromJson(body.data.toString(), ParamsBean.class);
-                            showUpdate(updateBean.downloadUrl,updateBean.upMsg);
+                            showUpdate(updateBean.downloadUrl, updateBean.upMsg);
                         }
                     }
 
@@ -181,11 +179,10 @@ public class MainActivity extends BaseActivity {
                 });
     }
 
-    private void showUpdate(String downLoadUrl,String updateMsg) {
+    private void showUpdate(String downLoadUrl, String updateMsg) {
         if (downLoadUrl == null || downLoadUrl.isEmpty()) {
             return;
         }
-
         //简单DialogFragment升级
         AppDialogConfig config = new AppDialogConfig(this);
         config.setTitle("应用升级")
@@ -229,13 +226,13 @@ public class MainActivity extends BaseActivity {
                                         // 取消下载
                                     }
                                 }).start();
-
                         AppDialog.INSTANCE.dismissDialogFragment(getSupportFragmentManager());
                     }
                 });
         AppDialog.INSTANCE.showDialogFragment(getSupportFragmentManager(), config);
 
     }
+
     private void initData() {
         SettingRepo.getShowReadStatus(
                 new FetchCallback<Boolean>() {
@@ -271,7 +268,7 @@ public class MainActivity extends BaseActivity {
         List<Fragment> fragments = new ArrayList<>();
 
         changeStatusBarColor(R.color.fun_page_bg_color);
-        mConversationFragment =  new FunConversationFragment();
+        mConversationFragment = new FunConversationFragment();
 //        AppProxy.getInstance().showType = 1;
 //        mConversationFragment1._type = 1;
         mContactFragment = new ContactNewFragment();
@@ -279,9 +276,7 @@ public class MainActivity extends BaseActivity {
         fragments.add(mConversationFragment);
         fragments.add(new ShopNewFragment());
         fragments.add(mContactFragment);
-
         fragments.add(new MineFragment());
-
         FragmentAdapter fragmentAdapter = new FragmentAdapter(this);
         fragmentAdapter.setFragmentList(fragments);
         activityMainBinding.viewPager.setUserInputEnabled(false);
@@ -430,7 +425,8 @@ public class MainActivity extends BaseActivity {
 
         activityMainBinding.mine.setTextColor(getResources().getColor(R.color.tab_unchecked_color));
         activityMainBinding.mine.setCompoundDrawablesWithIntrinsicBounds(
-                null, getResources().getDrawable(R.mipmap.mine_tabbar_mine_normal), null, null);;
+                null, getResources().getDrawable(R.mipmap.mine_tabbar_mine_normal), null, null);
+        ;
 
         activityMainBinding.conversationShop.setTextColor(getResources().getColor(R.color.tab_unchecked_color));
         activityMainBinding.conversationShop.setCompoundDrawablesWithIntrinsicBounds(

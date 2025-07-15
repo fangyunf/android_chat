@@ -68,9 +68,15 @@ public class BillDetailListActivity extends BaseActivity implements View.OnClick
         binding.activityMineBankBillDetailListRv.setAdapter(adapter);
 
         binding.activityMineBankBillDetailListDateTv.setText(selectedMonth);
+        
+        String[] strs = {"全部", "发送群红包", "领取群红包", "发送专属红包", "领取专属红包", "发送个人红包", "领取个人红包",
+                "充值", "提现", "红包退回", "提现驳回", "抽奖", "买靓号", "买副号", "购买菜单", "买靓号", "获得彩蛋", "群升级", "转帐"};
+        int[] types = {-1, 23, 26, 21, 24, 22, 25, 0, 1, 27, 5, 80, 78, 91, 92, 93, 100, 141, 28};
+        String[] imageNames = {"", "icn_send_red_packet", "icn_re_red_packet", "icn_send_red_packet", "icn_re_red_packet",
+                "icn_send_red_packet", "icn_re_red_packet", "icn_detail_pay", "icn_detail_pay", "icn_detail_pay",
+                "icn_detail_pay", "icn_detail_pay", "icn_detail_pay", "icn_detail_pay", "icn_detail_pay", "icn_detail_pay",
+                "icn_detail_pay", "icn_detail_pay", "icn_send_red_packet"};
 
-        String[] strs = {"全部","发送群红包","领取群红包","发送专属红包","领取专属红包","发送个人红包","领取个人红包","充值","提现","红包退回","提现驳回","购物支出","抽奖","靓号"};
-        int[] types = {-1,23,26,21,24,22,25,0,1,27,5,0,100,80,78};
 
 //        for (int i = 0; i < strs.length; i++) {
 //            BillDetailBean bean = new BillDetailBean();
@@ -94,17 +100,15 @@ public class BillDetailListActivity extends BaseActivity implements View.OnClick
             public void onClick(@NonNull BaseQuickAdapter<BillDetailBean, ?> baseQuickAdapter, @NonNull View view, int i) {
 
                 HashMap map = new HashMap();
-                map.put("bean",new Gson().toJson(baseQuickAdapter.getItem(i)));
-                BillDetailList_DetailActivity.start(BillDetailList_DetailActivity.class,that,map);
+                map.put("bean", new Gson().toJson(baseQuickAdapter.getItem(i)));
+                BillDetailList_DetailActivity.start(BillDetailList_DetailActivity.class, that, map);
             }
         });
 
 
-
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
         binding.activityMineBankBillDetailListShaixuanRv.setLayoutManager(gridLayoutManager);
-        BillDetailGridSpacingItemDecoration gridSpacingItemDecoration =
-                new BillDetailGridSpacingItemDecoration(3, SizeUtils.dp2px(10), false);
+        BillDetailGridSpacingItemDecoration gridSpacingItemDecoration = new BillDetailGridSpacingItemDecoration(3, SizeUtils.dp2px(10), false);
         binding.activityMineBankBillDetailListShaixuanRv.addItemDecoration(gridSpacingItemDecoration);
         BillDetailList_ShaiXuan_Adapter shaiXuanAdapter = new BillDetailList_ShaiXuan_Adapter();
         binding.activityMineBankBillDetailListShaixuanRv.setAdapter(shaiXuanAdapter);
@@ -113,8 +117,7 @@ public class BillDetailListActivity extends BaseActivity implements View.OnClick
         shaiXuanAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener<BillDetailBean>() {
             @Override
             public void onClick(@NonNull BaseQuickAdapter<BillDetailBean, ?> baseQuickAdapter, @NonNull View view, int i) {
-                for (BillDetailBean tempBean :
-                        shaixuanList) {
+                for (BillDetailBean tempBean : shaixuanList) {
                     tempBean.isSelected = false;
                 }
                 shaixuanList.get(i).isSelected = true;
@@ -132,22 +135,22 @@ public class BillDetailListActivity extends BaseActivity implements View.OnClick
         RegisterBean bean = new RegisterBean();
         bean.moudleType = moudleType;
         bean.date = selectedMonth;
-        HttpUtil.apiW().red_transcationsList(bean)
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+        HttpUtil.apiW().red_transcationsList(bean).enqueue(new CommonCallback<NetData>() {
+            @Override
+            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                        Type type = new TypeToken<List<BillDetailBean>>(){}.getType();
-                        dataList = new Gson().fromJson(body.data.toString(),type);
-                        adapter.setItems(dataList);
-                        adapter.notifyDataSetChanged();
-                    }
+                Type type = new TypeToken<List<BillDetailBean>>() {
+                }.getType();
+                dataList = new Gson().fromJson(body.data.toString(), type);
+                adapter.setItems(dataList);
+                adapter.notifyDataSetChanged();
+            }
 
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
+            @Override
+            public void Failure(Call<NetData> call, Throwable t) {
 
-                    }
-                });
+            }
+        });
     }
 
     @Override
@@ -162,11 +165,11 @@ public class BillDetailListActivity extends BaseActivity implements View.OnClick
             DatePicker picker = new DatePicker(this);
             picker.setBodyWidth(240);
             DateWheelLayout wheelLayout = picker.getWheelLayout();
-            DateEntity start = DateEntity.target(2023,6,15);
+            DateEntity start = DateEntity.target(2023, 6, 15);
             DateEntity end = DateEntity.target(new Date());
             DateEntity defaultEn = DateEntity.target(new Date());
 
-            wheelLayout.setRange(start,end,defaultEn);
+            wheelLayout.setRange(start, end, defaultEn);
             wheelLayout.setDateMode(DateMode.YEAR_MONTH);
             wheelLayout.setDateLabel("年", "月", "");
             picker.setOnDatePickedListener(new OnDatePickedListener() {

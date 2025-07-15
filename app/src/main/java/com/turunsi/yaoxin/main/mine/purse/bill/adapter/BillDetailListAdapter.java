@@ -24,41 +24,28 @@ public class BillDetailListAdapter extends BaseQuickAdapter<BillDetailBean, Quic
 
     @Override
     protected void onBindViewHolder(@NonNull QuickViewHolder quickViewHolder, int i, @Nullable BillDetailBean bean) {
-        quickViewHolder.setText(R.id.item_purse_bill_detail_list_title_tv,bean.name)
+        quickViewHolder.setText(R.id.item_purse_bill_detail_list_title_tv, bean.name)
                 .setText(R.id.item_purse_bill_detail_list_content_tv, TimeUtil.stampToDate(bean.createTime))
-                .setText(R.id.item_purse_bill_detail_list_money_tv, (bean.amount > 0 ? "+": "-") + NumberUtil.formartMoney(Math.abs(bean.amount) + "") )
-                .setTextColor(R.id.item_purse_bill_detail_list_money_tv,getContext().getResources().getColor(bean.amount > 0 ?R.color.color_FF3A3A:R.color.color_24CE70));
+                .setText(R.id.item_purse_bill_detail_list_money_tv, (bean.amount > 0 ? "+" : "-") + NumberUtil.formartMoney(Math.abs(bean.amount) + ""))
+                .setTextColor(R.id.item_purse_bill_detail_list_money_tv, getContext().getResources().getColor(bean.amount > 0 ? R.color.color_FF3A3A : R.color.color_24CE70));
         ;
-
         ImageView headIv = quickViewHolder.getView(R.id.item_purse_bill_detail_list_icon);
 //        GlideUtil.yh_loadImageRoundedCorner(this,headIv,bean.);
-
-        headIv.setImageResource(R.mipmap.mine_purse_bill_detail_list_bohui);
+        headIv.setImageResource(R.mipmap.icn_detail_pay);
         switch (bean.moduleType) {
-            case 23:case 26:
-                headIv.setImageResource(R.mipmap.mine_purse_bill_detail_list_lingqu_coupon);
+            case 23:
+            case 22:
+            case 21:
+            case 28:
+                headIv.setImageResource(R.mipmap.icn_send_red_packet);
                 break;
-            case 21:case 24:
-                headIv.setImageResource(R.mipmap.mine_purse_bill_detail_list_send_zhuanshu);
-                break;
-            case 22:case 25:
-                headIv.setImageResource(R.mipmap.mine_purse_bill_detail_list_geren_coupon);
-                break;
-            case 0:
-                headIv.setImageResource(R.mipmap.mine_purse_bill_detail_list_chongzhi);
-                break;
-            case 1:
-                headIv.setImageResource(R.mipmap.mine_purse_bill_detail_list_tixian);
-                break;
-            case 27:
-                headIv.setImageResource(R.mipmap.mine_purse_bill_detail_list_tuihui);
-                break;
-            case 5:
-                headIv.setImageResource(R.mipmap.mine_purse_bill_detail_list_bohui);
+            case 26:
+            case 24:
+            case 25:
+                headIv.setImageResource(R.mipmap.icn_re_red_packet);
                 break;
             default:
                 break;
-
         }
     }
 

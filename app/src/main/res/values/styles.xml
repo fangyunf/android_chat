@@ -9,6 +9,7 @@
     <style name="AppSelectorRadioBtn" parent="Widget.AppCompat.CompoundButton.RadioButton">
         <item name="android:button">@drawable/app_radio_blue_selector</item>
     </style>
+
     <style name="custom_dlg" parent="android:style/Theme.Dialog">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowNoTitle">true</item>

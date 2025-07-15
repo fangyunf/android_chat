@@ -48,25 +48,24 @@ public class BillDetailList_DetailActivity extends BaseActivity implements View.
 
     ActivityMineBankBillDetailListDetailBinding binding;
     BillDetailBean detailBean;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         String beanStr = (String) extras.get("bean");
         if (beanStr != null && !beanStr.isEmpty()) {
-            detailBean = new Gson().fromJson(beanStr,BillDetailBean.class);
+            detailBean = new Gson().fromJson(beanStr, BillDetailBean.class);
         }
         binding = ActivityMineBankBillDetailListDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         binding.activityMineBankBillDetailListDetailNav.addCloseImageButton().setOnClickListener(this);
-
         _initView();
     }
 
     @Override
     protected void _initView() {
         binding.activityMineBankBillDetailListDetailTitleTv.setText(detailBean.remark);
-        binding.activityMineBankBillDetailListDetailMoneyTv.setText((detailBean.amount > 0 ? "+": "-") + NumberUtil.formartMoney(Math.abs(detailBean.amount) + "") );
-
+        binding.activityMineBankBillDetailListDetailMoneyTv.setText((detailBean.amount > 0 ? "+" : "-") + NumberUtil.formartMoney(Math.abs(detailBean.amount) + ""));
         binding.activityMineBankBillDetailListDetailCell2DetailTv.setOnClickListener(this);
         /*
         *
@@ -75,43 +74,44 @@ public class BillDetailList_DetailActivity extends BaseActivity implements View.
         * */
         switch (detailBean.moduleType) {
             case 23:
-                binding.activityMineBankBillDetailListDetailIconIv.setImageResource(R.mipmap.mine_purse_bill_detail_list_lingqu_coupon);
+                binding.activityMineBankBillDetailListDetailIconIv.setImageResource(R.mipmap.icn_send_red_packet);
                 binding.activityMineBankBillDetailListDetailCell1Detail.setText("支付成功");
                 binding.activityMineBankBillDetailListDetailCell4.setVisibility(View.VISIBLE);
                 break;
             case 26:
-                binding.activityMineBankBillDetailListDetailIconIv.setImageResource(R.mipmap.mine_purse_bill_detail_list_lingqu_coupon);
+                binding.activityMineBankBillDetailListDetailIconIv.setImageResource(R.mipmap.icn_re_red_packet);
                 binding.activityMineBankBillDetailListDetailCell1Detail.setText("已存入钱包");
                 break;
             case 21:
-                binding.activityMineBankBillDetailListDetailIconIv.setImageResource(R.mipmap.mine_purse_bill_detail_list_send_zhuanshu);
+                binding.activityMineBankBillDetailListDetailIconIv.setImageResource(R.mipmap.icn_send_red_packet);
                 binding.activityMineBankBillDetailListDetailCell1Detail.setText("支付成功");
                 break;
-                case 24:
-                binding.activityMineBankBillDetailListDetailIconIv.setImageResource(R.mipmap.mine_purse_bill_detail_list_send_zhuanshu);
-                    binding.activityMineBankBillDetailListDetailCell1Detail.setText("已存入钱包");
+            case 24:
+                binding.activityMineBankBillDetailListDetailIconIv.setImageResource(R.mipmap.icn_re_red_packet);
+                binding.activityMineBankBillDetailListDetailCell1Detail.setText("已存入钱包");
                 break;
             case 22:
-                binding.activityMineBankBillDetailListDetailIconIv.setImageResource(R.mipmap.mine_purse_bill_detail_list_geren_coupon);
+                binding.activityMineBankBillDetailListDetailIconIv.setImageResource(R.mipmap.icn_send_red_packet);
                 binding.activityMineBankBillDetailListDetailCell1Detail.setText("支付成功");
                 break;
-                case 25:
-                binding.activityMineBankBillDetailListDetailIconIv.setImageResource(R.mipmap.mine_purse_bill_detail_list_geren_coupon);
+            case 25:
+                binding.activityMineBankBillDetailListDetailIconIv.setImageResource(R.mipmap.icn_re_red_packet);
                 binding.activityMineBankBillDetailListDetailCell1Detail.setText("已存入钱包");
                 break;
             case 0:
-                binding.activityMineBankBillDetailListDetailIconIv.setImageResource(R.mipmap.mine_purse_bill_detail_list_chongzhi);
+                binding.activityMineBankBillDetailListDetailIconIv.setImageResource(R.mipmap.icn_detail_pay);
                 break;
             case 1:
-                binding.activityMineBankBillDetailListDetailIconIv.setImageResource(R.mipmap.mine_purse_bill_detail_list_tixian);
+                binding.activityMineBankBillDetailListDetailIconIv.setImageResource(R.mipmap.icn_detail_pay);
                 break;
             case 27:
-                binding.activityMineBankBillDetailListDetailIconIv.setImageResource(R.mipmap.mine_purse_bill_detail_list_tuihui);
+                binding.activityMineBankBillDetailListDetailIconIv.setImageResource(R.mipmap.icn_detail_pay);
                 break;
             case 5:
-                binding.activityMineBankBillDetailListDetailIconIv.setImageResource(R.mipmap.mine_purse_bill_detail_list_bohui);
+                binding.activityMineBankBillDetailListDetailIconIv.setImageResource(R.mipmap.icn_detail_pay);
                 break;
             default:
+                binding.activityMineBankBillDetailListDetailIconIv.setImageResource(R.mipmap.icn_detail_pay);
                 break;
         }
 
@@ -125,8 +125,8 @@ public class BillDetailList_DetailActivity extends BaseActivity implements View.
             finish();
         } else if (v == binding.activityMineBankBillDetailListDetailCell2DetailTv) {
             HashMap map = new HashMap();
-            map.put("redpacketId",detailBean.redpacketId);
-            FunRedPacketResultActivity.start(FunRedPacketResultActivity.class,this,map);
+            map.put("redpacketId", detailBean.redpacketId);
+            FunRedPacketResultActivity.start(FunRedPacketResultActivity.class, this, map);
         }
     }
 
