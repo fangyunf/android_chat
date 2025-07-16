@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,6 +34,7 @@ import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.CustomMessageConfig;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
+import com.netease.nimlib.sdk.msg.model.RecentContact;
 import com.netease.yunxin.kit.chatkit.model.ConversationInfo;
 import com.netease.yunxin.kit.common.ui.widgets.ContentListPopView;
 import com.netease.yunxin.kit.common.ui.widgets.TitleBarView;
@@ -48,6 +50,7 @@ import com.netease.yunxin.kit.conversationkit.ui.fun.page.Bean.ConversationCusto
 import com.netease.yunxin.kit.conversationkit.ui.model.ConversationBean;
 import com.netease.yunxin.kit.conversationkit.ui.page.ConversationBaseFragment;
 import com.netease.yunxin.kit.corekit.im.IMKitClient;
+import com.netease.yunxin.kit.corekit.im.utils.PreferenceUtils;
 import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
 import com.netease.yunxin.kit.corekit.route.XKitRouter;
 import com.sunfusheng.marqueeview.IMarqueeItem;
@@ -80,328 +83,411 @@ import retrofit2.Response;
 
 public class FunConversationFragment extends ConversationBaseFragment {
 
-  private FunConversationFragmentBinding viewBinding;
+    private final int TOTAL_REQUESTS = 3;
+    private FunConversationFragmentBinding viewBinding;
+    private int nimUnread = 0;
+    private int sysNoticeUnread = 0;
+    private int applyUnread = 0;
+    private int finishCount = 0; // 记录完成的请求数
+    private boolean _needRefresh;
+    private int topIndex;
 
-  private boolean _needRefresh;
+    public FunConversationFragment() {
+    }
 
-  public FunConversationFragment() {
-  }
-
-  private int topIndex;
-  @Override
-  public View initViewAndGetRootView(
-      @NonNull LayoutInflater inflater,
-      @Nullable ViewGroup container,
-      @Nullable Bundle savedInstanceState) {
-    viewBinding = FunConversationFragmentBinding.inflate(inflater, container, false);
-    initView();
-    viewBinding.funConversationFragmentTitleTv.setText("消息");
-    viewBinding.funConversationFragmentSearchIvIcon.setOnClickListener(v -> {
-              XKitRouter.withKey("SearchNewActivity")
-                .withContext(requireContext())
-                .navigate();
-    });
-    StatusBarUtils.setStatusBarLightMode(getActivity(), true, true);
-    ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) viewBinding.funConversationFragmentTopLl.getLayoutParams();
-    layoutParams.topMargin = BarUtils.getStatusBarHeight() + SizeUtils.dp2px(20);
-    viewBinding.funConversationFragmentTopLl.setLayoutParams(layoutParams);
-
-    new Timer().schedule(new TimerTask() {
-      @Override
-      public void run() {
-        // 这里写你想延时执行的代码
-        getActivity().runOnUiThread(new Runnable() {
-          @Override
-          public void run() {
-
-            requestMsg();
-          }
+    @Override
+    public View initViewAndGetRootView(
+            @NonNull LayoutInflater inflater,
+            @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState) {
+        viewBinding = FunConversationFragmentBinding.inflate(inflater, container, false);
+        initView();
+        viewBinding.funConversationFragmentTitleTv.setText("消息");
+        viewBinding.funConversationFragmentSearchIvIcon.setOnClickListener(v -> {
+            XKitRouter.withKey("SearchNewActivity")
+                    .withContext(requireContext())
+                    .navigate();
         });
-      }
-    }, 1500);
-    EventBus.getDefault().register(this);
-    searchWord();
-    return viewBinding.getRoot();
-  }
+        StatusBarUtils.setStatusBarLightMode(getActivity(), true, true);
+        ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) viewBinding.funConversationFragmentTopLl.getLayoutParams();
+        layoutParams.topMargin = BarUtils.getStatusBarHeight() + SizeUtils.dp2px(20);
+        viewBinding.funConversationFragmentTopLl.setLayoutParams(layoutParams);
 
-  @Override
-  public void onPause() {
-    super.onPause();
-    if (!AppProxy.searchKeyWord0.isEmpty()) {
-      viewBinding.funConversationFragmentEt.setText("");
-      AppProxy.searchKeyWord0 = "";
-      conversationView.adapter.notifyDataSetChanged();
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                // 这里写你想延时执行的代码
+                getActivity().runOnUiThread(() -> requestMsg());
+            }
+        }, 1500);
+        EventBus.getDefault().register(this);
+        searchWord();
+        return viewBinding.getRoot();
     }
 
-
-  }
-
-  void searchWord() {
-    viewBinding.funConversationFragmentEt.addTextChangedListener(new TextWatcher() {
-      @Override
-      public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-      }
-
-      @Override
-      public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-      }
-
-      @Override
-      public void afterTextChanged(Editable s) {
-        String string = s.toString();
-          AppProxy.getInstance().searchKeyWord0 = string;
-
-        conversationView.adapter.notifyDataSetChanged();
-      }
-    });
-  }
-  @Subscribe(threadMode = ThreadMode.MAIN)
-  public void onMessageEvent(BaseEvent event) {
-    if (event.getTag().equals("refresh_chat_list")) {
-      _needRefresh = true;
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        getMessageCount();
     }
-  }
 
-  @Override
-  public void onStart() {
-    super.onStart();
-    if (_needRefresh) {
-      _needRefresh = false;
-      requestMsg();
+    private void getMessageCount() {
+        nimUnread = 0;
+        sysNoticeUnread = 0;
+        applyUnread = 0;
+        finishCount = 0;
+        // 1. 网易云信未读
+        NIMClient.getService(MsgService.class).queryRecentContacts().setCallback(new RequestCallback<List<RecentContact>>() {
+            @Override
+            public void onSuccess(List<RecentContact> recents) {
+                for (RecentContact recent : recents) {
+                    nimUnread += recent.getUnreadCount();
+                }
+                onOneRequestFinish();
+            }
+
+            @Override
+            public void onFailed(int code) {
+                onOneRequestFinish();
+            }
+
+            @Override
+            public void onException(Throwable exception) {
+                onOneRequestFinish();
+            }
+        });
+
+        // 2. 系统通知未读
+        HttpUtil.apiW().customer_noticeList().enqueue(new CommonCallback<NetData>() {
+            @Override
+            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                Type type = new TypeToken<List<GroupInfoBean>>() {
+                }.getType();
+                List<GroupInfoBean> tempList = new Gson().fromJson(body.data.toString(), type);
+                int oldCount = PreferenceUtils.INSTANCE.getInt("sysNotice", 0);
+                sysNoticeUnread = Math.max(0, tempList.size() - oldCount);
+                onOneRequestFinish();
+            }
+
+            @Override
+            public void Failure(Call<NetData> call, Throwable t) {
+                onOneRequestFinish();
+            }
+        });
+
+        // 3. 好友申请未读
+        HttpUtil.apiW().friends_applyListNum(new RegisterBean()).enqueue(new CommonCallback<NetData>() {
+            @Override
+            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                GroupInfoBean applyNumBean = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
+                applyUnread = Math.max(0, applyNumBean.groupApplyNum);
+                onOneRequestFinish();
+            }
+
+            @Override
+            public void Failure(Call<NetData> call, Throwable t) {
+                onOneRequestFinish();
+            }
+        });
     }
-  }
 
-  @Override
-  protected void finishLoadData() {
-    super.finishLoadData();
-    _requestData();
-  }
+    // 每个请求完成后调用
+    private void onOneRequestFinish() {
+        finishCount++;
+        if (finishCount == TOTAL_REQUESTS) {
+            int totalUnread = nimUnread + sysNoticeUnread + applyUnread;
+            if (totalUnread > 0) {
+                viewBinding.tvNoticeCount.setVisibility(View.VISIBLE);
+                viewBinding.tvNoticeCount.setText(totalUnread + "");
+            } else {
+                viewBinding.tvNoticeCount.setVisibility(View.GONE);
+            }
+            finishCount = 0;
+        }
+    }
 
-  void _requestData() {
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (!AppProxy.searchKeyWord0.isEmpty()) {
+            viewBinding.funConversationFragmentEt.setText("");
+            AppProxy.searchKeyWord0 = "";
+            conversationView.adapter.notifyDataSetChanged();
+        }
 
-    HttpUtil.apiW().customer_notice()
-                    .enqueue(new CommonCallback<NetData>() {
-                      @Override
-                      public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        GroupInfoBean groupInfoBean = new Gson().fromJson(body.data.toString(),GroupInfoBean.class);
+
+    }
+
+    void searchWord() {
+        viewBinding.funConversationFragmentEt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String string = s.toString();
+                AppProxy.getInstance().searchKeyWord0 = string;
+                conversationView.adapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(BaseEvent event) {
+        if (event.getTag().equals("refresh_chat_list")) {
+            _needRefresh = true;
+        } else if ("refresh_notice".equals(event.getTag())) {
+            getMessageCount();
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (_needRefresh) {
+            _needRefresh = false;
+            requestMsg();
+        }
+    }
+
+    @Override
+    protected void finishLoadData() {
+        super.finishLoadData();
+        _requestData();
+    }
+
+    void _requestData() {
+
+        HttpUtil.apiW().customer_notice()
+                .enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                        GroupInfoBean groupInfoBean = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
                         if (groupInfoBean != null && groupInfoBean.content != null) {
 
-                          String message = groupInfoBean.content;
-                          if (message != null && !message.isEmpty()) {
-                            viewBinding.marqueeView.startWithText(message);
-                            viewBinding.marqueeView.startWithText(message, com.sunfusheng.marqueeview.R.anim.anim_bottom_in, com.sunfusheng.marqueeview.R.anim.anim_top_out);
-                          } else {
-                            message = "";
-                            viewBinding.marqueeView.startWithText(message);
-                            viewBinding.marqueeView.startWithText(message, com.sunfusheng.marqueeview.R.anim.anim_bottom_in, com.sunfusheng.marqueeview.R.anim.anim_top_out);
+                            String message = groupInfoBean.content;
+                            if (message != null && !message.isEmpty()) {
+                                viewBinding.marqueeView.startWithText(message);
+                                viewBinding.marqueeView.startWithText(message, com.sunfusheng.marqueeview.R.anim.anim_bottom_in, com.sunfusheng.marqueeview.R.anim.anim_top_out);
+                            } else {
+                                message = "";
+                                viewBinding.marqueeView.startWithText(message);
+                                viewBinding.marqueeView.startWithText(message, com.sunfusheng.marqueeview.R.anim.anim_bottom_in, com.sunfusheng.marqueeview.R.anim.anim_top_out);
 
-                          }
+                            }
                         } else {
 
-                          String message = "";
-                          viewBinding.marqueeView.startWithText(message);
-                          viewBinding.marqueeView.startWithText(message, com.sunfusheng.marqueeview.R.anim.anim_bottom_in, com.sunfusheng.marqueeview.R.anim.anim_top_out);
+                            String message = "";
+                            viewBinding.marqueeView.startWithText(message);
+                            viewBinding.marqueeView.startWithText(message, com.sunfusheng.marqueeview.R.anim.anim_bottom_in, com.sunfusheng.marqueeview.R.anim.anim_top_out);
 
                         }
-                      }
+                    }
 
-                      @Override
-                      public void Failure(Call<NetData> call, Throwable t) {
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
 
                         String message = "";
                         viewBinding.marqueeView.startWithText(message);
                         viewBinding.marqueeView.startWithText(message, com.sunfusheng.marqueeview.R.anim.anim_bottom_in, com.sunfusheng.marqueeview.R.anim.anim_top_out);
 
-                      }
-                    });
-
-
-    HttpUtil.apiW().group_userGroups(new RegisterBean())
-            .enqueue(new CommonCallback<NetData>() {
-              @Override
-              public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-
-                Type type = new TypeToken<List<GroupInfoBean>>() {
-                }.getType();
-
-                List<GroupInfoBean> dataList = new Gson().fromJson(body.data.toString(), type);
-
-                for (GroupInfoBean tempGroupInfo : dataList) {
-                  boolean hasConversation = false;
-                  for (ConversationBean tempCoversation : conversationList) {
-
-                    if (tempGroupInfo.groupId.equals((String) tempCoversation.param)) {
-                      hasConversation = true;
-                      break;
                     }
-                  }
-                  if (!hasConversation) {
-                    sendGroupMessage(tempGroupInfo.groupId);
-                  }
-                }
-              }
+                });
 
-              @Override
-              public void Failure(Call<NetData> call, Throwable t) {
 
-              }
-            });
+        HttpUtil.apiW().group_userGroups(new RegisterBean())
+                .enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-    HttpUtil.apiW().customer_systemAppUser(new RegisterBean())
-            .enqueue(new CommonCallback<NetData>() {
-              @Override
-              public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                        Type type = new TypeToken<List<GroupInfoBean>>() {
+                        }.getType();
 
-                String kefuId = body.data.toString().replace("\"", "");
-                requestKefu(kefuId);
+                        List<GroupInfoBean> dataList = new Gson().fromJson(body.data.toString(), type);
 
-                String xiaozhushouId = "10086";
-                DataUtil.putKeFuId(kefuId);
-                DataUtil.putXiaoZhuShouId(xiaozhushouId);
+                        for (GroupInfoBean tempGroupInfo : dataList) {
+                            boolean hasConversation = false;
+                            for (ConversationBean tempCoversation : conversationList) {
 
-                boolean hasKefu = false;
-                boolean hasXiaoZhushou = false;
+                                if (tempGroupInfo.groupId.equals((String) tempCoversation.param)) {
+                                    hasConversation = true;
+                                    break;
+                                }
+                            }
+                            if (!hasConversation) {
+                                sendGroupMessage(tempGroupInfo.groupId);
+                            }
+                        }
+                    }
 
-                for (ConversationBean tempBean :
-                        conversationList) {
-                  if (tempBean.infoData.getContactId().equals(kefuId)) {
-                    hasKefu = true;
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
 
-                  }
-                }
-                for (ConversationBean tempBean :
-                        conversationList) {
-                  if (tempBean.infoData.getContactId().equals(xiaozhushouId)) {
-                    hasXiaoZhushou = true;
+                    }
+                });
 
-                  }
-                }
-                if (!hasKefu) {
-                  sendMessage(kefuId);
-                }
-                if (!hasXiaoZhushou) {
-                  sendMessage(xiaozhushouId);
-                }
-              }
+        HttpUtil.apiW().customer_systemAppUser(new RegisterBean())
+                .enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-              @Override
-              public void Failure(Call<NetData> call, Throwable t) {
+                        String kefuId = body.data.toString().replace("\"", "");
+                        requestKefu(kefuId);
 
-              }
-            });
-  }
-  void requestKefu(String kefuId) {
-    RegisterBean bean = new RegisterBean();
-    bean.userId = kefuId;
-    HttpUtil.apiW().friends_searchByUserIdF(bean)
-            .enqueue(new CommonCallback<NetData>() {
-              @Override
-              public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                UserBean userBean = new Gson().fromJson(body.data.toString(), UserBean.class);
-                if ("0".equals(userBean.friend)) {
-                  RegisterBean bean = new RegisterBean();
-                  bean.memberCode = userBean.memberCode;
-                  bean.msg = "客服";
-                  HttpUtil.apiW().friends_addFriends(bean)
-                          .enqueue(new CommonCallback<NetData>() {
-                            @Override
-                            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                              NIMClient.getService(MsgService.class).clearChattingHistory(kefuId,SessionTypeEnum.P2P);
+                        String xiaozhushouId = "10086";
+                        DataUtil.putKeFuId(kefuId);
+                        DataUtil.putXiaoZhuShouId(xiaozhushouId);
+
+                        boolean hasKefu = false;
+                        boolean hasXiaoZhushou = false;
+
+                        for (ConversationBean tempBean :
+                                conversationList) {
+                            if (tempBean.infoData.getContactId().equals(kefuId)) {
+                                hasKefu = true;
+
+                            }
+                        }
+                        for (ConversationBean tempBean :
+                                conversationList) {
+                            if (tempBean.infoData.getContactId().equals(xiaozhushouId)) {
+                                hasXiaoZhushou = true;
+
+                            }
+                        }
+                        if (!hasKefu) {
+                            sendMessage(kefuId);
+                        }
+                        if (!hasXiaoZhushou) {
+                            sendMessage(xiaozhushouId);
+                        }
+                    }
+
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
+
+                    }
+                });
+    }
+
+    void requestKefu(String kefuId) {
+        RegisterBean bean = new RegisterBean();
+        bean.userId = kefuId;
+        HttpUtil.apiW().friends_searchByUserIdF(bean)
+                .enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                        UserBean userBean = new Gson().fromJson(body.data.toString(), UserBean.class);
+                        if ("0".equals(userBean.friend)) {
+                            RegisterBean bean = new RegisterBean();
+                            bean.memberCode = userBean.memberCode;
+                            bean.msg = "客服";
+                            HttpUtil.apiW().friends_addFriends(bean)
+                                    .enqueue(new CommonCallback<NetData>() {
+                                        @Override
+                                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                                            NIMClient.getService(MsgService.class).clearChattingHistory(kefuId, SessionTypeEnum.P2P);
 //                              NIMClient.getService(MsgService.class).clearServerHistory(kefuId,SessionTypeEnum.P2P);
-                            }
+                                        }
 
-                            @Override
-                            public void Failure(Call<NetData> call, Throwable t) {
+                                        @Override
+                                        public void Failure(Call<NetData> call, Throwable t) {
 
-                            }
-                          });
-                }
-              }
+                                        }
+                                    });
+                        }
+                    }
 
-              @Override
-              public void Failure(Call<NetData> call, Throwable t) {
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
 
-              }
-            });
-  }
+                    }
+                });
+    }
 
-  private void sendMessage(String account) {
-    // 自定义消息内容
+    private void sendMessage(String account) {
+        // 自定义消息内容
 //    Map<String, Object> content = new HashMap<>();
 //    content.put("type", "custom");
 //    content.put("data", "这是自定义会话记录的内容");
 
-    // 设置自定义消息配置
-    CustomMessageConfig config = new CustomMessageConfig();
-    config.enableUnreadCount = false; // 自定义消息不计入未读数
+        // 设置自定义消息配置
+        CustomMessageConfig config = new CustomMessageConfig();
+        config.enableUnreadCount = false; // 自定义消息不计入未读数
 
-    // 构建自定义消息
-    IMMessage message = MessageBuilder.createCustomMessage(account, SessionTypeEnum.P2P, null,
-            null, config, null);
+        // 构建自定义消息
+        IMMessage message = MessageBuilder.createCustomMessage(account, SessionTypeEnum.P2P, null,
+                null, config, null);
 
 
-    message.setConfig(config);
+        message.setConfig(config);
 
-    // 保存自定义消息
-    NIMClient.getService(MsgService.class).saveMessageToLocal(message, true).setCallback(new RequestCallback<Void>() {
-      @Override
-      public void onSuccess(Void param) {
-        NIMClient.getService(MsgService.class).clearChattingHistory(account,SessionTypeEnum.P2P);
+        // 保存自定义消息
+        NIMClient.getService(MsgService.class).saveMessageToLocal(message, true).setCallback(new RequestCallback<Void>() {
+            @Override
+            public void onSuccess(Void param) {
+                NIMClient.getService(MsgService.class).clearChattingHistory(account, SessionTypeEnum.P2P);
 //        NIMClient.getService(MsgService.class).clearServerHistory(account,SessionTypeEnum.P2P);
-        // 保存成功
-      }
+                // 保存成功
+            }
 
-      @Override
-      public void onFailed(int code) {
-        // 保存失败
-      }
+            @Override
+            public void onFailed(int code) {
+                // 保存失败
+            }
 
-      @Override
-      public void onException(Throwable exception) {
-        // 保存异常
-      }
-    });
-  }
-  private void sendGroupMessage(String account) {
-    // 自定义消息内容
+            @Override
+            public void onException(Throwable exception) {
+                // 保存异常
+            }
+        });
+    }
+
+    private void sendGroupMessage(String account) {
+        // 自定义消息内容
 //    Map<String, Object> content = new HashMap<>();
 //    content.put("type", "custom");
 //    content.put("data", "这是自定义会话记录的内容");
 
-    // 设置自定义消息配置
-    CustomMessageConfig config = new CustomMessageConfig();
-    config.enableUnreadCount = false; // 自定义消息不计入未读数
+        // 设置自定义消息配置
+        CustomMessageConfig config = new CustomMessageConfig();
+        config.enableUnreadCount = false; // 自定义消息不计入未读数
 
-    // 构建自定义消息
-    IMMessage message = MessageBuilder.createCustomMessage(account, SessionTypeEnum.Team, null,
-            null, config, null);
+        // 构建自定义消息
+        IMMessage message = MessageBuilder.createCustomMessage(account, SessionTypeEnum.Team, null,
+                null, config, null);
 //    IMMessage message1 = MessageBuilder.createEmptyMessage()
 
-    message.setConfig(config);
+        message.setConfig(config);
 
-    // 保存自定义消息
-    NIMClient.getService(MsgService.class).saveMessageToLocal(message, true).setCallback(new RequestCallback<Void>() {
-      @Override
-      public void onSuccess(Void param) {
-        NIMClient.getService(MsgService.class).clearChattingHistory(account,SessionTypeEnum.Team);
+        // 保存自定义消息
+        NIMClient.getService(MsgService.class).saveMessageToLocal(message, true).setCallback(new RequestCallback<Void>() {
+            @Override
+            public void onSuccess(Void param) {
+                NIMClient.getService(MsgService.class).clearChattingHistory(account, SessionTypeEnum.Team);
 //        NIMClient.getService(MsgService.class).clearServerHistory(account,SessionTypeEnum.Team);
-        // 保存成功
-      }
+                // 保存成功
+            }
 
-      @Override
-      public void onFailed(int code) {
-        // 保存失败
-      }
+            @Override
+            public void onFailed(int code) {
+                // 保存失败
+            }
 
-      @Override
-      public void onException(Throwable exception) {
-        // 保存异常
-      }
-    });
-  }
-  // 发送消息的方法
+            @Override
+            public void onException(Throwable exception) {
+                // 保存异常
+            }
+        });
+    }
+// 发送消息的方法
 //  public void sendMessage(String account, String messageText) {
 //    // 创建一个文本消息
 //    IMMessage message = MessageBuilder.createTextMessage(
@@ -430,64 +516,64 @@ public class FunConversationFragment extends ConversationBaseFragment {
 //    });
 //  }
 
-  private void initView() {
-    conversationView = viewBinding.conversationView;
+    private void initView() {
+        conversationView = viewBinding.conversationView;
 
 
-    networkErrorView = viewBinding.errorTv;
-    emptyView = viewBinding.emptyLayout;
+        networkErrorView = viewBinding.errorTv;
+        emptyView = viewBinding.emptyLayout;
 
-    setViewHolderFactory(new FunViewHolderFactory());
-    viewBinding.conversationView.addItemDecoration(getItemDecoration());
+        setViewHolderFactory(new FunViewHolderFactory());
+        viewBinding.conversationView.addItemDecoration(getItemDecoration());
 //    viewBinding.funConversationFragmentNav.clearLeftMenu();
-    _initHeadCell();
-    loadUIConfig();
-    _initTopStatus(0);
-    conversationView.setData(conversationList);
-    viewBinding.funConversationFragmentSearchIv.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
+        _initHeadCell();
+        loadUIConfig();
+        _initTopStatus(0);
+        conversationView.setData(conversationList);
+        viewBinding.funConversationFragmentSearchIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 //        XKitRouter.withKey("SearchNewActivity")
 //                .withContext(requireContext())
 //                .navigate();
-        FunSystem_Notice_New_Activity.start(FunSystem_Notice_New_Activity.class,getContext(),null);
-      }
-    });
+                FunSystem_Notice_New_Activity.start(FunSystem_Notice_New_Activity.class, getContext(), null);
+            }
+        });
 
-    viewBinding.funConversationFragmentMoreIv.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        Context context = getContext();
-        int memberLimit = ConversationUIConstant.MAX_TEAM_MEMBER;
-        ContentListPopView contentListPopView =
-                new ContentListPopView.Builder(context)
-                        .addItem(FunPopItemFactory.getCreateAdvancedTeamItem(context, memberLimit))
-                        .addItem(FunPopItemFactory.getDivideLineItem(context))
-                        .addItem(FunPopItemFactory.getAddFriendItem(context))
-                        .addItem(FunPopItemFactory.getDivideLineItem(context))
-                        .addItem(FunPopItemFactory.getScanItem(context))
-                        .enableShadow(false)
-                        .backgroundRes(R.drawable.fun_conversation_view_pop_bg)
-                        .build();
-        contentListPopView.showAsDropDown(
-                v, (int) requireContext().getResources().getDimension(R.dimen.pop_margin_right), 0);
-      }
-    });
-  }
-
-  void doOptWithIndex(int index) {
-    if (index == 0) {
-      XKitRouter.withKey(com.yaoxin.appbase.net.Constant.FunSelected_User_ActivityKey)
-              .withContext(getContext())
-              .withParam("type","1")
-              .navigate();
-    } else if (index == 1) {
-
-    } else if (index == 2) {
-      XKitRouter.withKey(PATH_FUN_ADD_FRIEND_PAGE).withContext(getContext()).navigate();
-    } else if (index == 3) {
-      EventBus.getDefault().post(new BaseEvent("gotoScan"));
+        viewBinding.funConversationFragmentMoreIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context context = getContext();
+                int memberLimit = ConversationUIConstant.MAX_TEAM_MEMBER;
+                ContentListPopView contentListPopView =
+                        new ContentListPopView.Builder(context)
+                                .addItem(FunPopItemFactory.getCreateAdvancedTeamItem(context, memberLimit))
+                                .addItem(FunPopItemFactory.getDivideLineItem(context))
+                                .addItem(FunPopItemFactory.getAddFriendItem(context))
+                                .addItem(FunPopItemFactory.getDivideLineItem(context))
+                                .addItem(FunPopItemFactory.getScanItem(context))
+                                .enableShadow(false)
+                                .backgroundRes(R.drawable.fun_conversation_view_pop_bg)
+                                .build();
+                contentListPopView.showAsDropDown(
+                        v, (int) requireContext().getResources().getDimension(R.dimen.pop_margin_right), 0);
+            }
+        });
     }
+
+    void doOptWithIndex(int index) {
+        if (index == 0) {
+            XKitRouter.withKey(com.yaoxin.appbase.net.Constant.FunSelected_User_ActivityKey)
+                    .withContext(getContext())
+                    .withParam("type", "1")
+                    .navigate();
+        } else if (index == 1) {
+
+        } else if (index == 2) {
+            XKitRouter.withKey(PATH_FUN_ADD_FRIEND_PAGE).withContext(getContext()).navigate();
+        } else if (index == 3) {
+            EventBus.getDefault().post(new BaseEvent("gotoScan"));
+        }
 //    AppProxy.getInstance().showType = index;
 //    conversationView.adapter.notifyDataSetChanged();
 //    List<ConversationBean> tempList = new ArrayList<>();
@@ -530,8 +616,9 @@ public class FunConversationFragment extends ConversationBaseFragment {
 //      }
 //      conversationView.setData(tempArr);
 //    }
-  }
-  private void _initHeadCell() {
+    }
+
+    private void _initHeadCell() {
 //    viewBinding.funConversationFragmentHeadAll.viewConversationHeadItemIv.setImageResource(R.drawable.conversation_list_index_msg_icon);
 //    viewBinding.funConversationFragmentHeadAll.viewConversationHeadItemTv.setText("发起群聊");
 //    viewBinding.funConversationFragmentHeadAll.viewConversationHeadItemLl.setOnClickListener(new View.OnClickListener() {
@@ -573,10 +660,10 @@ public class FunConversationFragment extends ConversationBaseFragment {
 //      }
 //    });
 
-  }
+    }
 
-  void _initTopStatus(int index) {
-    topIndex = index;
+    void _initTopStatus(int index) {
+        topIndex = index;
 //    viewBinding.funConversationFragmentHeadNotice.viewConversationHeadItemTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.black));
 //    viewBinding.funConversationFragmentHeadGroup.viewConversationHeadItemTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.black));
 //    viewBinding.funConversationFragmentHeadSingle.viewConversationHeadItemTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.black));
@@ -598,83 +685,83 @@ public class FunConversationFragment extends ConversationBaseFragment {
 //        break;
 //    }
 
-  }
-  public RecyclerView.ItemDecoration getItemDecoration() {
-    return new RecyclerView.ItemDecoration() {
-      final int topPadding = SizeUtils.dp2px(0.25f);
-      final int indent = SizeUtils.dp2px(76);
+    }
 
-      @Override
-      public void onDrawOver(
-          @NonNull Canvas canvas, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
-        int left = parent.getPaddingLeft() + indent;
-        int right = parent.getWidth() - parent.getPaddingRight();
+    public RecyclerView.ItemDecoration getItemDecoration() {
+        return new RecyclerView.ItemDecoration() {
+            final int topPadding = SizeUtils.dp2px(0.25f);
+            final int indent = SizeUtils.dp2px(76);
 
-        int childCount = parent.getChildCount();
-        for (int i = 0; i < childCount - 1; i++) {
-          View child = parent.getChildAt(i);
+            @Override
+            public void onDrawOver(
+                    @NonNull Canvas canvas, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
+                int left = parent.getPaddingLeft() + indent;
+                int right = parent.getWidth() - parent.getPaddingRight();
 
-          RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
+                int childCount = parent.getChildCount();
+                for (int i = 0; i < childCount - 1; i++) {
+                    View child = parent.getChildAt(i);
 
-          int top = child.getBottom() + params.bottomMargin;
-          int bottom = top + topPadding;
+                    RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
 
-          Paint paint = new Paint();
-          paint.setColor(
-              parent.getResources().getColor(R.color.fun_conversation_item_divide_line_color));
-          canvas.drawRect(left, top, right, bottom, paint);
+                    int top = child.getBottom() + params.bottomMargin;
+                    int bottom = top + topPadding;
+
+                    Paint paint = new Paint();
+                    paint.setColor(
+                            parent.getResources().getColor(R.color.fun_conversation_item_divide_line_color));
+                    canvas.drawRect(left, top, right, bottom, paint);
+                }
+            }
+        };
+    }
+
+    private void loadUIConfig() {
+        if (ConversationKitClient.getConversationUIConfig() == null) {
+            return;
         }
-      }
-    };
-  }
-
-  private void loadUIConfig() {
-    if (ConversationKitClient.getConversationUIConfig() == null) {
-      return;
-    }
-    ConversationUIConfig config = ConversationKitClient.getConversationUIConfig();
+        ConversationUIConfig config = ConversationKitClient.getConversationUIConfig();
 
 
-    if (config.conversationComparator != null) {
-      setComparator(config.conversationComparator);
-    }
+        if (config.conversationComparator != null) {
+            setComparator(config.conversationComparator);
+        }
 
-    if (config.conversationFactory != null) {
-      setViewHolderFactory(config.conversationFactory);
-    }
+        if (config.conversationFactory != null) {
+            setViewHolderFactory(config.conversationFactory);
+        }
 //    titleBarView.setVisibility(View.GONE);
 
-    if (config.customLayout != null) {
-      config.customLayout.customizeConversationLayout(this);
+        if (config.customLayout != null) {
+            config.customLayout.customizeConversationLayout(this);
+        }
     }
-  }
+    
+    public LinearLayout getTopLayout() {
+        return viewBinding.topLayout;
+    }
 
+    public LinearLayout getBodyLayout() {
+        return viewBinding.bodyLayout;
+    }
 
-  public LinearLayout getTopLayout() {
-    return viewBinding.topLayout;
-  }
+    public FrameLayout getBottomLayout() {
+        return viewBinding.bottomLayout;
+    }
 
-  public LinearLayout getBodyLayout() {
-    return viewBinding.bodyLayout;
-  }
+    public FrameLayout getBodyTopLayout() {
+        return viewBinding.bodyTopLayout;
+    }
 
-  public FrameLayout getBottomLayout() {
-    return viewBinding.bottomLayout;
-  }
+    public TextView getErrorTextView() {
+        return viewBinding.errorTv;
+    }
 
-  public FrameLayout getBodyTopLayout() {
-    return viewBinding.bodyTopLayout;
-  }
+    public void setEmptyViewVisible(int visible) {
+        viewBinding.emptyLayout.setVisibility(visible);
+    }
 
-  public TextView getErrorTextView() {
-    return viewBinding.errorTv;
-  }
-
-  public void setEmptyViewVisible(int visible) {
-    viewBinding.emptyLayout.setVisibility(visible);
-  }
-
-  public View getEmptyView() {
-    return viewBinding.emptyLayout;
-  }
+    public View getEmptyView() {
+        return viewBinding.emptyLayout;
+    }
 }

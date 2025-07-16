@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.netease.yunxin.kit.contactkit.ui.databinding.ActivitySystemNoticeNewBinding;
 import com.netease.yunxin.kit.contactkit.ui.normal.contact.adapter.System_noticeAdapter;
+import com.netease.yunxin.kit.corekit.im.utils.PreferenceUtils;
 import com.yaoxin.appbase.activity.BaseActivity;
 import com.yaoxin.appbase.model.GroupInfoBean;
 import com.yaoxin.appbase.model.NetData;
@@ -25,13 +26,13 @@ import retrofit2.Response;
 public class SystemNotice_NewActivity extends BaseActivity implements View.OnClickListener {
     ActivitySystemNoticeNewBinding binding;
     System_noticeAdapter adapter = new System_noticeAdapter();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivitySystemNoticeNewBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         binding.activitySystemNoticeNewNav.addCloseImageButton().setOnClickListener(this);
-
         binding.activitySystemNoticeNewRv1.setLayoutManager(new LinearLayoutManager(this));
         binding.activitySystemNoticeNewRv1.setAdapter(adapter);
 
@@ -44,10 +45,12 @@ public class SystemNotice_NewActivity extends BaseActivity implements View.OnCli
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        Type type = new TypeToken<List<GroupInfoBean>>() {}.getType();
+                        Type type = new TypeToken<List<GroupInfoBean>>() {
+                        }.getType();
                         List<GroupInfoBean> tempList = new Gson().fromJson(body.data.toString(), type);
                         adapter.setItems(tempList);
                         adapter.notifyDataSetChanged();
+                        PreferenceUtils.INSTANCE.saveInt("sysNotice", tempList.size());
                     }
 
                     @Override

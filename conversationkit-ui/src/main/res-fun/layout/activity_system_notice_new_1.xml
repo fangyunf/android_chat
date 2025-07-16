@@ -9,9 +9,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_white"
-
     android:orientation="vertical">
-
 
     <com.yaoxin.appbase.navbar.NavToolbar
         android:id="@+id/activity_system_notice_new_nav"
@@ -22,9 +20,7 @@
         app:support_translucent_status_bar="false"
         app:title="系统通知"
         app:title_text_color="@color/color_333333"
-        app:under_divider_color="@color/transparent"
-
-        />
+        app:under_divider_color="@color/transparent" />
 
     <LinearLayout
         android:id="@+id/activity_system_notice_new_xttz_ll"

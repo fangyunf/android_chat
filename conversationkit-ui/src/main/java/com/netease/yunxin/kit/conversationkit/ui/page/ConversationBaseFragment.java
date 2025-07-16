@@ -63,7 +63,6 @@ public abstract class ConversationBaseFragment extends BaseFragment implements I
     private final String TAG = "ConversationFragment";
     protected ConversationViewModel viewModel;
     private IConversationCallback conversationCallback;
-
     private Observer<FetchResult<List<ConversationBean>>> changeObserver;
     private Observer<FetchResult<ConversationBean>> stickObserver;
     private Observer<FetchResult<List<UserInfo>>> userInfoObserver;
