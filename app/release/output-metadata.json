@@ -11,9 +11,9 @@
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 3,
-      "versionName": "1.0.24",
-      "outputFile": "xiaohaitun_release_v1.0.24.apk"
+      "versionCode": 4,
+      "versionName": "1.0.25",
+      "outputFile": "xiaohaitun_release_v1.0.25.apk"
     }
   ],
   "elementType": "File"

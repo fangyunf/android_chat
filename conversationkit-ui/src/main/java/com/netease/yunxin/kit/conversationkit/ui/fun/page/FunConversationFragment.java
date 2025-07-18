@@ -137,12 +137,10 @@ public class FunConversationFragment extends ConversationBaseFragment {
         applyUnread = 0;
         finishCount = 0;
         // 1. 网易云信未读
-        NIMClient.getService(MsgService.class).queryRecentContacts().setCallback(new RequestCallback<List<RecentContact>>() {
+        NIMClient.getService(MsgService.class).queryUnreadMessageList(DataUtil.getUserid(), SessionTypeEnum.P2P).setCallback(new RequestCallback<List<IMMessage>>() {
             @Override
-            public void onSuccess(List<RecentContact> recents) {
-                for (RecentContact recent : recents) {
-                    nimUnread += recent.getUnreadCount();
-                }
+            public void onSuccess(List<IMMessage> result) {
+                nimUnread += result.size();
                 onOneRequestFinish();
             }
 
@@ -156,6 +154,27 @@ public class FunConversationFragment extends ConversationBaseFragment {
                 onOneRequestFinish();
             }
         });
+//        NIMClient.getService(MsgService.class).queryRecentContacts().setCallback(new RequestCallback<List<RecentContact>>() {
+//            @Override
+//            public void onSuccess(List<RecentContact> recents) {
+//                for (RecentContact recent : recents) {
+//                    if (recent.getContactId().equals(DataUtil.getUserid())) {  // targetId 是你要查询的会话ID
+//                        nimUnread += recent.getUnreadCount();
+//                    }
+//                }
+//                onOneRequestFinish();
+//            }
+//
+//            @Override
+//            public void onFailed(int code) {
+//                onOneRequestFinish();
+//            }
+//
+//            @Override
+//            public void onException(Throwable exception) {
+//                onOneRequestFinish();
+//            }
+//        });
 
         // 2. 系统通知未读
         HttpUtil.apiW().customer_noticeList().enqueue(new CommonCallback<NetData>() {
@@ -518,8 +537,6 @@ public class FunConversationFragment extends ConversationBaseFragment {
 
     private void initView() {
         conversationView = viewBinding.conversationView;
-
-
         networkErrorView = viewBinding.errorTv;
         emptyView = viewBinding.emptyLayout;
 
@@ -736,7 +753,7 @@ public class FunConversationFragment extends ConversationBaseFragment {
             config.customLayout.customizeConversationLayout(this);
         }
     }
-    
+
     public LinearLayout getTopLayout() {
         return viewBinding.topLayout;
     }

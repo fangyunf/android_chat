@@ -20,6 +20,7 @@ import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
+import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
 import com.netease.yunxin.kit.conversationkit.ui.databinding.ActivityFunSelectedUserBinding;
 import com.netease.yunxin.kit.conversationkit.ui.databinding.ActivitySystemNoticeNew1Binding;
@@ -69,53 +70,75 @@ public class FunSystem_Notice_New_Activity extends BaseActivity implements View.
     }
 
     private void getMessageCount() {
-        HttpUtil.apiW().customer_noticeList()
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        Type type = new TypeToken<List<GroupInfoBean>>() {
-                        }.getType();
-                        List<GroupInfoBean> tempList = new Gson().fromJson(body.data.toString(), type);
-                        int oldCount = PreferenceUtils.INSTANCE.getInt("sysNotice", 0);
-                        if (tempList.size() - oldCount > 0) {
-                            binding.activitySystemNoticeNewXttzNumTv.setVisibility(View.VISIBLE);
-                            binding.activitySystemNoticeNewXttzNumTv.setText((tempList.size() - oldCount) + "");
-                        } else {
-                            binding.activitySystemNoticeNewXttzNumTv.setVisibility(View.GONE);
-                        }
-                    }
-
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
-
-                    }
-                });
-
-        NIMClient.getService(MsgService.class).queryRecentContacts().setCallback(new RequestCallback<List<RecentContact>>() {
+        HttpUtil.apiW().customer_noticeList().enqueue(new CommonCallback<NetData>() {
             @Override
-            public void onSuccess(List<RecentContact> recents) {
-                for (RecentContact recent : recents) {
-                    if (recent.getContactId().equals(DataUtil.getUserid())) {  // targetId 是你要查询的会话ID
-                        int unreadCount = recent.getUnreadCount(); // 获取未读数
-                        if (unreadCount > 0) {
-                            binding.activitySystemNoticeNewQbxxNumTv.setVisibility(View.VISIBLE);
-                            binding.activitySystemNoticeNewQbxxNumTv.setText(unreadCount + "");
-                        } else {
-                            binding.activitySystemNoticeNewQbxxNumTv.setVisibility(View.GONE);
-                        }
-                        break;
-                    }
+            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                Type type = new TypeToken<List<GroupInfoBean>>() {
+                }.getType();
+                List<GroupInfoBean> tempList = new Gson().fromJson(body.data.toString(), type);
+                int oldCount = PreferenceUtils.INSTANCE.getInt("sysNotice", 0);
+                if (tempList.size() - oldCount > 0) {
+                    binding.activitySystemNoticeNewXttzNumTv.setVisibility(View.VISIBLE);
+                    binding.activitySystemNoticeNewXttzNumTv.setText((tempList.size() - oldCount) + "");
+                } else {
+                    binding.activitySystemNoticeNewXttzNumTv.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void Failure(Call<NetData> call, Throwable t) {
+
+            }
+        });
+
+        NIMClient.getService(MsgService.class).queryUnreadMessageList(DataUtil.getUserid(), SessionTypeEnum.P2P).setCallback(new RequestCallback<List<IMMessage>>() {
+            @Override
+            public void onSuccess(List<IMMessage> result) {
+                int unreadCount = result.size(); // 获取未读数
+                if (unreadCount > 0) {
+                    binding.activitySystemNoticeNewQbxxNumTv.setVisibility(View.VISIBLE);
+                    binding.activitySystemNoticeNewQbxxNumTv.setText(unreadCount + "");
+                } else {
+                    binding.activitySystemNoticeNewQbxxNumTv.setVisibility(View.GONE);
                 }
             }
 
             @Override
             public void onFailed(int code) {
+
             }
 
             @Override
             public void onException(Throwable exception) {
+
             }
         });
+
+//        NIMClient.getService(MsgService.class).queryRecentContacts().setCallback(new RequestCallback<List<RecentContact>>() {
+//            @Override
+//            public void onSuccess(List<RecentContact> recents) {
+//                for (RecentContact recent : recents) {
+//                    if (recent.getContactId().equals(DataUtil.getUserid())) {  // targetId 是你要查询的会话ID
+//                        int unreadCount = recent.getUnreadCount(); // 获取未读数
+//                        if (unreadCount > 0) {
+//                            binding.activitySystemNoticeNewQbxxNumTv.setVisibility(View.VISIBLE);
+//                            binding.activitySystemNoticeNewQbxxNumTv.setText(unreadCount + "");
+//                        } else {
+//                            binding.activitySystemNoticeNewQbxxNumTv.setVisibility(View.GONE);
+//                        }
+//                        break;
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onFailed(int code) {
+//            }
+//
+//            @Override
+//            public void onException(Throwable exception) {
+//            }
+//        });
 
         HttpUtil.apiW().friends_applyListNum(new RegisterBean()).enqueue(new CommonCallback<NetData>() {
             @Override

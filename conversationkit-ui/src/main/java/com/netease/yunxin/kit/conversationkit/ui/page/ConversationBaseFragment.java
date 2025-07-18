@@ -60,8 +60,34 @@ import java.util.List;
  */
 public abstract class ConversationBaseFragment extends BaseFragment implements ILoadListener {
 
+    public final long MSG_UNREAD_COUNT_INTERVAL = 1000;
     private final String TAG = "ConversationFragment";
     protected ConversationViewModel viewModel;
+    protected IConversationFactory conversationFactory;
+    protected ConversationView conversationView;
+    protected TitleBarView titleBarView;
+    protected View networkErrorView;
+    private final NetworkUtils.NetworkStateListener networkStateListener =
+            new NetworkUtils.NetworkStateListener() {
+
+                @Override
+                public void onConnected(NetworkUtils.NetworkType networkType) {
+                    if (networkErrorView == null) {
+                        return;
+                    }
+                    networkErrorView.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onDisconnected() {
+                    if (networkErrorView == null) {
+                        return;
+                    }
+                    networkErrorView.setVisibility(View.VISIBLE);
+                }
+            };
+    protected View emptyView;
+    protected List<ConversationBean> conversationList = new ArrayList<>();
     private IConversationCallback conversationCallback;
     private Observer<FetchResult<List<ConversationBean>>> changeObserver;
     private Observer<FetchResult<ConversationBean>> stickObserver;
@@ -72,23 +98,35 @@ public abstract class ConversationBaseFragment extends BaseFragment implements I
     private Observer<FetchResult<String>> addRemoveStickObserver;
     private Observer<FetchResult<List<String>>> aitObserver;
     private Observer<FetchResult<List<Integer>>> unreadCountObserver;
-
-    protected IConversationFactory conversationFactory;
-
-    protected ConversationView conversationView;
-
-    protected TitleBarView titleBarView;
-
-    protected View networkErrorView;
-
-    protected View emptyView;
-
     private long msgUnreadCountTime = 0;
-
-    public final long MSG_UNREAD_COUNT_INTERVAL = 1000;
-
     private Handler conversationHandler = new Handler();
-    protected List<ConversationBean> conversationList = new ArrayList<>();
+    private Comparator<ConversationInfo> conversationComparator =
+            (bean1, bean2) -> {
+                int result;
+                if (bean1 == null) {
+                    result = 1;
+                } else if (bean2 == null) {
+                    result = -1;
+                } else if (bean1.isStickTop() == bean2.isStickTop()) {
+                    long time = bean1.getTime() - bean2.getTime();
+                    result = time == 0L ? 0 : (time > 0 ? -1 : 1);
+
+                } else {
+                    result = bean1.isStickTop() ? -1 : 1;
+                }
+                ALog.d(LIB_TAG, TAG, "conversationComparator, result:" + result);
+                return result;
+            };
+    private Runnable msgUnreadCountRunnable =
+            new Runnable() {
+                @Override
+                public void run() {
+                    if (viewModel != null) {
+                        viewModel.getUnreadCount();
+                        ALog.d(LIB_TAG, TAG, "msgUnreadCountRunnable:getUnreadCount");
+                    }
+                }
+            };
 
     public abstract View initViewAndGetRootView(
             @NonNull LayoutInflater inflater,
@@ -495,24 +533,6 @@ public abstract class ConversationBaseFragment extends BaseFragment implements I
         }
     }
 
-    private Comparator<ConversationInfo> conversationComparator =
-            (bean1, bean2) -> {
-                int result;
-                if (bean1 == null) {
-                    result = 1;
-                } else if (bean2 == null) {
-                    result = -1;
-                } else if (bean1.isStickTop() == bean2.isStickTop()) {
-                    long time = bean1.getTime() - bean2.getTime();
-                    result = time == 0L ? 0 : (time > 0 ? -1 : 1);
-
-                } else {
-                    result = bean1.isStickTop() ? -1 : 1;
-                }
-                ALog.d(LIB_TAG, TAG, "conversationComparator, result:" + result);
-                return result;
-            };
-
     protected List<ActionItem> generateDialogContent(boolean isStick) {
         List<ActionItem> contentList = new ArrayList<>();
         ActionItem stick =
@@ -542,17 +562,6 @@ public abstract class ConversationBaseFragment extends BaseFragment implements I
         }
     }
 
-    private Runnable msgUnreadCountRunnable =
-            new Runnable() {
-                @Override
-                public void run() {
-                    if (viewModel != null) {
-                        viewModel.getUnreadCount();
-                        ALog.d(LIB_TAG, TAG, "msgUnreadCountRunnable:getUnreadCount");
-                    }
-                }
-            };
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -561,26 +570,6 @@ public abstract class ConversationBaseFragment extends BaseFragment implements I
         }
         unregisterObserver();
     }
-
-    private final NetworkUtils.NetworkStateListener networkStateListener =
-            new NetworkUtils.NetworkStateListener() {
-
-                @Override
-                public void onConnected(NetworkUtils.NetworkType networkType) {
-                    if (networkErrorView == null) {
-                        return;
-                    }
-                    networkErrorView.setVisibility(View.GONE);
-                }
-
-                @Override
-                public void onDisconnected() {
-                    if (networkErrorView == null) {
-                        return;
-                    }
-                    networkErrorView.setVisibility(View.VISIBLE);
-                }
-            };
 
     @Override
     public boolean hasMore() {
