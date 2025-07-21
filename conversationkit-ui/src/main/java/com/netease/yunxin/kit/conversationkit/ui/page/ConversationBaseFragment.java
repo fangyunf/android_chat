@@ -67,25 +67,24 @@ public abstract class ConversationBaseFragment extends BaseFragment implements I
     protected ConversationView conversationView;
     protected TitleBarView titleBarView;
     protected View networkErrorView;
-    private final NetworkUtils.NetworkStateListener networkStateListener =
-            new NetworkUtils.NetworkStateListener() {
+    private final NetworkUtils.NetworkStateListener networkStateListener = new NetworkUtils.NetworkStateListener() {
 
-                @Override
-                public void onConnected(NetworkUtils.NetworkType networkType) {
-                    if (networkErrorView == null) {
-                        return;
-                    }
-                    networkErrorView.setVisibility(View.GONE);
-                }
+        @Override
+        public void onConnected(NetworkUtils.NetworkType networkType) {
+            if (networkErrorView == null) {
+                return;
+            }
+            networkErrorView.setVisibility(View.GONE);
+        }
 
-                @Override
-                public void onDisconnected() {
-                    if (networkErrorView == null) {
-                        return;
-                    }
-                    networkErrorView.setVisibility(View.VISIBLE);
-                }
-            };
+        @Override
+        public void onDisconnected() {
+            if (networkErrorView == null) {
+                return;
+            }
+            networkErrorView.setVisibility(View.VISIBLE);
+        }
+    };
     protected View emptyView;
     protected List<ConversationBean> conversationList = new ArrayList<>();
     private IConversationCallback conversationCallback;
@@ -100,45 +99,37 @@ public abstract class ConversationBaseFragment extends BaseFragment implements I
     private Observer<FetchResult<List<Integer>>> unreadCountObserver;
     private long msgUnreadCountTime = 0;
     private Handler conversationHandler = new Handler();
-    private Comparator<ConversationInfo> conversationComparator =
-            (bean1, bean2) -> {
-                int result;
-                if (bean1 == null) {
-                    result = 1;
-                } else if (bean2 == null) {
-                    result = -1;
-                } else if (bean1.isStickTop() == bean2.isStickTop()) {
-                    long time = bean1.getTime() - bean2.getTime();
-                    result = time == 0L ? 0 : (time > 0 ? -1 : 1);
+    private Comparator<ConversationInfo> conversationComparator = (bean1, bean2) -> {
+        int result;
+        if (bean1 == null) {
+            result = 1;
+        } else if (bean2 == null) {
+            result = -1;
+        } else if (bean1.isStickTop() == bean2.isStickTop()) {
+            long time = bean1.getTime() - bean2.getTime();
+            result = time == 0L ? 0 : (time > 0 ? -1 : 1);
 
-                } else {
-                    result = bean1.isStickTop() ? -1 : 1;
-                }
-                ALog.d(LIB_TAG, TAG, "conversationComparator, result:" + result);
-                return result;
-            };
-    private Runnable msgUnreadCountRunnable =
-            new Runnable() {
-                @Override
-                public void run() {
-                    if (viewModel != null) {
-                        viewModel.getUnreadCount();
-                        ALog.d(LIB_TAG, TAG, "msgUnreadCountRunnable:getUnreadCount");
-                    }
-                }
-            };
+        } else {
+            result = bean1.isStickTop() ? -1 : 1;
+        }
+        ALog.d(LIB_TAG, TAG, "conversationComparator, result:" + result);
+        return result;
+    };
+    private Runnable msgUnreadCountRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (viewModel != null) {
+                viewModel.getUnreadCount();
+                ALog.d(LIB_TAG, TAG, "msgUnreadCountRunnable:getUnreadCount");
+            }
+        }
+    };
 
-    public abstract View initViewAndGetRootView(
-            @NonNull LayoutInflater inflater,
-            @Nullable ViewGroup container,
-            @Nullable Bundle savedInstanceState);
+    public abstract View initViewAndGetRootView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState);
 
     @Nullable
     @Override
-    public View onCreateView(
-            @NonNull LayoutInflater inflater,
-            @Nullable ViewGroup container,
-            @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return initViewAndGetRootView(inflater, container, savedInstanceState);
     }
 
@@ -165,43 +156,40 @@ public abstract class ConversationBaseFragment extends BaseFragment implements I
     }
 
     protected void requestMsg() {
-        viewModel
-                .getQueryLiveData()
-                .observe(
-                        this.getViewLifecycleOwner(),
-                        result -> {
-                            if (conversationView != null) {
+        viewModel.getQueryLiveData().observe(this.getViewLifecycleOwner(), result -> {
+            if (conversationView != null) {
 //                conversationView._type = _type;
-                                conversationList = result.getData();
+                conversationList = result.getData();
 
-                                ArrayList<ConversationBean> tempList = new ArrayList<>();
-                                if (conversationList != null) {
-                                    for (ConversationBean tempBean : conversationList) {
-                                        String userid = DataUtil.getUserid();
-                                        String targetUserId = (String) tempBean.param;
-                                        if (!userid.equals(targetUserId)) {
-                                            tempList.add(tempBean);
-                                        }
-                                    }
-                                }
-                                conversationList = tempList;
-                                finishLoadData();
-                                if (result.getLoadStatus() == LoadStatus.Success) {
-                                    conversationView.setData(tempList);
-                                } else if (result.getLoadStatus() == LoadStatus.Finish) {
-                                    conversationView.addData(tempList);
-                                }
+                ArrayList<ConversationBean> tempList = new ArrayList<>();
+                if (conversationList != null) {
+//                    for (ConversationBean tempBean : conversationList) {
+//                        String userid = DataUtil.getUserid();
+//                        String targetUserId = (String) tempBean.param;
+//                        if (!userid.equals(targetUserId)) {
+//                            tempList.add(tempBean);
+//                        }
+//                    }
+                    tempList.addAll(conversationList);
+                }
+                conversationList = tempList;
+                finishLoadData();
+                if (result.getLoadStatus() == LoadStatus.Success) {
+                    conversationView.setData(tempList);
+                } else if (result.getLoadStatus() == LoadStatus.Finish) {
+                    conversationView.addData(tempList);
+                }
 
-                                if (emptyView != null) {
-                                    if (conversationView.getDataSize() > 0) {
-                                        emptyView.setVisibility(View.GONE);
-                                    } else {
-                                        emptyView.setVisibility(View.VISIBLE);
-                                    }
-                                }
-                            }
-                            doCallback();
-                        });
+                if (emptyView != null) {
+                    if (conversationView.getDataSize() > 0) {
+                        emptyView.setVisibility(View.GONE);
+                    } else {
+                        emptyView.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+            doCallback();
+        });
     }
 
     public void bindView() {
@@ -209,113 +197,71 @@ public abstract class ConversationBaseFragment extends BaseFragment implements I
         if (conversationView != null) {
             conversationView.setComparator(conversationComparator);
             conversationView.setLoadMoreListener(this);
-            conversationView.setItemClickListener(
-                    new ViewHolderClickListener() {
-                        @Override
-                        public boolean onClick(View v, BaseBean data, int position) {
+            conversationView.setItemClickListener(new ViewHolderClickListener() {
+                @Override
+                public boolean onClick(View v, BaseBean data, int position) {
 
-                            if (data.param != null) {
-                                String targetId = (String) data.param;
-                                if (targetId.equals(DataUtil.getXiaoZhuShouId())) {
-                                    XKitRouter.withKey(Constant.XiaoZhuShouActivityKey)
-                                            .withContext(ConversationBaseFragment.this.requireContext())
-                                            .navigate();
-                                    return true;
-                                }
-                            }
-                            boolean result = false;
-                            if (ConversationKitClient.getConversationUIConfig() != null
-                                    && ConversationKitClient.getConversationUIConfig().itemClickListener != null
-                                    && data instanceof ConversationBean) {
-                                result =
-                                        ConversationKitClient.getConversationUIConfig()
-                                                .itemClickListener
-                                                .onClick(
-                                                        ConversationBaseFragment.this.getContext(),
-                                                        (ConversationBean) data,
-                                                        position);
-                            }
-                            if (!result) {
-                                XKitRouter.withKey(data.router)
-                                        .withParam(data.paramKey, data.param)
-                                        .withContext(ConversationBaseFragment.this.requireContext())
-                                        .navigate();
-                            }
+                    if (data.param != null) {
+                        String targetId = (String) data.param;
+                        //需要跳转
+                        if (targetId.equals(DataUtil.getXiaoZhuShouId()) || DataUtil.getUserid().equals(targetId)) {
+                            XKitRouter.withKey(Constant.XiaoZhuShouActivityKey).withContext(ConversationBaseFragment.this.requireContext()).navigate();
                             return true;
                         }
+                    }
+                    boolean result = false;
+                    if (ConversationKitClient.getConversationUIConfig() != null && ConversationKitClient.getConversationUIConfig().itemClickListener != null && data instanceof ConversationBean) {
+                        result = ConversationKitClient.getConversationUIConfig().itemClickListener.onClick(ConversationBaseFragment.this.getContext(), (ConversationBean) data, position);
+                    }
+                    if (!result) {
+                        XKitRouter.withKey(data.router).withParam(data.paramKey, data.param).withContext(ConversationBaseFragment.this.requireContext()).navigate();
+                    }
+                    return true;
+                }
 
-                        @Override
-                        public boolean onAvatarClick(View v, BaseBean data, int position) {
-                            if (data.param != null) {
-                                String targetId = (String) data.param;
-                                if (targetId.equals(DataUtil.getXiaoZhuShouId())) {
-                                    XKitRouter.withKey(Constant.XiaoZhuShouActivityKey)
-                                            .withContext(ConversationBaseFragment.this.requireContext())
-                                            .navigate();
-                                    return true;
-                                }
-                            }
-                            boolean result = false;
-                            if (ConversationKitClient.getConversationUIConfig() != null
-                                    && ConversationKitClient.getConversationUIConfig().itemClickListener != null
-                                    && data instanceof ConversationBean) {
-                                result =
-                                        ConversationKitClient.getConversationUIConfig()
-                                                .itemClickListener
-                                                .onAvatarClick(
-                                                        ConversationBaseFragment.this.getContext(),
-                                                        (ConversationBean) data,
-                                                        position);
-                            }
-                            if (!result) {
-                                XKitRouter.withKey(data.router)
-                                        .withParam(data.paramKey, data.param)
-                                        .withContext(ConversationBaseFragment.this.requireContext())
-                                        .navigate();
-                            }
+                @Override
+                public boolean onAvatarClick(View v, BaseBean data, int position) {
+                    if (data.param != null) {
+                        String targetId = (String) data.param;
+                        if (targetId.equals(DataUtil.getXiaoZhuShouId())) {
+                            XKitRouter.withKey(Constant.XiaoZhuShouActivityKey).withContext(ConversationBaseFragment.this.requireContext()).navigate();
                             return true;
                         }
+                    }
+                    boolean result = false;
+                    if (ConversationKitClient.getConversationUIConfig() != null && ConversationKitClient.getConversationUIConfig().itemClickListener != null && data instanceof ConversationBean) {
+                        result = ConversationKitClient.getConversationUIConfig().itemClickListener.onAvatarClick(ConversationBaseFragment.this.getContext(), (ConversationBean) data, position);
+                    }
+                    if (!result) {
+                        XKitRouter.withKey(data.router).withParam(data.paramKey, data.param).withContext(ConversationBaseFragment.this.requireContext()).navigate();
+                    }
+                    return true;
+                }
 
-                        @Override
-                        public boolean onLongClick(View v, BaseBean data, int position) {
-                            boolean result = false;
-                            if (ConversationKitClient.getConversationUIConfig() != null
-                                    && ConversationKitClient.getConversationUIConfig().itemClickListener != null
-                                    && data instanceof ConversationBean) {
-                                result =
-                                        ConversationKitClient.getConversationUIConfig()
-                                                .itemClickListener
-                                                .onLongClick(
-                                                        ConversationBaseFragment.this.getContext(),
-                                                        (ConversationBean) data,
-                                                        position);
-                            }
-                            if (!result) {
-                                showStickDialog(data);
-                            }
-                            return true;
-                        }
+                @Override
+                public boolean onLongClick(View v, BaseBean data, int position) {
+                    boolean result = false;
+                    if (ConversationKitClient.getConversationUIConfig() != null && ConversationKitClient.getConversationUIConfig().itemClickListener != null && data instanceof ConversationBean) {
+                        result = ConversationKitClient.getConversationUIConfig().itemClickListener.onLongClick(ConversationBaseFragment.this.getContext(), (ConversationBean) data, position);
+                    }
+                    if (!result) {
+                        showStickDialog(data);
+                    }
+                    return true;
+                }
 
-                        @Override
-                        public boolean onAvatarLongClick(View v, BaseBean data, int position) {
-                            boolean result = false;
-                            if (ConversationKitClient.getConversationUIConfig() != null
-                                    && ConversationKitClient.getConversationUIConfig().itemClickListener != null
-                                    && data instanceof ConversationBean) {
-                                result =
-                                        ConversationKitClient.getConversationUIConfig()
-                                                .itemClickListener
-                                                .onAvatarLongClick(
-                                                        ConversationBaseFragment.this.getContext(),
-                                                        (ConversationBean) data,
-                                                        position);
-                            }
-                            if (!result) {
-                                showStickDialog(data);
-                            }
-                            return true;
-                        }
-                    });
+                @Override
+                public boolean onAvatarLongClick(View v, BaseBean data, int position) {
+                    boolean result = false;
+                    if (ConversationKitClient.getConversationUIConfig() != null && ConversationKitClient.getConversationUIConfig().itemClickListener != null && data instanceof ConversationBean) {
+                        result = ConversationKitClient.getConversationUIConfig().itemClickListener.onAvatarLongClick(ConversationBaseFragment.this.getContext(), (ConversationBean) data, position);
+                    }
+                    if (!result) {
+                        showStickDialog(data);
+                    }
+                    return true;
+                }
+            });
         }
     }
 
@@ -333,125 +279,111 @@ public abstract class ConversationBaseFragment extends BaseFragment implements I
         if (comparator != null) {
             conversationComparator = comparator;
             if (viewModel != null) {
-                viewModel.setComparator(
-                        ConversationKitClient.getConversationUIConfig().conversationComparator);
+                viewModel.setComparator(ConversationKitClient.getConversationUIConfig().conversationComparator);
             }
 
+
             if (conversationView != null) {
-                conversationView.setComparator(
-                        ConversationKitClient.getConversationUIConfig().conversationComparator);
+                conversationView.setComparator(ConversationKitClient.getConversationUIConfig().conversationComparator);
             }
         }
     }
 
     private void initObserver() {
-        changeObserver =
-                result -> {
-                    if (conversationView != null) {
-                        if (result.getLoadStatus() == LoadStatus.Success) {
-                            ALog.d(LIB_TAG, TAG, "ChangeLiveData, Success");
-                            conversationView.update(result.getData());
-                        } else if (result.getLoadStatus() == LoadStatus.Finish
-                                && result.getType() == FetchResult.FetchType.Remove) {
-                            ALog.d(LIB_TAG, TAG, "DeleteLiveData, Success");
-                            if (result.getData() == null || result.getData().size() < 1) {
-                                conversationView.removeAll();
-                            } else {
-                                conversationView.remove(result.getData());
-                            }
-                        }
-                        if (emptyView != null) {
-                            if (conversationView.getDataSize() > 0) {
-                                emptyView.setVisibility(View.GONE);
-                            } else {
-                                emptyView.setVisibility(View.VISIBLE);
-                            }
-                        }
+        changeObserver = result -> {
+            if (conversationView != null) {
+                if (result.getLoadStatus() == LoadStatus.Success) {
+                    ALog.d(LIB_TAG, TAG, "ChangeLiveData, Success");
+                    conversationView.update(result.getData());
+                } else if (result.getLoadStatus() == LoadStatus.Finish && result.getType() == FetchResult.FetchType.Remove) {
+                    ALog.d(LIB_TAG, TAG, "DeleteLiveData, Success");
+                    if (result.getData() == null || result.getData().size() < 1) {
+                        conversationView.removeAll();
+                    } else {
+                        conversationView.remove(result.getData());
                     }
-                    doCallback();
-                };
+                }
+                if (emptyView != null) {
+                    if (conversationView.getDataSize() > 0) {
+                        emptyView.setVisibility(View.GONE);
+                    } else {
+                        emptyView.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+            doCallback();
+        };
 
-        stickObserver =
-                result -> {
-                    if (result.getLoadStatus() == LoadStatus.Success && conversationView != null) {
-                        ALog.d(LIB_TAG, TAG, "StickLiveData, Success");
-                        conversationView.update(result.getData());
-                    }
-                    doCallback();
-                };
+        stickObserver = result -> {
+            if (result.getLoadStatus() == LoadStatus.Success && conversationView != null) {
+                ALog.d(LIB_TAG, TAG, "StickLiveData, Success");
+                conversationView.update(result.getData());
+            }
+            doCallback();
+        };
 
-        userInfoObserver =
-                result -> {
-                    if (result.getLoadStatus() == LoadStatus.Success && conversationView != null) {
-                        ALog.d(LIB_TAG, TAG, "UserInfoLiveData, Success");
-                        conversationView.updateUserInfo(result.getData());
-                    }
-                };
+        userInfoObserver = result -> {
+            if (result.getLoadStatus() == LoadStatus.Success && conversationView != null) {
+                ALog.d(LIB_TAG, TAG, "UserInfoLiveData, Success");
+                conversationView.updateUserInfo(result.getData());
+            }
+        };
 
-        friendInfoObserver =
-                result -> {
-                    if (result.getLoadStatus() == LoadStatus.Success && conversationView != null) {
-                        ALog.d(LIB_TAG, TAG, "FriendInfoLiveData, Success");
-                        conversationView.updateFriendInfo(result.getData());
-                    }
-                };
+        friendInfoObserver = result -> {
+            if (result.getLoadStatus() == LoadStatus.Success && conversationView != null) {
+                ALog.d(LIB_TAG, TAG, "FriendInfoLiveData, Success");
+                conversationView.updateFriendInfo(result.getData());
+            }
+        };
 
-        teamInfoObserver =
-                result -> {
-                    if (result.getLoadStatus() == LoadStatus.Success && conversationView != null) {
-                        ALog.d(LIB_TAG, TAG, "TeamInfoLiveData, Success");
-                        conversationView.updateTeamInfo(result.getData());
-                    }
-                };
+        teamInfoObserver = result -> {
+            if (result.getLoadStatus() == LoadStatus.Success && conversationView != null) {
+                ALog.d(LIB_TAG, TAG, "TeamInfoLiveData, Success");
+                conversationView.updateTeamInfo(result.getData());
+            }
+        };
 
-        muteObserver =
-                result -> {
-                    if (result.getLoadStatus() == LoadStatus.Success && conversationView != null) {
-                        ALog.d(LIB_TAG, TAG, "MuteInfoLiveData, Success");
-                        conversationView.updateMuteInfo(result.getData());
-                    }
-                };
+        muteObserver = result -> {
+            if (result.getLoadStatus() == LoadStatus.Success && conversationView != null) {
+                ALog.d(LIB_TAG, TAG, "MuteInfoLiveData, Success");
+                conversationView.updateMuteInfo(result.getData());
+            }
+        };
 
-        aitObserver =
-                result -> {
-                    if (result.getLoadStatus() == LoadStatus.Finish) {
-                        if (result.getType() == FetchResult.FetchType.Add && conversationView != null) {
-                            ALog.d(LIB_TAG, TAG, "AddStickLiveData, Success");
-                            ConversationHelper.updateAitInfo(result.getData(), true);
-                            conversationView.updateAit(result.getData());
-                        } else if (result.getType() == FetchResult.FetchType.Remove
-                                && conversationView != null) {
-                            ALog.d(LIB_TAG, TAG, "RemoveStickLiveData, Success");
-                            ConversationHelper.updateAitInfo(result.getData(), false);
-                            conversationView.updateAit(result.getData());
-                        }
-                    }
-                };
+        aitObserver = result -> {
+            if (result.getLoadStatus() == LoadStatus.Finish) {
+                if (result.getType() == FetchResult.FetchType.Add && conversationView != null) {
+                    ALog.d(LIB_TAG, TAG, "AddStickLiveData, Success");
+                    ConversationHelper.updateAitInfo(result.getData(), true);
+                    conversationView.updateAit(result.getData());
+                } else if (result.getType() == FetchResult.FetchType.Remove && conversationView != null) {
+                    ALog.d(LIB_TAG, TAG, "RemoveStickLiveData, Success");
+                    ConversationHelper.updateAitInfo(result.getData(), false);
+                    conversationView.updateAit(result.getData());
+                }
+            }
+        };
 
-        addRemoveStickObserver =
-                result -> {
-                    if (result.getLoadStatus() == LoadStatus.Finish) {
-                        if (result.getType() == FetchResult.FetchType.Add && conversationView != null) {
-                            ALog.d(LIB_TAG, TAG, "AddStickLiveData, Success");
-                            conversationView.addStickTop(result.getData());
-                        } else if (result.getType() == FetchResult.FetchType.Remove
-                                && conversationView != null) {
-                            ALog.d(LIB_TAG, TAG, "RemoveStickLiveData, Success");
-                            conversationView.removeStickTop(result.getData());
-                        }
-                    }
-                };
+        addRemoveStickObserver = result -> {
+            if (result.getLoadStatus() == LoadStatus.Finish) {
+                if (result.getType() == FetchResult.FetchType.Add && conversationView != null) {
+                    ALog.d(LIB_TAG, TAG, "AddStickLiveData, Success");
+                    conversationView.addStickTop(result.getData());
+                } else if (result.getType() == FetchResult.FetchType.Remove && conversationView != null) {
+                    ALog.d(LIB_TAG, TAG, "RemoveStickLiveData, Success");
+                    conversationView.removeStickTop(result.getData());
+                }
+            }
+        };
 
-        unreadCountObserver =
-                result -> {
-                    if (result.getLoadStatus() == LoadStatus.Success) {
-                        ALog.d(LIB_TAG, TAG, "unreadCount, Success");
-                        if (conversationCallback != null) {
-                            conversationCallback.updateUnreadCount(
-                                    result.getData() == null ? null : result.getData());
-                        }
-                    }
-                };
+        unreadCountObserver = result -> {
+            if (result.getLoadStatus() == LoadStatus.Success) {
+                ALog.d(LIB_TAG, TAG, "unreadCount, Success");
+                if (conversationCallback != null) {
+                    conversationCallback.updateUnreadCount(result.getData() == null ? null : result.getData());
+                }
+            }
+        };
     }
 
     @Override
@@ -516,32 +448,26 @@ public abstract class ConversationBaseFragment extends BaseFragment implements I
             alertDialog.setContent(generateDialogContent(dataBean.infoData.isStickTop()));
             alertDialog.setTitleVisibility(View.GONE);
             alertDialog.setDialogWidth(getResources().getDimension(R.dimen.alert_dialog_width));
-            alertDialog.setItemClickListener(
-                    action -> {
-                        if (TextUtils.equals(action, ConversationConstant.Action.ACTION_DELETE)) {
-                            viewModel.deleteConversation(dataBean);
-                        } else if (TextUtils.equals(action, ConversationConstant.Action.ACTION_STICK)) {
-                            if (dataBean.infoData.isStickTop()) {
-                                viewModel.removeStick((ConversationBean) data);
-                            } else {
-                                viewModel.addStickTop((ConversationBean) data);
-                            }
-                        }
-                        alertDialog.dismiss();
-                    });
+            alertDialog.setItemClickListener(action -> {
+                if (TextUtils.equals(action, ConversationConstant.Action.ACTION_DELETE)) {
+                    viewModel.deleteConversation(dataBean);
+                } else if (TextUtils.equals(action, ConversationConstant.Action.ACTION_STICK)) {
+                    if (dataBean.infoData.isStickTop()) {
+                        viewModel.removeStick((ConversationBean) data);
+                    } else {
+                        viewModel.addStickTop((ConversationBean) data);
+                    }
+                }
+                alertDialog.dismiss();
+            });
             alertDialog.show(getParentFragmentManager());
         }
     }
 
     protected List<ActionItem> generateDialogContent(boolean isStick) {
         List<ActionItem> contentList = new ArrayList<>();
-        ActionItem stick =
-                new ActionItem(
-                        ConversationConstant.Action.ACTION_STICK,
-                        0,
-                        (isStick ? R.string.cancel_stick_title : R.string.stick_title));
-        ActionItem delete =
-                new ActionItem(ConversationConstant.Action.ACTION_DELETE, 0, R.string.delete_title);
+        ActionItem stick = new ActionItem(ConversationConstant.Action.ACTION_STICK, 0, (isStick ? R.string.cancel_stick_title : R.string.stick_title));
+        ActionItem delete = new ActionItem(ConversationConstant.Action.ACTION_DELETE, 0, R.string.delete_title);
         contentList.add(stick);
         contentList.add(delete);
         return contentList;

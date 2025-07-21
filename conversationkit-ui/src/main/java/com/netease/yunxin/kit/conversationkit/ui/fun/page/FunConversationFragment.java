@@ -132,6 +132,7 @@ public class FunConversationFragment extends ConversationBaseFragment {
     }
 
     private void getMessageCount() {
+//        sendMessage(DataUtil.getUserid());
         nimUnread = 0;
         sysNoticeUnread = 0;
         applyUnread = 0;
@@ -352,48 +353,47 @@ public class FunConversationFragment extends ConversationBaseFragment {
                     }
                 });
 
-        HttpUtil.apiW().customer_systemAppUser(new RegisterBean())
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-
-                        String kefuId = body.data.toString().replace("\"", "");
-                        requestKefu(kefuId);
-
-                        String xiaozhushouId = "10086";
-                        DataUtil.putKeFuId(kefuId);
-                        DataUtil.putXiaoZhuShouId(xiaozhushouId);
-
-                        boolean hasKefu = false;
-                        boolean hasXiaoZhushou = false;
-
-                        for (ConversationBean tempBean :
-                                conversationList) {
-                            if (tempBean.infoData.getContactId().equals(kefuId)) {
-                                hasKefu = true;
-
-                            }
-                        }
-                        for (ConversationBean tempBean :
-                                conversationList) {
-                            if (tempBean.infoData.getContactId().equals(xiaozhushouId)) {
-                                hasXiaoZhushou = true;
-
-                            }
-                        }
-                        if (!hasKefu) {
-                            sendMessage(kefuId);
-                        }
-                        if (!hasXiaoZhushou) {
-                            sendMessage(xiaozhushouId);
-                        }
-                    }
-
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
-
-                    }
-                });
+//        HttpUtil.apiW().customer_systemAppUser(new RegisterBean())
+//                .enqueue(new CommonCallback<NetData>() {
+//                    @Override
+//                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+//
+//                        String kefuId = body.data.toString().replace("\"", "");
+//                        requestKefu(kefuId);
+//
+//                        String xiaozhushouId = "10086";
+//                        DataUtil.putKeFuId(kefuId);
+//                        DataUtil.putXiaoZhuShouId(xiaozhushouId);
+//
+//                        boolean hasKefu = false;
+//                        boolean hasXiaoZhushou = false;
+//
+//                        for (ConversationBean tempBean :
+//                                conversationList) {
+//                            if (tempBean.infoData.getContactId().equals(kefuId)) {
+//                                hasKefu = true;
+//                            }
+//                        }
+//                        for (ConversationBean tempBean :
+//                                conversationList) {
+//                            if (tempBean.infoData.getContactId().equals(xiaozhushouId)) {
+//                                hasXiaoZhushou = true;
+//
+//                            }
+//                        }
+//                        if (!hasKefu) {
+//                            sendMessage(kefuId);
+//                        }
+//                        if (!hasXiaoZhushou) {
+//                            sendMessage(xiaozhushouId);
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void Failure(Call<NetData> call, Throwable t) {
+//
+//                    }
+//                });
     }
 
     void requestKefu(String kefuId) {

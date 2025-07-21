@@ -185,13 +185,13 @@ public abstract class FunChatFragment extends ChatBaseFragment {
             }
 
             //判断是否自己点击自己
-            if (messageInfo.getFromUser() != null) {
-                if (messageInfo.getFromUser().getAccount().equals(DataUtil.getUserid())) {
-                    NIMClient.getService(MsgService.class).clearUnreadCount(DataUtil.getUserid(), SessionTypeEnum.P2P);
-                    XKitRouter.withKey(Constant.XiaoZhuShouActivityKey).withContext(requireContext()).navigate();
-                    return;
-                }
-            }
+//            if (messageInfo.getFromUser() != null) {
+//                if (messageInfo.getFromUser().getAccount().equals(DataUtil.getUserid())) {
+//                    NIMClient.getService(MsgService.class).clearUnreadCount(DataUtil.getUserid(), SessionTypeEnum.P2P);
+//                    XKitRouter.withKey(Constant.XiaoZhuShouActivityKey).withContext(requireContext()).navigate();
+//                    return;
+//                }
+//            }
 
             if (!messageInfo.getMessage().getAttachStr().isEmpty()) {
                 CustomMsgBean msgBean = new Gson().fromJson(messageInfo.getMessage().getAttachStr(), CustomMsgBean.class);
