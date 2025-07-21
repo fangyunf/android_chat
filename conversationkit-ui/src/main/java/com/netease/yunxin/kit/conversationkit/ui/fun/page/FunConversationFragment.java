@@ -284,14 +284,12 @@ public class FunConversationFragment extends ConversationBaseFragment {
     }
 
     void _requestData() {
-
         HttpUtil.apiW().customer_notice()
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                         GroupInfoBean groupInfoBean = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
                         if (groupInfoBean != null && groupInfoBean.content != null) {
-
                             String message = groupInfoBean.content;
                             if (message != null && !message.isEmpty()) {
                                 viewBinding.marqueeView.startWithText(message);

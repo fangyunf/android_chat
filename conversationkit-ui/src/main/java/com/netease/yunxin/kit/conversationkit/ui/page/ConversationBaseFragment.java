@@ -160,7 +160,6 @@ public abstract class ConversationBaseFragment extends BaseFragment implements I
             if (conversationView != null) {
 //                conversationView._type = _type;
                 conversationList = result.getData();
-
                 ArrayList<ConversationBean> tempList = new ArrayList<>();
                 if (conversationList != null) {
 //                    for (ConversationBean tempBean : conversationList) {
@@ -223,7 +222,7 @@ public abstract class ConversationBaseFragment extends BaseFragment implements I
                 public boolean onAvatarClick(View v, BaseBean data, int position) {
                     if (data.param != null) {
                         String targetId = (String) data.param;
-                        if (targetId.equals(DataUtil.getXiaoZhuShouId())) {
+                        if (targetId.equals(DataUtil.getXiaoZhuShouId()) || targetId.equals(DataUtil.getUserid())) {
                             XKitRouter.withKey(Constant.XiaoZhuShouActivityKey).withContext(ConversationBaseFragment.this.requireContext()).navigate();
                             return true;
                         }
