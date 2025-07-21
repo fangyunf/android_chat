@@ -44,7 +44,7 @@ public class VerifyUserLogImpl extends VerifyUser {
     }
 
     @Override
-    public  void setIsShowToast(boolean misShowToast) {
+    public void setIsShowToast(boolean misShowToast) {
         isShowToast = misShowToast;
     }
 }
