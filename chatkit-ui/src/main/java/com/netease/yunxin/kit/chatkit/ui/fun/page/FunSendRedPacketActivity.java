@@ -44,6 +44,7 @@ import com.yaoxin.appbase.utils.AppProxy;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.GlideUtil;
 import com.yaoxin.appbase.utils.NumberUtil;
+import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
 import com.yaoxin.appbase.view.actionsheet.ActionSheet;
 import com.yaoxin.appbase.view.pwdkeyboard.Keyboard;
@@ -66,12 +67,7 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
     private String selectToUserId = "";
     private UserInfo targetUserInfo;
     protected ActivityResultLauncher<Intent> forwardTeamLauncher;
-    private static final String[] KEY = new String[] {
-            "1", "2", "3",
-            "4", "5", "6",
-            "7", "8", "9",
-            "<<", "0", "完成"
-    };
+    private static final String[] KEY = new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "<<", "0", "完成"};
 
     private PayEditText payEditText;
     private Keyboard keyboard;
@@ -79,11 +75,13 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
     private GroupInfoBean groupInfoBean;
 
     ArrayList<GroupInfoBean> userList = new ArrayList<>();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityFunSendRedPacketBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        StatusBarUtils.transtStatusBar(this, binding.activityFunSendRedPacketNav);
         payEditText = binding.PayEditTextPay;
         keyboard = binding.KeyboardViewPay;
         if (extras.get("sessionId") != null) {
@@ -105,48 +103,43 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
             String tempUserInfoString = (String) extras.get("userInfo");
             targetUserInfo = new Gson().fromJson(tempUserInfoString, UserInfo.class);
         }
-        forwardTeamLauncher =
-                registerForActivityResult(
-                        new ActivityResultContracts.StartActivityForResult(),
-                        result -> {
-                            if (result.getResultCode() != Activity.RESULT_OK) {
-                                return;
-                            }
-                            Intent data = result.getData();
-                            if (data != null) {
-                                Bundle extras1 = data.getExtras();
+        forwardTeamLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if (result.getResultCode() != Activity.RESULT_OK) {
+                return;
+            }
+            Intent data = result.getData();
+            if (data != null) {
+                Bundle extras1 = data.getExtras();
 //                                GroupInfoBean groupInfoBean1 =
-                                String userInfo1 = data.getStringExtra("userInfo");
-                                if (userInfo1 == null) return;
-                                GroupInfoBean userInfo = new Gson().fromJson(userInfo1,GroupInfoBean.class);
-                                if (userInfo != null) {
-                                    binding.activityFunSendRedPacketToPeopleNameTv.setText(userInfo.name);
-                                    GlideUtil.yh_loadImageRoundedCorner(this,binding.activityFunSendRedPacketToPeopleHeadIv,userInfo.avatar,15);
-                                    selectToUserId = userInfo.userId;
-                                }
-                            }
-                        });
+                String userInfo1 = data.getStringExtra("userInfo");
+                if (userInfo1 == null) return;
+                GroupInfoBean userInfo = new Gson().fromJson(userInfo1, GroupInfoBean.class);
+                if (userInfo != null) {
+                    binding.activityFunSendRedPacketToPeopleNameTv.setText(userInfo.name);
+                    GlideUtil.yh_loadImageRoundedCorner(this, binding.activityFunSendRedPacketToPeopleHeadIv, userInfo.avatar, 15);
+                    selectToUserId = userInfo.userId;
+                }
+            }
+        });
         _initView();
         _updateUI();
     }
 
     void _requestPeople() {
-        TeamRepo.getMemberList(
-                sessionId,
-                new FetchCallback<List<UserInfoWithTeam>>() {
-                    @Override
-                    public void onSuccess(@Nullable List<UserInfoWithTeam> param) {
-                        binding.activityFunSendRedPacketTeamMemberCountTv.setText("本群共"+param.size()+"人");
-                    }
+        TeamRepo.getMemberList(sessionId, new FetchCallback<List<UserInfoWithTeam>>() {
+            @Override
+            public void onSuccess(@Nullable List<UserInfoWithTeam> param) {
+                binding.activityFunSendRedPacketTeamMemberCountTv.setText("本群共" + param.size() + "人");
+            }
 
-                    @Override
-                    public void onFailed(int code) {
-                    }
+            @Override
+            public void onFailed(int code) {
+            }
 
-                    @Override
-                    public void onException(@Nullable Throwable exception) {
-                    }
-                });
+            @Override
+            public void onException(@Nullable Throwable exception) {
+            }
+        });
 //        RegisterBean bean = new RegisterBean();
 //        bean.groupId = sessionId;
 //        bean.page = page +"";
@@ -179,40 +172,39 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
 //                    }
 //                });
     }
+
     void _requestDataGroup() {
 
 
+        HttpUtil.apiW().group_groupHomeInfo(sessionId).enqueue(new CommonCallback<NetData>() {
+            @Override
+            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-        HttpUtil.apiW().group_groupHomeInfo(sessionId)
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                groupInfoBean = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
+                _requestPeople();
+            }
 
-                        groupInfoBean = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
-                        _requestPeople();
-                    }
+            @Override
+            public void Failure(Call<NetData> call, Throwable t) {
 
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
-
-                    }
-                });
+            }
+        });
     }
+
     @Override
     protected void _requestData() {
-        HttpUtil.apiW().home_balance()
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        UserBean bean = new Gson().fromJson(body.data.toString(),UserBean.class);
-                        binding.activityFunSendRedPacketBalanceTv.setText(NumberUtil.formartMoney(bean.balance));
-                    }
+        HttpUtil.apiW().home_balance().enqueue(new CommonCallback<NetData>() {
+            @Override
+            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                UserBean bean = new Gson().fromJson(body.data.toString(), UserBean.class);
+                binding.activityFunSendRedPacketBalanceTv.setText(NumberUtil.formartMoney(bean.balance));
+            }
 
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
+            @Override
+            public void Failure(Call<NetData> call, Throwable t) {
 
-                    }
-                });
+            }
+        });
 
     }
 
@@ -223,8 +215,6 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
         binding.activityFunSendRedPacketSendTv.setOnClickListener(this);
         binding.activityFunSendRedPacketMoneyEt.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
         binding.activityFunSendRedPacketMoneyEt.setKeyListener(DigitsKeyListener.getInstance("0123456789."));
-
-
         binding.activityFunSendRedPacketCountEt.setInputType(InputType.TYPE_CLASS_NUMBER);
         binding.activityFunSendRedPacketToPeopleLl.setOnClickListener(this);
         binding.activityFunSendRedPacketMoneyEt.addTextChangedListener(new TextWatcher() {
@@ -257,7 +247,7 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
                     // 设置过滤后的文本
                     binding.activityFunSendRedPacketMoneyEt.setText(cleanedInput.toString());
                     binding.activityFunSendRedPacketMoneyEt.setSelection(cleanedInput.length());
-                    formattedValue =  String.format("%.2f", Double.parseDouble(cleanedInput.toString()));
+                    formattedValue = String.format("%.2f", Double.parseDouble(cleanedInput.toString()));
                 } else {
                     if (!input.isEmpty()) {
                         formattedValue = String.format("%.2f", Double.parseDouble(input));
@@ -277,7 +267,7 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
                     payEditText.add(value);
                 } else if (position == 9) {
                     payEditText.remove();
-                }else if (position == 11) {
+                } else if (position == 11) {
                     //当点击完成的时候，也可以通过payEditText.getText()获取密码，此时不应该注册OnInputFinishedListener接口
 //                    Toast.makeText(getApplication(), "您的密码是：" + payEditText.getText(), Toast.LENGTH_SHORT).show();
 //                    finish();
@@ -316,7 +306,7 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
         } else if (type == 2) {
             if (targetUserInfo != null) {
                 binding.activityFunSendRedPacketToPeopleNameTv.setText(targetUserInfo.getName());
-                GlideUtil.yh_loadImageRoundedCorner(this,binding.activityFunSendRedPacketToPeopleHeadIv,targetUserInfo.getAvatar(),15);
+                GlideUtil.yh_loadImageRoundedCorner(this, binding.activityFunSendRedPacketToPeopleHeadIv, targetUserInfo.getAvatar(), 15);
                 selectToUserId = targetUserInfo.getAccount();
             }
             binding.activityFunSendRedPacketToPeopleLl.setVisibility(View.VISIBLE);
@@ -367,20 +357,15 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
                 public void inputFinish(String password) {
                     sendRedWithPwd(password);
                 }
-            },moneyStr);
+            }, moneyStr);
             // 显示窗口
-            popEnterPassword.showAtLocation(binding.activityFunSendRedPacketLl,
-                    Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); // 设置layout在PopupWindow中显示的位置
+            popEnterPassword.showAtLocation(binding.activityFunSendRedPacketLl, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); // 设置layout在PopupWindow中显示的位置
 
 
         } else if (v == binding.activityFunSendRedPacketToPeopleLl) {
 
-            DataUtil.setStringValue(new Gson().toJson(groupInfoBean),"groupInfo");
-            XKitRouter.withKey(Constant.FunSelected_User_ActivityKey)
-                    .withParam("type","4")
-                    .withParam("groupId",sessionId)
-                    .withContext(this)
-                    .navigate(forwardTeamLauncher);
+            DataUtil.setStringValue(new Gson().toJson(groupInfoBean), "groupInfo");
+            XKitRouter.withKey(Constant.FunSelected_User_ActivityKey).withParam("type", "4").withParam("groupId", sessionId).withContext(this).navigate(forwardTeamLauncher);
 //            XKitRouter.withKey(Constant.TeamMemberListActivity_Router)
 //                    .withParam("sessionId",sessionId)
 //                    .withParam("b_type","1")
@@ -409,20 +394,19 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
         if (type == 0) {
             bean.password = pwd;
             bean.toUserId = sessionId;
-            HttpUtil.apiW().red_personRedpacket(bean)
-                    .enqueue(new CommonCallback<NetData>() {
-                        @Override
-                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+            HttpUtil.apiW().red_personRedpacket(bean).enqueue(new CommonCallback<NetData>() {
+                @Override
+                public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                            ToastUtils.toastMsg("发送成功");
-                            finish();
-                        }
+                    ToastUtils.toastMsg("发送成功");
+                    finish();
+                }
 
-                        @Override
-                        public void Failure(Call<NetData> call, Throwable t) {
+                @Override
+                public void Failure(Call<NetData> call, Throwable t) {
 
-                        }
-                    });
+                }
+            });
         } else if (type == 1) {
             int count = Integer.parseInt(countStr);
             if (count <= 0) {
@@ -432,20 +416,19 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
             bean.groupId = sessionId;
             bean.num = count;
             bean.tradePassword = pwd;
-            HttpUtil.apiW().red_sendGroupRedpacket(bean)
-                    .enqueue(new CommonCallback<NetData>() {
-                        @Override
-                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+            HttpUtil.apiW().red_sendGroupRedpacket(bean).enqueue(new CommonCallback<NetData>() {
+                @Override
+                public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                            ToastUtils.toastMsg("发送成功");
-                            finish();
-                        }
+                    ToastUtils.toastMsg("发送成功");
+                    finish();
+                }
 
-                        @Override
-                        public void Failure(Call<NetData> call, Throwable t) {
+                @Override
+                public void Failure(Call<NetData> call, Throwable t) {
 
-                        }
-                    });
+                }
+            });
         } else if (type == 2) {
             if (selectToUserId == null || selectToUserId.isEmpty()) {
                 ToastUtils.toastMsg("请选择成员");
@@ -454,23 +437,23 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
             bean.password = pwd;
             bean.toUserId = selectToUserId;
             bean.groupId = sessionId;
-            HttpUtil.apiW().red_sendExclusiveRedPacket(bean)
-                    .enqueue(new CommonCallback<NetData>() {
-                        @Override
-                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+            HttpUtil.apiW().red_sendExclusiveRedPacket(bean).enqueue(new CommonCallback<NetData>() {
+                @Override
+                public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                            ToastUtils.toastMsg("发送成功");
-                            finish();
-                        }
+                    ToastUtils.toastMsg("发送成功");
+                    finish();
+                }
 
-                        @Override
-                        public void Failure(Call<NetData> call, Throwable t) {
+                @Override
+                public void Failure(Call<NetData> call, Throwable t) {
 
-                        }
-                    });
+                }
+            });
 
         }
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

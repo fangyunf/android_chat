@@ -17,9 +17,10 @@ import com.yaoxin.appbase.R;
 public class IconTitleArrowTemplate extends LinearLayout {
     public IconTitleArrowTemplate(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        init(context,attrs);
+        init(context, attrs);
     }
-    private void init(Context context,@Nullable AttributeSet attrs) {
+
+    private void init(Context context, @Nullable AttributeSet attrs) {
         // Inflate the XML layout
         LayoutInflater.from(context).inflate(R.layout.icon_title_arrow_template, this, true);
         TextView titleTv = findViewById(R.id.icon_title_arrow_template_title_tv);
@@ -30,7 +31,6 @@ public class IconTitleArrowTemplate extends LinearLayout {
         if (attrs != null) {
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.IconTitleArrowTemplate);
             String titleTvText = a.getString(R.styleable.IconTitleArrowTemplate_titleText);
-
             Drawable customImage = a.getDrawable(R.styleable.IconTitleArrowTemplate_leftImg);
             int bgColor = a
                     .getColor(
@@ -47,12 +47,12 @@ public class IconTitleArrowTemplate extends LinearLayout {
                 titleTv.setText(titleTvText);
             }
             // Apply custom attributes to views
-            titleTv.setTextColor(textColor);
+            //titleTv.setTextColor(textColor);
 
             if (customImage != null) {
                 imgIv.setImageDrawable(customImage);
             }
-            bgLL.setBackgroundColor(bgColor);
+            // bgLL.setBackgroundColor(bgColor);
         }
     }
 }

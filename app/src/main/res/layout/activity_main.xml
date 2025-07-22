@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2022 NetEase, Inc. All rights reserved.
   ~ Use of this source code is governed by a MIT license that can be
   ~ found in the LICENSE file.
@@ -15,70 +14,72 @@
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintVertical_weight="1"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/bottom_group"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_weight="1"
         tools:ignore="MissingConstraints" />
 
 
-    <LinearLayout android:id="@+id/bottom_group"
+    <LinearLayout
+        android:id="@+id/bottom_group"
         android:layout_width="match_parent"
-        android:layout_height="57.18dp"
-        android:background="#f7f7f7"
+        android:layout_height="@dimen/dimen_60_dp"
+        android:background="#091125"
         android:clipChildren="false"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:ignore="MissingConstraints">
 
         <RelativeLayout
-            android:visibility="gone"
             android:id="@+id/conversation_btn_shop"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:onClick="tabClick"
-            android:layout_weight="1">
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/conversation_shop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:drawableTop="@mipmap/mine_tabbar_shop_sel"
                 android:drawablePadding="3dp"
                 android:gravity="center"
-                android:textSize="12sp"
+                android:text="商城"
                 android:textColor="@color/tab_checked_color"
-                android:drawableTop="@mipmap/mine_tabbar_shop_sel"
-                android:text="商城" />
-
+                android:textSize="12sp" />
 
         </RelativeLayout>
+
         <RelativeLayout
             android:id="@+id/conversation_btn_group"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:onClick="tabClick"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:onClick="tabClick">
 
             <TextView
                 android:id="@+id/conversation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:drawableTop="@mipmap/mine_tabbar_msg_sel"
                 android:drawablePadding="3dp"
                 android:gravity="center"
-                android:textSize="12sp"
+                android:text="@string/tab_session_tab_text"
                 android:textColor="@color/tab_checked_color"
-                android:drawableTop="@mipmap/mine_tabbar_msg_sel"
-                android:text="@string/tab_session_tab_text" />
+                android:textSize="12sp" />
 
-            <View android:id="@+id/conversation_dot"
+            <View
+                android:id="@+id/conversation_dot"
                 android:layout_width="@dimen/dimen_6_dp"
                 android:layout_height="@dimen/dimen_6_dp"
                 android:layout_alignRight="@+id/conversation"
                 android:layout_marginLeft="@dimen/dimen_10_dp"
                 android:layout_marginTop="@dimen/dimen_7_dp"
                 android:background="@drawable/bg_conversation_red_dot"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
         </RelativeLayout>
 
@@ -86,30 +87,31 @@
             android:id="@+id/conversation_btn_group1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:onClick="tabClick"
-            android:visibility="gone"
-            android:layout_weight="1">
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/conversation1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:drawableTop="@mipmap/mine_tabbar_msg_group_normal"
                 android:drawablePadding="3dp"
                 android:gravity="center"
-                android:textSize="12sp"
+                android:text="群聊"
                 android:textColor="@color/tab_unchecked_color"
-                android:drawableTop="@mipmap/mine_tabbar_msg_group_normal"
-                android:text="群聊" />
+                android:textSize="12sp" />
 
-            <View android:id="@+id/conversation_dot1"
+            <View
+                android:id="@+id/conversation_dot1"
                 android:layout_width="@dimen/dimen_6_dp"
                 android:layout_height="@dimen/dimen_6_dp"
                 android:layout_alignRight="@+id/conversation1"
                 android:layout_marginLeft="@dimen/dimen_10_dp"
                 android:layout_marginTop="@dimen/dimen_7_dp"
                 android:background="@drawable/bg_conversation_red_dot"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
         </RelativeLayout>
 
@@ -118,8 +120,8 @@
             android:id="@+id/contact_btn_group"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:onClick="tabClick"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:onClick="tabClick">
 
             <TextView
                 android:id="@+id/contact"
@@ -133,14 +135,15 @@
                 android:textColor="@color/tab_unchecked_color"
                 android:textSize="12sp" />
 
-            <View android:id="@+id/contact_dot"
+            <View
+                android:id="@+id/contact_dot"
                 android:layout_width="@dimen/dimen_6_dp"
                 android:layout_height="@dimen/dimen_6_dp"
                 android:layout_alignEnd="@+id/contact"
                 android:layout_marginTop="@dimen/dimen_7_dp"
                 android:layout_marginEnd="@dimen/dimen_4_dp"
                 android:background="@drawable/bg_conversation_red_dot"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
         </RelativeLayout>
 
@@ -148,20 +151,20 @@
             android:id="@+id/myself_btn_group"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:onClick="tabClick"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:onClick="tabClick">
 
             <TextView
                 android:id="@+id/mine"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:drawablePadding="3dp"
-                android:textSize="12sp"
-                android:gravity="center"
                 android:drawableTop="@mipmap/mine_tabbar_mine_normal"
+                android:drawablePadding="3dp"
+                android:gravity="center"
+                android:text="@string/tab_mine_tab_text"
                 android:textColor="@color/tab_unchecked_color"
-                android:text="@string/tab_mine_tab_text" />
+                android:textSize="12sp" />
 
         </RelativeLayout>
     </LinearLayout>

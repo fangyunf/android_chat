@@ -41,7 +41,10 @@ import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.DataUtil;
+import com.yaoxin.appbase.utils.DensityUtils;
 import com.yaoxin.appbase.utils.DialogAlertUtil;
+import com.yaoxin.appbase.utils.SpaceItemDecoration;
+import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
 import com.yaoxin.appbase.view.CommonGridSpacingItemDecoration;
 
@@ -61,14 +64,13 @@ public class ExchangeAccountActivity extends BaseActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         viewBinding = ActivityExchangeAccountBinding.inflate(getLayoutInflater());
         setContentView(viewBinding.getRoot());
+        StatusBarUtils.transtStatusBar(this, viewBinding.activityExchangeAccountNav);
         initView();
         viewBinding.activityExchangeAccountNav.addCloseImageButton().setOnClickListener(this);
-
         viewBinding.activityExchangeAccountRv.setLayoutManager(new LinearLayoutManager(this));
         viewBinding.activityExchangeAccountRv.setAdapter(adapter);
-
+        viewBinding.activityExchangeAccountRv.addItemDecoration(new SpaceItemDecoration(DensityUtils.dp2px(10)));
         viewBinding.activityExchangeAccountTuichuTv.setOnClickListener(this);
-
         _requastData();
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener<UserBean>() {
             @Override
@@ -102,6 +104,7 @@ public class ExchangeAccountActivity extends BaseActivity implements View.OnClic
 
 
     }
+
     void _requastData() {
 
         List<UserBean> loginUserInfoList = DataUtil.getLoginUserInfoList();
@@ -147,6 +150,7 @@ public class ExchangeAccountActivity extends BaseActivity implements View.OnClic
                     }
                 });
     }
+
     void exchangeLogin(UserBean userBean) {
         Activity that = this;
         IMKitClient.logoutIM(
@@ -173,7 +177,7 @@ public class ExchangeAccountActivity extends BaseActivity implements View.OnClic
                         DataUtil.putUserInfo(userBean);
                         DataUtil.putToken(userBean.token);
                         DataUtil.addLoginUserInfoList(userBean);
-                        IMUtil.loginIM(that,userBean.userId,userBean.imToken);
+                        IMUtil.loginIM(that, userBean.userId, userBean.imToken);
                     }
                 });
     }

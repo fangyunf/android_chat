@@ -4,6 +4,9 @@
 
 package com.turunsi.yaoxin.main.mine.account;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
@@ -61,23 +64,29 @@ public class AccoutCodeDetailActivity extends BaseActivity implements View.OnCli
         super.onCreate(savedInstanceState);
 //    changeStatusBarColor(R.color.color_e9eff5);
         viewBinding = ActivityMineAccountCodeBinding.inflate(getLayoutInflater());
-
         setContentView(viewBinding.getRoot());
         transtStatusBar(viewBinding.activityMineAccountCodeNav);
         initView();
     }
 
-
     private void initView() {
-
         viewBinding.activityMineAccountCodeNav.addCloseImageButton().setOnClickListener(this);
         viewBinding.activityMineAccountCodeSavePhoto.setOnClickListener(this);
-
+        viewBinding.activityMineAccountCodeNameTv.setText(DataUtil.getUserInfo().username);
+        viewBinding.tvAccount.setText("ID:" + DataUtil.getUserInfo().memberCode);
         Bitmap bitmap = generateQRCode(DataUtil.getUserInfo().memberCode);
         if (bitmap != null) {
             viewBinding.activityMineAccountCodeCodeIv.setImageBitmap(bitmap);
         }
-
+        GlideUtil.yh_loadImageRoundedCorner(this, viewBinding.activityMineAccountCodeHeadIv, DataUtil.getUserInfo().avatar, 2);
+        viewBinding.tvCopy.setOnClickListener(view -> {
+            ClipboardManager clipboard = (ClipboardManager) this.getSystemService(Context.CLIPBOARD_SERVICE);
+            // 创建一个ClipData对象，包含要复制的文本
+            ClipData clip = ClipData.newPlainText("label", DataUtil.getUserInfo().memberCode);
+            // 将ClipData对象放入剪切板
+            clipboard.setPrimaryClip(clip);
+            ToastUtils.toastMsg("复制成功");
+        });
     }
 
     private Bitmap generateQRCode(String text) {

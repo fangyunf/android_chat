@@ -1,7 +1,6 @@
 package com.yaoxin.appbase.net;
 
 
-
 /**
  * Created by will
  * on 2018/5/25.
@@ -11,12 +10,11 @@ public class Constant {
     public static final Boolean DEBUG = true;
     public static Boolean isRunningRealName = false;
     public static Boolean isRunningLoginView = false;
-//    public static final String BASE_URL = "http://sy.sxweinizx.com/";
+    //    public static final String BASE_URL = "http://sy.sxweinizx.com/";
 //    public static final String ENCODE_KEY = "frxsecretpadding";
 //    public static final String MSG_ENCODE_KEY = "carefullanimchat";
-
-    public static final String BASE_URL = "http://szxdzhen01yua938n.chengsuyun.com:8088/";
-    public static final String BASE_URL_H5 = "http://szxdzhen01yua938n.chengsuyun.com:8088";
+    public static final String BASE_URL = "http://longyu517xink.chengsuyun.com/";
+    public static final String BASE_URL_H5 = "http://longyu517xink.chengsuyun.com";
     public static final String ENCODE_KEY = "wesecretpaddingg";
     public static final String MSG_ENCODE_KEY = "wallstreetimchat";
 

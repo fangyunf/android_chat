@@ -99,6 +99,7 @@ public class AccountCodeDialogFragment extends BaseDialogFragment implements Vie
         }
         return null;
     }
+
     public static void showV(FragmentManager fragmentManager) {
         AccountCodeDialogFragment fragment = new AccountCodeDialogFragment();
         fragment.showNow(fragmentManager,"AccountCodeDialogFragment");

@@ -18,14 +18,13 @@ import java.util.TimerTask;
 
 public class SplashActivity extends BaseActivity {
     ActivitySplashBinding binding;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivitySplashBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         StatusBarUtils.setStatusBarLightMode(this, true, true);
-
-
 //        LoginActivity.start(SplashActivity.this);
 //        LoginActivity.start(LoginActivity.class,this,null);
 //        finish();
@@ -34,17 +33,13 @@ public class SplashActivity extends BaseActivity {
             @Override
             public void run() {
                 // 这里写你想延时执行的代码
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        String account = DataUtil.getUserid();
-                        String token = DataUtil.getUserInfo().imToken;
-
-                        if (account != null && token != null) {
-                            IMUtil.loginIM(that,account,token);
-                        } else {
-                            LoginActivity.start(LoginActivity.class, SplashActivity.this,null);
-                        }
+                runOnUiThread(() -> {
+                    String account = DataUtil.getUserid();
+                    String token = DataUtil.getUserInfo().imToken;
+                    if (account != null && token != null) {
+                        IMUtil.loginIM(that, account, token);
+                    } else {
+                        LoginActivity.start(LoginActivity.class, SplashActivity.this, null);
                     }
                 });
             }

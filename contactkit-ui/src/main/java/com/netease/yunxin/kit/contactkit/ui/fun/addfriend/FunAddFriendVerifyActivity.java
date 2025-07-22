@@ -24,21 +24,18 @@ import retrofit2.Response;
 public class FunAddFriendVerifyActivity extends BaseActivity implements View.OnClickListener {
     private UserBean userBean;
     FunAddFriendVerifyActivityBinding binding;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = FunAddFriendVerifyActivityBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         binding.funAddFriendVerifyActivityNav.addCloseImageButton().setOnClickListener(this);
-
         transtStatusBar(binding.funAddFriendVerifyActivityNav);
         binding.funAddFriendVerifyActivitySendRl.setOnClickListener(this);
-
         String result = getIntent().getStringExtra("user");
-
         if (result != null) {
-
-            userBean = new Gson().fromJson(result,UserBean.class);
+            userBean = new Gson().fromJson(result, UserBean.class);
         }
         if (extras != null || result != null) {
             String userBeanString = "";
@@ -48,39 +45,36 @@ public class FunAddFriendVerifyActivity extends BaseActivity implements View.OnC
             if (result != null) {
                 userBeanString = result;
             }
-            userBean = new Gson().fromJson(userBeanString,UserBean.class);
+            userBean = new Gson().fromJson(userBeanString, UserBean.class);
 //            binding.funAddFriendVerifyActivityHeadIv
-
-            GlideUtil.yh_loadImageRoundedCorner(this,binding.funAddFriendVerifyActivityHeadIv,userBean.avatar, DensityUtils.dp2px(30));
+            GlideUtil.yh_loadImageRoundedCorner(this, binding.funAddFriendVerifyActivityHeadIv, userBean.avatar, DensityUtils.dp2px(30));
             binding.funAddFriendVerifyActivityNameTv.setText(userBean.name);
-            binding.funAddFriendVerifyActivityAccountTv.setText("ID:"+userBean.memberCode);
+            binding.funAddFriendVerifyActivityAccountTv.setText("ID:" + userBean.memberCode);
             if (userBean.page_type == 100) {
-                binding.funAddFriendVerifyActivityAccountTv.setText("ID:"+userBean.memberCode);
+                binding.funAddFriendVerifyActivityAccountTv.setText("ID:" + userBean.memberCode);
                 binding.funAddFriendVerifyActivityNav.getTitleView().setText("好友验证");
                 binding.funAddFriendVerifyActivitySendRl.setVisibility(View.GONE);
                 binding.funAddFriendVerifyActivityTwoOptLl.setVisibility(View.VISIBLE);
                 binding.funAddFriendVerifyActivityEt.setEnabled(false);
-                binding.funAddFriendVerifyActivityEt.setText(!userBean.leaveMessage.isEmpty() ? userBean.leaveMessage:"暂无留言");
+                binding.funAddFriendVerifyActivityEt.setText(!userBean.leaveMessage.isEmpty() ? userBean.leaveMessage : "暂无留言");
                 binding.funAddFriendVerifyActivityEtTitleTv.setText("对方留言");
 
                 binding.funAddFriendVerifyActivityAggreRl.setOnClickListener(this);
                 binding.funAddFriendVerifyActivityRefuseRl.setOnClickListener(this);
             } else if (userBean.page_type == 101) {
                 binding.funAddFriendVerifyActivityNameTv.setText(userBean.userName);
-                binding.funAddFriendVerifyActivityAccountTv.setText("ID:"+userBean.userMemberCode);
-                GlideUtil.yh_loadImage(this,binding.funAddFriendVerifyActivityHeadIv,userBean.userAvatar);
+                binding.funAddFriendVerifyActivityAccountTv.setText("ID:" + userBean.userMemberCode);
+                GlideUtil.yh_loadImage(this, binding.funAddFriendVerifyActivityHeadIv, userBean.userAvatar);
                 binding.funAddFriendVerifyActivityNav.getTitleView().setText("入群申请");
                 binding.funAddFriendVerifyActivitySendRl.setVisibility(View.GONE);
                 binding.funAddFriendVerifyActivityTwoOptLl.setVisibility(View.VISIBLE);
                 binding.funAddFriendVerifyActivityEt.setEnabled(false);
                 binding.funAddFriendVerifyActivityEt.setText("暂无留言");
                 binding.funAddFriendVerifyActivityEtTitleTv.setText("对方留言");
-
                 binding.funAddFriendVerifyActivityAggreRl.setOnClickListener(this);
                 binding.funAddFriendVerifyActivityRefuseRl.setOnClickListener(this);
             }
         }
-
     }
 
     @Override
@@ -111,9 +105,9 @@ public class FunAddFriendVerifyActivity extends BaseActivity implements View.OnC
             optAddFriend(true);
         }
     }
+
     private void optAddFriend(boolean isAgree) {
         if (userBean.page_type == 101) {
-
             //1 同意,2 拒绝
             RegisterBean bean = new RegisterBean();
             bean.id = userBean.id;
@@ -132,7 +126,6 @@ public class FunAddFriendVerifyActivity extends BaseActivity implements View.OnC
                         }
                     });
         } else {
-
             //1 同意,2 拒绝
             RegisterBean bean = new RegisterBean();
             bean.id = userBean.id;

@@ -3,14 +3,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tl="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:scaleType="fitXY"
-        android:src="@mipmap/common_top_bg" />
+        android:src="@mipmap/icon_app_bg" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,103 +27,167 @@
             app:support_translucent_status_bar="false"
             app:title="我的二维码"
             app:title_text_color="@color/white"
-            app:under_divider_color="@android:color/transparent"
-            />
+            app:under_divider_color="@android:color/transparent" />
 
 
         <LinearLayout
-            android:background="@drawable/bg_white_rounded_20"
-            android:padding="15dp"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="100dp"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:layout_height="350dp">
+            android:padding="15dp">
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/activity_mine_account_code_head_iv"
+                android:layout_width="58dp"
+                android:layout_height="58dp"
+                android:scaleType="centerCrop"
+                app:riv_corner_radius="29dp" />
+
             <TextView
-                android:layout_width="match_parent"
+                android:id="@+id/activity_mine_account_code_name_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:layout_marginTop="15dp"
+                android:text="会飞的洋芋"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="我的二维码"
-                android:textColor="#ff8e5f26"
-                android:textSize="15sp"
-                />
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/tvAccount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    tools:text="sdfdsfsd" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dimen_5_dp"
+                    android:background="@drawable/bg_shiming_bg"
+                    android:paddingHorizontal="@dimen/dimen_2_dp"
+                    android:singleLine="true"
+                    android:text="已实名"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+
+                <ImageView
+                    android:id="@+id/fragment_mine_copy_iv"
+                    android:layout_width="@dimen/dimen_20_dp"
+                    android:layout_height="@dimen/dimen_20_dp"
+                    android:layout_marginLeft="10dp"
+                    android:src="@mipmap/mine_index_copy"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/tvCopy"
+                android:layout_width="@dimen/dimen_96_dp"
+                android:layout_height="@dimen/dimen_36_dp"
+                android:layout_marginTop="@dimen/dimen_10_dp"
+                android:background="@drawable/bg_copy"
+                android:gravity="center"
+                android:text="复制账号"
+                android:textColor="@color/color_white" />
+
+
             <RelativeLayout
-                android:layout_marginTop="40dp"
-                android:layout_width="210dp"
-                android:layout_height="210dp">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp">
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:src="@mipmap/account_code_qrcode_bg"
-                    />
+                    android:visibility="gone" />
+
                 <ImageView
                     android:id="@+id/activity_mine_account_code_code_iv"
                     android:layout_width="160dp"
                     android:layout_height="160dp"
-                    android:layout_centerInParent="true"
-                     />
+                    android:layout_centerInParent="true" />
             </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_15_dp"
+                android:gravity="center"
+                android:text="扫一扫二维码，加我好友"
+                android:textColor="#ffffffff"
+                android:textSize="16sp" />
+
         </LinearLayout>
-<!--        <RelativeLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content">-->
+        <!--        <RelativeLayout-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content">-->
 
-<!--            <RelativeLayout-->
-<!--                android:layout_width="317dp"-->
-<!--                android:layout_height="345dp"-->
-<!--                android:layout_centerHorizontal="true"-->
-<!--                android:layout_marginTop="80dp"-->
-<!--                android:background="@color/white">-->
+        <!--            <RelativeLayout-->
+        <!--                android:layout_width="317dp"-->
+        <!--                android:layout_height="345dp"-->
+        <!--                android:layout_centerHorizontal="true"-->
+        <!--                android:layout_marginTop="80dp"-->
+        <!--                android:background="@color/white">-->
 
-<!--                <ImageView-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:src="@mipmap/account_code_bg" />-->
+        <!--                <ImageView-->
+        <!--                    android:layout_width="match_parent"-->
+        <!--                    android:layout_height="match_parent"-->
+        <!--                    android:src="@mipmap/account_code_bg" />-->
 
-<!--                <ImageView-->
-<!--                    android:id="@+id/activity_mine_account_code_code_iv"-->
-<!--                    android:layout_width="150dp"-->
-<!--                    android:layout_height="150dp"-->
-<!--                    android:layout_centerHorizontal="true"-->
-<!--                    android:layout_marginTop="140dp" />-->
-<!--            </RelativeLayout>-->
+        <!--                <ImageView-->
+        <!--                    android:id="@+id/activity_mine_account_code_code_iv"-->
+        <!--                    android:layout_width="150dp"-->
+        <!--                    android:layout_height="150dp"-->
+        <!--                    android:layout_centerHorizontal="true"-->
+        <!--                    android:layout_marginTop="140dp" />-->
+        <!--            </RelativeLayout>-->
 
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="50dp"-->
-<!--                android:gravity="center_horizontal"-->
-<!--                android:orientation="vertical">-->
+        <!--            <LinearLayout-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_marginTop="50dp"-->
+        <!--                android:gravity="center_horizontal"-->
+        <!--                android:orientation="vertical">-->
 
 
-<!--                <com.makeramen.roundedimageview.RoundedImageView-->
-<!--                    android:id="@+id/activity_mine_account_code_head_iv"-->
-<!--                    android:layout_width="58dp"-->
-<!--                    android:layout_height="58dp"-->
-<!--                    android:scaleType="centerCrop"-->
-<!--                    app:riv_corner_radius="29dp" />-->
+        <!--                <com.makeramen.roundedimageview.RoundedImageView-->
+        <!--                    android:id="@+id/activity_mine_account_code_head_iv"-->
+        <!--                    android:layout_width="58dp"-->
+        <!--                    android:layout_height="58dp"-->
+        <!--                    android:scaleType="centerCrop"-->
+        <!--                    app:riv_corner_radius="29dp" />-->
 
-<!--                <TextView-->
-<!--                    android:id="@+id/activity_mine_account_code_name_tv"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="28dp"-->
-<!--                    android:layout_marginTop="15dp"-->
-<!--                    android:text="会飞的洋芋"-->
-<!--                    android:textColor="#ff000000"-->
-<!--                    android:textSize="20sp" />-->
-<!--            </LinearLayout>-->
-<!--        </RelativeLayout>-->
+        <!--                <TextView-->
+        <!--                    android:id="@+id/activity_mine_account_code_name_tv"-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="28dp"-->
+        <!--                    android:layout_marginTop="15dp"-->
+        <!--                    android:text="会飞的洋芋"-->
+        <!--                    android:textColor="#ff000000"-->
+        <!--                    android:textSize="20sp" />-->
+        <!--            </LinearLayout>-->
+        <!--        </RelativeLayout>-->
 
         <TextView
             android:id="@+id/activity_mine_account_code_save_photo"
-            android:layout_width="194dp"
-            android:layout_height="44dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:background="@drawable/fun_bg_app_theme_color_rounded_22"
             android:gravity="center"
             android:text="保存二维码至相册"
-            android:textColor="#ffffffff"
+            android:textColor="@color/app_theme_color"
             android:textSize="16sp" />
     </LinearLayout>
 
