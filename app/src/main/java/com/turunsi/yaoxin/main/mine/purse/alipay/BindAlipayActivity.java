@@ -29,6 +29,7 @@ import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.Constant;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.CommonCallBack;
+import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
 import com.yaoxin.appbase.utils.UploadUtil;
 import com.zhihu.matisse.Matisse;
@@ -53,18 +54,17 @@ public class BindAlipayActivity extends BaseActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         binding = ActivityMineBindAlipayBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        StatusBarUtils.transtStatusBar(this, binding.activityMineBindAlipayNav);
         binding.activityMineBindAlipayNav.addCloseImageButton().setOnClickListener(this);
         binding.activityMineBindAlipayGotoBindTv.setOnClickListener(this);
         binding.activityMineBindAlipayBindTv.setOnClickListener(this);
         binding.activityMineBindAlipayRebindTv.setOnClickListener(this);
         binding.activityMineBindAlipayBindSuccessTv.setOnClickListener(this);
         binding.activityMineBindAlipayUploadLl.setOnClickListener(this);
-
         if (extras != null && extras.get("type") != null) {
             String tempType = (String) extras.get("type");
             _bindType = Integer.parseInt(tempType);
         }
-
         binding.activityMineBindKaihuName.viewTitleTfWithoutBgLl.setVisibility(View.GONE);
         switch (_bindType) {
             case 1:

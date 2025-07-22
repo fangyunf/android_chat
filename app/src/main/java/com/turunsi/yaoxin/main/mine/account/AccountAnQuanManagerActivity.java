@@ -25,6 +25,7 @@ import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
+import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
 
 import java.util.ArrayList;
@@ -45,17 +46,15 @@ public class AccountAnQuanManagerActivity extends BaseActivity implements View.O
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding =
-                ActivityAccountAnquanManagerBinding.inflate(getLayoutInflater());
+        binding = ActivityAccountAnquanManagerBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        StatusBarUtils.transtStatusBar(this, binding.activityAccountAnquanManagerNav);
         _initView();
-
     }
 
     @Override
     protected void _initView() {
         binding.activityAccountAnquanManagerNav.addCloseImageButton().setOnClickListener(this);
-
         binding.activityAccountAnquanManagerCell1.viewTitleArrowTv.setText("加我为好友时需要验证");
         binding.activityAccountAnquanManagerCell1.viewTitleArrowRightTvSwitch.setOnClickListener(this);
         binding.activityAccountAnquanManagerCell1.viewTitleArrowRightTvSwitch.setVisibility(View.VISIBLE);
@@ -92,7 +91,6 @@ public class AccountAnQuanManagerActivity extends BaseActivity implements View.O
         binding.activityAccountAnquanManagerCell7.viewTitleArrowArrowIv.setVisibility(View.GONE);
 
 
-
     }
 
     @Override
@@ -104,7 +102,7 @@ public class AccountAnQuanManagerActivity extends BaseActivity implements View.O
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                        groupInfoBean = new Gson().fromJson(body.data.toString(),GroupInfoBean.class);
+                        groupInfoBean = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
                         updateUI();
                     }
 
@@ -150,7 +148,6 @@ public class AccountAnQuanManagerActivity extends BaseActivity implements View.O
     }
 
 
-
     void doOptWithType(int type) {
 
         RegisterBean bean = new RegisterBean();
@@ -161,10 +158,10 @@ public class AccountAnQuanManagerActivity extends BaseActivity implements View.O
             bean.phoneAdd = binding.activityAccountAnquanManagerCell2.viewTitleArrowRightTvSwitch.isSelected() ? "0" : "1";
         }
         if (type == 2) {
-            bean.idAdd = binding.activityAccountAnquanManagerCell3.viewTitleArrowRightTvSwitch.isSelected() ?"0" : "1";
+            bean.idAdd = binding.activityAccountAnquanManagerCell3.viewTitleArrowRightTvSwitch.isSelected() ? "0" : "1";
         }
         if (type == 3) {
-            bean.cardAdd = binding.activityAccountAnquanManagerCell4.viewTitleArrowRightTvSwitch.isSelected() ?"0" : "1";
+            bean.cardAdd = binding.activityAccountAnquanManagerCell4.viewTitleArrowRightTvSwitch.isSelected() ? "0" : "1";
         }
         if (type == 4) {
             bean.qrAdd = binding.activityAccountAnquanManagerCell5.viewTitleArrowRightTvSwitch.isSelected() ? "0" : "1";

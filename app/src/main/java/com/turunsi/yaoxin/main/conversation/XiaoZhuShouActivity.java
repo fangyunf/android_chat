@@ -41,12 +41,12 @@ public class XiaoZhuShouActivity extends BaseActivity implements View.OnClickLis
     ActivityXiaozhushouBinding binding;
 
     XiaoZhuShouListAdapter adapter = new XiaoZhuShouListAdapter();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityXiaozhushouBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
         transtStatusBar(binding.activityXiaozhushouNav);
         binding.activityXiaozhushouNav.addCloseImageButton().setOnClickListener(this);
         binding.activityXiaozhushouRv.setLayoutManager(new LinearLayoutManager(this));
@@ -62,7 +62,7 @@ public class XiaoZhuShouActivity extends BaseActivity implements View.OnClickLis
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        GroupInfoBean tempBean = new Gson().fromJson(body.data.toString(),GroupInfoBean.class);
+                        GroupInfoBean tempBean = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
                         adapter.setItems(tempBean.data);
                         adapter.notifyDataSetChanged();
                     }

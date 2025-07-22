@@ -1,6 +1,8 @@
 package com.turunsi.yaoxin.main.mine.purse.tixian;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
@@ -57,10 +59,8 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
         StatusBarUtils.transtStatusBar(this, binding.activityMinePurseTixianNav);
         binding.activityMinePurseTixianNav.addCloseImageButton().setOnClickListener(this);
 //        binding.
-
         binding.activityMinePurseTixianMoneyEt.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
         binding.activityMinePurseTixianMoneyEt.setKeyListener(DigitsKeyListener.getInstance("0123456789."));
-
         binding.activityMinePurseTixianMoneyEt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -124,10 +124,11 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
         binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setFocusable(false);
         binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setFocusableInTouchMode(false);
         binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setClickable(true);
-        binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgLl.setBackground(getResources().getDrawable(R.color.color_white));
-        binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setBackground(getResources().getDrawable(R.color.color_white));
+        binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgLl.setBackground(new BitmapDrawable());
+        binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setBackground(new BitmapDrawable());
         binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setGravity(gravity);
         binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setHint("请选择");
+        binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setTextColor(Color.WHITE);
     }
 
     void tiXianClick(String pwd) {
@@ -153,7 +154,7 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
             bean.zfbNo = wxPayBean.phone;
             bean.name = wxPayBean.name;
             bean.zfbUrl = wxPayBean.usdt;
-            bean.userUsdtId = wxPayBean.id +"";
+            bean.userUsdtId = wxPayBean.id + "";
         } else if (payType.equals("yhkpay")) {
 
             bean.zfbNo = yhkPayBean.phone;
@@ -191,6 +192,7 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
                         UserBean bean = new Gson().fromJson(body.data.toString(), UserBean.class);
                         accountMoeny = NumberUtil.formartMoney(bean.balance);
                         binding.activityMinePurseMyLingqian.viewTitleTfWithoutBgEt.setText("¥" + NumberUtil.formartMoney(bean.balance));
+                        binding.tvBlance.setText("可用余额:" + NumberUtil.formartMoney(bean.balance));
                     }
 
                     @Override
@@ -295,7 +297,7 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
 
                             // 即使失败也要检查是否所有请求都完成了
                             if (completedRequests == 2) {
-                        handleAllRequestsCompleted();
+                                handleAllRequestsCompleted();
                             }
                         }
                     }

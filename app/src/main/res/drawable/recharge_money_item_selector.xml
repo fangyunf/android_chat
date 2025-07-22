@@ -5,7 +5,6 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:drawable="@drawable/bg_d3b485_rounded_4" android:state_selected="true" />
-
-    <item android:drawable="@drawable/bg_f2f2f2_rounded_4" android:state_selected="false" />
+    <item android:drawable="@drawable/bg_white_stork_rounded_bg" android:state_selected="false" />
 
 </selector>

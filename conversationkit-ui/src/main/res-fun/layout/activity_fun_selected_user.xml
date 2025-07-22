@@ -1,62 +1,59 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2022 NetEase, Inc. All rights reserved.
   ~ Use of this source code is governed by a MIT license that can be
   ~ found in the LICENSE file.
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/color_white"
-
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
+    android:background="@mipmap/icon_app_bg"
+    android:orientation="vertical">
 
 
     <com.yaoxin.appbase.navbar.NavToolbar
-
         android:id="@+id/activity_fun_selected_user_nav"
         style="@style/WhiteFontToolbar"
-        android:background="#ffffff"
-        app:back_icon="@mipmap/temp_ic_back"
+        android:background="@color/transparent"
+        app:back_icon="@mipmap/temp_ic_back_white"
         app:enable_under_divider="true"
         app:support_translucent_status_bar="false"
         app:title="创建群聊"
-        app:title_text_color="@color/color_333333"
+        app:title_text_color="@color/color_white"
         app:under_divider_color="@color/transparent"
 
         />
+
     <EditText
         android:id="@+id/activity_fun_selected_user_search_et"
-        android:layout_margin="@dimen/dimen_14_dp"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_40_dp"
-        android:paddingHorizontal="@dimen/dimen_14_dp"
-        android:textSize="15sp"
-        android:hint="搜索"
-        android:textColorHint="@color/color_999999"
-        android:textColor="@color/black"
+        android:layout_margin="@dimen/dimen_14_dp"
         android:background="@drawable/bg_f2f2f2_rounded_10"
         android:cursorVisible="true"
         android:focusable="true"
         android:focusableInTouchMode="true"
+        android:hint="搜索"
+        android:paddingHorizontal="@dimen/dimen_14_dp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/color_999999"
+        android:textSize="15sp"
 
         />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/activity_fun_selected_user_rv"
-                android:background="@color/color_white"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                />
+                android:layout_height="match_parent" />
 
             <!--字母导航栏-->
             <com.nanchen.wavesidebar.WaveSideBarView
@@ -65,26 +62,26 @@
                 android:layout_height="match_parent"
                 android:padding="8dp"
                 app:sidebar_lazy_respond="false"
-                app:sidebar_text_color="@color/black"/>
+                app:sidebar_text_color="@color/black" />
 
 
         </FrameLayout>
+
         <TextView
             android:id="@+id/activity_fun_selected_user_confirm_tv"
             android:layout_width="wrap_content"
             android:layout_height="52dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="40dp"
+            android:layout_marginBottom="@dimen/dimen_40_dp"
+            android:background="@drawable/fun_bg_app_theme_color_rounded_26"
+            android:gravity="center"
             android:paddingHorizontal="30dp"
             android:text="确定"
-            android:layout_marginBottom="@dimen/dimen_40_dp"
-            android:gravity="center"
-            android:background="@drawable/fun_bg_app_theme_color_rounded_26"
             android:textColor="#ffffffff"
-            android:layout_marginRight="40dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
             android:textSize="16sp" />
     </RelativeLayout>
-
 
 
 </LinearLayout>

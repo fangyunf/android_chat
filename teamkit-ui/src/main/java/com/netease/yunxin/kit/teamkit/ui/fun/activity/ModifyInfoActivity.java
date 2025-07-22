@@ -26,46 +26,46 @@ import retrofit2.Response;
 
 public class ModifyInfoActivity extends BaseActivity implements View.OnClickListener {
 
-  ActivityModifyInfoBinding binding;
-String type;
-  @Override
-  protected void onCreate(@Nullable Bundle savedInstanceState) {
+    ActivityModifyInfoBinding binding;
+    String type;
 
-    super.onCreate(savedInstanceState);
-    String title = getIntent().getStringExtra("title");
-    type = getIntent().getStringExtra("type");
-    String hint = getIntent().getStringExtra("hint");
-    binding = ActivityModifyInfoBinding.inflate(getLayoutInflater());
-    transtStatusBar(binding.activityModifyInfoNav);
-    setContentView(binding.getRoot());
-    binding.activityModifyInfoNav.addCloseImageButton().setOnClickListener(this);
-    binding.activityModifyInfoSaveRl.setOnClickListener(this);
-    if (title != null) {
-      binding.activityModifyInfoNav.getTitleView().setText(title);
-    }
-    if (hint != null) {
-      binding.activityModifyInfoEt.setText(hint);
-    }
-  }
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
 
-  @Override
-  public void onClick(View v) {
-    if (v == binding.activityModifyInfoNav.addCloseImageButton()) {
-      finish();
-    } else if (v == binding.activityModifyInfoSaveRl) {
-      String textStr = getTextStr(binding.activityModifyInfoEt);
-      if (textStr == null || textStr.isEmpty()) {
-        ToastUtils.toastMsg("请输入");
-        return;
-      }
-      Intent resultIntent = new Intent();
-      resultIntent.putExtra("type", type);
-      resultIntent.putExtra("result", textStr);
-      setResult(Activity.RESULT_OK, resultIntent);
-      finish();
+        super.onCreate(savedInstanceState);
+        String title = getIntent().getStringExtra("title");
+        type = getIntent().getStringExtra("type");
+        String hint = getIntent().getStringExtra("hint");
+        binding = ActivityModifyInfoBinding.inflate(getLayoutInflater());
+        transtStatusBar(binding.activityModifyInfoNav);
+        setContentView(binding.getRoot());
+        binding.activityModifyInfoNav.addCloseImageButton().setOnClickListener(this);
+        binding.activityModifyInfoSaveRl.setOnClickListener(this);
+        if (title != null) {
+            binding.activityModifyInfoNav.getTitleView().setText(title);
+        }
+        if (hint != null) {
+            binding.activityModifyInfoEt.setText(hint);
+        }
     }
-  }
 
+    @Override
+    public void onClick(View v) {
+        if (v == binding.activityModifyInfoNav.addCloseImageButton()) {
+            finish();
+        } else if (v == binding.activityModifyInfoSaveRl) {
+            String textStr = getTextStr(binding.activityModifyInfoEt);
+            if (textStr == null || textStr.isEmpty()) {
+                ToastUtils.toastMsg("请输入");
+                return;
+            }
+            Intent resultIntent = new Intent();
+            resultIntent.putExtra("type", type);
+            resultIntent.putExtra("result", textStr);
+            setResult(Activity.RESULT_OK, resultIntent);
+            finish();
+        }
+    }
 
 
 }

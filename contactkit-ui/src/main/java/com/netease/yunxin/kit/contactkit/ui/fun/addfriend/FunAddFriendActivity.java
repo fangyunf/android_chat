@@ -33,6 +33,7 @@ import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.BeanToMapUtil;
+import com.yaoxin.appbase.utils.StatusBarUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,77 +42,81 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 public class FunAddFriendActivity extends BaseAddFriendActivity {
-  ArrayList<UserBean> dataList = new ArrayList<>();
-  FunAddFriendListAdapter adapter = new FunAddFriendListAdapter();
-  @Override
-  protected void onCreate(@Nullable Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-  }
+    ArrayList<UserBean> dataList = new ArrayList<>();
+    FunAddFriendListAdapter adapter = new FunAddFriendListAdapter();
 
-  @Override
-  protected View initViewAndGetRootView(Bundle savedInstanceState) {
-    FunAddFriendActivityBinding viewBinding =
-        FunAddFriendActivityBinding.inflate(getLayoutInflater());
-    etAddFriendAccount = viewBinding.etAddFriendAccount;
-    ivFriendClear = viewBinding.ivFriendClear;
-    addFriendEmptyLayout = viewBinding.addFriendEmptyLayout;
-    viewBinding.funAddFriendActivityNav.addCloseImageButton().setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        finish();
-      }
-    });
-
-    viewBinding.funAddFriendActivityRv.setLayoutManager(new LinearLayoutManager(this));
-    viewBinding.funAddFriendActivityRv.setAdapter(adapter);
-    Context that = this;
-    adapter.addOnItemChildClickListener(R.id.item_fun_addfriend_list_cell_add_tv, new BaseQuickAdapter.OnItemChildClickListener<UserBean>() {
-      @Override
-      public void onItemClick(@NonNull BaseQuickAdapter<UserBean, ?> baseQuickAdapter, @NonNull View view, int i) {
-        UserBean item = baseQuickAdapter.getItem(i);
-        HashMap map = new HashMap();
-        map.put("user",new Gson().toJson(item));
-        FunAddFriendVerifyActivity.start(FunAddFriendVerifyActivity.class,that, map);
-      }
-    });
-
-    etAddFriendAccount.setOnEditorActionListener(actionListener);
-
-    return viewBinding.getRoot();
-  }
-  private final EditText.OnEditorActionListener actionListener =
-          (v, actionId, event) -> {
-            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-              String accountId = v.getEditableText().toString();
-              if (!TextUtils.isEmpty(accountId)) {
-                RegisterBean bean = new RegisterBean();
-                bean.phoneAndCode = accountId;
-                bean.type = 0;
-                HttpUtil.apiW().friends_search(bean)
-                        .enqueue(new CommonCallback<NetData>() {
-                          @Override
-                          public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                            UserBean userInfo = new Gson().fromJson(body.data.toString(), UserBean.class);
-                            startProfileActivity(userInfo);
-                          }
-
-                          @Override
-                          public void Failure(Call<NetData> call, Throwable t) {
-
-                          }
-                        });
-              }
-            }
-            return false;
-          };
-  protected void startProfileActivity(UserBean userInfo) {
-    if (userInfo == null) {
-      return;
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
-    dataList.clear();
-    dataList.add(userInfo);
-    adapter.setItems(dataList);
-    adapter.notifyDataSetChanged();
+
+    @Override
+    protected View initViewAndGetRootView(Bundle savedInstanceState) {
+        FunAddFriendActivityBinding viewBinding =
+                FunAddFriendActivityBinding.inflate(getLayoutInflater());
+        StatusBarUtils.transtStatusBar(this, viewBinding.funAddFriendActivityNav);
+        etAddFriendAccount = viewBinding.etAddFriendAccount;
+        ivFriendClear = viewBinding.ivFriendClear;
+        addFriendEmptyLayout = viewBinding.addFriendEmptyLayout;
+        viewBinding.funAddFriendActivityNav.addCloseImageButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        viewBinding.funAddFriendActivityRv.setLayoutManager(new LinearLayoutManager(this));
+        viewBinding.funAddFriendActivityRv.setAdapter(adapter);
+        Context that = this;
+        adapter.addOnItemChildClickListener(R.id.item_fun_addfriend_list_cell_add_tv, new BaseQuickAdapter.OnItemChildClickListener<UserBean>() {
+            @Override
+            public void onItemClick(@NonNull BaseQuickAdapter<UserBean, ?> baseQuickAdapter, @NonNull View view, int i) {
+                UserBean item = baseQuickAdapter.getItem(i);
+                HashMap map = new HashMap();
+                map.put("user", new Gson().toJson(item));
+                FunAddFriendVerifyActivity.start(FunAddFriendVerifyActivity.class, that, map);
+            }
+        });
+
+        etAddFriendAccount.setOnEditorActionListener(actionListener);
+
+        return viewBinding.getRoot();
+    }
+
+    private final EditText.OnEditorActionListener actionListener =
+            (v, actionId, event) -> {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    String accountId = v.getEditableText().toString();
+                    if (!TextUtils.isEmpty(accountId)) {
+                        RegisterBean bean = new RegisterBean();
+                        bean.phoneAndCode = accountId;
+                        bean.type = 0;
+                        HttpUtil.apiW().friends_search(bean)
+                                .enqueue(new CommonCallback<NetData>() {
+                                    @Override
+                                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                                        UserBean userInfo = new Gson().fromJson(body.data.toString(), UserBean.class);
+                                        startProfileActivity(userInfo);
+                                    }
+
+                                    @Override
+                                    public void Failure(Call<NetData> call, Throwable t) {
+
+                                    }
+                                });
+                    }
+                }
+                return false;
+            };
+
+    protected void startProfileActivity(UserBean userInfo) {
+        if (userInfo == null) {
+            return;
+        }
+        dataList.clear();
+        dataList.add(userInfo);
+        adapter.setItems(dataList);
+        adapter.notifyDataSetChanged();
 //    return;
 //    if (TextUtils.equals(userInfo.getAccount(), IMKitClient.account())) {
 //      XKitRouter.withKey(RouterConstant.PATH_MINE_INFO_PAGE).withContext(this).navigate();
@@ -121,5 +126,5 @@ public class FunAddFriendActivity extends BaseAddFriendActivity {
 //          .withParam(RouterConstant.KEY_ACCOUNT_ID_KEY, userInfo.getAccount())
 //          .navigate();
 //    }
-  }
+    }
 }

@@ -22,6 +22,7 @@ import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.BaseEvent;
+import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -37,15 +38,17 @@ public class MyGroupListActivity extends BaseActivity implements View.OnClickLis
     GroupListAdapter adapter;
     List<GroupInfoBean> dataList;
     String caiDanId;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMyGroupListNewBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        StatusBarUtils.transtStatusBar(this, binding.activityMyGroupListNewNav);
         binding.activityMyGroupListNewNav.addCloseImageButton().setOnClickListener(this);
 
         binding.activityMyGroupListNewRv.setLayoutManager(new LinearLayoutManager(this));
-         adapter = new GroupListAdapter();
+        adapter = new GroupListAdapter();
         binding.activityMyGroupListNewRv.setAdapter(adapter);
         Activity activity = this;
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener<GroupInfoBean>() {
@@ -74,9 +77,10 @@ public class MyGroupListActivity extends BaseActivity implements View.OnClickLis
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                        Type type = new TypeToken<List<GroupInfoBean>>() {}.getType();
+                        Type type = new TypeToken<List<GroupInfoBean>>() {
+                        }.getType();
 
-                         dataList = new Gson().fromJson(body.data.toString(),type);
+                        dataList = new Gson().fromJson(body.data.toString(), type);
 
                         adapter.setItems(dataList);
                         adapter.notifyDataSetChanged();

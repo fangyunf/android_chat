@@ -80,39 +80,36 @@ public abstract class FunChatFragment extends ChatBaseFragment {
         DataUtil.qunzhuId = "";
         viewBinding = FunChatFragmentBinding.inflate(inflater, container, false);
         chatView = viewBinding.chatView;
-        changeStatusBarColor(R.color.color_white);
+//        changeStatusBarColor(R.color.color_white);
+        viewBinding.chatView.getTitleBar().getBackImageView().setImageResource(com.yaoxin.appbase.R.mipmap.temp_ic_back_white);
+        StatusBarUtils.setStatusBarLightMode(getActivity(), true, true);
+        try {
+            SoftKeyboardFixerForFullscreen.assistActivity(getActivity());
+            FrameLayout frameLayout = viewBinding.chatView.getTitleBarLayout();
+            frameLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    // 确保只调用一次
+                    frameLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    int height = frameLayout.getHeight();
+                    LinearLayout.LayoutParams frameLayoutParams = (LinearLayout.LayoutParams) viewBinding.chatView.getTitleBarLayout().getLayoutParams();
+                    frameLayoutParams.height = height + BarUtils.getStatusBarHeight();
+                    viewBinding.chatView.getTitleBarLayout().setLayoutParams(frameLayoutParams);
+                    viewBinding.chatView.getTitleBarLayout().setPadding(0, BarUtils.getStatusBarHeight(), 0, 0);
+                }
+            });
+        } catch (Exception e) {
 
-        viewBinding.chatView.getTitleBar().getBackImageView().setImageResource(com.yaoxin.appbase.R.mipmap.temp_ic_back);
-//        StatusBarUtils.setStatusBarLightMode(getActivity(), true, true);
-//        try {
-//
-//            SoftKeyboardFixerForFullscreen.assistActivity(getActivity());
-//            FrameLayout frameLayout = viewBinding.chatView.getTitleBarLayout();
-//            frameLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-//                @Override
-//                public void onGlobalLayout() {
-//                    // 确保只调用一次
-//                    frameLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-//                    int height = frameLayout.getHeight();
-//                    LinearLayout.LayoutParams frameLayoutParams = (LinearLayout.LayoutParams) viewBinding.chatView.getTitleBarLayout().getLayoutParams();
-//                    frameLayoutParams.height = height + BarUtils.getStatusBarHeight();
-//                    viewBinding.chatView.getTitleBarLayout().setLayoutParams(frameLayoutParams);
-//                    viewBinding.chatView.getTitleBarLayout().setPadding(0, BarUtils.getStatusBarHeight(), 0, 0);
-//                }
-//            });
-//        } catch (Exception e) {
-//
-//        }
-
-
+        }
 
 
         return viewBinding.getRoot();
     }
 
     void _updateMessageCell(IMMessage message) {
-        chatView.getMessageListView().updateMessage(message,null);
+        chatView.getMessageListView().updateMessage(message, null);
     }
+
     @Override
     public Integer getReplayMessageClickPreviewDialogBgRes() {
         return R.color.color_ededed;
@@ -193,7 +190,7 @@ public abstract class FunChatFragment extends ChatBaseFragment {
                     for (GroupInfoBean bean : DataUtil.getFriendInfoList()) {
                         if (bean.memberCode.equals(msgBean.result.memberCode)) {
                             RegisterBean bean1 = new RegisterBean();
-                            bean1.phoneAndCode =  msgBean.result.memberCode;
+                            bean1.phoneAndCode = msgBean.result.memberCode;
                             bean1.type = 0;
                             HttpUtil.apiW().friends_search(bean1)
                                     .enqueue(new CommonCallback<NetData>() {
@@ -215,7 +212,7 @@ public abstract class FunChatFragment extends ChatBaseFragment {
                         }
                     }
                     RegisterBean bean = new RegisterBean();
-                    bean.phoneAndCode =  msgBean.result.memberCode;
+                    bean.phoneAndCode = msgBean.result.memberCode;
                     bean.type = 0;
                     HttpUtil.apiW().friends_search(bean)
                             .enqueue(new CommonCallback<NetData>() {
@@ -223,8 +220,8 @@ public abstract class FunChatFragment extends ChatBaseFragment {
                                 public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                                     UserBean userInfo = new Gson().fromJson(body.data.toString(), UserBean.class);
                                     HashMap map = new HashMap();
-                                    map.put("user",new Gson().toJson(userInfo));
-                                    FunAddFriendVerifyActivity.start(FunAddFriendVerifyActivity.class,getActivity(), map);
+                                    map.put("user", new Gson().toJson(userInfo));
+                                    FunAddFriendVerifyActivity.start(FunAddFriendVerifyActivity.class, getActivity(), map);
                                 }
 
                                 @Override
@@ -267,10 +264,10 @@ public abstract class FunChatFragment extends ChatBaseFragment {
                                     /// 当前用户领取已领取过当前红包，展示领取详细信息
                                     ///当红包是个人/专属，当前非目标领取用户，直接显示查看领取详情
                                     HashMap map = new HashMap();
-                                    map.put("redpacketId",bean.redpacketId);
+                                    map.put("redpacketId", bean.redpacketId);
                                     Activity context = getActivity();
                                     if (context != null) {
-                                        FunRedPacketResultActivity.start(FunRedPacketResultActivity.class,context,map);
+                                        FunRedPacketResultActivity.start(FunRedPacketResultActivity.class, context, map);
                                     }
                                 }
 

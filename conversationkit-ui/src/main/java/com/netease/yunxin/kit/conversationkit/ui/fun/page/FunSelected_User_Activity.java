@@ -39,6 +39,7 @@ import com.yaoxin.appbase.utils.BaseEvent;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.DialogAlertUtil;
 import com.yaoxin.appbase.utils.PinnedHeaderDecoration;
+import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.TeamIconUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
 
@@ -51,6 +52,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Stack;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -60,10 +62,10 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
     ArrayList<GroupInfoBean> mContactModels = new ArrayList<>();
     private ActivityFunSelectedUserBinding binding;
     Fun_Selected_UserListAdapter adapter = new Fun_Selected_UserListAdapter();
-
     int page_type = 0;
     GroupInfoBean groupInfoBean;
     ArrayList ids = new ArrayList<>();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +73,7 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
         String temp = DataUtil.getStringValue("groupInfo");
 
         if (temp != null) {
-            groupInfoBean = new Gson().fromJson(temp,GroupInfoBean.class);
+            groupInfoBean = new Gson().fromJson(temp, GroupInfoBean.class);
         }
 
         if (type1 != null) {
@@ -79,6 +81,7 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
         }
         binding = ActivityFunSelectedUserBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        StatusBarUtils.transtStatusBar(this, binding.activityFunSelectedUserNav);
 
         binding.activityFunSelectedUserNav.addCloseImageButton().setOnClickListener(this);
         binding.activityFunSelectedUserConfirmTv.setOnClickListener(this);
@@ -107,16 +110,17 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
         _requestData1();
         _initView();
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        DataUtil.setStringValue("","groupInfo");
+        DataUtil.setStringValue("", "groupInfo");
     }
 
 
     protected void _requestData1() {
         if (page_type == 3 || page_type == 4) {
-            if (groupInfoBean == null ) {
+            if (groupInfoBean == null) {
                 return;
             }
             if (page_type == 4) {
@@ -144,53 +148,51 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
             adapter.notifyDataSetChanged();
             return;
         }
-        HttpUtil.apiW().friends_friendList(new RegisterBean())
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+        HttpUtil.apiW().friends_friendList(new RegisterBean()).enqueue(new CommonCallback<NetData>() {
+            @Override
+            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                        Type type = new TypeToken<List<GroupInfoBean>>() {
-                        }.getType();
-                        mContactModels = new Gson().fromJson(body.data.toString(), type);
-                        for (GroupInfoBean tempBean :
-                                mContactModels) {
-                            if (tempBean.userId.equals(DataUtil.getKeFuId())) {
-                                mContactModels.remove(tempBean);
-                                break;
-                            }
-
-                        }
-
-                        Collections.sort(mContactModels, new Comparator<GroupInfoBean>() {
-                            @Override
-                            public int compare(GroupInfoBean o1, GroupInfoBean o2) {
-                                // 获取name的首字母并忽略大小写比较
-                                String firstLetter = FirstLetterUtil.getFirstLetter(o1.name);
-                                String secondLetter = FirstLetterUtil.getFirstLetter(o2.name);
-                                return firstLetter.compareTo(secondLetter);
-                            }
-                        });
-                        if (page_type == 2) {
-                            ArrayList<GroupInfoBean> tempArray = new ArrayList<>();
-                            for (GroupInfoBean tempBean :mContactModels) {
-                                if (!ids.contains(tempBean.userId)) {
-                                    tempArray.add(tempBean);
-                                }
-                            }
-                            mContactModels = tempArray;
-                        } else {
-
-                        }
-                        adapter.contacts = mContactModels;
-                        adapter.setItems(mContactModels);
-                        adapter.notifyDataSetChanged();
+                Type type = new TypeToken<List<GroupInfoBean>>() {
+                }.getType();
+                mContactModels = new Gson().fromJson(body.data.toString(), type);
+                for (GroupInfoBean tempBean : mContactModels) {
+                    if (tempBean.userId.equals(DataUtil.getKeFuId())) {
+                        mContactModels.remove(tempBean);
+                        break;
                     }
 
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
+                }
 
+                Collections.sort(mContactModels, new Comparator<GroupInfoBean>() {
+                    @Override
+                    public int compare(GroupInfoBean o1, GroupInfoBean o2) {
+                        // 获取name的首字母并忽略大小写比较
+                        String firstLetter = FirstLetterUtil.getFirstLetter(o1.name);
+                        String secondLetter = FirstLetterUtil.getFirstLetter(o2.name);
+                        return firstLetter.compareTo(secondLetter);
                     }
                 });
+                if (page_type == 2) {
+                    ArrayList<GroupInfoBean> tempArray = new ArrayList<>();
+                    for (GroupInfoBean tempBean : mContactModels) {
+                        if (!ids.contains(tempBean.userId)) {
+                            tempArray.add(tempBean);
+                        }
+                    }
+                    mContactModels = tempArray;
+                } else {
+
+                }
+                adapter.contacts = mContactModels;
+                adapter.setItems(mContactModels);
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void Failure(Call<NetData> call, Throwable t) {
+
+            }
+        });
     }
 
 
@@ -248,13 +250,13 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
                 int count = 0;
                 for (GroupInfoBean tempInfoBean : baseQuickAdapter.getItems()) {
                     if (tempInfoBean.isSelected) {
-                        count ++;
+                        count++;
                     }
 
                 }
                 if (count > 0) {
                     binding.activityFunSelectedUserConfirmTv.setText("确定  " + count);
-                } else  {
+                } else {
 
                     binding.activityFunSelectedUserConfirmTv.setText("确定");
                 }
@@ -295,8 +297,7 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
                     adapter.notifyDataSetChanged();
                 } else {
                     ArrayList<GroupInfoBean> tempArr = new ArrayList<>();
-                    for (GroupInfoBean temp :
-                            mContactModels) {
+                    for (GroupInfoBean temp : mContactModels) {
                         if (temp.name.contains(string)) {
                             tempArr.add(temp);
                         }
@@ -312,7 +313,7 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
 
     @Override
     public void onClick(View view) {
-        if (view == binding.activityFunSelectedUserNav.addCloseImageButton()){
+        if (view == binding.activityFunSelectedUserNav.addCloseImageButton()) {
             finish();
         } else if (view == binding.activityFunSelectedUserConfirmTv) {
 
@@ -333,29 +334,25 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
                     return;
                 }
 
-                DialogAlertUtil.showInputAlert(this,"温馨提示","请输入群聊名称", new DialogAlertUtil.InputAlertCallBack() {
+                DialogAlertUtil.showInputAlert(this, "温馨提示", "请输入群聊名称", new DialogAlertUtil.InputAlertCallBack() {
                     @Override
                     public void inputText(String text) {
                         RegisterBean bean = new RegisterBean();
                         bean.members = list;
                         bean.groupName = text;
                         bean.groupHead = TeamIconUtils.getDefaultRandomIconUrl(true);
-                        HttpUtil.apiW().group_createGroup(bean)
-                                .enqueue(new CommonCallback<NetData>() {
-                                    @Override
-                                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                                        finish();
-                                        CustomMsgBean bean1 = new Gson().fromJson(body.data.toString(),CustomMsgBean.class);
-                                        XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_TEAM_PAGE)
-                                                .withParam(RouterConstant.CHAT_ID_KRY, bean1.groupId)
-                                                .withContext(AppProxy.getInstance().getContext())
-                                                .navigate();
-                                    }
+                        HttpUtil.apiW().group_createGroup(bean).enqueue(new CommonCallback<NetData>() {
+                            @Override
+                            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                                finish();
+                                CustomMsgBean bean1 = new Gson().fromJson(body.data.toString(), CustomMsgBean.class);
+                                XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_TEAM_PAGE).withParam(RouterConstant.CHAT_ID_KRY, bean1.groupId).withContext(AppProxy.getInstance().getContext()).navigate();
+                            }
 
-                                    @Override
-                                    public void Failure(Call<NetData> call, Throwable t) {
-                                    }
-                                });
+                            @Override
+                            public void Failure(Call<NetData> call, Throwable t) {
+                            }
+                        });
                     }
                 });
 
@@ -363,41 +360,39 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
                 RegisterBean bean = new RegisterBean();
                 bean.groupId = groupInfoBean.groupId;
                 bean.members = list;
-                HttpUtil.apiW().group_pullPeopleGroup(bean)
-                        .enqueue(new CommonCallback<NetData>() {
-                            @Override
-                            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                                ToastUtils.toastMsg(body.msg);
+                HttpUtil.apiW().group_pullPeopleGroup(bean).enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                        ToastUtils.toastMsg(body.msg);
 
-                                EventBus.getDefault().post(new BaseEvent("reloadTeamSettingData"));
-                                finish();
-                            }
+                        EventBus.getDefault().post(new BaseEvent("reloadTeamSettingData"));
+                        finish();
+                    }
 
-                            @Override
-                            public void Failure(Call<NetData> call, Throwable t) {
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
 
-                            }
-                        });
+                    }
+                });
             } else if (page_type == 3) {
                 RegisterBean registerBean = new RegisterBean();
                 registerBean.groupId = groupInfoBean.groupId;
                 registerBean.members = list;
-                HttpUtil.apiW().group_outGroup(registerBean)
-                        .enqueue(new CommonCallback<NetData>() {
-                            @Override
-                            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                HttpUtil.apiW().group_outGroup(registerBean).enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                                ToastUtils.toastMsg(body.msg);
+                        ToastUtils.toastMsg(body.msg);
 
-                                EventBus.getDefault().post(new BaseEvent("reloadTeamSettingData"));
-                                finish();
-                            }
+                        EventBus.getDefault().post(new BaseEvent("reloadTeamSettingData"));
+                        finish();
+                    }
 
-                            @Override
-                            public void Failure(Call<NetData> call, Throwable t) {
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
 
-                            }
-                        });
+                    }
+                });
             }
         }
     }

@@ -111,7 +111,7 @@ public class MainActivity extends BaseActivity {
     //  private BaseContactFragment mContactFragment;
     private ContactNewFragment mContactFragment;
     private ConversationBaseFragment mConversationFragment;
-//    private ConversationBaseFragment mConversationFragment1;
+    //    private ConversationBaseFragment mConversationFragment1;
     public static final int REQUEST_CODE_SCAN = 0x01;
 
     //皮肤变更事件
@@ -171,7 +171,7 @@ public class MainActivity extends BaseActivity {
 
                         if (body.data != null) {
                             ParamsBean updateBean = new Gson().fromJson(body.data.toString(), ParamsBean.class);
-                            showUpdate(updateBean.downloadUrl,updateBean.upMsg);
+                            showUpdate(updateBean.downloadUrl, updateBean.upMsg);
                         }
                     }
 
@@ -182,7 +182,7 @@ public class MainActivity extends BaseActivity {
                 });
     }
 
-    private void showUpdate(String downLoadUrl,String updateMsg) {
+    private void showUpdate(String downLoadUrl, String updateMsg) {
         if (downLoadUrl == null || downLoadUrl.isEmpty()) {
             return;
         }
@@ -237,6 +237,7 @@ public class MainActivity extends BaseActivity {
         AppDialog.INSTANCE.showDialogFragment(getSupportFragmentManager(), config);
 
     }
+
     private void initData() {
 //        ChatConfigManager.showReadStatus = false;
         SettingRepo.getShowReadStatus(
@@ -443,7 +444,8 @@ public class MainActivity extends BaseActivity {
 
         activityMainBinding.mine.setTextColor(getResources().getColor(R.color.tab_unchecked_color));
         activityMainBinding.mine.setCompoundDrawablesWithIntrinsicBounds(
-                null, getResources().getDrawable(R.mipmap.mine_tabbar_mine_normal), null, null);;
+                null, getResources().getDrawable(R.mipmap.mine_tabbar_mine_normal), null, null);
+        ;
 
         activityMainBinding.conversationShop.setTextColor(getResources().getColor(R.color.tab_unchecked_color));
         activityMainBinding.conversationShop.setCompoundDrawablesWithIntrinsicBounds(

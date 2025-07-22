@@ -9,8 +9,10 @@ import static com.netease.yunxin.kit.chatkit.ui.ChatKitUIConstant.LIB_TAG;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
+
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.yunxin.kit.alog.ALog;
 import com.netease.yunxin.kit.chatkit.ui.R;
@@ -20,47 +22,48 @@ import com.netease.yunxin.kit.chatkit.ui.page.ChatBaseActivity;
 import com.netease.yunxin.kit.corekit.im.model.UserInfo;
 import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
 
-/** Fun皮肤单聊聊天界面Activity，继承自ChatBaseActivity */
+/**
+ * Fun皮肤单聊聊天界面Activity，继承自ChatBaseActivity
+ */
 public class FunChatP2PActivity extends ChatBaseActivity {
 
-  private static final String TAG = "ChatP2PFunActivity";
-  private FunChatFragment chatFragment;
+    private static final String TAG = "ChatP2PFunActivity";
+    private FunChatFragment chatFragment;
 
-  @Override
-  protected void onCreate(@Nullable Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    changeStatusBarColor(R.color.fun_chat_page_bg_color);
-  }
-
-  @Override
-  public void initChat() {
-    UserInfo userInfo = (UserInfo) getIntent().getSerializableExtra(RouterConstant.CHAT_KRY);
-    String accId = getIntent().getStringExtra(RouterConstant.CHAT_ID_KRY);
-    ALog.e(LIB_TAG, TAG, "initChat:" + accId);
-    if (userInfo == null && TextUtils.isEmpty(accId)) {
-      ALog.e(LIB_TAG, TAG, "user info is null && accid is null:");
-      finish();
-      return;
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        changeStatusBarColor(R.color.fun_chat_page_bg_color);
     }
-    //set fragment
-    chatFragment = new FunChatP2PFragment();
-    Bundle bundle = new Bundle();
-    bundle.putSerializable(RouterConstant.CHAT_ID_KRY, accId);
-    bundle.putSerializable(RouterConstant.CHAT_KRY, userInfo);
-    IMMessage message = (IMMessage) getIntent().getSerializableExtra(RouterConstant.KEY_MESSAGE);
-    if (message != null) {
-      bundle.putSerializable(RouterConstant.KEY_MESSAGE, message);
+
+    @Override
+    public void initChat() {
+        UserInfo userInfo = (UserInfo) getIntent().getSerializableExtra(RouterConstant.CHAT_KRY);
+        String accId = getIntent().getStringExtra(RouterConstant.CHAT_ID_KRY);
+        ALog.e(LIB_TAG, TAG, "initChat:" + accId);
+        if (userInfo == null && TextUtils.isEmpty(accId)) {
+            ALog.e(LIB_TAG, TAG, "user info is null && accid is null:");
+            finish();
+            return;
+        }
+        //set fragment
+        chatFragment = new FunChatP2PFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(RouterConstant.CHAT_ID_KRY, accId);
+        bundle.putSerializable(RouterConstant.CHAT_KRY, userInfo);
+        IMMessage message = (IMMessage) getIntent().getSerializableExtra(RouterConstant.KEY_MESSAGE);
+        if (message != null) {
+            bundle.putSerializable(RouterConstant.KEY_MESSAGE, message);
+        }
+        chatFragment.setArguments(bundle);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().add(R.id.container, chatFragment).commitAllowingStateLoss();
     }
-    chatFragment.setArguments(bundle);
 
-    FragmentManager fragmentManager = getSupportFragmentManager();
-    fragmentManager.beginTransaction().add(R.id.container, chatFragment).commitAllowingStateLoss();
-  }
-
-  @Override
-  protected void onNewIntent(Intent intent) {
-    super.onNewIntent(intent);
-    ALog.e(LIB_TAG, TAG, "onNewIntent");
-    chatFragment.onNewIntent(intent);
-  }
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        ALog.e(LIB_TAG, TAG, "onNewIntent");
+        chatFragment.onNewIntent(intent);
+    }
 }

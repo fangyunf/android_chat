@@ -28,6 +28,7 @@ import com.yaoxin.appbase.utils.BaseEvent;
 import com.yaoxin.appbase.utils.CommonCallBack;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.GlideUtil;
+import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
 import com.yaoxin.appbase.utils.UploadUtil;
 import com.zhihu.matisse.GifSizeFilter;
@@ -44,6 +45,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -54,18 +56,19 @@ import retrofit2.Retrofit;
 
 public class AccountDetailActivity extends BaseActivity implements View.OnClickListener {
 
-  private static final int REQUEST_CODE_CHOOSE = 23;
-  private ActivityMineAccountDetailBinding viewBinding;
+    private static final int REQUEST_CODE_CHOOSE = 23;
+    private ActivityMineAccountDetailBinding viewBinding;
 
-  @Override
-  protected void onCreate(@Nullable Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 //    changeStatusBarColor(R.color.color_e9eff5);
-    viewBinding = ActivityMineAccountDetailBinding.inflate(getLayoutInflater());
-    setContentView(viewBinding.getRoot());
-    initView();
-      EventBus.getDefault().register(this);
-  }
+        viewBinding = ActivityMineAccountDetailBinding.inflate(getLayoutInflater());
+        setContentView(viewBinding.getRoot());
+        StatusBarUtils.transtStatusBar(this, viewBinding.activityMineAccountDetailNav);
+        initView();
+        EventBus.getDefault().register(this);
+    }
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -74,6 +77,7 @@ public class AccountDetailActivity extends BaseActivity implements View.OnClickL
             viewBinding.activityMineAccountDetailNameTv.setText(event.getText());
         }
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -82,9 +86,9 @@ public class AccountDetailActivity extends BaseActivity implements View.OnClickL
 
     private void initView() {
         transtStatusBar(viewBinding.activityMineAccountDetailNav);
-    viewBinding.activityMineAccountDetailNav.addCloseImageButton().setOnClickListener(this);
-    viewBinding.activityMineAccountDetailModifyHeadTv.setOnClickListener(this);
-    viewBinding.activityMineAccountDetailModifyNameTv.setOnClickListener(this);
+        viewBinding.activityMineAccountDetailNav.addCloseImageButton().setOnClickListener(this);
+        viewBinding.activityMineAccountDetailModifyHeadTv.setOnClickListener(this);
+        viewBinding.activityMineAccountDetailModifyNameTv.setOnClickListener(this);
 //    viewBinding.activityMineAccountDetailUsername.viewTitleArrowLl.setOnClickListener(this);
 //    viewBinding.activityMineAccountDetailModifyHeadIvRl.setOnClickListener(this);
 //
@@ -100,53 +104,54 @@ public class AccountDetailActivity extends BaseActivity implements View.OnClickL
 //    viewBinding.activityMineAccountDetailPhoneNum.viewTitleArrowRightTv.setVisibility(View.VISIBLE);
 //
 //    viewBinding.activityMineAccountDetailPhoneNum.viewTitleArrowRightTv.setText("+86 "+DataUtil.getUserInfo().phoneNo);
-    viewBinding.activityMineAccountDetailIdTv.setText("ID：" + DataUtil.getUserInfo().memberCode);
-    GlideUtil.yh_loadImageRoundedCorner(this,viewBinding.activityMineAccountDetailHeadIv,DataUtil.getUserInfo().avatar,25);
+        viewBinding.activityMineAccountDetailIdTv.setText("ID：" + DataUtil.getUserInfo().memberCode);
+        GlideUtil.yh_loadImageRoundedCorner(this, viewBinding.activityMineAccountDetailHeadIv, DataUtil.getUserInfo().avatar, 25);
 //      viewBinding.activityMineAccountDetailUsername.viewTitleArrowRightTv.setVisibility(View.VISIBLE);
-    viewBinding.activityMineAccountDetailNameTv.setText(DataUtil.getUserInfo().username);
+        viewBinding.activityMineAccountDetailNameTv.setText(DataUtil.getUserInfo().username);
 
-    viewBinding.activityMineAccountDetailDetailIdTv.setText(DataUtil.getUserInfo().memberCode);
-    viewBinding.activityMineAccountDetailPhoneNumTv.setText(DataUtil.getUserInfo().phoneNo);
-  }
-
-  @Override
-  public void onClick(View v) {
-    if (v == viewBinding.activityMineAccountDetailModifyNameTv) {
-
-        ModifyTextActivity.start(ModifyTextActivity.class,this,null);
-    } else if (v == viewBinding.activityMineAccountDetailModifyHeadTv) {
-        UploadUtil.openPhotoLibrary(this, Constant.REQUEST_CODE_CHOOSE);
-    } else if (v == viewBinding.activityMineAccountDetailNav.addCloseImageButton()) {
-      finish();
-
+        viewBinding.activityMineAccountDetailDetailIdTv.setText(DataUtil.getUserInfo().memberCode);
+        viewBinding.activityMineAccountDetailPhoneNumTv.setText(DataUtil.getUserInfo().phoneNo);
     }
-  }
-  @Override
-  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    super.onActivityResult(requestCode, resultCode, data);
-    if (requestCode == Constant.REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
-        List<Uri> uris = Matisse.obtainResult(data);
-        List<String> strings = Matisse.obtainPathResult(data);
 
-        if (!strings.isEmpty()) {
-            uploadImage(strings.get(0),"");
+    @Override
+    public void onClick(View v) {
+        if (v == viewBinding.activityMineAccountDetailModifyNameTv) {
+
+            ModifyTextActivity.start(ModifyTextActivity.class, this, null);
+        } else if (v == viewBinding.activityMineAccountDetailModifyHeadTv) {
+            UploadUtil.openPhotoLibrary(this, Constant.REQUEST_CODE_CHOOSE);
+        } else if (v == viewBinding.activityMineAccountDetailNav.addCloseImageButton()) {
+            finish();
+
         }
     }
-  }
 
-  public void uploadImage(String imagePath, String descriptionText) {
-    // 获取文件路径
-      UploadUtil.uploadImage(imagePath, "", new CommonCallBack() {
-          @Override
-          public void onCallBackUserBean(UserBean userBean) {
-              UserBean userInfo = DataUtil.getUserInfo();
-              userInfo.avatar = userBean.url;
-              DataUtil.putUserInfo(userInfo);
-              DataUtil.updateLoginUserInfoList(userInfo);
-              GlideUtil.yh_loadImage(viewBinding.activityMineAccountDetailHeadIv.getContext(),viewBinding.activityMineAccountDetailHeadIv, userBean.url);
-              updatePersonInfo(userBean.url,"");
-          }
-      });
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Constant.REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
+            List<Uri> uris = Matisse.obtainResult(data);
+            List<String> strings = Matisse.obtainPathResult(data);
+
+            if (!strings.isEmpty()) {
+                uploadImage(strings.get(0), "");
+            }
+        }
+    }
+
+    public void uploadImage(String imagePath, String descriptionText) {
+        // 获取文件路径
+        UploadUtil.uploadImage(imagePath, "", new CommonCallBack() {
+            @Override
+            public void onCallBackUserBean(UserBean userBean) {
+                UserBean userInfo = DataUtil.getUserInfo();
+                userInfo.avatar = userBean.url;
+                DataUtil.putUserInfo(userInfo);
+                DataUtil.updateLoginUserInfoList(userInfo);
+                GlideUtil.yh_loadImage(viewBinding.activityMineAccountDetailHeadIv.getContext(), viewBinding.activityMineAccountDetailHeadIv, userBean.url);
+                updatePersonInfo(userBean.url, "");
+            }
+        });
 //    File file = new File(imagePath);
 //
 //    // 创建 RequestBody 实例
@@ -170,29 +175,29 @@ public class AccountDetailActivity extends BaseActivity implements View.OnClickL
 //
 //              }
 //            });
-  }
-
-  void updatePersonInfo(String headUrl,String name) {
-    RegisterBean bean = new RegisterBean();
-    if (!headUrl.isEmpty()) {
-      bean.avatar = headUrl;
     }
-    if (!name.isEmpty()) {
-      bean.name = name;
+
+    void updatePersonInfo(String headUrl, String name) {
+        RegisterBean bean = new RegisterBean();
+        if (!headUrl.isEmpty()) {
+            bean.avatar = headUrl;
+        }
+        if (!name.isEmpty()) {
+            bean.name = name;
+        }
+        HttpUtil.apiW().home_changeInfo(bean)
+                .enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+
+                        ToastUtils.toastMsg(body.msg);
+                    }
+
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
+
+                    }
+                });
     }
-    HttpUtil.apiW().home_changeInfo(bean)
-            .enqueue(new CommonCallback<NetData>() {
-              @Override
-              public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-
-                ToastUtils.toastMsg(body.msg);
-              }
-
-              @Override
-              public void Failure(Call<NetData> call, Throwable t) {
-
-              }
-            });
-  }
 
 }

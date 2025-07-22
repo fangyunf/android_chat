@@ -3,119 +3,117 @@
   ~ Use of this source code is governed by a MIT license that can be
   ~ found in the LICENSE file.
   -->
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:background="@color/color_F2F2F2"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@mipmap/icon_app_bg">
 
     <ImageView
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@mipmap/jinzita_common_page_bg"
         android:scaleType="fitXY"
-        />
+        android:src="@mipmap/jinzita_common_page_bg"
+        android:visibility="gone" />
 
     <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-
         <LinearLayout
             android:id="@+id/contact_new_fragment_top_ll"
-            android:layout_marginTop="25dp"
             android:layout_width="match_parent"
-            android:paddingHorizontal="15dp"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:paddingHorizontal="15dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:gravity="center_vertical"
-                android:paddingRight="10dp"
-                android:layout_height="match_parent">
-                <ImageView
-                    android:id="@+id/contact_new_fragment_search_iv"
-                    android:layout_marginHorizontal="10dp"
-                    android:src="@mipmap/conversation_list_index_notice_icon"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"/>
+                android:layout_height="match_parent"
+                android:gravity="center_vertical">
+
                 <TextView
                     android:id="@+id/fun_conversation_fragment_title_tv"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:text="联系人"
-                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:text="通讯录"
+                    android:textColor="@color/color_white"
+                    android:textSize="22sp" />
 
-                    android:textColor="@color/color_black"
-                    android:textSize="16sp"
-                    />
+                <ImageView
+                    android:id="@+id/contact_new_fragment_search_iv"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:src="@mipmap/icon_white_notice" />
+
+
                 <ImageView
                     android:id="@+id/contact_new_fragment_more_iv"
-
-                    android:src="@mipmap/conversation_index_pop_more"
                     android:layout_width="25dp"
-                    android:layout_height="25dp"/>
+                    android:layout_height="25dp"
+                    android:src="@mipmap/icon_white_more" />
             </LinearLayout>
         </LinearLayout>
 
 
         <LinearLayout
             android:id="@+id/contact_new_fragment_search_ll"
-            android:layout_marginTop="13dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginHorizontal="10dp"
-            android:background="@drawable/bg_e3e3e3_rounded_10"
             android:layout_width="match_parent"
-            android:gravity="center"
-            android:layout_height="30dp">
+            android:layout_height="40dp"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/bg_white_stork_rounded_bg"
+            android:gravity="left|center">
 
             <ImageView
-                android:src="@mipmap/conversation_list_index_search_icon1"
-                android:layout_width="16dp"
+                android:layout_width="@dimen/dimen_20_dp"
+                android:layout_height="@dimen/dimen_20_dp"
+                android:layout_marginLeft="@dimen/dimen_10_dp"
                 android:layout_marginRight="10dp"
-                android:layout_height="16dp"/>
+                android:src="@mipmap/icon_white_suosuo" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="搜索"
-                android:textColor="@color/color_999999"
-                android:textSize="15sp"
-                />
+                android:textColor="@color/color_white"
+                android:textSize="15sp" />
 
         </LinearLayout>
-<!--        <LinearLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_marginTop="15dp"-->
-<!--            android:paddingHorizontal="10dp"-->
-<!--            android:gravity="center_vertical"-->
-<!--            android:layout_height="wrap_content">-->
+        <!--        <LinearLayout-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_marginTop="15dp"-->
+        <!--            android:paddingHorizontal="10dp"-->
+        <!--            android:gravity="center_vertical"-->
+        <!--            android:layout_height="wrap_content">-->
 
-<!--            <ImageView-->
-<!--                android:src="@mipmap/conversation_list_index_notice_icon"-->
-<!--                android:layout_width="25dp"-->
-<!--                android:layout_height="25dp"/>-->
-<!--            <com.sunfusheng.marqueeview.MarqueeView-->
-<!--                android:id="@+id/contact_new_fragment_marqueeView"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="30dp"-->
-<!--                android:layout_marginLeft="10dp"-->
-<!--                app:mvAnimDuration="1000"-->
-<!--                app:mvDirection="bottom_to_top"-->
-<!--                app:mvInterval="3000"-->
-<!--                app:mvSingleLine="true"-->
-<!--                app:mvTextColor="@color/color_333333"-->
-<!--                app:mvTextSize="14sp" />-->
+        <!--            <ImageView-->
+        <!--                android:src="@mipmap/conversation_list_index_notice_icon"-->
+        <!--                android:layout_width="25dp"-->
+        <!--                android:layout_height="25dp"/>-->
+        <!--            <com.sunfusheng.marqueeview.MarqueeView-->
+        <!--                android:id="@+id/contact_new_fragment_marqueeView"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="30dp"-->
+        <!--                android:layout_marginLeft="10dp"-->
+        <!--                app:mvAnimDuration="1000"-->
+        <!--                app:mvDirection="bottom_to_top"-->
+        <!--                app:mvInterval="3000"-->
+        <!--                app:mvSingleLine="true"-->
+        <!--                app:mvTextColor="@color/color_333333"-->
+        <!--                app:mvTextSize="14sp" />-->
 
-<!--        </LinearLayout>-->
+        <!--        </LinearLayout>-->
         <LinearLayout
-            android:visibility="gone"
-            android:background="@color/color_white"
-            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
-            android:layout_height="40dp">
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/color_white"
+            android:visibility="gone">
+
             <TextView
                 android:id="@+id/contact_new_fragment_friend_tv"
                 android:layout_width="0dp"
@@ -124,8 +122,8 @@
                 android:gravity="center"
                 android:text="好友列表"
                 android:textColor="@drawable/fun_common_text_color_selector"
-                android:textSize="18sp"
-                />
+                android:textSize="18sp" />
+
             <TextView
                 android:id="@+id/contact_new_fragment_group_tv"
                 android:layout_width="0dp"
@@ -134,15 +132,15 @@
                 android:gravity="center"
                 android:text="群组列表"
                 android:textColor="@drawable/fun_common_text_color_selector"
-                android:textSize="18sp"
-                />
+                android:textSize="18sp" />
+
             <LinearLayout
                 android:id="@+id/contact_new_fragment_new_friend_ll"
                 android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="center_vertical|center"
 
-                android:layout_height="match_parent">
+                android:gravity="center_vertical|center">
 
                 <TextView
                     android:id="@+id/contact_new_fragment_new_friend_tv"
@@ -151,31 +149,27 @@
                     android:gravity="center"
                     android:text="新的好友"
                     android:textColor="@drawable/fun_common_text_color_selector"
-                    android:textSize="18sp"
-                    />
+                    android:textSize="18sp" />
 
                 <TextView
-                    android:visibility="gone"
                     android:id="@+id/contact_new_fragment_new_friend_num_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="18dp"
+                    android:background="@drawable/fun_bg_red_rounded_9"
                     android:gravity="center"
                     android:minWidth="18dp"
                     android:text=""
                     android:textColor="@color/color_white"
                     android:textSize="12sp"
-                    android:background="@drawable/fun_bg_red_rounded_9"
-                    />
-
+                    android:visibility="gone" />
 
 
             </LinearLayout>
         </LinearLayout>
-        <FrameLayout
 
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/color_white"
             android:layout_below="@+id/main_search">
 
             <androidx.recyclerview.widget.RecyclerView
@@ -191,7 +185,7 @@
                 android:layout_height="match_parent"
                 android:padding="8dp"
                 app:sidebar_lazy_respond="false"
-                app:sidebar_text_color="@color/black" />
+                app:sidebar_text_color="@color/color_white" />
 
         </FrameLayout>
 
