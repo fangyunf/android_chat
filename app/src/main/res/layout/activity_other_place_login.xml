@@ -3,108 +3,111 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@mipmap/icon_app_bg">
 
 
-<LinearLayout
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:gravity="center_horizontal"
-    android:layout_height="match_parent">
-    <com.yaoxin.appbase.navbar.NavToolbar
-        android:id="@+id/activity_other_place_login_nav"
-        style="@style/WhiteFontToolbar"
-        android:background="@color/transparent"
-        app:back_icon="@mipmap/temp_ic_back"
-        app:enable_under_divider="true"
-        app:support_translucent_status_bar="false"
-        app:title="异地登录"
-        app:title_text_color="@color/black"
-        app:under_divider_color="@color/transparent" />
-    <ImageView
-        android:layout_marginTop="20dp"
-        android:layout_width="215dp"
-        android:layout_height="194dp"
-        android:src="@mipmap/other_place_login_icon"/>
-    <TextView
-        android:id="@+id/activity_other_place_login_tv1"
-        android:layout_marginTop="24dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="您正在异地登录，须完成验证方可继续"
-        android:textColor="#ff000000"
-        android:textSize="15sp"
-        />
-    <TextView
-        android:visibility="gone"
-        android:id="@+id/activity_other_place_login_tv2"
-        android:layout_marginTop="15dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="为了保证你的帐号安全，需先脸证你的手机信息，\n验证成功后可以进行下一步操作。"
-        android:textColor="#ff999999"
-        android:textSize="10sp"
-        />
     <LinearLayout
-        android:visibility="gone"
-        android:id="@+id/activity_other_place_login_get_code_ll"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_height="match_parent"
         android:gravity="center_horizontal"
-        >
-        <com.yaoxin.appbase.view.splitedittextview.SplitEditTextView
-            android:id="@+id/activity_other_place_login_split_et"
-            android:layout_width="match_parent"
-            android:layout_marginHorizontal="40dp"
-            android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.yaoxin.appbase.navbar.NavToolbar
+            android:id="@+id/activity_other_place_login_nav"
+            style="@style/WhiteFontToolbar"
+            android:background="@color/transparent"
+            app:back_icon="@mipmap/temp_ic_back_white"
+            app:enable_under_divider="true"
+            app:support_translucent_status_bar="false"
+            app:title="异地登录"
+            app:title_text_color="@color/white"
+            app:under_divider_color="@color/transparent" />
+
+        <ImageView
+            android:layout_width="215dp"
+            android:layout_height="194dp"
             android:layout_marginTop="20dp"
-            android:inputType="number"
-            android:textSelectHandleLeft="@android:color/transparent"
-            android:textSelectHandleRight="@android:color/transparent"
-            app:borderColor="@color/colorPrimary"
-            app:borderSize="2dp"
-            app:contentNumber="6"
-            app:contentShowMode="text"
-            app:inputBoxStyle="underline"
-            app:spaceSize="20dp"
-            app:underlineFocusColor="@color/app_theme_color"
-            app:underlineNormalColor="@color/colorPrimary" />
+            android:src="@mipmap/other_place_login_icon" />
 
-        <com.yaoxin.appbase.view.loginlib.view.CountDownView
-            android:id="@+id/activity_other_place_login_btn_captcha"
-            android:layout_width="253dp"
-            android:layout_marginTop="40dp"
-            android:layout_height="52dp"
-            android:gravity="center"
-            android:text="获取验证码"
+        <TextView
+            android:id="@+id/activity_other_place_login_tv1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="您正在异地登录，须完成验证方可继续"
             android:textColor="@color/white"
-            android:textSize="18sp"
-            android:background="@drawable/fun_bg_app_theme_color_rounded_26"
+            android:textSize="15sp" />
 
-            />
+        <TextView
+            android:id="@+id/activity_other_place_login_tv2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="为了保证你的帐号安全，需先脸证你的手机信息，\n验证成功后可以进行下一步操作。"
+            android:textColor="#ff999999"
+            android:textSize="10sp"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/activity_other_place_login_get_code_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <com.yaoxin.appbase.view.splitedittextview.SplitEditTextView
+                android:id="@+id/activity_other_place_login_split_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="40dp"
+                android:layout_marginTop="20dp"
+                android:inputType="number"
+                android:textSelectHandleLeft="@android:color/transparent"
+                android:textSelectHandleRight="@android:color/transparent"
+                app:borderColor="@color/colorPrimary"
+                app:borderSize="2dp"
+                app:contentNumber="6"
+                app:contentShowMode="text"
+                app:inputBoxStyle="underline"
+                app:spaceSize="20dp"
+                app:underlineFocusColor="@color/app_theme_color"
+                app:underlineNormalColor="@color/colorPrimary" />
+
+            <com.yaoxin.appbase.view.loginlib.view.CountDownView
+                android:id="@+id/activity_other_place_login_btn_captcha"
+                android:layout_width="253dp"
+                android:layout_height="52dp"
+                android:layout_marginTop="40dp"
+                android:background="@drawable/fun_bg_app_theme_color_rounded_26"
+                android:gravity="center"
+                android:text="获取验证码"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+
+                />
+        </LinearLayout>
+
     </LinearLayout>
 
-</LinearLayout>
-
     <LinearLayout
-        android:layout_alignParentBottom="true"
         android:id="@+id/activity_other_place_login_verify_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
+        android:layout_alignParentBottom="true"
         android:layout_marginBottom="@dimen/dimen_40_dp"
-        android:orientation="vertical"
-        >
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
 
 
         <TextView
             android:id="@+id/activity_other_place_login_verify_tv"
-            android:background="@drawable/fun_bg_app_theme_color_rounded_26"
             android:layout_width="253dp"
-            android:gravity="center"
             android:layout_height="52dp"
             android:layout_centerInParent="true"
+            android:background="@drawable/fun_bg_app_theme_color_rounded_26"
+            android:gravity="center"
             android:text="去验证"
             android:textColor="#ffffffff"
             android:textSize="16sp" />
@@ -113,10 +116,10 @@
             android:id="@+id/activity_other_place_login_dont_verify_tv"
             android:layout_width="100dp"
             android:layout_height="22dp"
-            android:text="暂不验证"
-            android:gravity="center"
             android:layout_marginTop="14dp"
-            android:textColor="@color/black"
+            android:gravity="center"
+            android:text="暂不验证"
+            android:textColor="@color/white"
             android:textSize="16sp" />
     </LinearLayout>
 </RelativeLayout>
