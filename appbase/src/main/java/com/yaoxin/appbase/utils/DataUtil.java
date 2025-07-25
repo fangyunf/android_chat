@@ -1,5 +1,7 @@
 package com.yaoxin.appbase.utils;
 
+import android.text.TextUtils;
+
 import com.orhanobut.hawk.Hawk;
 import com.yaoxin.appbase.model.GroupInfoBean;
 import com.yaoxin.appbase.model.UserBean;
@@ -25,24 +27,35 @@ public class DataUtil {
     }
 
     public static String getToken() {
-        return Hawk.get(TOKEN,"");
+        return Hawk.get(TOKEN, "");
     }
 
     public static void putUserInfo(UserBean userBean) {
         Hawk.put(USERID, userBean);
     }
+
     public static void putKeFuId(String kefuId) {
         Hawk.put(KEFU_ID, kefuId);
     }
+
     public static void putXiaoZhuShouId(String kefuId) {
         Hawk.put(XIAOZHUSHOU_ID, kefuId);
     }
 
     public static String getKeFuId() {
-        return Hawk.get(KEFU_ID);
+        String kefuID = Hawk.get(KEFU_ID);
+        if (TextUtils.isEmpty(kefuID)) {
+            return "";
+        }
+        return kefuID;
     }
+
     public static String getXiaoZhuShouId() {
-        return Hawk.get(XIAOZHUSHOU_ID);
+        String xiaozhushou = Hawk.get(XIAOZHUSHOU_ID);
+        if (TextUtils.isEmpty(xiaozhushou)) {
+            return "";
+        }
+        return xiaozhushou;
     }
 
     public static UserBean getUserInfo() {
@@ -52,6 +65,7 @@ public class DataUtil {
         }
         return new UserBean();
     }
+
     public static List<UserBean> getLoginUserInfoList() {
         ArrayList<UserBean> arrayList = Hawk.get(USERInfoList);
         if (arrayList == null || arrayList.isEmpty()) {
@@ -61,6 +75,7 @@ public class DataUtil {
         }
         return arrayList;
     }
+
     public static void addLoginUserInfoList(UserBean userBean) {
         ArrayList<UserBean> arrayList = Hawk.get(USERInfoList);
         if (arrayList == null || arrayList.isEmpty()) {
@@ -78,6 +93,7 @@ public class DataUtil {
             Hawk.put(USERInfoList, arrayList);
         }
     }
+
     public static void deleteLoginUserInfoList(UserBean userBean) {
         ArrayList<UserBean> arrayList = Hawk.get(USERInfoList);
         if (arrayList == null) {
@@ -97,6 +113,7 @@ public class DataUtil {
     public static void setFriendInfoList(List<GroupInfoBean> friendInfoList) {
         Hawk.put(FriendList, friendInfoList);
     }
+
     public static List<GroupInfoBean> getFriendInfoList() {
         return Hawk.get(FriendList);
     }
@@ -123,6 +140,7 @@ public class DataUtil {
         }
         return "";
     }
+
     public static void deleteData() {
         DataUtil.putToken("");
         DataUtil.putUserInfo(null);
@@ -130,9 +148,10 @@ public class DataUtil {
 
     }
 
-    public static void setStringValue(String jsonStr,String key) {
+    public static void setStringValue(String jsonStr, String key) {
         Hawk.put(key, jsonStr);
     }
+
     public static String getStringValue(String key) {
         return Hawk.get(key);
     }

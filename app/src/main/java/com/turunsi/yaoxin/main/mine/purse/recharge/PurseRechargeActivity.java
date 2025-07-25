@@ -42,6 +42,7 @@ import retrofit2.Response;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+
 public class PurseRechargeActivity extends BaseActivity implements View.OnClickListener {
 
     ActivityMinePurseRechargeBinding binding;
@@ -66,12 +67,13 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
         }
         _initCell();
     }
+
     void _initRecycleView() {
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 5);
         Recharge_GridSpacingItemDecoration gridSpacingItemDecoration =
-                new Recharge_GridSpacingItemDecoration(5, SizeUtils.dp2px( 10f), false);
-        gridSpacingItemDecoration.leftSpace = SizeUtils.dp2px( 3f);
+                new Recharge_GridSpacingItemDecoration(5, SizeUtils.dp2px(10f), false);
+        gridSpacingItemDecoration.leftSpace = SizeUtils.dp2px(3f);
         recyclerView.addItemDecoration(gridSpacingItemDecoration);
         recyclerView.setLayoutManager(gridLayoutManager);
         adpter = new Recharge_Adpter();
@@ -79,21 +81,24 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
         list.add("100");
         list.add("200");
         list.add("300");
-        list.add("400");
+        //list.add("400");
         list.add("500");
         list.add("800");
         list.add("1000");
         list.add("2000");
+        list.add("3000");
+        list.add("5000");
+        list.add("10000");
         adpter.setItems(list);
         adpter.selectStr = "100";
-        binding.activityMinePurseRechargeDetailTv.setText("≈" + adpter.selectStr+"CNY");
+        binding.activityMinePurseRechargeDetailTv.setText("≈" + adpter.selectStr + "CNY");
         recyclerView.setAdapter(adpter);
         adpter.notifyDataSetChanged();
         adpter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener<String>() {
             @Override
             public void onClick(@NonNull BaseQuickAdapter<String, ?> baseQuickAdapter, @NonNull View view, int i) {
                 adpter.selectStr = adpter.getItem(i);
-                binding.activityMinePurseRechargeDetailTv.setText("≈" + adpter.selectStr+"CNY");
+                binding.activityMinePurseRechargeDetailTv.setText("≈" + adpter.selectStr + "CNY");
                 adpter.notifyDataSetChanged();
             }
         });
@@ -142,14 +147,14 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
 //        });
 
 
-
     }
+
     private void _initCell() {
 //        binding.activityMinePurseRechargeRechargeMoney.viewTitleTfWithoutBgEt.setBackgroundColor(getResources().getColor(R.color.color_white));
 //        if (_type == 1) {
 //            binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgLl.setVisibility(View.VISIBLE);
 //        } else {
-            binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgLl.setVisibility(View.GONE);
+        binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgLl.setVisibility(View.GONE);
 //        }
         binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt.setBackgroundColor(getResources().getColor(R.color.color_white));
 
@@ -216,7 +221,6 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
         binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt.setOnClickListener(this);
 
 
-
         binding.activityMinePurseRechargeRechargeRl.setOnClickListener(this);
 //        binding.activityMinePurseRechargeMoney100.setOnClickListener(this);
 //        binding.activityMinePurseRechargeMoney300.setOnClickListener(this);
@@ -226,13 +230,14 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
 //        binding.activityMinePurseRechargeMoney5000.setOnClickListener(this);
 
     }
+
     @Override
     protected void _requestData() {
         HttpUtil.apiW().home_balance()
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        UserBean bean = new Gson().fromJson(body.data.toString(),UserBean.class);
+                        UserBean bean = new Gson().fromJson(body.data.toString(), UserBean.class);
 //                        binding.activityMinePurseRechargeAccountTv.setText("¥"+NumberUtil.formartMoney(bean.balance));
                     }
 
@@ -242,6 +247,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
                     }
                 });
     }
+
     @Override
     public void onClick(View v) {
         if (v == binding.activityMinePurseRechargeNav.addCloseImageButton()) {
@@ -268,7 +274,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
 //            rechargeMoney("5000");
 //        }
         else if (v == binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgLl || v == binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt) {
-            DialogAlertUtil.showSheetView(this, getSupportFragmentManager(), new String[]{"支付宝", "微信","银行卡"}, new DialogAlertUtil.DialogAlertUtilCallBack() {
+            DialogAlertUtil.showSheetView(this, getSupportFragmentManager(), new String[]{"支付宝", "微信", "银行卡"}, new DialogAlertUtil.DialogAlertUtilCallBack() {
                 @Override
                 public void clickType(int type) {
                     if (type == 1) {
@@ -286,6 +292,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
         }
 
     }
+
     void rechargeMoney(String inputMoney) {
         if (payType.equals("")) {
             return;
@@ -339,24 +346,25 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
 //                    });
 //        } else {
 
-            HttpUtil.apiW().pay_six(registerBean)
-                    .enqueue(new CommonCallback<NetData>() {
-                        @Override
-                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                            UserBean userBean = new Gson().fromJson(body.data.toString(),UserBean.class);
+        HttpUtil.apiW().pay_six(registerBean)
+                .enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                        UserBean userBean = new Gson().fromJson(body.data.toString(), UserBean.class);
 //                        RechargeScanFragment.showV(getSupportFragmentManager(),payType.equals("wxpay")?"请使用微信扫码":"请使用支付宝扫码",userBean.payUrl);
-                            startAlipayPayment(userBean.url);
-                        }
+                        startAlipayPayment(userBean.url);
+                    }
 
-                        @Override
-                        public void Failure(Call<NetData> call, Throwable t) {
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
 
-                        }
-                    });
+                    }
+                });
 //        }
     }
+
     private void startAlipayPayment(String url) {
-        if ( url != null) {
+        if (url != null) {
             try {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 // 设置URL，替换为你想打开的网页地址
