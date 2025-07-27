@@ -351,18 +351,16 @@ public class FunConversationFragment extends ConversationBaseFragment {
                     }
                 });
 
-//        HttpUtil.apiW().customer_systemAppUser(new RegisterBean())
-//                .enqueue(new CommonCallback<NetData>() {
-//                    @Override
-//                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-//
-//                        String kefuId = body.data.toString().replace("\"", "");
-//                        requestKefu(kefuId);
-//
-//                        String xiaozhushouId = "10086";
-//                        DataUtil.putKeFuId(kefuId);
-//                        DataUtil.putXiaoZhuShouId(xiaozhushouId);
-//
+        HttpUtil.apiW().customer_systemAppUser(new RegisterBean())
+                .enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                        String kefuId = body.data.toString().replace("\"", "");
+                        requestKefu(kefuId);
+                        // String xiaozhushouId = "10086";
+                        DataUtil.putKeFuId(kefuId);
+                        //DataUtil.putXiaoZhuShouId(xiaozhushouId);
+
 //                        boolean hasKefu = false;
 //                        boolean hasXiaoZhushou = false;
 //
@@ -385,13 +383,13 @@ public class FunConversationFragment extends ConversationBaseFragment {
 //                        if (!hasXiaoZhushou) {
 //                            sendMessage(xiaozhushouId);
 //                        }
-//                    }
-//
-//                    @Override
-//                    public void Failure(Call<NetData> call, Throwable t) {
-//
-//                    }
-//                });
+                    }
+
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
+
+                    }
+                });
     }
 
     void requestKefu(String kefuId) {
