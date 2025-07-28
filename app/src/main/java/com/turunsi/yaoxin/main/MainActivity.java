@@ -111,26 +111,25 @@ public class MainActivity extends BaseActivity {
     //  private BaseContactFragment mContactFragment;
     private ContactNewFragment mContactFragment;
     private ConversationBaseFragment mConversationFragment;
-    //    private ConversationBaseFragment mConversationFragment1;
+    private ConversationBaseFragment mConversationFragment1;
     public static final int REQUEST_CODE_SCAN = 0x01;
 
     //皮肤变更事件
-    EventNotify<SkinEvent> skinNotify =
-            new EventNotify<SkinEvent>() {
-                @Override
-                public void onNotify(@NonNull SkinEvent message) {
-                    Intent intent = getIntent();
-                    finish();
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-                }
+    EventNotify<SkinEvent> skinNotify = new EventNotify<SkinEvent>() {
+        @Override
+        public void onNotify(@NonNull SkinEvent message) {
+            Intent intent = getIntent();
+            finish();
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        }
 
-                @NonNull
-                @Override
-                public String getEventType() {
-                    return "skinEvent";
-                }
-            };
+        @NonNull
+        @Override
+        public String getEventType() {
+            return "skinEvent";
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,22 +163,21 @@ public class MainActivity extends BaseActivity {
     }
 
     void _update() {
-        HttpUtil.apiW().customer_versionCkeck("AOS", BuildConfig.VERSION_NAME)
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+        HttpUtil.apiW().customer_versionCkeck("AOS", BuildConfig.VERSION_NAME).enqueue(new CommonCallback<NetData>() {
+            @Override
+            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                        if (body.data != null) {
-                            ParamsBean updateBean = new Gson().fromJson(body.data.toString(), ParamsBean.class);
-                            showUpdate(updateBean.downloadUrl, updateBean.upMsg);
-                        }
-                    }
+                if (body.data != null) {
+                    ParamsBean updateBean = new Gson().fromJson(body.data.toString(), ParamsBean.class);
+                    showUpdate(updateBean.downloadUrl, updateBean.upMsg);
+                }
+            }
 
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
+            @Override
+            public void Failure(Call<NetData> call, Throwable t) {
 
-                    }
-                });
+            }
+        });
     }
 
     private void showUpdate(String downLoadUrl, String updateMsg) {
@@ -189,72 +187,66 @@ public class MainActivity extends BaseActivity {
 
         //简单DialogFragment升级
         AppDialogConfig config = new AppDialogConfig(this);
-        config.setTitle("应用升级")
-                .setConfirm("升级")
-                .setContent(updateMsg)
-                .setOnClickConfirm(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        AppUpdater appUpdater = new AppUpdater.Builder(MainActivity.this)
-                                .setUrl(downLoadUrl)
-                                .build();
-                        appUpdater.setHttpManager(OkHttpManager.getInstance()) // 使用OkHttp的实现进行下载
-                                .setUpdateCallback(new UpdateCallback() { // 更新回调
-                                    @Override
-                                    public void onDownloading(boolean isDownloading) {
-                                        // 下载中：isDownloading为true时，表示已经在下载，即之前已经启动了下载；为false时，表示当前未开始下载，即将开始下载
-                                    }
+        config.setTitle("应用升级").setConfirm("升级").setContent(updateMsg).setOnClickConfirm(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AppUpdater appUpdater = new AppUpdater.Builder(MainActivity.this).setUrl(downLoadUrl).build();
+                appUpdater.setHttpManager(OkHttpManager.getInstance()) // 使用OkHttp的实现进行下载
+                        .setUpdateCallback(new UpdateCallback() { // 更新回调
+                            @Override
+                            public void onDownloading(boolean isDownloading) {
+                                // 下载中：isDownloading为true时，表示已经在下载，即之前已经启动了下载；为false时，表示当前未开始下载，即将开始下载
+                            }
 
-                                    @Override
-                                    public void onStart(String url) {
-                                        // 开始下载
-                                    }
+                            @Override
+                            public void onStart(String url) {
+                                // 开始下载
+                            }
 
-                                    @Override
-                                    public void onProgress(long progress, long total, boolean isChanged) {
-                                        // 下载进度更新：建议在isChanged为true时，才去更新界面的进度；因为实际的进度变化频率很高
-                                    }
+                            @Override
+                            public void onProgress(long progress, long total, boolean isChanged) {
+                                // 下载进度更新：建议在isChanged为true时，才去更新界面的进度；因为实际的进度变化频率很高
+                            }
 
-                                    @Override
-                                    public void onFinish(File file) {
-                                        // 下载完成
-                                    }
+                            @Override
+                            public void onFinish(File file) {
+                                // 下载完成
+                            }
 
-                                    @Override
-                                    public void onError(Exception e) {
-                                        // 下载失败
-                                    }
+                            @Override
+                            public void onError(Exception e) {
+                                // 下载失败
+                            }
 
-                                    @Override
-                                    public void onCancel() {
-                                        // 取消下载
-                                    }
-                                }).start();
+                            @Override
+                            public void onCancel() {
+                                // 取消下载
+                            }
+                        }).start();
 
-                        AppDialog.INSTANCE.dismissDialogFragment(getSupportFragmentManager());
-                    }
-                });
+                AppDialog.INSTANCE.dismissDialogFragment(getSupportFragmentManager());
+            }
+        });
         AppDialog.INSTANCE.showDialogFragment(getSupportFragmentManager(), config);
 
     }
 
     private void initData() {
 //        ChatConfigManager.showReadStatus = false;
-        SettingRepo.getShowReadStatus(
-                new FetchCallback<Boolean>() {
-                    @Override
-                    public void onSuccess(@Nullable Boolean param) {
-                        ChatConfigManager.showReadStatus = param;
-                    }
+        SettingRepo.getShowReadStatus(new FetchCallback<Boolean>() {
+            @Override
+            public void onSuccess(@Nullable Boolean param) {
+                ChatConfigManager.showReadStatus = param;
+            }
 
-                    @Override
-                    public void onFailed(int code) {
-                    }
+            @Override
+            public void onFailed(int code) {
+            }
 
-                    @Override
-                    public void onException(@Nullable Throwable exception) {
-                    }
-                });
+            @Override
+            public void onException(@Nullable Throwable exception) {
+            }
+        });
     }
 
     @Override
@@ -274,12 +266,12 @@ public class MainActivity extends BaseActivity {
         List<Fragment> fragments = new ArrayList<>();
 
         changeStatusBarColor(R.color.fun_page_bg_color);
-        mConversationFragment = new FunConversationFragment();
+        mConversationFragment = new FunConversationFragment(0);
+        mConversationFragment1 = new FunConversationFragment(1);
         mContactFragment = new ContactNewFragment();
-
         fragments.add(mConversationFragment);
+        fragments.add(mConversationFragment1);
         fragments.add(mContactFragment);
-
         fragments.add(new MineFragment());
 
         FragmentAdapter fragmentAdapter = new FragmentAdapter(this);
@@ -298,12 +290,12 @@ public class MainActivity extends BaseActivity {
         super.onResume();
         initContactFragment(mContactFragment);
         initConversationFragment(mConversationFragment);
+        initConversationFragment(mConversationFragment1);
     }
 
     @Override
     protected void onDestroy() {
         EventCenter.unregisterEventNotify(skinNotify);
-
         EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
@@ -319,14 +311,13 @@ public class MainActivity extends BaseActivity {
             if (mConversationFragment != null && mConversationFragment.getConversationView() != null && mConversationFragment.getConversationView().adapter != null) {
                 mConversationFragment.getConversationView().adapter.notifyDataSetChanged();
             }
-
         }
-//        if (view == activityMainBinding.conversationBtnGroup1) {
-//            AppProxy.getInstance().showType = 2;
-//            if (mConversationFragment1 != null && mConversationFragment1.getConversationView() != null && mConversationFragment1.getConversationView().adapter != null) {
-//                mConversationFragment1.getConversationView().adapter.notifyDataSetChanged();
-//            }
-//        }
+        if (view == activityMainBinding.conversationBtnGroup1) {
+            AppProxy.getInstance().showType = 2;
+            if (mConversationFragment1 != null && mConversationFragment1.getConversationView() != null && mConversationFragment1.getConversationView().adapter != null) {
+                mConversationFragment1.getConversationView().adapter.notifyDataSetChanged();
+            }
+        }
         resetTabStyle();
         mCurrentTab = view;
         resetTabSkin();
@@ -336,182 +327,151 @@ public class MainActivity extends BaseActivity {
     @SuppressLint("UseCompatLoadingForDrawables")
     private void resetTabSkin() {
         if (mCurrentTab == activityMainBinding.contactBtnGroup) {
-            activityMainBinding.viewPager.setCurrentItem(1, false);
-            activityMainBinding.contact.setTextColor(
-                    getResources().getColor(R.color.fun_tab_checked_color));
-            activityMainBinding.contact.setCompoundDrawablesWithIntrinsicBounds(
-                    null, getResources().getDrawable(R.mipmap.mine_tabbar_txl_sel), null, null);
+            activityMainBinding.viewPager.setCurrentItem(2, false);
+            activityMainBinding.contact.setTextColor(getResources().getColor(R.color.fun_tab_checked_color));
+            activityMainBinding.contact.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.mine_tabbar_txl_sel), null, null);
             changeStatusBarColor(R.color.fun_page_bg_color);
         } else if (mCurrentTab == activityMainBinding.myselfBtnGroup) {
-            activityMainBinding.viewPager.setCurrentItem(2, false);
-            activityMainBinding.mine.setTextColor(
-                    getResources().getColor(R.color.fun_tab_checked_color));
-            activityMainBinding.mine.setCompoundDrawablesWithIntrinsicBounds(
-                    null, getResources().getDrawable(R.mipmap.mine_tabbar_mine_sel), null, null);
-
+            activityMainBinding.viewPager.setCurrentItem(3, false);
+            activityMainBinding.mine.setTextColor(getResources().getColor(R.color.fun_tab_checked_color));
+            activityMainBinding.mine.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.mine_tabbar_mine_sel), null, null);
             changeStatusBarColor(R.color.color_white);
         } else if (mCurrentTab == activityMainBinding.conversationBtnGroup) {
             activityMainBinding.viewPager.setCurrentItem(0, false);
-            activityMainBinding.conversation.setTextColor(
-                    getResources().getColor(R.color.fun_tab_checked_color));
-            activityMainBinding.conversation.setCompoundDrawablesWithIntrinsicBounds(
-                    null, getResources().getDrawable(R.mipmap.mine_tabbar_msg_sel), null, null);
+            activityMainBinding.conversation.setTextColor(getResources().getColor(R.color.fun_tab_checked_color));
+            activityMainBinding.conversation.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.mine_tabbar_msg_sel), null, null);
             changeStatusBarColor(R.color.fun_page_bg_color);
         } else if (mCurrentTab == activityMainBinding.conversationBtnGroup1) {
-            activityMainBinding.viewPager.setCurrentItem(2, false);
-            activityMainBinding.conversation1.setTextColor(
-                    getResources().getColor(R.color.fun_tab_checked_color));
-            activityMainBinding.conversation1.setCompoundDrawablesWithIntrinsicBounds(
-                    null, getResources().getDrawable(R.mipmap.mine_tabbar_msg_group_sel), null, null);
+            activityMainBinding.viewPager.setCurrentItem(1, false);
+            activityMainBinding.conversation1.setTextColor(getResources().getColor(R.color.fun_tab_checked_color));
+            activityMainBinding.conversation1.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.mine_tabbar_msg_group_sel), null, null);
             changeStatusBarColor(R.color.fun_page_bg_color);
         } else if (mCurrentTab == activityMainBinding.conversationBtnShop) {
             activityMainBinding.viewPager.setCurrentItem(0, false);
-            activityMainBinding.conversationShop.setTextColor(
-                    getResources().getColor(R.color.fun_tab_checked_color));
-            activityMainBinding.conversationShop.setCompoundDrawablesWithIntrinsicBounds(
-                    null, getResources().getDrawable(R.mipmap.mine_tabbar_shop_sel), null, null);
+            activityMainBinding.conversationShop.setTextColor(getResources().getColor(R.color.fun_tab_checked_color));
+            activityMainBinding.conversationShop.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.mine_tabbar_shop_sel), null, null);
             changeStatusBarColor(R.color.fun_page_bg_color);
         }
     }
 
     private void initConversationFragment(ConversationBaseFragment conversationFragment) {
         if (conversationFragment != null) {
-            conversationFragment.setConversationCallback(
-                    count -> {
-                        if (count == null) {
+            conversationFragment.setConversationCallback(count -> {
+                if (count == null) {
+                    activityMainBinding.conversationDot.setVisibility(View.GONE);
+                    activityMainBinding.conversationDot1.setVisibility(View.GONE);
+
+                } else {
+                    int singleChatUnreadCount = 0;
+                    int groupChatUnreadCount = 0;
+
+                    if (count.size() == 2) {
+                        singleChatUnreadCount = count.get(0);
+                        groupChatUnreadCount = count.get(1);
+
+                    }
+
+                    if (conversationFragment == mConversationFragment) {
+                        if (singleChatUnreadCount + groupChatUnreadCount > 0) {
+                            activityMainBinding.conversationDot.setVisibility(View.VISIBLE);
+                        } else {
                             activityMainBinding.conversationDot.setVisibility(View.GONE);
+                        }
+                    }
+                    if (conversationFragment == mConversationFragment1) {
+                        if (groupChatUnreadCount > 0) {
+                            activityMainBinding.conversationDot1.setVisibility(View.VISIBLE);
+                        } else {
                             activityMainBinding.conversationDot1.setVisibility(View.GONE);
 
-                        } else {
-                            int singleChatUnreadCount = 0;
-                            int groupChatUnreadCount = 0;
-
-                            if (count.size() == 2) {
-                                singleChatUnreadCount = count.get(0);
-                                groupChatUnreadCount = count.get(1);
-
-                            }
-
-                            if (conversationFragment == mConversationFragment) {
-                                if (singleChatUnreadCount + groupChatUnreadCount > 0) {
-                                    activityMainBinding.conversationDot.setVisibility(View.VISIBLE);
-                                } else {
-                                    activityMainBinding.conversationDot.setVisibility(View.GONE);
-
-                                }
-                            }
-//                          if (conversationFragment == mConversationFragment1) {
-//                            if (groupChatUnreadCount > 0) {
-//                              activityMainBinding.conversationDot1.setVisibility(View.VISIBLE);
-//                            } else {
-//                              activityMainBinding.conversationDot1.setVisibility(View.GONE);
-//
-//                            }
-//                          }
                         }
-                    });
+                    }
+                }
+            });
         }
     }
 
     private void initContactFragment(ContactNewFragment contactFragment) {
         if (contactFragment != null) {
-            contactFragment.setContactCallback(
-                    count -> {
-                        if (count > 0) {
-                            activityMainBinding.contactDot.setVisibility(View.VISIBLE);
-                        } else {
-                            activityMainBinding.contactDot.setVisibility(View.GONE);
-                        }
-                    });
+            contactFragment.setContactCallback(count -> {
+                if (count > 0) {
+                    activityMainBinding.contactDot.setVisibility(View.VISIBLE);
+                } else {
+                    activityMainBinding.contactDot.setVisibility(View.GONE);
+                }
+            });
         }
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private void resetTabStyle() {
 
-        activityMainBinding.conversation.setTextColor(
-                getResources().getColor(R.color.tab_unchecked_color));
-        activityMainBinding.conversation.setCompoundDrawablesWithIntrinsicBounds(
-                null, getResources().getDrawable(R.mipmap.mine_tabbar_msg_normal), null, null);
-        activityMainBinding.conversation1.setTextColor(
-                getResources().getColor(R.color.tab_unchecked_color));
-        activityMainBinding.conversation1.setCompoundDrawablesWithIntrinsicBounds(
-                null, getResources().getDrawable(R.mipmap.mine_tabbar_msg_group_normal), null, null);
+        activityMainBinding.conversation.setTextColor(getResources().getColor(R.color.tab_unchecked_color));
+        activityMainBinding.conversation.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.mine_tabbar_msg_normal), null, null);
+        activityMainBinding.conversation1.setTextColor(getResources().getColor(R.color.tab_unchecked_color));
+        activityMainBinding.conversation1.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.mine_tabbar_msg_group_normal), null, null);
 
         activityMainBinding.contact.setTextColor(getResources().getColor(R.color.tab_unchecked_color));
-        activityMainBinding.contact.setCompoundDrawablesWithIntrinsicBounds(
-                null, getResources().getDrawable(R.mipmap.mine_tabbar_txl_normal), null, null);
+        activityMainBinding.contact.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.mine_tabbar_txl_normal), null, null);
 
         activityMainBinding.mine.setTextColor(getResources().getColor(R.color.tab_unchecked_color));
-        activityMainBinding.mine.setCompoundDrawablesWithIntrinsicBounds(
-                null, getResources().getDrawable(R.mipmap.mine_tabbar_mine_normal), null, null);
+        activityMainBinding.mine.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.mine_tabbar_mine_normal), null, null);
         ;
 
         activityMainBinding.conversationShop.setTextColor(getResources().getColor(R.color.tab_unchecked_color));
-        activityMainBinding.conversationShop.setCompoundDrawablesWithIntrinsicBounds(
-                null, getResources().getDrawable(R.mipmap.mine_tabbar_shop_normal), null, null);
+        activityMainBinding.conversationShop.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.mine_tabbar_shop_normal), null, null);
     }
 
     private void configCallKit() {
 
-        CallKitUIOptions options =
-                new CallKitUIOptions.Builder()
-                        // 必要：音视频通话 sdk appKey，用于通话中使用
-                        .rtcAppKey(DataUtils.readAppKey(this))
-                        // 必要：当前用户 AccId
-                        .currentUserAccId(IMKitClient.account())
-                        // 通话接听成功的超时时间单位 毫秒，默认30s
-                        .timeOutMillisecond(30 * 1000L)
-                        // 此处为 收到来电时展示的 notification 相关配置，如图标，提示语等。
-                        .notificationConfigFetcher(
-                                invitedInfo -> {
-                                    UserInfo info = ContactRepo.getUserInfoFromLocal(invitedInfo.callerAccId);
-                                    String content =
-                                            (info != null ? info.getUserInfoName() : invitedInfo.callerAccId)
-                                                    + (invitedInfo.callType == ChannelType.AUDIO.getValue()
-                                                    ? getString(R.string.incoming_call_notify_audio)
-                                                    : getString(R.string.incoming_call_notify_video));
-                                    ALog.d("=======" + content);
-                                    return new CallKitNotificationConfig(R.mipmap.yaoxin_icon, null, null, content);
-                                })
-                        // 收到被叫时若 app 在后台，在恢复到前台时是否自动唤起被叫页面，默认为 true
-                        .resumeBGInvitation(true)
-                        // 请求 rtc token 服务，若非安全模式则不需设置(V1.8.0版本之前需要配置，V1.8.0及之后版本无需配置)
-                        //.rtcTokenService((uid, callback) -> requestRtcToken(appKey, uid, callback)) // 自己实现的 token 请求方法
-                        // 设置初始化 rtc sdk 相关配置，按照所需进行配置
-                        .rtcSdkOption(new NERtcOption())
-                        // 呼叫组件初始化 rtc 范围，NECallInitRtcMode.GLOBAL-全局初始化，
-                        // NECallInitRtcMode.IN_NEED-每次通话进行初始化以及销毁，全局初始化有助于更快进入首帧页面，
-                        // 当结合其他组件使用时存在rtc初始化冲突可设置NECallInitRtcMode.IN_NEED
-                        // 或当结合其他组件使用时存在rtc初始化冲突可设置NECallInitRtcMode.IN_NEED_DELAY_TO_ACCEPT
-                        .initRtcMode(NECallInitRtcMode.GLOBAL)
-                        .build();
+        CallKitUIOptions options = new CallKitUIOptions.Builder()
+                // 必要：音视频通话 sdk appKey，用于通话中使用
+                .rtcAppKey(DataUtils.readAppKey(this))
+                // 必要：当前用户 AccId
+                .currentUserAccId(IMKitClient.account())
+                // 通话接听成功的超时时间单位 毫秒，默认30s
+                .timeOutMillisecond(30 * 1000L)
+                // 此处为 收到来电时展示的 notification 相关配置，如图标，提示语等。
+                .notificationConfigFetcher(invitedInfo -> {
+                    UserInfo info = ContactRepo.getUserInfoFromLocal(invitedInfo.callerAccId);
+                    String content = (info != null ? info.getUserInfoName() : invitedInfo.callerAccId) + (invitedInfo.callType == ChannelType.AUDIO.getValue() ? getString(R.string.incoming_call_notify_audio) : getString(R.string.incoming_call_notify_video));
+                    ALog.d("=======" + content);
+                    return new CallKitNotificationConfig(R.mipmap.yaoxin_icon, null, null, content);
+                })
+                // 收到被叫时若 app 在后台，在恢复到前台时是否自动唤起被叫页面，默认为 true
+                .resumeBGInvitation(true)
+                // 请求 rtc token 服务，若非安全模式则不需设置(V1.8.0版本之前需要配置，V1.8.0及之后版本无需配置)
+                //.rtcTokenService((uid, callback) -> requestRtcToken(appKey, uid, callback)) // 自己实现的 token 请求方法
+                // 设置初始化 rtc sdk 相关配置，按照所需进行配置
+                .rtcSdkOption(new NERtcOption())
+                // 呼叫组件初始化 rtc 范围，NECallInitRtcMode.GLOBAL-全局初始化，
+                // NECallInitRtcMode.IN_NEED-每次通话进行初始化以及销毁，全局初始化有助于更快进入首帧页面，
+                // 当结合其他组件使用时存在rtc初始化冲突可设置NECallInitRtcMode.IN_NEED
+                // 或当结合其他组件使用时存在rtc初始化冲突可设置NECallInitRtcMode.IN_NEED_DELAY_TO_ACCEPT
+                .initRtcMode(NECallInitRtcMode.GLOBAL).build();
         // 设置自定义话单消息发送
         NECallEngine.sharedInstance().setCallRecordProvider(new CustomCallOrderProvider());
         // 若重复初始化会销毁之前的初始化实例，重新初始化
 //    CallKitUI.init(getApplicationContext(), options);
-        IMKitClient.getAuthServiceObserver().observeOnlineStatus(
-                (Observer<StatusCode>) statusCode -> {
+        IMKitClient.getAuthServiceObserver().observeOnlineStatus((Observer<StatusCode>) statusCode -> {
 //              if (statusCode == StatusCode.LOGOUT) {
 //                CallKitUI.destroy();
 //              }
-                    if (statusCode.wontAutoLogin()) {
-                        // 处理被顶号的情况
-                        if (statusCode == StatusCode.KICKOUT) {
-                            // 被顶号
+            if (statusCode.wontAutoLogin()) {
+                // 处理被顶号的情况
+                if (statusCode == StatusCode.KICKOUT) {
+                    // 被顶号
 //                  handleKickout();
-                            ToastUtils.toastMsg("您的账号在其他设备登录");
-                            if (getApplicationContext() instanceof IMApplication) {
-                                ((IMApplication) getApplicationContext())
-                                        .clearActivity(MainActivity.this);
-                            }
-                            DataUtil.deleteData();
-                            startActivity(new Intent(MainActivity.this, LoginActivity.class));
-                            finish();
-                        }
+                    ToastUtils.toastMsg("您的账号在其他设备登录");
+                    if (getApplicationContext() instanceof IMApplication) {
+                        ((IMApplication) getApplicationContext()).clearActivity(MainActivity.this);
                     }
-                },
-                true);
+                    DataUtil.deleteData();
+                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                    finish();
+                }
+            }
+        }, true);
     }
 
     private void loadConfig() {
@@ -536,10 +496,7 @@ public class MainActivity extends BaseActivity {
             String[] permission = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
             // 根据系统版本判断，如果是Android13则采用Manifest.permission.READ_MEDIA_IMAGES
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                permission =
-                        new String[]{
-                                Manifest.permission.READ_MEDIA_IMAGES, Manifest.permission.READ_MEDIA_VIDEO
-                        };
+                permission = new String[]{Manifest.permission.READ_MEDIA_IMAGES, Manifest.permission.READ_MEDIA_VIDEO};
             }
             if (!EasyPermissions.hasPermissions(this, permission)) {
                 // 请求相机权限
@@ -560,10 +517,7 @@ public class MainActivity extends BaseActivity {
             Intent intent = new Intent(this, CaptureActivity.class);
             startActivityForResult(intent, REQUEST_CODE_SCAN);
         } else if ("gotoCreate".equals(event.getTag())) {
-            XKitRouter.withKey(com.yaoxin.appbase.net.Constant.FunSelected_User_ActivityKey)
-                    .withContext(this)
-                    .withParam("type", "1")
-                    .navigate();
+            XKitRouter.withKey(com.yaoxin.appbase.net.Constant.FunSelected_User_ActivityKey).withContext(this).withParam("type", "1").navigate();
 
         } else if ("login_out".equals(event.getTag())) {
             IMUtil.loginOut(this);
@@ -592,21 +546,20 @@ public class MainActivity extends BaseActivity {
                         RegisterBean bean = new RegisterBean();
                         bean.phoneAndCode = result;
                         bean.type = 0;
-                        HttpUtil.apiW().friends_search(bean)
-                                .enqueue(new CommonCallback<NetData>() {
-                                    @Override
-                                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                                        UserBean userInfo = new Gson().fromJson(body.data.toString(), UserBean.class);
-                                        HashMap map = new HashMap();
-                                        map.put("user", new Gson().toJson(userInfo));
-                                        FunAddFriendVerifyActivity.start(FunAddFriendVerifyActivity.class, that, map);
-                                    }
+                        HttpUtil.apiW().friends_search(bean).enqueue(new CommonCallback<NetData>() {
+                            @Override
+                            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                                UserBean userInfo = new Gson().fromJson(body.data.toString(), UserBean.class);
+                                HashMap map = new HashMap();
+                                map.put("user", new Gson().toJson(userInfo));
+                                FunAddFriendVerifyActivity.start(FunAddFriendVerifyActivity.class, that, map);
+                            }
 
-                                    @Override
-                                    public void Failure(Call<NetData> call, Throwable t) {
+                            @Override
+                            public void Failure(Call<NetData> call, Throwable t) {
 
-                                    }
-                                });
+                            }
+                        });
                     }
                     ToastUtils.toastMsg(result);
                     break;

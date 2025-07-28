@@ -297,6 +297,7 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
             binding.activityFunSendRedPacketPinLl.setVisibility(View.GONE);
             binding.activityFunSendRedPacketMoneyTv.setText("金额");
             binding.activityFunSendRedPacketGreetingLl.setVisibility(View.VISIBLE);
+            binding.activityFunSendRedPacketCountLl.setVisibility(View.GONE);
         } else if (type == 1) {
             binding.activityFunSendRedPacketPinLl.setVisibility(View.VISIBLE);
             binding.activityFunSendRedPacketToPeopleLl.setVisibility(View.GONE);

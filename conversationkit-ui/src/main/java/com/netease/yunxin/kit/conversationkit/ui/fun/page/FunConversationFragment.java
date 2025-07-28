@@ -15,6 +15,7 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,41 +87,43 @@ public class FunConversationFragment extends ConversationBaseFragment {
 
     private boolean _needRefresh;
 
+    private int _type = 0;
+
 
     // 创建实例的方法，使用 arguments 传递参数
-//  public static FunConversationFragment newInstance(int type) {
-//    FunConversationFragment fragment = new FunConversationFragment();
-//    Bundle args = new Bundle();
-//    args.putInt("type", type);
-//    fragment.setArguments(args);
-//    return fragment;
-//  }
+//    public static FunConversationFragment newInstance(int type) {
+//        FunConversationFragment fragment = new FunConversationFragment();
+//        Bundle args = new Bundle();
+//        args.putInt("type", type);
+//        fragment.setArguments(args);
+//        return fragment;
+//    }
+
+
     public FunConversationFragment() {
+    }
+
+    public FunConversationFragment(int type) {
+        _type = type;
     }
 
     private int topIndex;
 
     @Override
-    public View initViewAndGetRootView(
-            @NonNull LayoutInflater inflater,
-            @Nullable ViewGroup container,
-            @Nullable Bundle savedInstanceState) {
+    public View initViewAndGetRootView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         viewBinding = FunConversationFragmentBinding.inflate(inflater, container, false);
         // 获取传递的参数
-//    if (getArguments() != null) {
-//      _type = getArguments().getInt("type");
-//    }
+//        if (getArguments() != null) {
+//            _type = getArguments().getInt("type");
+//        }
         initView();
-//    if (_type == 1) {
-//      viewBinding.funConversationFragmentTitleTv.setText("群聊");
-//    } else {
-        viewBinding.funConversationFragmentTitleTv.setText("对话");
-
-//    }
+        if (_type == 1) {
+            viewBinding.funConversationFragmentTitleTv.setText("群聊");
+        } else {
+            viewBinding.funConversationFragmentTitleTv.setText("消息");
+        }
         viewBinding.funConversationFragmentSearchLl.setOnClickListener(v -> {
-            XKitRouter.withKey("SearchNewActivity")
-                    .withContext(requireContext())
-                    .navigate();
+            XKitRouter.withKey("SearchNewActivity").withContext(requireContext()).navigate();
         });
         StatusBarUtils.setStatusBarLightMode(getActivity(), true, true);
         ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) viewBinding.funConversationFragmentTopLl.getLayoutParams();
@@ -130,13 +133,7 @@ public class FunConversationFragment extends ConversationBaseFragment {
             @Override
             public void run() {
                 // 这里写你想延时执行的代码
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        requestMsg();
-                    }
-                });
+                getActivity().runOnUiThread(() -> requestMsg());
             }
         }, 1500);
         EventBus.getDefault().register(this);
@@ -147,21 +144,19 @@ public class FunConversationFragment extends ConversationBaseFragment {
     @Override
     public void onPause() {
         super.onPause();
-//    if (_type == 0) {
-        if (!AppProxy.searchKeyWord0.isEmpty()) {
-            viewBinding.funConversationFragmentEt.setText("");
-            AppProxy.searchKeyWord0 = "";
-            conversationView.adapter.notifyDataSetChanged();
+        if (_type == 0) {
+            if (!AppProxy.searchKeyWord0.isEmpty()) {
+                viewBinding.funConversationFragmentEt.setText("");
+                AppProxy.searchKeyWord0 = "";
+                conversationView.adapter.notifyDataSetChanged();
+            }
+        } else {
+            if (!AppProxy.searchKeyWord1.isEmpty()) {
+                viewBinding.funConversationFragmentEt.setText("");
+                AppProxy.searchKeyWord1 = "";
+                conversationView.adapter.notifyDataSetChanged();
+            }
         }
-//    } else {
-//      if (!AppProxy.searchKeyWord1.isEmpty()) {
-//        viewBinding.funConversationFragmentEt.setText("");
-//        AppProxy.searchKeyWord1 = "";
-//        conversationView.adapter.notifyDataSetChanged();
-//      }
-//    }
-
-
     }
 
     void searchWord() {
@@ -179,11 +174,11 @@ public class FunConversationFragment extends ConversationBaseFragment {
             @Override
             public void afterTextChanged(Editable s) {
                 String string = s.toString();
-//        if (_type == 0) {
-                AppProxy.getInstance().searchKeyWord0 = string;
-//        } else {
-//          AppProxy.getInstance().searchKeyWord1 = string;
-//        }
+                if (_type == 0) {
+                    AppProxy.getInstance().searchKeyWord0 = string;
+                } else {
+                    AppProxy.getInstance().searchKeyWord1 = string;
+                }
 
                 conversationView.adapter.notifyDataSetChanged();
             }
@@ -214,155 +209,143 @@ public class FunConversationFragment extends ConversationBaseFragment {
 
     void _requestData() {
 
-        HttpUtil.apiW().customer_notice()
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        GroupInfoBean groupInfoBean = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
-                        if (groupInfoBean != null && groupInfoBean.content != null) {
+        HttpUtil.apiW().customer_notice().enqueue(new CommonCallback<NetData>() {
+            @Override
+            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                GroupInfoBean groupInfoBean = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
+                if (groupInfoBean != null && groupInfoBean.content != null) {
 
-                            String message = groupInfoBean.content;
-                            if (message != null && !message.isEmpty()) {
-                                viewBinding.marqueeView.startWithText(message);
-                                viewBinding.marqueeView.startWithText(message, com.sunfusheng.marqueeview.R.anim.anim_bottom_in, com.sunfusheng.marqueeview.R.anim.anim_top_out);
-                            } else {
-                                message = "";
-                                viewBinding.marqueeView.startWithText(message);
-                                viewBinding.marqueeView.startWithText(message, com.sunfusheng.marqueeview.R.anim.anim_bottom_in, com.sunfusheng.marqueeview.R.anim.anim_top_out);
-
-                            }
-                        } else {
-
-                            String message = "";
-                            viewBinding.marqueeView.startWithText(message);
-                            viewBinding.marqueeView.startWithText(message, com.sunfusheng.marqueeview.R.anim.anim_bottom_in, com.sunfusheng.marqueeview.R.anim.anim_top_out);
-
-                        }
-                    }
-
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
-
-                        String message = "";
+                    String message = groupInfoBean.content;
+                    if (message != null && !message.isEmpty()) {
+                        viewBinding.marqueeView.startWithText(message);
+                        viewBinding.marqueeView.startWithText(message, com.sunfusheng.marqueeview.R.anim.anim_bottom_in, com.sunfusheng.marqueeview.R.anim.anim_top_out);
+                    } else {
+                        message = "";
                         viewBinding.marqueeView.startWithText(message);
                         viewBinding.marqueeView.startWithText(message, com.sunfusheng.marqueeview.R.anim.anim_bottom_in, com.sunfusheng.marqueeview.R.anim.anim_top_out);
 
                     }
-                });
-//    if (_type == 1) {
+                } else {
 
+                    String message = "";
+                    viewBinding.marqueeView.startWithText(message);
+                    viewBinding.marqueeView.startWithText(message, com.sunfusheng.marqueeview.R.anim.anim_bottom_in, com.sunfusheng.marqueeview.R.anim.anim_top_out);
 
-        HttpUtil.apiW().group_userGroups(new RegisterBean())
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                }
+            }
 
-                        Type type = new TypeToken<List<GroupInfoBean>>() {
-                        }.getType();
+            @Override
+            public void Failure(Call<NetData> call, Throwable t) {
+                String message = "";
+                viewBinding.marqueeView.startWithText(message);
+                viewBinding.marqueeView.startWithText(message, com.sunfusheng.marqueeview.R.anim.anim_bottom_in, com.sunfusheng.marqueeview.R.anim.anim_top_out);
 
-                        List<GroupInfoBean> dataList = new Gson().fromJson(body.data.toString(), type);
+            }
+        });
+        if (_type == 1) {
+            Log.i("fanbo", "----" + _type);
+            HttpUtil.apiW().group_userGroups(new RegisterBean()).enqueue(new CommonCallback<NetData>() {
+                @Override
+                public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                        for (GroupInfoBean tempGroupInfo : dataList) {
-                            boolean hasConversation = false;
-                            for (ConversationBean tempCoversation : conversationList) {
+                    Type type = new TypeToken<List<GroupInfoBean>>() {
+                    }.getType();
 
-                                if (tempGroupInfo.groupId.equals((String) tempCoversation.param)) {
-                                    hasConversation = true;
-                                    break;
-                                }
-                            }
-                            if (!hasConversation) {
-                                sendGroupMessage(tempGroupInfo.groupId);
-                            }
-                        }
-                    }
+                    List<GroupInfoBean> dataList = new Gson().fromJson(body.data.toString(), type);
 
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
-
-                    }
-                });
-//    }
-//    if (_type == 0) {
-
-        HttpUtil.apiW().customer_systemAppUser(new RegisterBean())
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-
-                        String kefuId = body.data.toString().replace("\"", "");
-                        requestKefu(kefuId);
-
-                        String xiaozhushouId = "10086";
-                        DataUtil.putKeFuId(kefuId);
-                        DataUtil.putXiaoZhuShouId(xiaozhushouId);
-
-                        boolean hasKefu = false;
-                        boolean hasXiaoZhushou = false;
-
-                        for (ConversationBean tempBean :
-                                conversationList) {
-                            if (tempBean.infoData.getContactId().equals(kefuId)) {
-                                hasKefu = true;
-
+                    for (GroupInfoBean tempGroupInfo : dataList) {
+                        boolean hasConversation = false;
+                        for (ConversationBean tempCoversation : conversationList) {
+                            if (tempGroupInfo.groupId.equals((String) tempCoversation.param)) {
+                                hasConversation = true;
+                                break;
                             }
                         }
-                        for (ConversationBean tempBean :
-                                conversationList) {
-                            if (tempBean.infoData.getContactId().equals(xiaozhushouId)) {
-                                hasXiaoZhushou = true;
-
-                            }
-                        }
-                        if (!hasKefu) {
-                            sendMessage(kefuId);
-                        }
-                        if (!hasXiaoZhushou) {
-                            sendMessage(xiaozhushouId);
+                        if (!hasConversation) {
+                            sendGroupMessage(tempGroupInfo.groupId);
                         }
                     }
+                }
 
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
+                @Override
+                public void Failure(Call<NetData> call, Throwable t) {
 
+                }
+            });
+        }
+        if (_type == 0) {
+            Log.i("fanbo", "----" + _type);
+            HttpUtil.apiW().customer_systemAppUser(new RegisterBean()).enqueue(new CommonCallback<NetData>() {
+                @Override
+                public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                    String kefuId = body.data.toString().replace("\"", "");
+                    requestKefu(kefuId);
+                    String xiaozhushouId = "10086";
+                    DataUtil.putKeFuId(kefuId);
+                    DataUtil.putXiaoZhuShouId(xiaozhushouId);
+
+                    boolean hasKefu = false;
+                    boolean hasXiaoZhushou = false;
+
+                    for (ConversationBean tempBean : conversationList) {
+                        if (tempBean.infoData.getContactId().equals(kefuId)) {
+                            hasKefu = true;
+
+                        }
                     }
-                });
-//    }
+                    for (ConversationBean tempBean : conversationList) {
+                        if (tempBean.infoData.getContactId().equals(xiaozhushouId)) {
+                            hasXiaoZhushou = true;
+
+                        }
+                    }
+                    if (!hasKefu) {
+                        sendMessage(kefuId);
+                    }
+                    if (!hasXiaoZhushou) {
+                        sendMessage(xiaozhushouId);
+                    }
+                }
+
+                @Override
+                public void Failure(Call<NetData> call, Throwable t) {
+
+                }
+            });
+        }
     }
 
     void requestKefu(String kefuId) {
         RegisterBean bean = new RegisterBean();
         bean.userId = kefuId;
-        HttpUtil.apiW().friends_searchByUserIdF(bean)
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        UserBean userBean = new Gson().fromJson(body.data.toString(), UserBean.class);
-                        if ("0".equals(userBean.friend)) {
-                            RegisterBean bean = new RegisterBean();
-                            bean.memberCode = userBean.memberCode;
-                            bean.msg = "客服";
-                            HttpUtil.apiW().friends_addFriends(bean)
-                                    .enqueue(new CommonCallback<NetData>() {
-                                        @Override
-                                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                                            NIMClient.getService(MsgService.class).clearChattingHistory(kefuId, SessionTypeEnum.P2P);
+        HttpUtil.apiW().friends_searchByUserIdF(bean).enqueue(new CommonCallback<NetData>() {
+            @Override
+            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                UserBean userBean = new Gson().fromJson(body.data.toString(), UserBean.class);
+                if ("0".equals(userBean.friend)) {
+                    RegisterBean bean = new RegisterBean();
+                    bean.memberCode = userBean.memberCode;
+                    bean.msg = "客服";
+                    HttpUtil.apiW().friends_addFriends(bean).enqueue(new CommonCallback<NetData>() {
+                        @Override
+                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                            NIMClient.getService(MsgService.class).clearChattingHistory(kefuId, SessionTypeEnum.P2P);
 //                              NIMClient.getService(MsgService.class).clearServerHistory(kefuId,SessionTypeEnum.P2P);
-                                        }
-
-                                        @Override
-                                        public void Failure(Call<NetData> call, Throwable t) {
-
-                                        }
-                                    });
                         }
-                    }
 
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
+                        @Override
+                        public void Failure(Call<NetData> call, Throwable t) {
 
-                    }
-                });
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void Failure(Call<NetData> call, Throwable t) {
+
+            }
+        });
     }
 
     private void sendMessage(String account) {
@@ -376,8 +359,7 @@ public class FunConversationFragment extends ConversationBaseFragment {
         config.enableUnreadCount = false; // 自定义消息不计入未读数
 
         // 构建自定义消息
-        IMMessage message = MessageBuilder.createCustomMessage(account, SessionTypeEnum.P2P, null,
-                null, config, null);
+        IMMessage message = MessageBuilder.createCustomMessage(account, SessionTypeEnum.P2P, null, null, config, null);
 
 
         message.setConfig(config);
@@ -414,8 +396,7 @@ public class FunConversationFragment extends ConversationBaseFragment {
         config.enableUnreadCount = false; // 自定义消息不计入未读数
 
         // 构建自定义消息
-        IMMessage message = MessageBuilder.createCustomMessage(account, SessionTypeEnum.Team, null,
-                null, config, null);
+        IMMessage message = MessageBuilder.createCustomMessage(account, SessionTypeEnum.Team, null, null, config, null);
 //    IMMessage message1 = MessageBuilder.createEmptyMessage()
 
         message.setConfig(config);
@@ -471,10 +452,11 @@ public class FunConversationFragment extends ConversationBaseFragment {
 
     private void initView() {
         conversationView = viewBinding.conversationView;
-//    conversationView._type = _type;
-//    conversationView.adapter._type = _type;
-
-
+        conversationView._type = _type;
+        conversationView.adapter._type = _type;
+        // 设置父类的 _type，确保过滤逻辑正确工作
+        super._type = _type;
+        
         networkErrorView = viewBinding.errorTv;
         emptyView = viewBinding.emptyLayout;
         setViewHolderFactory(new FunViewHolderFactory());
@@ -496,10 +478,7 @@ public class FunConversationFragment extends ConversationBaseFragment {
         viewBinding.funConversationFragmentKefuIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_P2P_PAGE)
-                        .withParam(RouterConstant.CHAT_ID_KRY, DataUtil.getKeFuId())
-                        .withContext(getContext())
-                        .navigate();
+                XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_P2P_PAGE).withParam(RouterConstant.CHAT_ID_KRY, DataUtil.getKeFuId()).withContext(getContext()).navigate();
             }
         });
 
@@ -508,28 +487,15 @@ public class FunConversationFragment extends ConversationBaseFragment {
             public void onClick(View v) {
                 Context context = getContext();
                 int memberLimit = ConversationUIConstant.MAX_TEAM_MEMBER;
-                ContentListPopView contentListPopView =
-                        new ContentListPopView.Builder(context)
-                                .addItem(FunPopItemFactory.getCreateAdvancedTeamItem(context, memberLimit))
-                                .addItem(FunPopItemFactory.getDivideLineItem(context))
-                                .addItem(FunPopItemFactory.getAddFriendItem(context))
-                                .addItem(FunPopItemFactory.getDivideLineItem(context))
-                                .addItem(FunPopItemFactory.getScanItem(context))
-                                .enableShadow(false)
-                                .backgroundRes(R.drawable.fun_conversation_view_pop_bg)
-                                .build();
-                contentListPopView.showAsDropDown(
-                        v, (int) requireContext().getResources().getDimension(R.dimen.pop_margin_right), 0);
+                ContentListPopView contentListPopView = new ContentListPopView.Builder(context).addItem(FunPopItemFactory.getCreateAdvancedTeamItem(context, memberLimit)).addItem(FunPopItemFactory.getDivideLineItem(context)).addItem(FunPopItemFactory.getAddFriendItem(context)).addItem(FunPopItemFactory.getDivideLineItem(context)).addItem(FunPopItemFactory.getScanItem(context)).enableShadow(false).backgroundRes(R.drawable.fun_conversation_view_pop_bg).build();
+                contentListPopView.showAsDropDown(v, (int) requireContext().getResources().getDimension(R.dimen.pop_margin_right), 0);
             }
         });
     }
 
     void doOptWithIndex(int index) {
         if (index == 0) {
-            XKitRouter.withKey(com.yaoxin.appbase.net.Constant.FunSelected_User_ActivityKey)
-                    .withContext(getContext())
-                    .withParam("type", "1")
-                    .navigate();
+            XKitRouter.withKey(com.yaoxin.appbase.net.Constant.FunSelected_User_ActivityKey).withContext(getContext()).withParam("type", "1").navigate();
         } else if (index == 1) {
 
         } else if (index == 2) {
@@ -652,8 +618,7 @@ public class FunConversationFragment extends ConversationBaseFragment {
     public RecyclerView.ItemDecoration getItemDecoration() {
         return new RecyclerView.ItemDecoration() {
             @Override
-            public void getItemOffsets(@NonNull Rect outRect, @NonNull View view,
-                                       @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
+            public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
                 // 设置底部间距为10dp
                 outRect.bottom = SizeUtils.dp2px(6);
             }

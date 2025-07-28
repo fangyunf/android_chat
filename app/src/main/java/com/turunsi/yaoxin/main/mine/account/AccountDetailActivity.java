@@ -15,6 +15,9 @@ import androidx.annotation.Nullable;
 
 import com.airbnb.lottie.L;
 import com.google.gson.Gson;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.msg.MsgService;
+import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.turunsi.yaoxin.R;
 import com.turunsi.yaoxin.databinding.ActivityMineAccountDetailBinding;
 import com.yaoxin.appbase.activity.BaseActivity;
@@ -27,6 +30,7 @@ import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.BaseEvent;
 import com.yaoxin.appbase.utils.CommonCallBack;
 import com.yaoxin.appbase.utils.DataUtil;
+import com.yaoxin.appbase.utils.DialogAlertUtil;
 import com.yaoxin.appbase.utils.GlideUtil;
 import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
@@ -116,8 +120,11 @@ public class AccountDetailActivity extends BaseActivity implements View.OnClickL
     @Override
     public void onClick(View v) {
         if (v == viewBinding.activityMineAccountDetailModifyNameTv) {
-
-            ModifyTextActivity.start(ModifyTextActivity.class, this, null);
+            DialogAlertUtil.showAlert("昵称只能修改一次,请谨慎修改", type -> {
+                if (type == 1) {
+                    ModifyTextActivity.start(ModifyTextActivity.class, this, null);
+                }
+            }, getSupportFragmentManager());
         } else if (v == viewBinding.activityMineAccountDetailModifyHeadTv) {
             UploadUtil.openPhotoLibrary(this, Constant.REQUEST_CODE_CHOOSE);
         } else if (v == viewBinding.activityMineAccountDetailNav.addCloseImageButton()) {

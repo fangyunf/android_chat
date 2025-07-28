@@ -12,8 +12,8 @@ import com.chad.library.adapter4.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.turunsi.yaoxin.R;
-import com.turunsi.yaoxin.databinding.ActivityBuyFeatureBinding;
 import com.turunsi.yaoxin.databinding.ActivityBuyGroupFeatureBinding;
+import com.turunsi.yaoxin.databinding.ActivityBuyGroupNewFeatureBinding;
 import com.turunsi.yaoxin.main.mine.fuhao.adapter.GroupBuyListAdapter;
 import com.yaoxin.appbase.activity.BaseActivity;
 import com.yaoxin.appbase.model.GroupInfoBean;
@@ -33,13 +33,15 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Response;
 
-public class BuyGroupFeatureActivity extends BaseActivity implements View.OnClickListener {
-    ActivityBuyGroupFeatureBinding binding;
+public class BuyGroupFeatureNewActivity extends BaseActivity implements View.OnClickListener {
+    ActivityBuyGroupNewFeatureBinding binding;
     GroupBuyListAdapter adapter = new GroupBuyListAdapter();
     int _type = 0;
     String _groupId;
     int _grade;
     int _groupMemberNum;
+    int _price;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,26 +51,21 @@ public class BuyGroupFeatureActivity extends BaseActivity implements View.OnClic
         _groupId = getIntent().getStringExtra("groupId");
         _grade = getIntent().getIntExtra("grade", 0);
         _groupMemberNum = getIntent().getIntExtra("groupMemberNum", 0);
+        _price = getIntent().getIntExtra("price", 0);
 
-        binding = ActivityBuyGroupFeatureBinding.inflate(getLayoutInflater());
+        binding = ActivityBuyGroupNewFeatureBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         binding.activityBuyGroupFeatureNav.addCloseImageButton().setOnClickListener(this);
         binding.activityBuyGroupFeatureQsjRuleTv.setOnClickListener(this);
         binding.activityBuyGroupFeatureBuyTv.setOnClickListener(this);
+        binding.cellBuyGroupFeatureMoneyTv.setText("￥" + NumberUtil.formartMoney(_price + ""));
 
-        binding.activityBuyGroupFeatureRv.setLayoutManager(new LinearLayoutManager(this));
-        binding.activityBuyGroupFeatureRv.setAdapter(adapter);
-        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener<GroupInfoBean>() {
-            @Override
-            public void onClick(@NonNull BaseQuickAdapter<GroupInfoBean, ?> baseQuickAdapter, @NonNull View view, int i) {
-                for (GroupInfoBean tempBean :
-                        baseQuickAdapter.getItems()) {
-                    tempBean.isSelected = false;
-                }
-                baseQuickAdapter.getItem(i).isSelected = true;
-                adapter.notifyDataSetChanged();
-            }
-        });
+        String b = "1000以上";
+        if (_groupMemberNum == -1) {
+            binding.cellBuyGroupFeatureDetailTv.setText("购买即升级当前群组为" + b + "人群");
+        } else {
+            binding.cellBuyGroupFeatureDetailTv.setText("购买即升级当前群组为" + _groupMemberNum + "人群");
+        }
         _updateUI();
     }
 
@@ -93,16 +90,12 @@ public class BuyGroupFeatureActivity extends BaseActivity implements View.OnClic
 //            binding.activityBuyFeatureUpdateInfoTv.setVisibility(View.GONE);
 //        }
         if (_type == 2) {
-            binding.activityBuyGroupFeatureInfoTv.setVisibility(View.VISIBLE);
             binding.activityBuyFeatureBottomLl.setVisibility(View.GONE);
-            binding.activityBuyGroupFeatureRv.setVisibility(View.GONE);
             binding.activityBuyGroupFeatureNav.getTitleView().setText("升级规则");
         } else {
             binding.activityBuyFeatureBottomLl.setVisibility(View.VISIBLE);
-            binding.activityBuyGroupFeatureRv.setVisibility(View.GONE);
             binding.activityBuyGroupFeatureNav.getTitleView().setText("升级群组");
             binding.activityBuyGroupFeatureQsjRuleTv.setVisibility(View.VISIBLE);
-            binding.activityBuyGroupFeatureInfoTv.setVisibility(View.GONE);
         }
     }
 
@@ -148,21 +141,7 @@ public class BuyGroupFeatureActivity extends BaseActivity implements View.OnClic
             _type = 2;
             _updateUI();
         } else if (v == binding.activityBuyGroupFeatureBuyTv) {
-            int finalGrade;
-            int grade = -1;
-            String moneyStr = "";
-            for (GroupInfoBean tempBean : adapter.getItems()) {
-                if (tempBean.isSelected) {
-                    grade = tempBean.grade;
-                    moneyStr = NumberUtil.formartMoney(tempBean.price + "");
-                }
-
-            }
-            if (grade == -1) {
-                ToastUtils.toastMsg("请选择升级类型");
-                return;
-            }
-            finalGrade = grade;
+            int finalGrade = _grade;
             PopEnterPassword popEnterPassword = new PopEnterPassword(this, new OnPasswordInputFinish() {
                 @Override
                 public void inputFinish(String password) {
@@ -183,7 +162,7 @@ public class BuyGroupFeatureActivity extends BaseActivity implements View.OnClic
                                 }
                             });
                 }
-            }, moneyStr);
+            }, NumberUtil.formartMoney(_price + ""));
             // 显示窗口
             popEnterPassword.showAtLocation(binding.activityBuyGroupFeatureRootRl,
                     Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); // 设置layout在PopupWindow中显示的位置

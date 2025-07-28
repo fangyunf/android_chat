@@ -364,7 +364,6 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                         ToastUtils.toastMsg(body.msg);
-
                         EventBus.getDefault().post(new BaseEvent("reloadTeamSettingData"));
                         finish();
                     }

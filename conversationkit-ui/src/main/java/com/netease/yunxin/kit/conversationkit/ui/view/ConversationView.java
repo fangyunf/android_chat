@@ -35,7 +35,7 @@ public class ConversationView extends FrameLayout {
   private RecyclerView recyclerView;
   public ConversationAdapter adapter;
 
-//  public int _type;
+  public int _type;
   private ILoadListener loadMoreListener;
   private final int LOAD_MORE_DIFF = 5;
 

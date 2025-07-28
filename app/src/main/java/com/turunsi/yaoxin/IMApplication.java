@@ -64,6 +64,7 @@ import com.turunsi.yaoxin.main.mine.MineInfoActivity;
 import com.turunsi.yaoxin.main.mine.account.AccountDetailActivity;
 import com.turunsi.yaoxin.main.mine.collection.CollectionListActivity;
 import com.turunsi.yaoxin.main.mine.fuhao.BuyGroupFeatureActivity;
+import com.turunsi.yaoxin.main.mine.fuhao.BuyGroupFeatureNewActivity;
 import com.turunsi.yaoxin.push.PushMessageHandler;
 import com.turunsi.yaoxin.register.ForgetPwdActivity;
 import com.turunsi.yaoxin.register.RegisterActivity;
@@ -119,24 +120,23 @@ public class IMApplication extends MultiDexApplication {
         XKitRouter.registerRouter(com.yaoxin.appbase.net.Constant.CollectionListActivityKey, CollectionListActivity.class);
         XKitRouter.registerRouter(com.yaoxin.appbase.net.Constant.BaseWebViewActivityKey, BaseWebViewActivity.class);
         XKitRouter.registerRouter(com.yaoxin.appbase.net.Constant.XiaoZhuShouActivityKey, XiaoZhuShouActivity.class);
-        XKitRouter.registerRouter("BuyGroupFeatureActivity", BuyGroupFeatureActivity.class);
+        XKitRouter.registerRouter("BuyGroupFeatureActivity", BuyGroupFeatureNewActivity.class);
         AppProxy.getInstance().init(this)
                 .setIsDebug(BuildConfig.DEBUG)
                 .setVersionName(BuildConfig.VERSION_NAME);
         initThirdPart();
         mediaPlayer = MediaPlayer.create(this, R.raw.msg);
-        vibrator = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
-
-        if (vibrator != null && vibrator.hasVibrator()) { // 检查设备是否支持震动
-            // 创建一个震动效果，参数为震动时长（毫秒）
-            VibrationEffect vibrationEffect = null;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                vibrationEffect = VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE);
-                vibrator.vibrate(vibrationEffect);
-            }
-
-            // 开始震动
-        }
+        
+//        vibrator = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
+//        if (vibrator != null && vibrator.hasVibrator()) { // 检查设备是否支持震动
+//            // 创建一个震动效果，参数为震动时长（毫秒）
+//            VibrationEffect vibrationEffect = null;
+//            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+//                vibrationEffect = VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE);
+//                vibrator.vibrate(vibrationEffect);
+//            }
+//            // 开始震动
+//        }
     }
 
     private void initThirdPart() {
@@ -195,7 +195,7 @@ public class IMApplication extends MultiDexApplication {
                                     BaseEvent baseEvent = new BaseEvent("egg_open_notice");
                                     baseEvent.customMsgBean = msgBean;
                                     EventBus.getDefault().post(baseEvent);
-                                } else  if (msgBean.type == 15 || msgBean.type == 2) {
+                                } else if (msgBean.type == 15 || msgBean.type == 2) {
                                     BaseEvent baseEvent = new BaseEvent("refreshFriendList");
                                     EventBus.getDefault().post(baseEvent);
                                 }

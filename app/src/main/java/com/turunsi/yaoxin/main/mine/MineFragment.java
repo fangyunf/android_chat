@@ -145,6 +145,32 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 //    binding.settingLl.setOnClickListener(
 //        v -> startActivity(new Intent(getContext(), SettingActivity.class)));
         binding.tvAccount.setText("ID: " + DataUtil.getUserInfo().memberCode);
+
+
+        binding.layoutLingqian.setOnClickListener(view1 -> XKitRouter.withKey(com.yaoxin.appbase.net.Constant.XiaoZhuShouActivityKey)
+                .withContext(requireActivity())
+                .navigate());
+        binding.layoutzhanghao.setOnClickListener(view2 -> ExchangeAccountActivity.start(ExchangeAccountActivity.class, requireActivity(), null));
+        binding.layoutFuka.setOnClickListener(view3 -> MyFuHaoListActivity.start(MyFuHaoListActivity.class, getActivity(), null));
+        binding.layoutDown.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DownLoadActivity.start(DownLoadActivity.class, requireActivity(), null);
+            }
+        });
+        binding.layoutZhifu.setOnClickListener(view4 -> {
+            HashMap map = new HashMap();
+            map.put("type", "0");
+            PursePwdManagerSetActivity.start(PursePwdManagerSetActivity.class, requireContext(), map);
+        });
+
+        binding.layoutUserSetting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SettingNewActivity.start(SettingNewActivity.class, getContext(), null);
+            }
+        });
+
         _requestData();
     }
 
