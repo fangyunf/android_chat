@@ -126,17 +126,16 @@ public class IMApplication extends MultiDexApplication {
                 .setVersionName(BuildConfig.VERSION_NAME);
         initThirdPart();
         mediaPlayer = MediaPlayer.create(this, R.raw.msg);
-        
-//        vibrator = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
-//        if (vibrator != null && vibrator.hasVibrator()) { // 检查设备是否支持震动
-//            // 创建一个震动效果，参数为震动时长（毫秒）
-//            VibrationEffect vibrationEffect = null;
-//            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-//                vibrationEffect = VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE);
-//                vibrator.vibrate(vibrationEffect);
-//            }
-//            // 开始震动
-//        }
+        vibrator = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
+        if (vibrator != null && vibrator.hasVibrator()) { // 检查设备是否支持震动
+            // 创建一个震动效果，参数为震动时长（毫秒）
+            VibrationEffect vibrationEffect = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                vibrationEffect = VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE);
+                vibrator.vibrate(vibrationEffect);
+            }
+            // 开始震动
+        }
     }
 
     private void initThirdPart() {
