@@ -37,6 +37,7 @@ public class RegisterBean {
     public String jqr;
     public String param;
     public String password;
+    public String smsPhone;
     public String captcha;
     public String deviceId;
     public String clientType;
