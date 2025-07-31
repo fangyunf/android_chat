@@ -43,78 +43,79 @@ import retrofit2.Response;
 
 public class AnQuanSetNewActivity extends BaseActivity implements View.OnClickListener {
 
-  private ActivityMineSetAnquanSetBinding viewBinding;
+    private ActivityMineSetAnquanSetBinding viewBinding;
 
-  @Override
-  protected void onCreate(@Nullable Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 //    changeStatusBarColor(R.color.color_e9eff5);
-    viewBinding = ActivityMineSetAnquanSetBinding.inflate(getLayoutInflater());
-    setContentView(viewBinding.getRoot());
-    initView();
-    _requestData();
-  }
+        viewBinding = ActivityMineSetAnquanSetBinding.inflate(getLayoutInflater());
+        setContentView(viewBinding.getRoot());
+        initView();
+        _requestData();
+    }
 
-  private void initView() {
-    viewBinding.activityMineSetAnquanSetNav.addCloseImageButton().setOnClickListener(this);
-    viewBinding.activityMineSetAnquanSetRefreshTv.setOnClickListener(this);
-    viewBinding.activityMineSetAnquanSetSwitchIv.setOnClickListener(this);
-  }
-   public void _requestData() {
+    private void initView() {
+        viewBinding.activityMineSetAnquanSetNav.addCloseImageButton().setOnClickListener(this);
+        viewBinding.activityMineSetAnquanSetRefreshTv.setOnClickListener(this);
+        viewBinding.activityMineSetAnquanSetSwitchIv.setOnClickListener(this);
+    }
 
-    HttpUtil.apiW().home_sdState(new RegisterBean())
-            .enqueue(new CommonCallback<NetData>() {
-              @Override
-              public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                UserBean bean = new Gson().fromJson(body.data.toString(),UserBean.class);
-                viewBinding.activityMineSetAnquanSetSwitchIv.setSelected("1".equals(bean.state));
-              }
+    public void _requestData() {
 
-              @Override
-              public void Failure(Call<NetData> call, Throwable t) {
-
-              }
-            });
-  }
-
-
-  @Override
-  public void onClick(View v) {
-    if (v == viewBinding.activityMineSetAnquanSetNav.addCloseImageButton()) {
-      finish();
-    } else if (v == viewBinding.activityMineSetAnquanSetRefreshTv) {
-
-        Activity that = this ;
-        HttpUtil.apiW().home_flushToken(new RegisterBean())
+        HttpUtil.apiW().home_sdState(new RegisterBean())
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        UserBean bean = new Gson().fromJson(body.data.toString(),UserBean.class);
-                        DataUtil.putToken(bean.token);
-                        IMUtil.loginIM(that,DataUtil.getUserid(),bean.imToken);
+                        UserBean bean = new Gson().fromJson(body.data.toString(), UserBean.class);
+                        viewBinding.activityMineSetAnquanSetSwitchIv.setSelected("1".equals(bean.state));
                     }
 
                     @Override
                     public void Failure(Call<NetData> call, Throwable t) {
 
-                    }
-                });
-    } else if (v == viewBinding.activityMineSetAnquanSetSwitchIv) {
-
-        HttpUtil.apiW().home_updateSd(new RegisterBean())
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-//                        UserBean bean = new Gson().fromJson(body.data.toString(),UserBean.class);
-                        ToastUtils.toastMsg("设置成功");
-                        viewBinding.activityMineSetAnquanSetSwitchIv.setSelected(!viewBinding.activityMineSetAnquanSetSwitchIv.isSelected());
-                    }
-
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
-                        ToastUtils.toastMsg("设置失败");
                     }
                 });
     }
-  }
+
+
+    @Override
+    public void onClick(View v) {
+        if (v == viewBinding.activityMineSetAnquanSetNav.addCloseImageButton()) {
+            finish();
+        } else if (v == viewBinding.activityMineSetAnquanSetRefreshTv) {
+
+            Activity that = this;
+            HttpUtil.apiW().home_flushToken(new RegisterBean())
+                    .enqueue(new CommonCallback<NetData>() {
+                        @Override
+                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                            UserBean bean = new Gson().fromJson(body.data.toString(), UserBean.class);
+                            DataUtil.putToken(bean.token);
+                            IMUtil.loginIM(that, DataUtil.getUserid(), bean.imToken);
+                        }
+
+                        @Override
+                        public void Failure(Call<NetData> call, Throwable t) {
+
+                        }
+                    });
+        } else if (v == viewBinding.activityMineSetAnquanSetSwitchIv) {
+
+            HttpUtil.apiW().home_updateSd(new RegisterBean())
+                    .enqueue(new CommonCallback<NetData>() {
+                        @Override
+                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+//                        UserBean bean = new Gson().fromJson(body.data.toString(),UserBean.class);
+                            ToastUtils.toastMsg("设置成功");
+                            viewBinding.activityMineSetAnquanSetSwitchIv.setSelected(!viewBinding.activityMineSetAnquanSetSwitchIv.isSelected());
+                        }
+
+                        @Override
+                        public void Failure(Call<NetData> call, Throwable t) {
+                            ToastUtils.toastMsg("设置失败");
+                        }
+                    });
+        }
+    }
 }
