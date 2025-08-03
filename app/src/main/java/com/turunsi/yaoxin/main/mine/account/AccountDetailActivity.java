@@ -120,7 +120,7 @@ public class AccountDetailActivity extends BaseActivity implements View.OnClickL
     @Override
     public void onClick(View v) {
         if (v == viewBinding.activityMineAccountDetailModifyNameTv) {
-            DialogAlertUtil.showAlert("昵称只能修改一次,请谨慎修改", type -> {
+            DialogAlertUtil.showAlert("昵称7内不能修改，请谨慎修改名字", type -> {
                 if (type == 1) {
                     ModifyTextActivity.start(ModifyTextActivity.class, this, null);
                 }
