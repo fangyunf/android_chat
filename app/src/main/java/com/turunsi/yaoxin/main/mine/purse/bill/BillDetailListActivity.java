@@ -2,6 +2,7 @@ package com.turunsi.yaoxin.main.mine.purse.bill;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -150,8 +151,9 @@ public class BillDetailListActivity extends BaseActivity implements View.OnClick
         bean.moudleType = moudleType;
         bean.date = selectedMonth;
         // 只有在加载更多时才传递 endId
-        if (!isRefer && endId != null && !endId.isEmpty()) {
+        if (!isRefer && endId != null && !TextUtils.isEmpty(endId)) {
             bean.endId = endId;
+
         }
         HttpUtil.apiW().red_transcationsList(bean).enqueue(new CommonCallback<NetData>() {
             @Override
