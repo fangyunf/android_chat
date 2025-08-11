@@ -131,7 +131,8 @@ public class ZzHorizontalProgressBar extends View {
         mBorderColor = a.getColor(R.styleable.ZzHorizontalProgressBar_zpb_border_color, 0xffff001f);
         a.recycle();
     }
-    
+
+
     private void initPaths() {
         mProgressPaint = new Paint();
         mProgressPaint.setColor(mProgressColor);

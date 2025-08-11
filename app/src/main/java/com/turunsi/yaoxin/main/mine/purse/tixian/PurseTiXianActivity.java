@@ -24,6 +24,7 @@ import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.pswkeyboard.OnPasswordInputFinish;
 import com.yaoxin.appbase.pswkeyboard.widget.PopEnterPassword;
+import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.DialogAlertUtil;
 import com.yaoxin.appbase.utils.NumberUtil;
 import com.yaoxin.appbase.utils.StatusBarUtils;
@@ -138,6 +139,16 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
             return;
         }
 
+        if (aliPayBean == null) {
+            ToastUtils.toastMsg("请绑定支付宝");
+            return;
+        }
+
+        if (!(aliPayBean.phone.equals(DataUtil.getUserInfo().phoneNo))) {
+            ToastUtils.toastMsg("重新绑定，绑定支付宝");
+            return;
+        }
+
         RegisterBean bean = new RegisterBean();
         bean.payPassword = pwd;
         bean.amount = NumberUtil.formartUploadMoney(inputMoney);
@@ -153,7 +164,7 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
             bean.zfbNo = wxPayBean.phone;
             bean.name = wxPayBean.name;
             bean.zfbUrl = wxPayBean.usdt;
-            bean.userUsdtId = wxPayBean.id +"";
+            bean.userUsdtId = wxPayBean.id + "";
         } else if (payType.equals("yhkpay")) {
 
             bean.zfbNo = yhkPayBean.phone;
@@ -161,19 +172,18 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
             bean.zfbUrl = yhkPayBean.usdt;
             bean.userUsdtId = yhkPayBean.id + "";
         }
-        HttpUtil.apiW().withdraw_withdrawDeposit(bean)
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        ToastUtils.toastMsg("提现成功");
-                        finish();
-                    }
+        HttpUtil.apiW().withdraw_withdrawDeposit(bean).enqueue(new CommonCallback<NetData>() {
+            @Override
+            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                ToastUtils.toastMsg("提现成功");
+                finish();
+            }
 
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
+            @Override
+            public void Failure(Call<NetData> call, Throwable t) {
 
-                    }
-                });
+            }
+        });
     }
 
     @Override
@@ -184,20 +194,19 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected void _requestData() {
-        HttpUtil.apiW().home_balance()
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        UserBean bean = new Gson().fromJson(body.data.toString(), UserBean.class);
-                        accountMoeny = NumberUtil.formartMoney(bean.balance);
-                        binding.activityMinePurseMyLingqian.viewTitleTfWithoutBgEt.setText("¥" + NumberUtil.formartMoney(bean.balance));
-                    }
+        HttpUtil.apiW().home_balance().enqueue(new CommonCallback<NetData>() {
+            @Override
+            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                UserBean bean = new Gson().fromJson(body.data.toString(), UserBean.class);
+                accountMoeny = NumberUtil.formartMoney(bean.balance);
+                binding.activityMinePurseMyLingqian.viewTitleTfWithoutBgEt.setText("¥" + NumberUtil.formartMoney(bean.balance));
+            }
 
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
+            @Override
+            public void Failure(Call<NetData> call, Throwable t) {
 
-                    }
-                });
+            }
+        });
 
 //        RegisterBean bean = new RegisterBean();
 //        bean.type = 1;
@@ -234,9 +243,9 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
         makeRequest(alipayBean, "alipay");
 
         // 发起微信请求
-        RegisterBean wechatBean = new RegisterBean();
-        wechatBean.type = 1;
-        makeRequest(wechatBean, "wechat");
+//        RegisterBean wechatBean = new RegisterBean();
+//        wechatBean.type = 1;
+//        makeRequest(wechatBean, "wechat");
 //
 //        // 发起银行卡请求
 //        RegisterBean bankBean = new RegisterBean();
@@ -245,61 +254,60 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void makeRequest(RegisterBean bean, String requestType) {
-        HttpUtil.apiW().bindCard_userZFB(bean)
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        Type type = new TypeToken<List<UserBean>>() {
-                        }.getType();
-                        List<UserBean> tempList = new Gson().fromJson(body.data.toString(), type);
+        HttpUtil.apiW().bindCard_userZFB(bean).enqueue(new CommonCallback<NetData>() {
+            @Override
+            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                Type type = new TypeToken<List<UserBean>>() {
+                }.getType();
+                List<UserBean> tempList = new Gson().fromJson(body.data.toString(), type);
 //                        if (tempList != null && !tempList.isEmpty()) {
 //                            aliPayBean = tempList.get(0);
 //                        }
 
 //                        aliPayBean = new Gson().fromJson(body.data.toString(), UserBean.class);
 //                        handleAllRequestsCompleted();
-                        synchronized (lock) {
-                            // 根据请求类型保存数据
-                            switch (requestType) {
-                                case "alipay":
-                                    if (tempList != null && !tempList.isEmpty()) {
+                synchronized (lock) {
+                    // 根据请求类型保存数据
+                    switch (requestType) {
+                        case "alipay":
+                            if (tempList != null && !tempList.isEmpty()) {
 
-                                        aliPayBean = tempList.get(0);
-                                    }
-                                    break;
-                                case "wechat":
-                                    if (tempList != null && !tempList.isEmpty()) {
-                                        wxPayBean = tempList.get(0);
-                                    }
-                                    break;
-                                case "bank":
-                                    if (tempList != null && !tempList.isEmpty()) {
-                                        yhkPayBean = tempList.get(0);
-                                    }
-                                    break;
+                                aliPayBean = tempList.get(0);
                             }
-
-                            completedRequests++;
-
-                            // 检查是否所有请求都完成了
-                            if (completedRequests == 2) {
-                                handleAllRequestsCompleted();
+                            break;
+                        case "wechat":
+                            if (tempList != null && !tempList.isEmpty()) {
+                                wxPayBean = tempList.get(0);
                             }
-                        }
+                            break;
+                        case "bank":
+                            if (tempList != null && !tempList.isEmpty()) {
+                                yhkPayBean = tempList.get(0);
+                            }
+                            break;
                     }
 
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
-                        synchronized (lock) {
-                            completedRequests++;
+                    completedRequests++;
 
-                            // 即使失败也要检查是否所有请求都完成了
-                            if (completedRequests == 2) {
+                    // 检查是否所有请求都完成了
+                    if (completedRequests == 1) {
                         handleAllRequestsCompleted();
-                            }
-                        }
                     }
-                });
+                }
+            }
+
+            @Override
+            public void Failure(Call<NetData> call, Throwable t) {
+                synchronized (lock) {
+                    completedRequests++;
+
+                    // 即使失败也要检查是否所有请求都完成了
+                    if (completedRequests == 2) {
+                        handleAllRequestsCompleted();
+                    }
+                }
+            }
+        });
     }
 
     private void handleAllRequestsCompleted() {
@@ -371,8 +379,7 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
 
             }, textStr);
             // 显示窗口
-            popEnterPassword.showAtLocation(binding.activityMinePurseTixianLl,
-                    Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); // 设置layout在PopupWindow中显示的位置
+            popEnterPassword.showAtLocation(binding.activityMinePurseTixianLl, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); // 设置layout在PopupWindow中显示的位置
 //            if (accountBean == null || accountBean.name.isEmpty() || accountBean.phone.isEmpty() || accountBean.zfb.isEmpty()) {
 //                String inputMoney = getTextStr(binding.activityMinePurseTixianMoneyEt);
 //
@@ -389,8 +396,8 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
         } else if (v == binding.activityMinePurseTixianAllTixianTv) {
             binding.activityMinePurseTixianMoneyEt.setText(accountMoeny);
         } else if (v == binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgLl || v == binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt) {
-
-            DialogAlertUtil.showSheetView(this, getSupportFragmentManager(), new String[]{"支付宝", "微信"}, new DialogAlertUtil.DialogAlertUtilCallBack() {
+//            "微信"
+            DialogAlertUtil.showSheetView(this, getSupportFragmentManager(), new String[]{"支付宝"}, new DialogAlertUtil.DialogAlertUtilCallBack() {
                 @Override
                 public void clickType(int type) {
                     if (type == 1) {
