@@ -88,7 +88,7 @@ public class FunSendZhuanZhangActivity extends BaseActivity implements View.OnCl
         binding.activityFunSendRedPacketSendTv.setOnClickListener(this);
         binding.activityFunSendRedPacketMoneyEt.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
         binding.activityFunSendRedPacketMoneyEt.setKeyListener(DigitsKeyListener.getInstance("0123456789."));
-
+        binding.activityFunSendRedPacketCountLl.setVisibility(View.GONE);
 
         binding.activityFunSendRedPacketCountEt.setInputType(InputType.TYPE_CLASS_NUMBER);
         binding.activityFunSendRedPacketToPeopleLl.setOnClickListener(this);

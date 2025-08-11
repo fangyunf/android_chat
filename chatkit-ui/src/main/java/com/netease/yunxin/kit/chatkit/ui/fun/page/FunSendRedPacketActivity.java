@@ -398,7 +398,6 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
             HttpUtil.apiW().red_personRedpacket(bean).enqueue(new CommonCallback<NetData>() {
                 @Override
                 public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-
                     ToastUtils.toastMsg("发送成功");
                     finish();
                 }
@@ -409,6 +408,10 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
                 }
             });
         } else if (type == 1) {
+            if (TextUtils.isEmpty(countStr)) {
+                ToastUtils.toastMsg("请输入份数");
+                return;
+            }
             int count = Integer.parseInt(countStr);
             if (count <= 0) {
                 ToastUtils.toastMsg("请输入份数");
@@ -420,7 +423,6 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
             HttpUtil.apiW().red_sendGroupRedpacket(bean).enqueue(new CommonCallback<NetData>() {
                 @Override
                 public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-
                     ToastUtils.toastMsg("发送成功");
                     finish();
                 }
