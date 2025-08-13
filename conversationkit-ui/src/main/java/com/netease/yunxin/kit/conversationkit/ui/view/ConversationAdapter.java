@@ -103,6 +103,15 @@ public class ConversationAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     public void update(ConversationBean data) {
         ALog.d(LIB_TAG, TAG, "update" + data.infoData.getContactId());
+
+        // 记录当前滚动位置和偏移量
+        int currentPosition = layoutManager.findFirstVisibleItemPosition();
+        int currentOffset = 0;
+        View currentView = layoutManager.findViewByPosition(currentPosition);
+        if (currentView != null) {
+            currentOffset = currentView.getTop();
+        }
+
         int position = layoutManager.findFirstVisibleItemPosition();
         int removeIndex = -1;
         for (int j = 0; j < conversationList.size(); j++) {
@@ -141,7 +150,11 @@ public class ConversationAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 }
             }
         }
-        layoutManager.scrollToPosition(position);
+        //layoutManager.scrollToPosition(position);
+        // 智能恢复滚动位置，避免强制跳转
+        if (currentPosition >= 0 && currentPosition < conversationList.size()) {
+            layoutManager.scrollToPositionWithOffset(currentPosition, currentOffset);
+        }
     }
 
     public void updateUserInfo(List<UserInfo> data) {
