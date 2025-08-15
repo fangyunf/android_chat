@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/icon_app_bg"
+    android:background="@color/color_white"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -12,7 +12,7 @@
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="44dp"
             android:scaleType="fitXY"
             android:src="@drawable/chat_red_packet_open_result_top_bg" />
 
@@ -20,11 +20,11 @@
             android:id="@+id/activity_fun_red_packet_result_detail_nav"
             style="@style/WhiteFontToolbar"
             android:background="@color/transparent"
-            app:back_icon="@mipmap/temp_ic_back_white"
+            app:back_icon="@mipmap/temp_ic_back"
             app:enable_under_divider="true"
             app:support_translucent_status_bar="false"
             app:title="领取详情"
-            app:title_text_color="@color/color_white"
+            app:title_text_color="@color/color_333333"
             app:under_divider_color="@color/transparent" />
     </RelativeLayout>
 
@@ -44,7 +44,7 @@
                 android:id="@+id/activity_fun_red_packet_result_detail_sender_head_iv"
                 android:layout_width="@dimen/dimen_22_dp"
                 android:layout_height="@dimen/dimen_22_dp"
-                app:riv_corner_radius="@dimen/dimen_12_dp" />
+                app:riv_corner_radius="@dimen/dimen_11_dp" />
 
             <TextView
                 android:id="@+id/activity_fun_red_packet_result_detail_sender_tv"
@@ -52,7 +52,7 @@
                 android:layout_height="25dp"
                 android:layout_marginLeft="@dimen/dimen_8_dp"
                 android:text=""
-                android:textColor="@color/color_white"
+                android:textColor="@color/color_333333"
                 android:textSize="18sp" />
 
         </LinearLayout>
@@ -73,7 +73,7 @@
             android:layout_height="37dp"
             android:layout_marginBottom="31dp"
             android:text=""
-            android:textColor="@color/app_theme_color"
+            android:textColor="#EB5644"
             android:textSize="26sp" />
     </LinearLayout>
 
@@ -86,7 +86,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_10_dp"
-            android:background="#4675a7" />
+            android:background="#f5f5f5" />
 
         <TextView
             android:id="@+id/activity_fun_red_packet_result_detail_rv_detail_tv"

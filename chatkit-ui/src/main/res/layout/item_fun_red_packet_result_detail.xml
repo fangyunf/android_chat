@@ -30,7 +30,7 @@
                 android:id="@+id/item_fun_red_packet_result_detail_username_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="22dp"
-                android:textColor="@color/color_white"
+                android:textColor="@color/color_333333"
                 android:textSize="16sp" />
 
             <TextView
@@ -52,7 +52,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="22dp"
                 android:text="元"
-                android:textColor="@color/color_white"
+                android:textColor="@color/color_333333"
                 android:textSize="16sp" />
 
             <LinearLayout
