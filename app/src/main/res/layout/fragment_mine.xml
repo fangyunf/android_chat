@@ -380,7 +380,7 @@
                                     android:textColor="@color/white"
                                     android:textSize="14sp" />
                             </LinearLayout>
-                            
+
                             <LinearLayout
                                 android:id="@+id/layoutzhanghao"
                                 android:layout_width="0dp"
@@ -426,6 +426,35 @@
                             </LinearLayout>
 
                             <LinearLayout
+                                android:id="@+id/layoutHuiYuan"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:layout_width="32dp"
+                                    android:layout_height="32dp"
+                                    android:src="@mipmap/icon_guangfang" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="4dp"
+                                    android:text="会员中心"
+                                    android:textColor="@color/white"
+                                    android:textSize="14sp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen_20_dp"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
                                 android:id="@+id/layoutDown"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
@@ -446,13 +475,7 @@
                                     android:textColor="@color/white"
                                     android:textSize="14sp" />
                             </LinearLayout>
-                        </LinearLayout>
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/dimen_20_dp"
-                            android:orientation="horizontal">
 
                             <LinearLayout
                                 android:id="@+id/layoutZhifu"
@@ -505,22 +528,7 @@
                                 android:layout_weight="1"
                                 android:gravity="center"
                                 android:orientation="vertical"
-                                android:visibility="invisible">
-
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:gravity="center"
-                                android:orientation="vertical"
-                                android:visibility="invisible">
-
-
-                            </LinearLayout>
-
+                                android:visibility="invisible" />
 
                         </LinearLayout>
                     </LinearLayout>

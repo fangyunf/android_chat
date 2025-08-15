@@ -164,12 +164,9 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
             PursePwdManagerSetActivity.start(PursePwdManagerSetActivity.class, requireContext(), map);
         });
 
-        binding.layoutUserSetting.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SettingNewActivity.start(SettingNewActivity.class, getContext(), null);
-            }
-        });
+        binding.layoutUserSetting.setOnClickListener(view6 -> SettingNewActivity.start(SettingNewActivity.class, getContext(), null));
+
+        binding.layoutHuiYuan.setOnClickListener(view5 -> MyHuiYuanListActivity.start(MyHuiYuanListActivity.class, getContext(), null));
 
         _requestData();
     }
