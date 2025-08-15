@@ -29,6 +29,7 @@ import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.Constant;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.CommonCallBack;
+import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
 import com.yaoxin.appbase.utils.UploadUtil;
@@ -75,12 +76,13 @@ public class BindAlipayActivity extends BaseActivity implements View.OnClickList
                 binding.activityMineBindAlipayName.viewTitleTfWithoutBgEt.setHint("请输入您的真实姓名");
                 break;
             case 2:
-
                 binding.activityMineBindAlipayNav.getTitleView().setText("支付宝");
                 binding.activityMineBindAlipayAccount.viewTitleTfWithoutBgTv.setText("支付宝账号");
                 binding.activityMineBindAlipayName.viewTitleTfWithoutBgTv.setText("真实姓名");
                 binding.activityMineBindAlipayAccount.viewTitleTfWithoutBgEt.setHint("请输入支付宝账号");
                 binding.activityMineBindAlipayName.viewTitleTfWithoutBgEt.setHint("请输入您的真实姓名");
+                binding.activityMineBindAlipayAccount.viewTitleTfWithoutBgEt.setText(DataUtil.getUserInfo().phoneNo);
+                binding.activityMineBindAlipayAccount.viewTitleTfWithoutBgEt.setEnabled(false);
                 break;
             case 3:
                 binding.activityMineBindAlipayNav.getTitleView().setText("银行卡");

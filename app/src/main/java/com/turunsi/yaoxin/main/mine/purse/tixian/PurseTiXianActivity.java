@@ -43,6 +43,7 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
     ActivityMinePurseTixianBinding binding;
     String accountMoeny;
     String payType = "alipay";
+
     UserBean aliPayBean;
     UserBean wxPayBean;
     UserBean yhkPayBean;
@@ -57,8 +58,10 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
         StatusBarUtils.transtStatusBar(this, binding.activityMinePurseTixianNav);
         binding.activityMinePurseTixianNav.addCloseImageButton().setOnClickListener(this);
 //        binding.
+
         binding.activityMinePurseTixianMoneyEt.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
         binding.activityMinePurseTixianMoneyEt.setKeyListener(DigitsKeyListener.getInstance("0123456789."));
+
         binding.activityMinePurseTixianMoneyEt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

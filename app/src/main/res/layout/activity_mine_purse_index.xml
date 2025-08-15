@@ -173,13 +173,15 @@
                         android:id="@+id/activity_mine_purse_index_bdwx"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:visibility="gone"
                         app:titleText="绑定微信" />
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1px"
                         android:layout_marginLeft="@dimen/dimen_20_dp"
-                        android:background="@color/white" />
+                        android:background="@color/white"
+                        android:visibility="gone" />
 
                     <com.yaoxin.appbase.view.IconTitleArrowTemplate
                         android:id="@+id/activity_mine_purse_index_bdzfb"
