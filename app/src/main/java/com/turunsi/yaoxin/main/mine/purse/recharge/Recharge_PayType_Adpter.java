@@ -32,7 +32,6 @@ public class Recharge_PayType_Adpter extends
         } else if (orderListBean.contains("微信")) {
             iconIv.setImageResource(R.mipmap.recharge_index_wx);
         } else {
-
             iconIv.setImageResource(R.mipmap.recharge_index_bi);
         }
 //    switch (orderListBean) {
