@@ -60,7 +60,6 @@ public class PursePwdManagerSetActivity extends BaseActivity implements View.OnC
         }
 
         binding.activityMinePursePwdManagerGetCode.viewTitleTfWithoutBgTv.setText("验证码");
-
         binding.activityMinePursePwdManagerGetCode.btnCaptcha.setVisibility(View.VISIBLE);
 
         CountDownView mCountDownView = binding.activityMinePursePwdManagerGetCode.btnCaptcha;
@@ -84,19 +83,18 @@ public class PursePwdManagerSetActivity extends BaseActivity implements View.OnC
         if (type == 0) {
             _initSetCell();
             binding.activityMinePursePwdManagerSetNav.setTitle("设置支付密码");
+            binding.activityMinePursePwdManagerSetPhone.viewTitleTfWithoutBgEt.setText(DataUtil.getUserInfo().phoneNo);
         } else if (type == 1) {
             binding.activityMinePursePwdManagerSetNav.setTitle("修改支付密码");
             _initModifyCell();
             binding.activityMinePursePwdManagerSetForgetPwdTv.setVisibility(View.VISIBLE);
         } else if (type == 2) {
             binding.activityMinePursePwdManagerSetNav.setTitle("忘记支付密码");
-
             _initForgetCell();
         } else if (type == 100) {
             binding.activityMinePursePwdManagerSetNav.setTitle("注销账号");
             binding.activityMinePursePwdManagerSetSetPwd.viewTitleTfWithoutBgLl.setVisibility(View.GONE);
             binding.activityMinePursePwdManagerSetConfirmPwd.viewTitleTfWithoutBgLl.setVisibility(View.GONE);
-
             binding.activityMinePursePwdManagerSetPhone.viewTitleTfWithoutBgTv.setText("手机号");
         }
     }

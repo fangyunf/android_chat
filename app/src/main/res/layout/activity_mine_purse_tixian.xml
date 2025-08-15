@@ -130,6 +130,20 @@
 
             </RelativeLayout>
 
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_16_dp"
+                android:orientation="vertical"
+                android:paddingHorizontal="@dimen/dimen_16_dp">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/activity_mine_purse_recharge_rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
             <include
                 android:id="@+id/activity_mine_purse_tixianfangshi"
                 layout="@layout/view_title_tf_without_bg"

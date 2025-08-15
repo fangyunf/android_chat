@@ -17,18 +17,19 @@ import com.turunsi.yaoxin.R;
  */
 public class Recharge_Adpter extends
         BaseQuickAdapter<String, QuickViewHolder> {
-  String selectStr = "100";
-  @Override
-  protected void onBindViewHolder(@NonNull QuickViewHolder quickViewHolder, int i, @Nullable String orderListBean) {
-    TextView tv = quickViewHolder.findView(R.id.activity_mine_purse_recharge_item_tv);
-    tv.setText(orderListBean);
-    tv.setSelected(selectStr.equals(orderListBean));
+    public String selectStr = "100";
 
-  }
+    @Override
+    protected void onBindViewHolder(@NonNull QuickViewHolder quickViewHolder, int i, @Nullable String orderListBean) {
+        TextView tv = quickViewHolder.findView(R.id.activity_mine_purse_recharge_item_tv);
+        tv.setText(orderListBean);
+        tv.setSelected(selectStr.equals(orderListBean));
 
-  @NonNull
-  @Override
-  protected QuickViewHolder onCreateViewHolder(@NonNull Context context, @NonNull ViewGroup viewGroup, int i) {
-    return new QuickViewHolder(R.layout.activity_mine_purse_recharge_item,viewGroup);
-  }
+    }
+
+    @NonNull
+    @Override
+    protected QuickViewHolder onCreateViewHolder(@NonNull Context context, @NonNull ViewGroup viewGroup, int i) {
+        return new QuickViewHolder(R.layout.activity_mine_purse_recharge_item, viewGroup);
+    }
 }

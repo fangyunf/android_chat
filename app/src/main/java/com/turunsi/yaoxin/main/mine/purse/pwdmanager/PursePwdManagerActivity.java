@@ -25,7 +25,6 @@ public class PursePwdManagerActivity extends BaseActivity implements View.OnClic
     private void _initCell() {
         binding.activityMinePursePwdManagerSetPwd.viewTitleArrowTv.setText("设置支付密码");
         binding.activityMinePursePwdManagerModifyPwd.viewTitleArrowTv.setText("修改支付密码");
-
         binding.activityMinePursePwdManagerSetPwd.viewTitleArrowLl.setOnClickListener(this);
         binding.activityMinePursePwdManagerModifyPwd.viewTitleArrowLl.setOnClickListener(this);
     }

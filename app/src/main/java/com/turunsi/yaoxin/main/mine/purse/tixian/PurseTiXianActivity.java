@@ -1,6 +1,8 @@
 package com.turunsi.yaoxin.main.mine.purse.tixian;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
@@ -9,12 +11,20 @@ import android.text.method.DigitsKeyListener;
 import android.view.Gravity;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.chad.library.adapter4.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.netease.yunxin.kit.common.utils.SizeUtils;
 import com.turunsi.yaoxin.R;
 import com.turunsi.yaoxin.main.mine.purse.alipay.BindAlipayActivity;
+import com.turunsi.yaoxin.main.mine.purse.recharge.Recharge_Adpter;
+import com.turunsi.yaoxin.main.mine.purse.recharge.Recharge_GridSpacingItemDecoration;
 import com.yaoxin.appbase.activity.BaseActivity;
 import com.turunsi.yaoxin.databinding.ActivityMinePurseTixianBinding;
 import com.yaoxin.appbase.model.NetData;
@@ -33,6 +43,7 @@ import com.yaoxin.appbase.view.pwdkeyboard.Keyboard;
 import com.yaoxin.appbase.view.pwdkeyboard.PayEditText;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -49,6 +60,9 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
     UserBean yhkPayBean;
     private final Object lock = new Object();
     private int completedRequests = 0;
+    private int completedTotal = 1;
+
+    private RecyclerView recyclerView1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,10 +72,8 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
         StatusBarUtils.transtStatusBar(this, binding.activityMinePurseTixianNav);
         binding.activityMinePurseTixianNav.addCloseImageButton().setOnClickListener(this);
 //        binding.
-
         binding.activityMinePurseTixianMoneyEt.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
         binding.activityMinePurseTixianMoneyEt.setKeyListener(DigitsKeyListener.getInstance("0123456789."));
-
         binding.activityMinePurseTixianMoneyEt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -100,8 +112,8 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
         binding.activityMinePurseTixianTixianBtn.setOnClickListener(this);
         binding.activityMinePurseTixianAccoutTv.setEnabled(false);
 
-        //binding.activityMinePurseMyLingqian.viewTitleTfWithoutBgEt.setBackgroundColor(getResources().getColor(R.color.color_white));
-        // binding.activityMinePurseMyLingqian.viewTitleTfWithoutBgLl.setBackgroundColor(getResources().getColor(R.color.color_white));
+        binding.activityMinePurseMyLingqian.viewTitleTfWithoutBgEt.setBackgroundColor(getResources().getColor(R.color.color_white));
+        binding.activityMinePurseMyLingqian.viewTitleTfWithoutBgLl.setBackgroundColor(getResources().getColor(R.color.color_white));
 
         binding.activityMinePurseMyLingqian.viewTitleTfWithoutBgLl.setBackground(getResources().getDrawable(com.yaoxin.appbase.R.drawable.bg_f2f2f2_rounded_10));
         binding.activityMinePurseMyLingqian.viewTitleTfWithoutBgEt.setBackground(getResources().getDrawable(R.color.transparent));
@@ -125,10 +137,37 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
         binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setFocusable(false);
         binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setFocusableInTouchMode(false);
         binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setClickable(true);
-        binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgLl.setBackground(getResources().getDrawable(R.color.color_white));
-        binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setBackground(getResources().getDrawable(R.color.color_white));
+        binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgLl.setBackground(new BitmapDrawable());
+        binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setBackground(new BitmapDrawable());
         binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setGravity(gravity);
         binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setHint("请选择");
+        binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setTextColor(Color.WHITE);
+        setWithItem();
+    }
+
+    private void setWithItem() {
+        Recharge_Adpter adpter = new Recharge_Adpter();
+        List<String> list = new ArrayList<>();
+        list.add("100");
+        list.add("300");
+        list.add("400");
+        list.add("500");
+        list.add("800");
+        list.add("2000");
+        list.add("3000");
+        adpter.setItems(list);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 4);
+        Recharge_GridSpacingItemDecoration gridSpacingItemDecoration =
+                new Recharge_GridSpacingItemDecoration(4, SizeUtils.dp2px(10f), false);
+        gridSpacingItemDecoration.leftSpace = SizeUtils.dp2px(3f);
+        binding.activityMinePurseRechargeRv.addItemDecoration(gridSpacingItemDecoration);
+        binding.activityMinePurseRechargeRv.setLayoutManager(gridLayoutManager);
+        binding.activityMinePurseRechargeRv.setAdapter(adpter);
+        adpter.setOnItemClickListener((baseQuickAdapter, view, i) -> {
+            adpter.selectStr = adpter.getItem(i);
+            binding.activityMinePurseTixianMoneyEt.setText(adpter.selectStr);
+            adpter.notifyDataSetChanged();
+        });
     }
 
     void tiXianClick(String pwd) {
@@ -172,18 +211,19 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
             bean.zfbUrl = yhkPayBean.usdt;
             bean.userUsdtId = yhkPayBean.id + "";
         }
-        HttpUtil.apiW().withdraw_withdrawDeposit(bean).enqueue(new CommonCallback<NetData>() {
-            @Override
-            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                ToastUtils.toastMsg("提现成功");
-                finish();
-            }
+        HttpUtil.apiW().withdraw_withdrawDeposit(bean)
+                .enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                        ToastUtils.toastMsg("提现成功");
+                        finish();
+                    }
 
-            @Override
-            public void Failure(Call<NetData> call, Throwable t) {
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
 
-            }
-        });
+                    }
+                });
     }
 
     @Override
@@ -194,19 +234,21 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected void _requestData() {
-        HttpUtil.apiW().home_balance().enqueue(new CommonCallback<NetData>() {
-            @Override
-            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                UserBean bean = new Gson().fromJson(body.data.toString(), UserBean.class);
-                accountMoeny = NumberUtil.formartMoney(bean.balance);
-                binding.activityMinePurseMyLingqian.viewTitleTfWithoutBgEt.setText("¥" + NumberUtil.formartMoney(bean.balance));
-            }
+        HttpUtil.apiW().home_balance()
+                .enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                        UserBean bean = new Gson().fromJson(body.data.toString(), UserBean.class);
+                        accountMoeny = NumberUtil.formartMoney(bean.balance);
+                        binding.activityMinePurseMyLingqian.viewTitleTfWithoutBgEt.setText("¥" + NumberUtil.formartMoney(bean.balance));
+                        binding.tvBlance.setText("可用余额:" + NumberUtil.formartMoney(bean.balance));
+                    }
 
-            @Override
-            public void Failure(Call<NetData> call, Throwable t) {
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
 
-            }
-        });
+                    }
+                });
 
 //        RegisterBean bean = new RegisterBean();
 //        bean.type = 1;
@@ -251,78 +293,78 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
 //        RegisterBean bankBean = new RegisterBean();
 //        bankBean.type = 3;
 //        makeRequest(bankBean, "bank");
+
+        completedTotal = 1;
     }
 
     private void makeRequest(RegisterBean bean, String requestType) {
-        HttpUtil.apiW().bindCard_userZFB(bean).enqueue(new CommonCallback<NetData>() {
-            @Override
-            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                Type type = new TypeToken<List<UserBean>>() {
-                }.getType();
-                List<UserBean> tempList = new Gson().fromJson(body.data.toString(), type);
+        HttpUtil.apiW().bindCard_userZFB(bean)
+                .enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                        Type type = new TypeToken<List<UserBean>>() {
+                        }.getType();
+                        List<UserBean> tempList = new Gson().fromJson(body.data.toString(), type);
 //                        if (tempList != null && !tempList.isEmpty()) {
 //                            aliPayBean = tempList.get(0);
 //                        }
 
 //                        aliPayBean = new Gson().fromJson(body.data.toString(), UserBean.class);
 //                        handleAllRequestsCompleted();
-                synchronized (lock) {
-                    // 根据请求类型保存数据
-                    switch (requestType) {
-                        case "alipay":
-                            if (tempList != null && !tempList.isEmpty()) {
-
-                                aliPayBean = tempList.get(0);
+                        synchronized (lock) {
+                            // 根据请求类型保存数据
+                            switch (requestType) {
+                                case "alipay":
+                                    if (tempList != null && !tempList.isEmpty()) {
+                                        aliPayBean = tempList.get(0);
+                                    }
+                                    break;
+                                case "wechat":
+                                    if (tempList != null && !tempList.isEmpty()) {
+                                        wxPayBean = tempList.get(0);
+                                    }
+                                    break;
+                                case "bank":
+                                    if (tempList != null && !tempList.isEmpty()) {
+                                        yhkPayBean = tempList.get(0);
+                                    }
+                                    break;
                             }
-                            break;
-                        case "wechat":
-                            if (tempList != null && !tempList.isEmpty()) {
-                                wxPayBean = tempList.get(0);
+                            completedRequests++;
+                            // 检查是否所有请求都完成了
+                            if (completedRequests == completedTotal) {
+                                handleAllRequestsCompleted();
                             }
-                            break;
-                        case "bank":
-                            if (tempList != null && !tempList.isEmpty()) {
-                                yhkPayBean = tempList.get(0);
-                            }
-                            break;
+                        }
                     }
 
-                    completedRequests++;
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
+                        synchronized (lock) {
+                            completedRequests++;
 
-                    // 检查是否所有请求都完成了
-                    if (completedRequests == 1) {
-                        handleAllRequestsCompleted();
+                            // 即使失败也要检查是否所有请求都完成了
+                            if (completedRequests == 2) {
+                                handleAllRequestsCompleted();
+                            }
+                        }
                     }
-                }
-            }
-
-            @Override
-            public void Failure(Call<NetData> call, Throwable t) {
-                synchronized (lock) {
-                    completedRequests++;
-
-                    // 即使失败也要检查是否所有请求都完成了
-                    if (completedRequests == 2) {
-                        handleAllRequestsCompleted();
-                    }
-                }
-            }
-        });
+                });
     }
 
     private void handleAllRequestsCompleted() {
         // 所有请求完成后的处理逻辑
         if (aliPayBean != null) {
             payType = "alipay";
-            binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setText("支付宝：" + aliPayBean.phone);
+            binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setText("支付宝:" + aliPayBean.phone);
         } else {
             if (wxPayBean != null) {
                 payType = "wxpay";
-                binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setText("微信：" + wxPayBean.phone);
+                binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setText("微信:" + wxPayBean.phone);
             } else {
                 if (yhkPayBean != null) {
                     payType = "yhkpay";
-                    binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setText("银行卡：" + yhkPayBean.phone);
+                    binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setText("银行卡:" + yhkPayBean.phone);
                 }
             }
         }
@@ -379,7 +421,8 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
 
             }, textStr);
             // 显示窗口
-            popEnterPassword.showAtLocation(binding.activityMinePurseTixianLl, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); // 设置layout在PopupWindow中显示的位置
+            popEnterPassword.showAtLocation(binding.activityMinePurseTixianLl,
+                    Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); // 设置layout在PopupWindow中显示的位置
 //            if (accountBean == null || accountBean.name.isEmpty() || accountBean.phone.isEmpty() || accountBean.zfb.isEmpty()) {
 //                String inputMoney = getTextStr(binding.activityMinePurseTixianMoneyEt);
 //
@@ -396,7 +439,7 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
         } else if (v == binding.activityMinePurseTixianAllTixianTv) {
             binding.activityMinePurseTixianMoneyEt.setText(accountMoeny);
         } else if (v == binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgLl || v == binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt) {
-//            "微信"
+
             DialogAlertUtil.showSheetView(this, getSupportFragmentManager(), new String[]{"支付宝"}, new DialogAlertUtil.DialogAlertUtilCallBack() {
                 @Override
                 public void clickType(int type) {
