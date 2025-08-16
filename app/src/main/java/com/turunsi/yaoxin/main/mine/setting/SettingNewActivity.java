@@ -15,7 +15,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.misc.DirCacheFileType;
+import com.netease.nimlib.sdk.msg.MsgService;
+import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
+import com.netease.yunxin.kit.chatkit.model.ConversationInfo;
+import com.netease.yunxin.kit.chatkit.repo.ConversationRepo;
 import com.netease.yunxin.kit.chatkit.ui.custom.ChatConfigManager;
 import com.netease.yunxin.kit.common.ui.dialog.ChoiceListener;
 import com.netease.yunxin.kit.common.ui.dialog.CommonChoiceDialog;
@@ -129,13 +134,11 @@ public class SettingNewActivity extends BaseActivity implements View.OnClickList
                 }
             }, getSupportFragmentManager());
         } else if (v == viewBinding.activityMineSetNewDeleteRecord.viewTitleArrowLl) {
-            DialogAlertUtil.showAlert("确定清空聊天记录吗？", new DialogAlertUtil.DialogAlertUtilCallBack() {
-                @Override
-                public void clickType(int type) {
-                    if (type == 1) {
-                        MiscRepo.INSTANCE.clearMessageCache();
-                        ToastUtils.toastMsg("操作成功");
-                    }
+            DialogAlertUtil.showAlert("确定清空聊天记录吗？", type -> {
+                if (type == 1) {
+                    clearServerMessageHistory();
+                    // MiscRepo.INSTANCE.clearMessageCache();
+                    ToastUtils.toastMsg("操作成功");
                 }
             }, getSupportFragmentManager());
         } else if (v == viewBinding.activityMineSetNewAboutUs.viewTitleArrowLl) {
@@ -194,6 +197,49 @@ public class SettingNewActivity extends BaseActivity implements View.OnClickList
                 finish();
             }
         });
+    }
+
+    // 添加清除服务器聊天记录的方法
+    private void clearServerMessageHistory() {
+        // 获取所有会话列表 - 需要传入 Comparator 和 Callback
+        ConversationRepo.getAllSessionList(null, new FetchCallback<List<ConversationInfo>>() {
+            @Override
+            public void onSuccess(@Nullable List<ConversationInfo> conversations) {
+                if (conversations != null && !conversations.isEmpty()) {
+                    for (ConversationInfo conversation : conversations) {
+                        if (conversation.getSessionType() == SessionTypeEnum.P2P) {
+                            // 清除单聊记录
+                            clearP2PMessageHistory(conversation.getContactId());
+                        } else if (conversation.getSessionType() == SessionTypeEnum.Team) {
+                            // 清除群聊记录
+                            clearTeamMessageHistory(conversation.getContactId());
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFailed(int code) {
+            }
+
+            @Override
+            public void onException(@Nullable Throwable exception) {
+            }
+        });
+    }
+
+    // 清除单聊记录
+    private void clearP2PMessageHistory(String account) {
+        NIMClient.getService(MsgService.class).clearChattingHistory(account, SessionTypeEnum.P2P);
+        NIMClient.getService(MsgService.class).clearServerHistory(account, SessionTypeEnum.P2P);
+        //NIMClient.getService(MsgService.class).clearServerHistory(account, SessionTypeEnum.P2P, true);
+    }
+
+    // 清除群聊记录
+    private void clearTeamMessageHistory(String teamId) {
+        NIMClient.getService(MsgService.class).clearChattingHistory(teamId, SessionTypeEnum.Team);
+        NIMClient.getService(MsgService.class).clearServerHistory(teamId, SessionTypeEnum.Team);
+        //NIMClient.getService(MsgService.class).clearServerHistory(teamId, SessionTypeEnum.Team, true);
     }
 
     private List<DirCacheFileType> getSDKFileType() {
