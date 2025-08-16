@@ -243,7 +243,7 @@ public class SettingNewActivity extends BaseActivity implements View.OnClickList
         NIMClient.getService(MsgService.class).clearServerHistory(teamId, SessionTypeEnum.Team);
         //NIMClient.getService(MsgService.class).clearServerHistory(teamId, SessionTypeEnum.Team, true);
     }
-    
+
     private List<DirCacheFileType> getSDKFileType() {
         List<DirCacheFileType> types = new ArrayList<>();
         types.add(DirCacheFileType.AUDIO);
