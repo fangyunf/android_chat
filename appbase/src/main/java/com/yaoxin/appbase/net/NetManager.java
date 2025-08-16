@@ -1,9 +1,6 @@
 package com.yaoxin.appbase.net;
 
 
-
-
-
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -25,6 +22,7 @@ public class NetManager {
                 .addNetworkInterceptor(new HttpLoggingInterceptor()
                         .setLevel(Constant.DEBUG ? HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.NONE))
                 .addInterceptor(new TokenInterceptor())
+                .addInterceptor(new HeadInterceptor())
                 .connectTimeout(30, TimeUnit.SECONDS) //超时时间
                 .readTimeout(30, TimeUnit.SECONDS)
                 .build();
@@ -42,6 +40,7 @@ public class NetManager {
                 .addNetworkInterceptor(new HttpLoggingInterceptor()
                         .setLevel(Constant.DEBUG ? HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.NONE))
                 .addInterceptor(new TokenInterceptor())
+                .addInterceptor(new HeadInterceptor())
                 .addInterceptor(new ReceivedJwtInterceptor())
                 .connectTimeout(30, TimeUnit.SECONDS) //超时时间
                 .readTimeout(30, TimeUnit.SECONDS)

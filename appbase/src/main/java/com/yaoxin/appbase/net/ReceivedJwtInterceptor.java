@@ -27,7 +27,7 @@ class ReceivedJwtInterceptor implements Interceptor {
         Response originalResponse = chain.proceed(chain.request());
         String jwt = originalResponse.header("Authorization");
         if (!TextUtils.isEmpty(jwt)) {
-            DataUtil.putToken(" Bearer "+ jwt);
+            DataUtil.putToken(" Bearer " + jwt);
         }
         return originalResponse;
     }
