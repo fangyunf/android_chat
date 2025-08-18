@@ -4,6 +4,7 @@ import static com.netease.yunxin.kit.chatkit.ui.ChatKitUIConstant.LIB_TAG;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -122,6 +123,38 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
             }
         });
         _initView();
+        _updateUI();
+        showTable();
+        if (type != 0) {
+            binding.tvShouqi.setOnClickListener(view -> {
+                type = 1;
+                showTable();
+            });
+
+            binding.tvZhuanshu.setOnClickListener(view -> {
+                type = 2;
+                showTable();
+            });
+        }
+    }
+
+    private void showTable() {
+        if (type == 0) {
+            binding.tvShouqi.setText("个人红包");
+            binding.layoutZhuanShu.setVisibility(View.INVISIBLE);
+        } else if (type == 1) {
+            binding.tvShouqi.setTextColor(Color.WHITE);
+            binding.viewLine.setVisibility(View.VISIBLE);
+//            binding.tvZhuanshu.setTextColor(Color.parseColor("#F4B9C4"));
+            binding.viewLine1.setVisibility(View.INVISIBLE);
+            _requestDataGroup();
+        } else if (type == 2) {
+//            binding.tvShouqi.setTextColor(Color.parseColor("#F4B9C4"));
+            binding.viewLine.setVisibility(View.INVISIBLE);
+            binding.tvZhuanshu.setTextColor(Color.WHITE);
+            binding.viewLine1.setVisibility(View.VISIBLE);
+            _requestDataGroup();
+        }
         _updateUI();
     }
 
