@@ -244,51 +244,19 @@
         android:paddingVertical="10dp"
         app:layout_constraintTop_toBottomOf="@+id/inputBarLayout">
 
-        <RelativeLayout
-            android:id="@+id/fun_chat_message_bottom_view_opt_3"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/bg_11fb55_rounded_22">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/dimen_40_dp"
-                android:layout_centerInParent="true"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="@dimen/dimen_25_dp"
-                    android:layout_height="@dimen/dimen_25_dp"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/chat_fragment_toolbar_redpacket" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dimen_5_dp"
-                    android:text="红包"
-                    android:textColor="@color/color_white"
-                    android:textSize="@dimen/text_size_12" />
-            </LinearLayout>
-        </RelativeLayout>
-
 
         <RelativeLayout
             android:id="@+id/fun_chat_message_bottom_view_opt_0"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dimen_10_dp"
-            android:layout_weight="1"
-            android:background="@drawable/bg_11fb55_rounded_22">
+            android:layout_weight="1">
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/dimen_40_dp"
+                android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="@dimen/dimen_25_dp"
@@ -299,7 +267,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dimen_5_dp"
                     android:text="相册"
                     android:textColor="@color/color_white"
                     android:textSize="@dimen/text_size_12" />
@@ -310,16 +277,14 @@
             android:id="@+id/fun_chat_message_bottom_view_opt_1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dimen_10_dp"
-            android:layout_weight="1"
-            android:background="@drawable/bg_11fb55_rounded_22">
+            android:layout_weight="1">
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/dimen_40_dp"
+                android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="@dimen/dimen_25_dp"
@@ -329,7 +294,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dimen_5_dp"
                     android:text="相机"
                     android:textColor="@color/color_white"
                     android:textSize="@dimen/text_size_12" />
@@ -340,16 +304,14 @@
             android:id="@+id/fun_chat_message_bottom_view_opt_2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dimen_10_dp"
-            android:layout_weight="1"
-            android:background="@drawable/bg_11fb55_rounded_22">
+            android:layout_weight="1">
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/dimen_40_dp"
+                android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="@dimen/dimen_25_dp"
@@ -360,19 +322,17 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dimen_5_dp"
                     android:text="名片"
                     android:textColor="@color/color_white"
                     android:textSize="@dimen/text_size_12" />
             </LinearLayout>
         </RelativeLayout>
-        
+
         <RelativeLayout
-            android:id="@+id/fun_chat_message_bottom_view_opt_4"
+            android:id="@+id/fun_chat_message_bottom_view_opt_3"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:visibility="gone">
+            android:layout_weight="1">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -384,13 +344,40 @@
                     android:layout_width="@dimen/dimen_25_dp"
                     android:layout_height="@dimen/dimen_25_dp"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/bottom_layout_item_4" />
+                    android:src="@drawable/chat_fragment_toolbar_redpacket" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="红包"
+                    android:textColor="@color/color_white"
+                    android:textSize="@dimen/text_size_12" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/fun_chat_message_bottom_view_opt_4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/dimen_25_dp"
+                    android:layout_height="@dimen/dimen_25_dp"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/chat_fragment_toolbar_redpacket" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="转账"
-                    android:textColor="@color/color_333333"
+                    android:textColor="@color/color_white"
                     android:textSize="@dimen/text_size_12" />
             </LinearLayout>
         </RelativeLayout>

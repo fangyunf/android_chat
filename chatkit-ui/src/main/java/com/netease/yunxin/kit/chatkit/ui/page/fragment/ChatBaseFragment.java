@@ -111,6 +111,7 @@ import com.yaoxin.appbase.net.Constant;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.BaseEvent;
 import com.yaoxin.appbase.utils.CommonCallBack;
+import com.yaoxin.appbase.utils.DensityUtils;
 import com.yaoxin.appbase.utils.DialogAlertUtil;
 import com.yaoxin.appbase.utils.ImageUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
@@ -823,37 +824,60 @@ public abstract class ChatBaseFragment extends BaseFragment {
                             }
                         }
                         tempName = name;
-                        DialogAlertUtil.showSheetView(getActivity(), getActivity().getSupportFragmentManager(), new String[]{"@此人", "专属红包"}, new DialogAlertUtil.DialogAlertUtilCallBack() {
+
+                        String[] popData = new String[]{"@此人", "专属红包", "禁止抢包", "踢除此人"};
+                        DialogAlertUtil.showPopWindow(getActivity(), view, popData, new DialogAlertUtil.PopWindowCallBack() {
                             @Override
-                            public void clickType(int type) {
-                                if (type == 1) {
+                            public void onItemClick(int position, String itemText) {
+                                if (position == 0) {
                                     aitManager.insertReplyAit(account, tempName);
-                                } else if (type == 2) {
+                                } else if (position == 1) {
                                     HashMap map = new HashMap();
                                     map.put("sessionId", sessionID);
                                     map.put("sessionType", "2");
                                     map.put("userInfo", new Gson().toJson(messageBean.getMessageData().getFromUser()));
                                     FunSendRedPacketActivity.start(FunSendRedPacketActivity.class, getContext(), map);
-                                } else if (type == 3) {
-                                    ArrayList list = new ArrayList<>();
-                                    list.add(messageBean.getMessageData().getFromUser().getAccount());
-                                    RegisterBean registerBean = new RegisterBean();
-                                    registerBean.groupId = sessionID;
-                                    registerBean.members = list;
-                                    HttpUtil.apiW().group_outGroup(registerBean).enqueue(new CommonCallback<NetData>() {
-                                        @Override
-                                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                                            ToastUtils.toastMsg(body.msg);
-                                        }
-
-                                        @Override
-                                        public void Failure(Call<NetData> call, Throwable t) {
-
-                                        }
-                                    });
                                 }
                             }
-                        });
+
+                            @Override
+                            public void onDismiss() {
+
+                            }
+                        }, -DensityUtils.dip2px(getActivity(), 20), -DensityUtils.dip2px(getActivity(), 20));
+
+
+//                        DialogAlertUtil.showSheetView(getActivity(), getActivity().getSupportFragmentManager(), new String[]{"@此人", "专属红包"}, new DialogAlertUtil.DialogAlertUtilCallBack() {
+//                            @Override
+//                            public void clickType(int type) {
+//                                if (type == 1) {
+//                                    aitManager.insertReplyAit(account, tempName);
+//                                } else if (type == 2) {
+//                                    HashMap map = new HashMap();
+//                                    map.put("sessionId", sessionID);
+//                                    map.put("sessionType", "2");
+//                                    map.put("userInfo", new Gson().toJson(messageBean.getMessageData().getFromUser()));
+//                                    FunSendRedPacketActivity.start(FunSendRedPacketActivity.class, getContext(), map);
+//                                } else if (type == 3) {
+//                                    ArrayList list = new ArrayList<>();
+//                                    list.add(messageBean.getMessageData().getFromUser().getAccount());
+//                                    RegisterBean registerBean = new RegisterBean();
+//                                    registerBean.groupId = sessionID;
+//                                    registerBean.members = list;
+//                                    HttpUtil.apiW().group_outGroup(registerBean).enqueue(new CommonCallback<NetData>() {
+//                                        @Override
+//                                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+//                                            ToastUtils.toastMsg(body.msg);
+//                                        }
+//
+//                                        @Override
+//                                        public void Failure(Call<NetData> call, Throwable t) {
+//
+//                                        }
+//                                    });
+//                                }
+//                            }
+//                        });
                     }
                 }
             }
