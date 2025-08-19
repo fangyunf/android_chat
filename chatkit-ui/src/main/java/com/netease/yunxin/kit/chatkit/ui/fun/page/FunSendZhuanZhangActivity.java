@@ -138,6 +138,7 @@ public class FunSendZhuanZhangActivity extends BaseActivity implements View.OnCl
 
     private void _updateUI() {
         //0： 个人 1：拼手气  2：专属
+        binding.layoutRedOptions.setVisibility(View.GONE);
         binding.activityFunSendRedPacketNav.getTitleView().setText("转账");
         binding.activityFunSendRedPacketPinLl.setVisibility(View.GONE);
         binding.activityFunSendRedPacketMoneyTv.setText("金额");
