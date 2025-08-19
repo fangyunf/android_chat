@@ -93,6 +93,7 @@ public class AnQuanSetNewActivity extends BaseActivity implements View.OnClickLi
                             UserBean bean = new Gson().fromJson(body.data.toString(), UserBean.class);
                             DataUtil.putToken(bean.token);
                             IMUtil.loginIM(that, DataUtil.getUserid(), bean.imToken);
+                            ToastUtils.toastMsg(body.msg);
                         }
 
                         @Override
