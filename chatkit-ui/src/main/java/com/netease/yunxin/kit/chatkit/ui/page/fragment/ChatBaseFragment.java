@@ -98,6 +98,19 @@ import com.netease.yunxin.kit.common.utils.PermissionUtils;
 import com.netease.yunxin.kit.common.utils.storage.StorageType;
 import com.netease.yunxin.kit.common.utils.storage.StorageUtil;
 import com.netease.yunxin.kit.corekit.im.IMKitClient;
+import com.yaoxin.appbase.net.HttpUtil;
+import com.yaoxin.appbase.net.CommonCallback;
+import com.yaoxin.appbase.model.NetData;
+import com.yaoxin.appbase.model.RegisterBean;
+import com.yaoxin.appbase.utils.DataUtil;
+import com.yaoxin.appbase.utils.DialogAlertUtil;
+import com.yaoxin.appbase.utils.ToastUtils;
+
+import retrofit2.Call;
+import retrofit2.Response;
+
+import java.util.ArrayList;
+
 import com.netease.yunxin.kit.corekit.im.model.UserInfo;
 import com.netease.yunxin.kit.corekit.im.provider.FetchCallback;
 import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
@@ -825,18 +838,27 @@ public abstract class ChatBaseFragment extends BaseFragment {
                         }
                         tempName = name;
 
-                        String[] popData = new String[]{"@此人", "专属红包", "禁止抢包", "踢除此人"};
+                        // 根据当前用户权限动态生成功能选项
+                        String[] popData = generatePopWindowData(sessionID);
                         DialogAlertUtil.showPopWindow(getActivity(), view, popData, new DialogAlertUtil.PopWindowCallBack() {
                             @Override
                             public void onItemClick(int position, String itemText) {
                                 if (position == 0) {
+                                    // @此人
                                     aitManager.insertReplyAit(account, tempName);
                                 } else if (position == 1) {
+                                    // 专属红包
                                     HashMap map = new HashMap();
                                     map.put("sessionId", sessionID);
                                     map.put("sessionType", "2");
                                     map.put("userInfo", new Gson().toJson(messageBean.getMessageData().getFromUser()));
                                     FunSendRedPacketActivity.start(FunSendRedPacketActivity.class, getContext(), map);
+                                } else if (position == 2 && itemText.equals("禁止抢包")) {
+                                    // 禁止抢包
+                                    handleForbidRedPacket(account, tempName, sessionID);
+                                } else if (position == 3 && itemText.equals("踢除此人")) {
+                                    // 踢除此人
+                                    handleKickMember(account, tempName, sessionID);
                                 }
                             }
 
@@ -887,6 +909,154 @@ public abstract class ChatBaseFragment extends BaseFragment {
         @Override
         public boolean onSelfIconLongClick(View view, int position, ChatMessageBean messageInfo) {
             return (delegateListener != null && delegateListener.onSelfIconLongClick(view, position, messageInfo));
+        }
+
+        /**
+         * 根据当前用户权限生成PopWindow的功能选项
+         */
+        private String[] generatePopWindowData(String groupId) {
+            // 检查当前用户权限
+            boolean isOwner = isCurrentUserOwner(groupId);
+            boolean isManager = isCurrentUserManager(groupId);
+
+            if (isOwner) {
+                // 群主：显示所有功能
+                return new String[]{"@此人", "专属红包", "禁止抢包", "踢除此人"};
+            } else if (isManager) {
+                // 管理员：显示部分功能（不能踢人）
+                return new String[]{"@此人", "专属红包", "禁止抢包"};
+            } else {
+                // 普通成员：只显示基本功能
+                return new String[]{"@此人", "专属红包"};
+            }
+        }
+
+        /**
+         * 处理禁止抢包功能
+         */
+        private void handleForbidRedPacket(String userId, String userName, String groupId) {
+            // 检查当前用户权限（群主或管理员）
+            if (!isCurrentUserManager(groupId)) {
+                ToastUtils.toastMsg("只有群主和管理员才能禁止成员抢包");
+                return;
+            }
+
+            // 显示确认对话框
+            DialogAlertUtil.showAlert(
+                    "确定要禁止 " + userName + " 在该群抢红包吗？",
+                    new DialogAlertUtil.DialogAlertUtilCallBack() {
+                        @Override
+                        public void clickType(int type) {
+                            if (type == 1) {
+                                // 调用禁止抢包接口
+                                callForbidRedPacketAPI(userId, groupId);
+                            }
+                        }
+                    },
+                    getActivity().getSupportFragmentManager()
+            );
+        }
+
+        /**
+         * 处理踢除成员功能
+         */
+        private void handleKickMember(String userId, String userName, String groupId) {
+            // 检查当前用户权限（只有群主能踢人）
+            if (!isCurrentUserOwner(groupId)) {
+                ToastUtils.toastMsg("只有群主才能踢除群成员");
+                return;
+            }
+
+            // 显示确认对话框
+            DialogAlertUtil.showAlert(
+                    "确定要将 " + userName + " 踢出该群吗？",
+                    new DialogAlertUtil.DialogAlertUtilCallBack() {
+                        @Override
+                        public void clickType(int type) {
+                            if (type == 1) {
+                                // 调用踢除成员接口
+                                callKickMemberAPI(userId, groupId);
+                            }
+                        }
+                    },
+                    getActivity().getSupportFragmentManager()
+            );
+        }
+
+        /**
+         * 检查当前用户是否为群主或管理员
+         */
+        private boolean isCurrentUserManager(String groupId) {
+            String currentUserId = DataUtil.getUserid();
+
+            // 检查是否为群主
+            if (DataUtil.qunzhuId != null && DataUtil.qunzhuId.equals(currentUserId)) {
+                return true;
+            }
+
+            // 检查是否为管理员
+            if (DataUtil.adminIds != null && DataUtil.adminIds.contains(currentUserId)) {
+                return true;
+            }
+
+            return false;
+        }
+
+        /**
+         * 检查当前用户是否为群主
+         */
+        private boolean isCurrentUserOwner(String groupId) {
+            String currentUserId = DataUtil.getUserid();
+            return DataUtil.qunzhuId != null && DataUtil.qunzhuId.equals(currentUserId);
+        }
+
+        /**
+         * 调用禁止抢包API
+         */
+        private void callForbidRedPacketAPI(String userId, String groupId) {
+            RegisterBean bean = new RegisterBean();
+            bean.groupId = groupId;
+            ArrayList<String> members = new ArrayList<>();
+            members.add(userId);
+            bean.members = members;
+            bean.state = 1; // 1表示禁止抢包
+
+            HttpUtil.apiW().groupMember_invitationGroupBanOnLooting(bean)
+                    .enqueue(new CommonCallback<NetData>() {
+                        @Override
+                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                            ToastUtils.toastMsg("设置成功");
+                        }
+
+                        @Override
+                        public void Failure(Call<NetData> call, Throwable t) {
+                            ToastUtils.toastMsg("设置失败，请重试");
+                        }
+                    });
+        }
+
+        /**
+         * 调用踢除成员API
+         */
+        private void callKickMemberAPI(String userId, String groupId) {
+            RegisterBean bean = new RegisterBean();
+            bean.groupId = groupId;
+            ArrayList<String> members = new ArrayList<>();
+            members.add(userId);
+            bean.members = members;
+
+            HttpUtil.apiW().group_outGroup(bean)
+                    .enqueue(new CommonCallback<NetData>() {
+                        @Override
+                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                            ToastUtils.toastMsg("踢除成功");
+                        }
+
+                        @Override
+                        public void Failure(Call<NetData> call, Throwable t) {
+                            ToastUtils.toastMsg("踢除失败，请重试");
+                        }
+                    });
         }
 
         @Override
