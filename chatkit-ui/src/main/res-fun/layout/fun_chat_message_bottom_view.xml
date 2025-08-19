@@ -234,17 +234,16 @@
                 android:clickable="false" />
         </RelativeLayout>
 
-
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/fun_chat_message_bottom_view_opt_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="30dp"
+        android:paddingHorizontal="10dp"
         android:paddingVertical="10dp"
-        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@+id/inputBarLayout">
+
 
         <RelativeLayout
             android:id="@+id/fun_chat_message_bottom_view_opt_0"
@@ -256,19 +255,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:gravity="center"
                 android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="@dimen/dimen_25_dp"
                     android:layout_height="@dimen/dimen_25_dp"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/bottom_layout_item_0" />
+                    android:src="@drawable/chat_fragment_toolbar_camera" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="相册"
-                    android:textColor="@color/color_333333"
+                    android:textColor="@color/color_white"
                     android:textSize="@dimen/text_size_12" />
             </LinearLayout>
         </RelativeLayout>
@@ -283,18 +283,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:gravity="center"
                 android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="@dimen/dimen_25_dp"
                     android:layout_height="@dimen/dimen_25_dp"
-                    android:src="@drawable/bottom_layout_item_1" />
+                    android:src="@drawable/chat_fragment_toolbar_photo" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="相机"
-                    android:textColor="@color/color_333333"
+                    android:textColor="@color/color_white"
                     android:textSize="@dimen/text_size_12" />
             </LinearLayout>
         </RelativeLayout>
@@ -309,19 +310,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:gravity="center"
                 android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="@dimen/dimen_25_dp"
                     android:layout_height="@dimen/dimen_25_dp"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/bottom_layout_item_2" />
+                    android:src="@drawable/chat_fragment_toolbar_person_card" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="名片"
-                    android:textColor="@color/color_333333"
+                    android:textColor="@color/color_white"
                     android:textSize="@dimen/text_size_12" />
             </LinearLayout>
         </RelativeLayout>
@@ -342,13 +344,13 @@
                     android:layout_width="@dimen/dimen_25_dp"
                     android:layout_height="@dimen/dimen_25_dp"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/bottom_layout_item_3" />
+                    android:src="@drawable/chat_fragment_toolbar_redpacket" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="红包"
-                    android:textColor="@color/color_333333"
+                    android:textColor="@color/color_white"
                     android:textSize="@dimen/text_size_12" />
             </LinearLayout>
         </RelativeLayout>
@@ -369,17 +371,18 @@
                     android:layout_width="@dimen/dimen_25_dp"
                     android:layout_height="@dimen/dimen_25_dp"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/bottom_layout_item_4" />
+                    android:src="@drawable/chat_fragment_toolbar_redpacket" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="转账"
-                    android:textColor="@color/color_333333"
+                    android:textColor="@color/color_white"
                     android:textSize="@dimen/text_size_12" />
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>
+
 
     <FrameLayout
         android:id="@+id/inputMoreLayout"

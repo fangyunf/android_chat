@@ -83,6 +83,7 @@ public class FunSendZhuanZhangActivity extends BaseActivity implements View.OnCl
 
     @Override
     protected void _initView() {
+        binding.layoutRedOptions.setVisibility(View.GONE);
         binding.activityFunSendRedPacketNav.addCloseImageButton().setOnClickListener(this);
 //        binding.activityFunSendRedPacketPinChangeTypeLl.setOnClickListener(this);
         binding.activityFunSendRedPacketSendTv.setOnClickListener(this);

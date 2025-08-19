@@ -67,7 +67,7 @@ public class FunRedPacketResultActivity extends BaseActivity implements View.OnC
         binding.activityFunRedPacketResultDetailNav.setLayoutParams(params);
         binding.activityFunRedPacketResultDetailNav.setPadding(0, BarUtils.getStatusBarHeight(), 0, 0);
     }
-    
+
     protected void _requestData1() {
         if (redpacketId == null || redpacketId.isEmpty()) {
             ToastUtils.toastMsg("网络错误");
@@ -91,7 +91,7 @@ public class FunRedPacketResultActivity extends BaseActivity implements View.OnC
                                     maxMoeny = Double.parseDouble(tempBean.amount);
                                     bestIndex = index;
                                 }
-                                index ++;
+                                index++;
                             }
                             redBean.vos.get(bestIndex).isBest = true;
                         }
@@ -141,7 +141,8 @@ public class FunRedPacketResultActivity extends BaseActivity implements View.OnC
                 }
             }
             if (!hasme) {
-                binding.activityFunRedPacketResultDetailMoneyTv.setText("手慢了，已抢完");
+                binding.activityFunRedPacketResultDetailMoneyTv.setText("");
+//                binding.activityFunRedPacketResultDetailMoneyTv.setText("手慢了，已抢完");
             }
         }
     }
