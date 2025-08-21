@@ -193,7 +193,7 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
 
         binding.funTeamSettingNewActivityVlqHb.viewTitleArrowTv.setText("未领取红包专区");
         binding.funTeamSettingNewActivityVlqHb.viewTitleArrowLl.setOnClickListener(this);
-        binding.funTeamSettingNewActivityVlqHb.viewTitleArrowLl.setVisibility(View.GONE);
+        binding.funTeamSettingNewActivityVlqHb.viewTitleArrowLl.setVisibility(View.VISIBLE);
 
         binding.funTeamSettingNewActivityTeamUpgrade.viewTitleArrowTv.setText("群升级");
         binding.funTeamSettingNewActivityTeamUpgrade.viewTitleArrowLl.setOnClickListener(this);
