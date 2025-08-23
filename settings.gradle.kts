@@ -36,7 +36,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "hongguo"
+rootProject.name = "baoxin"
 include(":app")
 include(":conversationkit-ui")
 include(":teamkit-ui")
