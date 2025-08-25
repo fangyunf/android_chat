@@ -65,17 +65,14 @@ public abstract class CommonCallback<T> implements Callback<T> {
                     case 777:// 版本更新
                         if (BuildConfig.DEBUG) {
 
-                        } else  {
-                        if (!Constant.isRunningRealName) {
-                            Constant.isRunningRealName = true;
-                            XKitRouter.withKey(Constant.RealName_Router)
-                                    .withContext(AppProxy.getInstance().getContext())
-                                    .navigate();
+                        } else {
+                            if (!Constant.isRunningRealName) {
+                                Constant.isRunningRealName = true;
+                                XKitRouter.withKey(Constant.RealName_Router)
+                                        .withContext(AppProxy.getInstance().getContext())
+                                        .navigate();
+                            }
                         }
-
-                        }
-
-
                         break;
                     case -101://认证过期
                         ToastUtils.toastMsg(((NetData) t).msg);
