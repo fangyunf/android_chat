@@ -131,6 +131,8 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
         binding.activityMinePurseRechargeWxPayBtn.setOnClickListener(this);
         binding.activityMinePurseRechargeAliPayBtn.setOnClickListener(this);
 
+        binding.activityMinePurseRechargeWxPayBtn.setVisibility(View.GONE);
+
         if (_type == 0) {
             binding.activityMinePurseRechargeQqPayBtn.setVisibility(View.GONE);
 //            binding.activityMinePurseRechargeWxPayBtn.setVisibility(View.GONE);
@@ -253,7 +255,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
                 public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                     UserBean userBean = new Gson().fromJson(body.data.toString(), UserBean.class);
 //                        RechargeScanFragment.showV(getSupportFragmentManager(),payType.equals("wxpay")?"请使用微信扫码":"请使用支付宝扫码",userBean.payUrl);
-                    startAlipayPayment(userBean.payUrl);
+                    startAlipayPayment(userBean.url);
                 }
 
                 @Override
@@ -289,7 +291,6 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 // 设置URL，替换为你想打开的网页地址
                 intent.setData(Uri.parse(url));
-
                 // 启动Intent，跳转到浏览器
                 startActivity(intent);
             } catch (Exception e) {
