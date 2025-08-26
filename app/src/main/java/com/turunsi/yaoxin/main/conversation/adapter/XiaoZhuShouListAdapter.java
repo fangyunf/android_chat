@@ -24,11 +24,7 @@ public class XiaoZhuShouListAdapter extends BaseQuickAdapter<GroupInfoBean, Quic
 
     @Override
     protected void onBindViewHolder(@NonNull QuickViewHolder quickViewHolder, int position, @Nullable GroupInfoBean infoBean) {
-        quickViewHolder.setText(R.id.item_xiaozhushou_list_title_tv,titleText(infoBean.state))
-                .setText(R.id.item_xiaozhushou_list_money_tv, "¥ " + NumberUtil.formartMoney(infoBean.money))
-                .setText(R.id.item_xiaozhushou_list_time_tv, TimeUtil.stampToDate(infoBean.createTime))
-                .setText(R.id.item_xiaozhushou_list_tyle1_detail_tv, infoBean.payTerm)
-                .setText(R.id.item_xiaozhushou_list_tyle2_detail_tv, infoBean.payMsg);
+        quickViewHolder.setText(R.id.item_xiaozhushou_list_title_tv, titleText(infoBean.state)).setText(R.id.item_xiaozhushou_list_money_tv, "¥ " + NumberUtil.formartMoney(infoBean.money)).setText(R.id.item_xiaozhushou_list_time_tv, TimeUtil.stampToDate(infoBean.createTime)).setText(R.id.item_xiaozhushou_list_tyle1_detail_tv, infoBean.msg).setText(R.id.item_xiaozhushou_list_tyle2_detail_tv, infoBean.payMsg);
     }
 
     String titleText(int type) {
@@ -58,6 +54,7 @@ public class XiaoZhuShouListAdapter extends BaseQuickAdapter<GroupInfoBean, Quic
         }
         return result;
     }
+
     @NonNull
     @Override
     protected QuickViewHolder onCreateViewHolder(@NonNull Context context, @NonNull ViewGroup viewGroup, int i) {
