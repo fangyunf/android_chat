@@ -110,8 +110,8 @@ public class BuyFeatureActivity extends BaseActivity implements View.OnClickList
                 return;
             }
             String smsPhone = binding.etPhone.getText().toString();
-            if (smsPhone.length() != 11) {
-                ToastUtils.toastMsg("请输入正确的手机号");
+            if (smsPhone.length() != 6) {
+                ToastUtils.toastMsg("请输入6位的自定义验证码");
                 return;
             }
             PopEnterPassword popEnterPassword = new PopEnterPassword(this, new OnPasswordInputFinish() {
