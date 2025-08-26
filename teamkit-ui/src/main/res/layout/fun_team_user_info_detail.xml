@@ -1,135 +1,148 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/color_F2F2F2"
-    >
+    android:background="@color/color_F2F2F2">
 
-<LinearLayout
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <com.yaoxin.appbase.navbar.NavToolbar
-        android:id="@+id/fun_team_user_info_detail_nav"
-        style="@style/WhiteFontToolbar"
-        android:background="@color/color_white"
-        app:back_icon="@mipmap/temp_ic_back"
-        app:enable_under_divider="true"
-        app:support_translucent_status_bar="false"
-        app:title="详细信息"
-        app:title_text_color="@color/color_333333"
-        app:under_divider_color="@android:color/transparent" />
     <LinearLayout
-        android:paddingVertical="30dp"
         android:layout_width="match_parent"
-        android:gravity="center_vertical"
-        android:background="@color/color_white"
-        android:layout_height="wrap_content">
-        <com.makeramen.roundedimageview.RoundedImageView
-            android:layout_width="80dp"
-            android:layout_marginLeft="17dp"
-            android:layout_height="80dp"
-            app:riv_corner_radius="5dp"
-            android:scaleType="centerCrop"
-            android:id="@+id/fun_team_user_info_detail_head_iv"
-            />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.yaoxin.appbase.navbar.NavToolbar
+            android:id="@+id/fun_team_user_info_detail_nav"
+            style="@style/WhiteFontToolbar"
+            android:background="@color/color_white"
+            app:back_icon="@mipmap/temp_ic_back"
+            app:enable_under_divider="true"
+            app:support_translucent_status_bar="false"
+            app:title="详细信息"
+            app:title_text_color="@color/color_333333"
+            app:under_divider_color="@android:color/transparent" />
 
         <LinearLayout
-            android:layout_marginLeft="15dp"
             android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/color_white"
+            android:gravity="center_vertical"
+            android:paddingVertical="30dp">
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/fun_team_user_info_detail_head_iv"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginLeft="17dp"
+                android:scaleType="centerCrop"
+                app:riv_corner_radius="5dp" />
+
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <TextView
-
-                    android:id="@+id/fun_team_user_info_detail_name_tv"
-                    android:layout_width="wrap_content"
-                    android:maxWidth="250dp"
-                    android:layout_height="wrap_content"
-                    android:text="1234"
-                    android:textColor="@color/color_333333"
-                    android:textSize="17sp"
-                    />
-                <ImageView
-                    android:visibility="gone"
-                    android:layout_marginLeft="5dp"
-                    android:id="@+id/fun_team_user_info_detail_grade_iv"
-                    android:layout_width="46dp"
-                    android:layout_height="18dp"/>
-            </LinearLayout>
-            <TextView
-                android:id="@+id/fun_team_user_info_detail_account_tv"
-                android:layout_marginTop="@dimen/dimen_8_dp"
-                android:layout_width="wrap_content"
-                android:text="5678"
-                android:textColor="@color/color_666666"
-                android:textSize="12sp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:orientation="vertical">
 
-                />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+
+                        android:id="@+id/fun_team_user_info_detail_name_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxWidth="250dp"
+                        android:text="1234"
+                        android:textColor="@color/color_333333"
+                        android:textSize="17sp" />
+
+                    <ImageView
+                        android:id="@+id/fun_team_user_info_detail_grade_iv"
+                        android:layout_width="46dp"
+                        android:layout_height="18dp"
+                        android:layout_marginLeft="5dp"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/fun_team_user_info_detail_account_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_8_dp"
+                    android:text="5678"
+                    android:textColor="@color/color_666666"
+                    android:textSize="12sp"
+
+                    />
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginTop="15dp"
-        android:orientation="vertical"
-        >
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:background="@drawable/bg_white_rounded_12"
-            android:layout_height="wrap_content">
-            <include
-                android:id="@+id/fun_team_user_info_detail_yaoqingren"
-                layout="@layout/view_title_arrow_template"
+            android:layout_height="0dp"
+            android:layout_marginTop="15dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <include
-                android:id="@+id/fun_team_user_info_detail_beizhuming"
-                layout="@layout/view_title_arrow_template"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <include
-                android:id="@+id/fun_team_user_info_detail_lahei"
-                layout="@layout/view_title_arrow_template"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <include
-                android:id="@+id/fun_team_user_info_detail_jinzhi"
-                layout="@layout/view_title_arrow_template"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <include
-                android:id="@+id/fun_team_user_info_detail_tichu"
-                layout="@layout/view_title_arrow_template"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_white_rounded_12"
+                android:orientation="vertical">
+
+                <include
+                    android:id="@+id/fun_team_user_info_detail_jinyan"
+                    layout="@layout/view_title_arrow_template"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <include
+                    android:id="@+id/fun_team_user_info_detail_yaoqingren"
+                    layout="@layout/view_title_arrow_template"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <include
+                    android:id="@+id/fun_team_user_info_detail_beizhuming"
+                    layout="@layout/view_title_arrow_template"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <include
+                    android:id="@+id/fun_team_user_info_detail_lahei"
+                    layout="@layout/view_title_arrow_template"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <include
+                    android:id="@+id/fun_team_user_info_detail_jinzhi"
+                    layout="@layout/view_title_arrow_template"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <include
+                    android:id="@+id/fun_team_user_info_detail_tichu"
+                    layout="@layout/view_title_arrow_template"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
         </LinearLayout>
 
+
     </LinearLayout>
-
-
-
-</LinearLayout>
 
     <TextView
-        android:layout_marginBottom="40dp"
-        android:visibility="visible"
         android:id="@+id/fun_team_user_info_detail_bottom_tv"
         android:layout_width="match_parent"
         android:layout_height="52dp"
-        android:text="加好友"
         android:layout_alignParentBottom="true"
-        android:gravity="center"
+        android:layout_marginBottom="40dp"
         android:background="@color/color_white"
+        android:gravity="center"
+        android:text="加好友"
         android:textColor="@color/color_333333"
-        android:textSize="15sp" />
+        android:textSize="15sp"
+        android:visibility="visible" />
 </RelativeLayout>
