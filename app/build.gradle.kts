@@ -11,14 +11,14 @@ android {
     compileSdk = 33
     signingConfigs {
         create("release") {
-            keyAlias = "junshang"
+            keyAlias = "jingchen"
             keyPassword = "qqqq1111"
-            storeFile = file("junshang.jks")
+            storeFile = file("jingchen.jks")
             storePassword = "qqqq1111"
         }
     }
     defaultConfig {
-        applicationId = "com.turunsi.junshang"
+        applicationId = "com.turunsi.jingchen"
         minSdk = 21
         targetSdk = 33
         versionCode = 3

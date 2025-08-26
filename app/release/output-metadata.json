@@ -4,7 +4,7 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.turunsi.junshang",
+  "applicationId": "com.turunsi.jingchen",
   "variantName": "release",
   "elements": [
     {
@@ -13,7 +13,7 @@
       "attributes": [],
       "versionCode": 3,
       "versionName": "1.0.7",
-      "outputFile": "junshang_release_v1.0.7.apk"
+      "outputFile": "jingchen_release_v1.0.7.apk"
     }
   ],
   "elementType": "File"
