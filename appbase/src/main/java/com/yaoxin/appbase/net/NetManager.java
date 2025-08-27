@@ -1,9 +1,6 @@
 package com.yaoxin.appbase.net;
 
 
-
-
-
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
