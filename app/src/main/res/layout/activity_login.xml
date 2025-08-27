@@ -37,7 +37,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="欢迎登陆来了就好"
+            android:text="欢迎登陆安聚"
             android:textColor="@color/white"
             android:textSize="18sp" />
 
@@ -221,8 +221,7 @@
                 android:layout_marginTop="@dimen/dimen_16_dp"
                 android:text="12312312"
                 android:textColor="@color/color_black" />
-
-
+            
             <TextView
                 android:id="@+id/activity_login_register_tv"
                 android:layout_width="wrap_content"
