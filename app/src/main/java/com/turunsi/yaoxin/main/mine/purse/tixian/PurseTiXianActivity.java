@@ -285,16 +285,16 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
         makeRequest(alipayBean, "alipay");
 
         // 发起微信请求
-//        RegisterBean wechatBean = new RegisterBean();
-//        wechatBean.type = 1;
-//        makeRequest(wechatBean, "wechat");
+        RegisterBean wechatBean = new RegisterBean();
+        wechatBean.type = 1;
+        makeRequest(wechatBean, "wechat");
 //
 //        // 发起银行卡请求
 //        RegisterBean bankBean = new RegisterBean();
 //        bankBean.type = 3;
 //        makeRequest(bankBean, "bank");
 
-        completedTotal = 1;
+        completedTotal = 2;
     }
 
     private void makeRequest(RegisterBean bean, String requestType) {
@@ -439,8 +439,7 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
         } else if (v == binding.activityMinePurseTixianAllTixianTv) {
             binding.activityMinePurseTixianMoneyEt.setText(accountMoeny);
         } else if (v == binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgLl || v == binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt) {
-
-            DialogAlertUtil.showSheetView(this, getSupportFragmentManager(), new String[]{"支付宝"}, new DialogAlertUtil.DialogAlertUtilCallBack() {
+            DialogAlertUtil.showSheetView(this, getSupportFragmentManager(), new String[]{"支付宝", "微信"}, new DialogAlertUtil.DialogAlertUtilCallBack() {
                 @Override
                 public void clickType(int type) {
                     if (type == 1) {

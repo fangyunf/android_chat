@@ -99,14 +99,12 @@ public class FunChatView extends LinearLayout implements IChatView, AitTextChang
         ChatViewHolderDefaultFactory.getInstance().config(FunChatViewHolderFactory.getInstance());
         LayoutInflater layoutInflater = LayoutInflater.from(getContext());
         binding = FunChatViewBinding.inflate(layoutInflater, this, true);
-
-        //修改背景图片
-        Bitmap original = BitmapFactory.decodeResource(getResources(), com.yaoxin.appbase.R.mipmap.icon_app_bg);
-        int transparentHeight = (int) TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP, 85, getResources().getDisplayMetrics());
-        Bitmap transparentBitmap = createPartialTransparentBackground(original, transparentHeight, 128);
-        binding.layoutMain.setBackground(new BitmapDrawable(getResources(), transparentBitmap));
-
+//        //修改背景图片
+//        Bitmap original = BitmapFactory.decodeResource(getResources(), com.yaoxin.appbase.R.mipmap.icon_app_bg);
+//        int transparentHeight = (int) TypedValue.applyDimension(
+//                TypedValue.COMPLEX_UNIT_DIP, 85, getResources().getDisplayMetrics());
+//        Bitmap transparentBitmap = createPartialTransparentBackground(original, transparentHeight, 128);
+//        binding.layoutMain.setBackground(new BitmapDrawable(getResources(), transparentBitmap));
         binding.messageView.setOnListViewEventListener(new ChatMessageListView.OnListViewEventListener() {
             @Override
             public void onListViewStartScroll() {
