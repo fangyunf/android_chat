@@ -95,8 +95,8 @@
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/activity_fun_red_packet_record_list_head_iv"
                     android:layout_width="51dp"
-                    app:riv_corner_radius="@dimen/dimen_25_dp"
-                    android:layout_height="51dp" />
+                    android:layout_height="51dp"
+                    app:riv_corner_radius="@dimen/dimen_25_dp" />
 
                 <TextView
                     android:id="@+id/activity_fun_red_packet_record_list_name_tv"
@@ -110,10 +110,17 @@
             </LinearLayout>
         </FrameLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/activity_fun_red_packet_record_list_rv"
+        <com.scwang.smart.refresh.layout.SmartRefreshLayout
+            android:id="@+id/smLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/activity_fun_red_packet_record_list_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
 
     </LinearLayout>
 

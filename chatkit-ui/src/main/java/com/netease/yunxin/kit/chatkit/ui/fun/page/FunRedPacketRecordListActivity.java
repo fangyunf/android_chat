@@ -5,8 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -35,6 +38,7 @@ import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.Constant;
 import com.yaoxin.appbase.net.HttpUtil;
+import com.yaoxin.appbase.utils.BarUtils;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.GlideUtil;
 import com.yaoxin.appbase.utils.StatusBarUtils;
@@ -52,12 +56,15 @@ import retrofit2.Response;
 
 public class FunRedPacketRecordListActivity extends BaseActivity implements View.OnClickListener {
     ActivityFunRedPacketRecordListBinding binding;
-
     List<CustomMsgBean> receiveList = new ArrayList<>();
     List<CustomMsgBean> sendList = new ArrayList<>();
     String selectedMonth = TimeUtils.getTodayDateString("yyyy-MM");
     RedPacketRecordListAdapter adapter = new RedPacketRecordListAdapter();
     int selectedIndex = 0;
+
+    // 分页相关变量
+    private String receiveEndId;
+    private String sendEndId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,12 +81,40 @@ public class FunRedPacketRecordListActivity extends BaseActivity implements View
         binding.activityFunRedPacketRecordListNav.addCloseImageButton().setOnClickListener(this);
         binding.activityFunRedPacketRecordListNameTv.setText(DataUtil.getUserInfo().username);
         GlideUtil.yh_loadImageRoundedCorner(this, binding.activityFunRedPacketRecordListHeadIv, DataUtil.getUserInfo().avatar, 25);
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) binding.activityFunRedPacketRecordListChooseDateLl.getLayoutParams();
+        params.topMargin = params.topMargin + BarUtils.getStatusBarHeight();
+        binding.activityFunRedPacketRecordListChooseDateLl.setLayoutParams(params);
         binding.activityFunRedPacketRecordListChooseDateLl.setOnClickListener(this);
         binding.activityFunRedPacketRecordListSendLl.setOnClickListener(this);
         binding.activityFunRedPacketRecordListReceivceLl.setOnClickListener(this);
         binding.activityFunRedPacketRecordListChooseDateTv.setText(selectedMonth);
         binding.activityFunRedPacketRecordListRv.setLayoutManager(new LinearLayoutManager(this));
         binding.activityFunRedPacketRecordListRv.setAdapter(adapter);
+
+        binding.smLayout.setOnRefreshListener(refreshLayout -> {
+            if (selectedIndex == 0) {
+                receiveEndId = null;
+                getReceiveList(true);
+            } else if (selectedIndex == 1) {
+                sendEndId = null;
+                getSendRecord(true);
+            }
+        });
+        binding.smLayout.setOnLoadMoreListener(refreshLayout -> {
+            // 加载更多时设置 endId 为最后一条数据的 id
+
+            if (selectedIndex == 0) {
+                if (!receiveList.isEmpty()) {
+                    receiveEndId = receiveList.get(receiveList.size() - 1).transcationId;
+                }
+                getReceiveList(false);
+            } else if (selectedIndex == 1) {
+                if (!sendList.isEmpty()) {
+                    sendEndId = sendList.get(sendList.size() - 1).transcationId;
+                }
+                getSendRecord(false);
+            }
+        });
     }
 
     void selectItem(int type) {
@@ -108,56 +143,81 @@ public class FunRedPacketRecordListActivity extends BaseActivity implements View
             }
             binding.activityFunRedPacketRecordListSendTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.color_white));
             binding.activityFunRedPacketRecordListReceivceTv.setTextColor(getResources().getColor(com.netease.yunxin.kit.contactkit.ui.R.color.color_666666));
-
-
             binding.activityFunRedPacketRecordListReceivceLl.setSelected(false);
             binding.activityFunRedPacketRecordListSendLl.setSelected(true);
-
         }
     }
 
-    protected void _requestData() {
+
+    private void getReceiveList(boolean isRefresh) {
         RegisterBean bean = new RegisterBean();
         bean.date = selectedMonth;
-        HttpUtil.apiW().red_reciveRecord(bean)
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        Type userListType = new TypeToken<List<CustomMsgBean>>() {
-                        }.getType();
-                        receiveList = new Gson().fromJson(body.data.toString(), userListType);
-                        if (selectedIndex == 0) {
-                            adapter._type = 0;
-                            adapter.setItems(receiveList);
-                            adapter.notifyDataSetChanged();
-                        }
+        if (!isRefresh && !TextUtils.isEmpty(receiveEndId)) {
+            bean.endId = receiveEndId;
+        }
+        HttpUtil.apiW().red_reciveRecord(bean).enqueue(new CommonCallback<NetData>() {
+            @Override
+            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                Type userListType = new TypeToken<List<CustomMsgBean>>() {
+                }.getType();
+                List<CustomMsgBean> tempList = new Gson().fromJson(body.data.toString(), userListType);
+                if (selectedIndex == 0) {
+                    adapter._type = 0;
+                    if (isRefresh) {
+                        receiveList.clear();
                     }
+                    receiveList.addAll(tempList);
+                    adapter.setItems(receiveList);
+                    adapter.notifyDataSetChanged();
+                    binding.smLayout.finishRefresh();
+                    binding.smLayout.finishLoadMore();
+                }
+            }
 
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
+            @Override
+            public void Failure(Call<NetData> call, Throwable t) {
+                binding.smLayout.finishRefresh();
+                binding.smLayout.finishLoadMore();
+            }
+        });
+    }
+
+    private void getSendRecord(boolean isRefresh) {
+        RegisterBean bean = new RegisterBean();
+        bean.date = selectedMonth;
+        if (!isRefresh && !TextUtils.isEmpty(sendEndId)) {
+            bean.endId = sendEndId;
+        }
+        HttpUtil.apiW().red_sendRecord(bean).enqueue(new CommonCallback<NetData>() {
+            @Override
+            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                Type userListType = new TypeToken<List<CustomMsgBean>>() {
+                }.getType();
+                List<CustomMsgBean> tempList = new Gson().fromJson(body.data.toString(), userListType);
+                if (selectedIndex == 1) {
+                    adapter._type = 1;
+                    if (isRefresh) {
+                        sendList.clear();
                     }
-                });
-        HttpUtil.apiW().red_sendRecord(bean)
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        Type userListType = new TypeToken<List<CustomMsgBean>>() {
-                        }.getType();
-                        sendList = new Gson().fromJson(body.data.toString(), userListType);
-                        if (selectedIndex == 1) {
-                            adapter._type = 1;
-                            adapter.setItems(sendList);
-                            adapter.notifyDataSetChanged();
-                        }
-                    }
+                    sendList.addAll(tempList);
+                    adapter.setItems(sendList);
+                    adapter.notifyDataSetChanged();
+                    binding.smLayout.finishRefresh();
+                    binding.smLayout.finishLoadMore();
+                }
+            }
 
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
+            @Override
+            public void Failure(Call<NetData> call, Throwable t) {
+                binding.smLayout.finishRefresh();
+                binding.smLayout.finishLoadMore();
+            }
+        });
+    }
 
-                    }
-                });
-
-
+    protected void _requestData() {
+        getReceiveList(true);
+        getSendRecord(true);
     }
 
     @Override
@@ -181,10 +241,10 @@ public class FunRedPacketRecordListActivity extends BaseActivity implements View
                 public void onDatePicked(int year, int month, int day) {
                     selectedMonth = year + "-" + month;
                     binding.activityFunRedPacketRecordListChooseDateTv.setText(selectedMonth);
-                    receiveList = new ArrayList<>();
-                    sendList = new ArrayList<>();
-                    adapter.setItems(receiveList);
-                    adapter.notifyDataSetChanged();
+//                    receiveList = new ArrayList<>();
+//                    sendList = new ArrayList<>();
+//                    adapter.setItems(receiveList);
+//                    adapter.notifyDataSetChanged();
                     _requestData();
                 }
             });
