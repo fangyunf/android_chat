@@ -4,113 +4,121 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center_horizontal"
-    android:orientation="vertical">
-
-    <com.yaoxin.appbase.navbar.NavToolbar
-
-        android:id="@+id/activity_fun_red_packet_record_list_nav"
-        style="@style/WhiteFontToolbar"
-        android:background="#ffffff"
-        app:back_icon="@mipmap/temp_ic_back"
-        app:enable_under_divider="true"
-        app:support_translucent_status_bar="false"
-        app:title="红包记录"
-        app:title_text_color="@color/color_333333"
-        app:under_divider_color="@color/color_d5d5d5" />
-
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_marginHorizontal="15dp"
-        android:gravity="center_vertical"
-        android:layout_height="30dp">
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <com.yaoxin.appbase.navbar.NavToolbar
+
+            android:id="@+id/activity_fun_red_packet_record_list_nav"
+            style="@style/WhiteFontToolbar"
+            android:background="#ffffff"
+            app:back_icon="@mipmap/temp_ic_back"
+            app:enable_under_divider="true"
+            app:support_translucent_status_bar="false"
+            app:title="红包记录"
+            app:title_text_color="@color/color_333333"
+            app:under_divider_color="@color/color_d5d5d5" />
+
 
         <LinearLayout
-            android:id="@+id/activity_fun_red_packet_record_list_receivce_ll"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:gravity="center_horizontal"
-            android:background="@drawable/selector_selected_round_10_bg"
-            android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginHorizontal="15dp"
+            android:gravity="center_vertical">
 
-            <TextView
-                android:id="@+id/activity_fun_red_packet_record_list_receivce_tv"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/activity_fun_red_packet_record_list_receivce_ll"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="我收到的"
-                android:textColor="#ff000000"
-                android:textSize="16sp" />
+                android:layout_weight="1"
+                android:background="@drawable/selector_selected_round_10_bg"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/activity_fun_red_packet_record_list_receivce_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="我收到的"
+                    android:textColor="#ff000000"
+                    android:textSize="16sp" />
 
 
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/activity_fun_red_packet_record_list_send_ll"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/selector_selected_round_10_bg"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/activity_fun_red_packet_record_list_send_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="我发出的"
+                    android:textColor="#666666"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/activity_fun_red_packet_record_list_send_ll"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:background="@drawable/selector_selected_round_10_bg"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/activity_fun_red_packet_record_list_send_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="我发出的"
-                android:textColor="#666666"
-                android:textSize="16sp" />
-
-        </LinearLayout>
-    </LinearLayout>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="@dimen/dimen_16_dp"
-        android:paddingVertical="@dimen/dimen_14_dp">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="15dp"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
+            android:paddingHorizontal="@dimen/dimen_16_dp"
+            android:paddingVertical="@dimen/dimen_14_dp">
 
-            <ImageView
-                android:id="@+id/activity_fun_red_packet_record_list_head_iv"
-                android:layout_width="51dp"
-                android:layout_height="51dp" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/activity_fun_red_packet_record_list_name_tv"
+                <ImageView
+                    android:id="@+id/activity_fun_red_packet_record_list_head_iv"
+                    android:layout_width="51dp"
+                    android:layout_height="51dp" />
 
-                android:layout_width="80dp"
-                android:layout_height="22dp"
-                android:layout_marginTop="@dimen/dimen_12_dp"
-                android:text=""
-                android:textColor="#ff000000"
-                android:textSize="16sp" />
+                <TextView
+                    android:id="@+id/activity_fun_red_packet_record_list_name_tv"
 
-        </LinearLayout>
+                    android:layout_width="80dp"
+                    android:layout_height="22dp"
+                    android:layout_marginTop="@dimen/dimen_12_dp"
+                    android:text=""
+                    android:textColor="#ff000000"
+                    android:textSize="16sp" />
 
-    </RelativeLayout>
+            </LinearLayout>
+
+        </RelativeLayout>
 
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/activity_fun_red_packet_record_list_rv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dimen_14_dp" />
+        <com.scwang.smart.refresh.layout.SmartRefreshLayout
+            android:id="@+id/smLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-</LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/activity_fun_red_packet_record_list_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
+
+    </LinearLayout>
+
     <LinearLayout
         android:id="@+id/activity_fun_red_packet_record_list_choose_date_ll"
         android:layout_width="wrap_content"

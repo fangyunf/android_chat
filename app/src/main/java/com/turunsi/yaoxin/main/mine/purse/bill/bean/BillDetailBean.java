@@ -17,4 +17,5 @@ public class BillDetailBean {
     public String redpacketId;
     public int type;
     public boolean isSelected;
+    public String transcationId;
 }

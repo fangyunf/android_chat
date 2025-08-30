@@ -51,6 +51,7 @@ public class CustomMsgBean {
     public String sendTime;
     public boolean isBest;
     public boolean hasOpened;
+    public String transcationId;
 
     public boolean isHasOpened() {
         for (CustomMsgBean tempBean :
@@ -63,7 +64,7 @@ public class CustomMsgBean {
     }
 
     /*
-    * {"data":"{\"amount\":1,\"createTime\":1718249162000,\"fromUserId\":\"1800528223122104320\",\"id\":\"1801093644191670272\",\"level\":0,\"sendAvatar\":\"https://ao/defaultAvatar/15.png\",\"sendName\":\"YM\",\"title\":\"大吉大利\",\"toUserId\":\"1800527828803002368\",\"toUserName\":\"FZYM\"}","type":22}
-    * */
+     * {"data":"{\"amount\":1,\"createTime\":1718249162000,\"fromUserId\":\"1800528223122104320\",\"id\":\"1801093644191670272\",\"level\":0,\"sendAvatar\":\"https://ao/defaultAvatar/15.png\",\"sendName\":\"YM\",\"title\":\"大吉大利\",\"toUserId\":\"1800527828803002368\",\"toUserName\":\"FZYM\"}","type":22}
+     * */
 
 }
