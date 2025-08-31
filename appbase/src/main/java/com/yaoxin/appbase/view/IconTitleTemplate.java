@@ -22,7 +22,7 @@ public class IconTitleTemplate extends LinearLayout {
 
     private void init(Context context, @Nullable AttributeSet attrs) {
         // Inflate the XML layout
-        LayoutInflater.from(context).inflate(R.layout.icon_title_arrow_template, this, true);
+        LayoutInflater.from(context).inflate(R.layout.icon_title_template, this, true);
         TextView titleTv = findViewById(R.id.icon_title_arrow_template_title_tv);
         ImageView imgIv = findViewById(R.id.icon_title_arrow_template_left_iv);
         LinearLayout bgLL = findViewById(R.id.icon_title_arrow_template_ll);

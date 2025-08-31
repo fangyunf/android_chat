@@ -11,15 +11,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/app_mine_theme_bg">
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:background="@drawable/app_mine_theme_bg"
+                app:layout_constraintStart_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
             <ImageView
@@ -65,13 +70,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="50dp"
+                    android:gravity="center_vertical"
                     android:paddingHorizontal="15dp">
 
-                    <ImageView
-                        android:id="@+id/fragment_mine_erweima_iv"
-                        android:layout_width="32dp"
-                        android:layout_height="28dp"
-                        android:src="@mipmap/mine_index_erweima" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="我的"
+                        android:textColor="@color/white"
+                        android:textSize="24sp" />
 
                     <View
                         android:layout_width="0dp"
@@ -79,80 +86,161 @@
                         android:layout_weight="1" />
 
                     <ImageView
+                        android:id="@+id/fragment_mine_erweima_iv"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:src="@mipmap/mine_index_erweima" />
+
+
+                    <ImageView
+                        android:id="@+id/fragment_saoyisao"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_marginLeft="@dimen/dimen_16_dp"
+                        android:src="@mipmap/sao_yi_sao" />
+
+                    <ImageView
                         android:id="@+id/fragment_mine_shezhi_iv"
                         android:layout_width="32dp"
                         android:layout_height="28dp"
-                        android:src="@mipmap/mine_index_shezhi_icon" />
+                        android:src="@mipmap/mine_index_shezhi_icon"
+                        android:visibility="gone" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="10dp"
                     android:layout_marginTop="20dp"
                     android:gravity="center_vertical"
-                    android:padding="20dp">
+                    android:padding="@dimen/dimen_16_dp">
 
-                    <com.netease.yunxin.kit.common.ui.widgets.ContactAvatarView
+                    <!--                    <com.netease.yunxin.kit.common.ui.widgets.ContactAvatarView-->
+                    <!--                        android:id="@+id/cavIcon"-->
+                    <!--                        android:layout_width="80dp"-->
+                    <!--                        android:layout_height="80dp" />-->
+
+                    <com.makeramen.roundedimageview.RoundedImageView
                         android:id="@+id/cavIcon"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp" />
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:src="@mipmap/icon_defalut_photo"
+                        app:riv_corner_radius="@dimen/dimen_40_dp" />
 
                     <LinearLayout
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="10dp"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
 
-                            <TextView
-                                android:id="@+id/tvName"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:visibility="gone">
 
-                                android:singleLine="true"
-                                android:text=""
-                                android:textColor="@color/color_333333"
-                                android:textSize="18sp"
-                                tools:ignore="SpUsage" />
+                                <TextView
+                                    android:id="@+id/tvName"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/color_333333"
+                                    android:textSize="18sp"
+                                    tools:ignore="SpUsage" />
 
-                            <ImageView
-                                android:id="@+id/fragment_mine_grade_iv"
-                                android:layout_width="46dp"
-                                android:layout_height="18dp"
-                                android:layout_marginLeft="5dp"
-                                android:visibility="gone" />
+                                <ImageView
+                                    android:id="@+id/fragment_mine_grade_iv"
+                                    android:layout_width="46dp"
+                                    android:layout_height="18dp"
+                                    android:layout_marginLeft="5dp"
+                                    android:visibility="gone" />
 
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:id="@+id/tvAccount"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:text="123123123"
+                                    android:textColor="@color/white"
+                                    android:textSize="16sp" />
+
+                                <ImageView
+                                    android:id="@+id/fragment_mine_copy_iv"
+                                    android:layout_width="@dimen/dimen_20_dp"
+                                    android:layout_height="@dimen/dimen_20_dp"
+                                    android:layout_marginLeft="10dp"
+                                    android:src="@mipmap/mine_index_copy" />
+                            </LinearLayout>
                         </LinearLayout>
 
-                        <LinearLayout
+                        <TextView
+                            android:id="@+id/tvInfo"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp">
+                            android:background="@drawable/bg_white_rounded_20"
+                            android:paddingHorizontal="@dimen/dimen_10_dp"
+                            android:paddingVertical="@dimen/dimen_6_dp"
+                            android:singleLine="true"
+                            android:text="编辑资料"
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
 
-                            <TextView
-                                android:id="@+id/tvAccount"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:singleLine="true"
-                                android:textColor="#666666"
-                                android:textSize="14sp" />
-
-                            <ImageView
-                                android:id="@+id/fragment_mine_copy_iv"
-                                android:layout_width="@dimen/dimen_20_dp"
-                                android:layout_height="@dimen/dimen_20_dp"
-                                android:layout_marginLeft="10dp"
-                                android:src="@mipmap/mine_index_copy" />
-                        </LinearLayout>
                     </LinearLayout>
 
 
                 </LinearLayout>
+
+
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:columnCount="4"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="10dp"
+                    android:rowCount="2">
+
+                    <com.yaoxin.appbase.view.IconTitleTemplate
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1"
+                        app:leftImg="@mipmap/mine_index_item_zcqy"
+                        app:titleText="资产权益" />
+
+                    <com.yaoxin.appbase.view.IconTitleTemplate
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1"
+                        app:leftImg="@mipmap/mine_index_item_zcqy"
+                        app:titleText="资产权益" />
+
+                    <com.yaoxin.appbase.view.IconTitleTemplate
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1"
+                        app:leftImg="@mipmap/mine_index_item_zcqy"
+                        app:titleText="资产权益" />
+
+                    <com.yaoxin.appbase.view.IconTitleTemplate
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1"
+                        app:leftImg="@mipmap/mine_index_item_zcqy"
+                        app:titleText="资产权益" />
+
+
+                </GridLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -258,6 +346,7 @@
                                 android:textSize="12sp" />
                         </LinearLayout>
                     </LinearLayout>
+
 
                     <com.yaoxin.appbase.view.IconTitleArrowTemplate
                         android:id="@+id/fragment_mine_zcqy_view"
@@ -425,7 +514,5 @@
 
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
-
-
+    </androidx.core.widget.NestedScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
