@@ -37,6 +37,7 @@ import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.DialogAlertUtil;
+import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
 
 import java.util.ArrayList;
@@ -56,6 +57,7 @@ public class SettingNewActivity extends BaseActivity implements View.OnClickList
         viewBinding = ActivityMineSetNewBinding.inflate(getLayoutInflater());
         setContentView(viewBinding.getRoot());
         initView();
+        StatusBarUtils.transtStatusBar(this, viewBinding.activityMineSetNewNav);
     }
 
     private void initView() {

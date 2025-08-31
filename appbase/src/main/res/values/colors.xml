@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2022 NetEase, Inc. All rights reserved.
   ~ Use of this source code is governed by a MIT license that can be
   ~ found in the LICENSE file.
@@ -46,11 +45,12 @@
 
     <color name="color_ffe935">#ffe935</color>
     <color name="color_ff666666">#ff666666</color>
-    <color name="app_theme_color">#377AF5</color>
+    <color name="app_theme_color">#57B77D</color>
     <color name="app_chat_view_bg_color">#F1F1F1</color>
     <color name="app_chat_send_pop_bg">#377AF5</color>
     <color name="app_chat_receive_pop_bg">#FFFFFF</color>
     <color name="app_theme_red_color">#FF0000</color>
     <color name="app_theme_aplha_color">#33006CFF</color>
+    <color name="activity_bg">#f0f2f5</color>
 
 </resources>

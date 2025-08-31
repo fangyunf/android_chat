@@ -32,12 +32,13 @@ public class StatusBarUtils {
 
     public static void transtStatusBar(Activity activity, NavToolbar navToolbar) {
         StatusBarUtils.setStatusBarLightMode(activity, true, true);
-        LinearLayout.LayoutParams params =
-                (LinearLayout.LayoutParams) navToolbar.getLayoutParams();
+        ViewGroup.LayoutParams params =
+                (ViewGroup.LayoutParams) navToolbar.getLayoutParams();
         params.height = params.height + BarUtils.getStatusBarHeight();
         navToolbar.setLayoutParams(params);
         navToolbar.setPadding(0, BarUtils.getStatusBarHeight(), 0, 0);
     }
+
     /**
      * 是否开启沉浸式状态栏
      */
@@ -154,7 +155,7 @@ public class StatusBarUtils {
             MIUISetStatusBarLightMode(activity, isDark);
         }else*/
         if (DeviceUtils.isFlyme()) {
-            setFlymeStatusBarLightMode(activity,isDark);
+            setFlymeStatusBarLightMode(activity, isDark);
             //FlymeSetStatusBarLightMode(activity, isDark);
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             {
@@ -238,8 +239,8 @@ public class StatusBarUtils {
         return result;
     }
 
-    public static void setFlymeStatusBarLightMode(Activity activity, boolean dark){
-        MeizuStatusbarColorUtils.setStatusBarDarkIcon(activity,dark);
+    public static void setFlymeStatusBarLightMode(Activity activity, boolean dark) {
+        MeizuStatusbarColorUtils.setStatusBarDarkIcon(activity, dark);
     }
 
     public static boolean isEMUI3_1() {

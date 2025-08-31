@@ -187,7 +187,9 @@
             android:screenOrientation="portrait" />
         <!--        <activity-->
         <!--            android:name=".splash.SplashActivity" />-->
-        <activity android:name=".login.LoginActivity" />
+        <activity
+            android:name=".login.LoginActivity"
+            android:launchMode="singleTask" />
         <activity android:name=".main.mine.huiyuan.MyHuiYuanListActivity" />
         <activity android:name=".main.mine.setting.ExchangeAccountActivity" />
         <activity android:name=".main.mine.purse.bill.BillDetailListActivity" />

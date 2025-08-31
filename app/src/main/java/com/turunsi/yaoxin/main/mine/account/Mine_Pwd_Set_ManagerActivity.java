@@ -58,7 +58,7 @@ public class Mine_Pwd_Set_ManagerActivity extends BaseActivity implements View.O
         binding.activityMinePwdSetMagerSetLoginPwdLl.setOnClickListener(this);
         binding.activityMinePwdSetMagerSetPayPwdLl.setOnClickListener(this);
 
-        StatusBarUtils.transtStatusBar(this,binding.activityMinePwdSetMagerNav);
+        StatusBarUtils.transtStatusBar(this, binding.activityMinePwdSetMagerNav);
     }
 
 

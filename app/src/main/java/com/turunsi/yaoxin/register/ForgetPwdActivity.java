@@ -8,6 +8,7 @@ import android.view.View;
 import androidx.annotation.Nullable;
 
 import com.google.gson.Gson;
+import com.turunsi.yaoxin.R;
 import com.turunsi.yaoxin.utils.IMUtil;
 import com.yaoxin.appbase.activity.BaseActivity;
 import com.turunsi.yaoxin.databinding.ActivityForgetPwdBinding;
@@ -18,6 +19,7 @@ import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.CommonNetUtil;
 import com.yaoxin.appbase.utils.DataUtil;
+import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
 import com.yaoxin.appbase.view.loginlib.utils.LoginLoader;
 import com.yaoxin.appbase.view.loginlib.view.CountDownView;
@@ -27,10 +29,12 @@ import retrofit2.Response;
 
 public class ForgetPwdActivity extends BaseActivity implements View.OnClickListener {
     ActivityForgetPwdBinding binding;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityForgetPwdBinding.inflate(getLayoutInflater());
+        StatusBarUtils.transtStatusBar(this, binding.forgetPwdActivityNav);
         binding.forgetPwdActivityNav.addCloseImageButton().setOnClickListener(this);
         binding.forgetPwdActivityBtn.setOnClickListener(this);
         setContentView(binding.getRoot());
@@ -38,28 +42,30 @@ public class ForgetPwdActivity extends BaseActivity implements View.OnClickListe
     }
 
     void _initTfText() {
-        binding.forgetPwdActivityPhoneTf.viewTitleTfTv.setText("手机号");
-        binding.forgetPwdActivityCodeTf.viewTitleTfTv.setText("验证码");
-        binding.forgetPwdActivityPwdTf.viewTitleTfTv.setText("密码");
-        binding.forgetPwdActivityPwd2Tf.viewTitleTfTv.setText("确认密码");
 
-        binding.forgetPwdActivityPhoneTf.viewTitleTfEt.setInputType(InputType.TYPE_CLASS_NUMBER);
-        binding.forgetPwdActivityCodeTf.viewTitleTfEt.setInputType(InputType.TYPE_CLASS_NUMBER);
 
-        binding.forgetPwdActivityPhoneTf.viewTitleTfEt.setHint("请输入手机号");
-        binding.forgetPwdActivityCodeTf.viewTitleTfEt.setHint("请输入验证码");
-        binding.forgetPwdActivityPwdTf.viewTitleTfEt.setHint("请输入密码");
-        binding.forgetPwdActivityPwd2Tf.viewTitleTfEt.setHint("请输入密码");
+        binding.forgetPwdActivityPhoneTf.viewTitleTfCountEt.setInputType(InputType.TYPE_CLASS_NUMBER);
+        binding.forgetPwdActivityCodeTf.viewTitleTfCountEt.setInputType(InputType.TYPE_CLASS_NUMBER);
 
-        binding.forgetPwdActivityCodeTf.btnCaptcha.setVisibility(View.VISIBLE);
+        binding.forgetPwdActivityPhoneTf.viewTitleTfCountEt.setHint("请输入手机号");
+        binding.forgetPwdActivityCodeTf.viewTitleTfCountEt.setHint("请输入验证码");
+        binding.forgetPwdActivityPwdTf.viewTitleTfCountEt.setHint("请输入密码");
+        binding.forgetPwdActivityPwd2Tf.viewTitleTfCountEt.setHint("请输入密码");
+        
+        binding.forgetPwdActivityPhoneTf.viewTitleTfCountIv.setImageResource(R.mipmap.login_icon_phone);
+        binding.forgetPwdActivityCodeTf.viewTitleTfCountIv.setImageResource(R.mipmap.login_icon_code);
+        binding.forgetPwdActivityPwdTf.viewTitleTfCountIv.setImageResource(R.mipmap.login_icon_password);
+        binding.forgetPwdActivityPwd2Tf.viewTitleTfCountIv.setImageResource(R.mipmap.login_icon_password);
+
+        binding.forgetPwdActivityCodeTf.viewTitleTfCountCaptcha.setVisibility(View.VISIBLE);
         binding.forgetPwdActivityBtn.setOnClickListener(this);
-        CountDownView mCountDownView = binding.forgetPwdActivityCodeTf.btnCaptcha;
-        mCountDownView.setUserEdit(binding.forgetPwdActivityPhoneTf.viewTitleTfEt);
+        CountDownView mCountDownView = binding.forgetPwdActivityCodeTf.viewTitleTfCountCaptcha;
+        mCountDownView.setUserEdit(binding.forgetPwdActivityPhoneTf.viewTitleTfCountEt);
         mCountDownView.setCountDownTime(60);
         mCountDownView.setCaptchaListener(new LoginLoader.CaptchaListener() {
             @Override
             public void onPre() {
-                String phone = getTextStr(binding.forgetPwdActivityPhoneTf.viewTitleTfEt);
+                String phone = getTextStr(binding.forgetPwdActivityPhoneTf.viewTitleTfCountEt);
                 CommonNetUtil.getPhoneCode(phone);
             }
 
@@ -74,18 +80,18 @@ public class ForgetPwdActivity extends BaseActivity implements View.OnClickListe
         if (v == binding.forgetPwdActivityNav.addCloseImageButton()) {
             finish();
         } else if (v == binding.forgetPwdActivityBtn) {
-            String phone = getTextStr(binding.forgetPwdActivityPhoneTf.viewTitleTfEt);
+            String phone = getTextStr(binding.forgetPwdActivityPhoneTf.viewTitleTfCountEt);
             if (phone.length() != 11) {
                 ToastUtils.toastMsg("手机格式错误");
                 return;
             }
-            String code = getTextStr(binding.forgetPwdActivityCodeTf.viewTitleTfEt);
+            String code = getTextStr(binding.forgetPwdActivityCodeTf.viewTitleTfCountEt);
             if (code.length() > 6) {
                 ToastUtils.toastMsg("验证码错误");
                 return;
             }
-            String pwd1 = getTextStr(binding.forgetPwdActivityPwdTf.viewTitleTfEt);
-            String pwd2 = getTextStr(binding.forgetPwdActivityPwd2Tf.viewTitleTfEt);
+            String pwd1 = getTextStr(binding.forgetPwdActivityPwdTf.viewTitleTfCountEt);
+            String pwd2 = getTextStr(binding.forgetPwdActivityPwd2Tf.viewTitleTfCountEt);
             if (!pwd1.isEmpty() && !pwd2.isEmpty() && !pwd1.equals(pwd2)) {
                 ToastUtils.toastMsg("两次密码不相同");
                 return;
