@@ -22,6 +22,7 @@ import com.turunsi.yaoxin.main.mine.collection.adapter.CollectionListAdapter;
 import com.turunsi.yaoxin.main.mine.collection.bean.CollectionListBean;
 import com.yaoxin.appbase.utils.AESUtil;
 import com.yaoxin.appbase.utils.DialogAlertUtil;
+import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
 
 import java.util.ArrayList;
@@ -30,15 +31,16 @@ public class CollectionListActivity extends BaseActivity implements View.OnClick
     ActivityMineCollectionListBinding binding;
 
     CollectionListAdapter adapter;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMineCollectionListBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        StatusBarUtils.transtStatusBar(this, binding.activityMineCollectionListNav);
         binding.activityMineCollectionListNav.addCloseImageButton().setOnClickListener(this);
-
         binding.activityMineCollectionListRv.setLayoutManager(new LinearLayoutManager(this));
-         adapter = new CollectionListAdapter();
+        adapter = new CollectionListAdapter();
         binding.activityMineCollectionListRv.setAdapter(adapter);
 
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener<CollectInfo>() {
@@ -58,7 +60,7 @@ public class CollectionListActivity extends BaseActivity implements View.OnClick
                 }
                 try {
                     content = AESUtil.msgAseDecrypt(content);
-                }catch (Exception e) {
+                } catch (Exception e) {
 
                 }
                 Intent result = new Intent();
@@ -77,27 +79,25 @@ public class CollectionListActivity extends BaseActivity implements View.OnClick
                         if (type == 1) {
                             ArrayList list = new ArrayList<>();
                             CollectInfo item = baseQuickAdapter.getItem(i);
-                            Pair pair = new Pair<>(item.getId(),item.getCreateTime());
+                            Pair pair = new Pair<>(item.getId(), item.getCreateTime());
                             list.add(pair);
-                            NIMClient.getService(MsgService.class).removeCollect(list).setCallback(
-                                    new RequestCallback<Integer>() {
-                                        @Override
-                                        public void onSuccess(Integer param) {
+                            NIMClient.getService(MsgService.class).removeCollect(list).setCallback(new RequestCallback<Integer>() {
+                                @Override
+                                public void onSuccess(Integer param) {
 //                                            Toast.makeText(SessionExtension.this, "批量移除收藏成功", Toast.LENGTH_SHORT).show();
-                                            ToastUtils.toastMsg("删除成功");
-                                            _requestData();
-                                        }
+                                    ToastUtils.toastMsg("删除成功");
+                                    _requestData();
+                                }
 
-                                        @Override
-                                        public void onFailed(int code) {
-                                            ToastUtils.toastMsg("删除失败");
-                                        }
+                                @Override
+                                public void onFailed(int code) {
+                                    ToastUtils.toastMsg("删除失败");
+                                }
 
-                                        @Override
-                                        public void onException(Throwable exception) {
-                                        }
-                                    }
-                            );
+                                @Override
+                                public void onException(Throwable exception) {
+                                }
+                            });
 
                         }
                     }
@@ -112,40 +112,38 @@ public class CollectionListActivity extends BaseActivity implements View.OnClick
     protected void _requestData() {
         super._requestData();
         dataList.clear();
-        NIMClient.getService(MsgService.class).queryCollect(100).setCallback(
-                new RequestCallback<CollectInfoPage>() {
-                    @Override
-                    public void onSuccess(CollectInfoPage param) {
-                        if (param == null) {
-                            return;
-                        }
-                        ArrayList<CollectInfo> collectList = param.getCollectList();
-                        for (CollectInfo tempInfo :
-                                collectList) {
+        NIMClient.getService(MsgService.class).queryCollect(100).setCallback(new RequestCallback<CollectInfoPage>() {
+                                                                                 @Override
+                                                                                 public void onSuccess(CollectInfoPage param) {
+                                                                                     if (param == null) {
+                                                                                         return;
+                                                                                     }
+                                                                                     ArrayList<CollectInfo> collectList = param.getCollectList();
+                                                                                     for (CollectInfo tempInfo : collectList) {
 
-                            int type = tempInfo.getType();
-                            long id = tempInfo.getId();
-                            String data = tempInfo.getData();
-                            String ext = tempInfo.getExt();
-                            if (type == 1024 || type == 1) {
-                                dataList.add(tempInfo);
-                            }
-                        }
-                        adapter.setItems(dataList);
-                        adapter.notifyDataSetChanged();
+                                                                                         int type = tempInfo.getType();
+                                                                                         long id = tempInfo.getId();
+                                                                                         String data = tempInfo.getData();
+                                                                                         String ext = tempInfo.getExt();
+                                                                                         if (type == 1024 || type == 1) {
+                                                                                             dataList.add(tempInfo);
+                                                                                         }
+                                                                                     }
+                                                                                     adapter.setItems(dataList);
+                                                                                     adapter.notifyDataSetChanged();
 //                        addCollects(param.getCollectList());
-                    }
+                                                                                 }
 
-                    @Override
-                    public void onFailed(int code) {
+                                                                                 @Override
+                                                                                 public void onFailed(int code) {
 
-                    }
+                                                                                 }
 
-                    @Override
-                    public void onException(Throwable exception) {
+                                                                                 @Override
+                                                                                 public void onException(Throwable exception) {
 
-                    }
-                }
+                                                                                 }
+                                                                             }
 
         );
     }

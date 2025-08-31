@@ -24,6 +24,7 @@ import com.yaoxin.appbase.net.Constant;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.DeviceUtils;
+import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
 
 import java.util.HashMap;
@@ -39,16 +40,14 @@ public class RealNameSetActivity extends BaseActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         binding = ActivityMineRealNameSetBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        StatusBarUtils.transtStatusBar(this, binding.activityMineRealNameSetNav);
         binding.activityMineRealNameSetSaveRl.setOnClickListener(this);
-
-        binding.activityMineRealNameSetNav.addCloseImageButton().setVisibility(View.GONE);
-
+        binding.activityMineRealNameSetNav.addCloseImageButton().setVisibility(View.VISIBLE);
+        binding.activityMineRealNameSetNav.addCloseImageButton().setOnClickListener(view -> finish());
         binding.activityMineRealNameSetName.viewTitleTfWithoutBgTv.setText("真实姓名");
         binding.activityMineRealNameSetName.viewTitleTfWithoutBgEt.setHint("请输入姓名");
 //        binding.activityMineRealNameSetName.viewTitleTfWithoutBgEt.setBackgroundColor(getResources().getColor(R.color.color_white));
 //        binding.activityMineRealNameSetName.viewTitleTfWithoutBgLl.setBackgroundColor(getResources().getColor(R.color.color_white));
-
-
         binding.activityMineRealNameSetIdentityNum.viewTitleTfWithoutBgTv.setText("身份证号");
         binding.activityMineRealNameSetIdentityNum.viewTitleTfWithoutBgEt.setHint("请输入身份证号");
 //        binding.activityMineRealNameSetIdentityNum.viewTitleTfWithoutBgEt.setBackgroundColor(getResources().getColor(R.color.color_white));
@@ -56,6 +55,7 @@ public class RealNameSetActivity extends BaseActivity implements View.OnClickLis
 
 
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -63,6 +63,7 @@ public class RealNameSetActivity extends BaseActivity implements View.OnClickLis
         Constant.isRunningRealName = false;
 
     }
+
     @Override
     public void onClick(View v) {
         if (v == binding.activityMineRealNameSetNav.addCloseImageButton()) {
@@ -90,7 +91,7 @@ public class RealNameSetActivity extends BaseActivity implements View.OnClickLis
                     .enqueue(new CommonCallback<NetData>() {
                         @Override
                         public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                            RegisterBean dataBean = new Gson().fromJson(body.data.toString(),RegisterBean.class);
+                            RegisterBean dataBean = new Gson().fromJson(body.data.toString(), RegisterBean.class);
 
                             RealNameAuthUtil.start(that, dataBean.certifyId, new RealNameAuthUtil.dispathBlockT() {
                                 @Override
@@ -109,6 +110,7 @@ public class RealNameSetActivity extends BaseActivity implements View.OnClickLis
                     });
         }
     }
+
     @Override
     public void onBackPressed() {
         // 留空或者添加你希望的代码

@@ -7,8 +7,10 @@ package com.netease.yunxin.kit.conversationkit.ui.fun.page;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
+
 import com.netease.yunxin.kit.common.ui.activities.BaseActivity;
 import com.netease.yunxin.kit.conversationkit.ui.R;
 import com.netease.yunxin.kit.conversationkit.ui.databinding.FunConversationActivityBinding;
@@ -20,20 +22,20 @@ import org.greenrobot.eventbus.ThreadMode;
 
 public class FunConversationActivity extends BaseActivity {
 
-  private static final int REQUEST_CODE = 100;
-  private FunConversationActivityBinding viewBinding;
+    private static final int REQUEST_CODE = 100;
+    private FunConversationActivityBinding viewBinding;
 
-  @Override
-  protected void onCreate(@Nullable Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    changeStatusBarColor(R.color.color_white);
-    viewBinding = FunConversationActivityBinding.inflate(LayoutInflater.from(this));
-    setContentView(viewBinding.getRoot());
-    FragmentManager fragmentManager = getSupportFragmentManager();
-    FunConversationFragment fragment = new FunConversationFragment();
-    fragmentManager
-        .beginTransaction()
-        .add(R.id.conversation_container, fragment)
-        .commitAllowingStateLoss();
-  }
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        changeStatusBarColor(R.color.color_white);
+        viewBinding = FunConversationActivityBinding.inflate(LayoutInflater.from(this));
+        setContentView(viewBinding.getRoot());
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FunConversationFragment fragment = new FunConversationFragment(3);
+        fragmentManager
+                .beginTransaction()
+                .add(R.id.conversation_container, fragment)
+                .commitAllowingStateLoss();
+    }
 }

@@ -9,6 +9,7 @@
     <style name="AppSelectorRadioBtn" parent="Widget.AppCompat.CompoundButton.RadioButton">
         <item name="android:button">@drawable/app_radio_blue_selector</item>
     </style>
+
     <style name="custom_dlg" parent="android:style/Theme.Dialog">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowNoTitle">true</item>
@@ -16,6 +17,16 @@
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:alwaysDrawnWithCache">false</item>
         <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <style name="MyTabLayoutSmall" parent="Widget.MaterialComponents.TabLayout">
+        <!-- 修改文字大小 -->
+        <item name="tabTextAppearance">@style/MyTabTextAppearanceSmall</item>
+        <item name="android:minHeight">0dp</item>
+    </style>
+
+    <style name="MyTabTextAppearanceSmall">
+        <item name="android:textSize">16sp</item> <!-- 设置你想要的文字大小 -->
     </style>
 
 

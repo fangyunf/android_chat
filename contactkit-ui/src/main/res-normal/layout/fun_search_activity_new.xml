@@ -1,33 +1,30 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2022 NetEase, Inc. All rights reserved.
   ~ Use of this source code is governed by a MIT license that can be
   ~ found in the LICENSE file.
   -->
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <com.yaoxin.appbase.navbar.NavToolbar
-
         android:id="@+id/fun_search_activity_nav"
         style="@style/WhiteFontToolbar"
-        android:background="#ffffff"
-        app:back_icon="@mipmap/temp_ic_back"
+        android:background="@color/app_theme_color"
+        app:back_icon="@mipmap/temp_ic_back_white"
         app:enable_under_divider="true"
         app:support_translucent_status_bar="false"
         app:title="搜索"
-        app:title_text_color="@color/color_333333"
+        app:title_text_color="@color/color_white"
         app:under_divider_color="@color/transparent" />
 
     <EditText
         android:id="@+id/fun_search_activity_et"
         android:layout_width="match_parent"
-        android:layout_height="32dp"
+        android:layout_height="@dimen/dimen_40_dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="@dimen/dimen_16_dp"
         android:layout_marginEnd="20dp"
@@ -49,14 +46,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:scrollbars="vertical"
-         />
+        android:scrollbars="vertical" />
 
-    <LinearLayout android:id="@+id/fun_search_activity_empty_ll"
+    <LinearLayout
+        android:id="@+id/fun_search_activity_empty_ll"
         android:layout_width="match_parent"
-        android:gravity="center_horizontal"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dimen_55_dp"
+        android:gravity="center_horizontal"
         android:orientation="vertical"
         android:visibility="gone">
 
@@ -64,16 +61,16 @@
             android:id="@+id/ivEmpty"
             android:layout_width="@dimen/dimen_188_dp"
             android:layout_height="@dimen/dimen_120_dp"
-            android:src="@drawable/ic_contact_empty"/>
+            android:src="@drawable/ic_contact_empty" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/global_search_empty"
-            android:textColor="@color/color_666666"
             android:layout_marginTop="@dimen/dimen_6_dp"
             android:gravity="center"
-            android:textSize="@dimen/text_size_14"/>
+            android:text="@string/global_search_empty"
+            android:textColor="@color/color_666666"
+            android:textSize="@dimen/text_size_14" />
     </LinearLayout>
 
 </LinearLayout>

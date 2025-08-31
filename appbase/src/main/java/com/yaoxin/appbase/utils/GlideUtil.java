@@ -47,22 +47,24 @@ public class GlideUtil {
                 )
                 .into(imageView);
     }
+
     public static void yh_loadImage(Context context, ImageView imageView, String url) {
         if (!isSafe(context, imageView)) {
             return;
         }
         Glide.with(context).load(url)
                 .apply(new RequestOptions()
-                        .placeholder(R.mipmap.app_default_base_icon_geren)
+                        .placeholder(R.mipmap.icon_defalut_photo)
                 )
                 .into(imageView);
     }
+
     public static void yh_loadImageRoundedCorner(Context context, ImageView imageView, String url, int cornerRadio) {
         if (!isSafe(context, imageView)) {
             return;
         }
 
-        yh_loadImage(context,imageView,url);
+        yh_loadImage(context, imageView, url);
 //        Glide.with(context).load(url)
 //                .apply(new RequestOptions()
 //                        .placeholder(R.mipmap.yaoxin_default_avartor)

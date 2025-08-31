@@ -112,7 +112,7 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
         }
         super.onCreate(savedInstanceState);
         EventCenter.registerEventNotify(closeEventNotify);
-        changeStatusBarColor(R.color.color_white);
+//        changeStatusBarColor(R.color.color_white);
         binding = FunChatSettingActivityBinding.inflate(getLayoutInflater());
         StatusBarUtils.transtStatusBar(this,binding.funChatSettingActivityNav);
         viewModel = new ViewModelProvider(this).get(ChatSettingViewModel.class);
@@ -121,7 +121,6 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
         binding.funChatSettingActivityNav.getTitleView().setText("聊天设置");
         if (type == 1) {
             binding.funChatSettingActivityNav.getTitleView().setText("查看主页");
-
         }
         initView();
         initData();

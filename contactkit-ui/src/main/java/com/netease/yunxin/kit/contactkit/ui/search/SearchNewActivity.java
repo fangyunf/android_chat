@@ -19,6 +19,7 @@ import com.yaoxin.appbase.activity.BaseActivity;
 import com.yaoxin.appbase.model.GroupInfoBean;
 import com.yaoxin.appbase.net.Constant;
 import com.yaoxin.appbase.utils.DataUtil;
+import com.yaoxin.appbase.utils.StatusBarUtils;
 
 import java.util.ArrayList;
 
@@ -31,8 +32,8 @@ public class SearchNewActivity extends BaseActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         binding = FunSearchActivityNewBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        StatusBarUtils.transtStatusBar(this, binding.funSearchActivityNav);
         binding.funSearchActivityNav.addCloseImageButton().setOnClickListener(this);
-
         binding.funSearchActivityRv.setLayoutManager(new LinearLayoutManager(this));
         binding.funSearchActivityRv.setAdapter(adapter);
 
@@ -43,7 +44,7 @@ public class SearchNewActivity extends BaseActivity implements View.OnClickListe
             public void onClick(@NonNull BaseQuickAdapter<GroupInfoBean, ?> baseQuickAdapter, @NonNull View view, int i) {
                 if (baseQuickAdapter.getItemViewType(i) == Constant.RECYCLE_VIEW_ITEM) {
                     XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_SETTING_PAGE)
-                            .withParam(RouterConstant.CHAT_ID_KRY, baseQuickAdapter.getItem(i ).userId)
+                            .withParam(RouterConstant.CHAT_ID_KRY, baseQuickAdapter.getItem(i).userId)
                             .withParam("type", "1")
                             .withContext(that)
                             .navigate();

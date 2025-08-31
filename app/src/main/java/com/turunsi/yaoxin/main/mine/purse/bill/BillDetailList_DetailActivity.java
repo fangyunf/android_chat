@@ -32,6 +32,7 @@ import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.NumberUtil;
+import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.TimeUtil;
 import com.yaoxin.appbase.utils.TimeUtils;
 
@@ -48,24 +49,25 @@ public class BillDetailList_DetailActivity extends BaseActivity implements View.
 
     ActivityMineBankBillDetailListDetailBinding binding;
     BillDetailBean detailBean;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         String beanStr = (String) extras.get("bean");
         if (beanStr != null && !beanStr.isEmpty()) {
-            detailBean = new Gson().fromJson(beanStr,BillDetailBean.class);
+            detailBean = new Gson().fromJson(beanStr, BillDetailBean.class);
         }
         binding = ActivityMineBankBillDetailListDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        StatusBarUtils.transtStatusBar(this, binding.activityMineBankBillDetailListDetailNav);
         binding.activityMineBankBillDetailListDetailNav.addCloseImageButton().setOnClickListener(this);
-
         _initView();
     }
 
     @Override
     protected void _initView() {
         binding.activityMineBankBillDetailListDetailTitleTv.setText(detailBean.remark);
-        binding.activityMineBankBillDetailListDetailMoneyTv.setText((detailBean.amount > 0 ? "+": "-") + NumberUtil.formartMoney(Math.abs(detailBean.amount) + "") );
+        binding.activityMineBankBillDetailListDetailMoneyTv.setText((detailBean.amount > 0 ? "+" : "-") + NumberUtil.formartMoney(Math.abs(detailBean.amount) + ""));
 
         binding.activityMineBankBillDetailListDetailCell2DetailTv.setOnClickListener(this);
         /*
@@ -87,15 +89,15 @@ public class BillDetailList_DetailActivity extends BaseActivity implements View.
                 binding.activityMineBankBillDetailListDetailIconIv.setImageResource(R.mipmap.mine_purse_bill_detail_list_send_zhuanshu);
                 binding.activityMineBankBillDetailListDetailCell1Detail.setText("支付成功");
                 break;
-                case 24:
+            case 24:
                 binding.activityMineBankBillDetailListDetailIconIv.setImageResource(R.mipmap.mine_purse_bill_detail_list_send_zhuanshu);
-                    binding.activityMineBankBillDetailListDetailCell1Detail.setText("已存入钱包");
+                binding.activityMineBankBillDetailListDetailCell1Detail.setText("已存入钱包");
                 break;
             case 22:
                 binding.activityMineBankBillDetailListDetailIconIv.setImageResource(R.mipmap.mine_purse_bill_detail_list_geren_coupon);
                 binding.activityMineBankBillDetailListDetailCell1Detail.setText("支付成功");
                 break;
-                case 25:
+            case 25:
                 binding.activityMineBankBillDetailListDetailIconIv.setImageResource(R.mipmap.mine_purse_bill_detail_list_geren_coupon);
                 binding.activityMineBankBillDetailListDetailCell1Detail.setText("已存入钱包");
                 break;
@@ -125,8 +127,8 @@ public class BillDetailList_DetailActivity extends BaseActivity implements View.
             finish();
         } else if (v == binding.activityMineBankBillDetailListDetailCell2DetailTv) {
             HashMap map = new HashMap();
-            map.put("redpacketId",detailBean.redpacketId);
-            FunRedPacketResultActivity.start(FunRedPacketResultActivity.class,this,map);
+            map.put("redpacketId", detailBean.redpacketId);
+            FunRedPacketResultActivity.start(FunRedPacketResultActivity.class, this, map);
         }
     }
 

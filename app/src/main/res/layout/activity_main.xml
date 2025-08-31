@@ -24,7 +24,7 @@
         android:id="@+id/bottom_group"
         android:layout_width="match_parent"
         android:layout_height="57.18dp"
-        android:background="#f7f7f7"
+        android:background="@color/white"
         android:clipChildren="false"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"

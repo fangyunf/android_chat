@@ -3,6 +3,7 @@ package com.netease.yunxin.kit.contactkit.ui.normal.contact.adapter;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -18,8 +19,11 @@ import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
 import com.netease.yunxin.kit.corekit.route.XKitRouter;
 import com.yaoxin.appbase.model.GroupInfoBean;
 import com.yaoxin.appbase.net.Constant;
+import com.yaoxin.appbase.utils.BaseEvent;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.GlideUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -43,6 +47,34 @@ public class ContactUserListAdapter extends BaseQuickAdapter<GroupInfoBean, Quic
             LinearLayout haoyouLL = quickViewHolder.getView(R.id.caontact_list_header_new_haoyou_ll);
             LinearLayout kefuLL = quickViewHolder.getView(R.id.caontact_list_header_new_kefu_ll);
             LinearLayout hmdLL = quickViewHolder.getView(R.id.caontact_list_header_new_hmd_ll);
+
+            FrameLayout flCreateTeam = quickViewHolder.getView(R.id.flCreateTeam);
+            FrameLayout flMyTeam = quickViewHolder.getView(R.id.flMyTeam);
+            FrameLayout flNewFriedn = quickViewHolder.getView(R.id.flNewFriedn);
+
+            flCreateTeam.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    EventBus.getDefault().post(new BaseEvent("gotoCreate"));
+                }
+            });
+
+            flMyTeam.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    MyGroupListActivity.start(MyGroupListActivity.class, getContext(), null);
+                }
+            });
+
+            flNewFriedn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    XKitRouter.withKey(RouterConstant.PATH_FUN_MY_NOTIFICATION_PAGE)
+                            .withContext(getContext())
+                            .navigate();
+                }
+            });
+
             qunliaoLL.setOnClickListener(v -> {
                 MyGroupListActivity.start(MyGroupListActivity.class, getContext(), null);
             });
@@ -53,9 +85,9 @@ public class ContactUserListAdapter extends BaseQuickAdapter<GroupInfoBean, Quic
             });
             kefuLL.setOnClickListener(v -> {
                 XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_P2P_PAGE)
-                    .withParam(RouterConstant.CHAT_ID_KRY, DataUtil.getKeFuId())
-                    .withContext(getContext())
-                    .navigate();
+                        .withParam(RouterConstant.CHAT_ID_KRY, DataUtil.getKeFuId())
+                        .withContext(getContext())
+                        .navigate();
             });
             hmdLL.setOnClickListener(v -> {
                 XKitRouter.withKey(RouterConstant.PATH_FUN_MY_BLACK_PAGE)
@@ -87,11 +119,12 @@ public class ContactUserListAdapter extends BaseQuickAdapter<GroupInfoBean, Quic
                 tv.setVisibility(View.GONE);
             }
         }
-        quickViewHolder.setText(R.id.cell_fun_team_setting_users_mingdan_name_tv, (infoBean1.remark != null && !infoBean1.remark.isEmpty() ) ? infoBean1.remark : infoBean1.name);
+        quickViewHolder.setText(R.id.cell_fun_team_setting_users_mingdan_name_tv, (infoBean1.remark != null && !infoBean1.remark.isEmpty()) ? infoBean1.remark : infoBean1.name);
         GlideUtil.yh_loadImageRoundedCorner(getContext(), iv, infoBean1.avatar, 22);
 
 
     }
+
     @Override
     protected int getItemViewType(int position, @NonNull List<? extends GroupInfoBean> list) {
         if (!_isSearch && position == 0) {
@@ -99,6 +132,7 @@ public class ContactUserListAdapter extends BaseQuickAdapter<GroupInfoBean, Quic
         }
         return Constant.RECYCLE_VIEW_ITEM;
     }
+
     @NonNull
     @Override
     protected QuickViewHolder onCreateViewHolder(@NonNull Context context, @NonNull ViewGroup viewGroup, int i) {

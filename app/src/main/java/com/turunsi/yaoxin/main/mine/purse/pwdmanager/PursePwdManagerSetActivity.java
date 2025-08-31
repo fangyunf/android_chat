@@ -29,6 +29,7 @@ import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.CommonNetUtil;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.DeviceUtils;
+import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
 import com.yaoxin.appbase.view.loginlib.utils.LoginLoader;
 import com.yaoxin.appbase.view.loginlib.view.CountDownView;
@@ -48,19 +49,18 @@ public class PursePwdManagerSetActivity extends BaseActivity implements View.OnC
         super.onCreate(savedInstanceState);
         binding = ActivityMinePursePwdManagerSetBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        StatusBarUtils.transtStatusBar(this, binding.activityMinePursePwdManagerSetNav);
         binding.activityMinePursePwdManagerSetNav.addCloseImageButton().setOnClickListener(this);
         binding.activityMinePursePwdManagerSetForgetPwdTv.setOnClickListener(this);
         binding.activityMineAddressAddSaveRl.setOnClickListener(this);
 
         if (extras != null) {
-            String typeString = (String)extras.get("type");
+            String typeString = (String) extras.get("type");
             type = Integer.parseInt(typeString);
         }
 
         binding.activityMinePursePwdManagerGetCode.viewTitleTfWithoutBgTv.setText("验证码");
-
         binding.activityMinePursePwdManagerGetCode.btnCaptcha.setVisibility(View.VISIBLE);
-
         CountDownView mCountDownView = binding.activityMinePursePwdManagerGetCode.btnCaptcha;
         mCountDownView.setUserEdit(binding.activityMinePursePwdManagerSetPhone.viewTitleTfWithoutBgEt);
         mCountDownView.setCountDownTime(60);
@@ -98,6 +98,7 @@ public class PursePwdManagerSetActivity extends BaseActivity implements View.OnC
             binding.activityMinePursePwdManagerSetPhone.viewTitleTfWithoutBgTv.setText("手机号");
         }
     }
+
     private void _initSetCell() {
         binding.activityMinePursePwdManagerSetPhone.viewTitleTfWithoutBgTv.setText("手机号");
         binding.activityMinePursePwdManagerSetSetPwd.viewTitleTfWithoutBgTv.setText("输入密码");
@@ -118,6 +119,7 @@ public class PursePwdManagerSetActivity extends BaseActivity implements View.OnC
 //        binding.activityMinePursePwdManagerSetConfirmPwd.viewTitleTfWithoutBgEt.setBackgroundColor(getResources().getColor(R.color.color_white));
 //        binding.activityMinePursePwdManagerSetConfirmPwd.viewTitleTfWithoutBgLl.setBackgroundColor(getResources().getColor(R.color.color_white));
     }
+
     private void _initModifyCell() {
         binding.activityMinePursePwdManagerSetPhone.viewTitleTfWithoutBgTv.setText("原密码");
         binding.activityMinePursePwdManagerSetSetPwd.viewTitleTfWithoutBgTv.setText("新密码");
@@ -162,8 +164,8 @@ public class PursePwdManagerSetActivity extends BaseActivity implements View.OnC
             finish();
         } else if (v == binding.activityMinePursePwdManagerSetForgetPwdTv) {
             HashMap map = new HashMap();
-            map.put("type","2");
-            PursePwdManagerSetActivity.start(PursePwdManagerSetActivity.class,this,map);
+            map.put("type", "2");
+            PursePwdManagerSetActivity.start(PursePwdManagerSetActivity.class, this, map);
         } else if (v == binding.activityMineAddressAddSaveRl) {
 
             String phone = getTextStr(binding.activityMinePursePwdManagerSetPhone.viewTitleTfWithoutBgEt);
@@ -219,7 +221,7 @@ public class PursePwdManagerSetActivity extends BaseActivity implements View.OnC
 
                         }
                     });
-            
+
         }
     }
 

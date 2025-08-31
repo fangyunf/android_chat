@@ -7,58 +7,57 @@
     android:background="@color/white"
     android:orientation="vertical">
 
+
     <com.yaoxin.appbase.navbar.NavToolbar
         android:id="@+id/activity_mine_real_name_set_nav"
         style="@style/WhiteFontToolbar"
-        android:background="@color/white"
-        app:back_icon="@mipmap/temp_ic_back"
+        android:background="@color/app_theme_color"
+        app:back_icon="@mipmap/temp_ic_back_white"
         app:enable_under_divider="true"
         app:support_translucent_status_bar="false"
         app:title="实名认证"
-        app:title_text_color="@color/color_333333"
+        app:title_text_color="@color/white"
         app:under_divider_color="@color/transparent" />
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:orientation="vertical"
-    android:layout_weight="1"
-    >
-    <TextView
-        android:layout_marginTop="15dp"
-        android:paddingHorizontal="15dp"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="根据相关法律，开通钱包功能需要先进行实名认证"
-        android:textColor="#ff999999"
-        android:textSize="14sp"
-        />
-    <include
-        android:id="@+id/activity_mine_real_name_set_name"
-        layout="@layout/view_top_title_et"
-        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
 
-        android:layout_height="wrap_content" />
-    <include
-        android:id="@+id/activity_mine_real_name_set_identity_num"
-        layout="@layout/view_top_title_et"
-        android:layout_width="match_parent"
+        <include
+            android:id="@+id/activity_mine_real_name_set_name"
+            layout="@layout/view_top_title_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-        android:layout_height="wrap_content" />
+        <include
+            android:id="@+id/activity_mine_real_name_set_identity_num"
+            layout="@layout/view_top_title_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-
-</LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:paddingHorizontal="15dp"
+            android:text="提示\n根据国家有关政策要求，您需要完成实名认证。请您使用有效的身份证信息开始认证。您的信息将进行严格的隐私保护，请放心使用。"
+            android:textColor="#ff999999"
+            android:textSize="14sp" />
+        
+    </LinearLayout>
 
     <TextView
-
         android:id="@+id/activity_mine_real_name_set_save_rl"
-        android:layout_width="301dp"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_44_dp"
-        android:background="@drawable/fun_bg_app_theme_color_rounded_22"
-        android:text="提交认证"
-        android:gravity="center"
         android:layout_gravity="center_horizontal"
+        android:layout_marginHorizontal="@dimen/dimen_16_dp"
         android:layout_marginBottom="40dp"
+        android:background="@drawable/bg_app_theme_color_rounded_10"
+        android:gravity="center"
+        android:text="提交认证"
         android:textColor="@color/white"
         android:textSize="16sp" />
 </LinearLayout>

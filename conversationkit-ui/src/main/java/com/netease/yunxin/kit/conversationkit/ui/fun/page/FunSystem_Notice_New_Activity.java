@@ -35,6 +35,7 @@ import com.yaoxin.appbase.utils.BaseEvent;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.DialogAlertUtil;
 import com.yaoxin.appbase.utils.PinnedHeaderDecoration;
+import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.TeamIconUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
 
@@ -50,12 +51,14 @@ import retrofit2.Response;
 public class FunSystem_Notice_New_Activity extends BaseActivity implements View.OnClickListener {
 
     ActivitySystemNoticeNew1Binding binding;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         binding = ActivitySystemNoticeNew1Binding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        StatusBarUtils.transtStatusBar(this, binding.activitySystemNoticeNewNav);
         binding.activitySystemNoticeNewNav.addCloseImageButton().setOnClickListener(this);
         binding.activitySystemNoticeNewXttzLl.setOnClickListener(this);
         binding.activitySystemNoticeNewQtzLl.setOnClickListener(this);
@@ -64,9 +67,7 @@ public class FunSystem_Notice_New_Activity extends BaseActivity implements View.
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-
                         GroupInfoBean applyNumBean = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
-
                         if (applyNumBean.groupApplyNum > 0) {
                             binding.activitySystemNoticeNewQtzNumTv.setText(applyNumBean.groupApplyNum + "");
                             binding.activitySystemNoticeNewQtzNumTv.setVisibility(View.VISIBLE);
@@ -82,11 +83,11 @@ public class FunSystem_Notice_New_Activity extends BaseActivity implements View.
                     }
                 });
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
     }
-
 
 
     @Override
@@ -96,18 +97,18 @@ public class FunSystem_Notice_New_Activity extends BaseActivity implements View.
 
     @Override
     public void onClick(View view) {
-        if (view == binding.activitySystemNoticeNewNav.addCloseImageButton()){
+        if (view == binding.activitySystemNoticeNewNav.addCloseImageButton()) {
             finish();
-        }  else if (view == binding.activitySystemNoticeNewXttzLl){
+        } else if (view == binding.activitySystemNoticeNewXttzLl) {
             XKitRouter.withKey("SystemNotice_NewActivity")
                     .withContext(this)
                     .navigate();
-        }  else if (view == binding.activitySystemNoticeNewQtzLl){
+        } else if (view == binding.activitySystemNoticeNewQtzLl) {
             XKitRouter.withKey(RouterConstant.PATH_FUN_MY_NOTIFICATION_PAGE)
-                    .withParam("type","1")
+                    .withParam("type", "1")
                     .withContext(this)
                     .navigate();
-        }  else if (view == binding.activitySystemNoticeNewQbxxLl){
+        } else if (view == binding.activitySystemNoticeNewQbxxLl) {
             XKitRouter.withKey(Constant.XiaoZhuShouActivityKey)
                     .withContext(this)
                     .navigate();

@@ -29,6 +29,7 @@ import com.turunsi.yaoxin.databinding.ActivityMineSetNewBinding;
 import com.turunsi.yaoxin.databinding.ActivityMineSettingBinding;
 import com.turunsi.yaoxin.login.LoginActivity;
 import com.turunsi.yaoxin.main.mine.DownLoadActivity;
+import com.turunsi.yaoxin.main.mine.account.AccountAnQuanManagerActivity;
 import com.turunsi.yaoxin.register.ForgetPwdActivity;
 import com.turunsi.yaoxin.welcome.WelcomeActivity;
 import com.yaoxin.appbase.activity.BaseActivity;
@@ -58,12 +59,17 @@ public class SettingNewActivity extends BaseActivity implements View.OnClickList
         setContentView(viewBinding.getRoot());
         initView();
         StatusBarUtils.transtStatusBar(this, viewBinding.activityMineSetNewNav);
+
+//        AccountAnQuanManagerActivity.start(AccountAnQuanManagerActivity.class, context, null);
     }
 
     private void initView() {
 
         viewBinding.activityMineSetNewNav.addCloseImageButton().setOnClickListener(this);
         viewBinding.activityMineSetNewNoticeVoice.viewTitleArrowLl.setOnClickListener(this);
+
+        viewBinding.activityMineAnquan.viewTitleArrowLl.setOnClickListener(this);
+
         viewBinding.activityMineSetNewDeleteCache.viewTitleArrowLl.setOnClickListener(this);
         viewBinding.activityMineSetNewDeleteRecord.viewTitleArrowLl.setOnClickListener(this);
         viewBinding.activityMineSetNewAboutUs.viewTitleArrowLl.setOnClickListener(this);
@@ -76,6 +82,8 @@ public class SettingNewActivity extends BaseActivity implements View.OnClickList
 
 
         viewBinding.activityMineSetNewAnquan.viewTitleArrowTv.setText("安全设置");
+
+        viewBinding.activityMineAnquan.viewTitleArrowTv.setText("安全隐私");
         viewBinding.activityMineSetNewNoticeVoice.viewTitleArrowTv.setText("通知声音");
         viewBinding.activityMineSetNewDeleteCache.viewTitleArrowTv.setText("清空缓存");
         viewBinding.activityMineSetNewDeleteRecord.viewTitleArrowTv.setText("清空所有聊天记录");
@@ -98,8 +106,10 @@ public class SettingNewActivity extends BaseActivity implements View.OnClickList
             startActivity(new Intent(SettingNewActivity.this, AnQuanSetNewActivity.class));
         } else if (v == viewBinding.activityMineSetNewNoticeVoice.viewTitleArrowLl) {
             startActivity(new Intent(SettingNewActivity.this, SettingNotifyNewActivity.class));
+        } else if (v == viewBinding.activityMineAnquan.viewTitleArrowLl) {
+            AccountAnQuanManagerActivity.start(AccountAnQuanManagerActivity.class, this, null);
         } else if (v == viewBinding.activityMineSetNewDeleteCache.viewTitleArrowLl) {
-            startActivity(new Intent(SettingNewActivity.this, ClearCacheActivity.class));
+            //startActivity(new Intent(SettingNewActivity.this, ClearCacheActivity.class));
             DialogAlertUtil.showAlert("确定清空缓存吗？", new DialogAlertUtil.DialogAlertUtilCallBack() {
                 @Override
                 public void clickType(int type) {

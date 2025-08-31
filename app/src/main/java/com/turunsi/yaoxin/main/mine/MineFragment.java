@@ -76,6 +76,7 @@ import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.pswkeyboard.OnPasswordInputFinish;
 import com.yaoxin.appbase.pswkeyboard.widget.PopEnterPassword;
+import com.yaoxin.appbase.utils.BaseEvent;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.DialogAlertUtil;
 import com.yaoxin.appbase.utils.GlideUtil;
@@ -83,9 +84,12 @@ import com.yaoxin.appbase.utils.NumberUtil;
 import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -231,6 +235,15 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         binding.fragmentMineCopyIos.setOnClickListener(this);
         binding.fragmentMineCopyAndroid.setOnClickListener(this);
 
+        binding.viewAnquan.setOnClickListener(this);
+
+        binding.viewNotice.setOnClickListener(this);
+        binding.fragmentCollection.setOnClickListener(this);
+        binding.viewReleseName.setOnClickListener(this);
+        binding.fragmentSaoyisao.setOnClickListener(this);
+        binding.viewKeFU.setOnClickListener(this);
+        binding.tvInfo.setOnClickListener(this);
+
 //        binding.mineFragmentMyManagerItem1.viewMineFragmentItemCellCl.setOnClickListener(this);
 //        binding.mineFragmentMyManagerItem2.viewMineFragmentItemCellCl.setOnClickListener(this);
 //        binding.mineFragmentMyManagerItem3.viewMineFragmentItemCellCl.setOnClickListener(this);
@@ -335,27 +348,38 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         Context context = getContext();
-        if (v == binding.fragmentMineErweimaIv) {
-            if (getActivity() != null) {
-                AccountCodeDialogFragment.showV(getActivity().getSupportFragmentManager());
-            }
-        } else if (v == binding.fragmentMineYsglView) {
-
+        if (v == binding.viewKeFU) {
+            XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_P2P_PAGE)
+                    .withParam(RouterConstant.CHAT_ID_KRY, DataUtil.getKeFuId())
+                    .withContext(requireContext())
+                    .navigate();
+        } else if (v == binding.fragmentSaoyisao) {
+            EventBus.getDefault().post(new BaseEvent("gotoScan"));
+        } else if (v == binding.viewReleseName) {
+            //if (!com.yaoxin.appbase.net.Constant.isRunningRealName) {
+            //com.yaoxin.appbase.net.Constant.isRunningRealName = true;
+            RealNameSetActivity.start(RealNameSetActivity.class, getContext(), null);
+//            } else {
+//                ToastUtils.toastMsg("已完成实名");
+//            }
+        } else if (v == binding.fragmentMineErweimaIv) {
+            AccoutCodeDetailActivity.start(AccoutCodeDetailActivity.class, getContext(), null);
+//            if (getActivity() != null) {
+//                AccountCodeDialogFragment.showV(getActivity().getSupportFragmentManager());
+//            }
+        } else if (v == binding.fragmentMineYsglView || v == binding.viewAnquan) {
             AccountAnQuanManagerActivity.start(AccountAnQuanManagerActivity.class, context, null);
         } else if (v == binding.fragmentMineYlyxView) {
-
             ToastUtils.toastMsg("敬请期待,等待开放");
         } else if (v == binding.fragmentMineZhglView) {
-
             ExchangeAccountActivity.start(ExchangeAccountActivity.class, context, null);
-        } else if (v == binding.fragmentMineLtszView) {
+        } else if (v == binding.fragmentMineLtszView || v == binding.viewNotice) {
 //            startActivity(new Intent(getContext(), SettingNotifyActivity.class));
             startActivity(new Intent(getContext(), SettingNotifyNewActivity.class));
         } else if (v == binding.fragmentMineHmdView) {
             XKitRouter.withKey(RouterConstant.PATH_FUN_MY_BLACK_PAGE).withContext(requireContext()).navigate();
         } else if (v == binding.fragmentMineMmszView) {
             Mine_Pwd_Set_ManagerActivity.start(Mine_Pwd_Set_ManagerActivity.class, getContext(), null);
-
         } else if (v == binding.fragmentMineTyszView || v == binding.fragmentMineShezhiIv) {
             SettingNewActivity.start(SettingNewActivity.class, getContext(), null);
         } else if (v == binding.fragmentMineHyzxView || v == binding.fragmentMineGotoUpgradeTv) {
@@ -443,7 +467,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         }
 //        if (v == binding.mineFragmentMyManagerItem5.viewMineFragmentItemCellCl) {
 ////            startActivity(new Intent(getContext(), SettingActivity.class));
-//            SettingNewActivity.start(SettingNewActivity.class,getContext(),null);
+        //SettingNewActivity.start(SettingNewActivity.class, getContext(), null);
 //        }
 //        if (v == binding.mineFragmentMyManagerItem7.viewMineFragmentItemCellCl) {
 ////            startActivity(new Intent(getContext(), SettingActivity.class));
@@ -458,15 +482,15 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 //        if (v == binding.mineFragmentMyManagerItem2.viewMineFragmentItemCellCl) {
 ////            AddressListActivity.start(AddressListActivity.class,context,null);
 //        }
-//        if (v == binding.mineFragmentMyManagerItem4.viewMineFragmentItemCellCl) {
-//            CollectionListActivity.start(CollectionListActivity.class,context,null);
-////            XKitRouter.withKey(RouterConstant.PATH_FUN_COLLECTION_PAGE).withContext(this.requireContext()).navigate();
-//        }
+        if (v == binding.fragmentCollection) {
+            CollectionListActivity.start(CollectionListActivity.class, context, null);
+//            XKitRouter.withKey(RouterConstant.PATH_FUN_COLLECTION_PAGE).withContext(this.requireContext()).navigate();
+        }
 //        if (v == binding.mineFragmentMyManagerItem6.viewMineFragmentItemCellCl) {
 
 ////            XKitRouter.withKey(RouterConstant.PATH_FUN_COLLECTION_PAGE).withContext(this.requireContext()).navigate();
 //        }
-        if (v == binding.cavIcon || v == binding.fragmentMineEditIv) {
+        if (v == binding.tvInfo || v == binding.fragmentMineEditIv) {
             AccountDetailActivity.start(AccountDetailActivity.class, getContext(), null);
         }
 //        if (v == binding.fragmentMineCaidanView) {

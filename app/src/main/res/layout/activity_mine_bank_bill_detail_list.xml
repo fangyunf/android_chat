@@ -8,125 +8,126 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@mipmap/jinzita_common_page_bg"
         android:scaleType="fitXY"
-        />
-<LinearLayout
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+        android:src="@mipmap/jinzita_common_page_bg"
+        android:visibility="gone" />
 
-    <com.yaoxin.appbase.navbar.NavToolbar
-        android:id="@+id/activity_mine_bank_bill_detail_list_nav"
-        style="@style/WhiteFontToolbar"
-        android:background="@color/transparent"
-        app:back_icon="@mipmap/temp_ic_back"
-        app:enable_under_divider="true"
-        app:support_translucent_status_bar="false"
-        app:title="账单明细"
-        app:title_text_color="@color/color_333333"
-        app:under_divider_color="@color/transparent" />
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="@dimen/dimen_16_dp"
-        >
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
+        <com.yaoxin.appbase.navbar.NavToolbar
+            android:id="@+id/activity_mine_bank_bill_detail_list_nav"
+            style="@style/WhiteFontToolbar"
+            android:background="@color/app_theme_color"
+            app:back_icon="@mipmap/temp_ic_back_white"
+            app:enable_under_divider="true"
+            app:support_translucent_status_bar="false"
+            app:title="账单明细"
+            app:title_text_color="@color/white"
+            app:under_divider_color="@color/transparent" />
 
-        <LinearLayout
-            android:id="@+id/activity_mine_bank_bill_detail_list_shaixuan_ll"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            >
-            <TextView
-                android:id="@+id/activity_mine_bank_bill_detail_list_shaixuan_tv"
-                android:layout_width="wrap_content"
-                android:gravity="center"
-                android:paddingHorizontal="15dp"
-                android:layout_height="33dp"
-                android:text="全部账单"
-                android:textColor="@color/black"
-                android:textSize="14sp"
-                android:background="@drawable/bg_white_rounded_10"
-                android:layout_marginVertical="15dp"
-                />
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/activity_mine_bank_bill_detail_list_date_ll"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:layout_alignParentEnd="true"
-
-            >
-            <TextView
-                android:id="@+id/activity_mine_bank_bill_detail_list_date_tv"
-                android:layout_width="wrap_content"
-                android:gravity="center"
-                android:paddingHorizontal="15dp"
-                android:layout_height="33dp"
-                android:text="月份"
-                android:textColor="@color/black"
-                android:textSize="14sp"
-                android:background="@drawable/bg_white_rounded_10"
-                android:layout_marginVertical="15dp"
-                />
-        </LinearLayout>
-<!--        <LinearLayout-->
-<!--            android:visibility="visible"-->
-<!--            android:id="@+id/activity_mine_bank_bill_detail_list_date_ll"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="33dp"-->
-<!--            android:gravity="center_vertical"-->
-<!--            android:background="@drawable/bg_white_rounded_10"-->
-
-<!--            android:layout_alignParentEnd="true"-->
-<!--            >-->
-<!--            <TextView-->
-<!--                android:id="@+id/activity_mine_bank_bill_detail_list_date_tv"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="20dp"-->
-<!--                android:text="2023年7月"-->
-<!--                android:textColor="#ff000000"-->
-<!--                android:textSize="14sp"-->
-<!--                />-->
-<!--            <ImageView-->
-<!--                android:layout_width="@dimen/dimen_10_dp"-->
-<!--                android:layout_marginLeft="@dimen/dimen_4_dp"-->
-<!--                android:layout_height="@dimen/dimen_6_dp"-->
-<!--                android:src="@mipmap/mine_purse_bill_detail_list_arrow_bottom"-->
-<!--                />-->
-<!--        </LinearLayout>-->
-    </RelativeLayout>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/activity_mine_bank_bill_detail_list_rv"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            />
         <RelativeLayout
-            android:visibility="gone"
-            android:id="@+id/activity_mine_bank_bill_detail_list_gray_rl"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/black_50_transparent"
-            >
-            <androidx.recyclerview.widget.RecyclerView
-                android:paddingVertical="@dimen/dimen_8_dp"
-                android:paddingLeft="@dimen/dimen_4_dp"
-                android:paddingRight="@dimen/dimen_14_dp"
-                android:layout_alignParentBottom="true"
-                android:id="@+id/activity_mine_bank_bill_detail_list_shaixuan_rv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                />
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/dimen_16_dp">
 
+
+            <LinearLayout
+                android:id="@+id/activity_mine_bank_bill_detail_list_shaixuan_ll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/activity_mine_bank_bill_detail_list_shaixuan_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="33dp"
+                    android:layout_marginVertical="15dp"
+                    android:background="@drawable/bg_app_theme_color_rounded_10"
+                    android:gravity="center"
+                    android:paddingHorizontal="15dp"
+                    android:text="全部账单"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/activity_mine_bank_bill_detail_list_date_ll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:gravity="center_vertical"
+
+                >
+
+                <TextView
+                    android:id="@+id/activity_mine_bank_bill_detail_list_date_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="33dp"
+                    android:layout_marginVertical="15dp"
+                    android:background="@drawable/bg_app_theme_color_rounded_10"
+                    android:gravity="center"
+                    android:paddingHorizontal="15dp"
+                    android:text="月份"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+            </LinearLayout>
+            <!--        <LinearLayout-->
+            <!--            android:visibility="visible"-->
+            <!--            android:id="@+id/activity_mine_bank_bill_detail_list_date_ll"-->
+            <!--            android:layout_width="wrap_content"-->
+            <!--            android:layout_height="33dp"-->
+            <!--            android:gravity="center_vertical"-->
+            <!--            android:background="@drawable/bg_white_rounded_10"-->
+
+            <!--            android:layout_alignParentEnd="true"-->
+            <!--            >-->
+            <!--            <TextView-->
+            <!--                android:id="@+id/activity_mine_bank_bill_detail_list_date_tv"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="20dp"-->
+            <!--                android:text="2023年7月"-->
+            <!--                android:textColor="#ff000000"-->
+            <!--                android:textSize="14sp"-->
+            <!--                />-->
+            <!--            <ImageView-->
+            <!--                android:layout_width="@dimen/dimen_10_dp"-->
+            <!--                android:layout_marginLeft="@dimen/dimen_4_dp"-->
+            <!--                android:layout_height="@dimen/dimen_6_dp"-->
+            <!--                android:src="@mipmap/mine_purse_bill_detail_list_arrow_bottom"-->
+            <!--                />-->
+            <!--        </LinearLayout>-->
         </RelativeLayout>
-    </RelativeLayout>
-</LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/activity_mine_bank_bill_detail_list_rv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <RelativeLayout
+                android:id="@+id/activity_mine_bank_bill_detail_list_gray_rl"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/black_50_transparent"
+                android:visibility="gone">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/activity_mine_bank_bill_detail_list_shaixuan_rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/white"
+                    android:paddingVertical="@dimen/dimen_8_dp"
+                    android:paddingLeft="@dimen/dimen_4_dp"
+                    android:paddingRight="@dimen/dimen_14_dp" />
+
+            </RelativeLayout>
+        </RelativeLayout>
+    </LinearLayout>
 </RelativeLayout>

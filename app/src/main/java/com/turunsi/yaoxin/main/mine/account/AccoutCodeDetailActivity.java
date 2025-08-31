@@ -27,6 +27,7 @@ import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
+import com.yaoxin.appbase.utils.BaseEvent;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.GlideUtil;
 import com.yaoxin.appbase.utils.ImageUtil;
@@ -37,6 +38,8 @@ import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
 import com.zhihu.matisse.filter.Filter;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.util.List;
@@ -53,18 +56,17 @@ public class AccoutCodeDetailActivity extends BaseActivity implements View.OnCli
 
     private static final int REQUEST_CODE_CHOOSE = 23;
     private ActivityMineAccountCodeBinding viewBinding;
-
     private ExecutorService executor = Executors.newSingleThreadExecutor();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//    changeStatusBarColor(R.color.color_e9eff5);
         viewBinding = ActivityMineAccountCodeBinding.inflate(getLayoutInflater());
-
         setContentView(viewBinding.getRoot());
         transtStatusBar(viewBinding.activityMineAccountCodeNav);
         initView();
+        viewBinding.tvInfoId.setText("ID：" + DataUtil.getUserInfo().memberCode);
+        viewBinding.activityMineAccountCodeNameTv.setText(DataUtil.getUserInfo().username);
     }
 
 
@@ -72,6 +74,7 @@ public class AccoutCodeDetailActivity extends BaseActivity implements View.OnCli
 
         viewBinding.activityMineAccountCodeNav.addCloseImageButton().setOnClickListener(this);
         viewBinding.activityMineAccountCodeSavePhoto.setOnClickListener(this);
+        viewBinding.activitySaoyisao.setOnClickListener(this);
 
         Bitmap bitmap = generateQRCode(DataUtil.getUserInfo().memberCode);
         if (bitmap != null) {
@@ -103,7 +106,8 @@ public class AccoutCodeDetailActivity extends BaseActivity implements View.OnCli
     public void onClick(View v) {
         if (v == viewBinding.activityMineAccountCodeNav.addCloseImageButton()) {
             finish();
-
+        } else if (v == viewBinding.activitySaoyisao) {
+            EventBus.getDefault().post(new BaseEvent("gotoScan"));
         } else if (v == viewBinding.activityMineAccountCodeSavePhoto) {
             ImageUtil.saveImageViewToGallery(this, viewBinding.activityMineAccountCodeCodeIv);
         }

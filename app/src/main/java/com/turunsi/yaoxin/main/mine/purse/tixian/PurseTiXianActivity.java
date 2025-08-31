@@ -56,8 +56,6 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
         setContentView(binding.getRoot());
         StatusBarUtils.transtStatusBar(this, binding.activityMinePurseTixianNav);
         binding.activityMinePurseTixianNav.addCloseImageButton().setOnClickListener(this);
-//        binding.
-
         binding.activityMinePurseTixianMoneyEt.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
         binding.activityMinePurseTixianMoneyEt.setKeyListener(DigitsKeyListener.getInstance("0123456789."));
 
@@ -153,7 +151,7 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
             bean.zfbNo = wxPayBean.phone;
             bean.name = wxPayBean.name;
             bean.zfbUrl = wxPayBean.usdt;
-            bean.userUsdtId = wxPayBean.id +"";
+            bean.userUsdtId = wxPayBean.id + "";
         } else if (payType.equals("yhkpay")) {
 
             bean.zfbNo = yhkPayBean.phone;
@@ -295,7 +293,7 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
 
                             // 即使失败也要检查是否所有请求都完成了
                             if (completedRequests == 2) {
-                        handleAllRequestsCompleted();
+                                handleAllRequestsCompleted();
                             }
                         }
                     }

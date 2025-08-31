@@ -5,36 +5,34 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical"
     android:gravity="center_horizontal"
-    >
+    android:orientation="vertical">
 
     <com.yaoxin.appbase.navbar.NavToolbar
         android:id="@+id/activity_exchange_account_nav"
         style="@style/WhiteFontToolbar"
-        android:background="@color/white"
-        app:back_icon="@mipmap/temp_ic_back"
+        android:background="@color/app_theme_color"
+        app:back_icon="@mipmap/temp_ic_back_white"
         app:enable_under_divider="true"
         app:support_translucent_status_bar="false"
         app:title="切换账号"
-        app:title_text_color="@color/color_333333"
+        app:title_text_color="@color/white"
         app:under_divider_color="@color/transparent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/activity_exchange_account_rv"
         android:layout_width="match_parent"
-        android:layout_weight="1"
-        android:layout_height="wrap_content"/>
-    
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+
     <TextView
         android:id="@+id/activity_exchange_account_tuichu_tv"
-        android:gravity="center"
-        android:layout_marginHorizontal="40dp"
-        android:layout_marginBottom="40dp"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:textSize="18sp"
-        android:text="退出登录"
+        android:layout_marginHorizontal="40dp"
+        android:layout_marginBottom="40dp"
         android:background="@drawable/bg_f2f2f2_rounded_10"
-        />
+        android:gravity="center"
+        android:text="退出登录"
+        android:textSize="18sp" />
 </LinearLayout>

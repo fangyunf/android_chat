@@ -113,57 +113,50 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
 
     protected ActivityResultLauncher<Intent> launcher;
     List<GroupInfoBean> memberList = new ArrayList<>();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         Intent intent = getIntent();
         groupId = intent.getStringExtra(KEY_TEAM_ID);
 
         super.onCreate(savedInstanceState);
-        binding =
-                FunTeamSettingNewActivityBinding.inflate(getLayoutInflater());
+        binding = FunTeamSettingNewActivityBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
         binding.funTeamSettingNewActivityNav.enableUnderDivider(false);
         StatusBarUtils.setStatusBarLightMode(this, true, true);
-        LinearLayout.LayoutParams params =
-                (LinearLayout.LayoutParams) binding.funTeamSettingNewActivityNav.getLayoutParams();
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) binding.funTeamSettingNewActivityNav.getLayoutParams();
         params.height = params.height + BarUtils.getStatusBarHeight();
         binding.funTeamSettingNewActivityNav.setLayoutParams(params);
         binding.funTeamSettingNewActivityNav.setPadding(0, BarUtils.getStatusBarHeight(), 0, 0);
         _initView();
 
         EventBus.getDefault().register(this);
-        launcher =
-                registerForActivityResult(
-                        new ActivityResultContracts.StartActivityForResult(),
-                        result -> {
-                            if (result.getResultCode() != RESULT_OK || result.getData() == null) {
-                                return;
-                            }
-                            Intent intent1 = result.getData();
-                            ArrayList<String> memberList =
-                                    intent1.getStringArrayListExtra(REQUEST_CONTACT_SELECTOR_KEY);
-                            String opt_type = intent1.getStringExtra("opt_type");
-                            if ("1".equals(opt_type)) {
-                                RegisterBean bean = new RegisterBean();
-                                bean.groupId = groupId;
-                                bean.members = memberList;
-                                HttpUtil.apiW().group_pullPeopleGroup(bean)
-                                        .enqueue(new CommonCallback<NetData>() {
-                                            @Override
-                                            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+        launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if (result.getResultCode() != RESULT_OK || result.getData() == null) {
+                return;
+            }
+            Intent intent1 = result.getData();
+            ArrayList<String> memberList = intent1.getStringArrayListExtra(REQUEST_CONTACT_SELECTOR_KEY);
+            String opt_type = intent1.getStringExtra("opt_type");
+            if ("1".equals(opt_type)) {
+                RegisterBean bean = new RegisterBean();
+                bean.groupId = groupId;
+                bean.members = memberList;
+                HttpUtil.apiW().group_pullPeopleGroup(bean).enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                                                ToastUtils.toastMsg(body.msg);
-                                                _requestData();
-                                            }
+                        ToastUtils.toastMsg(body.msg);
+                        _requestData();
+                    }
 
-                                            @Override
-                                            public void Failure(Call<NetData> call, Throwable t) {
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
 
-                                            }
-                                        });
-                            }
-                        });
+                    }
+                });
+            }
+        });
 
     }
 
@@ -244,105 +237,102 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
     void _requestPeople(int page) {
         RegisterBean bean = new RegisterBean();
         bean.groupId = groupId;
-        bean.page = page +"";
-        bean.pageNo ="100";
+        bean.page = page + "";
+        bean.pageNo = "100";
 
         memberList.clear();
 //        LoadingDialog.showDialog(getSupportFragmentManager(),"加载中");
 
-        HttpUtil.apiW().group_groupUserListPost(bean)
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+        HttpUtil.apiW().group_groupUserListPost(bean).enqueue(new CommonCallback<NetData>() {
+            @Override
+            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                        Type type = new TypeToken<List<GroupInfoBean>>() {
-                        }.getType();
-                        List<GroupInfoBean> tempList = new Gson().fromJson(body.data.toString(), type);
-                        if (!tempList.isEmpty()) {
-                            groupInfoBean.userInfos.addAll(tempList);
-                            memberList.addAll(tempList);
-                            if (tempList.size() == 100) {
-                                _requestPeople((page + 1));
-                            } else {
-                                DataUtil.setGroupMemberInfoList(memberList);
+                Type type = new TypeToken<List<GroupInfoBean>>() {
+                }.getType();
+                List<GroupInfoBean> tempList = new Gson().fromJson(body.data.toString(), type);
+                if (!tempList.isEmpty()) {
+                    groupInfoBean.userInfos.addAll(tempList);
+                    memberList.addAll(tempList);
+                    if (tempList.size() == 100) {
+                        _requestPeople((page + 1));
+                    } else {
+                        DataUtil.setGroupMemberInfoList(memberList);
 
-                                LoadingDialog.dismissDialog();
-                                requestYunXin();
-                                updateUI();
-                            }
-                        } else {
-                            LoadingDialog.dismissDialog();
-                            requestYunXin();
-                            updateUI();
-
-                        }
-                    }
-
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
                         LoadingDialog.dismissDialog();
+                        requestYunXin();
+                        updateUI();
                     }
+                } else {
+                    LoadingDialog.dismissDialog();
+                    requestYunXin();
+                    updateUI();
 
-                    @Override
-                    public void end() {
-                        super.end();
+                }
+            }
 
-                    }
-                });
+            @Override
+            public void Failure(Call<NetData> call, Throwable t) {
+                LoadingDialog.dismissDialog();
+            }
+
+            @Override
+            public void end() {
+                super.end();
+
+            }
+        });
     }
+
     @Override
     protected void _requestData() {
         SPUtils.getInstance().put("reloadTeamSettingData", false);
-        LoadingDialog.showDialog(getSupportFragmentManager(),"加载中");
-        HttpUtil.apiW().group_groupHomeInfo(groupId)
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+        LoadingDialog.showDialog(getSupportFragmentManager(), "加载中");
+        HttpUtil.apiW().group_groupHomeInfo(groupId).enqueue(new CommonCallback<NetData>() {
+            @Override
+            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                        groupInfoBean = new Gson().fromJson(body.data.toString(),GroupInfoBean.class);
-                        groupInfoBean.userInfos.clear();
-                        _requestPeople(1);
+                groupInfoBean = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
+                groupInfoBean.userInfos.clear();
+                _requestPeople(1);
 
-                    }
+            }
 
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
-                        LoadingDialog.dismissDialog();
-                    }
+            @Override
+            public void Failure(Call<NetData> call, Throwable t) {
+                LoadingDialog.dismissDialog();
+            }
 
 //                    @Override
 //                    public void end() {
 //                        super.end();
 //
 //                    }
-                });
+        });
     }
 
     private void requestYunXin() {
-        TeamRepo.queryTeamWithMember(
-                groupId,
-                Objects.requireNonNull(IMKitClient.account()),
-                new FetchCallback<TeamWithCurrentMember>() {
-                    @Override
-                    public void onSuccess(@Nullable TeamWithCurrentMember param) {
+        TeamRepo.queryTeamWithMember(groupId, Objects.requireNonNull(IMKitClient.account()), new FetchCallback<TeamWithCurrentMember>() {
+            @Override
+            public void onSuccess(@Nullable TeamWithCurrentMember param) {
 
-                        binding.funTeamSettingNewActivityZhiding.viewTitleArrowRightTvSwitch.setSelected(param.isStickTop());
-                        binding.funTeamSettingNewActivityMiandarao.viewTitleArrowRightTvSwitch.setSelected(param.getTeam().getMessageNotifyType() == TeamMessageNotifyTypeEnum.Mute);
-                    }
+                binding.funTeamSettingNewActivityZhiding.viewTitleArrowRightTvSwitch.setSelected(param.isStickTop());
+                binding.funTeamSettingNewActivityMiandarao.viewTitleArrowRightTvSwitch.setSelected(param.getTeam().getMessageNotifyType() == TeamMessageNotifyTypeEnum.Mute);
+            }
 
-                    @Override
-                    public void onFailed(int code) {
-                    }
+            @Override
+            public void onFailed(int code) {
+            }
 
-                    @Override
-                    public void onException(@Nullable Throwable exception) {
-                    }
-                });
+            @Override
+            public void onException(@Nullable Throwable exception) {
+            }
+        });
     }
-    void updateUI() {
-        GlideUtil.yh_loadImageRoundedCorner(this,binding.funTeamSettingNewActivityTeamIcon,groupInfoBean.head,30);
 
-        binding.tvName.setText(groupInfoBean.name + "(" +groupInfoBean.userInfos.size()+"人)");
+    void updateUI() {
+        GlideUtil.yh_loadImageRoundedCorner(this, binding.funTeamSettingNewActivityTeamIcon, groupInfoBean.head, 30);
+
+        binding.tvName.setText(groupInfoBean.name + "(" + groupInfoBean.userInfos.size() + "人)");
 
         ArrayList<GroupInfoBean> maxList = new ArrayList<>();
         if (groupInfoBean.userInfos.size() > 3) {
@@ -354,7 +344,7 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
 
         }
         binding.funTeamSettingNewActivityIdTv.setText("ID: " + groupInfoBean.groupId);
-        adapter = new TeamSettingUserInfoAdapter(groupInfoBean.rankState == 1,maxList);
+        adapter = new TeamSettingUserInfoAdapter(groupInfoBean.rankState == 1, maxList);
 
         binding.funTeamSettingNewActivityMemberRv.setAdapter(adapter);
         Context that = this;
@@ -366,32 +356,20 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
 //                    return;
 //                }
                 if (i == maxList.size()) {
-                    DataUtil.setStringValue(new Gson().toJson(groupInfoBean),"groupInfo");
+                    DataUtil.setStringValue(new Gson().toJson(groupInfoBean), "groupInfo");
 
-                    XKitRouter.withKey(Constant.FunSelected_User_ActivityKey)
-                            .withParam("type","2")
-                            .withParam("groupId",groupId)
-                            .withContext(that)
-                            .navigate();
+                    XKitRouter.withKey(Constant.FunSelected_User_ActivityKey).withParam("type", "2").withParam("groupId", groupId).withContext(that).navigate();
                 } else if (i == maxList.size() + 1) {
 
-                    DataUtil.setStringValue(new Gson().toJson(groupInfoBean),"groupInfo");
+                    DataUtil.setStringValue(new Gson().toJson(groupInfoBean), "groupInfo");
 
-                    XKitRouter.withKey(Constant.FunSelected_User_ActivityKey)
-                            .withParam("type","3")
-                            .withParam("groupId",groupId)
-                            .withContext(that)
-                            .navigate();
+                    XKitRouter.withKey(Constant.FunSelected_User_ActivityKey).withParam("type", "3").withParam("groupId", groupId).withContext(that).navigate();
                 } else {
-                    XKitRouter.withKey(Constant.FunTeamUserInfoDetailActivityKey)
-                            .withParam("groupId",groupId)
-                            .withParam("userId",maxList.get(i).userId)
-                            .withContext(view.getContext())
-                            .navigate();
+                    XKitRouter.withKey(Constant.FunTeamUserInfoDetailActivityKey).withParam("groupId", groupId).withParam("userId", maxList.get(i).userId).withContext(view.getContext()).navigate();
                 }
             }
         });
-        binding.funTeamSettingNewActivityGonggaoTv.setText(groupInfoBean.announcement == null?"暂无公告":groupInfoBean.announcement);
+        binding.funTeamSettingNewActivityGonggaoTv.setText(groupInfoBean.announcement == null ? "暂无公告" : groupInfoBean.announcement);
 
 //        binding.funTeamSettingNewActivityMiandarao.viewTitleArrowRightTvSwitch.setSelected(groupInfoBean.noDisturbingState == 1);
 //        binding.funTeamSettingNewActivityZhiding.viewTitleArrowRightTvSwitch.setSelected(groupInfoBean.topState == 1);
@@ -414,8 +392,7 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
 
     ArrayList<String> getTeamUserIds() {
         ArrayList<String> list = new ArrayList();
-        for (GroupInfoBean temp :
-                groupInfoBean.userInfos) {
+        for (GroupInfoBean temp : groupInfoBean.userInfos) {
             list.add(temp.userId);
         }
         return list;
@@ -436,8 +413,8 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
 //            }
         } else if (view == binding.funTeamSettingNewActivityVlqHb.viewTitleArrowLl) {
             Map map = new HashMap();
-            map.put("groupId",groupId);
-            FunTeamSettingNew_Vlq_HB_ListActivity.start(FunTeamSettingNew_Vlq_HB_ListActivity.class,this,map);
+            map.put("groupId", groupId);
+            FunTeamSettingNew_Vlq_HB_ListActivity.start(FunTeamSettingNew_Vlq_HB_ListActivity.class, this, map);
         } else if (view == binding.funTeamSettingNewActivityMiandarao.viewTitleArrowRightTvSwitch) {
             boolean isOpen = binding.funTeamSettingNewActivityMiandarao.viewTitleArrowRightTvSwitch.isSelected();
             // 以设置 “仅管理员消息提醒” 为例
@@ -482,93 +459,79 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
 //                        }
 //                    });
         } else if (view == binding.funTeamSettingNewActivityZhiding.viewTitleArrowRightTvSwitch) {
-            configStick(groupId,!binding.funTeamSettingNewActivityZhiding.viewTitleArrowRightTvSwitch.isSelected());
+            configStick(groupId, !binding.funTeamSettingNewActivityZhiding.viewTitleArrowRightTvSwitch.isSelected());
         } else if (view == binding.funTeamSettingNewActivityDelteRecord.viewTitleArrowLl) {
 //            configStick(groupId,!binding.funTeamSettingNewActivityZhiding.viewTitleArrowRightTvSwitch.isSelected());
             DialogAlertUtil.showAlert("确认删除聊天记录吗？", new DialogAlertUtil.DialogAlertUtilCallBack() {
                 @Override
                 public void clickType(int type) {
                     if (type == 1) {
-                        NIMClient.getService(MsgService.class).clearChattingHistory(groupId,SessionTypeEnum.Team);
-                        NIMClient.getService(MsgService.class).clearServerHistory(groupId,SessionTypeEnum.Team);
+                        NIMClient.getService(MsgService.class).clearChattingHistory(groupId, SessionTypeEnum.Team);
+                        NIMClient.getService(MsgService.class).clearServerHistory(groupId, SessionTypeEnum.Team);
                         EventBus.getDefault().post(new BaseEvent("clearTeamMessageList"));
                     }
                 }
-            },getSupportFragmentManager());
+            }, getSupportFragmentManager());
         } else if (view == binding.funTeamSettingNewActivityQuite) {
             if (groupInfoBean.rankState == 1) {
                 CommonChoiceDialog dialog = new CommonChoiceDialog();
-            dialog
-                    .setTitleStr("温馨提示")
-                    .setContentStr("确定解散群聊吗?")
-                    .setNegativeStr("取消")
-                    .setPositiveStr("确定")
-                    .setConfirmListener(
-                            new ChoiceListener() {
-                                @Override
-                                public void onPositive() {
+                dialog.setTitleStr("温馨提示").setContentStr("确定解散群聊吗?").setNegativeStr("取消").setPositiveStr("确定").setConfirmListener(new ChoiceListener() {
+                    @Override
+                    public void onPositive() {
 
-                                    RegisterBean bean = new RegisterBean();
-                                    bean.groupId = groupId;
-                                    HttpUtil.apiW().group_dissolveGroup(bean)
-                                            .enqueue(new CommonCallback<NetData>() {
-                                                @Override
-                                                public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                                                    ToastUtils.toastMsg(body.msg);
-                                                    finish();
-                                                }
+                        RegisterBean bean = new RegisterBean();
+                        bean.groupId = groupId;
+                        HttpUtil.apiW().group_dissolveGroup(bean).enqueue(new CommonCallback<NetData>() {
+                            @Override
+                            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                                ToastUtils.toastMsg(body.msg);
+                                finish();
+                            }
 
-                                                @Override
-                                                public void Failure(Call<NetData> call, Throwable t) {
+                            @Override
+                            public void Failure(Call<NetData> call, Throwable t) {
 
-                                                }
-                                            });
-                                }
+                            }
+                        });
+                    }
 
-                                @Override
-                                public void onNegative() {}
-                            })
-                    .show(getSupportFragmentManager());
+                    @Override
+                    public void onNegative() {
+                    }
+                }).show(getSupportFragmentManager());
                 return;
             }
             CommonChoiceDialog dialog = new CommonChoiceDialog();
-            dialog
-                    .setTitleStr("温馨提示")
-                    .setContentStr("确定退出群聊吗?")
-                    .setNegativeStr("取消")
-                    .setPositiveStr("确定")
-                    .setConfirmListener(
-                            new ChoiceListener() {
-                                @Override
-                                public void onPositive() {
+            dialog.setTitleStr("温馨提示").setContentStr("确定退出群聊吗?").setNegativeStr("取消").setPositiveStr("确定").setConfirmListener(new ChoiceListener() {
+                @Override
+                public void onPositive() {
 
-                                    RegisterBean bean = new RegisterBean();
-                                    bean.groupId = groupId;
-                                    bean.userId = DataUtil.getUserid();
-                                    HttpUtil.apiW().group_quitGroup(bean)
-                                            .enqueue(new CommonCallback<NetData>() {
-                                                @Override
-                                                public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                                                    ToastUtils.toastMsg(body.msg);
-                                                    finish();
-                                                }
+                    RegisterBean bean = new RegisterBean();
+                    bean.groupId = groupId;
+                    bean.userId = DataUtil.getUserid();
+                    HttpUtil.apiW().group_quitGroup(bean).enqueue(new CommonCallback<NetData>() {
+                        @Override
+                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                            ToastUtils.toastMsg(body.msg);
+                            finish();
+                        }
 
-                                                @Override
-                                                public void Failure(Call<NetData> call, Throwable t) {
+                        @Override
+                        public void Failure(Call<NetData> call, Throwable t) {
 
-                                                }
-                                            });
-                                }
+                        }
+                    });
+                }
 
-                                @Override
-                                public void onNegative() {}
-                            })
-                    .show(getSupportFragmentManager());
-            
+                @Override
+                public void onNegative() {
+                }
+            }).show(getSupportFragmentManager());
+
         } else if (view == binding.editIcon || view == binding.funTeamSettingNewActivityTeamSetting.viewTitleArrowLl) {
 
             Activity that = this;
-            DialogAlertUtil.showSheetView(this, getSupportFragmentManager(), new String[]{"修改群名称","修改公告栏","修改群头像"}, new DialogAlertUtil.DialogAlertUtilCallBack() {
+            DialogAlertUtil.showSheetView(this, getSupportFragmentManager(), new String[]{"修改群名称", "修改公告栏", "修改群头像"}, new DialogAlertUtil.DialogAlertUtilCallBack() {
                 @Override
                 public void clickType(int type) {
                     if (type == 1) {
@@ -579,22 +542,21 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
                                 RegisterBean bean = new RegisterBean();
                                 bean.groupId = groupId;
                                 bean.groupName = result;
-                                HttpUtil.apiW().group_updateGroupInfo(bean)
-                                        .enqueue(new CommonCallback<NetData>() {
-                                            @Override
-                                            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                                HttpUtil.apiW().group_updateGroupInfo(bean).enqueue(new CommonCallback<NetData>() {
+                                    @Override
+                                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                                                ToastUtils.toastMsg(body.msg);
-                                                _requestData();
-                                            }
+                                        ToastUtils.toastMsg(body.msg);
+                                        _requestData();
+                                    }
 
-                                            @Override
-                                            public void Failure(Call<NetData> call, Throwable t) {
+                                    @Override
+                                    public void Failure(Call<NetData> call, Throwable t) {
 
-                                            }
-                                        });
+                                    }
+                                });
                             }
-                        },groupInfoBean.name);
+                        }, groupInfoBean.name);
                     }
                     if (type == 2) {
                         //修改公告栏
@@ -604,23 +566,22 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
                                 RegisterBean bean = new RegisterBean();
                                 bean.groupId = groupId;
                                 bean.announcement = result;
-                                HttpUtil.apiW().group_updateGroupInfo(bean)
-                                        .enqueue(new CommonCallback<NetData>() {
-                                            @Override
-                                            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                                HttpUtil.apiW().group_updateGroupInfo(bean).enqueue(new CommonCallback<NetData>() {
+                                    @Override
+                                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                                                ToastUtils.toastMsg(body.msg);
-                                                _requestData();
-                                                EventBus.getDefault().post(new BaseEvent("reload_gonggao"));
-                                            }
+                                        ToastUtils.toastMsg(body.msg);
+                                        _requestData();
+                                        EventBus.getDefault().post(new BaseEvent("reload_gonggao"));
+                                    }
 
-                                            @Override
-                                            public void Failure(Call<NetData> call, Throwable t) {
+                                    @Override
+                                    public void Failure(Call<NetData> call, Throwable t) {
 
-                                            }
-                                        });
+                                    }
+                                });
                             }
-                        },groupInfoBean.announcement);
+                        }, groupInfoBean.announcement);
                     }
                     if (type == 3) {
                         UploadUtil.openPhotoLibrary(that, Constant.REQUEST_CODE_CHOOSE);
@@ -639,37 +600,36 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
                     RegisterBean bean = new RegisterBean();
                     bean.groupId = groupId;
                     bean.nickName = result;
-                    HttpUtil.apiW().groupMember_installGroupNickName(bean)
-                            .enqueue(new CommonCallback<NetData>() {
-                                @Override
-                                public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                    HttpUtil.apiW().groupMember_installGroupNickName(bean).enqueue(new CommonCallback<NetData>() {
+                        @Override
+                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                                    ToastUtils.toastMsg(body.msg);
-                                    _requestData();
-                                }
+                            ToastUtils.toastMsg(body.msg);
+                            _requestData();
+                        }
 
-                                @Override
-                                public void Failure(Call<NetData> call, Throwable t) {
+                        @Override
+                        public void Failure(Call<NetData> call, Throwable t) {
 
-                                }
-                            });
+                        }
+                    });
                 }
-            },groupInfoBean.getSelfRemarkName());
+            }, groupInfoBean.getSelfRemarkName());
         } else if (view == binding.funTeamSettingNewActivitySetGonggao.viewTitleArrowLl) {
 
             Intent intent = new Intent(this, ModifyInfoActivity.class);
-            intent.putExtra("title","修改群公告");
-            intent.putExtra("type","3");
+            intent.putExtra("title", "修改群公告");
+            intent.putExtra("type", "3");
             activityResultLauncher.launch(intent);
         } else if (view == binding.funTeamSettingNewActivityManagerTeam.viewTitleArrowLl) {
             HashMap map = new HashMap();
-            map.put("groupId",groupId);
-            map.put("rankState",groupInfoBean.rankState + "");
-            FunTeamSetting_GroupManagerActivity.start(FunTeamSetting_GroupManagerActivity.class,this,map);
+            map.put("groupId", groupId);
+            map.put("rankState", groupInfoBean.rankState + "");
+            FunTeamSetting_GroupManagerActivity.start(FunTeamSetting_GroupManagerActivity.class, this, map);
         } else if (view == binding.funTeamSettingNewActivitySeeAllMemberLl) {
             HashMap map = new HashMap();
-            map.put("groupId",groupId);
-            FunTeamSettingNew_TeamUsersActivity.start(FunTeamSettingNew_TeamUsersActivity.class,this,map);
+            map.put("groupId", groupId);
+            FunTeamSettingNew_TeamUsersActivity.start(FunTeamSettingNew_TeamUsersActivity.class, this, map);
 
         } else if (view == binding.funTeamSettingNewActivityTeamIcon) {
 //            UploadUtil.openPhotoLibrary(this, Constant.REQUEST_CODE_CHOOSE);
@@ -692,11 +652,7 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
 //                    .autoHideToolbarOnSingleTap(true)
 //                    .forResult(REQUEST_CODE_CHOOSE);
         } else if (view == binding.funTeamSettingNewActivityTeamUpgrade.viewTitleArrowLl) {
-            XKitRouter.withKey("BuyGroupFeatureActivity")
-                    .withParam("type",0)
-                    .withParam("groupId",groupId)
-                    .withContext(this)
-                    .navigate();
+            XKitRouter.withKey("BuyGroupFeatureActivity").withParam("type", 0).withParam("groupId", groupId).withContext(this).navigate();
 
         }
     }
@@ -714,25 +670,25 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
                         RegisterBean bean = new RegisterBean();
                         bean.groupId = groupId;
                         bean.head = userBean.url;
-                        HttpUtil.apiW().group_updateGroupInfo(bean)
-                                .enqueue(new CommonCallback<NetData>() {
-                                    @Override
-                                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                        HttpUtil.apiW().group_updateGroupInfo(bean).enqueue(new CommonCallback<NetData>() {
+                            @Override
+                            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                                        ToastUtils.toastMsg(body.msg);
-                                        _requestData();
-                                    }
+                                ToastUtils.toastMsg(body.msg);
+                                _requestData();
+                            }
 
-                                    @Override
-                                    public void Failure(Call<NetData> call, Throwable t) {
+                            @Override
+                            public void Failure(Call<NetData> call, Throwable t) {
 
-                                    }
-                                });
+                            }
+                        });
                     }
                 });
             }
         }
     }
+
     @Override
     protected void callBackResult(Intent data) {
         super.callBackResult(data);
@@ -742,58 +698,55 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
             RegisterBean bean = new RegisterBean();
             bean.groupId = groupId;
             bean.groupName = result;
-            HttpUtil.apiW().group_updateGroupInfo(bean)
-                    .enqueue(new CommonCallback<NetData>() {
-                        @Override
-                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+            HttpUtil.apiW().group_updateGroupInfo(bean).enqueue(new CommonCallback<NetData>() {
+                @Override
+                public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                            ToastUtils.toastMsg(body.msg);
-                            _requestData();
-                        }
+                    ToastUtils.toastMsg(body.msg);
+                    _requestData();
+                }
 
-                        @Override
-                        public void Failure(Call<NetData> call, Throwable t) {
+                @Override
+                public void Failure(Call<NetData> call, Throwable t) {
 
-                        }
-                    });
+                }
+            });
         } else if ("2".equals(type)) {
 
             RegisterBean bean = new RegisterBean();
             bean.groupId = groupId;
             bean.nickName = result;
-            HttpUtil.apiW().groupMember_installGroupNickName(bean)
-                    .enqueue(new CommonCallback<NetData>() {
-                        @Override
-                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+            HttpUtil.apiW().groupMember_installGroupNickName(bean).enqueue(new CommonCallback<NetData>() {
+                @Override
+                public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                            ToastUtils.toastMsg(body.msg);
-                            _requestData();
-                        }
+                    ToastUtils.toastMsg(body.msg);
+                    _requestData();
+                }
 
-                        @Override
-                        public void Failure(Call<NetData> call, Throwable t) {
+                @Override
+                public void Failure(Call<NetData> call, Throwable t) {
 
-                        }
-                    });
+                }
+            });
         } else if ("3".equals(type)) {
 
             RegisterBean bean = new RegisterBean();
             bean.groupId = groupId;
             bean.announcement = result;
-            HttpUtil.apiW().group_updateGroupInfo(bean)
-                    .enqueue(new CommonCallback<NetData>() {
-                        @Override
-                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+            HttpUtil.apiW().group_updateGroupInfo(bean).enqueue(new CommonCallback<NetData>() {
+                @Override
+                public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                            ToastUtils.toastMsg(body.msg);
-                            _requestData();
-                        }
+                    ToastUtils.toastMsg(body.msg);
+                    _requestData();
+                }
 
-                        @Override
-                        public void Failure(Call<NetData> call, Throwable t) {
+                @Override
+                public void Failure(Call<NetData> call, Throwable t) {
 
-                        }
-                    });
+                }
+            });
         }
 
     }
@@ -803,49 +756,42 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
             return;
         }
         if (stick) {
-            ConversationRepo.addStickTop(
-                    sessionId,
-                    SessionTypeEnum.Team,
-                    "",
-                    new FetchCallback<StickTopSessionInfo>() {
-                        @Override
-                        public void onSuccess(@Nullable StickTopSessionInfo param) {
-                            ConversationRepo.notifyStickTop(sessionId, SessionTypeEnum.Team);
-                            binding.funTeamSettingNewActivityZhiding.viewTitleArrowRightTvSwitch.setSelected(!binding.funTeamSettingNewActivityZhiding.viewTitleArrowRightTvSwitch.isSelected());
+            ConversationRepo.addStickTop(sessionId, SessionTypeEnum.Team, "", new FetchCallback<StickTopSessionInfo>() {
+                @Override
+                public void onSuccess(@Nullable StickTopSessionInfo param) {
+                    ConversationRepo.notifyStickTop(sessionId, SessionTypeEnum.Team);
+                    binding.funTeamSettingNewActivityZhiding.viewTitleArrowRightTvSwitch.setSelected(!binding.funTeamSettingNewActivityZhiding.viewTitleArrowRightTvSwitch.isSelected());
 
-                        }
+                }
 
-                        @Override
-                        public void onFailed(int code) {
-                        }
+                @Override
+                public void onFailed(int code) {
+                }
 
-                        @Override
-                        public void onException(@Nullable Throwable exception) {
-                        }
-                    });
+                @Override
+                public void onException(@Nullable Throwable exception) {
+                }
+            });
         } else {
-            ConversationRepo.removeStickTop(
-                    sessionId,
-                    SessionTypeEnum.Team,
-                    "",
-                    new FetchCallback<Void>() {
-                        @Override
-                        public void onSuccess(@Nullable Void param) {
-                            ConversationRepo.notifyStickTop(sessionId, SessionTypeEnum.Team);
-                            binding.funTeamSettingNewActivityZhiding.viewTitleArrowRightTvSwitch.setSelected(!binding.funTeamSettingNewActivityZhiding.viewTitleArrowRightTvSwitch.isSelected());
+            ConversationRepo.removeStickTop(sessionId, SessionTypeEnum.Team, "", new FetchCallback<Void>() {
+                @Override
+                public void onSuccess(@Nullable Void param) {
+                    ConversationRepo.notifyStickTop(sessionId, SessionTypeEnum.Team);
+                    binding.funTeamSettingNewActivityZhiding.viewTitleArrowRightTvSwitch.setSelected(!binding.funTeamSettingNewActivityZhiding.viewTitleArrowRightTvSwitch.isSelected());
 
-                        }
+                }
 
-                        @Override
-                        public void onFailed(int code) {
-                        }
+                @Override
+                public void onFailed(int code) {
+                }
 
-                        @Override
-                        public void onException(@Nullable Throwable exception) {
-                        }
-                    });
+                @Override
+                public void onException(@Nullable Throwable exception) {
+                }
+            });
         }
     }
+
     protected void onStart() {
         super.onStart();
         if (SPUtils.getInstance().getBoolean("reloadTeamSettingData")) {

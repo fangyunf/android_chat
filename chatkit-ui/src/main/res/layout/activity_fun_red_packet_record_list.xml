@@ -131,7 +131,6 @@
         <ImageView
             android:layout_width="@dimen/dimen_12_dp"
             android:layout_height="@dimen/dimen_6_dp"
-
             android:layout_marginLeft="@dimen/dimen_4_dp"
             android:src="@drawable/red_packet_record_list_arrow_bottom_new" />
     </LinearLayout>
