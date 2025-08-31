@@ -66,7 +66,7 @@ public class MyHuiYuanListActivity extends BaseActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         binding = ActivityMineMyHuiyuanListBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        StatusBarUtils.transtStatusBar(this,binding.activityMineMyHuiyuanListNav);
+        StatusBarUtils.transtStatusBar(this, binding.activityMineMyHuiyuanListNav);
 
         GlideUtil.yh_loadImage(this, binding.activityMineMyHuiyuanListHeadIv, DataUtil.getUserInfo().avatar);
         binding.activityMineMyHuiyuanListNameTv.setText(DataUtil.getUserInfo().username);
@@ -125,7 +125,6 @@ public class MyHuiYuanListActivity extends BaseActivity implements View.OnClickL
             public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
                 int position = parent.getChildAdapterPosition(view);
                 int offset = 16; // 每张卡片的间距
-
                 // 设置第一个卡片的左边距和最后一个卡片的右边距
                 if (position == 0) {
                     outRect.left = offset * 2;
@@ -201,8 +200,7 @@ public class MyHuiYuanListActivity extends BaseActivity implements View.OnClickL
 //            map.put("type","0");
 //            BuyFeatureActivity.start(BuyFeatureActivity.class,this,map);
             finish();
-        }
-        else if (v == binding.activityMineMyHuiyuanListBuyRl) {
+        } else if (v == binding.activityMineMyHuiyuanListBuyRl) {
 
             if (adapter.selectNumber == 0) {
                 ToastUtils.toastMsg("请选择");
@@ -214,7 +212,7 @@ public class MyHuiYuanListActivity extends BaseActivity implements View.OnClickL
                     RegisterBean registerBean = new RegisterBean();
                     registerBean.memberCode = adapter.selectNumber + "";
                     registerBean.password = password;
-                    LoadingDialog.showDialog(getSupportFragmentManager(),"购买中..");
+                    LoadingDialog.showDialog(getSupportFragmentManager(), "购买中..");
                     HttpUtil.apiW().meteor_buyMember(registerBean)
                             .enqueue(new CommonCallback<NetData>() {
                                 @Override
@@ -237,7 +235,7 @@ public class MyHuiYuanListActivity extends BaseActivity implements View.OnClickL
                                 }
                             });
                 }
-            },NumberUtil.formartMoney_zhengshu(dataBean.list.get(dataBean.currentIndex).memberConfig.price));
+            }, NumberUtil.formartMoney_zhengshu(dataBean.list.get(dataBean.currentIndex).memberConfig.price));
 
             // 显示窗口
             popEnterPassword.showAtLocation(binding.activityMineMyHuiyuanListRootRl,

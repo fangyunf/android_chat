@@ -21,10 +21,10 @@ public class MyHuiYuanListAdapter extends BaseQuickAdapter<HuiYuanBean, QuickVie
     protected void onBindViewHolder(@NonNull QuickViewHolder quickViewHolder, int i, @Nullable HuiYuanBean orderListBean) {
 //        TextView phoneTv = quickViewHolder.getView(R.id.item_mine_fuhao_list_cell_tv);
 //        phoneTv.setText(orderListBean.phoneFix + "后两位为00-19");
-        String resourceName = "mine_huiyuan_top_vip_" + (i + 1); // 假设图片名为 image_1, image_2, etc.
+        String resourceName = "mine_huiyuan_top_bg_" + (i + 1); // 假设图片名为 image_1, image_2, etc.
 
         // 动态获取资源 ID
-        int resId = getContext(). getResources().getIdentifier(resourceName, "mipmap", getContext(). getPackageName());
+        int resId = getContext().getResources().getIdentifier(resourceName, "mipmap", getContext().getPackageName());
 
         if (resId != 0) {
             // 使用资源 ID 加载图片（例如将其设置为 ImageView 的内容）
