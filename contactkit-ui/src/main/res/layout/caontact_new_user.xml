@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/color_F2F2F2"
     android:gravity="center_horizontal"
-    android:layout_height="wrap_content">
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,46 +15,44 @@
             android:id="@+id/cell_fun_team_setting_users_mingdan_tv_index"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/transparent"
             android:paddingLeft="12dp"
             android:text="A"
-            android:textSize="14sp"
-            android:background="@color/transparent"/>
+            android:textSize="14sp" />
     </LinearLayout>
+
     <LinearLayout
 
-        android:background="@drawable/bg_white_rounded_12"
-        android:layout_marginHorizontal="8dp"
-        android:paddingVertical="@dimen/dimen_14_dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        android:background="@drawable/bg_white_rounded_12"
         android:gravity="center_vertical"
         android:paddingHorizontal="@dimen/dimen_16_dp"
-        >
-    
+        android:paddingVertical="@dimen/dimen_14_dp">
 
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/cell_fun_team_setting_users_mingdan_head_iv"
-            android:layout_width="@dimen/dimen_44_dp"
-            android:layout_height="@dimen/dimen_44_dp"
-            app:riv_corner_radius="22dp"
+            android:layout_width="@dimen/dimen_30_dp"
+            android:layout_height="@dimen/dimen_30_dp"
             android:scaleType="centerCrop"
-
+            app:riv_corner_radius="22dp"
             />
+
         <TextView
             android:id="@+id/cell_fun_team_setting_users_mingdan_name_tv"
-            android:layout_marginLeft="@dimen/dimen_8_dp"
-            android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="22dp"
+            android:layout_marginLeft="@dimen/dimen_16_dp"
+            android:layout_weight="1"
             android:text="哔哩吧啦"
             android:textColor="#ff000000"
-            android:textSize="16sp"
-            />
+            android:textSize="16sp" />
     </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_1_dp"
-        android:background="#F2F2F2"
-        />
-    
+        android:background="#F2F2F2" />
+
 </LinearLayout>

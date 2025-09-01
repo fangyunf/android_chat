@@ -75,6 +75,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -128,6 +129,9 @@ public class FunConversationFragment extends ConversationBaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        viewBinding.layoutSao.setOnClickListener(view3 -> EventBus.getDefault().post(new BaseEvent("gotoScan")));
+        viewBinding.layoutTeame.setOnClickListener(view2 -> EventBus.getDefault().post(new BaseEvent("gotoCreate")));
+        viewBinding.layoutFriend.setOnClickListener(view1 -> XKitRouter.withKey(PATH_FUN_ADD_FRIEND_PAGE).withContext(requireContext()).navigate());
         getMessageCount();
     }
 

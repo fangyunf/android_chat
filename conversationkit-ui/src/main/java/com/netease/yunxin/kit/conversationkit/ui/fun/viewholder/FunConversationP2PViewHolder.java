@@ -4,6 +4,7 @@
 
 package com.netease.yunxin.kit.conversationkit.ui.fun.viewholder;
 
+import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -84,7 +85,7 @@ public class FunConversationP2PViewHolder extends FunConversationBaseViewHolder 
         }
 
         viewBinding.rootLayout.setLayoutParams(layoutParams);
-//    viewBinding.rootLayout.setBackground(viewBinding.rootLayout.getContext().getDrawable(com.yaoxin.appbase.R.drawable.bg_white_rounded_12));
+        viewBinding.rootLayout.setBackgroundColor(Color.parseColor("#FAFFF2"));
 //    ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) viewBinding.rootLayout.getLayoutParams();
 //    if (data.param.equals(DataUtil.getUserid()) || AppProxy.getInstance().showType == 2) {
 //      layoutParams.topMargin = 0;

@@ -1,4 +1,3 @@
-
 /*
  * Copyright (c) 2022 NetEase, Inc.  All rights reserved.
  * Use of this source code is governed by a MIT license that can be found in the LICENSE file.
@@ -23,7 +22,10 @@ android {
     buildTypes {
         getByName("release") {
             isMinifyEnabled = true
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
 
@@ -31,7 +33,7 @@ android {
         viewBinding = true
     }
 
-    sourceSets["main"].res.srcDirs("src/main/res","src/main/res-fun","src/main/res-normal")
+    sourceSets["main"].res.srcDirs("src/main/res", "src/main/res-fun", "src/main/res-normal")
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -43,10 +45,12 @@ dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 
     api("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.21")
-    implementation("androidx.appcompat:appcompat:1.4.2") 
-    implementation("com.google.android.material:material:1.5.0") 
-    implementation("androidx.recyclerview:recyclerview:1.2.1") 
+    implementation("androidx.appcompat:appcompat:1.4.2")
+    implementation("com.google.android.material:material:1.5.0")
+    implementation("androidx.recyclerview:recyclerview:1.2.1")
     implementation("com.github.bumptech.glide:glide:4.13.1")
     implementation(project(":appbase"))
+    //只是映入不报错
+    compileOnly(project(":conversationkit-ui"))
 }
 
