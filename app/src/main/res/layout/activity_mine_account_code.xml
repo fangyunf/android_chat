@@ -26,93 +26,92 @@
             app:support_translucent_status_bar="false"
             app:title="我的二维码"
             app:title_text_color="@color/white"
-            app:under_divider_color="@android:color/transparent"
-            />
+            app:under_divider_color="@android:color/transparent" />
 
 
         <LinearLayout
-            android:background="@drawable/bg_white_rounded_20"
-            android:padding="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
             android:layout_marginHorizontal="10dp"
             android:layout_marginTop="100dp"
-            android:layout_width="match_parent"
+            android:background="@drawable/bg_white_rounded_20"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:layout_height="350dp">
+            android:padding="15dp">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="我的二维码"
                 android:textColor="#ff8e5f26"
-                android:textSize="15sp"
-                />
+                android:textSize="15sp" />
+
             <RelativeLayout
-                android:layout_marginTop="40dp"
                 android:layout_width="210dp"
-                android:layout_height="210dp">
+                android:layout_height="210dp"
+                android:layout_marginTop="40dp">
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@mipmap/account_code_qrcode_bg"
-                    />
+                    android:src="@mipmap/account_code_qrcode_bg" />
+
                 <ImageView
                     android:id="@+id/activity_mine_account_code_code_iv"
                     android:layout_width="160dp"
                     android:layout_height="160dp"
-                    android:layout_centerInParent="true"
-                     />
+                    android:layout_centerInParent="true" />
             </RelativeLayout>
         </LinearLayout>
-<!--        <RelativeLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content">-->
+        <!--        <RelativeLayout-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content">-->
 
-<!--            <RelativeLayout-->
-<!--                android:layout_width="317dp"-->
-<!--                android:layout_height="345dp"-->
-<!--                android:layout_centerHorizontal="true"-->
-<!--                android:layout_marginTop="80dp"-->
-<!--                android:background="@color/white">-->
+        <!--            <RelativeLayout-->
+        <!--                android:layout_width="317dp"-->
+        <!--                android:layout_height="345dp"-->
+        <!--                android:layout_centerHorizontal="true"-->
+        <!--                android:layout_marginTop="80dp"-->
+        <!--                android:background="@color/white">-->
 
-<!--                <ImageView-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:src="@mipmap/account_code_bg" />-->
+        <!--                <ImageView-->
+        <!--                    android:layout_width="match_parent"-->
+        <!--                    android:layout_height="match_parent"-->
+        <!--                    android:src="@mipmap/account_code_bg" />-->
 
-<!--                <ImageView-->
-<!--                    android:id="@+id/activity_mine_account_code_code_iv"-->
-<!--                    android:layout_width="150dp"-->
-<!--                    android:layout_height="150dp"-->
-<!--                    android:layout_centerHorizontal="true"-->
-<!--                    android:layout_marginTop="140dp" />-->
-<!--            </RelativeLayout>-->
+        <!--                <ImageView-->
+        <!--                    android:id="@+id/activity_mine_account_code_code_iv"-->
+        <!--                    android:layout_width="150dp"-->
+        <!--                    android:layout_height="150dp"-->
+        <!--                    android:layout_centerHorizontal="true"-->
+        <!--                    android:layout_marginTop="140dp" />-->
+        <!--            </RelativeLayout>-->
 
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="50dp"-->
-<!--                android:gravity="center_horizontal"-->
-<!--                android:orientation="vertical">-->
+        <!--            <LinearLayout-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_marginTop="50dp"-->
+        <!--                android:gravity="center_horizontal"-->
+        <!--                android:orientation="vertical">-->
 
 
-<!--                <com.makeramen.roundedimageview.RoundedImageView-->
-<!--                    android:id="@+id/activity_mine_account_code_head_iv"-->
-<!--                    android:layout_width="58dp"-->
-<!--                    android:layout_height="58dp"-->
-<!--                    android:scaleType="centerCrop"-->
-<!--                    app:riv_corner_radius="29dp" />-->
+        <!--                <com.makeramen.roundedimageview.RoundedImageView-->
+        <!--                    android:id="@+id/activity_mine_account_code_head_iv"-->
+        <!--                    android:layout_width="58dp"-->
+        <!--                    android:layout_height="58dp"-->
+        <!--                    android:scaleType="centerCrop"-->
+        <!--                    app:riv_corner_radius="29dp" />-->
 
-<!--                <TextView-->
-<!--                    android:id="@+id/activity_mine_account_code_name_tv"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="28dp"-->
-<!--                    android:layout_marginTop="15dp"-->
-<!--                    android:text="会飞的洋芋"-->
-<!--                    android:textColor="#ff000000"-->
-<!--                    android:textSize="20sp" />-->
-<!--            </LinearLayout>-->
-<!--        </RelativeLayout>-->
+        <!--                <TextView-->
+        <!--                    android:id="@+id/activity_mine_account_code_name_tv"-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="28dp"-->
+        <!--                    android:layout_marginTop="15dp"-->
+        <!--                    android:text="会飞的洋芋"-->
+        <!--                    android:textColor="#ff000000"-->
+        <!--                    android:textSize="20sp" />-->
+        <!--            </LinearLayout>-->
+        <!--        </RelativeLayout>-->
 
         <TextView
             android:id="@+id/activity_mine_account_code_save_photo"

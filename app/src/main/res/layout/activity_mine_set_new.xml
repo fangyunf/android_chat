@@ -87,7 +87,7 @@
                     android:layout_marginTop="10dp"
                     app:hideImg="true"
                     app:titleText="下载地址" />
-                
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

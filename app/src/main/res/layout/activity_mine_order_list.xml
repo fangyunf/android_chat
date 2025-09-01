@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tl="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tl="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <com.yaoxin.appbase.navbar.NavToolbar
@@ -25,11 +25,11 @@
         android:background="#ffffff"
         tl:tl_indicator_bounce_enable="false"
         tl:tl_indicator_color="@color/app_theme_color"
+        tl:tl_indicator_width="@dimen/dimen_32_dp"
         tl:tl_textSelectColor="@color/app_theme_color"
         tl:tl_textUnselectColor="#66000000"
-        tl:tl_indicator_width="@dimen/dimen_32_dp"
-        tl:tl_textsize="15sp"
-        />
+        tl:tl_textsize="15sp" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/activity_mine_order_list_rv"
         android:layout_width="match_parent"

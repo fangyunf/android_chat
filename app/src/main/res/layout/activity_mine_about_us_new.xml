@@ -21,31 +21,27 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
+
         <include
             android:id="@+id/activity_mine_about_us_new_fuwu_xieyi"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             layout="@layout/view_title_arrow"
-            />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
         <include
-            android:layout_marginTop="@dimen/dimen_1_dp"
             android:id="@+id/activity_mine_about_us_new_yinsi_zhengce"
+            layout="@layout/view_title_arrow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            layout="@layout/view_title_arrow"
-            />
+            android:layout_marginTop="@dimen/dimen_1_dp" />
 
         <include
-            android:layout_marginTop="@dimen/dimen_1_dp"
             android:id="@+id/activity_mine_about_us_new_app_number"
+            layout="@layout/view_title_arrow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            layout="@layout/view_title_arrow"
-            />
-
+            android:layout_marginTop="@dimen/dimen_1_dp" />
 
 
     </LinearLayout>

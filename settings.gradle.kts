@@ -36,7 +36,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "xiaohaitun"
+rootProject.name = "guilai"
 include(":app")
 include(":conversationkit-ui")
 include(":teamkit-ui")

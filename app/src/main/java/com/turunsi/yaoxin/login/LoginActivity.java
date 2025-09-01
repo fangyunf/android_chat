@@ -80,7 +80,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         binding.activityLoginTf3.viewTitleTfCountEt.setTransformationMethod(PasswordTransformationMethod.getInstance());
 
 
-
         CountDownView mCountDownView = binding.activityLoginTf2.viewTitleTfCountCaptcha;
         mCountDownView.setUserEdit(binding.activityLoginTf1.viewTitleTfCountEt);
         mCountDownView.setCountDownTime(60);

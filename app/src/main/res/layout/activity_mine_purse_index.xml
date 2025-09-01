@@ -119,10 +119,16 @@
                     android:id="@+id/activity_mine_purse_index_hbjl"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
                     app:leftImg="@mipmap/purse_index_item_hongbao"
                     app:titleText="红包记录" />
             </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.6dp"
+                android:layout_marginHorizontal="@dimen/dimen_25_dp"
+                android:layout_marginVertical="@dimen/dimen_8_dp"
+                android:background="#e6e6e6" />
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -134,10 +140,16 @@
                     android:id="@+id/activity_mine_purse_index_lqmx"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
                     app:leftImg="@mipmap/purse_index_item_mingxi"
                     app:titleText="零钱明细" />
             </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.6dp"
+                android:layout_marginHorizontal="@dimen/dimen_25_dp"
+                android:layout_marginVertical="@dimen/dimen_8_dp"
+                android:background="#e6e6e6" />
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -149,10 +161,16 @@
                     android:id="@+id/activity_mine_purse_index_smrz"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
                     app:leftImg="@mipmap/purse_index_item_smrz"
                     app:titleText="实名认证" />
             </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.6dp"
+                android:layout_marginHorizontal="@dimen/dimen_25_dp"
+                android:layout_marginVertical="@dimen/dimen_8_dp"
+                android:background="#e6e6e6" />
 
             <com.yaoxin.appbase.view.IconTitleArrowTemplate_1
                 android:id="@+id/activity_mine_purse_index_bdwx"
@@ -169,7 +187,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="15dp"
-                android:layout_marginTop="10dp"
                 app:leftImg="@mipmap/purse_index_item_zfb"
                 app:titleText="绑定支付宝" />
 

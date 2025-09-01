@@ -1,12 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- 单个卡片布局 -->
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?><!-- 单个卡片布局 -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/item_huiyuan_card_cell_bg_ll"
     android:layout_width="310dp"
     android:layout_height="180dp"
-    android:orientation="vertical"
     android:background="@mipmap/mine_huiyuan_top_bg_1"
+    android:orientation="vertical"
     android:padding="16dp">
 
     <TextView
@@ -15,8 +13,7 @@
         android:layout_height="wrap_content"
         android:text="尊贵银卡VIP2"
         android:textColor="#ff000000"
-        android:textSize="18sp"
-        />
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/item_huiyuan_card_cell_tv2"
@@ -24,6 +21,5 @@
         android:layout_height="wrap_content"
         android:text="￥128.88"
         android:textColor="#ff000000"
-        android:textSize="30sp"
-        />
+        android:textSize="30sp" />
 </LinearLayout>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FAFAFF"
+    android:orientation="vertical">
+
+
+    <!-- 顶部栏 -->
+    <com.yaoxin.appbase.navbar.NavToolbar
+        android:id="@+id/activity_mine_my_huiyuan_list_nav"
+        style="@style/WhiteFontToolbar"
+        android:background="@color/white"
+        app:back_icon="@mipmap/temp_ic_back"
+        app:enable_under_divider="true"
+        app:support_translucent_status_bar="false"
+        app:title="靓号专区"
+        app:title_text_color="@color/black"
+        app:under_divider_color="@color/transparent" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="提示：点击下方靓号可以直接进行购买，成功购买靓号后，当前账号ID直接更换新的ID，账户其他所有数据不会丢失。"
+            android:textColor="#666666"
+            android:textSize="13sp" />
+    </FrameLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/dimen_16_dp">
+        <!-- 搜索输入框 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginBottom="8dp"
+            android:background="#F5F5F5"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:visibility="gone">
+
+            <EditText
+                android:id="@+id/etSearch"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:hint="输入喜欢的数字"
+                android:inputType="number"
+                android:textSize="15sp" />
+
+            <ImageView
+                android:id="@+id/ivSearch"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:contentDescription="搜索"
+                android:src="@drawable/ic_search" />
+        </LinearLayout>
+
+        <!-- 分组宫格RecyclerView -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp">
+
+            <!-- 分组头 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingBottom="4dp">
+
+                <ImageView
+                    android:id="@+id/ivGroupIcon"
+                    android:layout_width="@dimen/dimen_110_dp"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="分组icon"
+                    android:scaleType="fitStart"
+                    android:src="@mipmap/mine_grade_level_1" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
+
+                <ImageView
+                    android:id="@+id/tvMore"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="5dp"
+                    android:src="@mipmap/hyz"
+                    android:text="换一批"
+                    android:textColor="@color/color_222222"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <!-- 宫格RecyclerView -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvNumbers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:overScrollMode="never" />
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

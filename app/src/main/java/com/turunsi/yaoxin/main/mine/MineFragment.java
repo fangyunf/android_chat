@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -48,6 +49,7 @@ import com.turunsi.yaoxin.main.mine.collection.CollectionListActivity;
 import com.turunsi.yaoxin.main.mine.fragment.AccountCodeDialogFragment;
 import com.turunsi.yaoxin.main.mine.fuhao.BuyGroupFeatureActivity;
 import com.turunsi.yaoxin.main.mine.fuhao.MyFuHaoListActivity;
+import com.turunsi.yaoxin.main.mine.huiyuan.LiangHaoZoneActivity;
 import com.turunsi.yaoxin.main.mine.huiyuan.MyHuiYuanListActivity;
 import com.turunsi.yaoxin.main.mine.order.OrderListActivity;
 import com.turunsi.yaoxin.main.mine.purse.PurseIndexActivity;
@@ -77,11 +79,15 @@ import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.pswkeyboard.OnPasswordInputFinish;
 import com.yaoxin.appbase.pswkeyboard.widget.PopEnterPassword;
+import com.yaoxin.appbase.utils.CommonCallBack;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.DialogAlertUtil;
+import com.yaoxin.appbase.utils.GlideUtil;
 import com.yaoxin.appbase.utils.NumberUtil;
 import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
+import com.yaoxin.appbase.utils.UploadUtil;
+import com.zhihu.matisse.Matisse;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -96,10 +102,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 
     @Nullable
     @Override
-    public View onCreateView(
-            @NonNull LayoutInflater inflater,
-            @Nullable ViewGroup container,
-            @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ALog.d(Constant.PROJECT_TAG, "MineFragment:onCreateView");
         binding = FragmentMineBinding.inflate(inflater);
         return binding.getRoot();
@@ -110,14 +113,11 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         super.onViewCreated(view, savedInstanceState);
         _initItems();
 
-        launcher =
-                registerForActivityResult(
-                        new ActivityResultContracts.StartActivityForResult(),
-                        result -> {
-                            if (result.getResultCode() == Activity.RESULT_OK) {
-                                refreshUserInfo(IMKitClient.account());
-                            }
-                        });
+        launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if (result.getResultCode() == Activity.RESULT_OK) {
+                refreshUserInfo(IMKitClient.account());
+            }
+        });
 
 //    binding.aboutLl.setOnClickListener(
 //        v -> {
@@ -154,36 +154,34 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
     }
 
 
-    void  _requestData() {
-        HttpUtil.apiW().home_balance()
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        UserBean bean = new Gson().fromJson(body.data.toString(),UserBean.class);
+    void _requestData() {
+        HttpUtil.apiW().home_balance().enqueue(new CommonCallback<NetData>() {
+            @Override
+            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                UserBean bean = new Gson().fromJson(body.data.toString(), UserBean.class);
 //                        binding.fragmentMineQbyeView.rightTv.setText("￥ " + NumberUtil.formartMoney(bean.balance));
-                    }
+            }
 
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
+            @Override
+            public void Failure(Call<NetData> call, Throwable t) {
 
-                    }
-                });
-        HttpUtil.apiW().home_getUserByToken(new RegisterBean())
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        UserBean userBean = new Gson().fromJson((String) body.data,UserBean.class);
-                        if (userBean != null) {
-                            DataUtil.putUserInfo(userBean);
-                            DataUtil.putToken(userBean.token);
-                            updateUIGrade();
-                        }
-                    }
+            }
+        });
+        HttpUtil.apiW().home_getUserByToken(new RegisterBean()).enqueue(new CommonCallback<NetData>() {
+            @Override
+            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                UserBean userBean = new Gson().fromJson((String) body.data, UserBean.class);
+                if (userBean != null) {
+                    DataUtil.putUserInfo(userBean);
+                    DataUtil.putToken(userBean.token);
+                    updateUIGrade();
+                }
+            }
 
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
-                    }
-                });
+            @Override
+            public void Failure(Call<NetData> call, Throwable t) {
+            }
+        });
     }
 
     private void _initItems() {
@@ -210,6 +208,9 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         binding.fragmentMineSzView.setOnClickListener(this);
         binding.fragmentMineQbglView.setOnClickListener(this);
         binding.fragmentMineTcdlView.setOnClickListener(this);
+
+        binding.fragmentMineSztxtpView.setOnClickListener(this);
+
 //        binding.fragmentMineQbyeView.rightIv.setVisibility(View.GONE);
 //        binding.fragmentMineQbyeView.rightTv.setVisibility(View.VISIBLE);
 
@@ -247,37 +248,36 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         binding.cavIcon.setCornerRadius(cornerRadius);
         List<String> userInfoList = new ArrayList<>();
         userInfoList.add(account);
-        CommonRepo.getUserInfo(
-                account,
-                new FetchCallback<UserInfo>() {
-                    @Override
-                    public void onSuccess(@Nullable UserInfo param) {
-                        if (param != null) {
-                            updateUI(param);
-                        }
-                    }
+        CommonRepo.getUserInfo(account, new FetchCallback<UserInfo>() {
+            @Override
+            public void onSuccess(@Nullable UserInfo param) {
+                if (param != null) {
+                    updateUI(param);
+                }
+            }
 
-                    @Override
-                    public void onFailed(int code) {
-                        ToastX.showShortToast(R.string.user_fail);
-                        updateUI(new UserInfo(account, account, ""));
-                    }
+            @Override
+            public void onFailed(int code) {
+                ToastX.showShortToast(R.string.user_fail);
+                updateUI(new UserInfo(account, account, ""));
+            }
 
-                    @Override
-                    public void onException(@Nullable Throwable exception) {
-                        ToastX.showShortToast(R.string.user_fail);
-                        updateUI(new UserInfo(account, account, ""));
-                    }
-                });
+            @Override
+            public void onException(@Nullable Throwable exception) {
+                ToastX.showShortToast(R.string.user_fail);
+                updateUI(new UserInfo(account, account, ""));
+            }
+        });
     }
 
     private void updateUI(UserInfo userInfo) {
-        String name =
-                TextUtils.isEmpty(userInfo.getName()) ? userInfo.getAccount() : userInfo.getName();
-        binding.cavIcon.setData(
-                userInfo.getAvatar(), name, AvatarColor.avatarColor(IMKitClient.account()));
+        String name = TextUtils.isEmpty(userInfo.getName()) ? userInfo.getAccount() : userInfo.getName();
+//        binding.cavIcon.setData(
+//                userInfo.getAvatar(), name, AvatarColor.avatarColor(IMKitClient.account()));
+        GlideUtil.yh_loadImage(getContext(), binding.cavIcon, userInfo.getAvatar());
         binding.tvName.setText(name);
     }
+
     private void updateUIGrade() {
         if (DataUtil.getUserInfo().grade > 0) {
             binding.fragmentMineGradeRl.setVisibility(View.VISIBLE);
@@ -317,37 +317,88 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == com.yaoxin.appbase.net.Constant.REQUEST_CODE_CHOOSE && resultCode == Activity.RESULT_OK) {
+            List<Uri> uris = Matisse.obtainResult(data);
+            List<String> strings = Matisse.obtainPathResult(data);
+
+            if (!strings.isEmpty()) {
+                uploadImage(strings.get(0), "");
+            }
+        }
+    }
+
+    public void uploadImage(String imagePath, String descriptionText) {
+        // 获取文件路径
+        UploadUtil.uploadImage(imagePath, "", new CommonCallBack() {
+            @Override
+            public void onCallBackUserBean(UserBean userBean) {
+                UserBean userInfo = DataUtil.getUserInfo();
+                userInfo.avatar = userBean.url;
+                DataUtil.putUserInfo(userInfo);
+                DataUtil.updateLoginUserInfoList(userInfo);
+                GlideUtil.yh_loadImage(binding.cavIcon.getContext(), binding.cavIcon, userBean.url);
+                updatePersonInfo(userBean.url, "");
+            }
+        });
+    }
+
+    void updatePersonInfo(String headUrl, String name) {
+        RegisterBean bean = new RegisterBean();
+        if (!headUrl.isEmpty()) {
+            bean.avatar = headUrl;
+        }
+        if (!name.isEmpty()) {
+            bean.name = name;
+        }
+        HttpUtil.apiW().home_changeInfo(bean).enqueue(new CommonCallback<NetData>() {
+            @Override
+            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+
+                ToastUtils.toastMsg(body.msg);
+            }
+
+            @Override
+            public void Failure(Call<NetData> call, Throwable t) {
+
+            }
+        });
+    }
+
+    @Override
     public void onClick(View v) {
         Context context = getContext();
-        if (v == binding.fragmentMineErweimaIv) {
+        if (v == binding.fragmentMineSztxtpView) {
+            UploadUtil.openPhotoLibrary(getActivity(), com.yaoxin.appbase.net.Constant.REQUEST_CODE_CHOOSE);
+        } else if (v == binding.fragmentMineErweimaIv) {
             if (getActivity() != null) {
                 AccountCodeDialogFragment.showV(getActivity().getSupportFragmentManager());
             }
         } else if (v == binding.fragmentMineYsglView) {
 
-            AccountAnQuanManagerActivity.start(AccountAnQuanManagerActivity.class,context,null);
+            AccountAnQuanManagerActivity.start(AccountAnQuanManagerActivity.class, context, null);
         } else if (v == binding.fragmentMineYlyxView) {
 
             ToastUtils.toastMsg("敬请期待,等待开放");
         } else if (v == binding.fragmentMineZhglView) {
 
-            ZHGLNewActivity.start(ZHGLNewActivity.class,context,null);
+            ZHGLNewActivity.start(ZHGLNewActivity.class, context, null);
         } else if (v == binding.fragmentMineLtszView) {
 //            startActivity(new Intent(getContext(), SettingNotifyActivity.class));
             startActivity(new Intent(getContext(), SettingNotifyNewActivity.class));
         } else if (v == binding.fragmentMineHmdView) {
-            XKitRouter.withKey(RouterConstant.PATH_FUN_MY_BLACK_PAGE)
-                    .withContext(requireContext())
-                    .navigate();
+            XKitRouter.withKey(RouterConstant.PATH_FUN_MY_BLACK_PAGE).withContext(requireContext()).navigate();
         } else if (v == binding.fragmentMineMmszView) {
-            Mine_Pwd_Set_ManagerActivity.start(Mine_Pwd_Set_ManagerActivity.class,getContext(),null);
+            Mine_Pwd_Set_ManagerActivity.start(Mine_Pwd_Set_ManagerActivity.class, getContext(), null);
 
         } else if (v == binding.fragmentMineXtszView || v == binding.fragmentMineSzView) {
-            SettingNewActivity.start(SettingNewActivity.class,getContext(),null);
+            SettingNewActivity.start(SettingNewActivity.class, getContext(), null);
         } else if (v == binding.fragmentMineTcdlView) {
             showLogin();
         } else if (v == binding.fragmentMineHyzxView || v == binding.fragmentMineGotoUpgradeTv) {
-            MyHuiYuanListActivity.start(MyHuiYuanListActivity.class,context,null);
+            //MyHuiYuanListActivity.start(MyHuiYuanListActivity.class, context, null);
+            LiangHaoZoneActivity.start(LiangHaoZoneActivity.class, context, null);
 
 //            Activity that = getActivity();
 //
@@ -427,7 +478,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 //                    .navigate();
 //        }
         else if (v == binding.fragmentMineWdfhView) {
-            MyFuHaoListActivity.start(MyFuHaoListActivity.class,getActivity(),null);
+            MyFuHaoListActivity.start(MyFuHaoListActivity.class, getActivity(), null);
         }
 //        if (v == binding.mineFragmentMyManagerItem5.viewMineFragmentItemCellCl) {
 ////            startActivity(new Intent(getContext(), SettingActivity.class));
@@ -455,13 +506,13 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 ////            XKitRouter.withKey(RouterConstant.PATH_FUN_COLLECTION_PAGE).withContext(this.requireContext()).navigate();
 //        }
         if (v == binding.cavIcon || v == binding.fragmentMineEditIv) {
-            AccountDetailActivity.start(AccountDetailActivity.class,getContext(),null);
+            AccountDetailActivity.start(AccountDetailActivity.class, getContext(), null);
         }
 //        if (v == binding.fragmentMineCaidanView) {
 //            EggListIndexActivity.start(EggListIndexActivity.class,getContext(),null);
 ////            ToastUtils.toastMsg("敬请期待,等待开放");
 //        }
-        if (v ==  binding.fragmentMineCopyIv) {
+        if (v == binding.fragmentMineCopyIv) {
             // 获取剪切板管理器
             ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
 
@@ -473,43 +524,35 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
             ToastUtils.toastMsg("复制成功");
         }
         if (v == binding.fragmentMineFxyyView) {
-            DownLoadActivity.start(DownLoadActivity.class,getContext(),null);
+            DownLoadActivity.start(DownLoadActivity.class, getContext(), null);
         }
         if (v == binding.fragmentMineYysjView)
-            AppUpdateActivity.start(AppUpdateActivity.class,getContext(),null);
+            AppUpdateActivity.start(AppUpdateActivity.class, getContext(), null);
         if (v == binding.fragmentMineIndexCdscLl) {
-            EggListIndexActivity.start(EggListIndexActivity.class,getContext(),null);
+            EggListIndexActivity.start(EggListIndexActivity.class, getContext(), null);
         } else if (v == binding.fragmentMineIndexWdqbLl || v == binding.fragmentMineQbglView) {
-            PurseIndexActivity.start(PurseIndexActivity.class,context,null);
+            PurseIndexActivity.start(PurseIndexActivity.class, context, null);
         } else if (v == binding.fragmentMineKfView) {
-            XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_P2P_PAGE)
-                    .withParam(RouterConstant.CHAT_ID_KRY, DataUtil.getKeFuId())
-                    .withContext(getContext())
-                    .navigate();
+            XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_P2P_PAGE).withParam(RouterConstant.CHAT_ID_KRY, DataUtil.getKeFuId()).withContext(getContext()).navigate();
         }
 
     }
 
     void showLogin() {
-        IMKitClient.logoutIM(
-                new com.netease.yunxin.kit.corekit.im.login.LoginCallback<Void>() {
-                    @Override
-                    public void onError(int errorCode, @NonNull String errorMsg) {
-                        Toast.makeText(
-                                        getActivity(),
-                                        "error code is " + errorCode + ", message is " + errorMsg,
-                                        Toast.LENGTH_SHORT)
-                                .show();
-                    }
+        IMKitClient.logoutIM(new com.netease.yunxin.kit.corekit.im.login.LoginCallback<Void>() {
+            @Override
+            public void onError(int errorCode, @NonNull String errorMsg) {
+                Toast.makeText(getActivity(), "error code is " + errorCode + ", message is " + errorMsg, Toast.LENGTH_SHORT).show();
+            }
 
-                    @Override
-                    public void onSuccess(@Nullable Void data) {
+            @Override
+            public void onSuccess(@Nullable Void data) {
 
-                        DataUtil.deleteLoginUserInfoList(DataUtil.getUserInfo());
-                        DataUtil.deleteData();
-                        startActivity(new Intent(getActivity(), LoginActivity.class));
-                        getActivity().finish();
-                    }
-                });
+                DataUtil.deleteLoginUserInfoList(DataUtil.getUserInfo());
+                DataUtil.deleteData();
+                startActivity(new Intent(getActivity(), LoginActivity.class));
+                getActivity().finish();
+            }
+        });
     }
 }
