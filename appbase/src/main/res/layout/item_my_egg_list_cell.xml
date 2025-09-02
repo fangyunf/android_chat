@@ -1,50 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/item_group_list_cell_ll"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
-    android:gravity="center_vertical"
-    android:id="@+id/item_group_list_cell_ll"
     android:layout_marginTop="@dimen/dimen_14_dp"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
     android:paddingHorizontal="@dimen/dimen_16_dp">
 
     <RelativeLayout
         android:layout_width="40dp"
-        android:background="#4FA0FA"
-        android:layout_height="40dp">
+        android:layout_height="40dp"
+        android:background="#4FA0FA">
 
         <com.makeramen.roundedimageview.RoundedImageView
 
-            android:layout_centerInParent="true"
             android:id="@+id/item_group_list_cell_iv"
             android:layout_width="34dp"
             android:layout_height="18dp"
-            android:src="@mipmap/my_egg_list_item_icoon"/>
+            android:layout_centerInParent="true"
+            android:src="@mipmap/my_egg_list_item_icoon" />
     </RelativeLayout>
+
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="11dp"
-        android:layout_height="wrap_content">
+        android:layout_weight="1"
+        android:orientation="vertical">
+
         <TextView
             android:id="@+id/item_my_egg_list_cell_title_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="开心娱乐小组"
-            android:textColor="@color/color_white"
-            android:textSize="15sp"
-            />
+            android:textColor="@color/color_black"
+            android:textSize="15sp" />
+
         <TextView
             android:id="@+id/item_my_egg_list_cell_detail_tv"
-
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="开心娱乐小组"
-            android:textColor="@color/color_white"
-            android:textSize="15sp"
-            />
+            android:textColor="@color/black"
+            android:textSize="15sp" />
 
     </LinearLayout>
 
@@ -54,10 +54,9 @@
         android:layout_width="71dp"
         android:layout_height="38dp"
         android:background="@drawable/selector_bg_theme_clear_round_10_bg"
+        android:gravity="center"
         android:text="放彩蛋"
         android:textColor="#ffffff"
-        android:textSize="15sp"
-        android:gravity="center"
-        />
+        android:textSize="15sp" />
 
 </LinearLayout>
