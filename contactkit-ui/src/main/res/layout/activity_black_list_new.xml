@@ -1,15 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2022 NetEase, Inc. All rights reserved.
   ~ Use of this source code is governed by a MIT license that can be
   ~ found in the LICENSE file.
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/color_160B2C"
+    android:background="@color/color_white"
     android:orientation="vertical">
 
     <com.yaoxin.appbase.navbar.NavToolbar
@@ -17,33 +16,35 @@
         android:id="@+id/activity_black_list_new_nav"
         style="@style/WhiteFontToolbar"
         android:background="@color/transparent"
-        app:back_icon="@mipmap/temp_ic_back_white"
+        app:back_icon="@mipmap/temp_ic_back"
         app:enable_under_divider="true"
         app:support_translucent_status_bar="false"
         app:title="黑名单"
-        app:title_text_color="@color/color_white"
+        app:title_text_color="@color/black"
         app:under_divider_color="@color/transparent"
 
         />
+
     <EditText
         android:id="@+id/activity_black_list_new_search_et"
-        android:layout_margin="@dimen/dimen_14_dp"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_40_dp"
-        android:paddingHorizontal="@dimen/dimen_14_dp"
-        android:textSize="15sp"
-        android:hint="搜索你要查找的账号"
-        android:textColorHint="@color/color_999999"
-        android:textColor="@color/black"
+        android:layout_margin="@dimen/dimen_14_dp"
         android:background="@drawable/bg_f2f2f2_rounded_10"
         android:cursorVisible="true"
         android:focusable="true"
         android:focusableInTouchMode="true"
+        android:hint="搜索你要查找的账号"
+        android:paddingHorizontal="@dimen/dimen_14_dp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/color_999999"
+        android:textSize="15sp"
 
         />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/activity_black_list_new_rv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
 </LinearLayout>
