@@ -3,35 +3,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="@dimen/dimen_40_dp"
-    android:background="@drawable/bg_251642_rounded_10"
+    android:background="@drawable/bg_f6f6f6_rounded_28"
     android:gravity="center_vertical"
-    android:paddingHorizontal="@dimen/dimen_18_dp"
-    >
+    android:paddingHorizontal="@dimen/dimen_18_dp">
 
     <TextView
         android:id="@+id/view_title_tf_tv"
         android:layout_width="@dimen/dimen_70_dp"
         android:layout_height="@dimen/dimen_22_dp"
         android:text="手机号号"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textSize="@dimen/text_size_16" />
 
     <EditText
         android:id="@+id/view_title_tf_et"
         android:layout_width="0dp"
-        android:layout_weight="1"
-
         android:layout_height="match_parent"
         android:layout_marginLeft="@dimen/dimen_8_dp"
-        android:textSize="@dimen/text_size_15"
-        android:hint="请输入"
-        android:textColorHint="@color/white"
-        android:textColor="@color/white"
+        android:layout_weight="1"
         android:background="@null"
         android:cursorVisible="true"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        />
+        android:hint="请输入"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_size_15" />
 
     <com.yaoxin.appbase.view.loginlib.view.CountDownView
         android:id="@+id/btn_captcha"
@@ -40,7 +36,6 @@
         android:gravity="center"
         android:text="获取验证码"
         android:textColor="@color/app_theme_color"
-        android:visibility="gone"
-        />
+        android:visibility="gone" />
 
 </LinearLayout>

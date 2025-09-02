@@ -6,10 +6,9 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_160B2C"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <LinearLayout
@@ -18,15 +17,14 @@
         android:orientation="vertical">
 
         <com.yaoxin.appbase.navbar.NavToolbar
-
             android:id="@+id/activity_mine_pwd_set_mager_nav"
             style="@style/WhiteFontToolbar"
             android:background="@color/transparent"
-            app:back_icon="@mipmap/temp_ic_back_white"
+            app:back_icon="@mipmap/temp_ic_back"
             app:enable_under_divider="true"
             app:support_translucent_status_bar="false"
             app:title="安全隐私"
-            app:title_text_color="@color/white"
+            app:title_text_color="@color/black"
             app:under_divider_color="@color/transparent" />
 
         <LinearLayout
@@ -35,7 +33,7 @@
             android:layout_height="52dp"
             android:layout_marginHorizontal="15dp"
             android:layout_marginTop="15dp"
-            android:background="@drawable/bg_251642_rounded_10"
+            android:background="@drawable/bg_f6f6f6_rounded_28"
             android:gravity="center_vertical"
             android:paddingHorizontal="10dp">
 
@@ -45,7 +43,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
                 android:text="设置登录密码"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="14sp" />
 
             <ImageView
@@ -60,7 +58,7 @@
             android:layout_height="52dp"
             android:layout_marginHorizontal="15dp"
             android:layout_marginTop="15dp"
-            android:background="@drawable/bg_251642_rounded_10"
+            android:background="@drawable/bg_f6f6f6_rounded_28"
             android:gravity="center_vertical"
             android:paddingHorizontal="10dp">
 
@@ -70,7 +68,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
                 android:text="设置支付密码"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="14sp" />
 
             <ImageView

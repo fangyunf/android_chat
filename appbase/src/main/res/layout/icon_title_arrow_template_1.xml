@@ -1,43 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/icon_title_arrow_template_ll"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/icon_title_arrow_template_ll"
     android:layout_width="match_parent"
     android:layout_height="56dp"
-    android:background="@drawable/bg_251642_rounded_10"
-    android:orientation="horizontal"
+    android:background="@drawable/bg_f6f6f6_rounded_28"
     android:gravity="center_vertical"
-    android:paddingHorizontal="24dp"
-    >
+    android:orientation="horizontal"
+    android:paddingHorizontal="24dp">
+
     <ImageView
         android:id="@+id/icon_title_arrow_template_left_iv"
         android:layout_width="23dp"
-        android:layout_height="23dp"/>
+        android:layout_height="23dp" />
 
     <TextView
         android:id="@+id/icon_title_arrow_template_title_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
         android:layout_weight="1"
         android:text="123"
-        android:textColor="@color/color_white"
-        android:layout_marginLeft="10dp"
-        android:textSize="14sp"
-        />
+        android:textColor="@color/black"
+        android:textSize="14sp" />
+
     <ImageView
         android:id="@+id/icon_title_arrow_template_right_iv"
-        android:src="@mipmap/mine_index_right_arrow"
         android:layout_width="12dp"
-        android:layout_height="12dp"/>
+        android:layout_height="12dp"
+        android:src="@mipmap/mine_index_right_arrow" />
 
     <TextView
-        android:visibility="gone"
         android:id="@+id/icon_title_arrow_template_right_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
         android:text="123"
         android:textColor="@color/color_white"
-        android:layout_marginLeft="10dp"
         android:textSize="14sp"
-        />
+        android:visibility="gone" />
 </LinearLayout>
