@@ -230,7 +230,6 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
 
         binding.activityMinePurseRechargeEt.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
         binding.activityMinePurseRechargeEt.setKeyListener(DigitsKeyListener.getInstance("0123456789."));
-
         binding.activityMinePurseRechargeEt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -260,6 +259,41 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
                     // 设置过滤后的文本
                     binding.activityMinePurseRechargeEt.setText(cleanedInput.toString());
                     binding.activityMinePurseRechargeEt.setSelection(cleanedInput.length());
+                }
+            }
+        });
+
+        binding.activityMinePurseRechargeEt1.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        binding.activityMinePurseRechargeEt1.setKeyListener(DigitsKeyListener.getInstance("0123456789."));
+        binding.activityMinePurseRechargeEt1.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                String input = s.toString();
+                int dotCount = input.length() - input.replace(".", "").length();
+                if (dotCount > 1) {
+                    // 找到第一个小数点的位置
+                    int firstDotIndex = input.indexOf(".");
+                    // 移除第一个小数点之后的所有小数点
+                    StringBuilder cleanedInput = new StringBuilder(input.substring(0, firstDotIndex + 1));
+                    for (int i = firstDotIndex + 1; i < input.length(); i++) {
+                        if (input.charAt(i) != '.') {
+                            cleanedInput.append(input.charAt(i));
+                        }
+                    }
+                    // 设置过滤后的文本
+                    binding.activityMinePurseRechargeEt1.setText(cleanedInput.toString());
+                    binding.activityMinePurseRechargeEt1.setSelection(cleanedInput.length());
                 }
             }
         });
