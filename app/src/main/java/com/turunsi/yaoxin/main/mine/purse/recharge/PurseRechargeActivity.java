@@ -146,7 +146,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
                 adpter.notifyDataSetChanged();
             }
         });
-        
+
         recyclerView1.setLayoutManager(new LinearLayoutManager(this));
         adpter1 = new Recharge_PayType_Adpter();
         List<String> list1 = new ArrayList<>();
@@ -392,7 +392,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
             registerBean.amount = NumberUtil.formartUploadMoney(inputMoney);
             registerBean.type = payType;
 
-            HttpUtil.apiW().pay_sixwx(registerBean)
+            HttpUtil.apiW().pay_six(registerBean)
                     .enqueue(new CommonCallback<NetData>() {
                         @Override
                         public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
@@ -407,12 +407,10 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
                         }
                     });
         } else if ("支付宝充值".equals(adpter1.payType)) {
-
             RequestParamsBean registerBean = new RequestParamsBean();
             registerBean.amount = NumberUtil.formartUploadMoney(inputMoney);
             registerBean.type = payType;
-
-            HttpUtil.apiW().pay_sixwx(registerBean)
+            HttpUtil.apiW().pay_six(registerBean)
                     .enqueue(new CommonCallback<NetData>() {
                         @Override
                         public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
