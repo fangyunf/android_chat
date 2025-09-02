@@ -9,65 +9,73 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_160B2C"
+    android:background="@color/color_F2F2F2"
     android:orientation="vertical">
 
     <com.yaoxin.appbase.navbar.NavToolbar
-
         android:id="@+id/activity_account_anquan_manager_nav"
         style="@style/WhiteFontToolbar"
-        android:background="@color/transparent"
-        app:back_icon="@mipmap/temp_ic_back_white"
+        android:background="@color/white"
+        app:back_icon="@mipmap/temp_ic_back"
         app:enable_under_divider="true"
         app:support_translucent_status_bar="false"
         app:title="安全隐私"
-        app:title_text_color="@color/white"
+        app:title_text_color="@color/black"
         app:under_divider_color="@color/transparent" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:orientation="vertical"
+        android:layout_height="wrap_content"
         android:layout_marginHorizontal="15dp"
-        android:background="@drawable/bg_251642_rounded_10"
-        android:layout_height="wrap_content">
+        android:layout_marginTop="@dimen/dimen_10_dp"
+        android:background="@drawable/bg_white_rounded_10"
+        android:orientation="vertical">
+
         <include
             android:id="@+id/activity_account_anquan_manager_cell1"
             layout="@layout/view_title_arrow_template"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
         <include
             android:id="@+id/activity_account_anquan_manager_cell2"
             layout="@layout/view_title_arrow_template"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
         <include
             android:id="@+id/activity_account_anquan_manager_cell3"
             layout="@layout/view_title_arrow_template"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
         <include
             android:id="@+id/activity_account_anquan_manager_cell4"
             layout="@layout/view_title_arrow_template"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
         <include
             android:id="@+id/activity_account_anquan_manager_cell5"
             layout="@layout/view_title_arrow_template"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>
+
     <LinearLayout
-        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
-        android:orientation="vertical"
+        android:layout_height="wrap_content"
         android:layout_marginHorizontal="15dp"
-        android:background="@drawable/bg_251642_rounded_10"
-        android:layout_height="wrap_content">
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_white_rounded_10"
+        android:orientation="vertical">
+
         <include
             android:id="@+id/activity_account_anquan_manager_cell6"
             layout="@layout/view_title_arrow_template"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
         <include
             android:id="@+id/activity_account_anquan_manager_cell7"
             layout="@layout/view_title_arrow_template"

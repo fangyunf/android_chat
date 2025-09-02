@@ -105,15 +105,8 @@ import retrofit2.Response;
  */
 public class MainActivity extends BaseActivity {
 
-    private ActivityMainBinding activityMainBinding;
-    private static final int START_INDEX = 0;
-    private View mCurrentTab;
-    //  private BaseContactFragment mContactFragment;
-    private ContactNewFragment mContactFragment;
-    private ConversationBaseFragment mConversationFragment;
-    private ConversationBaseFragment mConversationFragment1;
     public static final int REQUEST_CODE_SCAN = 0x01;
-
+    private static final int START_INDEX = 0;
     //皮肤变更事件
     EventNotify<SkinEvent> skinNotify =
             new EventNotify<SkinEvent>() {
@@ -131,6 +124,12 @@ public class MainActivity extends BaseActivity {
                     return "skinEvent";
                 }
             };
+    private ActivityMainBinding activityMainBinding;
+    private View mCurrentTab;
+    //  private BaseContactFragment mContactFragment;
+    private ContactNewFragment mContactFragment;
+    private ConversationBaseFragment mConversationFragment;
+    private ConversationBaseFragment mConversationFragment1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -171,7 +170,7 @@ public class MainActivity extends BaseActivity {
 
                         if (body.data != null) {
                             ParamsBean updateBean = new Gson().fromJson(body.data.toString(), ParamsBean.class);
-                            showUpdate(updateBean.downloadUrl,updateBean.upMsg);
+                            showUpdate(updateBean.downloadUrl, updateBean.upMsg);
                         }
                     }
 
@@ -182,7 +181,7 @@ public class MainActivity extends BaseActivity {
                 });
     }
 
-    private void showUpdate(String downLoadUrl,String updateMsg) {
+    private void showUpdate(String downLoadUrl, String updateMsg) {
         if (downLoadUrl == null || downLoadUrl.isEmpty()) {
             return;
         }
@@ -237,6 +236,7 @@ public class MainActivity extends BaseActivity {
         AppDialog.INSTANCE.showDialogFragment(getSupportFragmentManager(), config);
 
     }
+
     private void initData() {
         SettingRepo.getShowReadStatus(
                 new FetchCallback<Boolean>() {
@@ -272,8 +272,8 @@ public class MainActivity extends BaseActivity {
         List<Fragment> fragments = new ArrayList<>();
 
         changeStatusBarColor(R.color.fun_page_bg_color);
-        mConversationFragment =  FunConversationFragment.newInstance(0);
-        mConversationFragment1 =  FunConversationFragment.newInstance(1);
+        mConversationFragment = FunConversationFragment.newInstance(0);
+        mConversationFragment1 = FunConversationFragment.newInstance(1);
         mContactFragment = new ContactNewFragment();
 
         fragments.add(mConversationFragment);
@@ -445,7 +445,8 @@ public class MainActivity extends BaseActivity {
 
         activityMainBinding.mine.setTextColor(getResources().getColor(R.color.tab_unchecked_color));
         activityMainBinding.mine.setCompoundDrawablesWithIntrinsicBounds(
-                null, getResources().getDrawable(R.mipmap.mine_tabbar_mine_normal), null, null);;
+                null, getResources().getDrawable(R.mipmap.mine_tabbar_mine_normal), null, null);
+        ;
 
         activityMainBinding.conversationShop.setTextColor(getResources().getColor(R.color.tab_unchecked_color));
         activityMainBinding.conversationShop.setCompoundDrawablesWithIntrinsicBounds(
@@ -520,16 +521,6 @@ public class MainActivity extends BaseActivity {
         CustomConfig.configChatKit(this);
 
     }
-
-    //皮肤变更事件
-    public static class SkinEvent extends BaseEvent {
-        @NonNull
-        @Override
-        public String getType() {
-            return "skinEvent";
-        }
-    }
-
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(com.yaoxin.appbase.utils.BaseEvent event) {
@@ -609,6 +600,15 @@ public class MainActivity extends BaseActivity {
                     break;
             }
 
+        }
+    }
+
+    //皮肤变更事件
+    public static class SkinEvent extends BaseEvent {
+        @NonNull
+        @Override
+        public String getType() {
+            return "skinEvent";
         }
     }
 

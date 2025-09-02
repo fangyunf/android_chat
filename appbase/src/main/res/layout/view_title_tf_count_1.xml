@@ -5,68 +5,68 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:paddingHorizontal="18dp"
     android:orientation="vertical"
-    >
+    android:paddingHorizontal="18dp">
 
     <TextView
         android:id="@+id/view_title_tf_count_title_tv"
-        android:layout_marginVertical="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginVertical="10dp"
         android:text="请输入手机号"
-        android:textColor="#666666"
-        android:textSize="14sp"
-        />
+        android:textColor="@color/color_black"
+        android:textSize="14sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:gravity="center_vertical"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
+
         <EditText
             android:id="@+id/view_title_tf_count_et"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="45dp"
-            android:paddingHorizontal="15dp"
-            android:textSize="15sp"
-            android:hint="请输入"
-            android:textColorHint="@color/color_white"
-            android:textColor="@color/color_white"
+            android:layout_weight="1"
             android:background="@color/transparent"
             android:cursorVisible="true"
             android:focusable="true"
             android:focusableInTouchMode="true"
-            />
+            android:hint="请输入"
+            android:paddingHorizontal="15dp"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
 
         <RelativeLayout
             android:id="@+id/view_title_tf_count_eye_rl"
             android:layout_width="40dp"
-            android:visibility="gone"
-            android:layout_height="40dp">
+            android:layout_height="40dp"
+            android:visibility="gone">
 
             <ImageView
                 android:id="@+id/view_title_tf_count_eye_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/common_pwd_eye_state_selector"
                 android:layout_centerInParent="true"
-                />
+                android:src="@drawable/common_pwd_eye_state_selector" />
         </RelativeLayout>
+
         <com.yaoxin.appbase.view.loginlib.view.CountDownView
             android:id="@+id/view_title_tf_count_captcha"
-            android:layout_width="90dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:gravity="center"
+            android:gravity="right|center_vertical"
             android:text="获取验证码"
-
             android:textColor="@color/app_theme_color"
-            android:textSize="12sp"
-            android:visibility="gone"
-            android:background="#F5F6FA"
-            />
+            android:textSize="14sp"
+            android:visibility="gone" />
     </LinearLayout>
 
+
+    <View
+        android:id="@+id/viewLine"
+        android:layout_width="match_parent"
+        android:layout_height="0.6dp"
+        android:background="@color/app_theme_color" />
 
 
 </LinearLayout>

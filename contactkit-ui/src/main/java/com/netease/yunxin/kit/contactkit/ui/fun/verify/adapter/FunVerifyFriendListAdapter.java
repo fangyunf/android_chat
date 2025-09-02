@@ -17,6 +17,7 @@ import com.yaoxin.appbase.utils.GlideUtil;
 public class FunVerifyFriendListAdapter extends BaseQuickAdapter<UserBean, QuickViewHolder> {
 
     public int business_type;
+
     @Override
     protected void onBindViewHolder(@NonNull QuickViewHolder quickViewHolder, int i, @Nullable UserBean userInfo) {
 
@@ -25,17 +26,11 @@ public class FunVerifyFriendListAdapter extends BaseQuickAdapter<UserBean, Quick
             view.setVisibility(View.VISIBLE);
             view.setText("邀请人: " + userInfo.inviteName);
 
-            quickViewHolder.setText(R.id.fun_verify_friend_list_cell_name_tv, userInfo.userName)
-                    .setText(R.id.fun_verify_friend_list_cell_id_tv, "ID:"+userInfo.userMemberCode)
-                    .setText(R.id.fun_verify_friend_list_cell_verify_content, "申请加入"+userInfo.groupName)
-                    .setText(R.id.fun_verify_friend_list_cell_verify_msg, "您好，我是"+ userInfo.userName+"，申请加入该群");
+            quickViewHolder.setText(R.id.fun_verify_friend_list_cell_name_tv, userInfo.userName).setText(R.id.fun_verify_friend_list_cell_id_tv, "ID:" + userInfo.userMemberCode).setText(R.id.fun_verify_friend_list_cell_verify_content, "申请加入" + userInfo.groupName).setText(R.id.fun_verify_friend_list_cell_verify_msg, "您好，我是" + userInfo.userName + "，申请加入该群");
             GlideUtil.yh_loadImage(getContext(), quickViewHolder.getView(R.id.fun_verify_friend_list_cell_head_iv), userInfo.userAvatar);
 
         } else {
-            quickViewHolder.setText(R.id.fun_verify_friend_list_cell_name_tv, userInfo.name)
-                    .setText(R.id.fun_verify_friend_list_cell_id_tv, userInfo.userId)
-                    .setText(R.id.fun_verify_friend_list_cell_verify_content, userInfo.leaveMessage)
-                    .setText(R.id.fun_verify_friend_list_cell_verify_msg, "");
+            quickViewHolder.setText(R.id.fun_verify_friend_list_cell_name_tv, userInfo.name).setText(R.id.fun_verify_friend_list_cell_id_tv, userInfo.userId).setText(R.id.fun_verify_friend_list_cell_verify_content, userInfo.leaveMessage).setText(R.id.fun_verify_friend_list_cell_verify_msg, "");
             GlideUtil.yh_loadImage(getContext(), quickViewHolder.getView(R.id.fun_verify_friend_list_cell_head_iv), userInfo.avatar);
         }
     }
@@ -43,7 +38,7 @@ public class FunVerifyFriendListAdapter extends BaseQuickAdapter<UserBean, Quick
     @NonNull
     @Override
     protected QuickViewHolder onCreateViewHolder(@NonNull Context context, @NonNull ViewGroup viewGroup, int i) {
-        return new QuickViewHolder(R.layout.fun_verify_friend_list_cell,viewGroup);
+        return new QuickViewHolder(R.layout.fun_verify_friend_list_cell, viewGroup);
     }
 }
 

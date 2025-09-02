@@ -1,190 +1,183 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tl="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_160B2C"
+    android:background="@color/color_F2F2F2"
     android:orientation="vertical">
 
     <com.yaoxin.appbase.navbar.NavToolbar
         android:id="@+id/activity_mine_set_new_nav"
         style="@style/WhiteFontToolbar"
-        android:background="@color/transparent"
-        app:back_icon="@mipmap/temp_ic_back_white"
+        android:background="@color/white"
+        app:back_icon="@mipmap/temp_ic_back"
         app:enable_under_divider="true"
         app:support_translucent_status_bar="false"
         app:title="我的设置"
-        app:title_text_color="@color/white"
+        app:title_text_color="@color/black"
         app:under_divider_color="@color/transparent" />
-<ScrollView
-    android:layout_weight="1"
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:scrollbars="none">
 
-
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:layout_height="wrap_content">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scrollbars="none">
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_marginHorizontal="15dp"
-            android:layout_height="wrap_content">
-
-
-            <com.yaoxin.appbase.view.IconTitleArrowTemplate_1
-                android:layout_marginTop="10dp"
-                android:id="@+id/activity_mine_set_new_tzsy"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:hideImg= "true"
-                app:titleText="通知声音"
-                />
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_marginHorizontal="15dp"
-            android:layout_height="wrap_content">
-
-
-            <com.yaoxin.appbase.view.IconTitleArrowTemplate_1
-                android:layout_marginTop="10dp"
-                android:id="@+id/activity_mine_set_new_qchc"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:hideImg= "true"
-                app:titleText="清除缓存"
-                />
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_marginHorizontal="15dp"
-            android:layout_height="wrap_content">
-
-
-            <com.yaoxin.appbase.view.IconTitleArrowTemplate_1
-                android:layout_marginTop="10dp"
-                android:id="@+id/activity_mine_set_new_qksyltjl"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:hideImg= "true"
-                app:titleText="清空所有聊天记录"
-                />
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_marginHorizontal="15dp"
-            android:layout_height="wrap_content">
-
-
-            <com.yaoxin.appbase.view.IconTitleArrowTemplate_1
-                android:layout_marginTop="10dp"
-                android:id="@+id/activity_mine_set_new_xzdz"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:hideImg= "true"
-                app:titleText="下载地址"
-                />
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_marginHorizontal="15dp"
-            android:layout_height="wrap_content">
-
-
-            <com.yaoxin.appbase.view.IconTitleArrowTemplate_1
-                android:layout_marginTop="10dp"
-                android:id="@+id/activity_mine_set_new_gywm"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:hideImg= "true"
-                app:titleText="关于我们"
-                />
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_marginHorizontal="15dp"
-            android:layout_height="wrap_content">
-
-
-            <com.yaoxin.appbase.view.IconTitleArrowTemplate_1
-                android:visibility="gone"
-                android:layout_marginTop="10dp"
-                android:id="@+id/activity_mine_set_new_zxzh"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:hideImg= "true"
-                app:titleText="注销账号"
-                />
-        </RelativeLayout>
 
         <LinearLayout
-            android:visibility="gone"
-            android:layout_marginHorizontal="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@drawable/bg_f2f2f2_rounded_10"
-            >
-            <include
-                android:id="@+id/activity_mine_set_new_notice_voice"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                layout="@layout/view_title_arrow"
-                />
+            android:orientation="vertical">
 
-            <include
-                android:id="@+id/activity_mine_set_new_delete_cache"
-                android:layout_width="match_parent"
+            <RelativeLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                layout="@layout/view_title_arrow"
-                />
+                android:layout_marginHorizontal="15dp">
 
-            <include
-                android:id="@+id/activity_mine_set_new_delete_record"
-                android:layout_width="match_parent"
+                <com.yaoxin.appbase.view.IconTitleArrowTemplate_1
+                    android:id="@+id/activity_mine_set_new_tzsy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:hideImg="true"
+                    app:titleText="通知声音" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                layout="@layout/view_title_arrow"
-                />
+                android:layout_marginHorizontal="15dp">
 
 
-            <include
-                android:id="@+id/activity_mine_set_new_about_us"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                layout="@layout/view_title_arrow"
-                />
-            <include
-                android:id="@+id/activity_mine_set_new_download"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                layout="@layout/view_title_arrow"
-                />
-            <include
-                android:id="@+id/activity_mine_set_new_exchange_acount"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                layout="@layout/view_title_arrow"
-                />
-            <include
-                android:id="@+id/activity_mine_set_new_zhuxiao"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                layout="@layout/view_title_arrow"
-                />
+                <com.yaoxin.appbase.view.IconTitleArrowTemplate
+                    android:id="@+id/activity_mine_set_new_qchc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:hideImg="true"
+                    app:titleText="清除缓存" />
+            </RelativeLayout>
 
-            <include
-                android:id="@+id/activity_mine_set_new_login_out"
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp">
+
+
+                <com.yaoxin.appbase.view.IconTitleArrowTemplate
+                    android:id="@+id/activity_mine_set_new_qksyltjl"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:hideImg="true"
+                    app:titleText="清空所有聊天记录" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp">
+
+
+                <com.yaoxin.appbase.view.IconTitleArrowTemplate
+                    android:id="@+id/activity_mine_set_new_xzdz"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:hideImg="true"
+                    app:titleText="下载地址" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp">
+
+
+                <com.yaoxin.appbase.view.IconTitleArrowTemplate
+                    android:id="@+id/activity_mine_set_new_gywm"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:hideImg="true"
+                    app:titleText="关于我们" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp">
+
+
+                <com.yaoxin.appbase.view.IconTitleArrowTemplate_1
+                    android:id="@+id/activity_mine_set_new_zxzh"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:visibility="gone"
+                    app:hideImg="true"
+                    app:titleText="注销账号" />
+            </RelativeLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                layout="@layout/view_title_arrow"
-                />
+                android:layout_marginHorizontal="15dp"
+                android:background="@drawable/bg_f2f2f2_rounded_10"
+                android:orientation="vertical"
+                android:visibility="gone">
 
+                <include
+                    android:id="@+id/activity_mine_set_new_notice_voice"
+                    layout="@layout/view_title_arrow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <include
+                    android:id="@+id/activity_mine_set_new_delete_cache"
+                    layout="@layout/view_title_arrow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <include
+                    android:id="@+id/activity_mine_set_new_delete_record"
+                    layout="@layout/view_title_arrow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+
+                <include
+                    android:id="@+id/activity_mine_set_new_about_us"
+                    layout="@layout/view_title_arrow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <include
+                    android:id="@+id/activity_mine_set_new_download"
+                    layout="@layout/view_title_arrow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <include
+                    android:id="@+id/activity_mine_set_new_exchange_acount"
+                    layout="@layout/view_title_arrow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <include
+                    android:id="@+id/activity_mine_set_new_zhuxiao"
+                    layout="@layout/view_title_arrow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <include
+                    android:id="@+id/activity_mine_set_new_login_out"
+                    layout="@layout/view_title_arrow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
-</ScrollView>
+    </ScrollView>
 
 </LinearLayout>

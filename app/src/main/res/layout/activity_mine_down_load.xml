@@ -4,7 +4,7 @@
     xmlns:tl="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_160B2C"
+    android:background="@color/white"
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
@@ -12,42 +12,41 @@
         android:id="@+id/activity_mine_down_load_nav"
         style="@style/WhiteFontToolbar"
         android:background="@color/transparent"
-        app:back_icon="@mipmap/temp_ic_back_white"
+        app:back_icon="@mipmap/temp_ic_back"
         app:enable_under_divider="true"
         app:support_translucent_status_bar="false"
         app:title="下载分享"
-        app:title_text_color="@color/white"
+        app:title_text_color="@color/black"
         app:under_divider_color="@color/transparent" />
 
     <TextView
-        android:layout_marginTop="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:text="苹果官方下载地址:"
-        android:textColor="@color/white"
-        />
+        android:textColor="@color/black" />
+
     <TextView
         android:id="@+id/activity_mine_down_load_ios"
-        android:layout_marginTop="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:text=""
-        android:textColor="@color/white"
-        />
+        android:textColor="@color/black" />
+
     <TextView
-        android:layout_marginTop="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:text="安卓官方下载地址:"
-        android:textColor="@color/white"
-        />
+        android:textColor="@color/black" />
+
     <TextView
         android:id="@+id/activity_mine_down_load_android"
-        android:layout_marginTop="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:text=""
-        android:textColor="@color/white"
-        />
+        android:textColor="@color/black" />
 
 </LinearLayout>
