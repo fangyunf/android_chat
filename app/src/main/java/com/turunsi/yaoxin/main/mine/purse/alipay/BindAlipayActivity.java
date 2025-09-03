@@ -109,13 +109,13 @@ public class BindAlipayActivity extends BaseActivity implements View.OnClickList
 
                         Type type = new TypeToken<List<UserBean>>() {
                         }.getType();
-//                        List<UserBean> tempList = new Gson().fromJson(body.data.toString(), type);
-                        bindBean = new Gson().fromJson(body.data.toString(), UserBean.class);
-                        if (bindBean == null ) {
+                        List<UserBean> tempList = new Gson().fromJson(body.data.toString(), type);
+//                        bindBean = new Gson().fromJson(body.data.toString(), UserBean.class);
+                        if (tempList == null || tempList.isEmpty()) {
                             _type = 0;
                         } else {
                             _type = 1;
-//                            bindBean = tempList.get(0);
+                            bindBean = tempList.get(0);
                         }
                         updateUI();
                     }
@@ -187,7 +187,7 @@ public class BindAlipayActivity extends BaseActivity implements View.OnClickList
                 }
             }
             RequestParams1Bean registerBean = new RequestParams1Bean(phone, name, 2);
-            registerBean.type = _bindType ;
+            registerBean.type = _bindType;
 //            if (_bindType == 2 || _bindType == 1) {
 //                registerBean.usdt = qrcodeImgUrl;
 //            } else {
