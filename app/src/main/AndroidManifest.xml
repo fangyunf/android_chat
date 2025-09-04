@@ -98,6 +98,8 @@
         <!--        <meta-data-->
         <!--            android:name="com.netease.nim.appKey"-->
         <!--            android:value="2a6664a3c43a1fd51133b7dff030c575" />-->
+
+<!--        658f002f85a20d3e36a15757d79a5c3e-->
         <meta-data
             android:name="com.netease.nim.appKey"
             android:value="35ecfac3fea53f25155b6258d76b8fc2" />
