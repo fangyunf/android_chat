@@ -1,23 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_160B2C"
     android:gravity="center_horizontal"
-    >
+    android:orientation="vertical">
 
     <com.yaoxin.appbase.navbar.NavToolbar
 
         android:id="@+id/fun_team_setting_new_forbidden_list_activity_nav"
         style="@style/WhiteFontToolbar"
-        android:background="@color/transparent"
-        app:back_icon="@mipmap/temp_ic_back_white"
+        android:background="@color/color_white"
+        app:back_icon="@mipmap/temp_ic_back"
         app:enable_under_divider="true"
         app:support_translucent_status_bar="false"
         app:title="禁止领取红包"
-        app:title_text_color="@color/color_white"
+        app:title_text_color="@color/black"
         app:under_divider_color="@color/transparent" />
 
     <!--搜索框-->
@@ -26,29 +24,29 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
         android:layout_marginTop="5dp"
+        android:layout_marginRight="15dp"
         android:background="@drawable/search_edit_bg"
+        android:drawableStart="@drawable/icon_search"
         android:drawableLeft="@drawable/icon_search"
         android:drawablePadding="5dp"
-        android:drawableStart="@drawable/icon_search"
         android:gravity="center_vertical"
         android:hint="搜索"
         android:imeOptions="actionSearch"
         android:maxLines="1"
         android:padding="5dp"
         android:textSize="16sp"
-        app:drawableDel="@drawable/edit_delete"/>
+        app:drawableDel="@drawable/edit_delete" />
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/main_search">
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/fun_team_setting_new_forbidden_list_activity_rv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            />
+            android:layout_height="match_parent" />
 
         <!--字母导航栏-->
         <com.nanchen.wavesidebar.WaveSideBarView
@@ -57,19 +55,19 @@
             android:layout_height="match_parent"
             android:padding="8dp"
             app:sidebar_lazy_respond="false"
-            app:sidebar_text_color="@color/color_white"/>
+            app:sidebar_text_color="@color/color_white" />
 
     </FrameLayout>
 
     <TextView
-        android:visibility="gone"
         android:id="@+id/fun_team_setting_new_team_users_activity_confirm_tv"
         android:layout_width="301dp"
         android:layout_height="44dp"
-        android:text="确定"
         android:layout_marginBottom="@dimen/dimen_40_dp"
-android:gravity="center"
         android:background="@drawable/fun_bg_purple_rounded_22"
+        android:gravity="center"
+        android:text="确定"
         android:textColor="#ffffffff"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:visibility="gone" />
 </LinearLayout>

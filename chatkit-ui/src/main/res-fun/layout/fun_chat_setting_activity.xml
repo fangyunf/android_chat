@@ -8,7 +8,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_160B2C"
+    android:background="@color/color_F2F2F2"
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
@@ -21,37 +21,40 @@
         <com.yaoxin.appbase.navbar.NavToolbar
             android:id="@+id/fun_chat_setting_activity_nav"
             style="@style/WhiteFontToolbar"
-            android:background="@color/transparent"
-            app:back_icon="@mipmap/temp_ic_back_white"
+            android:background="@color/color_white"
+            app:back_icon="@mipmap/temp_ic_back"
             app:enable_under_divider="true"
             app:support_translucent_status_bar="false"
             app:title="好友资料"
-            app:title_text_color="@color/color_white"
+            app:title_text_color="@color/color_black"
             app:under_divider_color="@color/transparent" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-
-            android:gravity="center_horizontal">
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
 
             <RelativeLayout
-                android:layout_marginTop="10dp"
-                android:background="@drawable/geren_common_bg"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/geren_common_bg">
+
                 <LinearLayout
-                    android:layout_marginTop="32dp"
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
                     android:orientation="vertical"
                     android:paddingHorizontal="15dp"
-                    android:paddingBottom="25dp"
-                    android:layout_height="wrap_content">
+                    android:paddingBottom="25dp">
+
                     <LinearLayout
-                        android:layout_marginTop="55dp"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="55dp">
+
                         <TextView
                             android:id="@+id/nameTv"
                             android:layout_width="wrap_content"
@@ -59,61 +62,62 @@
                             android:text=""
                             android:textColor="@color/color_white"
                             android:textSize="22sp" />
+
                         <ImageView
-                            android:visibility="gone"
-                            android:layout_marginLeft="5dp"
                             android:id="@+id/fun_team_user_info_detail_grade_iv"
                             android:layout_width="46dp"
-                            android:layout_height="18dp"/>
+                            android:layout_height="18dp"
+                            android:layout_marginLeft="5dp"
+                            android:visibility="gone" />
                     </LinearLayout>
+
                     <TextView
                         android:id="@+id/fun_chat_setting_activity_id"
-                        android:layout_marginTop="@dimen/dimen_8_dp"
                         android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen_8_dp"
                         android:text="5678"
                         android:textColor="@color/color_white"
                         android:textSize="12sp"
-                        android:layout_height="wrap_content"
 
                         />
                 </LinearLayout>
-<!--                <TextView-->
-<!--                    android:visibility="visible"-->
-<!--                    android:id="@+id/fun_team_user_info_detail_bottom_tv"-->
-<!--                    android:layout_width="100dp"-->
-<!--                    android:layout_height="28dp"-->
-<!--                    android:text="加好友"-->
-<!--                    android:layout_alignParentEnd="true"-->
-<!--                    android:layout_marginTop="80dp"-->
-<!--                    android:layout_marginRight="15dp"-->
-<!--                    android:gravity="center"-->
-<!--                    android:background="@drawable/bg_app_theme_color_rounded_10"-->
-<!--                    android:textColor="#ffffffff"-->
-<!--                    android:textSize="15sp" />-->
+                <!--                <TextView-->
+                <!--                    android:visibility="visible"-->
+                <!--                    android:id="@+id/fun_team_user_info_detail_bottom_tv"-->
+                <!--                    android:layout_width="100dp"-->
+                <!--                    android:layout_height="28dp"-->
+                <!--                    android:text="加好友"-->
+                <!--                    android:layout_alignParentEnd="true"-->
+                <!--                    android:layout_marginTop="80dp"-->
+                <!--                    android:layout_marginRight="15dp"-->
+                <!--                    android:gravity="center"-->
+                <!--                    android:background="@drawable/bg_app_theme_color_rounded_10"-->
+                <!--                    android:textColor="#ffffffff"-->
+                <!--                    android:textSize="15sp" />-->
 
 
                 <TextView
                     android:id="@+id/fun_chat_setting_activity_send_msg_rl"
                     android:layout_width="100dp"
                     android:layout_height="28dp"
-                    android:layout_marginTop="80dp"
                     android:layout_alignParentEnd="true"
-                    android:text="发消息"
-                    android:textColor="#ffffffff"
-                    android:textSize="15sp"
-                    android:gravity="center"
+                    android:layout_marginTop="80dp"
                     android:layout_marginRight="15dp"
                     android:background="@drawable/bg_app_theme_color_rounded_10"
-                    />
+                    android:gravity="center"
+                    android:text="发消息"
+                    android:textColor="#ffffffff"
+                    android:textSize="15sp" />
+
                 <com.netease.yunxin.kit.common.ui.widgets.ContactAvatarView
                     android:id="@+id/fun_chat_setting_activity_avatarView"
                     android:layout_width="80dp"
-                    android:layout_centerHorizontal="true"
                     android:layout_height="80dp"
-                    app:riv_corner_radius="5dp"
-                    android:scaleType="centerCrop" />
+                    android:layout_centerHorizontal="true"
+                    android:scaleType="centerCrop"
+                    app:riv_corner_radius="5dp" />
             </RelativeLayout>
-
 
 
         </LinearLayout>
@@ -122,9 +126,10 @@
             android:id="@+id/fun_chat_setting_activity_content_ll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_251642_rounded_10"
             android:layout_marginTop="20dp"
+            android:background="@drawable/bg_white_rounded_10"
             android:orientation="vertical">
+
             <include
                 android:id="@+id/fun_chat_setting_activity_memo"
                 layout="@layout/fun_title_tf_arrow_view"
@@ -136,23 +141,23 @@
                 layout="@layout/fun_title_tf_arrow_view"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen_58_dp" />
-<!--            <include-->
-<!--                android:id="@+id/fun_chat_setting_activity_recommand"-->
-<!--                layout="@layout/fun_title_tf_arrow_view"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="@dimen/dimen_58_dp" />-->
+            <!--            <include-->
+            <!--                android:id="@+id/fun_chat_setting_activity_recommand"-->
+            <!--                layout="@layout/fun_title_tf_arrow_view"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="@dimen/dimen_58_dp" />-->
 
             <include
                 android:id="@+id/fun_chat_setting_activity_clear_dont_notice_msg"
                 layout="@layout/fun_title_tf_arrow_view"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen_58_dp" />
+
             <include
                 android:id="@+id/fun_chat_setting_activity_to_top"
                 layout="@layout/fun_title_tf_arrow_view"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen_58_dp" />
-
 
 
             <include
@@ -170,16 +175,16 @@
     </LinearLayout>
 
     <TextView
-        android:visibility="gone"
         android:id="@+id/fun_chat_setting_activity_add_friend_tv"
         android:layout_width="253dp"
         android:layout_height="52dp"
-        android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         android:layout_marginBottom="30dp"
         android:background="@drawable/fun_bg_app_theme_color_rounded_26"
         android:gravity="center"
         android:text="添加好友"
         android:textColor="#ffffffff"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:visibility="gone" />
 </RelativeLayout>

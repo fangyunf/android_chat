@@ -2,26 +2,26 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tl="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_mine_purse_tixian_ll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_160B2C"
-    android:id="@+id/activity_mine_purse_tixian_ll">
+    android:background="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:orientation="vertical"
+        android:layout_height="match_parent"
         android:gravity="center_horizontal"
-        android:layout_height="match_parent">
+        android:orientation="vertical">
 
         <com.yaoxin.appbase.navbar.NavToolbar
             android:id="@+id/activity_mine_purse_tixian_nav"
             style="@style/WhiteFontToolbar"
-            android:background="@color/transparent"
-            app:back_icon="@mipmap/temp_ic_back_white"
+            android:background="@color/white"
+            app:back_icon="@mipmap/temp_ic_back"
             app:enable_under_divider="true"
             app:support_translucent_status_bar="false"
             app:title="提现"
-            app:title_text_color="@color/white"
+            app:title_text_color="@color/black"
             app:under_divider_color="@color/transparent" />
 
         <include
@@ -33,73 +33,71 @@
 
         <EditText
             android:id="@+id/activity_mine_purse_tixian_accout_tv"
-            android:layout_marginTop="15dp"
             android:layout_width="match_parent"
-            android:paddingHorizontal="10dp"
-            android:layout_marginHorizontal="15dp"
             android:layout_height="@dimen/dimen_44_dp"
-            android:textSize="@dimen/text_size_15"
-            android:hint="请输入支付宝账号"
-            android:textColorHint="@color/white"
-            android:textColor="@color/white"
-            android:background="@drawable/bg_251642_rounded_10"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/bg_f2f2f2_rounded_4"
             android:cursorVisible="true"
             android:focusable="true"
             android:focusableInTouchMode="true"
-            />
+            android:hint="请输入支付宝账号"
+            android:paddingHorizontal="10dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/black"
+            android:textSize="@dimen/text_size_15" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="提现金额"
-            android:textColor="@color/white"
-            android:layout_marginTop="12dp"
             android:layout_gravity="left"
-            android:layout_marginBottom="5dp"
             android:layout_marginLeft="15dp"
-            android:textSize="15sp"
-            />
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="5dp"
+            android:text="提现金额"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="112dp"
-            android:gravity="center_vertical"
-            android:background="@drawable/bg_251642_rounded_10"
-            android:paddingHorizontal="15dp"
-
             android:layout_marginHorizontal="15dp"
-            >
+            android:background="@drawable/bg_f2f2f2_rounded_4"
+            android:gravity="center_vertical"
+
+            android:paddingHorizontal="15dp">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:text="¥"
-                android:textColor="@color/white"
-                android:textSize="36sp"
-                />
+                android:textColor="@color/black"
+                android:textSize="36sp" />
 
             <EditText
                 android:id="@+id/activity_mine_purse_tixian_money_et"
                 android:layout_width="0dp"
-                android:layout_weight="1"
-                android:paddingHorizontal="10dp"
-                android:layout_marginHorizontal="15dp"
                 android:layout_height="match_parent"
-                android:textSize="30sp"
-                android:hint="请输入金额"
+                android:layout_marginHorizontal="15dp"
+                android:layout_weight="1"
                 android:background="@null"
-                android:textColorHint="@color/white"
-                android:textColor="@color/white"
                 android:cursorVisible="true"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
+                android:hint="请输入金额"
+                android:paddingHorizontal="10dp"
+                android:textColor="@color/black"
+                android:textSize="30sp"
 
                 />
+
             <TextView
                 android:id="@+id/activity_mine_purse_tixian_all_tixian_tv"
                 android:layout_width="64dp"
                 android:layout_height="22dp"
                 android:text="全部提现"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                />
+                android:textColor="@color/black"
+                android:textSize="16sp" />
         </LinearLayout>
 
         <include
@@ -108,28 +106,29 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dimen_12_dp" />
-        <TextView
-            android:layout_marginTop="70dp"
-            android:id="@+id/activity_mine_purse_tixian_tixian_btn"
 
-            android:background="@drawable/fun_bg_app_theme_color_rounded_22"
+        <TextView
+            android:id="@+id/activity_mine_purse_tixian_tixian_btn"
             android:layout_width="301dp"
+
             android:layout_height="@dimen/dimen_44_dp"
+            android:layout_marginTop="70dp"
+            android:background="@drawable/fun_bg_app_theme_color_rounded_22"
             android:gravity="center"
             android:text="提现"
             android:textColor="@color/white"
             android:textSize="16sp" />
+
         <TextView
-            android:layout_marginTop="14dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="14dp"
             android:text="注：提现费率0.06外加单笔2；
 \n充值时间24小时 提现早9:00点到晚21:30点
 \n到账时间为2小时左右"
-            android:layout_gravity="start"
-            android:layout_marginLeft="30dp"
-            android:textColor="@color/white"
-            android:textSize="14sp"
-            />
+            android:textColor="@color/black"
+            android:textSize="14sp" />
     </LinearLayout>
 </RelativeLayout>

@@ -1,42 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
+    android:id="@+id/fun_title_tf_arrow_view_ll"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:paddingHorizontal="@dimen/dimen_16_dp"
-    android:id="@+id/fun_title_tf_arrow_view_ll"
-    >
+    android:orientation="horizontal"
+    android:paddingHorizontal="@dimen/dimen_16_dp">
+
     <TextView
         android:id="@+id/tit_tv"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/chat_message_signal"
         android:layout_weight="1"
-        android:textColor="@color/color_white"
-        android:textSize="@dimen/text_size_14"/>
+        android:text="@string/chat_message_signal"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_size_14" />
 
     <TextView
         android:id="@+id/right_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
-        android:visibility="gone"
         android:textColor="@color/color_666666"
-        android:textSize="@dimen/text_size_14"/>
+        android:textSize="@dimen/text_size_14"
+        android:visibility="gone" />
+
     <ImageView
         android:id="@+id/fun_title_tf_arrow_view_switch"
         android:layout_width="@dimen/dimen_45_dp"
         android:layout_height="@dimen/dimen_28_dp"
-        android:visibility="gone"
-        android:src="@drawable/fun_common_switch_track_selector" />
+        android:src="@drawable/fun_common_switch_track_selector"
+        android:visibility="gone" />
 
     <ImageView
         android:id="@+id/arrow_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_right_arrow"
-        android:visibility="visible"
-        />
+        android:visibility="visible" />
 </LinearLayout>

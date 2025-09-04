@@ -1,55 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/view_title_detail_arrow_template_ll"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/view_title_detail_arrow_template_ll"
     android:layout_width="match_parent"
     android:layout_height="68dp"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="67dp"
         android:gravity="center_vertical"
-        android:paddingHorizontal="@dimen/dimen_18_dp"
-        >
+        android:paddingHorizontal="@dimen/dimen_18_dp">
 
         <LinearLayout
-            android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
+            android:layout_weight="1"
+            android:orientation="vertical">
+
             <TextView
                 android:id="@+id/view_title_detail_arrow_template_title_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="22dp"
                 android:text="群邀请确认"
-                android:textColor="@color/color_white"
-                android:textSize="16sp"
-                />
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
             <TextView
                 android:id="@+id/view_title_detail_arrow_template_detail_tv"
-                android:layout_marginTop="@dimen/dimen_4_dp"
                 android:layout_width="wrap_content"
                 android:layout_height="17dp"
+                android:layout_marginTop="@dimen/dimen_4_dp"
                 android:text="启用后，需群主管理员确认才能邀请群成员"
-                android:textColor="@color/color_white"
-                android:textSize="12sp"
-                />
+                android:textColor="@color/color_666666"
+                android:textSize="12sp" />
         </LinearLayout>
+
         <ImageView
             android:id="@+id/view_title_detail_arrow_template_switch"
             android:layout_width="@dimen/dimen_45_dp"
             android:layout_height="@dimen/dimen_28_dp"
-            android:visibility="visible"
-            android:src="@drawable/fun_common_switch_track_selector" />
+            android:src="@drawable/fun_common_switch_track_selector"
+            android:visibility="visible" />
 
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/color_F2F2F2"
         android:layout_marginHorizontal="16dp"
-        />
+        android:background="@color/color_F2F2F2" />
 </LinearLayout>

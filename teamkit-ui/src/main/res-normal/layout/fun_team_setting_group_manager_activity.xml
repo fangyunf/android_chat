@@ -9,28 +9,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_160B2C"
+    android:background="@color/color_F2F2F2"
     android:orientation="vertical">
 
     <com.yaoxin.appbase.navbar.NavToolbar
 
         android:id="@+id/fun_team_setting_group_manager_activity_nav"
         style="@style/WhiteFontToolbar"
-        android:background="@color/transparent"
-        app:back_icon="@mipmap/temp_ic_back_white"
+        android:background="@color/color_white"
+        app:back_icon="@mipmap/temp_ic_back"
         app:enable_under_divider="true"
         app:support_translucent_status_bar="false"
         app:title="群管理"
-        app:title_text_color="@color/color_white"
+        app:title_text_color="@color/black"
         app:under_divider_color="@color/color_d5d5d5" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_marginHorizontal="15dp"
-        android:background="@drawable/bg_251642_rounded_10"
-        >
+        android:background="@drawable/bg_white_rounded_10"
+        android:orientation="vertical">
 
         <include
             android:id="@+id/fun_team_setting_group_manager_activity_yaoqing"
@@ -43,6 +42,7 @@
             layout="@layout/view_title_detail_arrow_template"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
         <include
             android:id="@+id/fun_team_setting_group_manager_activity_chengyuan_jinyan"
             layout="@layout/view_title_detail_arrow_template"
@@ -54,11 +54,13 @@
             layout="@layout/view_title_detail_arrow_template"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
         <include
             android:id="@+id/fun_team_setting_group_manager_activity_qunzhu_zhuanrang"
             layout="@layout/view_title_arrow_template"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
         <include
             android:id="@+id/fun_team_setting_group_manager_activity_guanliyuan_set"
             layout="@layout/view_title_arrow_template"
@@ -66,34 +68,34 @@
             android:layout_height="wrap_content" />
 
 
-
-
         <include
             android:id="@+id/fun_team_setting_group_manager_activity_jinzhi_lingqu_mingdan"
             layout="@layout/view_title_arrow_template"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
         <include
             android:id="@+id/fun_team_setting_group_manager_activity_qunshengji"
             layout="@layout/view_title_arrow_template"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
         <include
             android:id="@+id/fun_team_setting_group_manager_activity_qunheimingdan"
             layout="@layout/view_title_arrow_template"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>
+
     <TextView
         android:id="@+id/fun_team_setting_group_manager_activity_jiesan_tv"
-        android:layout_marginTop="@dimen/dimen_12_dp"
         android:layout_width="match_parent"
         android:layout_height="46dp"
+        android:layout_marginTop="@dimen/dimen_12_dp"
         android:background="@color/color_white"
         android:gravity="center"
         android:text="解散群聊"
         android:textColor="#ffef0000"
-        android:textSize="16sp"
-        />
+        android:textSize="16sp" />
 
 </LinearLayout>
