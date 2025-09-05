@@ -31,7 +31,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
-                    android:background="@mipmap/icon_mine_top"
+                    android:background="@mipmap/mine_top_bg"
                     android:paddingHorizontal="15dp"
                     android:paddingTop="70dp">
 
