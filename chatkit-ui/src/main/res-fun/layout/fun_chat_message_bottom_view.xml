@@ -10,7 +10,7 @@
     android:id="@+id/chat_message_input_root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#0e061d">
+    android:background="#efefef">
 
     <LinearLayout
         android:id="@+id/inputBarLayout"
@@ -28,13 +28,13 @@
             android:layout_marginBottom="@dimen/dimen_4_dp">
 
             <RelativeLayout
-                android:layout_width="@dimen/dimen_32_dp"
+                android:layout_width="@dimen/dimen_26_dp"
                 android:layout_height="44dp">
 
                 <RadioButton
                     android:id="@+id/inputAudioRb"
-                    android:layout_width="@dimen/dimen_20_dp"
-                    android:layout_height="@dimen/dimen_20_dp"
+                    android:layout_width="@dimen/dimen_22_dp"
+                    android:layout_height="@dimen/dimen_22_dp"
                     android:layout_centerInParent="true"
                     android:background="@drawable/fun_ic_chat_input_audio"
                     android:button="@null"
@@ -91,7 +91,7 @@
                         android:id="@+id/inputEt"
                         android:layout_width="match_parent"
                         android:layout_height="44dp"
-                        android:background="@color/color_221740"
+                        android:background="@color/color_white"
                         android:ellipsize="end"
                         android:hint="@string/fun_chat_input_hint_tips"
                         android:imeOptions="actionSend"
@@ -99,8 +99,7 @@
                         android:maxLength="2000"
                         android:paddingStart="@dimen/dimen_12_dp"
                         android:singleLine="true"
-                        android:textColor="@color/color_white"
-                        android:textColorHint="@color/color_white"
+                        android:textColor="@color/black"
                         android:textCursorDrawable="@null"
                         android:textSize="@dimen/text_size_16"
                         tools:ignore="LabelFor" />
@@ -339,7 +338,7 @@
                     android:layout_height="@dimen/dimen_20_dp"
                     android:layout_centerInParent="true"
                     android:src="@drawable/chat_fragment_toolbar_shoucang" />
-                
+
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>
