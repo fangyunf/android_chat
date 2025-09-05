@@ -39,15 +39,14 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 public class PurseTiXianActivity extends BaseActivity implements View.OnClickListener {
+    private final Object lock = new Object();
     ActivityMinePurseTixianBinding binding;
     String accountMoeny;
     String payType = "alipay";
-
     UserBean aliPayBean;
     UserBean wxPayBean;
     UserBean yhkPayBean;
-//    private final Object lock = new Object();
-//    private int completedRequests = 0;
+    private int completedRequests = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -153,7 +152,7 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
             bean.zfbNo = wxPayBean.phone;
             bean.name = wxPayBean.name;
             bean.zfbUrl = wxPayBean.usdt;
-            bean.userUsdtId = wxPayBean.id +"";
+            bean.userUsdtId = wxPayBean.id + "";
         } else if (payType.equals("yhkpay")) {
 
             bean.zfbNo = yhkPayBean.phone;
@@ -251,37 +250,36 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                         Type type = new TypeToken<List<UserBean>>() {
                         }.getType();
-//                        List<UserBean> tempList = new Gson().fromJson(body.data.toString(), type);
-                        aliPayBean = new Gson().fromJson(body.data.toString(), UserBean.class);
-                        handleAllRequestsCompleted();
-//                        synchronized (lock) {
-//                            // 根据请求类型保存数据
-//                            switch (requestType) {
-//                                case "alipay":
-//                                    if (tempList != null && !tempList.isEmpty()) {
-//
-//                                        aliPayBean = tempList.get(0);
-//                                    }
-//                                    break;
-//                                case "wechat":
-//                                    if (tempList != null && !tempList.isEmpty()) {
-//                                        wxPayBean = tempList.get(0);
-//                                    }
-//                                    break;
-//                                case "bank":
-//                                    if (tempList != null && !tempList.isEmpty()) {
-//                                        yhkPayBean = tempList.get(0);
-//                                    }
-//                                    break;
-//                            }
-//
-//                            completedRequests++;
-//
-//                            // 检查是否所有请求都完成了
-//                            if (completedRequests == 1) {
-//                                handleAllRequestsCompleted();
-//                            }
-//                        }
+                        List<UserBean> tempList = new Gson().fromJson(body.data.toString(), type);
+                        // aliPayBean = new Gson().fromJson(body.data.toString(), UserBean.class);
+//                        handleAllRequestsCompleted();
+                        synchronized (lock) {
+                            // 根据请求类型保存数据
+                            switch (requestType) {
+                                case "alipay":
+                                    if (tempList != null && !tempList.isEmpty()) {
+                                        aliPayBean = tempList.get(0);
+                                    }
+                                    break;
+                                case "wechat":
+                                    if (tempList != null && !tempList.isEmpty()) {
+                                        wxPayBean = tempList.get(0);
+                                    }
+                                    break;
+                                case "bank":
+                                    if (tempList != null && !tempList.isEmpty()) {
+                                        yhkPayBean = tempList.get(0);
+                                    }
+                                    break;
+                            }
+
+                            completedRequests++;
+
+                            // 检查是否所有请求都完成了
+                            if (completedRequests == 1) {
+                                handleAllRequestsCompleted();
+                            }
+                        }
                     }
 
                     @Override
@@ -385,37 +383,37 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
         } else if (v == binding.activityMinePurseTixianAllTixianTv) {
             binding.activityMinePurseTixianMoneyEt.setText(accountMoeny);
         } else if (v == binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgLl || v == binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt) {
-
-//            DialogAlertUtil.showSheetView(this, getSupportFragmentManager(), new String[]{"支付宝", "微信", "银行卡"}, new DialogAlertUtil.DialogAlertUtilCallBack() {
-//                @Override
-//                public void clickType(int type) {
-//                    if (type == 1) {
-//                        if (aliPayBean != null) {
-//                            binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setText("支付宝:" + aliPayBean.phone);
-//                        } else {
-//                            ToastUtils.toastMsg("请绑定支付宝账号");
-//                            return;
-//                        }
-//                        payType = "alipay";
-//                    } else if (type == 2) {
-//                        if (wxPayBean != null) {
-//                            binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setText("微信:" + wxPayBean.phone);
-//                        } else {
-//                            ToastUtils.toastMsg("请绑定微信账号");
-//                            return;
-//                        }
-//                        payType = "wxpay";
-//                    } else if (type == 3) {
-//                        if (yhkPayBean != null) {
-//                            binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setText("银行卡:" + yhkPayBean.phone);
-//                        } else {
-//                            ToastUtils.toastMsg("请绑定银行卡账号");
-//                            return;
-//                        }
-//                        payType = "yhkpay";
-//                    }
-//                }
-//            });
+            //"微信", "银行卡"
+            DialogAlertUtil.showSheetView(this, getSupportFragmentManager(), new String[]{"支付宝"}, new DialogAlertUtil.DialogAlertUtilCallBack() {
+                @Override
+                public void clickType(int type) {
+                    if (type == 1) {
+                        if (aliPayBean != null) {
+                            binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setText("支付宝：" + aliPayBean.phone);
+                        } else {
+                            ToastUtils.toastMsg("请绑定支付宝账号");
+                            return;
+                        }
+                        payType = "alipay";
+                    } else if (type == 2) {
+                        if (wxPayBean != null) {
+                            binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setText("微信：" + wxPayBean.phone);
+                        } else {
+                            ToastUtils.toastMsg("请绑定微信账号");
+                            return;
+                        }
+                        payType = "wxpay";
+                    } else if (type == 3) {
+                        if (yhkPayBean != null) {
+                            binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setText("银行卡：" + yhkPayBean.phone);
+                        } else {
+                            ToastUtils.toastMsg("请绑定银行卡账号");
+                            return;
+                        }
+                        payType = "yhkpay";
+                    }
+                }
+            });
         }
     }
 
