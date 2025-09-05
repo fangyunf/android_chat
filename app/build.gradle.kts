@@ -11,9 +11,9 @@ android {
     compileSdk = 33
     signingConfigs {
         create("release") {
-            keyAlias = "santi"
+            keyAlias = "lansi"
             keyPassword = "qqqq1111"
-            storeFile = file("santi.jks")
+            storeFile = file("lansi.jks")
             storePassword = "qqqq1111"
         }
     }
@@ -21,8 +21,8 @@ android {
         applicationId = "com.turunsi.lansi"
         minSdk = 21
         targetSdk = 33
-        versionCode = 2
-        versionName = "1.0.9"
+        versionCode = 1
+        versionName = "1.0.0"
         multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

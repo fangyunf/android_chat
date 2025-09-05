@@ -4,16 +4,16 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.turunsi.santi",
+  "applicationId": "com.turunsi.lansi",
   "variantName": "release",
   "elements": [
     {
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 2,
-      "versionName": "1.0.9",
-      "outputFile": "santi_release_v1.0.9.apk"
+      "versionCode": 1,
+      "versionName": "1.0.0",
+      "outputFile": "lansi_release_v1.0.0.apk"
     }
   ],
   "elementType": "File"
