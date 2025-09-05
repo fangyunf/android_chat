@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 
 import com.chad.library.adapter4.BaseQuickAdapter;
 import com.chad.library.adapter4.viewholder.QuickViewHolder;
+import com.netease.yunxin.kit.chatkit.ui.common.ChatUserCache;
 import com.netease.yunxin.kit.teamkit.ui.R;
 import com.yaoxin.appbase.model.CustomMsgBean;
 import com.yaoxin.appbase.model.GroupInfoBean;
@@ -47,7 +48,9 @@ public class TeamSettingUserInfoAdapter extends BaseQuickAdapter<GroupInfoBean, 
             }
         } else {
             GroupInfoBean infoBean = userInfoList.get(i);
-            quickViewHolder.setText(R.id.cell_fun_team_setting_users_name_tv, infoBean.name);
+            // 优先显示备注名，如果没有备注名则显示本名
+            String displayName = getDisplayName(infoBean);
+            quickViewHolder.setText(R.id.cell_fun_team_setting_users_name_tv, displayName);
             GlideUtil.yh_loadImageRoundedCorner(getContext(),iv,infoBean.avatar,26);
             tv.setVisibility(View.VISIBLE);
             if (infoBean.rankState == 1) {
@@ -70,6 +73,23 @@ public class TeamSettingUserInfoAdapter extends BaseQuickAdapter<GroupInfoBean, 
             return userInfoList.size() + 2;
         }
         return userInfoList.size() + 1;
+    }
+    
+    /**
+     * 获取显示名称，优先使用备注名
+     */
+    private String getDisplayName(GroupInfoBean infoBean) {
+        // 使用ChatUserCache获取正确的显示名称，它会优先使用好友备注名
+        String displayName = ChatUserCache.getName(null, infoBean.userId);
+        if (displayName != null && !displayName.trim().isEmpty()) {
+            return displayName;
+        }
+        // 如果ChatUserCache没有找到，使用群内备注名
+        if (infoBean.userGroupName != null && !infoBean.userGroupName.trim().isEmpty()) {
+            return infoBean.userGroupName;
+        }
+        // 最后使用本名
+        return infoBean.name != null ? infoBean.name : "";
     }
 }
 

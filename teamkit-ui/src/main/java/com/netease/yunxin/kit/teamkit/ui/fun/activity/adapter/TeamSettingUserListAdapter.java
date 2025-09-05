@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 
 import com.chad.library.adapter4.BaseQuickAdapter;
 import com.chad.library.adapter4.viewholder.QuickViewHolder;
+import com.netease.yunxin.kit.chatkit.ui.common.ChatUserCache;
 import com.netease.yunxin.kit.teamkit.ui.R;
 import com.yaoxin.appbase.model.GroupInfoBean;
 import com.yaoxin.appbase.utils.GlideUtil;
@@ -27,7 +28,9 @@ public int opt_type = 0;
         ImageView iv = quickViewHolder.getView(R.id.cell_fun_team_setting_users_head_iv);
 
             TextView tv = quickViewHolder.getView(R.id.cell_fun_team_setting_users_name_tv_role);
-            quickViewHolder.setText(R.id.cell_fun_team_setting_users_name_tv, infoBean.name);
+            // 优先显示备注名，如果没有备注名则显示本名
+            String displayName = getDisplayName(infoBean);
+            quickViewHolder.setText(R.id.cell_fun_team_setting_users_name_tv, displayName);
             GlideUtil.yh_loadImageRoundedCorner(getContext(),iv,infoBean.avatar,26);
             tv.setVisibility(View.VISIBLE);
             if (infoBean.rankState == 1) {
@@ -59,6 +62,23 @@ public int opt_type = 0;
     @Override
     protected QuickViewHolder onCreateViewHolder(@NonNull Context context, @NonNull ViewGroup viewGroup, int i) {
         return new QuickViewHolder(R.layout.cell_fun_team_setting_users,viewGroup);
+    }
+    
+    /**
+     * 获取显示名称，优先使用备注名
+     */
+    private String getDisplayName(GroupInfoBean infoBean) {
+        // 使用ChatUserCache获取正确的显示名称，它会优先使用好友备注名
+        String displayName = ChatUserCache.getName(null, infoBean.userId);
+        if (displayName != null && !displayName.trim().isEmpty()) {
+            return displayName;
+        }
+        // 如果ChatUserCache没有找到，使用群内备注名
+        if (infoBean.userGroupName != null && !infoBean.userGroupName.trim().isEmpty()) {
+            return infoBean.userGroupName;
+        }
+        // 最后使用本名
+        return infoBean.name != null ? infoBean.name : "";
     }
 }
 
