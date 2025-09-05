@@ -35,7 +35,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="15dp">
 
-
                 <com.yaoxin.appbase.view.IconTitleArrowTemplate_1
                     android:id="@+id/activity_mine_set_new_tzsy"
                     android:layout_width="match_parent"
@@ -43,6 +42,21 @@
                     android:layout_marginTop="10dp"
                     app:hideImg="true"
                     app:titleText="通知声音" />
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp">
+
+                <com.yaoxin.appbase.view.IconTitleArrowTemplate_1
+                    android:id="@+id/activity_mine_set_anquanyinsi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:hideImg="true"
+                    app:titleText="隐私设置" />
             </RelativeLayout>
 
             <RelativeLayout

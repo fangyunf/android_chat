@@ -34,6 +34,7 @@ import com.turunsi.yaoxin.databinding.ActivityMineSettingBinding;
 import com.turunsi.yaoxin.login.LoginActivity;
 import com.turunsi.yaoxin.main.mine.DownLoadActivity;
 import com.turunsi.yaoxin.main.mine.DownLoadBean;
+import com.turunsi.yaoxin.main.mine.account.AccountAnQuanManagerActivity;
 import com.turunsi.yaoxin.register.ForgetPwdActivity;
 import com.turunsi.yaoxin.welcome.WelcomeActivity;
 import com.yaoxin.appbase.activity.BaseActivity;
@@ -118,6 +119,8 @@ public class SettingNewActivity extends BaseActivity implements View.OnClickList
         viewBinding.activityMineSetNewGywm.setOnClickListener(this);
         viewBinding.activityMineSetNewZxzh.setOnClickListener(this);
 
+        viewBinding.activityMineSetAnquanyinsi.setOnClickListener(this);
+
 
         viewBinding.activityMineSetNewNoticeVoice.viewTitleArrowTv.setText("通知声音");
         viewBinding.activityMineSetNewDeleteCache.viewTitleArrowTv.setText("清空缓存");
@@ -138,7 +141,9 @@ public class SettingNewActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        if (v == viewBinding.activityMineSetNewNoticeVoice.viewTitleArrowLl || v == viewBinding.activityMineSetNewTzsy) {
+        if (v == viewBinding.activityMineSetAnquanyinsi) {
+            startActivity(new Intent(SettingNewActivity.this, AccountAnQuanManagerActivity.class));
+        } else if (v == viewBinding.activityMineSetNewNoticeVoice.viewTitleArrowLl || v == viewBinding.activityMineSetNewTzsy) {
             startActivity(new Intent(SettingNewActivity.this, SettingNotifyNewActivity.class));
         } else if (v == viewBinding.activityMineSetNewDeleteCache.viewTitleArrowLl || v == viewBinding.activityMineSetNewQchc) {
             startActivity(new Intent(SettingNewActivity.this, ClearCacheActivity.class));

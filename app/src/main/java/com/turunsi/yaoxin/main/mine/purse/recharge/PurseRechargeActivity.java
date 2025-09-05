@@ -71,8 +71,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
     void _initRecycleView() {
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 5);
-        Recharge_GridSpacingItemDecoration gridSpacingItemDecoration =
-                new Recharge_GridSpacingItemDecoration(5, SizeUtils.dp2px(10f), false);
+        Recharge_GridSpacingItemDecoration gridSpacingItemDecoration = new Recharge_GridSpacingItemDecoration(5, SizeUtils.dp2px(10f), false);
         gridSpacingItemDecoration.leftSpace = SizeUtils.dp2px(3f);
         recyclerView.addItemDecoration(gridSpacingItemDecoration);
         recyclerView.setLayoutManager(gridLayoutManager);
@@ -108,6 +107,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
         adpter1 = new Recharge_PayType_Adpter();
         List<String> list1 = new ArrayList<>();
         list1.add("支付宝");
+        list1.add("微信");
 //        list1.add("支付宝2");
 //        list1.add("银行卡");
 //        list1.add("USDT");
@@ -233,19 +233,18 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected void _requestData() {
-        HttpUtil.apiW().home_balance()
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        UserBean bean = new Gson().fromJson(body.data.toString(), UserBean.class);
+        HttpUtil.apiW().home_balance().enqueue(new CommonCallback<NetData>() {
+            @Override
+            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                UserBean bean = new Gson().fromJson(body.data.toString(), UserBean.class);
 //                        binding.activityMinePurseRechargeAccountTv.setText("¥"+NumberUtil.formartMoney(bean.balance));
-                    }
+            }
 
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
+            @Override
+            public void Failure(Call<NetData> call, Throwable t) {
 
-                    }
-                });
+            }
+        });
     }
 
     @Override
@@ -325,7 +324,8 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
         registerBean.amount = NumberUtil.formartUploadMoney(inputMoney);
         registerBean.name = "12";
         registerBean.configId = "1";
-        registerBean.type = "alipay";
+//        registerBean.type = "alipay";
+        registerBean.type = payType;
         registerBean.userId = DataUtil.getUserid();
 //        registerBean.payChannel = payType;
 //        if (_type == 1) {
@@ -346,20 +346,19 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
 //                    });
 //        } else {
 
-        HttpUtil.apiW().pay_six(registerBean)
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        UserBean userBean = new Gson().fromJson(body.data.toString(), UserBean.class);
+        HttpUtil.apiW().pay_six(registerBean).enqueue(new CommonCallback<NetData>() {
+            @Override
+            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                UserBean userBean = new Gson().fromJson(body.data.toString(), UserBean.class);
 //                        RechargeScanFragment.showV(getSupportFragmentManager(),payType.equals("wxpay")?"请使用微信扫码":"请使用支付宝扫码",userBean.payUrl);
-                        startAlipayPayment(userBean.url);
-                    }
+                startAlipayPayment(userBean.url);
+            }
 
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
+            @Override
+            public void Failure(Call<NetData> call, Throwable t) {
 
-                    }
-                });
+            }
+        });
 //        }
     }
 
