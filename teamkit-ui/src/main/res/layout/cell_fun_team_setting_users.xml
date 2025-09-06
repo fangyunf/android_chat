@@ -1,44 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="53dp"
-    android:gravity="center_horizontal"
+    android:layout_height="@dimen/dimen_75_dp"
     android:layout_marginLeft="@dimen/dimen_16_dp"
-    android:layout_height="@dimen/dimen_75_dp">
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="@dimen/dimen_52_dp"
         android:layout_height="@dimen/dimen_52_dp">
 
         <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/cell_fun_team_setting_users_head_iv"
             android:layout_width="52dp"
             android:layout_height="52dp"
-            app:riv_corner_radius="26dp"
             android:scaleType="centerCrop"
-            android:id="@+id/cell_fun_team_setting_users_head_iv"
+            app:riv_corner_radius="26dp" />
 
-            />
         <TextView
             android:id="@+id/cell_fun_team_setting_users_name_tv_role"
             android:layout_width="31dp"
             android:layout_height="14dp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/fun_bg_purple_rounded_7"
             android:gravity="center"
             android:text="管理"
             android:textColor="#ffffffff"
             android:textSize="10sp"
-            android:visibility="gone"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/fun_bg_purple_rounded_7"
-            />
+            android:visibility="gone" />
     </RelativeLayout>
+
     <TextView
-        android:layout_marginTop="@dimen/dimen_2_dp"
         android:id="@+id/cell_fun_team_setting_users_name_tv"
         android:layout_width="wrap_content"
         android:layout_height="20dp"
+        android:layout_marginTop="@dimen/dimen_2_dp"
         android:text=""
-        android:textColor="@color/color_white"
-        android:textSize="12sp"
-        />
+        android:textColor="@color/black"
+        android:textSize="12sp" />
 </LinearLayout>

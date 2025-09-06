@@ -12,17 +12,17 @@ android {
     signingConfigs {
         create("release") {
             keyAlias = "lansi"
-            keyPassword = "qqqq1111"
+            keyPassword = "123456"
             storeFile = file("lansi.jks")
-            storePassword = "qqqq1111"
+            storePassword = "123456"
         }
     }
     defaultConfig {
         applicationId = "com.turunsi.lansi"
         minSdk = 21
         targetSdk = 33
-        versionCode = 3
-        versionName = "1.0.2"
+        versionCode = 4
+        versionName = "1.0.3"
         multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
