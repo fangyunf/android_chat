@@ -66,7 +66,7 @@ public class PurseIndexActivity extends BaseActivity implements View.OnClickList
         binding.activityMinePurseIndexNav.setActionClickListener(new ICallBack() {
             @Override
             public void callBack() {
-                BillDetailListActivity.start(BillDetailListActivity.class,that,null);
+                BillDetailListActivity.start(BillDetailListActivity.class, that, null);
             }
         });
     }
@@ -83,7 +83,7 @@ public class PurseIndexActivity extends BaseActivity implements View.OnClickList
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        UserBean bean = new Gson().fromJson(body.data.toString(),UserBean.class);
+                        UserBean bean = new Gson().fromJson(body.data.toString(), UserBean.class);
                         binding.activityMinePurseIndexBalanceTv.setText(NumberUtil.formartMoney(bean.balance));
                     }
 
@@ -112,34 +112,34 @@ public class PurseIndexActivity extends BaseActivity implements View.OnClickList
 //            PurseRechargeActivity.start(PurseRechargeActivity.class,this,null);
             Map map = new HashMap();
             map.put("type", "1");
-            PurseRechargeActivity.start(PurseRechargeActivity.class,this,map);
+            PurseRechargeActivity.start(PurseRechargeActivity.class, this, map);
         } else if (v == binding.activityMinePurseIndexRechargeTv2) {
             Map map = new HashMap();
             map.put("type", "1");
-            PurseRechargeActivity.start(PurseRechargeActivity.class,this,map);
+            PurseRechargeActivity.start(PurseRechargeActivity.class, this, map);
         } else if (v == binding.activityMinePurseIndexTixianTv) {
 //            ToastUtils.toastMsg("敬请期待");
-            PurseTiXianActivity.start(PurseTiXianActivity.class,this,null);
+            PurseTiXianActivity.start(PurseTiXianActivity.class, this, null);
         } else if (v == binding.activityMinePurseIndexHbjl) {
 //            BillDetailListActivity.start(BillDetailListActivity.class,this,null);
-            FunRedPacketRecordListActivity.start(FunRedPacketRecordListActivity.class,this,null);
+            FunRedPacketRecordListActivity.start(FunRedPacketRecordListActivity.class, this, null);
         } else if (v == binding.activityMinePurseIndexLqmx) {
-            BillDetailListActivity.start(BillDetailListActivity.class,this,null);
+            BillDetailListActivity.start(BillDetailListActivity.class, this, null);
         } else if (v == binding.activityMinePurseIndexBdzfb) {
-            BindAlipayActivity.start(BindAlipayActivity.class,this,null);
+            BindAlipayActivity.start(BindAlipayActivity.class, this, null);
         } else if (v == binding.activityMinePurseIndexBdwx) {
             Map map = new HashMap();
-            map.put("type","1");
-            BindAlipayActivity.start(BindAlipayActivity.class,this,map);
-        }
-        else if (v == binding.activityMinePurseIndexWdkb) {
+            map.put("type", "1");
+            BindAlipayActivity.start(BindAlipayActivity.class, this, map);
+        } else if (v == binding.activityMinePurseIndexWdkb) {
 
-            BindBankCardActivity.start(BindBankCardActivity.class,this,null);
+            BankCardListActivity.start(BankCardListActivity.class, this, null);
+
+            //BindBankCardActivity.start(BindBankCardActivity.class,this,null);
 //            Map map = new HashMap();
 //            map.put("type","3");
 //            BindAlipayActivity.start(BindAlipayActivity.class,this,map);
-        }
-        else if (v == binding.activityMinePurseIndexSmrz) {
+        } else if (v == binding.activityMinePurseIndexSmrz) {
             ToastUtils.toastMsg("已完成实名");
 //            if (!Constant.isRunningRealName) {
 //                Constant.isRunningRealName = true;

@@ -2,6 +2,7 @@ package com.turunsi.yaoxin.main.mine.purse.alipay;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -15,6 +16,7 @@ import com.yaoxin.appbase.activity.BaseActivity;
 import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.PayParamsBean;
 import com.yaoxin.appbase.model.RegisterBean;
+import com.yaoxin.appbase.model.RequestParams1Bean;
 import com.yaoxin.appbase.model.RequestParamsBean;
 import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
@@ -39,6 +41,7 @@ import retrofit2.Response;
 public class BindBankCardActivity extends BaseActivity implements View.OnClickListener {
     ActivityMineBindBankcardBinding binding;
     PayParamsBean payParamsBean;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,10 +52,12 @@ public class BindBankCardActivity extends BaseActivity implements View.OnClickLi
 
         binding.activityMineBindBankcardName.viewTitleTfWithoutBgTv.setText("真实姓名");
         binding.activityMineBindBankcardIdCard.viewTitleTfWithoutBgTv.setText("身份证号");
+        binding.activityMineBindBankcardIdCard.getRoot().setVisibility(View.GONE);
         binding.activityMineBindBankcardCardNum.viewTitleTfWithoutBgTv.setText("银行卡号");
         binding.activityMineBindBankcardBankName.viewTitleTfWithoutBgTv.setText("银行名称");
         binding.activityMineBindBankcardYuliuPhone.viewTitleTfWithoutBgTv.setText("预留手机号");
         binding.activityMineBindBankcardVerifyCode.viewTitleTfWithoutBgTv.setText("输入验证码");
+        binding.activityMineBindBankcardVerifyCode.getRoot().setVisibility(View.GONE);
         binding.activityMineBindBankcardVerifyCode.btnCaptcha.setVisibility(View.VISIBLE);
 
         CountDownView mCountDownView = binding.activityMineBindBankcardVerifyCode.btnCaptcha;
@@ -79,7 +84,6 @@ public class BindBankCardActivity extends BaseActivity implements View.OnClickLi
     }
 
 
-
     @Override
     public void onClick(View v) {
         if (v == binding.activityMineBindBankcardNav.addCloseImageButton()) {
@@ -102,10 +106,10 @@ public class BindBankCardActivity extends BaseActivity implements View.OnClickLi
             ToastUtils.toastMsg("请输入姓名");
             return;
         }
-        if (idcard.isEmpty()) {
-            ToastUtils.toastMsg("请输入身份证号");
-            return;
-        }
+//        if (idcard.isEmpty()) {
+//            ToastUtils.toastMsg("请输入身份证号");
+//            return;
+//        }
         if (cardNum.isEmpty()) {
             ToastUtils.toastMsg("请输入银行卡号");
             return;
@@ -128,7 +132,7 @@ public class BindBankCardActivity extends BaseActivity implements View.OnClickLi
         registerBean.configId = "3";
         registerBean.userId = DataUtil.getUserid();
 
-        LoadingDialog.showDialog(getSupportFragmentManager(),"获取中..");
+        LoadingDialog.showDialog(getSupportFragmentManager(), "获取中..");
         HttpUtil.apiW().pay_createCardApply(registerBean)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
@@ -137,7 +141,7 @@ public class BindBankCardActivity extends BaseActivity implements View.OnClickLi
                         payParamsBean = new Gson().fromJson(body.data.toString(), PayParamsBean.class);
                         if (payParamsBean.error_msg != null && !payParamsBean.error_msg.isEmpty()) {
                             ToastUtils.toastMsg(payParamsBean.error_msg);
-                        }  else {
+                        } else {
                             ToastUtils.toastMsg(body.msg);
                         }
                     }
@@ -153,50 +157,114 @@ public class BindBankCardActivity extends BaseActivity implements View.OnClickLi
                     }
                 });
     }
+
     public void confrimBind() {
+        // String code = getTextStr(binding.activityMineBindBankcardVerifyCode.viewTitleTfWithoutBgEt);
+//        if (payParamsBean == null || payParamsBean.id.isEmpty()) {
+//            ToastUtils.toastMsg("请先获取验证码");
+//            return;
+//        }
+//        if (code.isEmpty()) {
+//            ToastUtils.toastMsg("请输入验证码");
+//            return;
+//        }
+
+        String name = getTextStr(binding.activityMineBindBankcardName.viewTitleTfWithoutBgEt);
+        String idcard = getTextStr(binding.activityMineBindBankcardIdCard.viewTitleTfWithoutBgEt);
+        String cardNum = getTextStr(binding.activityMineBindBankcardCardNum.viewTitleTfWithoutBgEt);
+        String bankName = getTextStr(binding.activityMineBindBankcardBankName.viewTitleTfWithoutBgEt);
+        String phone = getTextStr(binding.activityMineBindBankcardYuliuPhone.viewTitleTfWithoutBgEt);
         String code = getTextStr(binding.activityMineBindBankcardVerifyCode.viewTitleTfWithoutBgEt);
 
-
-        if (payParamsBean == null || payParamsBean.id.isEmpty()) {
-            ToastUtils.toastMsg("请先获取验证码");
+        if (name.isEmpty()) {
+            ToastUtils.toastMsg("请输入姓名");
             return;
         }
-        if (code.isEmpty()) {
-            ToastUtils.toastMsg("请输入验证码");
+//        if (idcard.isEmpty()) {
+//            ToastUtils.toastMsg("请输入身份证号");
+//            return;
+//        }
+        if (cardNum.isEmpty()) {
+            ToastUtils.toastMsg("请输入银行卡号");
+            return;
+        }
+        if (bankName.isEmpty()) {
+            ToastUtils.toastMsg("请输入银行名称");
+            return;
+        }
+        if (phone.isEmpty()) {
+            ToastUtils.toastMsg("请输入手机号");
             return;
         }
 
-        RequestParamsBean registerBean = new RequestParamsBean();
-        registerBean.apply_id = payParamsBean.id;
-        registerBean.memberId = payParamsBean.member_id;
-        registerBean.smsCode = code;
-        registerBean.configId = "3";
-        registerBean.userId = DataUtil.getUserid();
-
-        LoadingDialog.showDialog(getSupportFragmentManager(),"绑卡中..");
-        HttpUtil.apiW().pay_createCardconfirm(registerBean)
+        RequestParams1Bean registerBean = new RequestParams1Bean(cardNum, name, 3);
+        registerBean.usdt = phone;
+        registerBean.certNo = bankName;
+        LoadingDialog.showDialog(getSupportFragmentManager(), "请稍等..");
+        HttpUtil.apiW().bindCard_createUptadeZFB2(registerBean)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+//                        Log.i("fanbo", body.data.toString());
+                        if (body.code == 200) {
+                            ToastUtils.toastMsg("绑卡成功");
+                            finish();
+                        } else {
+                            ToastUtils.toastMsg(body.msg);
+                        }
 
-                         payParamsBean = new Gson().fromJson(body.data.toString(), PayParamsBean.class);
-                         if (payParamsBean.error_msg != null && !payParamsBean.error_msg.isEmpty()) {
-                           ToastUtils.toastMsg(payParamsBean.error_msg);
-                             LoadingDialog.dismissDialog();
-                         }  else {
-                             bindNext();
-                         }
+//                        payParamsBean = new Gson().fromJson(body.data.toString(), PayParamsBean.class);
+//                        if (payParamsBean.error_msg != null && !payParamsBean.error_msg.isEmpty()) {
+//                            ToastUtils.toastMsg(payParamsBean.error_msg);
+//                            LoadingDialog.dismissDialog();
+//                        } else {
+//                            bindNext();
+//                        }
                     }
 
                     @Override
                     public void Failure(Call<NetData> call, Throwable t) {
 
-                        LoadingDialog.dismissDialog();
                     }
 
+                    @Override
+                    public void end() {
+                        LoadingDialog.dismissDialog();
+                    }
                 });
 
+//        RequestParamsBean registerBean = new RequestParamsBean();
+//        registerBean.apply_id = payParamsBean.id;
+//        registerBean.memberId = payParamsBean.member_id;
+//        registerBean.smsCode = code;
+//        registerBean.configId = "3";
+//        registerBean.userId = DataUtil.getUserid();
+//
+//        LoadingDialog.showDialog(getSupportFragmentManager(), "绑卡中..");
+//        HttpUtil.apiW().pay_createCardconfirm(registerBean)
+//                .enqueue(new CommonCallback<NetData>() {
+//                    @Override
+//                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+//
+//                        payParamsBean = new Gson().fromJson(body.data.toString(), PayParamsBean.class);
+//                        if (payParamsBean.error_msg != null && !payParamsBean.error_msg.isEmpty()) {
+//                            ToastUtils.toastMsg(payParamsBean.error_msg);
+//                            LoadingDialog.dismissDialog();
+//                        } else {
+//                            bindNext();
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void Failure(Call<NetData> call, Throwable t) {
+//
+//                        LoadingDialog.dismissDialog();
+//                    }
+//
+//                });
+
     }
+
     void bindNext() {
 
         String phone = getTextStr(binding.activityMineBindBankcardYuliuPhone.viewTitleTfWithoutBgEt);

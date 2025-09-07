@@ -31,14 +31,12 @@
             android:id="@+id/activity_mine_bind_bankcard_name"
             layout="@layout/view_top_title_et"
             android:layout_width="match_parent"
-
             android:layout_height="wrap_content" />
 
         <include
             android:id="@+id/activity_mine_bind_bankcard_id_card"
             layout="@layout/view_top_title_et"
             android:layout_width="match_parent"
-
             android:layout_height="wrap_content" />
 
         <include

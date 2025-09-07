@@ -23,6 +23,7 @@
             android:padding="@dimen/dimen_16_dp">
 
             <TextView
+                android:id="@+id/tvName"
                 android:layout_width="0dp"
                 android:layout_height="22dp"
                 android:layout_weight="1"
@@ -31,8 +32,11 @@
                 android:textSize="16sp" />
 
             <RelativeLayout
+                android:id="@+id/btnUnbind"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true">
 
                 <ImageView
                     android:layout_width="@dimen/dimen_48_dp"
@@ -51,6 +55,7 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/tvBankNo"
             android:layout_width="wrap_content"
             android:layout_height="28dp"
             android:layout_alignParentBottom="true"
