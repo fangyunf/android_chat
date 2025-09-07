@@ -1,6 +1,7 @@
 package com.yaoxin.appbase.activity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -16,17 +17,17 @@ import com.yaoxin.appbase.utils.DataUtil;
 
 import java.util.HashMap;
 
-public class BaseWebViewActivity extends BaseActivity{
+public class BaseWebViewActivity extends BaseActivity {
 
     ActivityBaseWebviewBinding binding;
     int type = 0;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         String type1 = getIntent().getStringExtra("type");
         String title = getIntent().getStringExtra("title");
         String url = getIntent().getStringExtra("url");
-
 
         if (type1 != null) {
             type = Integer.parseInt(type1);
@@ -67,7 +68,31 @@ public class BaseWebViewActivity extends BaseActivity{
             } catch (Exception e) {
 
             }
+        }
 
+        if (type == 4) {
+            binding.activityBaseWebviewNav.getTitleView().setText("抽奖");
+            WebSettings webSettings = webView.getSettings();
+            webView.setWebViewClient(new WebViewClient());
+            webSettings.setDomStorageEnabled(true);
+            webSettings.setDatabaseEnabled(true);
+
+            HashMap map = new HashMap<>();
+            map.put("url", Constant.CHOUJIANG_H5);
+            map.put("token", DataUtil.getToken());
+            map.put("phone", DataUtil.getUserInfo().phoneNo);
+            String token = new Gson().toJson(map);
+            String newUrl = Constant.CHOUJIANG_H5 + "?token=" + DataUtil.getToken() + "&phone=" + DataUtil.getUserInfo().phoneNo;
+            try {
+                Log.i("fanbo", newUrl);
+                String aesToken = AESUtil.aesEncrypt(token);
+                String phone = AESUtil.aesEncrypt(DataUtil.getUserInfo().phoneNo);
+                url = url + "?token=" + aesToken;
+                //webView.loadUrl(newUrl);
+                webView.loadUrl("http://192.168.1.7:5173/gw/build/");
+            } catch (Exception e) {
+                Log.e("BaseWebViewActivity", "Error loading lottery URL", e);
+            }
         }
 
         binding.activityBaseWebviewNav.addCloseImageButton().setOnClickListener(new View.OnClickListener() {

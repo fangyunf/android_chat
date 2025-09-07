@@ -1,7 +1,10 @@
 package com.turunsi.yaoxin.main.mine.purse.bankcard;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
 
@@ -56,6 +59,15 @@ public class BankCardListActivity extends BaseActivity implements View.OnClickLi
         adapter.setOnItemClickListener((baseQuickAdapter, view, i) -> {
             if (i == dataList.size()) {
                 BindBankCardActivity.start(BindBankCardActivity.class, BankCardListActivity.this, null);
+            } else {
+                UserBean userBean = baseQuickAdapter.getItem(i);
+                String type = getIntent().getStringExtra("type");
+                if (!TextUtils.isEmpty(type) && type.equals("1")) {
+                    Intent intent = new Intent();
+                    intent.putExtra("bank", userBean);
+                    setResult(Activity.RESULT_OK, intent);
+                    finish();
+                }
             }
         });
     }

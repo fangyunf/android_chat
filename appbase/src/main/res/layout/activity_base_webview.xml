@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <com.yaoxin.appbase.navbar.NavToolbar
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
+    <com.yaoxin.appbase.navbar.NavToolbar
         android:id="@+id/activity_base_webview_nav"
         style="@style/WhiteFontToolbar"
         android:background="#ffffff"
@@ -14,13 +14,11 @@
         app:support_translucent_status_bar="false"
         app:title="添加好友"
         app:title_text_color="@color/color_333333"
-        app:under_divider_color="@color/color_d5d5d5"
+        app:under_divider_color="@color/color_d5d5d5" />
 
-        />
     <WebView
         android:id="@+id/activity_base_webview_webview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
+        android:layout_height="match_parent" />
 
 </LinearLayout>

@@ -210,6 +210,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         binding.fragmentMineTcdlView.setOnClickListener(this);
 
         binding.fragmentMineSztxtpView.setOnClickListener(this);
+        binding.fragmentMineCjView.setOnClickListener(this);
 
 //        binding.fragmentMineQbyeView.rightIv.setVisibility(View.GONE);
 //        binding.fragmentMineQbyeView.rightTv.setVisibility(View.VISIBLE);
@@ -369,7 +370,9 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         Context context = getContext();
-        if (v == binding.fragmentMineSztxtpView) {
+        if (v == binding.fragmentMineCjView) {
+            XKitRouter.withKey(com.yaoxin.appbase.net.Constant.BaseWebViewActivityKey).withParam("type", "4").withParam("title", "抽奖").withContext(requireActivity()).navigate();
+        } else if (v == binding.fragmentMineSztxtpView) {
             UploadUtil.openPhotoLibrary(getActivity(), com.yaoxin.appbase.net.Constant.REQUEST_CODE_CHOOSE);
         } else if (v == binding.fragmentMineErweimaIv) {
             if (getActivity() != null) {

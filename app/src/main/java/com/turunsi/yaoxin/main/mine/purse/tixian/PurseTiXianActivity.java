@@ -1,6 +1,7 @@
 package com.turunsi.yaoxin.main.mine.purse.tixian;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
@@ -15,6 +16,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.turunsi.yaoxin.R;
 import com.turunsi.yaoxin.main.mine.purse.alipay.BindAlipayActivity;
+import com.turunsi.yaoxin.main.mine.purse.bankcard.BankCardListActivity;
 import com.yaoxin.appbase.activity.BaseActivity;
 import com.turunsi.yaoxin.databinding.ActivityMinePurseTixianBinding;
 import com.yaoxin.appbase.model.NetData;
@@ -34,6 +36,7 @@ import com.yaoxin.appbase.view.pwdkeyboard.PayEditText;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -236,9 +239,9 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
 //        makeRequest(wechatBean, "wechat");
 //
 //        // 发起银行卡请求
-        RegisterBean bankBean = new RegisterBean();
-        bankBean.type = 3;
-        makeRequest(bankBean, "bank");
+//        RegisterBean bankBean = new RegisterBean();
+//        bankBean.type = 3;
+//        makeRequest(bankBean, "bank");
     }
 
     private void makeRequest(RegisterBean bean, String requestType) {
@@ -273,7 +276,7 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
                     completedRequests++;
 
                     // 检查是否所有请求都完成了
-                    if (completedRequests == 2) {
+                    if (completedRequests == 1) {
                         handleAllRequestsCompleted();
                     }
                 }
@@ -284,7 +287,7 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
                 synchronized (lock) {
                     completedRequests++;
                     // 即使失败也要检查是否所有请求都完成了
-                    if (completedRequests == 2) {
+                    if (completedRequests == 1) {
                         handleAllRequestsCompleted();
                     }
                 }
@@ -401,17 +404,29 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
 //                        payType = "wxpay";
 //                    }
                     else if (type == 2) {
-                        if (yhkPayBean != null) {
-                            binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setText("银行卡：" + yhkPayBean.phone);
-                        } else {
-                            ToastUtils.toastMsg("请绑定银行卡账号");
-                            return;
-                        }
-                        payType = "yhkpay";
+//                        if (yhkPayBean != null) {
+//                            binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setText("银行卡：" + yhkPayBean.phone);
+//                        } else {
+//                            ToastUtils.toastMsg("请绑定银行卡账号");
+//                            return;
+//                        }
+                        //payType = "yhkpay";
+                        HashMap map = new HashMap<>();
+                        map.put("type", "1");
+                        BankCardListActivity.startForResult(BankCardListActivity.class, PurseTiXianActivity.this, map);
                     }
                 }
             });
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 8 && resultCode == RESULT_OK) {
+            yhkPayBean = (UserBean) data.getSerializableExtra("bank");
+            binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setText("银行卡：" + yhkPayBean.phone);
+            payType = "yhkpay";
+        }
+    }
 }
