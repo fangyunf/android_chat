@@ -1,5 +1,7 @@
 package com.yaoxin.appbase.net;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 
@@ -45,6 +47,9 @@ public class TokenInterceptor implements Interceptor {
             if (!DataUtil.getToken().isEmpty() && !DataUtil.getUserInfo().phoneNo.isEmpty()) {
                 builder.addHeader("Authorization", DataUtil.getToken());
                 builder.addHeader("phone", DataUtil.getUserInfo().phoneNo);
+
+                Log.i("fanbo", DataUtil.getToken());
+                Log.i("phone", DataUtil.getUserInfo().phoneNo);
             }
             // 创建新的请求
             Request newRequest = builder
@@ -62,6 +67,7 @@ public class TokenInterceptor implements Interceptor {
         original = requestBuilder.build();
         return chain.proceed(original);
     }
+
     // 模拟修改请求体的方法
     private String modifyRequestBody(String oldBody) {
         // 这里可以对请求体进行任何操作，比如增加、修改参数等
@@ -72,7 +78,7 @@ public class TokenInterceptor implements Interceptor {
             throw new RuntimeException(e);
         }
         HashMap map = new HashMap();
-        map.put("param",s);
+        map.put("param", s);
         return new Gson().toJson(map);
     }
 
