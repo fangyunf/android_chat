@@ -5,7 +5,7 @@ import android.view.View;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-public class BillDetailGridSpacingItemDecoration  extends RecyclerView.ItemDecoration{
+public class BillDetailGridSpacingItemDecoration extends RecyclerView.ItemDecoration {
 
     private int spanCount; //列数
     private int spacing; //间隔

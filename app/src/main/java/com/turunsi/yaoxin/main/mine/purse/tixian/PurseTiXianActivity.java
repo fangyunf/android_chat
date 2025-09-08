@@ -39,14 +39,13 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 public class PurseTiXianActivity extends BaseActivity implements View.OnClickListener {
+    private final Object lock = new Object();
     ActivityMinePurseTixianBinding binding;
     String accountMoeny;
     String payType = "alipay";
-
     UserBean aliPayBean;
     UserBean wxPayBean;
     UserBean yhkPayBean;
-    private final Object lock = new Object();
     private int completedRequests = 0;
 
     @Override
@@ -153,7 +152,7 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
             bean.zfbNo = wxPayBean.phone;
             bean.name = wxPayBean.name;
             bean.zfbUrl = wxPayBean.usdt;
-            bean.userUsdtId = wxPayBean.id +"";
+            bean.userUsdtId = wxPayBean.id + "";
         } else if (payType.equals("yhkpay")) {
 
             bean.zfbNo = yhkPayBean.phone;

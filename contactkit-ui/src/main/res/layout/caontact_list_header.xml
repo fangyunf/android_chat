@@ -1,85 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/color_ededed"
-    android:layout_height="wrap_content">
+    android:orientation="vertical">
+
     <LinearLayout
         android:id="@+id/caontact_list_header_new_haoyou_ll"
-
-        android:paddingVertical="@dimen/dimen_14_dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:paddingHorizontal="@dimen/dimen_16_dp"
-        >
+        android:paddingVertical="@dimen/dimen_14_dp">
 
 
         <RelativeLayout
             android:layout_width="47dp"
             android:layout_height="47dp">
+
             <ImageView
-                android:src="@mipmap/caontact_list_header_new_friend"
                 android:layout_width="42dp"
+                android:layout_height="42dp"
                 android:layout_alignParentBottom="true"
-                android:layout_height="42dp"/>
+                android:src="@mipmap/caontact_list_header_new_friend" />
+
             <TextView
-                android:layout_alignParentEnd="true"
                 android:id="@+id/caontact_list_header_new_friend_num_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="18dp"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/fun_bg_red_rounded_9"
                 android:gravity="center"
                 android:minWidth="18dp"
                 android:text="99"
                 android:textColor="@color/color_white"
-                android:textSize="12sp"
-                android:background="@drawable/fun_bg_red_rounded_9"
-                />
+                android:textSize="12sp" />
         </RelativeLayout>
+
         <TextView
-            android:layout_marginLeft="@dimen/dimen_8_dp"
-            android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="22dp"
+            android:layout_marginLeft="@dimen/dimen_8_dp"
+            android:layout_weight="1"
             android:text="新的好友"
             android:textColor="#ff000000"
-            android:textSize="16sp"
-            />
+            android:textSize="16sp" />
     </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_1_dp"
-        android:background="#F2F2F2"
-        />
+        android:background="#F2F2F2" />
+
     <LinearLayout
 
         android:id="@+id/caontact_list_header_new_qunliao_ll"
-        android:paddingVertical="@dimen/dimen_14_dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:paddingHorizontal="@dimen/dimen_16_dp"
-        >
+        android:paddingVertical="@dimen/dimen_14_dp">
 
 
         <RelativeLayout
             android:layout_width="47dp"
             android:layout_height="47dp">
+
             <ImageView
-                android:src="@mipmap/caontact_list_header_qunliao"
                 android:layout_width="42dp"
+                android:layout_height="42dp"
                 android:layout_alignParentBottom="true"
-                android:layout_height="42dp"/>
+                android:src="@mipmap/caontact_list_header_qunliao" />
         </RelativeLayout>
+
         <TextView
-            android:layout_marginLeft="@dimen/dimen_8_dp"
-            android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="22dp"
+            android:layout_marginLeft="@dimen/dimen_8_dp"
+            android:layout_weight="1"
             android:text="群聊列表"
             android:textColor="#ff000000"
-            android:textSize="16sp"
-            />
+            android:textSize="16sp" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/caontact_list_header_new_heimingdan_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="@dimen/dimen_16_dp"
+        android:paddingVertical="@dimen/dimen_14_dp">
+
+
+        <RelativeLayout
+            android:layout_width="47dp"
+            android:layout_height="47dp">
+
+            <ImageView
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_alignParentBottom="true"
+                android:src="@mipmap/caontact_list_header_qunliao" />
+        </RelativeLayout>
+        
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="22dp"
+            android:layout_marginLeft="@dimen/dimen_8_dp"
+            android:layout_weight="1"
+            android:text="黑名单"
+            android:textColor="#ff000000"
+            android:textSize="16sp" />
     </LinearLayout>
 </LinearLayout>

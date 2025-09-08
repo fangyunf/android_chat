@@ -40,6 +40,7 @@ public class GroupListActivity extends BaseActivity implements View.OnClickListe
     GroupListAdapter adapter;
     List<GroupInfoBean> dataList;
     String caiDanId;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +52,7 @@ public class GroupListActivity extends BaseActivity implements View.OnClickListe
         binding.activityMineGroupListNav.addCloseImageButton().setOnClickListener(this);
 
         binding.activityMineGroupListRv.setLayoutManager(new LinearLayoutManager(this));
-         adapter = new GroupListAdapter();
+        adapter = new GroupListAdapter();
         binding.activityMineGroupListRv.setAdapter(adapter);
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener<GroupInfoBean>() {
             @Override
@@ -84,7 +85,7 @@ public class GroupListActivity extends BaseActivity implements View.OnClickListe
                                     }
                                 });
                     }
-                },"发放彩蛋至 " + baseQuickAdapter.getItem(i).name);
+                }, "发放彩蛋至 " + baseQuickAdapter.getItem(i).name);
             }
         });
 
@@ -105,9 +106,10 @@ public class GroupListActivity extends BaseActivity implements View.OnClickListe
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                        Type type = new TypeToken<List<GroupInfoBean>>() {}.getType();
+                        Type type = new TypeToken<List<GroupInfoBean>>() {
+                        }.getType();
 
-                         dataList = new Gson().fromJson(body.data.toString(),type);
+                        dataList = new Gson().fromJson(body.data.toString(), type);
 
                         adapter.setItems(dataList);
                         adapter.notifyDataSetChanged();

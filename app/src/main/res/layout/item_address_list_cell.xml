@@ -2,13 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
+    android:layout_marginTop="@dimen/dimen_14_dp"
 
     android:background="@color/color_F6F6F6"
-    android:layout_marginTop="@dimen/dimen_14_dp"
+    android:orientation="vertical"
     android:paddingHorizontal="@dimen/dimen_16_dp"
-    android:paddingVertical="@dimen/dimen_12_dp"
-    >
+    android:paddingVertical="@dimen/dimen_12_dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -77,12 +76,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dimen_40_dp"
+            android:layout_weight="1"
             android:text="四川省 成都市 高新区 天府一街369号 两江国际菜鸟驿站"
             android:textColor="@color/black"
-            android:textSize="@dimen/text_size_16"
-android:layout_weight="1"
-            android:layout_marginEnd="@dimen/dimen_40_dp"
-            />
+            android:textSize="@dimen/text_size_16" />
 
         <ImageView
             android:layout_width="wrap_content"

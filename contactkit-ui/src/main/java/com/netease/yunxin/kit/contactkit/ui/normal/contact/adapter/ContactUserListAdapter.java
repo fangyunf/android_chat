@@ -40,6 +40,9 @@ public class ContactUserListAdapter extends BaseQuickAdapter<GroupInfoBean, Quic
             TextView numTv = quickViewHolder.getView(R.id.caontact_list_header_new_friend_num_tv);
             LinearLayout qunliaoLL = quickViewHolder.getView(R.id.caontact_list_header_new_qunliao_ll);
             LinearLayout haoyouLL = quickViewHolder.getView(R.id.caontact_list_header_new_haoyou_ll);
+
+            LinearLayout hmd = quickViewHolder.getView(R.id.caontact_list_header_new_heimingdan_ll);
+
             qunliaoLL.setOnClickListener(v -> {
                 MyGroupListActivity.start(MyGroupListActivity.class, getContext(), null);
             });
@@ -48,6 +51,11 @@ public class ContactUserListAdapter extends BaseQuickAdapter<GroupInfoBean, Quic
                         .withContext(getContext())
                         .navigate();
             });
+
+            hmd.setOnClickListener(view -> XKitRouter.withKey(RouterConstant.PATH_FUN_MY_BLACK_PAGE)
+                    .withContext(getContext())
+                    .navigate());
+
             if (friendApplyNum > 0) {
                 numTv.setVisibility(View.VISIBLE);
                 numTv.setText(friendApplyNum + "");
@@ -73,11 +81,12 @@ public class ContactUserListAdapter extends BaseQuickAdapter<GroupInfoBean, Quic
                 tv.setVisibility(View.GONE);
             }
         }
-        quickViewHolder.setText(R.id.cell_fun_team_setting_users_mingdan_name_tv, (infoBean1.remark != null && !infoBean1.remark.isEmpty() ) ? infoBean1.remark : infoBean1.name);
+        quickViewHolder.setText(R.id.cell_fun_team_setting_users_mingdan_name_tv, (infoBean1.remark != null && !infoBean1.remark.isEmpty()) ? infoBean1.remark : infoBean1.name);
         GlideUtil.yh_loadImageRoundedCorner(getContext(), iv, infoBean1.avatar, 22);
 
 
     }
+
     @Override
     protected int getItemViewType(int position, @NonNull List<? extends GroupInfoBean> list) {
         if (!_isSearch && position == 0) {
@@ -85,6 +94,7 @@ public class ContactUserListAdapter extends BaseQuickAdapter<GroupInfoBean, Quic
         }
         return Constant.RECYCLE_VIEW_ITEM;
     }
+
     @NonNull
     @Override
     protected QuickViewHolder onCreateViewHolder(@NonNull Context context, @NonNull ViewGroup viewGroup, int i) {

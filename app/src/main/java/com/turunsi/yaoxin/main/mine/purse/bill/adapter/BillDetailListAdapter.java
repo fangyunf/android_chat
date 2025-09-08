@@ -24,10 +24,10 @@ public class BillDetailListAdapter extends BaseQuickAdapter<BillDetailBean, Quic
 
     @Override
     protected void onBindViewHolder(@NonNull QuickViewHolder quickViewHolder, int i, @Nullable BillDetailBean bean) {
-        quickViewHolder.setText(R.id.item_purse_bill_detail_list_title_tv,bean.name)
+        quickViewHolder.setText(R.id.item_purse_bill_detail_list_title_tv, bean.name)
                 .setText(R.id.item_purse_bill_detail_list_content_tv, TimeUtil.stampToDate(bean.createTime))
-                .setText(R.id.item_purse_bill_detail_list_money_tv, (bean.amount > 0 ? "+": "-") + NumberUtil.formartMoney(Math.abs(bean.amount) + "") )
-                .setTextColor(R.id.item_purse_bill_detail_list_money_tv,getContext().getResources().getColor(bean.amount > 0 ?R.color.color_FF3A3A:R.color.color_24CE70));
+                .setText(R.id.item_purse_bill_detail_list_money_tv, (bean.amount > 0 ? "+" : "-") + NumberUtil.formartMoney(Math.abs(bean.amount) + ""))
+                .setTextColor(R.id.item_purse_bill_detail_list_money_tv, getContext().getResources().getColor(bean.amount > 0 ? R.color.color_FF3A3A : R.color.color_24CE70));
         ;
 
         ImageView headIv = quickViewHolder.getView(R.id.item_purse_bill_detail_list_icon);
@@ -35,13 +35,16 @@ public class BillDetailListAdapter extends BaseQuickAdapter<BillDetailBean, Quic
 
         headIv.setImageResource(R.mipmap.mine_purse_bill_detail_list_bohui);
         switch (bean.moduleType) {
-            case 23:case 26:
+            case 23:
+            case 26:
                 headIv.setImageResource(R.mipmap.mine_purse_bill_detail_list_lingqu_coupon);
                 break;
-            case 21:case 24:
+            case 21:
+            case 24:
                 headIv.setImageResource(R.mipmap.mine_purse_bill_detail_list_send_zhuanshu);
                 break;
-            case 22:case 25:
+            case 22:
+            case 25:
                 headIv.setImageResource(R.mipmap.mine_purse_bill_detail_list_geren_coupon);
                 break;
             case 0:

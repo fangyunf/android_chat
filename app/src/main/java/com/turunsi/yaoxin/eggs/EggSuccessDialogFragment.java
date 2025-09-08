@@ -14,12 +14,25 @@ import com.turunsi.yaoxin.databinding.DialogBugEggSucessBinding;
 import com.yaoxin.appbase.fragment.BaseDialogFragment;
 
 public class EggSuccessDialogFragment extends BaseDialogFragment implements View.OnClickListener {
-    public interface EggSuccessDialogFragmentBlock {
-        public void upGrade();
-    }
     DialogBugEggSucessBinding binding;
     EggSuccessDialogFragmentBlock _block;
     String _title;
+
+    public static void showV(FragmentManager fragmentManager, EggSuccessDialogFragmentBlock block) {
+
+        EggSuccessDialogFragment fragment = new EggSuccessDialogFragment();
+        fragment._block = block;
+        fragment.showNow(fragmentManager, "TeamMaxMemberDialogFragment");
+    }
+
+    public static void showTitle(FragmentManager fragmentManager, EggSuccessDialogFragmentBlock block, String title) {
+
+        EggSuccessDialogFragment fragment = new EggSuccessDialogFragment();
+        fragment._block = block;
+        fragment._title = title;
+        fragment.showNow(fragmentManager, "TeamMaxMemberDialogFragment");
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -33,19 +46,6 @@ public class EggSuccessDialogFragment extends BaseDialogFragment implements View
         return binding.getRoot();
     }
 
-    public static void showV(FragmentManager fragmentManager,EggSuccessDialogFragmentBlock block) {
-
-        EggSuccessDialogFragment fragment = new EggSuccessDialogFragment();
-        fragment._block = block;
-        fragment.showNow(fragmentManager,"TeamMaxMemberDialogFragment");
-    }
-    public static void showTitle(FragmentManager fragmentManager,EggSuccessDialogFragmentBlock block,String title) {
-
-        EggSuccessDialogFragment fragment = new EggSuccessDialogFragment();
-        fragment._block = block;
-        fragment._title = title;
-        fragment.showNow(fragmentManager,"TeamMaxMemberDialogFragment");
-    }
     @Override
     public void onStart() {
         super.onStart();
@@ -53,11 +53,15 @@ public class EggSuccessDialogFragment extends BaseDialogFragment implements View
 
     @Override
     public void onClick(View v) {
-         if (v == binding.dialogBugEggSucessCancelTv) {
+        if (v == binding.dialogBugEggSucessCancelTv) {
             dismiss();
         } else if (binding.dialogBugEggSucessConfrimTv == v) {
-             _block.upGrade();
-             dismiss();
-         }
+            _block.upGrade();
+            dismiss();
+        }
+    }
+
+    public interface EggSuccessDialogFragmentBlock {
+        public void upGrade();
     }
 }

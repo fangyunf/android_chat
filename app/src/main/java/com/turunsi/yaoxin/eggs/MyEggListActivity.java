@@ -53,6 +53,7 @@ public class MyEggListActivity extends BaseActivity implements View.OnClickListe
     List<CustomMsgBean> hasSendList = new ArrayList<>();
 
     boolean hasOK = false;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +61,7 @@ public class MyEggListActivity extends BaseActivity implements View.OnClickListe
                 ActivityMineEggListBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         _initView();
-        StatusBarUtils.transtStatusBar(this,binding.activityMineEggListNav);
+        StatusBarUtils.transtStatusBar(this, binding.activityMineEggListNav);
         EventBus.getDefault().register(this);
     }
 
@@ -95,8 +96,8 @@ public class MyEggListActivity extends BaseActivity implements View.OnClickListe
 
                 if (adapter.canSend) {
                     HashMap map = new HashMap<>();
-                    map.put("id",baseQuickAdapter.getItem(i).id);
-                    GroupListActivity.start(GroupListActivity.class,MyEggListActivity.this,map);
+                    map.put("id", baseQuickAdapter.getItem(i).id);
+                    GroupListActivity.start(GroupListActivity.class, MyEggListActivity.this, map);
                 }
             }
         });
@@ -106,13 +107,14 @@ public class MyEggListActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void _requestData() {
 
-        LoadingDialog.showDialog(getSupportFragmentManager(),"请求中");
+        LoadingDialog.showDialog(getSupportFragmentManager(), "请求中");
         HttpUtil.apiW().caidan_wdCaidan(new RegisterBean())
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                        Type type = new TypeToken<List<CustomMsgBean>>() {}.getType();
+                        Type type = new TypeToken<List<CustomMsgBean>>() {
+                        }.getType();
                         List<CustomMsgBean> tempList = new Gson().fromJson(body.data.toString(), type);
                         noSendList = tempList;
                         adapter.canSend = true;
@@ -140,7 +142,8 @@ public class MyEggListActivity extends BaseActivity implements View.OnClickListe
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                        Type type = new TypeToken<List<CustomMsgBean>>() {}.getType();
+                        Type type = new TypeToken<List<CustomMsgBean>>() {
+                        }.getType();
                         hasSendList = new Gson().fromJson(body.data.toString(), type);
                     }
 
@@ -148,6 +151,7 @@ public class MyEggListActivity extends BaseActivity implements View.OnClickListe
                     public void Failure(Call<NetData> call, Throwable t) {
 
                     }
+
                     @Override
                     public void end() {
                         super.end();
@@ -158,7 +162,6 @@ public class MyEggListActivity extends BaseActivity implements View.OnClickListe
                     }
                 });
     }
-
 
 
     @Override

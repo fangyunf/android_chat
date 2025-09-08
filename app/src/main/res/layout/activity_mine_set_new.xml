@@ -17,75 +17,71 @@
         app:title="我的设置"
         app:title_text_color="@color/color_333333"
         app:under_divider_color="@color/transparent" />
-<ScrollView
-    android:layout_weight="1"
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:scrollbars="none">
 
-
-    <LinearLayout
-        android:layout_marginHorizontal="15dp"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@drawable/bg_f2f2f2_rounded_10"
-        >
-        <include
-            android:id="@+id/activity_mine_set_new_notice_voice"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            layout="@layout/view_title_arrow"
-            />
-
-        <include
-            android:id="@+id/activity_mine_set_new_delete_cache"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            layout="@layout/view_title_arrow"
-            />
-
-        <include
-            android:id="@+id/activity_mine_set_new_delete_record"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            layout="@layout/view_title_arrow"
-            />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scrollbars="none">
 
 
-        <include
-            android:id="@+id/activity_mine_set_new_about_us"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            layout="@layout/view_title_arrow"
-            />
-        <include
-            android:id="@+id/activity_mine_set_new_download"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            layout="@layout/view_title_arrow"
-            />
-        <include
-            android:id="@+id/activity_mine_set_new_exchange_acount"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            layout="@layout/view_title_arrow"
-            />
-        <include
-            android:id="@+id/activity_mine_set_new_zhuxiao"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            layout="@layout/view_title_arrow"
-            />
+            android:layout_marginHorizontal="15dp"
+            android:background="@drawable/bg_f2f2f2_rounded_10"
+            android:orientation="vertical">
 
-        <include
-            android:id="@+id/activity_mine_set_new_login_out"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            layout="@layout/view_title_arrow"
-            />
+            <include
+                android:id="@+id/activity_mine_set_new_notice_voice"
+                layout="@layout/view_title_arrow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-    </LinearLayout>
-</ScrollView>
+            <include
+                android:id="@+id/activity_mine_set_new_delete_cache"
+                layout="@layout/view_title_arrow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <include
+                android:id="@+id/activity_mine_set_new_delete_record"
+                layout="@layout/view_title_arrow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+            <include
+                android:id="@+id/activity_mine_set_new_about_us"
+                layout="@layout/view_title_arrow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <include
+                android:id="@+id/activity_mine_set_new_download"
+                layout="@layout/view_title_arrow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <include
+                android:id="@+id/activity_mine_set_new_exchange_acount"
+                layout="@layout/view_title_arrow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <include
+                android:id="@+id/activity_mine_set_new_zhuxiao"
+                layout="@layout/view_title_arrow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <include
+                android:id="@+id/activity_mine_set_new_login_out"
+                layout="@layout/view_title_arrow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

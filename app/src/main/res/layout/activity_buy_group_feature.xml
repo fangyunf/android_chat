@@ -24,7 +24,6 @@
             app:under_divider_color="@color/transparent" />
 
         <TextView
-            android:visibility="gone"
             android:id="@+id/activity_buy_group_feature_info_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -37,13 +36,14 @@
 \n升级人数永久生效，如解散群将失效;
 "
             android:textColor="#ff000000"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:visibility="gone" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:paddingBottom="150dp"
             android:id="@+id/activity_buy_group_feature_rv"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:paddingBottom="150dp" />
 
     </LinearLayout>
 

@@ -57,6 +57,7 @@ public class EggListIndexActivity extends BaseActivity implements View.OnClickLi
 
     List<CustomMsgBean> eggList = new ArrayList<>();
     EggIndexListAdapter adapter = new EggIndexListAdapter();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,7 +78,7 @@ public class EggListIndexActivity extends BaseActivity implements View.OnClickLi
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener<CustomMsgBean>() {
             @Override
             public void onClick(@NonNull BaseQuickAdapter<CustomMsgBean, ?> baseQuickAdapter, @NonNull View view, int i) {
-                payWithMoney(baseQuickAdapter.getItem(i).amount,baseQuickAdapter.getItem(i).id);
+                payWithMoney(baseQuickAdapter.getItem(i).amount, baseQuickAdapter.getItem(i).id);
             }
         });
 
@@ -97,7 +98,8 @@ public class EggListIndexActivity extends BaseActivity implements View.OnClickLi
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                        Type type = new TypeToken<List<CustomMsgBean>>() {}.getType();
+                        Type type = new TypeToken<List<CustomMsgBean>>() {
+                        }.getType();
                         List<CustomMsgBean> tempList = new Gson().fromJson(body.data.toString(), type);
                         eggList.addAll(tempList);
 
@@ -113,11 +115,10 @@ public class EggListIndexActivity extends BaseActivity implements View.OnClickLi
     }
 
 
-
     @Override
     public void onClick(View view) {
         if (binding.activityEggListIndexMyIv == view) {
-            MyEggListActivity.start(MyEggListActivity.class,this,null);
+            MyEggListActivity.start(MyEggListActivity.class, this, null);
         }
     }
 
@@ -141,10 +142,10 @@ public class EggListIndexActivity extends BaseActivity implements View.OnClickLi
                                 EggSuccessDialogFragment.showV(getSupportFragmentManager(), new EggSuccessDialogFragment.EggSuccessDialogFragmentBlock() {
                                     @Override
                                     public void upGrade() {
-                                        CustomMsgBean bean = new Gson().fromJson(body.data.toString(),CustomMsgBean.class);
+                                        CustomMsgBean bean = new Gson().fromJson(body.data.toString(), CustomMsgBean.class);
                                         Map map = new HashMap<>();
-                                        map.put("id",bean.id);
-                                        GroupListActivity.start(GroupListActivity.class,that,map );
+                                        map.put("id", bean.id);
+                                        GroupListActivity.start(GroupListActivity.class, that, map);
 
                                     }
                                 });
@@ -157,7 +158,7 @@ public class EggListIndexActivity extends BaseActivity implements View.OnClickLi
                         });
 
             }
-        },money);
+        }, money);
 
         // 显示窗口
         popEnterPassword.showAtLocation(binding.activityEggListIndexRootRl,

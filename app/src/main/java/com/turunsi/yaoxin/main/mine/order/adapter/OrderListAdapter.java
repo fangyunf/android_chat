@@ -24,7 +24,7 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderListBean, QuickViewH
     @NonNull
     @Override
     protected QuickViewHolder onCreateViewHolder(@NonNull Context context, @NonNull ViewGroup viewGroup, int i) {
-        return new QuickViewHolder(R.layout.item_order_list_cell,viewGroup);
+        return new QuickViewHolder(R.layout.item_order_list_cell, viewGroup);
     }
 }
 

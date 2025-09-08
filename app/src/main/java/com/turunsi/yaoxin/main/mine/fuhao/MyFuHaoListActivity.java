@@ -51,6 +51,7 @@ public class MyFuHaoListActivity extends BaseActivity implements View.OnClickLis
     MyFuHaoListAdapter adapter = new MyFuHaoListAdapter();
 
     ArrayList<UserBean> userBeanList = new ArrayList<>();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,7 +104,8 @@ public class MyFuHaoListActivity extends BaseActivity implements View.OnClickLis
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                        Type type = new TypeToken<List<UserBean>>() {}.getType();
+                        Type type = new TypeToken<List<UserBean>>() {
+                        }.getType();
                         userBeanList = new Gson().fromJson(body.data.toString(), type);
                         adapter.setItems(userBeanList);
                         adapter.notifyDataSetChanged();
@@ -126,8 +128,8 @@ public class MyFuHaoListActivity extends BaseActivity implements View.OnClickLis
             finish();
         } else if (v == binding.activityMineMyFuhaoListBuyIv) {
             HashMap map = new HashMap();
-            map.put("type","1");
-            BuyFeatureActivity.start(BuyFeatureActivity.class,this,map);
+            map.put("type", "1");
+            BuyFeatureActivity.start(BuyFeatureActivity.class, this, map);
         }
     }
 

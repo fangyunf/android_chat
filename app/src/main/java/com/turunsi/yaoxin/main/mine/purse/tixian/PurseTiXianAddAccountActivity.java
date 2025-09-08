@@ -47,20 +47,18 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 public class PurseTiXianAddAccountActivity extends BaseActivity implements View.OnClickListener {
-    ActivityPurseTixianAddAccountBinding binding;
-
-    String qrcodeImgUrl;
-
-    String inputMoney;
-    private static final String[] KEY = new String[] {
+    private static final String[] KEY = new String[]{
             "1", "2", "3",
             "4", "5", "6",
             "7", "8", "9",
             "<<", "0", "完成"
     };
-
+    ActivityPurseTixianAddAccountBinding binding;
+    String qrcodeImgUrl;
+    String inputMoney;
     private PayEditText payEditText;
     private Keyboard keyboard;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,7 +90,7 @@ public class PurseTiXianAddAccountActivity extends BaseActivity implements View.
                     payEditText.add(value);
                 } else if (position == 9) {
                     payEditText.remove();
-                }else if (position == 11) {
+                } else if (position == 11) {
                     binding.activityFunSendRedPacketKeybordRl.setVisibility(View.GONE);
 
                 }
@@ -138,8 +136,6 @@ public class PurseTiXianAddAccountActivity extends BaseActivity implements View.
                 return;
             }
             bindZFB();
-
-
 
 
         } else if (v == binding.activityPurseTixianAddAccountUploadLl) {
@@ -238,7 +234,7 @@ public class PurseTiXianAddAccountActivity extends BaseActivity implements View.
 
                             }
 
-                        },inputMoney);
+                        }, inputMoney);
                         // 显示窗口
                         popEnterPassword.showAtLocation(binding.activityPurseTixianAddAccountRootLl,
                                 Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); // 设置layout在PopupWindow中显示的位置

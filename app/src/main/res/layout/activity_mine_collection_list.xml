@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tl="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tl="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <com.yaoxin.appbase.navbar.NavToolbar
@@ -22,6 +22,5 @@
         android:id="@+id/activity_mine_collection_list_rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-android:background="@color/color_F6F6F6"
-        />
+        android:background="@color/color_F6F6F6" />
 </LinearLayout>

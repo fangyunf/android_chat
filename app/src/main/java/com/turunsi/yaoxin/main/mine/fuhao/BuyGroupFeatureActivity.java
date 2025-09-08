@@ -39,11 +39,12 @@ public class BuyGroupFeatureActivity extends BaseActivity implements View.OnClic
     GroupBuyListAdapter adapter = new GroupBuyListAdapter();
     int _type = 0;
     String _groupId;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        _type = getIntent().getIntExtra("type",0);
+        _type = getIntent().getIntExtra("type", 0);
         _groupId = getIntent().getStringExtra("groupId");
         binding = ActivityBuyGroupFeatureBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -66,7 +67,6 @@ public class BuyGroupFeatureActivity extends BaseActivity implements View.OnClic
         });
         _updateUI();
     }
-
 
 
     void _updateUI() {
@@ -101,19 +101,21 @@ public class BuyGroupFeatureActivity extends BaseActivity implements View.OnClic
             binding.activityBuyGroupFeatureInfoTv.setVisibility(View.GONE);
         }
     }
+
     @Override
     protected void _requestData() {
         HttpUtil.apiW().group_groupGrade()
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        Type type = new TypeToken<List<GroupInfoBean>>() {}.getType();
+                        Type type = new TypeToken<List<GroupInfoBean>>() {
+                        }.getType();
                         List<GroupInfoBean> tempList = new Gson().fromJson(body.data.toString(), type);
 //                        if (!tempList.isEmpty()) {
 //                            tempList.get(0).isSelected = true;
 //                        }
                         ArrayList<GroupInfoBean> tempArr = new ArrayList<>();
-                        if (tempList.size() > 1 ) {
+                        if (tempList.size() > 1) {
                             tempList.get(1).isSelected = true;
                             tempArr.add(tempList.get(1));
                             adapter.setItems(tempArr);
@@ -143,7 +145,7 @@ public class BuyGroupFeatureActivity extends BaseActivity implements View.OnClic
         } else if (v == binding.activityBuyGroupFeatureBuyTv) {
             int grade = -1;
             String moneyStr = "";
-            for (GroupInfoBean tempBean :adapter.getItems()) {
+            for (GroupInfoBean tempBean : adapter.getItems()) {
                 if (tempBean.isSelected) {
                     grade = tempBean.grade;
                     moneyStr = NumberUtil.formartMoney(tempBean.price + "");
@@ -175,11 +177,10 @@ public class BuyGroupFeatureActivity extends BaseActivity implements View.OnClic
                                 }
                             });
                 }
-            },moneyStr);
+            }, moneyStr);
             // 显示窗口
             popEnterPassword.showAtLocation(binding.activityBuyGroupFeatureRootRl,
                     Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); // 设置layout在PopupWindow中显示的位置
-
 
 
         }

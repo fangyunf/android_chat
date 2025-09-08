@@ -34,7 +34,7 @@ public class EggIndexListAdapter extends BaseQuickAdapter<CustomMsgBean, QuickVi
             layoutParams.topMargin = SizeUtils.dp2px(-81);
         }
         tv.setText("￥" + NumberUtil.formartMoney(orderListBean.price));
-        GlideUtil.yh_loadImage(getContext(),iv,orderListBean.img);
+        GlideUtil.yh_loadImage(getContext(), iv, orderListBean.img);
 //        ImageView imageView = quickViewHolder.getView(com.yaoxin.appbase.R.id.item_group_list_cell_iv);
 //        if (orderListBean.head.startsWith("https://s.netease.im") || orderListBean.head.isEmpty()) {
 //            imageView.setImageResource(com.yaoxin.appbase.R.mipmap.app_default_base_icon_group);
@@ -50,7 +50,7 @@ public class EggIndexListAdapter extends BaseQuickAdapter<CustomMsgBean, QuickVi
     @NonNull
     @Override
     protected QuickViewHolder onCreateViewHolder(@NonNull Context context, @NonNull ViewGroup viewGroup, int i) {
-        return new QuickViewHolder(R.layout.egg_list_index_item_view,viewGroup);
+        return new QuickViewHolder(R.layout.egg_list_index_item_view, viewGroup);
     }
 }
 
