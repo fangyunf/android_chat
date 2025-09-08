@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.DigitsKeyListener;
 import android.view.Gravity;
@@ -257,17 +258,27 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
                     switch (requestType) {
                         case "alipay":
                             if (tempList != null && !tempList.isEmpty()) {
-                                aliPayBean = tempList.get(0);
+                                aliPayBean = tempList.get(tempList.size() - 1);
+                                if (TextUtils.isEmpty(aliPayBean.usdt)) {
+                                    BindAlipayActivity.start(BindAlipayActivity.class, PurseTiXianActivity.this, null);
+                                    finish();
+                                }
                             }
                             break;
                         case "wechat":
                             if (tempList != null && !tempList.isEmpty()) {
-                                wxPayBean = tempList.get(0);
+                                wxPayBean = tempList.get(tempList.size() - 1);
+                                if (TextUtils.isEmpty(wxPayBean.usdt)) {
+                                    Map map = new HashMap();
+                                    map.put("type", "1");
+                                    BindAlipayActivity.start(BindAlipayActivity.class, PurseTiXianActivity.this, map);
+                                    finish();
+                                }
                             }
                             break;
                         case "bank":
                             if (tempList != null && !tempList.isEmpty()) {
-                                yhkPayBean = tempList.get(0);
+                                yhkPayBean = tempList.get(tempList.size() - 1);
                             }
                             break;
                     }
