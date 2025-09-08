@@ -102,9 +102,9 @@
                 android:layout_width="42dp"
                 android:layout_height="42dp"
                 android:layout_alignParentBottom="true"
-                android:src="@mipmap/caontact_list_header_qunliao" />
+                android:src="@mipmap/caontact_list_header_heimingdan" />
         </RelativeLayout>
-        
+
         <TextView
             android:layout_width="0dp"
             android:layout_height="22dp"
