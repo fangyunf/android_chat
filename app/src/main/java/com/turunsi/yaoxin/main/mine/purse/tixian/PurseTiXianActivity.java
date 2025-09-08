@@ -145,7 +145,6 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
         bean.amount = NumberUtil.formartUploadMoney(inputMoney);
         bean.type = 2;
         if (payType.equals("alipay")) {
-
             bean.zfbNo = aliPayBean.phone;
             bean.name = aliPayBean.name;
             bean.zfbUrl = aliPayBean.usdt;

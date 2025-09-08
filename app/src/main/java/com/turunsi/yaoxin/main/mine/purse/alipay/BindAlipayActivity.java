@@ -143,7 +143,6 @@ public class BindAlipayActivity extends BaseActivity implements View.OnClickList
             binding.activityMineBindAlipayRebindLl.setVisibility(View.VISIBLE);
 
         } else if (_type == 2) {
-
             binding.activityMineBindAlipayBindLl.setVisibility(View.VISIBLE);
         } else if (_type == 3) {
 
@@ -194,11 +193,10 @@ public class BindAlipayActivity extends BaseActivity implements View.OnClickList
 //                registerBean.certNo = account;
 //            }
             if (bindBean != null && bindBean.id > 0) {
-
                 registerBean.id = bindBean.id + "";
             }
             registerBean.userId = DataUtil.getUserid();
-            registerBean.zfb = qrcodeImgUrl;
+            registerBean.usdt = qrcodeImgUrl;
             HttpUtil.apiW().bindCard_createUptadeZFB2(registerBean)
                     .enqueue(new CommonCallback<NetData>() {
                         @Override
