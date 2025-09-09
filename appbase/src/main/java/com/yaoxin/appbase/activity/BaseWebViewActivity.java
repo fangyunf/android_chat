@@ -89,7 +89,7 @@ public class BaseWebViewActivity extends BaseActivity {
                 String phone = AESUtil.aesEncrypt(DataUtil.getUserInfo().phoneNo);
                 url = url + "?token=" + aesToken;
                 //webView.loadUrl(newUrl);
-                webView.loadUrl("http://192.168.1.7:5173/gw/build/");
+                webView.loadUrl(newUrl);
             } catch (Exception e) {
                 Log.e("BaseWebViewActivity", "Error loading lottery URL", e);
             }
