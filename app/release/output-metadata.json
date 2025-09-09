@@ -11,9 +11,9 @@
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 8,
-      "versionName": "1.0.7",
-      "outputFile": "baoxin_release_v1.0.7.apk"
+      "versionCode": 9,
+      "versionName": "1.0.8",
+      "outputFile": "baoxin_release_v1.0.8.apk"
     }
   ],
   "elementType": "File"
