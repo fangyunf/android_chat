@@ -179,17 +179,17 @@ public class ChatUserCache {
     String account = withTeam.getUserInfo().getAccount();
     if (!TextUtils.isEmpty(account)) {
       // 优先使用好友备注名
-      FriendInfo friendInfo = friendInfoMap.get(account);
-      if (friendInfo == null) {
-        friendInfo = withTeam.getFriendInfo();
-      }
-      if (friendInfo == null) {
-        friendInfo = ChatRepo.getFriendInfo(account);
-        friendInfoMap.put(account, friendInfo);
-      }
-      if (friendInfo != null && !TextUtils.isEmpty(friendInfo.getAlias())) {
-        return friendInfo.getAlias();
-      }
+      // FriendInfo friendInfo = friendInfoMap.get(account);
+      // if (friendInfo == null) {
+      //   friendInfo = withTeam.getFriendInfo();
+      // }
+      // if (friendInfo == null) {
+      //   friendInfo = ChatRepo.getFriendInfo(account);
+      //   friendInfoMap.put(account, friendInfo);
+      // }
+      // if (friendInfo != null && !TextUtils.isEmpty(friendInfo.getAlias())) {
+      //   return friendInfo.getAlias();
+      // }
       // 其次使用群昵称
       TeamMember teamMember = teamMemberMap.get(account);
       if (teamMember == null) {
