@@ -14,6 +14,7 @@ import android.text.method.DigitsKeyListener;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.PopupWindow;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -66,7 +67,10 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
     private String selectToUserId = "";
     private UserInfo targetUserInfo;
     protected ActivityResultLauncher<Intent> forwardTeamLauncher;
-    private static final String[] KEY = new String[] {
+
+    // 添加发送状态标记，防止重复点击
+    private boolean isSending = false;
+    private static final String[] KEY = new String[]{
             "1", "2", "3",
             "4", "5", "6",
             "7", "8", "9",
@@ -75,10 +79,10 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
 
     private PayEditText payEditText;
     private Keyboard keyboard;
-
     private GroupInfoBean groupInfoBean;
 
     ArrayList<GroupInfoBean> userList = new ArrayList<>();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -118,10 +122,10 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
 //                                GroupInfoBean groupInfoBean1 =
                                 String userInfo1 = data.getStringExtra("userInfo");
                                 if (userInfo1 == null) return;
-                                GroupInfoBean userInfo = new Gson().fromJson(userInfo1,GroupInfoBean.class);
+                                GroupInfoBean userInfo = new Gson().fromJson(userInfo1, GroupInfoBean.class);
                                 if (userInfo != null) {
                                     binding.activityFunSendRedPacketToPeopleNameTv.setText(userInfo.name);
-                                    GlideUtil.yh_loadImageRoundedCorner(this,binding.activityFunSendRedPacketToPeopleHeadIv,userInfo.avatar,15);
+                                    GlideUtil.yh_loadImageRoundedCorner(this, binding.activityFunSendRedPacketToPeopleHeadIv, userInfo.avatar, 15);
                                     selectToUserId = userInfo.userId;
                                 }
                             }
@@ -136,7 +140,7 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
                 new FetchCallback<List<UserInfoWithTeam>>() {
                     @Override
                     public void onSuccess(@Nullable List<UserInfoWithTeam> param) {
-                        binding.activityFunSendRedPacketTeamMemberCountTv.setText("本群共"+param.size()+"人");
+                        binding.activityFunSendRedPacketTeamMemberCountTv.setText("本群共" + param.size() + "人");
                     }
 
                     @Override
@@ -179,8 +183,8 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
 //                    }
 //                });
     }
-    void _requestDataGroup() {
 
+    void _requestDataGroup() {
 
 
         HttpUtil.apiW().group_groupHomeInfo(sessionId)
@@ -198,13 +202,14 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
                     }
                 });
     }
+
     @Override
     protected void _requestData() {
         HttpUtil.apiW().home_balance()
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        UserBean bean = new Gson().fromJson(body.data.toString(),UserBean.class);
+                        UserBean bean = new Gson().fromJson(body.data.toString(), UserBean.class);
                         binding.activityFunSendRedPacketBalanceTv.setText(NumberUtil.formartMoney(bean.balance));
                     }
 
@@ -257,7 +262,7 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
                     // 设置过滤后的文本
                     binding.activityFunSendRedPacketMoneyEt.setText(cleanedInput.toString());
                     binding.activityFunSendRedPacketMoneyEt.setSelection(cleanedInput.length());
-                    formattedValue =  String.format("%.2f", Double.parseDouble(cleanedInput.toString()));
+                    formattedValue = String.format("%.2f", Double.parseDouble(cleanedInput.toString()));
                 } else {
                     if (!input.isEmpty()) {
                         formattedValue = String.format("%.2f", Double.parseDouble(input));
@@ -277,7 +282,7 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
                     payEditText.add(value);
                 } else if (position == 9) {
                     payEditText.remove();
-                }else if (position == 11) {
+                } else if (position == 11) {
                     //当点击完成的时候，也可以通过payEditText.getText()获取密码，此时不应该注册OnInputFinishedListener接口
 //                    Toast.makeText(getApplication(), "您的密码是：" + payEditText.getText(), Toast.LENGTH_SHORT).show();
 //                    finish();
@@ -316,7 +321,7 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
         } else if (type == 2) {
             if (targetUserInfo != null) {
                 binding.activityFunSendRedPacketToPeopleNameTv.setText(targetUserInfo.getName());
-                GlideUtil.yh_loadImageRoundedCorner(this,binding.activityFunSendRedPacketToPeopleHeadIv,targetUserInfo.getAvatar(),15);
+                GlideUtil.yh_loadImageRoundedCorner(this, binding.activityFunSendRedPacketToPeopleHeadIv, targetUserInfo.getAvatar(), 15);
                 selectToUserId = targetUserInfo.getAccount();
             }
             binding.activityFunSendRedPacketToPeopleLl.setVisibility(View.VISIBLE);
@@ -355,30 +360,40 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
 //                    }).show();
 //        }
         else if (v == binding.activityFunSendRedPacketSendTv) {
+            // 防止重复点击
+            if (isSending) {
+                return;
+            }
+
             String moneyStr = getTextStr(binding.activityFunSendRedPacketMoneyEt);
 
             if (moneyStr.isEmpty()) {
                 ToastUtils.toastMsg("请输入金额");
                 return;
             }
+
+            // 设置发送状态，禁用按钮
+            isSending = true;
+            binding.activityFunSendRedPacketSendTv.setEnabled(false);
+
 //            binding.activityFunSendRedPacketKeybordRl.setVisibility(View.VISIBLE);
             PopEnterPassword popEnterPassword = new PopEnterPassword(this, new OnPasswordInputFinish() {
                 @Override
                 public void inputFinish(String password) {
                     sendRedWithPwd(password);
                 }
-            },moneyStr);
+            }, moneyStr);
+            popEnterPassword.setOnDismissListener(this::resetSendState);
             // 显示窗口
             popEnterPassword.showAtLocation(binding.activityFunSendRedPacketLl,
                     Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); // 设置layout在PopupWindow中显示的位置
 
-
         } else if (v == binding.activityFunSendRedPacketToPeopleLl) {
 
-            DataUtil.setStringValue(new Gson().toJson(groupInfoBean),"groupInfo");
+            DataUtil.setStringValue(new Gson().toJson(groupInfoBean), "groupInfo");
             XKitRouter.withKey(Constant.FunSelected_User_ActivityKey)
-                    .withParam("type","4")
-                    .withParam("groupId",sessionId)
+                    .withParam("type", "4")
+                    .withParam("groupId", sessionId)
                     .withContext(this)
                     .navigate(forwardTeamLauncher);
 //            XKitRouter.withKey(Constant.TeamMemberListActivity_Router)
@@ -401,6 +416,7 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
 
         if (amout <= 0) {
             ToastUtils.toastMsg("请输入金额");
+            resetSendState(); // 参数错误时也要重置状态
             return;
         }
         RegisterBean bean = new RegisterBean();
@@ -420,13 +436,22 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
 
                         @Override
                         public void Failure(Call<NetData> call, Throwable t) {
+                            // 发送失败时重置状态
+                            resetSendState();
+                        }
 
+                        @Override
+                        public void end() {
+                            super.end();
+                            // 无论成功失败都重置状态
+                            resetSendState();
                         }
                     });
         } else if (type == 1) {
             int count = Integer.parseInt(countStr);
             if (count <= 0) {
                 ToastUtils.toastMsg("请输入份数");
+                resetSendState(); // 参数错误时也要重置状态
                 return;
             }
             bean.groupId = sessionId;
@@ -443,12 +468,21 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
 
                         @Override
                         public void Failure(Call<NetData> call, Throwable t) {
+                            // 发送失败时重置状态
+                            resetSendState();
+                        }
 
+                        @Override
+                        public void end() {
+                            super.end();
+                            // 无论成功失败都重置状态
+                            resetSendState();
                         }
                     });
         } else if (type == 2) {
             if (selectToUserId == null || selectToUserId.isEmpty()) {
                 ToastUtils.toastMsg("请选择成员");
+                resetSendState(); // 参数错误时也要重置状态
                 return;
             }
             bean.password = pwd;
@@ -465,12 +499,29 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
 
                         @Override
                         public void Failure(Call<NetData> call, Throwable t) {
+                            // 发送失败时重置状态
+                            resetSendState();
+                        }
 
+                        @Override
+                        public void end() {
+                            super.end();
+                            // 无论成功失败都重置状态
+                            resetSendState();
                         }
                     });
 
         }
     }
+
+    /**
+     * 重置发送状态，重新启用发送按钮
+     */
+    private void resetSendState() {
+        isSending = false;
+        binding.activityFunSendRedPacketSendTv.setEnabled(true);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
