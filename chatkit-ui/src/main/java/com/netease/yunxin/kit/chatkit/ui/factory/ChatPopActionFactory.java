@@ -5,6 +5,7 @@
 package com.netease.yunxin.kit.chatkit.ui.factory;
 
 import android.text.TextUtils;
+
 import com.netease.nimlib.sdk.msg.constant.MsgDirectionEnum;
 import com.netease.nimlib.sdk.msg.constant.MsgStatusEnum;
 import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
@@ -17,11 +18,14 @@ import com.netease.yunxin.kit.chatkit.ui.view.popmenu.IChatPopMenu;
 import com.netease.yunxin.kit.chatkit.ui.view.popmenu.IChatPopMenuClickListener;
 import com.netease.yunxin.kit.common.ui.utils.ToastX;
 import com.netease.yunxin.kit.common.utils.NetworkUtils;
+
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
-/** 聊天界面长按弹窗工厂类，根据长按的消息返回对应的弹窗中的内容 */
+/**
+ * 聊天界面长按弹窗工厂类，根据长按的消息返回对应的弹窗中的内容
+ */
 public class ChatPopActionFactory {
 
     private static volatile ChatPopActionFactory instance;
@@ -30,7 +34,8 @@ public class ChatPopActionFactory {
 
     private WeakReference<IChatPopMenu> customPopMenu;
 
-    private ChatPopActionFactory() {}
+    private ChatPopActionFactory() {
+    }
 
     public static ChatPopActionFactory getInstance() {
         if (instance == null) {
@@ -64,7 +69,7 @@ public class ChatPopActionFactory {
         }
         int viewType = message.getViewType();
 
-        if (viewType == 0 &&message.getMessageData().getMessage().getAttachStr() != null && !message.getMessageData().getMessage().getAttachStr().isEmpty()) {
+        if (viewType == 0 && message.getMessageData().getMessage().getAttachStr() != null && !message.getMessageData().getMessage().getAttachStr().isEmpty()) {
 
             actions.add(getDeleteAction(message));
             if (message.getMessageData().getMessage().getAttachStr().contains("memberCode")) {
@@ -106,6 +111,10 @@ public class ChatPopActionFactory {
 //      actions.add(getReplyAction(message));
             if (message.getViewType() == MsgTypeEnum.image.getValue()) {
                 actions.add(getCollectionAction(message));
+            }
+            // 为音频消息添加音频模式切换选项
+            if (message.getViewType() == MsgTypeEnum.audio.getValue()) {
+                actions.add(getAudioModeAction(message));
             }
 //      actions.add(getPinAction(message));
             actions.add(getDeleteAction(message));
@@ -233,6 +242,24 @@ public class ChatPopActionFactory {
                     }
                     if (actionListener != null) {
                         actionListener.get().onForward(messageInfo);
+                    }
+                });
+    }
+
+    private ChatPopMenuAction getAudioModeAction(ChatMessageBean message) {
+        // 根据当前模式显示不同的文本和图标
+        boolean isEarpieceMode = com.netease.yunxin.kit.corekit.im.repo.SettingRepo.getHandsetMode();
+        String actionText = isEarpieceMode ? "扬声器" : "听筒";
+        // 使用现有的音频图标，听筒模式用语音图标，扬声器模式用更多图标
+        int actionIcon = isEarpieceMode ? R.drawable.ic_more_media : R.drawable.ic_voice_in;
+
+        return new ChatPopMenuAction(
+                "audio_mode_toggle",
+                actionText,
+                actionIcon,
+                (view, messageInfo) -> {
+                    if (actionListener != null) {
+                        actionListener.get().onCustom(view, messageInfo, "audio_mode_toggle");
                     }
                 });
     }

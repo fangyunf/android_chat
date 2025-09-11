@@ -27,6 +27,7 @@ import com.netease.yunxin.kit.chatkit.ui.view.message.audio.ChatMessageAudioCont
 import com.netease.yunxin.kit.common.utils.SizeUtils;
 import com.netease.yunxin.kit.corekit.im.audioplayer.Playable;
 import com.netease.yunxin.kit.corekit.im.repo.SettingRepo;
+import com.yaoxin.appbase.utils.ToastUtils;
 import java.util.List;
 import java.util.Objects;
 
@@ -251,5 +252,34 @@ public class ChatAudioMessageViewHolder extends FunChatBaseMessageViewHolder {
             .getPlayingAudio()
             .getMessage()
             .isTheSame(message.getMessageData().getMessage());
+  }
+  
+  /**
+   * 切换音频播放模式（听筒/扬声器）
+   */
+  public void toggleAudioMode() {
+    boolean currentMode = SettingRepo.getHandsetMode();
+    boolean newMode = !currentMode;
+    
+    // 更新设置
+    SettingRepo.setHandsetMode(newMode);
+    
+    // 更新音频控制
+    audioControl.setEarPhoneModeEnable(newMode);
+    
+    // 显示提示
+    String modeText = newMode ? "已切换到听筒模式" : "已切换到扬声器模式";
+    ToastUtils.toastMsg(modeText);
+    
+    // 如果当前正在播放音频，重新应用新的播放模式
+    if (isMessagePlaying(currentMessage)) {
+      // 停止当前播放
+      audioControl.stopAudio();
+      // 重新开始播放以应用新模式
+      audioControl.startPlayAudioDelay(
+          CLICK_TO_PLAY_AUDIO_DELAY, 
+          currentMessage.getMessageData(), 
+          onPlayListener);
+    }
   }
 }

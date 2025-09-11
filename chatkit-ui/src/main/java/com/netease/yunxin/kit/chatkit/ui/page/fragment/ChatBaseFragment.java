@@ -1136,9 +1136,47 @@ public abstract class ChatBaseFragment extends BaseFragment {
 
         @Override
         public boolean onCustom(View view, ChatMessageBean messageInfo, String action) {
+            // 处理音频模式切换
+            if ("audio_mode_toggle".equals(action)) {
+                toggleAudioMode(messageInfo);
+                return true;
+            }
+            
             return chatConfig != null && chatConfig.popMenuClickListener != null && chatConfig.popMenuClickListener.onCustom(view, messageInfo, action);
         }
     };
+
+    /**
+     * 切换音频播放模式（听筒/扬声器）
+     */
+    private void toggleAudioMode(ChatMessageBean messageInfo) {
+        boolean currentMode = com.netease.yunxin.kit.corekit.im.repo.SettingRepo.getHandsetMode();
+        boolean newMode = !currentMode;
+        
+        // 更新设置
+        com.netease.yunxin.kit.corekit.im.repo.SettingRepo.setHandsetMode(newMode);
+        
+        // 更新音频控制
+        com.netease.yunxin.kit.chatkit.ui.view.message.audio.ChatMessageAudioControl audioControl = 
+            com.netease.yunxin.kit.chatkit.ui.view.message.audio.ChatMessageAudioControl.getInstance();
+        audioControl.setEarPhoneModeEnable(newMode);
+        
+        // 显示提示
+        String modeText = newMode ? "已切换到听筒模式" : "已切换到扬声器模式";
+        com.netease.yunxin.kit.common.ui.utils.ToastX.showShortToast(modeText);
+        
+        // 如果当前正在播放音频，重新应用新的播放模式
+        if (audioControl.isPlayingAudio() && 
+            com.netease.yunxin.kit.chatkit.ui.common.MessageHelper.isSameMessage(messageInfo.getMessageData(), audioControl.getPlayingAudio())) {
+            // 停止当前播放
+            audioControl.stopAudio();
+            // 重新开始播放以应用新模式
+            audioControl.startPlayAudioDelay(
+                500, 
+                messageInfo.getMessageData(), 
+                null);
+        }
+    }
 
     protected void onStartForward(String action) {
         forwardAction = action;
