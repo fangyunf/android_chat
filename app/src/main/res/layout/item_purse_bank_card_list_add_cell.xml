@@ -3,15 +3,14 @@
     android:id="@+id/item_purse_bank_card_list_add_cell_ll"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center_horizontal"
-    android:orientation="vertical"
     android:layout_marginTop="@dimen/dimen_36_dp"
-    >
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
 
     <ImageView
-        android:src="@mipmap/mine_fragment_purse_bank_card_list_add"
         android:layout_width="@dimen/dimen_26_dp"
-        android:layout_height="@dimen/dimen_26_dp" />
+        android:layout_height="@dimen/dimen_26_dp"
+        android:src="@mipmap/mine_fragment_purse_bank_card_list_add" />
 
     <TextView
         android:layout_width="wrap_content"

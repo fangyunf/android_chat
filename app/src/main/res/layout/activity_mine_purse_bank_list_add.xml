@@ -18,51 +18,53 @@
         app:title_text_color="@color/color_333333"
         app:under_divider_color="@color/color_d5d5d5" />
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:orientation="vertical"
-    android:layout_weight="1"
-    >
-
-    <include
-        android:id="@+id/activity_mine_purse_bank_card_list_add_card_holder"
-        layout="@layout/view_title_tf_without_bg"
+    <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
 
-        android:layout_height="wrap_content" />
+        <include
+            android:id="@+id/activity_mine_purse_bank_card_list_add_card_holder"
+            layout="@layout/view_title_tf_without_bg"
+            android:layout_width="match_parent"
 
-    <include
-        android:id="@+id/activity_mine_purse_bank_card_list_add_identity_id"
-        layout="@layout/view_title_tf_without_bg"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+            android:layout_height="wrap_content" />
 
-    <include
-        android:layout_marginTop="@dimen/dimen_12_dp"
-        android:id="@+id/activity_mine_purse_bank_card_list_add_bank_card_number"
-        layout="@layout/view_title_tf_without_bg"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <include
-        android:id="@+id/activity_mine_purse_bank_card_list_add_reserve_phone_number"
-        layout="@layout/view_title_tf_without_bg"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <include
-        android:id="@+id/activity_mine_purse_bank_card_list_add_bank_city"
-        layout="@layout/view_title_tf_without_bg"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <include
-        android:layout_marginTop="@dimen/dimen_12_dp"
-        android:id="@+id/activity_mine_purse_bank_card_list_add_verify_code"
-        layout="@layout/view_title_tf_without_bg"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <include
+            android:id="@+id/activity_mine_purse_bank_card_list_add_identity_id"
+            layout="@layout/view_title_tf_without_bg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <include
+            android:id="@+id/activity_mine_purse_bank_card_list_add_bank_card_number"
+            layout="@layout/view_title_tf_without_bg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_12_dp" />
+
+        <include
+            android:id="@+id/activity_mine_purse_bank_card_list_add_reserve_phone_number"
+            layout="@layout/view_title_tf_without_bg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <include
+            android:id="@+id/activity_mine_purse_bank_card_list_add_bank_city"
+            layout="@layout/view_title_tf_without_bg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <include
+            android:id="@+id/activity_mine_purse_bank_card_list_add_verify_code"
+            layout="@layout/view_title_tf_without_bg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_12_dp" />
 
 
-</LinearLayout>
+    </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/activity_mine_purse_bank_card_list_add_next_rl"

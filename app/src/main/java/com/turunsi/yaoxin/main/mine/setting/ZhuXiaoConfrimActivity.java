@@ -11,6 +11,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.netease.nimlib.sdk.misc.DirCacheFileType;
 import com.netease.yunxin.kit.corekit.im.IMKitClient;
@@ -30,6 +32,7 @@ import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.CommonNetUtil;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.DialogAlertUtil;
+import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
 import com.yaoxin.appbase.view.loginlib.utils.LoginLoader;
 import com.yaoxin.appbase.view.loginlib.view.CountDownView;
@@ -43,102 +46,92 @@ import retrofit2.Response;
 
 public class ZhuXiaoConfrimActivity extends BaseActivity implements View.OnClickListener {
 
-  private ActivityMineZhuxiaoConfirmBinding viewBinding;
+    private ActivityMineZhuxiaoConfirmBinding viewBinding;
 
-  @Override
-  protected void onCreate(@Nullable Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 //    changeStatusBarColor(R.color.color_e9eff5);
-    viewBinding = ActivityMineZhuxiaoConfirmBinding.inflate(getLayoutInflater());
-    setContentView(viewBinding.getRoot());
-    initView();
-  }
+        viewBinding = ActivityMineZhuxiaoConfirmBinding.inflate(getLayoutInflater());
+        setContentView(viewBinding.getRoot());
+        StatusBarUtils.transtStatusBar(this, viewBinding.activityMineZhuxiaoConfirmNav);
+        initView();
+    }
 
-  private void initView() {
+    private void initView() {
 
-    viewBinding.activityMineZhuxiaoConfirmNav.addCloseImageButton().setOnClickListener(this);
-    viewBinding.activityMineZhuxiaoConfirmTv.setOnClickListener(this);
+        viewBinding.activityMineZhuxiaoConfirmNav.addCloseImageButton().setOnClickListener(this);
+        viewBinding.activityMineZhuxiaoConfirmTv.setOnClickListener(this);
+        viewBinding.activityMineZhuxiaoConfirmGetCode.viewTitleTfWithoutBgTv.setText("验证码");
+        viewBinding.activityMineZhuxiaoConfirmGetCode.btnCaptcha.setVisibility(View.VISIBLE);
+        CountDownView mCountDownView = viewBinding.activityMineZhuxiaoConfirmGetCode.btnCaptcha;
+        mCountDownView.needVerify = false;
+        mCountDownView.setCountDownTime(60);
+        mCountDownView.setCaptchaListener(new LoginLoader.CaptchaListener() {
+            @Override
+            public void onPre() {
+                String phone = DataUtil.getUserInfo().phoneNo;
+                CommonNetUtil.getPhoneCode(phone);
+            }
 
+            @Override
+            public void onComplete(String phoneOrEmail) {
+            }
+        });
+    }
 
-      viewBinding.activityMineZhuxiaoConfirmGetCode.viewTitleTfWithoutBgTv.setText("验证码");
+    @Override
+    public void onClick(View v) {
+        if (v == viewBinding.activityMineZhuxiaoConfirmNav.addCloseImageButton()) {
+            finish();
 
-      viewBinding.activityMineZhuxiaoConfirmGetCode.btnCaptcha.setVisibility(View.VISIBLE);
-
-      CountDownView mCountDownView = viewBinding.activityMineZhuxiaoConfirmGetCode.btnCaptcha;
-      mCountDownView.needVerify = false;
-      mCountDownView.setCountDownTime(60);
-      mCountDownView.setCaptchaListener(new LoginLoader.CaptchaListener() {
-          @Override
-          public void onPre() {
-              String phone = DataUtil.getUserInfo().phoneNo;
-              CommonNetUtil.getPhoneCode(phone);
-          }
-
-          @Override
-          public void onComplete(String phoneOrEmail) {
-          }
-      });
-  }
-
-  @Override
-  public void onClick(View v) {
-     if (v == viewBinding.activityMineZhuxiaoConfirmNav.addCloseImageButton()) {
-      finish();
-
-    } else if (v == viewBinding.activityMineZhuxiaoConfirmTv) {
+        } else if (v == viewBinding.activityMineZhuxiaoConfirmTv) {
 
 //         HashMap map = new HashMap();
 //         map.put("type","100");
 //         PursePwdManagerSetActivity.start(PursePwdManagerSetActivity.class,this,map);
 
-         String code = getTextStr(viewBinding.activityMineZhuxiaoConfirmGetCode.viewTitleTfWithoutBgEt);
-         if (code.length() != 6) {
-             ToastUtils.toastMsg("验证码错误");
-             return;
-         }
-         RegisterBean bean = new RegisterBean();
-         bean.sms = code;
-         HttpUtil.apiW().home_logout1(bean)
-                 .enqueue(new CommonCallback<NetData>() {
-                     @Override
-                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                         ToastUtils.toastMsg("注销成功");
-                         showLogin();
-                     }
-
-                     @Override
-                     public void Failure(Call<NetData> call, Throwable t) {
-
-                     }
-                 });
-    }
-  }
-
-  void showLogin() {
-    IMKitClient.logoutIM(
-            new com.netease.yunxin.kit.corekit.im.login.LoginCallback<Void>() {
-              @Override
-              public void onError(int errorCode, @NonNull String errorMsg) {
-                Toast.makeText(
-                                ZhuXiaoConfrimActivity.this,
-                                "error code is " + errorCode + ", message is " + errorMsg,
-                                Toast.LENGTH_SHORT)
-                        .show();
-              }
-
-              @Override
-              public void onSuccess(@Nullable Void data) {
-                if (getApplicationContext() instanceof IMApplication) {
-                  ((IMApplication) getApplicationContext())
-                          .clearActivity(ZhuXiaoConfrimActivity.this);
+            String code = getTextStr(viewBinding.activityMineZhuxiaoConfirmGetCode.viewTitleTfWithoutBgEt);
+            if (code.length() != 6) {
+                ToastUtils.toastMsg("验证码错误");
+                return;
+            }
+            RegisterBean bean = new RegisterBean();
+            bean.sms = code;
+            HttpUtil.apiW().home_logout1(bean).enqueue(new CommonCallback<NetData>() {
+                @Override
+                public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                    ToastUtils.toastMsg("注销成功");
+                    showLogin();
                 }
-                  DataUtil.deleteLoginUserInfoList(DataUtil.getUserInfo());
+
+                @Override
+                public void Failure(Call<NetData> call, Throwable t) {
+
+                }
+            });
+        }
+    }
+
+    void showLogin() {
+        IMKitClient.logoutIM(new com.netease.yunxin.kit.corekit.im.login.LoginCallback<Void>() {
+            @Override
+            public void onError(int errorCode, @NonNull String errorMsg) {
+                Toast.makeText(ZhuXiaoConfrimActivity.this, "error code is " + errorCode + ", message is " + errorMsg, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onSuccess(@Nullable Void data) {
+                if (getApplicationContext() instanceof IMApplication) {
+                    ((IMApplication) getApplicationContext()).clearActivity(ZhuXiaoConfrimActivity.this);
+                }
+                DataUtil.deleteLoginUserInfoList(DataUtil.getUserInfo());
                 DataUtil.deleteData();
                 startActivity(new Intent(ZhuXiaoConfrimActivity.this, LoginActivity.class));
-                finish();
-              }
-            });
-  }
+                ActivityCompat.finishAffinity(ZhuXiaoConfrimActivity.this);
+            }
+        });
+    }
 
     private List<DirCacheFileType> getSDKFileType() {
         List<DirCacheFileType> types = new ArrayList<>();

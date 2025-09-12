@@ -221,7 +221,7 @@
                 android:layout_marginTop="@dimen/dimen_16_dp"
                 android:text="12312312"
                 android:textColor="@color/color_black" />
-            
+
             <TextView
                 android:id="@+id/activity_login_register_tv"
                 android:layout_width="wrap_content"

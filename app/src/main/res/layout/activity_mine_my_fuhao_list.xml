@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -9,86 +8,85 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@mipmap/jinzita_common_page_bg"
         android:scaleType="fitXY"
-        />
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <com.yaoxin.appbase.navbar.NavToolbar
-        android:id="@+id/activity_mine_my_fuhao_list_nav"
-        style="@style/WhiteFontToolbar"
-        android:background="@color/transparent"
-        app:back_icon="@mipmap/temp_ic_back"
-        app:enable_under_divider="true"
-        app:support_translucent_status_bar="false"
-        app:title="我的副号"
-        app:title_text_color="@color/white"
-        app:under_divider_color="@color/transparent" />
+        android:src="@mipmap/jinzita_common_page_bg" />
 
     <LinearLayout
-        android:id="@+id/activity_mine_my_fuhao_list_detail_ll"
-        android:layout_marginHorizontal="10dp"
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="我的主号"
-            android:textColor="@color/white"
-            android:textSize="15sp"
-            />
-        <TextView
-            android:id="@+id/activity_mine_my_fuhao_list_self_phone_tv"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="5dp"
-            android:layout_width="wrap_content"
-            android:layout_height="45dp"
-            android:gravity="center"
-            android:background="@drawable/bg_ede3cb_rounded_10"
-            android:text="136 5669 6688"
-            android:paddingHorizontal="15dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-            android:textColor="#ff000000"
-            android:textSize="14sp"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="默认登录密码和支付密码都为主号码"
-            android:textColor="#ff999999"
-            android:textSize="12sp"
-            />
+        <com.yaoxin.appbase.navbar.NavToolbar
+            android:id="@+id/activity_mine_my_fuhao_list_nav"
+            style="@style/WhiteFontToolbar"
+            android:background="@color/transparent"
+            app:back_icon="@mipmap/temp_ic_back"
+            app:enable_under_divider="true"
+            app:support_translucent_status_bar="false"
+            app:title="我的副号"
+            app:title_text_color="@color/white"
+            app:under_divider_color="@color/transparent" />
 
-        <TextView
-            android:layout_marginTop="30dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="我的副号"
-            android:textColor="@color/white"
-            android:textSize="15sp"
-            />
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_marginTop="15dp"
-            android:id="@+id/activity_mine_my_fuhao_list_rv"
+        <LinearLayout
+            android:id="@+id/activity_mine_my_fuhao_list_detail_ll"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            />
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="我的主号"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/activity_mine_my_fuhao_list_self_phone_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/bg_ede3cb_rounded_10"
+                android:gravity="center"
+                android:paddingHorizontal="15dp"
+                android:text="136 5669 6688"
+
+                android:textColor="#ff000000"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="默认登录密码和支付密码都为主号码"
+                android:textColor="#ff999999"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="我的副号"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/activity_mine_my_fuhao_list_rv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="15dp" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
-</LinearLayout>
     <ImageView
         android:id="@+id/activity_mine_my_fuhao_list_buy_iv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@mipmap/mine_fuhao_buy"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="90dp"
         android:layout_marginRight="5dp"
-        />
+        android:layout_marginBottom="90dp"
+        android:src="@mipmap/mine_fuhao_buy" />
 </RelativeLayout>

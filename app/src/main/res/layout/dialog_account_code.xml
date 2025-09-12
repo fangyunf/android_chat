@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    >
+    android:layout_height="wrap_content">
 
     <RelativeLayout
         android:layout_width="345dp"
         android:layout_height="538dp">
 
-<!--        <ImageView-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:src="@mipmap/account_code_bg_new"-->
-<!--            android:scaleType="fitXY"-->
-<!--            />-->
+        <!--        <ImageView-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="match_parent"-->
+        <!--            android:src="@mipmap/account_code_bg_new"-->
+        <!--            android:scaleType="fitXY"-->
+        <!--            />-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -23,9 +22,9 @@
 
             <LinearLayout
 
-                android:layout_margin="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="20dp"
                 android:gravity="center_vertical">
 
                 <com.makeramen.roundedimageview.RoundedImageView
@@ -37,20 +36,22 @@
 
                 <LinearLayout
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="12dp"
-                    android:orientation="vertical"
-                    android:layout_height="wrap_content">
+                    android:orientation="vertical">
+
                     <TextView
                         android:id="@+id/dialog_account_code_name_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="#ff000000"
                         android:textSize="18sp" />
+
                     <TextView
-                        android:layout_marginTop="10dp"
                         android:id="@+id/dialog_account_code_id_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
                         android:textColor="#ff000000"
                         android:textSize="18sp" />
                 </LinearLayout>
@@ -58,9 +59,9 @@
 
             <ImageView
                 android:id="@+id/dialog_account_code_code_iv"
-                android:layout_marginTop="40dp"
                 android:layout_width="250dp"
-                android:layout_height="250dp"/>
+                android:layout_height="250dp"
+                android:layout_marginTop="40dp" />
 
             <TextView
                 android:id="@+id/dialog_account_code_save_photo"
@@ -73,15 +74,16 @@
                 android:textColor="#000000"
                 android:textSize="16sp" />
         </LinearLayout>
+
         <ImageView
-            android:visibility="visible"
             android:id="@+id/dialog_account_code_close_iv"
             android:layout_width="24dp"
-            android:src="@mipmap/account_code_close_new"
+            android:layout_height="24dp"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="29dp"
             android:layout_marginEnd="13dp"
-            android:layout_height="24dp"/>
+            android:src="@mipmap/account_code_close_new"
+            android:visibility="visible" />
     </RelativeLayout>
 
 

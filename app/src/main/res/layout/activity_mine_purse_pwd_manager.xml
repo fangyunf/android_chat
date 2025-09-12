@@ -19,18 +19,16 @@
         app:under_divider_color="@color/color_d5d5d5" />
 
 
-<include
-    android:id="@+id/activity_mine_purse_pwd_manager_set_pwd"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    layout="@layout/view_title_arrow"
-    />
+    <include
+        android:id="@+id/activity_mine_purse_pwd_manager_set_pwd"
+        layout="@layout/view_title_arrow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
-<include
-    android:id="@+id/activity_mine_purse_pwd_manager_modify_pwd"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    layout="@layout/view_title_arrow"
-    />
+    <include
+        android:id="@+id/activity_mine_purse_pwd_manager_modify_pwd"
+        layout="@layout/view_title_arrow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

@@ -1,29 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/view_purse_icon_title_iv_ll"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/view_purse_icon_title_iv_ll"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingHorizontal="@dimen/dimen_12_dp"
-    android:gravity="center_vertical"
-    android:paddingVertical="@dimen/dimen_7_dp"
     android:background="@color/white"
-    >
-<ImageView
-    android:id="@+id/view_purse_icon_title_iv"
-    android:layout_width="@dimen/dimen_44_dp"
-    android:layout_height="@dimen/dimen_44_dp"
-    android:src="@mipmap/mine_fragment_purse_index_realname_manager"
-    android:scaleType="fitXY"
-    />
+    android:gravity="center_vertical"
+    android:paddingHorizontal="@dimen/dimen_12_dp"
+    android:paddingVertical="@dimen/dimen_7_dp">
+
+    <ImageView
+        android:id="@+id/view_purse_icon_title_iv"
+        android:layout_width="@dimen/dimen_44_dp"
+        android:layout_height="@dimen/dimen_44_dp"
+        android:scaleType="fitXY"
+        android:src="@mipmap/mine_fragment_purse_index_realname_manager" />
+
     <TextView
         android:id="@+id/view_purse_icon_title_tv"
         android:layout_width="match_parent"
-        android:layout_marginLeft="@dimen/dimen_12_dp"
         android:layout_height="22dp"
+        android:layout_marginLeft="@dimen/dimen_12_dp"
         android:text="账单明细"
         android:textColor="#ff000000"
-        android:textSize="16sp"
-        />
+        android:textSize="16sp" />
 
 </LinearLayout>
