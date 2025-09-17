@@ -93,53 +93,46 @@ public class ZhuXiaoConfrimActivity extends BaseActivity implements View.OnClick
 //         map.put("type","100");
 //         PursePwdManagerSetActivity.start(PursePwdManagerSetActivity.class,this,map);
 
-            String code = getTextStr(viewBinding.activityMineZhuxiaoConfirmGetCode.viewTitleTfWithoutBgEt);
-            if (code.length() != 6) {
-                ToastUtils.toastMsg("验证码错误");
-                return;
-            }
-            RegisterBean bean = new RegisterBean();
-            bean.sms = code;
-            HttpUtil.apiW().home_logout1(bean)
-                    .enqueue(new CommonCallback<NetData>() {
-                        @Override
-                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                            ToastUtils.toastMsg("注销成功");
-                            showLogin();
-                        }
+//            String code = getTextStr(viewBinding.activityMineZhuxiaoConfirmGetCode.viewTitleTfWithoutBgEt);
+//            if (code.length() != 6) {
+//                ToastUtils.toastMsg("验证码错误");
+//                return;
+//            }
+//            RegisterBean bean = new RegisterBean();
+//            bean.sms = code;
+            HttpUtil.apiW().home_logout().enqueue(new CommonCallback<NetData>() {
+                @Override
+                public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                    ToastUtils.toastMsg("注销成功");
+                    showLogin();
+                }
 
-                        @Override
-                        public void Failure(Call<NetData> call, Throwable t) {
+                @Override
+                public void Failure(Call<NetData> call, Throwable t) {
 
-                        }
-                    });
+                }
+            });
         }
     }
 
     void showLogin() {
-        IMKitClient.logoutIM(
-                new com.netease.yunxin.kit.corekit.im.login.LoginCallback<Void>() {
-                    @Override
-                    public void onError(int errorCode, @NonNull String errorMsg) {
-                        Toast.makeText(
-                                        ZhuXiaoConfrimActivity.this,
-                                        "error code is " + errorCode + ", message is " + errorMsg,
-                                        Toast.LENGTH_SHORT)
-                                .show();
-                    }
+        IMKitClient.logoutIM(new com.netease.yunxin.kit.corekit.im.login.LoginCallback<Void>() {
+            @Override
+            public void onError(int errorCode, @NonNull String errorMsg) {
+                Toast.makeText(ZhuXiaoConfrimActivity.this, "error code is " + errorCode + ", message is " + errorMsg, Toast.LENGTH_SHORT).show();
+            }
 
-                    @Override
-                    public void onSuccess(@Nullable Void data) {
-                        if (getApplicationContext() instanceof IMApplication) {
-                            ((IMApplication) getApplicationContext())
-                                    .clearActivity(ZhuXiaoConfrimActivity.this);
-                        }
-                        DataUtil.deleteLoginUserInfoList(DataUtil.getUserInfo());
-                        DataUtil.deleteData();
-                        startActivity(new Intent(ZhuXiaoConfrimActivity.this, LoginActivity.class));
-                        finish();
-                    }
-                });
+            @Override
+            public void onSuccess(@Nullable Void data) {
+                if (getApplicationContext() instanceof IMApplication) {
+                    ((IMApplication) getApplicationContext()).clearActivity(ZhuXiaoConfrimActivity.this);
+                }
+                DataUtil.deleteLoginUserInfoList(DataUtil.getUserInfo());
+                DataUtil.deleteData();
+                startActivity(new Intent(ZhuXiaoConfrimActivity.this, LoginActivity.class));
+                finish();
+            }
+        });
     }
 
     private List<DirCacheFileType> getSDKFileType() {

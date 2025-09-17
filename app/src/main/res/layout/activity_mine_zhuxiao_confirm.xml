@@ -83,8 +83,8 @@
             android:id="@+id/activity_mine_zhuxiao_confirm_get_code"
             layout="@layout/view_top_title_et"
             android:layout_width="match_parent"
-
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
     </LinearLayout>
 
     <TextView
