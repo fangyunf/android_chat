@@ -13,8 +13,8 @@ public class Constant {
     //    public static final String BASE_URL = "http://sy.sxweinizx.com/";
 //    public static final String ENCODE_KEY = "frxsecretpadding";
 //    public static final String MSG_ENCODE_KEY = "carefullanimchat";
-    public static final String BASE_URL = "http://47.117.246.43:17117/";
-    public static final String BASE_URL_H5 = "http://47.117.246.43:17117";
+    public static final String BASE_URL = "http://anjuxtaids0w1.163-yunxin-api.com:17117/";
+    public static final String BASE_URL_H5 = "http://anjuxtaids0w1.163-yunxin-api.com:17117";
     public static final String ENCODE_KEY = "wesecretpaddingg";
     public static final String MSG_ENCODE_KEY = "wallstreetimchat";
 
