@@ -170,17 +170,13 @@
             android:layout_below="@+id/main_search"
             android:background="@color/color_white">
 
-            <com.scwang.smart.refresh.layout.SmartRefreshLayout
-                android:id="@+id/smLayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/contact_new_fragment_rv"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/transparent" />
-            </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/contact_new_fragment_rv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/transparent" />
+
 
             <!--字母导航栏-->
             <com.nanchen.wavesidebar.WaveSideBarView
