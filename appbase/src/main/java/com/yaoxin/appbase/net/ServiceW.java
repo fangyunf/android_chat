@@ -570,8 +570,14 @@ public interface ServiceW {
     Call<NetData> home_sdState(
             @Body RegisterBean userBean
     );
+
     @POST("/home/flushToken")
     Call<NetData> home_flushToken(
+            @Body RegisterBean userBean
+    );
+
+    @POST("/home/updateSd")
+    Call<NetData> home_updateSd(
             @Body RegisterBean userBean
     );
 
