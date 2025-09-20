@@ -87,6 +87,9 @@ public class SettingNewActivity extends BaseActivity implements View.OnClickList
         viewBinding.layoutAnQuan.viewTitleArrowTv.setText("安全与隐私");
         viewBinding.layoutAnQuan.viewTitleArrowLl.setOnClickListener(this);
 
+        viewBinding.layoutAnQuanNew.viewTitleArrowTv.setText("安全设置");
+        viewBinding.layoutAnQuanNew.viewTitleArrowLl.setOnClickListener(this);
+
         viewBinding.activityMineSetNewNoticeVoice.viewTitleArrowTv.setText("通知声音");
         viewBinding.activityMineSetNewDeleteCache.viewTitleArrowTv.setText("清空缓存");
         viewBinding.activityMineSetNewDeleteRecord.viewTitleArrowTv.setText("清空所有聊天记录");
@@ -103,7 +106,10 @@ public class SettingNewActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        if (v == viewBinding.layoutZhanghaoAnquan.viewTitleArrowLl) {
+
+        if (v == viewBinding.layoutAnQuanNew.viewTitleArrowLl) {
+            AnQuanSetNewActivity.start(AnQuanSetNewActivity.class, this, null);
+        } else if (v == viewBinding.layoutZhanghaoAnquan.viewTitleArrowLl) {
             AccountDetailActivity.start(AccountDetailActivity.class, this, null);
         } else if (v == viewBinding.activityMineSetNewNoticeVoice.viewTitleArrowLl || v == viewBinding.layoutNewNotice.viewTitleArrowLl) {
             startActivity(new Intent(SettingNewActivity.this, SettingNotifyNewActivity.class));
