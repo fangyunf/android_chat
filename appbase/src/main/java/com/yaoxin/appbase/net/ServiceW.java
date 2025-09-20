@@ -354,6 +354,11 @@ public interface ServiceW {
             @Body RegisterBean userBean
     );
 
+    @POST("/friends/friendLists")
+    Call<NetData> friends_friendLists(
+            @Body RegisterBean userBean
+    );
+
     //  好友列表
     @POST("/friends/applyListNum")
     Call<NetData> friends_applyListNum(
