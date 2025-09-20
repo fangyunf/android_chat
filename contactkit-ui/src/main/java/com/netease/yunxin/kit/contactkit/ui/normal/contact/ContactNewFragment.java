@@ -79,21 +79,17 @@ import retrofit2.Response;
  */
 public class ContactNewFragment extends BaseFragment implements View.OnClickListener {
     private final String TAG = "ContactFragment";
-    private ContactNewFragmentBinding binding;
-    private ContactEntranceBean verifyBean;
+    protected IContactCallback contactCallback;
     ArrayList<GroupInfoBean> mContactModels = new ArrayList<>();
     ContactUserListAdapter adapter = new ContactUserListAdapter();
-    protected IContactCallback contactCallback;
     GroupInfoBean applyNumBean = new GroupInfoBean();
-
     GroupListAdapter groupListAdapter = new GroupListAdapter();
     List<GroupInfoBean> groupListDataList = new ArrayList<>();
-
     NewFriendListAdapter verifyAdapter = new NewFriendListAdapter();
-
     List<UserBean> verifyList = new ArrayList<>();
-
     int _selectIndex = 0;
+    private ContactNewFragmentBinding binding;
+    private ContactEntranceBean verifyBean;
 
     @Nullable
     @Override
@@ -124,8 +120,8 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
     }
 
     protected void _requestMemeber(int page) {
-        RegisterBean registerBean = new RegisterBean();
-        registerBean.page = page + "";
+        ParamsBean registerBean = new ParamsBean();
+        registerBean.page = page;
         HttpUtil.apiW().friends_friendLists(registerBean)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
@@ -178,7 +174,7 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
     @Override
     protected void _requestData() {
 
-        //  _requestMemeber(1);
+        _requestMemeber(1);
 
         HttpUtil.apiW().friends_applyListNum(new RegisterBean())
                 .enqueue(new CommonCallback<NetData>() {

@@ -356,7 +356,7 @@ public interface ServiceW {
 
     @POST("/friends/friendLists")
     Call<NetData> friends_friendLists(
-            @Body RegisterBean userBean
+            @Body ParamsBean userBean
     );
 
     //  好友列表
