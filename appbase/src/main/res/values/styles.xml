@@ -25,6 +25,7 @@
         <item name="under_divider_color">#E0E0E0</item>
         <item name="under_divider_height">1px</item>
     </style>
+
     <style name="WhiteFontToolbar" parent="PascToolbarBase">
         <item name="title_text_color">#ffffff</item>
         <item name="android:background">#27A5F9</item>
@@ -71,11 +72,12 @@
         <item name="android:statusBarColor" tools:ignore="NewApi">@android:color/transparent</item>
         <item name="android:backgroundDimEnabled">false</item>
     </style>
+
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/app_theme_color</item>
     </style>
 
     <style name="pop_add_ainm" parent="android:Animation">
