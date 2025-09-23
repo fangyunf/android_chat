@@ -1,6 +1,8 @@
 package com.turunsi.yaoxin.main.mine.huiyuan;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -41,6 +43,13 @@ public class LiangHaoZoneActivity extends BaseActivity {
         binding.rvGroup.setLayoutManager(new LinearLayoutManager(this));
         groupAdapter = new LiangHaoGroupAdapter();
         binding.rvGroup.setAdapter(groupAdapter);
+        binding.layoutLiangHaoLast.setOnClickListener(view -> {
+            if (dataBean != null && !dataBean.list.isEmpty()) {
+                Intent intent = new Intent(LiangHaoZoneActivity.this, LiangHaoZoneMoreActivity.class);
+                intent.putExtra("huiyuan", dataBean.list.get(dataBean.list.size() - 1));
+                startActivity(intent);
+            }
+        });
     }
 
     private void loadData() {
