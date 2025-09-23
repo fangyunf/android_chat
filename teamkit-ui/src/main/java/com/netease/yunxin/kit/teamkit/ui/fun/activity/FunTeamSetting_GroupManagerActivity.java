@@ -41,6 +41,7 @@ import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.BaseEvent;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.GlideUtil;
+import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -76,14 +77,14 @@ public class FunTeamSetting_GroupManagerActivity extends BaseActivity implements
             rankState = Integer.parseInt(rankS1);
         }
         super.onCreate(savedInstanceState);
-        binding =
-                FunTeamSettingGroupManagerActivityBinding.inflate(getLayoutInflater());
+        binding = FunTeamSettingGroupManagerActivityBinding.inflate(getLayoutInflater());
         if (rankState == 2) {
             binding.funTeamSettingGroupManagerActivityQunzhuZhuanrang.viewTitleArrowLl.setVisibility(View.GONE);
             binding.funTeamSettingGroupManagerActivityGuanliyuanSet.viewTitleArrowLl.setVisibility(View.GONE);
             binding.funTeamSettingGroupManagerActivityJiesanTv.setVisibility(View.GONE);
         }
         setContentView(binding.getRoot());
+        StatusBarUtils.transtStatusBar(this, binding.funTeamSettingGroupManagerActivityNav);
         _initView();
 
     }
@@ -142,7 +143,7 @@ public class FunTeamSetting_GroupManagerActivity extends BaseActivity implements
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                        groupInfoBean = new Gson().fromJson(body.data.toString(),GroupInfoBean.class);
+                        groupInfoBean = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
                         updateUI();
                     }
 
@@ -205,39 +206,40 @@ public class FunTeamSetting_GroupManagerActivity extends BaseActivity implements
                                 }
 
                                 @Override
-                                public void onNegative() {}
+                                public void onNegative() {
+                                }
                             })
                     .show(getSupportFragmentManager());
         } else if (view == binding.funTeamSettingGroupManagerActivityQunzhuZhuanrang.viewTitleArrowLl) {
 
 
             Intent intent = new Intent(this, FunTeamSettingNew_TeamUsersActivity.class);
-            intent.putExtra("groupId",groupId);
-            intent.putExtra("opt_type","1");
+            intent.putExtra("groupId", groupId);
+            intent.putExtra("opt_type", "1");
             activityResultLauncher.launch(intent);
         } else if (view == binding.funTeamSettingGroupManagerActivityGuanliyuanSet.viewTitleArrowLl) {
 
 
             Intent intent = new Intent(this, FunTeamSettingNew_TeamUsersActivity.class);
-            intent.putExtra("groupId",groupId);
-            intent.putExtra("opt_type","2");
+            intent.putExtra("groupId", groupId);
+            intent.putExtra("opt_type", "2");
             activityResultLauncher.launch(intent);
 
         } else if (view == binding.funTeamSettingGroupManagerActivityJinzhiLingquMingdan.viewTitleArrowLl) {
 
             HashMap map = new HashMap();
-            map.put("groupId",groupId);
-            FunTeamSettingNew_ForbiddenListActivity.start(FunTeamSettingNew_ForbiddenListActivity.class,this,map);
+            map.put("groupId", groupId);
+            FunTeamSettingNew_ForbiddenListActivity.start(FunTeamSettingNew_ForbiddenListActivity.class, this, map);
         } else if (view == binding.funTeamSettingGroupManagerActivityQunshengji.viewTitleArrowLl) {
             XKitRouter.withKey("BuyGroupFeatureActivity")
-                    .withParam("type",0)
-                    .withParam("groupId",groupId)
+                    .withParam("type", 0)
+                    .withParam("groupId", groupId)
                     .withContext(this)
                     .navigate();
         } else if (view == binding.funTeamSettingGroupManagerActivityQunheimingdan.viewTitleArrowLl) {
 
             XKitRouter.withKey(RouterConstant.PATH_FUN_MY_BLACK_PAGE)
-                    .withParam("groupId",groupId)
+                    .withParam("groupId", groupId)
                     .withContext(this)
                     .navigate();
         }
@@ -328,7 +330,7 @@ public class FunTeamSetting_GroupManagerActivity extends BaseActivity implements
             bean.nonCollectionState = binding.funTeamSettingGroupManagerActivityJinzhiLingquGouwuquan.viewTitleDetailArrowTemplateSwitch.isSelected() ? "1" : "0";
         }
         if (type == 3) {
-            bean.addFriendsState = binding.funTeamSettingGroupManagerActivityQunchengyuanBaohu.viewTitleDetailArrowTemplateSwitch.isSelected() ?"1" : "0";
+            bean.addFriendsState = binding.funTeamSettingGroupManagerActivityQunchengyuanBaohu.viewTitleDetailArrowTemplateSwitch.isSelected() ? "1" : "0";
         }
 
         HttpUtil.apiW().groupMember_invitationGroupConfirmed(bean)
