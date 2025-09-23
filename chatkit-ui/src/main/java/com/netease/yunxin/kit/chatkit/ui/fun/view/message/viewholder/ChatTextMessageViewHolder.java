@@ -7,7 +7,9 @@ package com.netease.yunxin.kit.chatkit.ui.fun.view.message.viewholder;
 import android.text.style.ImageSpan;
 import android.view.LayoutInflater;
 import android.view.View;
+
 import androidx.annotation.NonNull;
+
 import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 import com.netease.yunxin.kit.chatkit.ui.R;
 import com.netease.yunxin.kit.chatkit.ui.common.MessageHelper;
@@ -16,67 +18,69 @@ import com.netease.yunxin.kit.chatkit.ui.databinding.FunChatMessageTextViewHolde
 import com.netease.yunxin.kit.chatkit.ui.model.ChatMessageBean;
 import com.yaoxin.appbase.utils.DataUtil;
 
-/** view holder for Text message */
+/**
+ * view holder for Text message
+ */
 public class ChatTextMessageViewHolder extends FunChatBaseMessageViewHolder {
 
-  FunChatMessageTextViewHolderBinding textBinding;
+    FunChatMessageTextViewHolderBinding textBinding;
 
-  public ChatTextMessageViewHolder(@NonNull ChatBaseMessageViewHolderBinding parent, int viewType) {
-    super(parent, viewType);
-  }
-
-  @Override
-  public void addViewToMessageContainer() {
-    textBinding =
-        FunChatMessageTextViewHolderBinding.inflate(
-            LayoutInflater.from(parent.getContext()), getMessageContainer(), true);
-  }
-
-  @Override
-  public void bindData(ChatMessageBean message, ChatMessageBean lastMessage) {
-    super.bindData(message, lastMessage);
-    if (properties.getMessageTextSize() != null) {
-      textBinding.messageText.setTextSize(properties.getMessageTextSize());
+    public ChatTextMessageViewHolder(@NonNull ChatBaseMessageViewHolderBinding parent, int viewType) {
+        super(parent, viewType);
     }
-    if (properties.getMessageTextColor() != null) {
-      textBinding.messageText.setTextColor(properties.getMessageTextColor());
-    } else {
-        if (message.getMessageData().getFromUser() != null && message.getMessageData().getFromUser().getAccount().equals(DataUtil.getUserid())) {
-          textBinding.messageText.setTextColor(
-                  parent.getContext().getResources().getColor(R.color.color_white));
-      } else  {
-          textBinding.messageText.setTextColor(
-                  parent.getContext().getResources().getColor(R.color.color_333333));
-      }
-    }
-    if (message.getMessageData().getMessage().getMsgType() == MsgTypeEnum.text) {
 
-      if (isForwardMsg()) {
-        MessageHelper.identifyFaceExpression(
-            textBinding.getRoot().getContext(),
-            textBinding.messageText,
-            message.getMessageData().getMessage().getContent(),
-            ImageSpan.ALIGN_BOTTOM);
-      } else {
-        MessageHelper.identifyExpression(
-            textBinding.getRoot().getContext(),
-            textBinding.messageText,
-            message.getMessageData().getMessage());
-      }
-    } else {
-      //文件消息暂不支持所以展示提示信息
-      textBinding.messageText.setText(
-          parent.getContext().getResources().getString(R.string.chat_message_not_support_tips));
+    @Override
+    public void addViewToMessageContainer() {
+        textBinding =
+                FunChatMessageTextViewHolderBinding.inflate(
+                        LayoutInflater.from(parent.getContext()), getMessageContainer(), true);
     }
-  }
 
-  @Override
-  public void onMessageRevokeStatus(ChatMessageBean data) {
-    super.onMessageRevokeStatus(data);
-    if (revokedViewBinding != null) {
-      if (!MessageHelper.revokeMsgIsEdit(data)) {
-        revokedViewBinding.tvAction.setVisibility(View.GONE);
-      }
+    @Override
+    public void bindData(ChatMessageBean message, ChatMessageBean lastMessage) {
+        super.bindData(message, lastMessage);
+        if (properties.getMessageTextSize() != null) {
+            textBinding.messageText.setTextSize(properties.getMessageTextSize());
+        }
+        if (properties.getMessageTextColor() != null) {
+            textBinding.messageText.setTextColor(properties.getMessageTextColor());
+        } else {
+            if (message.getMessageData().getFromUser() != null && message.getMessageData().getFromUser().getAccount().equals(DataUtil.getUserid())) {
+                textBinding.messageText.setTextColor(
+                        parent.getContext().getResources().getColor(com.yaoxin.appbase.R.color.app_theme_color));
+            } else {
+                textBinding.messageText.setTextColor(
+                        parent.getContext().getResources().getColor(R.color.color_333333));
+            }
+        }
+        if (message.getMessageData().getMessage().getMsgType() == MsgTypeEnum.text) {
+
+            if (isForwardMsg()) {
+                MessageHelper.identifyFaceExpression(
+                        textBinding.getRoot().getContext(),
+                        textBinding.messageText,
+                        message.getMessageData().getMessage().getContent(),
+                        ImageSpan.ALIGN_BOTTOM);
+            } else {
+                MessageHelper.identifyExpression(
+                        textBinding.getRoot().getContext(),
+                        textBinding.messageText,
+                        message.getMessageData().getMessage());
+            }
+        } else {
+            //文件消息暂不支持所以展示提示信息
+            textBinding.messageText.setText(
+                    parent.getContext().getResources().getString(R.string.chat_message_not_support_tips));
+        }
     }
-  }
+
+    @Override
+    public void onMessageRevokeStatus(ChatMessageBean data) {
+        super.onMessageRevokeStatus(data);
+        if (revokedViewBinding != null) {
+            if (!MessageHelper.revokeMsgIsEdit(data)) {
+                revokedViewBinding.tvAction.setVisibility(View.GONE);
+            }
+        }
+    }
 }

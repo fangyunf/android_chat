@@ -19,23 +19,21 @@ public class GroupListAdapter extends BaseQuickAdapter<GroupInfoBean, QuickViewH
 
     @Override
     protected void onBindViewHolder(@NonNull QuickViewHolder quickViewHolder, int i, @Nullable GroupInfoBean orderListBean) {
-
         ImageView imageView = quickViewHolder.getView(com.yaoxin.appbase.R.id.item_group_list_cell_iv);
         if (orderListBean == null || orderListBean.head == null || orderListBean.head.startsWith("https://s.netease.im") || orderListBean.head.isEmpty()) {
             imageView.setImageResource(com.yaoxin.appbase.R.mipmap.app_default_base_icon_group);
         } else {
-            GlideUtil.yh_loadImage(getContext(),imageView,orderListBean.head);
+            GlideUtil.loadImage(getContext(), imageView, orderListBean.head, com.yaoxin.appbase.R.mipmap.app_default_base_icon_group, com.yaoxin.appbase.R.mipmap.app_default_base_icon_group);
         }
-
-            ImageView selIv = quickViewHolder.getView(com.yaoxin.appbase.R.id.item_group_list_cell_sel_iv);
+        ImageView selIv = quickViewHolder.getView(com.yaoxin.appbase.R.id.item_group_list_cell_sel_iv);
         selIv.setSelected(orderListBean.isSelected);
-        quickViewHolder.setText(com.yaoxin.appbase.R.id.item_group_list_cell_tv,orderListBean.name);
+        quickViewHolder.setText(com.yaoxin.appbase.R.id.item_group_list_cell_tv, orderListBean.name);
     }
 
     @NonNull
     @Override
     protected QuickViewHolder onCreateViewHolder(@NonNull Context context, @NonNull ViewGroup viewGroup, int i) {
-        return new QuickViewHolder(com.yaoxin.appbase.R.layout.item_group_list_cell,viewGroup);
+        return new QuickViewHolder(com.yaoxin.appbase.R.layout.item_group_list_cell, viewGroup);
     }
 }
 

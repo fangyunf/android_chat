@@ -24,44 +24,44 @@ import java.util.Map;
 
 public class ChatMingPianMessageViewHolder extends FunChatBaseMessageViewHolder {
 
-  protected FunChatMessageMingpianBinding viewBinding;
+    protected FunChatMessageMingpianBinding viewBinding;
 
-  public ChatMingPianMessageViewHolder(
-      @NonNull ChatBaseMessageViewHolderBinding parent, int viewType) {
-    super(parent, viewType);
-  }
-
-  @Override
-  protected void addViewToMessageContainer() {
-    viewBinding =
-            FunChatMessageMingpianBinding.inflate(
-            LayoutInflater.from(parent.getContext()), getMessageContainer(), true);
-  }
-
-  @Override
-  public void bindData(ChatMessageBean message, ChatMessageBean lastMessage) {
-    super.bindData(message, lastMessage);
-    if (message != null
-            && message.getMessageData() != null
-            && !message.getMessageData().getMessage().getAttachStr().isEmpty()){
-      Map<String, Object> localExtension = message.getMessageData().getMessage().getLocalExtension();
-
-      try {
-
-        CustomMsgBean bean = new Gson().fromJson(message.getMessageData().getMessage().getAttachStr(), CustomMsgBean.class);
-        bean.result = new Gson().fromJson(bean.data, CustomMsgBean.class);
-        GlideUtil.yh_loadImage(viewBinding.funChatMessageMingpianHeadIv.getContext(),viewBinding.funChatMessageMingpianHeadIv,bean.result.avatar);
-        viewBinding.funChatMessageMingpianNameTv.setText(bean.result.name);
-
-      } catch (Exception e) {
-
-      }
+    public ChatMingPianMessageViewHolder(
+            @NonNull ChatBaseMessageViewHolderBinding parent, int viewType) {
+        super(parent, viewType);
     }
-  }
 
-  @Override
-  protected void onMessageBackgroundConfig(ChatMessageBean messageBean) {
-    super.onMessageBackgroundConfig(messageBean);
-    viewBinding.getRoot().setBackgroundResource(com.yaoxin.appbase.R.drawable.bg_white_rounded_10);
-  }
+    @Override
+    protected void addViewToMessageContainer() {
+        viewBinding =
+                FunChatMessageMingpianBinding.inflate(
+                        LayoutInflater.from(parent.getContext()), getMessageContainer(), true);
+    }
+
+    @Override
+    public void bindData(ChatMessageBean message, ChatMessageBean lastMessage) {
+        super.bindData(message, lastMessage);
+        if (message != null
+                && message.getMessageData() != null
+                && !message.getMessageData().getMessage().getAttachStr().isEmpty()) {
+            Map<String, Object> localExtension = message.getMessageData().getMessage().getLocalExtension();
+
+            try {
+
+                CustomMsgBean bean = new Gson().fromJson(message.getMessageData().getMessage().getAttachStr(), CustomMsgBean.class);
+                bean.result = new Gson().fromJson(bean.data, CustomMsgBean.class);
+                GlideUtil.yh_loadImage(viewBinding.funChatMessageMingpianHeadIv.getContext(), viewBinding.funChatMessageMingpianHeadIv, bean.result.avatar);
+                viewBinding.funChatMessageMingpianNameTv.setText(bean.result.name);
+
+            } catch (Exception e) {
+
+            }
+        }
+    }
+
+    @Override
+    protected void onMessageBackgroundConfig(ChatMessageBean messageBean) {
+        super.onMessageBackgroundConfig(messageBean);
+        viewBinding.getRoot().setBackgroundResource(com.yaoxin.appbase.R.drawable.bg_white_rounded_10);
+    }
 }
