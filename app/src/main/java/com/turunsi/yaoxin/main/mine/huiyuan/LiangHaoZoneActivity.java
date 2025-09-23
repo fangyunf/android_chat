@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.gson.Gson;
+import com.netease.yunxin.kit.corekit.route.XKitRouter;
 import com.turunsi.yaoxin.databinding.ActivityLianghaoZoneBinding;
 import com.turunsi.yaoxin.main.mine.huiyuan.adapter.LiangHaoGroupAdapter;
 import com.yaoxin.appbase.activity.BaseActivity;
@@ -48,6 +49,12 @@ public class LiangHaoZoneActivity extends BaseActivity {
                 Intent intent = new Intent(LiangHaoZoneActivity.this, LiangHaoZoneMoreActivity.class);
                 intent.putExtra("huiyuan", dataBean.list.get(dataBean.list.size() - 1));
                 startActivity(intent);
+            }
+        });
+        binding.layoutLiangHaoCj.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                XKitRouter.withKey(com.yaoxin.appbase.net.Constant.BaseWebViewActivityKey).withParam("type", "4").withParam("title", "抽奖").withContext(getBaseContext()).navigate();
             }
         });
     }
