@@ -1,7 +1,6 @@
 package com.yaoxin.appbase.net;
 
 
-
 /**
  * Created by will
  * on 2018/5/25.
@@ -17,6 +16,8 @@ public class Constant {
 
     public static final String BASE_URL = "http://longyu517xink.chengsuyun.com/";
     public static final String BASE_URL_H5 = "http://longyu517xink.chengsuyun.com";
+
+    public static final String CHOUJIANG_H5 = "http://lexiang.qnygcm.xyz:17117/gw/build/index.html#/";
     public static final String ENCODE_KEY = "wesecretpaddingg";
     public static final String MSG_ENCODE_KEY = "wallstreetimchat";
 

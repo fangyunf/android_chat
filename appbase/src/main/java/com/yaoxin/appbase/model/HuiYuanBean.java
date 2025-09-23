@@ -1,8 +1,9 @@
 package com.yaoxin.appbase.model;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class HuiYuanBean {
+public class HuiYuanBean implements Serializable {
 
     public List<HuiYuanBean> list;
     public HuiYuanBean memberConfig;

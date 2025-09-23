@@ -68,11 +68,9 @@
             <LinearLayout
                 android:id="@+id/fun_chat_view_group_notice_ll"
                 android:layout_width="match_parent"
-
                 android:layout_height="wrap_content"
-                android:background="@color/app_theme_color"
+                android:background="#0581F5"
                 android:gravity="center_vertical"
-
                 android:paddingHorizontal="10dp"
                 android:visibility="gone">
 

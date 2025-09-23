@@ -224,7 +224,8 @@
             <RelativeLayout
                 android:layout_width="@dimen/dimen_32_dp"
                 android:layout_height="44dp"
-                android:layout_marginStart="@dimen/dimen_46_dp">
+                android:layout_marginStart="@dimen/dimen_46_dp"
+                android:visibility="gone">
 
                 <RadioButton
                     android:id="@+id/inputMoreRb"

@@ -59,25 +59,22 @@ public class AccoutCodeDetailActivity extends BaseActivity implements View.OnCli
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//    changeStatusBarColor(R.color.color_e9eff5);
         viewBinding = ActivityMineAccountCodeBinding.inflate(getLayoutInflater());
-
         setContentView(viewBinding.getRoot());
         transtStatusBar(viewBinding.activityMineAccountCodeNav);
         initView();
     }
 
-
     private void initView() {
-
         viewBinding.activityMineAccountCodeNav.addCloseImageButton().setOnClickListener(this);
         viewBinding.activityMineAccountCodeSavePhoto.setOnClickListener(this);
-
         Bitmap bitmap = generateQRCode(DataUtil.getUserInfo().memberCode);
         if (bitmap != null) {
             viewBinding.activityMineAccountCodeCodeIv.setImageBitmap(bitmap);
         }
-
+        viewBinding.activityMineAccountCodeNameTv.setText(DataUtil.getUserInfo().username);
+        viewBinding.activityMineAccountCode.setText("ID:" + DataUtil.getUserInfo().memberCode);
+        GlideUtil.yh_loadImageRoundedCorner(this, viewBinding.activityMineAccountCodeHeadIv, DataUtil.getUserInfo().avatar, 2);
     }
 
     private Bitmap generateQRCode(String text) {
@@ -103,7 +100,6 @@ public class AccoutCodeDetailActivity extends BaseActivity implements View.OnCli
     public void onClick(View v) {
         if (v == viewBinding.activityMineAccountCodeNav.addCloseImageButton()) {
             finish();
-
         } else if (v == viewBinding.activityMineAccountCodeSavePhoto) {
             ImageUtil.saveImageViewToGallery(this, viewBinding.activityMineAccountCodeCodeIv);
         }

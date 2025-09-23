@@ -17,9 +17,10 @@ import com.yaoxin.appbase.R;
 public class IconTitleArrowTemplate extends LinearLayout {
     public IconTitleArrowTemplate(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        init(context,attrs);
+        init(context, attrs);
     }
-    private void init(Context context,@Nullable AttributeSet attrs) {
+
+    private void init(Context context, @Nullable AttributeSet attrs) {
         // Inflate the XML layout
         LayoutInflater.from(context).inflate(R.layout.icon_title_arrow_template, this, true);
         TextView titleTv = findViewById(R.id.icon_title_arrow_template_title_tv);
@@ -32,10 +33,10 @@ public class IconTitleArrowTemplate extends LinearLayout {
             String titleTvText = a.getString(R.styleable.IconTitleArrowTemplate_titleText);
 
             Drawable customImage = a.getDrawable(R.styleable.IconTitleArrowTemplate_leftImg);
-            int bgColor = a
-                    .getColor(
-                            R.styleable.IconTitleArrowTemplate_bgColor,
-                            Color.WHITE);
+//            int bgColor = a
+//                    .getColor(
+//                            R.styleable.IconTitleArrowTemplate_bgColor,
+//                            Color.WHITE);
             int textColor = a
                     .getColor(
                             R.styleable.IconTitleArrowTemplate_textColor,
@@ -48,11 +49,13 @@ public class IconTitleArrowTemplate extends LinearLayout {
             }
             // Apply custom attributes to views
             titleTv.setTextColor(textColor);
-
             if (customImage != null) {
+                imgIv.setVisibility(VISIBLE);
                 imgIv.setImageDrawable(customImage);
+            } else {
+                imgIv.setVisibility(GONE);
             }
-            bgLL.setBackgroundColor(bgColor);
+            //bgLL.setBackgroundColor(bgColor);
         }
     }
 }
