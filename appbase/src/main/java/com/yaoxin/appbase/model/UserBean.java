@@ -48,4 +48,6 @@ public class UserBean {
     public int page_type;
     public int grade;
 
+    public String wxUrl;
+
 }
