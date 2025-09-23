@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.ConcatAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
@@ -84,7 +85,12 @@ public class FunConversationFragment extends ConversationBaseFragment {
     private FunConversationFragmentBinding viewBinding;
 
     private boolean _needRefresh;
+    private String noticeText = "";
+    private RecyclerView.Adapter<?> headerAdapterRef;
+    private int topIndex;
 
+    public FunConversationFragment() {
+    }
 
     // 创建实例的方法，使用 arguments 传递参数
     public static FunConversationFragment newInstance(int type) {
@@ -94,11 +100,6 @@ public class FunConversationFragment extends ConversationBaseFragment {
         fragment.setArguments(args);
         return fragment;
     }
-
-    public FunConversationFragment() {
-    }
-
-    private int topIndex;
 
     @Override
     public View initViewAndGetRootView(
@@ -223,17 +224,29 @@ public class FunConversationFragment extends ConversationBaseFragment {
 
                             String message = groupInfoBean.content;
                             if (message != null && !message.isEmpty()) {
+                                noticeText = message;
+                                // refresh header text if header exists
+                                if (headerAdapterRef != null) {
+                                    headerAdapterRef.notifyItemChanged(0);
+                                }
                                 viewBinding.marqueeView.startWithText(message);
                                 viewBinding.marqueeView.startWithText(message, com.sunfusheng.marqueeview.R.anim.anim_bottom_in, com.sunfusheng.marqueeview.R.anim.anim_top_out);
                             } else {
                                 message = "";
+                                noticeText = message;
+                                if (headerAdapterRef != null) {
+                                    headerAdapterRef.notifyItemChanged(0);
+                                }
                                 viewBinding.marqueeView.startWithText(message);
                                 viewBinding.marqueeView.startWithText(message, com.sunfusheng.marqueeview.R.anim.anim_bottom_in, com.sunfusheng.marqueeview.R.anim.anim_top_out);
 
                             }
                         } else {
-
                             String message = "";
+                            noticeText = message;
+                            if (headerAdapterRef != null) {
+                                headerAdapterRef.notifyItemChanged(0);
+                            }
                             viewBinding.marqueeView.startWithText(message);
                             viewBinding.marqueeView.startWithText(message, com.sunfusheng.marqueeview.R.anim.anim_bottom_in, com.sunfusheng.marqueeview.R.anim.anim_top_out);
 
@@ -244,6 +257,10 @@ public class FunConversationFragment extends ConversationBaseFragment {
                     public void Failure(Call<NetData> call, Throwable t) {
 
                         String message = "";
+                        noticeText = message;
+                        if (headerAdapterRef != null) {
+                            headerAdapterRef.notifyItemChanged(0);
+                        }
                         viewBinding.marqueeView.startWithText(message);
                         viewBinding.marqueeView.startWithText(message, com.sunfusheng.marqueeview.R.anim.anim_bottom_in, com.sunfusheng.marqueeview.R.anim.anim_top_out);
 
@@ -484,6 +501,44 @@ public class FunConversationFragment extends ConversationBaseFragment {
         loadUIConfig();
         _initTopStatus(0);
         conversationView.setData(conversationList);
+        // --- Add scrolling header for P2P tab (_type == 0) using ConcatAdapter ---
+        if (_type == 0) {
+            RecyclerView rv = conversationView.getRecyclerView();
+            RecyclerView.Adapter<?> origin = conversationView.getAdapter();
+            RecyclerView.Adapter<RecyclerView.ViewHolder> headerAdapter = new RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+                @NonNull
+                @Override
+                public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                    View v = LayoutInflater.from(parent.getContext()).inflate(
+                            R.layout.fun_conversation_view_top_holder,
+                            parent,
+                            false);
+                    return new RecyclerView.ViewHolder(v) {
+                    };
+                }
+
+                @Override
+                public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+                    TextView tv = holder.itemView.findViewById(R.id.messageTv);
+                    tv.setText(noticeText);
+                    // 头像点击（或整个头部）跳转到系统公告页
+                    holder.itemView.setOnClickListener(v ->
+                            FunSystem_Notice_New_Activity.start(
+                                    FunSystem_Notice_New_Activity.class,
+                                    v.getContext(),
+                                    null));
+                }
+
+                @Override
+                public int getItemCount() {
+                    return 1;
+                }
+            };
+            headerAdapterRef = headerAdapter;
+            ConcatAdapter concatAdapter = new ConcatAdapter(headerAdapter, origin);
+            rv.setAdapter(concatAdapter);
+        }
+
         viewBinding.funConversationFragmentSearchIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

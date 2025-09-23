@@ -114,7 +114,6 @@ public class ConversationAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         ALog.d(LIB_TAG, TAG, "update, removeIndex:" + removeIndex);
         if (removeIndex > -1) {
             if (!conversationList.get(removeIndex).infoData.isStickTop()) {
-
                 conversationList.remove(removeIndex);
                 int insertIndex = searchComparatorIndex(data);
                 conversationList.add(insertIndex, data);

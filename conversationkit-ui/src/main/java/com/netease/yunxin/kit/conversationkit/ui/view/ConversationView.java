@@ -208,4 +208,20 @@ public class ConversationView extends FrameLayout {
       adapter.setShowTag(show);
     }
   }
+
+  /**
+   * Expose inner RecyclerView for advanced compositions such as ConcatAdapter headers.
+   */
+  @NonNull
+  public RecyclerView getRecyclerView() {
+    return recyclerView;
+  }
+
+  /**
+   * Expose the original ConversationAdapter for composing with ConcatAdapter.
+   */
+  @NonNull
+  public ConversationAdapter getAdapter() {
+    return adapter;
+  }
 }
