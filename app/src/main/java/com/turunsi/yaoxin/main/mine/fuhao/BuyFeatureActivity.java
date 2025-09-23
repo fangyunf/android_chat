@@ -47,6 +47,7 @@ public class BuyFeatureActivity extends BaseActivity implements View.OnClickList
     ArrayList<UserBean> userBeanList = new ArrayList<>();
 
     int _type = 0;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,11 +60,10 @@ public class BuyFeatureActivity extends BaseActivity implements View.OnClickList
     }
 
 
-
     void _updateUI() {
         binding.activityBuyFeatureNav.getTitleView().setText("购买副号");
-        binding.activityBuyFeatureMoneyTv.setText("￥68");
-        binding.activityBuyFeatureDetailTv.setText("购买即得20个副号");
+        binding.activityBuyFeatureMoneyTv.setText("100");
+        binding.activityBuyFeatureDetailTv.setText("购买即得15个副号");
 
 //        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
 //        binding.activityBuyFeatureRv.setLayoutManager(gridLayoutManager);
@@ -80,6 +80,7 @@ public class BuyFeatureActivity extends BaseActivity implements View.OnClickList
 //
 //        adapter.setItems(userBeanList);
     }
+
     @Override
     protected void _requestData() {
 //        HttpUtil.apiW().group_groupGrade()
@@ -102,7 +103,7 @@ public class BuyFeatureActivity extends BaseActivity implements View.OnClickList
     public void onClick(View v) {
         if (v == binding.activityBuyFeatureNav.addCloseImageButton()) {
             finish();
-        } else if (v == binding.activityBuyFeatureConfrimTv) {
+        } else if (v == binding.activityBuyFeatureConfrimTv || v == binding.activityBuyFeatureBuyTv) {
             String phone = getTextStr(binding.activityBuyFeatureEt);
             if (phone.length() != 5) {
                 ToastUtils.toastMsg("请输入5位");
@@ -112,9 +113,9 @@ public class BuyFeatureActivity extends BaseActivity implements View.OnClickList
                 @Override
                 public void inputFinish(String password) {
                     RegisterBean registerBean = new RegisterBean();
-                    registerBean.phone = "1"+ phone+"000";
+                    registerBean.phone = "1" + phone + "000";
                     registerBean.password = password;
-                    LoadingDialog.showDialog(getSupportFragmentManager(),"购买中..");
+                    LoadingDialog.showDialog(getSupportFragmentManager(), "购买中..");
                     HttpUtil.apiW().home_gmfh(registerBean)
                             .enqueue(new CommonCallback<NetData>() {
                                 @Override
@@ -137,7 +138,7 @@ public class BuyFeatureActivity extends BaseActivity implements View.OnClickList
                                 }
                             });
                 }
-            },"68");
+            }, "100");
             // 显示窗口
             popEnterPassword.showAtLocation(binding.activityBuyFeatureRootRl,
                     Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); // 设置layout在PopupWindow中显示的位置

@@ -299,7 +299,6 @@
                             android:id="@+id/fragment_mine_wdfh_view"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:visibility="gone"
                             app:leftImg="@mipmap/mine_index_item_wdfh"
                             app:titleText="我的副号" />
 

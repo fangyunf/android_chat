@@ -2,8 +2,8 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
     android:id="@+id/activity_buy_feature_root_rl"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
@@ -25,116 +25,119 @@
 
         <RelativeLayout
             android:id="@+id/activity_buy_feature_iv_rl"
-            android:layout_width="322dp"
-            android:layout_height="160dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="15dp">
+            android:layout_width="match_parent"
+            android:layout_height="230dp"
+            android:layout_marginHorizontal="@dimen/dimen_20_dp">
 
             <ImageView
                 android:id="@+id/activity_buy_feature_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/buy_feature_fuhao" />
+                android:layout_width="match_parent"
+                android:layout_height="230dp"
+                android:adjustViewBounds="true"
+                android:src="@mipmap/icon_fuhao_bg" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
-                android:layout_marginTop="57dp"
-                android:orientation="vertical">
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="@dimen/dimen_48_dp"
+                android:layout_marginBottom="@dimen/dimen_40_dp"
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/activity_buy_feature_money_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="￥68"
-                    android:textColor="#ffffffff"
-                    android:textSize="18sp" />
+                    android:text="100"
+                    android:textColor="#4C2E29"
+                    android:textSize="50sp" />
 
                 <TextView
                     android:id="@+id/activity_buy_feature_detail_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="购买即得20个副号"
-                    android:textColor="#ffffffff"
-                    android:textSize="12sp" />
+                    android:text="购买即得15个副号"
+                    android:textColor="#4C2E29"
+                    android:textSize="20sp" />
             </LinearLayout>
         </RelativeLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingHorizontal="25dp"
-            android:layout_height="wrap_content">
+            android:paddingHorizontal="25dp">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:text="自定义副号"
                 android:textColor="#ff000000"
-                android:textSize="15sp"
-                />
+                android:textSize="15sp" />
+
             <LinearLayout
-                android:layout_marginTop="15dp"
                 android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginTop="15dp"
                 android:background="@drawable/bg_f2f2f2_rounded_10"
                 android:gravity="center_vertical"
-                android:paddingLeft="15dp"
-                android:layout_height="45dp">
+                android:paddingLeft="15dp">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="1"
                     android:textColor="#ff000000"
-                    android:textSize="14sp"
-                    />
+                    android:textSize="14sp" />
+
                 <EditText
-                    android:inputType="number"
-                    android:maxLength="5"
                     android:id="@+id/activity_buy_feature_et"
                     android:layout_width="110dp"
-
                     android:layout_height="match_parent"
                     android:layout_marginHorizontal="@dimen/dimen_8_dp"
-                    android:textSize="@dimen/text_size_12"
-                    android:hint="请输入自定义副号"
-                    android:maxLines="1"
-                    android:textColorHint="@color/color_999999"
-                    android:textColor="@color/black"
+
                     android:background="@null"
                     android:cursorVisible="true"
                     android:focusable="true"
                     android:focusableInTouchMode="true"
-                    />
+                    android:hint="请输入自定义副号"
+                    android:inputType="number"
+                    android:maxLength="5"
+                    android:maxLines="1"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/color_999999"
+                    android:textSize="@dimen/text_size_12" />
+
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="000"
                     android:layout_weight="1"
+                    android:text="000"
                     android:textColor="#ff000000"
-                    android:textSize="14sp"
-                    />
+                    android:textSize="14sp" />
+
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/activity_buy_feature_confrim_tv"
                     android:layout_width="78dp"
+                    android:layout_height="match_parent"
                     android:background="@drawable/bg_app_theme_color_rounded_10"
                     android:gravity="center"
-                    android:layout_height="match_parent"
                     android:text="确定"
                     android:textColor="#ffffffff"
-                    android:textSize="15sp"
-                    />
+                    android:textSize="15sp" />
             </LinearLayout>
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:text="请输入5位数字号码，前一位和后三位为固定数字不可更改"
                 android:textColor="#ff999999"
-                android:textSize="12sp"
-                />
+                android:textSize="12sp" />
+
             <TextView
-                android:visibility="gone"
                 android:id="@+id/activity_buy_feature_rv_title_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -142,15 +145,15 @@
                 android:text="已选副号(9)"
                 android:textColor="#ff000000"
                 android:textSize="15sp"
-                />
+                android:visibility="gone" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:visibility="gone"
-
                 android:id="@+id/activity_buy_feature_rv"
-                android:layout_marginTop="10dp"
+
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:visibility="gone" />
         </LinearLayout>
     </LinearLayout>
 
@@ -163,15 +166,16 @@
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
-
         <TextView
             android:id="@+id/activity_buy_feature_buy_tv"
-            android:layout_width="253dp"
-            android:layout_height="52dp"
-            android:background="@drawable/fun_bg_app_theme_color_rounded_26"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginHorizontal="@dimen/dimen_16_dp"
+            android:background="@mipmap/goumai_bg"
             android:gravity="center"
+            android:paddingBottom="@dimen/dimen_10_dp"
             android:text="立即购买"
-            android:textColor="#ffffffff"
+            android:textColor="#DE5201"
             android:textSize="18sp" />
     </LinearLayout>
 </RelativeLayout>

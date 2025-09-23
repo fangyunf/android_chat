@@ -29,6 +29,7 @@ import com.turunsi.yaoxin.databinding.ActivityMineSetNewBinding;
 import com.turunsi.yaoxin.databinding.ActivityMineSettingBinding;
 import com.turunsi.yaoxin.login.LoginActivity;
 import com.turunsi.yaoxin.main.mine.DownLoadActivity;
+import com.turunsi.yaoxin.main.mine.account.AccountAnQuanManagerActivity;
 import com.turunsi.yaoxin.register.ForgetPwdActivity;
 import com.turunsi.yaoxin.welcome.WelcomeActivity;
 import com.yaoxin.appbase.activity.BaseActivity;
@@ -74,9 +75,13 @@ public class SettingNewActivity extends BaseActivity implements View.OnClickList
         viewBinding.activityMineSetNewExchangeAcount.viewTitleArrowLl.setOnClickListener(this);
         viewBinding.activityMineSetNewZhuxiao.viewTitleArrowLl.setOnClickListener(this);
 
+        viewBinding.activityMineSetNewYinsiSet.viewTitleArrowLl.setOnClickListener(this);
+
 
         viewBinding.activityMineSetNewNoticeVoice.viewTitleArrowTv.setText("通知声音");
         viewBinding.activityMineSetNewAnquanSet.viewTitleArrowTv.setText("安全设置");
+        viewBinding.activityMineSetNewYinsiSet.viewTitleArrowTv.setText("隐私设置");
+
         viewBinding.activityMineSetNewDeleteCache.viewTitleArrowTv.setText("清空缓存");
         viewBinding.activityMineSetNewDeleteRecord.viewTitleArrowTv.setText("清空所有聊天记录");
         viewBinding.activityMineSetNewAboutUs.viewTitleArrowTv.setText("关于我们");
@@ -96,11 +101,12 @@ public class SettingNewActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        if (v == viewBinding.activityMineSetNewNoticeVoice.viewTitleArrowLl) {
+        if (v == viewBinding.activityMineSetNewYinsiSet.viewTitleArrowLl) {
+            startActivity(new Intent(SettingNewActivity.this, AccountAnQuanManagerActivity.class));
+        } else if (v == viewBinding.activityMineSetNewNoticeVoice.viewTitleArrowLl) {
             startActivity(new Intent(SettingNewActivity.this, SettingNotifyNewActivity.class));
         } else if (v == viewBinding.activityMineSetNewDeleteCache.viewTitleArrowLl) {
             startActivity(new Intent(SettingNewActivity.this, ClearCacheActivity.class));
-
             DialogAlertUtil.showAlert("确定清空缓存吗？", new DialogAlertUtil.DialogAlertUtilCallBack() {
                 @Override
                 public void clickType(int type) {

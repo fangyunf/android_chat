@@ -25,6 +25,7 @@ import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
+import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
 
 import java.util.ArrayList;
@@ -48,6 +49,7 @@ public class AccountAnQuanManagerActivity extends BaseActivity implements View.O
         binding =
                 ActivityAccountAnquanManagerBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        StatusBarUtils.transtStatusBar(this, binding.activityAccountAnquanManagerNav);
         _initView();
 
     }
@@ -92,7 +94,6 @@ public class AccountAnQuanManagerActivity extends BaseActivity implements View.O
         binding.activityAccountAnquanManagerCell7.viewTitleArrowArrowIv.setVisibility(View.GONE);
 
 
-
     }
 
     @Override
@@ -104,7 +105,7 @@ public class AccountAnQuanManagerActivity extends BaseActivity implements View.O
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                        groupInfoBean = new Gson().fromJson(body.data.toString(),GroupInfoBean.class);
+                        groupInfoBean = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
                         updateUI();
                     }
 
@@ -150,7 +151,6 @@ public class AccountAnQuanManagerActivity extends BaseActivity implements View.O
     }
 
 
-
     void doOptWithType(int type) {
 
         RegisterBean bean = new RegisterBean();
@@ -161,10 +161,10 @@ public class AccountAnQuanManagerActivity extends BaseActivity implements View.O
             bean.phoneAdd = binding.activityAccountAnquanManagerCell2.viewTitleArrowRightTvSwitch.isSelected() ? "0" : "1";
         }
         if (type == 2) {
-            bean.idAdd = binding.activityAccountAnquanManagerCell3.viewTitleArrowRightTvSwitch.isSelected() ?"0" : "1";
+            bean.idAdd = binding.activityAccountAnquanManagerCell3.viewTitleArrowRightTvSwitch.isSelected() ? "0" : "1";
         }
         if (type == 3) {
-            bean.cardAdd = binding.activityAccountAnquanManagerCell4.viewTitleArrowRightTvSwitch.isSelected() ?"0" : "1";
+            bean.cardAdd = binding.activityAccountAnquanManagerCell4.viewTitleArrowRightTvSwitch.isSelected() ? "0" : "1";
         }
         if (type == 4) {
             bean.qrAdd = binding.activityAccountAnquanManagerCell5.viewTitleArrowRightTvSwitch.isSelected() ? "0" : "1";
