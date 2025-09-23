@@ -3,6 +3,7 @@ package com.turunsi.yaoxin.main.mine.huiyuan;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.Gravity;
 
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
@@ -15,8 +16,15 @@ import com.turunsi.yaoxin.main.mine.huiyuan.adapter.LiangHaoNumberAdapter;
 import com.yaoxin.appbase.activity.BaseActivity;
 import com.yaoxin.appbase.model.HuiYuanBean;
 import com.yaoxin.appbase.model.NetData;
+import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
+import com.yaoxin.appbase.pswkeyboard.OnPasswordInputFinish;
+import com.yaoxin.appbase.pswkeyboard.widget.PopEnterPassword;
+import com.yaoxin.appbase.utils.BaseEvent;
+import com.yaoxin.appbase.utils.NumberUtil;
+import com.yaoxin.appbase.utils.ToastUtils;
+import com.yaoxin.appbase.view.LoadingDialog;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -63,6 +71,34 @@ public class LiangHaoZoneMoreActivity extends BaseActivity {
 //            intent.putExtra("huiyuan", group);
 //            intent.putExtra("index", i);
 //            startActivity(intent);
+            PopEnterPassword popEnterPassword = new PopEnterPassword(this, new OnPasswordInputFinish() {
+                @Override
+                public void inputFinish(String password) {
+                    RegisterBean registerBean = new RegisterBean();
+                    registerBean.memberCode = group.memberCode.get(i) + "";
+                    registerBean.password = password;
+                    LoadingDialog.showDialog(getSupportFragmentManager(), "购买中..");
+                    HttpUtil.apiW().meteor_buyMember(registerBean).enqueue(new CommonCallback<NetData>() {
+                        @Override
+                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                            ToastUtils.toastMsg("购买成功");
+                            EventBus.getDefault().post(new BaseEvent("reload_fuhao"));
+                        }
+
+                        @Override
+                        public void Failure(Call<NetData> call, Throwable t) {
+                        }
+
+                        @Override
+                        public void end() {
+                            super.end();
+                            LoadingDialog.dismissDialog();
+                        }
+                    });
+                }
+            }, NumberUtil.formartMoney_zhengshu(group.memberConfig.price));
+            // 显示窗口
+            popEnterPassword.showAtLocation(binding.rvNumbers, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); // 设置layout在PopupWindow中显示的位置
         });
     }
 
