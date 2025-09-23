@@ -37,6 +37,7 @@ import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.DialogAlertUtil;
+import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
 
 import java.util.ArrayList;
@@ -47,153 +48,157 @@ import retrofit2.Response;
 
 public class SettingNewActivity extends BaseActivity implements View.OnClickListener {
 
-  private ActivityMineSetNewBinding viewBinding;
+    private ActivityMineSetNewBinding viewBinding;
 
-  @Override
-  protected void onCreate(@Nullable Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 //    changeStatusBarColor(R.color.color_e9eff5);
-    viewBinding = ActivityMineSetNewBinding.inflate(getLayoutInflater());
-    setContentView(viewBinding.getRoot());
-    initView();
-  }
+        viewBinding = ActivityMineSetNewBinding.inflate(getLayoutInflater());
+        setContentView(viewBinding.getRoot());
+        StatusBarUtils.transtStatusBar(this, viewBinding.activityMineSetNewNav);
+        initView();
+    }
 
-  private void initView() {
+    private void initView() {
 
-    viewBinding.activityMineSetNewNav.addCloseImageButton().setOnClickListener(this);
-    viewBinding.activityMineSetNewNoticeVoice.viewTitleArrowLl.setOnClickListener(this);
-    viewBinding.activityMineSetNewAnquanSet.viewTitleArrowLl.setOnClickListener(this);
-    viewBinding.activityMineSetNewDeleteCache.viewTitleArrowLl.setOnClickListener(this);
-    viewBinding.activityMineSetNewDeleteRecord.viewTitleArrowLl.setOnClickListener(this);
-    viewBinding.activityMineSetNewAboutUs.viewTitleArrowLl.setOnClickListener(this);
-    viewBinding.activityMineSetNewDownload.viewTitleArrowLl.setOnClickListener(this);
+        viewBinding.activityMineSetNewNav.addCloseImageButton().setOnClickListener(this);
+        viewBinding.activityMineSetNewNoticeVoice.viewTitleArrowLl.setOnClickListener(this);
+        viewBinding.activityMineSetNewAnquanSet.viewTitleArrowLl.setOnClickListener(this);
+        viewBinding.activityMineSetNewDeleteCache.viewTitleArrowLl.setOnClickListener(this);
+        viewBinding.activityMineSetNewDeleteRecord.viewTitleArrowLl.setOnClickListener(this);
+        viewBinding.activityMineSetNewAboutUs.viewTitleArrowLl.setOnClickListener(this);
+        viewBinding.activityMineSetNewDownload.viewTitleArrowLl.setOnClickListener(this);
 
-    viewBinding.activityMineSetNewLoginOut.viewTitleArrowLl.setOnClickListener(this);
-    viewBinding.activityMineSetNewExchangeAcount.viewTitleArrowLl.setOnClickListener(this);
-    viewBinding.activityMineSetNewZhuxiao.viewTitleArrowLl.setOnClickListener(this);
+        viewBinding.activityMineSetNewLoginOut.viewTitleArrowLl.setOnClickListener(this);
+        viewBinding.activityMineSetNewExchangeAcount.viewTitleArrowLl.setOnClickListener(this);
+        viewBinding.activityMineSetNewZhuxiao.viewTitleArrowLl.setOnClickListener(this);
 
 
-    viewBinding.activityMineSetNewNoticeVoice.viewTitleArrowTv.setText("通知声音");
-    viewBinding.activityMineSetNewAnquanSet.viewTitleArrowTv.setText("安全设置");
-    viewBinding.activityMineSetNewDeleteCache.viewTitleArrowTv.setText("清空缓存");
-    viewBinding.activityMineSetNewDeleteRecord.viewTitleArrowTv.setText("清空所有聊天记录");
-    viewBinding.activityMineSetNewAboutUs.viewTitleArrowTv.setText("关于我们");
+        viewBinding.activityMineSetNewNoticeVoice.viewTitleArrowTv.setText("通知声音");
+        viewBinding.activityMineSetNewAnquanSet.viewTitleArrowTv.setText("安全设置");
+        viewBinding.activityMineSetNewDeleteCache.viewTitleArrowTv.setText("清空缓存");
+        viewBinding.activityMineSetNewDeleteRecord.viewTitleArrowTv.setText("清空所有聊天记录");
+        viewBinding.activityMineSetNewAboutUs.viewTitleArrowTv.setText("关于我们");
 
-      viewBinding.activityMineSetNewDownload.viewTitleArrowTv.setText("下载地址");
-      viewBinding.activityMineSetNewLoginOut.viewTitleArrowTv.setText("退出登录");
-      viewBinding.activityMineSetNewZhuxiao.viewTitleArrowTv.setText("注销账号");
-      viewBinding.activityMineSetNewZhuxiao.viewTitleArrowLl.setVisibility(View.GONE);
-      viewBinding.activityMineSetNewExchangeAcount.viewTitleArrowTv.setText("切换账号");
+        viewBinding.activityMineSetNewDownload.viewTitleArrowTv.setText("下载地址");
+        viewBinding.activityMineSetNewLoginOut.viewTitleArrowTv.setText("退出登录");
+        viewBinding.activityMineSetNewZhuxiao.viewTitleArrowTv.setText("注销账号");
+        viewBinding.activityMineSetNewZhuxiao.viewTitleArrowLl.setVisibility(View.GONE);
+        viewBinding.activityMineSetNewExchangeAcount.viewTitleArrowTv.setText("切换账号");
 
 //      viewBinding.activityMineSetNewExchangeAcount.viewTitleArrowTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.app_theme_red_color));
-      viewBinding.activityMineSetNewLoginOut.viewTitleArrowTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.app_theme_red_color));
+        viewBinding.activityMineSetNewLoginOut.viewTitleArrowTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.app_theme_red_color));
 
-      viewBinding.activityMineSetNewZhuxiao.viewTitleArrowTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.app_theme_red_color));
+        viewBinding.activityMineSetNewZhuxiao.viewTitleArrowTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.app_theme_red_color));
 
-  }
-
-  @Override
-  public void onClick(View v) {
-    if (v == viewBinding.activityMineSetNewNoticeVoice.viewTitleArrowLl) {
-      startActivity(new Intent(SettingNewActivity.this, SettingNotifyNewActivity.class));
-    } else if (v == viewBinding.activityMineSetNewDeleteCache.viewTitleArrowLl) {
-      startActivity(new Intent(SettingNewActivity.this, ClearCacheActivity.class));
-
-        DialogAlertUtil.showAlert("确定清空缓存吗？", new DialogAlertUtil.DialogAlertUtilCallBack() {
-            @Override
-            public void clickType(int type) {
-                if (type == 1) {
-                    MiscRepo.INSTANCE.clearCacheSize(
-                            getSDKFileType(),
-                            new FetchCallback<Void>() {
-                                @Override
-                                public void onSuccess(@Nullable Void param) {}
-
-                                @Override
-                                public void onFailed(int code) {}
-
-                                @Override
-                                public void onException(@Nullable Throwable exception) {}
-                            });
-                }
-            }
-        },getSupportFragmentManager());
-    } else if (v == viewBinding.activityMineSetNewDeleteRecord.viewTitleArrowLl) {
-        DialogAlertUtil.showAlert("确定清空聊天记录吗？", new DialogAlertUtil.DialogAlertUtilCallBack() {
-            @Override
-            public void clickType(int type) {
-                if (type == 1) {
-                    MiscRepo.INSTANCE.clearMessageCache();
-                }
-            }
-        },getSupportFragmentManager());
-    } else if (v == viewBinding.activityMineSetNewAboutUs.viewTitleArrowLl) {
-
-        AboutUsNewActivity.start(AboutUsNewActivity.class,this,null);
-    }  else if (v == viewBinding.activityMineSetNewLoginOut.viewTitleArrowLl) {
-      showLogin();
-
-    } else if (v == viewBinding.activityMineSetNewExchangeAcount.viewTitleArrowLl) {
-//        showLogin();
-        ExchangeAccountActivity.start(ExchangeAccountActivity.class,this,null);
-    } else if (v == viewBinding.activityMineSetNewNav.addCloseImageButton()) {
-      finish();
-
-    } else if (v == viewBinding.activityMineSetNewDownload.viewTitleArrowLl) {
-        DownLoadActivity.start(DownLoadActivity.class,this,null);
-    } else if (v == viewBinding.activityMineSetNewAnquanSet.viewTitleArrowLl) {
-
-        AnQuanSetNewActivity.start(AnQuanSetNewActivity.class,this,null);
-    } else if (v == viewBinding.activityMineSetNewZhuxiao.viewTitleArrowLl) {
-        DialogAlertUtil.showAlert("确定注销账号吗？", new DialogAlertUtil.DialogAlertUtilCallBack() {
-            @Override
-            public void clickType(int type) {
-                if (type == 1) {
-                    HttpUtil.apiW().home_logout()
-                            .enqueue(new CommonCallback<NetData>() {
-                                @Override
-                                public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                                    ToastUtils.toastMsg("注销成功");
-                                    showLogin();
-                                }
-
-                                @Override
-                                public void Failure(Call<NetData> call, Throwable t) {
-
-                                }
-                            });
-
-                }
-            }
-        },getSupportFragmentManager());
     }
-  }
 
-  void showLogin() {
-    IMKitClient.logoutIM(
-            new com.netease.yunxin.kit.corekit.im.login.LoginCallback<Void>() {
-              @Override
-              public void onError(int errorCode, @NonNull String errorMsg) {
-                Toast.makeText(
-                                SettingNewActivity.this,
-                                "error code is " + errorCode + ", message is " + errorMsg,
-                                Toast.LENGTH_SHORT)
-                        .show();
-              }
+    @Override
+    public void onClick(View v) {
+        if (v == viewBinding.activityMineSetNewNoticeVoice.viewTitleArrowLl) {
+            startActivity(new Intent(SettingNewActivity.this, SettingNotifyNewActivity.class));
+        } else if (v == viewBinding.activityMineSetNewDeleteCache.viewTitleArrowLl) {
+            startActivity(new Intent(SettingNewActivity.this, ClearCacheActivity.class));
 
-              @Override
-              public void onSuccess(@Nullable Void data) {
-                if (getApplicationContext() instanceof IMApplication) {
-                  ((IMApplication) getApplicationContext())
-                          .clearActivity(SettingNewActivity.this);
+            DialogAlertUtil.showAlert("确定清空缓存吗？", new DialogAlertUtil.DialogAlertUtilCallBack() {
+                @Override
+                public void clickType(int type) {
+                    if (type == 1) {
+                        MiscRepo.INSTANCE.clearCacheSize(
+                                getSDKFileType(),
+                                new FetchCallback<Void>() {
+                                    @Override
+                                    public void onSuccess(@Nullable Void param) {
+                                    }
+
+                                    @Override
+                                    public void onFailed(int code) {
+                                    }
+
+                                    @Override
+                                    public void onException(@Nullable Throwable exception) {
+                                    }
+                                });
+                    }
                 }
-                  DataUtil.deleteLoginUserInfoList(DataUtil.getUserInfo());
-                DataUtil.deleteData();
-                startActivity(new Intent(SettingNewActivity.this, LoginActivity.class));
-                finish();
-              }
-            });
-  }
+            }, getSupportFragmentManager());
+        } else if (v == viewBinding.activityMineSetNewDeleteRecord.viewTitleArrowLl) {
+            DialogAlertUtil.showAlert("确定清空聊天记录吗？", new DialogAlertUtil.DialogAlertUtilCallBack() {
+                @Override
+                public void clickType(int type) {
+                    if (type == 1) {
+                        MiscRepo.INSTANCE.clearMessageCache();
+                    }
+                }
+            }, getSupportFragmentManager());
+        } else if (v == viewBinding.activityMineSetNewAboutUs.viewTitleArrowLl) {
+
+            AboutUsNewActivity.start(AboutUsNewActivity.class, this, null);
+        } else if (v == viewBinding.activityMineSetNewLoginOut.viewTitleArrowLl) {
+            showLogin();
+
+        } else if (v == viewBinding.activityMineSetNewExchangeAcount.viewTitleArrowLl) {
+//        showLogin();
+            ExchangeAccountActivity.start(ExchangeAccountActivity.class, this, null);
+        } else if (v == viewBinding.activityMineSetNewNav.addCloseImageButton()) {
+            finish();
+
+        } else if (v == viewBinding.activityMineSetNewDownload.viewTitleArrowLl) {
+            DownLoadActivity.start(DownLoadActivity.class, this, null);
+        } else if (v == viewBinding.activityMineSetNewAnquanSet.viewTitleArrowLl) {
+
+            AnQuanSetNewActivity.start(AnQuanSetNewActivity.class, this, null);
+        } else if (v == viewBinding.activityMineSetNewZhuxiao.viewTitleArrowLl) {
+            DialogAlertUtil.showAlert("确定注销账号吗？", new DialogAlertUtil.DialogAlertUtilCallBack() {
+                @Override
+                public void clickType(int type) {
+                    if (type == 1) {
+                        HttpUtil.apiW().home_logout()
+                                .enqueue(new CommonCallback<NetData>() {
+                                    @Override
+                                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                                        ToastUtils.toastMsg("注销成功");
+                                        showLogin();
+                                    }
+
+                                    @Override
+                                    public void Failure(Call<NetData> call, Throwable t) {
+
+                                    }
+                                });
+
+                    }
+                }
+            }, getSupportFragmentManager());
+        }
+    }
+
+    void showLogin() {
+        IMKitClient.logoutIM(
+                new com.netease.yunxin.kit.corekit.im.login.LoginCallback<Void>() {
+                    @Override
+                    public void onError(int errorCode, @NonNull String errorMsg) {
+                        Toast.makeText(
+                                        SettingNewActivity.this,
+                                        "error code is " + errorCode + ", message is " + errorMsg,
+                                        Toast.LENGTH_SHORT)
+                                .show();
+                    }
+
+                    @Override
+                    public void onSuccess(@Nullable Void data) {
+                        if (getApplicationContext() instanceof IMApplication) {
+                            ((IMApplication) getApplicationContext())
+                                    .clearActivity(SettingNewActivity.this);
+                        }
+                        DataUtil.deleteLoginUserInfoList(DataUtil.getUserInfo());
+                        DataUtil.deleteData();
+                        startActivity(new Intent(SettingNewActivity.this, LoginActivity.class));
+                        finish();
+                    }
+                });
+    }
 
     private List<DirCacheFileType> getSDKFileType() {
         List<DirCacheFileType> types = new ArrayList<>();

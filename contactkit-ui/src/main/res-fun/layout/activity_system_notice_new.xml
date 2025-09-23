@@ -10,7 +10,7 @@
     <com.yaoxin.appbase.navbar.NavToolbar
         android:id="@+id/activity_system_notice_new_nav"
         style="@style/WhiteFontToolbar"
-        android:background="@color/color_white"
+        android:background="@color/transparent"
         app:back_icon="@mipmap/temp_ic_back"
         app:enable_under_divider="true"
         app:support_translucent_status_bar="false"
@@ -22,5 +22,5 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/activity_system_notice_new_rv1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 </LinearLayout>

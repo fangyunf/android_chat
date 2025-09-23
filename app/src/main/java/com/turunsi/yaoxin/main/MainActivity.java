@@ -147,7 +147,6 @@ public class MainActivity extends BaseActivity {
         initView();
         initData();
         EventCenter.registerEventNotify(skinNotify);
-
         EventBus.getDefault().register(this);
         _update();
         NIMClient.toggleNotification(false);

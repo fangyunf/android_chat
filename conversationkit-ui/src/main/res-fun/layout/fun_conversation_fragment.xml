@@ -49,7 +49,8 @@
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:layout_marginHorizontal="10dp"
-                        android:src="@mipmap/conversation_list_index_kefu_icon" />
+                        android:src="@mipmap/conversation_list_index_kefu_icon"
+                        android:visibility="invisible" />
 
                     <TextView
                         android:id="@+id/fun_conversation_fragment_title_tv"
@@ -57,6 +58,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
+                        android:paddingLeft="@dimen/dimen_35_dp"
                         android:text="对话"
                         android:textColor="@color/black"
                         android:textSize="20sp" />
