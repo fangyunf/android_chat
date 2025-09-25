@@ -50,6 +50,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     boolean isAgree = false;
 
     int _type = 0;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,7 +81,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         binding.activityLoginTf3.viewTitleTfCountEt.setTransformationMethod(PasswordTransformationMethod.getInstance());
 
 
-
         CountDownView mCountDownView = binding.activityLoginTf2.viewTitleTfCountCaptcha;
         mCountDownView.setUserEdit(binding.activityLoginTf1.viewTitleTfCountEt);
         mCountDownView.setCountDownTime(60);
@@ -101,13 +101,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     void changeTitleWithType(int type) {
         _type = type;
-
         if (type == 0) {
             binding.activityLoginTf2.viewRoundTfLl.setVisibility(View.GONE);
             binding.activityLoginLoginTv.setText("登录");
             binding.activityLoginTitleTv.setText("登录");
             binding.tvTip.setText("请使用已注册的账号密码");
             binding.activityLoginForgetTv.setText("忘记密码");
+            binding.activityLoginRegisterTv.setText("没有账号，去注册");
             binding.activityLoginForgetTv.setVisibility(View.VISIBLE);
             binding.activityLoginRegisterTv.setVisibility(View.VISIBLE);
             binding.activityLoginTitleIv.setImageResource(R.mipmap.common_login_title_login);
@@ -137,6 +137,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             binding.activityLoginTf3.viewTitleTfCountEt.setText("a1234567");
         }
     }
+
     @Override
     public void onClick(View v) {
 //        if (v == binding.activityLoginIsAgreeLl) {
@@ -162,8 +163,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 binding.activityLoginTf3.viewTitleTfCountEt.setTransformationMethod(null);
 
             }
-        }
-        else if (v == binding.activityLoginForgetTv) {
+        } else if (v == binding.activityLoginForgetTv) {
 //            ForgetPwdActivity.start(ForgetPwdActivity.class, this, null);
             if (_type == 0) {
                 changeTitleWithType(2);
@@ -200,41 +200,40 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 bean.phoneNo = phone;
                 bean.password = pwd;
                 Activity that = this;
-                LoadingDialog.showDialog(getSupportFragmentManager(),"登陆中");
-                HttpUtil.apiW().customer_login(bean)
-                        .enqueue(new CommonCallback<NetData>() {
-                            @Override
-                            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                                UserBean userBean = new Gson().fromJson((String) body.data,UserBean.class);
-                                DataUtil.putUserInfo(userBean);
-                                DataUtil.putToken(userBean.token);
-                                DataUtil.addLoginUserInfoList(userBean);
-                                IMUtil.loginIM(that,userBean.userId,userBean.imToken);
-                            }
+                LoadingDialog.showDialog(getSupportFragmentManager(), "登陆中");
+                HttpUtil.apiW().customer_login(bean).enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                        UserBean userBean = new Gson().fromJson((String) body.data, UserBean.class);
+                        DataUtil.putUserInfo(userBean);
+                        DataUtil.putToken(userBean.token);
+                        DataUtil.addLoginUserInfoList(userBean);
+                        IMUtil.loginIM(that, userBean.userId, userBean.imToken);
+                    }
 
-                            @Override
-                            public void Failure(Call<NetData> call, Throwable t) {
-                                if (t instanceof NetServerException) {
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
+                        if (t instanceof NetServerException) {
 
-                                    NetServerException exception = (NetServerException) t;
-                                    if (exception.getErrCode() == 601) {
+                            NetServerException exception = (NetServerException) t;
+                            if (exception.getErrCode() == 601) {
 
-                                        HashMap map = new HashMap<>();
-                                        map.put("type","0");
-                                        map.put("phone",phone);
-                                        OtherPlaceLoginActivity.start(OtherPlaceLoginActivity.class,that,map);
+                                HashMap map = new HashMap<>();
+                                map.put("type", "0");
+                                map.put("phone", phone);
+                                OtherPlaceLoginActivity.start(OtherPlaceLoginActivity.class, that, map);
 //                                        OtherPlaceLoginFragment fragment = new OtherPlaceLoginFragment();
 //                                        fragment.showNow(getSupportFragmentManager(),"OtherPlaceLoginFragment");
-                                    }
-                                }
                             }
+                        }
+                    }
 
-                            @Override
-                            public void end() {
-                                super.end();
-                                LoadingDialog.dismissDialog();
-                            }
-                        });
+                    @Override
+                    public void end() {
+                        super.end();
+                        LoadingDialog.dismissDialog();
+                    }
+                });
             } else if (_type == 1) {
 //                if (!binding.activityLoginIsCheckedIv.isSelected()) {
 //                    ToastUtils.toastMsg("请同意协议");
@@ -263,30 +262,29 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 registerBean.clientType = Constant.clientType;
 
                 Activity that = this;
-                LoadingDialog.showDialog(getSupportFragmentManager(),"注册中");
+                LoadingDialog.showDialog(getSupportFragmentManager(), "注册中");
 
-                HttpUtil.apiW().customer_register(registerBean)
-                        .enqueue(new CommonCallback<NetData>() {
-                            @Override
-                            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                                UserBean userBean = new Gson().fromJson((String) body.data,UserBean.class);
-                                DataUtil.putUserInfo(userBean);
-                                DataUtil.putToken(userBean.token);
-                                IMUtil.loginIM(that,userBean.userId,userBean.imToken);
-                                SPUtils.getInstance().put("isRegister",true);
-                            }
+                HttpUtil.apiW().customer_register(registerBean).enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                        UserBean userBean = new Gson().fromJson((String) body.data, UserBean.class);
+                        DataUtil.putUserInfo(userBean);
+                        DataUtil.putToken(userBean.token);
+                        IMUtil.loginIM(that, userBean.userId, userBean.imToken);
+                        SPUtils.getInstance().put("isRegister", true);
+                    }
 
-                            @Override
-                            public void Failure(Call<NetData> call, Throwable t) {
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
 
-                            }
+                    }
 
-                            @Override
-                            public void end() {
-                                super.end();
-                                LoadingDialog.dismissDialog();
-                            }
-                        });
+                    @Override
+                    public void end() {
+                        super.end();
+                        LoadingDialog.dismissDialog();
+                    }
+                });
             } else if (_type == 2) {
                 String phone = getTextStr(binding.activityLoginTf1.viewTitleTfCountEt);
                 if (phone.length() != 11) {
@@ -309,19 +307,18 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 bean.captcha = code;
 
                 Activity that = this;
-                HttpUtil.apiW().customer_updatePassword(bean)
-                        .enqueue(new CommonCallback<NetData>() {
-                            @Override
-                            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                                ToastUtils.toastMsg("修改成功");
-                                changeTitleWithType(0);
-                            }
+                HttpUtil.apiW().customer_updatePassword(bean).enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                        ToastUtils.toastMsg("修改成功");
+                        changeTitleWithType(0);
+                    }
 
-                            @Override
-                            public void Failure(Call<NetData> call, Throwable t) {
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
 
-                            }
-                        });
+                    }
+                });
             }
 
 //            Intent intent = new Intent();

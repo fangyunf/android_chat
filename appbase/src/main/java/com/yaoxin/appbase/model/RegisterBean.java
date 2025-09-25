@@ -42,6 +42,7 @@ public class RegisterBean {
     public String clientType;
     public String phoneAndCode;
     public String memberCode;
+    public String code;
     public String msg;
     public String alias;
     public String remark;

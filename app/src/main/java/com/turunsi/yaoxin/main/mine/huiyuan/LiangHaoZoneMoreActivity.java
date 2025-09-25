@@ -3,6 +3,7 @@ package com.turunsi.yaoxin.main.mine.huiyuan;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Gravity;
 
 import androidx.annotation.Nullable;
@@ -71,34 +72,61 @@ public class LiangHaoZoneMoreActivity extends BaseActivity {
 //            intent.putExtra("huiyuan", group);
 //            intent.putExtra("index", i);
 //            startActivity(intent);
-            PopEnterPassword popEnterPassword = new PopEnterPassword(this, new OnPasswordInputFinish() {
-                @Override
-                public void inputFinish(String password) {
-                    RegisterBean registerBean = new RegisterBean();
-                    registerBean.memberCode = group.memberCode.get(i) + "";
-                    registerBean.password = password;
-                    LoadingDialog.showDialog(getSupportFragmentManager(), "购买中..");
-                    HttpUtil.apiW().meteor_buyMember(registerBean).enqueue(new CommonCallback<NetData>() {
-                        @Override
-                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                            ToastUtils.toastMsg("购买成功");
-                            EventBus.getDefault().post(new BaseEvent("reload_fuhao"));
-                        }
+            String code = getIntent().getStringExtra("code");
+            if (TextUtils.isEmpty(code)) {
+                PopEnterPassword popEnterPassword = new PopEnterPassword(this, new OnPasswordInputFinish() {
+                    @Override
+                    public void inputFinish(String password) {
+                        RegisterBean registerBean = new RegisterBean();
+                        registerBean.memberCode = group.memberCode.get(i) + "";
+                        registerBean.password = password;
+                        LoadingDialog.showDialog(getSupportFragmentManager(), "购买中..");
+                        HttpUtil.apiW().meteor_buyMember(registerBean).enqueue(new CommonCallback<NetData>() {
+                            @Override
+                            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                                ToastUtils.toastMsg("购买成功");
+                                EventBus.getDefault().post(new BaseEvent("reload_fuhao"));
+                                finish();
+                            }
 
-                        @Override
-                        public void Failure(Call<NetData> call, Throwable t) {
-                        }
+                            @Override
+                            public void Failure(Call<NetData> call, Throwable t) {
+                            }
 
-                        @Override
-                        public void end() {
-                            super.end();
-                            LoadingDialog.dismissDialog();
-                        }
-                    });
-                }
-            }, NumberUtil.formartMoney_zhengshu(group.memberConfig.price));
-            // 显示窗口
-            popEnterPassword.showAtLocation(binding.rvNumbers, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); // 设置layout在PopupWindow中显示的位置
+                            @Override
+                            public void end() {
+                                super.end();
+                                LoadingDialog.dismissDialog();
+                            }
+                        });
+                    }
+                }, NumberUtil.formartMoney_zhengshu(group.memberConfig.price));
+                // 显示窗口
+                popEnterPassword.showAtLocation(binding.rvNumbers, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); // 设置layout在PopupWindow中显示的位置
+            } else {
+                RegisterBean registerBean = new RegisterBean();
+                registerBean.memberCode = group.memberCode.get(i) + "";
+                registerBean.code = code;
+                LoadingDialog.showDialog(getSupportFragmentManager(), "兑换中..");
+                HttpUtil.apiW().meteor_changeMember(registerBean).enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                        ToastUtils.toastMsg("兑换成功");
+                        EventBus.getDefault().post(new BaseEvent("reload_fuhao"));
+                        finish();
+                    }
+
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
+                    }
+
+                    @Override
+                    public void end() {
+                        super.end();
+                        LoadingDialog.dismissDialog();
+                    }
+                });
+            }
         });
     }
 

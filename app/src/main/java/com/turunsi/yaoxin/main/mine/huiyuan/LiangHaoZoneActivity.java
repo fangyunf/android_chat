@@ -16,6 +16,7 @@ import com.yaoxin.appbase.model.HuiYuanBean;
 import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
+import com.yaoxin.appbase.utils.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -45,11 +46,29 @@ public class LiangHaoZoneActivity extends BaseActivity {
         groupAdapter = new LiangHaoGroupAdapter();
         binding.rvGroup.setAdapter(groupAdapter);
         binding.layoutLiangHaoLast.setOnClickListener(view -> {
-            if (dataBean != null && !dataBean.list.isEmpty()) {
-                Intent intent = new Intent(LiangHaoZoneActivity.this, LiangHaoZoneMoreActivity.class);
-                intent.putExtra("huiyuan", dataBean.list.get(dataBean.list.size() - 1));
-                startActivity(intent);
-            }
+            ExchangeLiangHaoDialogFragment dialog = new ExchangeLiangHaoDialogFragment()
+                    .setOnExchangeListener((code, level) -> {
+                        if (dataBean == null || dataBean.list == null || dataBean.list.isEmpty()) {
+                            ToastUtils.toastMsg("数据加载中，请稍后重试");
+                            return;
+                        }
+                        HuiYuanBean target = null;
+                        for (HuiYuanBean item : dataBean.list) {
+                            if (item != null && item.memberConfig != null && level.equals(item.memberConfig.memberLevel)) {
+                                target = item;
+                                break;
+                            }
+                        }
+                        if (target == null) {
+                            ToastUtils.toastMsg("请输入正确的靓号等级");
+                            return;
+                        }
+                        Intent intent = new Intent(LiangHaoZoneActivity.this, LiangHaoZoneMoreActivity.class);
+                        intent.putExtra("code", code);
+                        intent.putExtra("huiyuan", target);
+                        startActivity(intent);
+                    });
+            dialog.showNow(getSupportFragmentManager(), "ExchangeLiangHaoDialog");
         });
         binding.layoutLiangHaoCj.setOnClickListener(new View.OnClickListener() {
             @Override
