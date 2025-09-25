@@ -11,9 +11,9 @@
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 7,
-      "versionName": "1.0.6",
-      "outputFile": "lansi_release_v1.0.6.apk"
+      "versionCode": 8,
+      "versionName": "1.0.7",
+      "outputFile": "lansi_release_v1.0.7.apk"
     }
   ],
   "elementType": "File"
