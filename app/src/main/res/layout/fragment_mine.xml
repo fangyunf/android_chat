@@ -15,7 +15,6 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="200dp"
-
         android:background="@mipmap/app_mine_theme_new_bg"
         app:layout_constraintStart_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -128,10 +127,11 @@
 
                             <ImageView
                                 android:id="@+id/fragment_mine_grade_iv"
-                                android:layout_width="46dp"
+                                android:layout_width="40dp"
                                 android:layout_height="18dp"
+                                android:visibility="gone"
                                 android:layout_marginLeft="5dp"
-                                android:visibility="gone" />
+                                android:src="@mipmap/mine_grade_level_1" />
 
                         </LinearLayout>
 
