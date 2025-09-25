@@ -204,12 +204,10 @@
             android:layout_marginBottom="@dimen/dimen_4_dp">
 
             <RelativeLayout
-
                 android:layout_width="@dimen/dimen_32_dp"
                 android:layout_height="44dp">
 
                 <RadioButton
-
                     android:id="@+id/inputEmojiRb"
                     android:layout_width="21dp"
                     android:layout_height="21dp"
@@ -224,13 +222,12 @@
             <RelativeLayout
                 android:layout_width="@dimen/dimen_32_dp"
                 android:layout_height="44dp"
-                android:layout_marginStart="@dimen/dimen_46_dp"
-                android:visibility="gone">
+                android:layout_marginStart="@dimen/dimen_46_dp">
 
                 <RadioButton
                     android:id="@+id/inputMoreRb"
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:layout_centerInParent="true"
                     android:background="@drawable/chat_fragment_toolbar_show_more"
                     android:button="@null"

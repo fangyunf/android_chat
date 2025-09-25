@@ -131,7 +131,8 @@
                         android:id="@+id/fun_team_setting_new_activity_team_upgrade"
                         layout="@layout/view_title_arrow_template"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:visibility="gone" />
 
                     <include
                         android:id="@+id/fun_team_setting_new_activity_set_gonggao"

@@ -11,11 +11,12 @@
     android:layout_height="wrap_content"
     android:paddingBottom="@dimen/dimen_16_dp">
 
+<!--    android:background="@drawable/bg_more_item"-->
+
     <ImageView
         android:id="@+id/action_bg"
-        android:layout_width="@dimen/dimen_56_dp"
-        android:layout_height="@dimen/dimen_56_dp"
-        android:background="@drawable/bg_more_item"
+        android:layout_width="@dimen/dimen_40_dp"
+        android:layout_height="@dimen/dimen_40_dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
