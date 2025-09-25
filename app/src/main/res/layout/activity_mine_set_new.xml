@@ -114,7 +114,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:visibility="gone"
                     app:hideImg="true"
                     app:titleText="注销账号" />
             </RelativeLayout>
