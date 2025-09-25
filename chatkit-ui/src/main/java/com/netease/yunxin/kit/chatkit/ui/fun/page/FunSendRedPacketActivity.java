@@ -1,14 +1,11 @@
 package com.netease.yunxin.kit.chatkit.ui.fun.page;
 
-import static com.netease.yunxin.kit.chatkit.ui.ChatKitUIConstant.LIB_TAG;
-
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.InputFilter;
 import android.text.InputType;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.DigitsKeyListener;
 import android.util.Log;
@@ -19,16 +16,14 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 
+import com.flyco.tablayout.CommonTabLayout;
+import com.flyco.tablayout.listener.CustomTabEntity;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
-import com.netease.yunxin.kit.alog.ALog;
 import com.netease.yunxin.kit.chatkit.model.UserInfoWithTeam;
 import com.netease.yunxin.kit.chatkit.repo.TeamRepo;
 import com.netease.yunxin.kit.chatkit.ui.databinding.ActivityFunSendRedPacketBinding;
 import com.netease.yunxin.kit.corekit.im.model.UserInfo;
 import com.netease.yunxin.kit.corekit.im.provider.FetchCallback;
-import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
 import com.netease.yunxin.kit.corekit.route.XKitRouter;
 import com.yaoxin.appbase.activity.BaseActivity;
 import com.yaoxin.appbase.model.GroupInfoBean;
@@ -38,20 +33,21 @@ import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.Constant;
 import com.yaoxin.appbase.net.HttpUtil;
+import com.yaoxin.appbase.net.NetServerException;
 import com.yaoxin.appbase.pswkeyboard.OnPasswordInputFinish;
 import com.yaoxin.appbase.pswkeyboard.widget.PopEnterPassword;
-import com.yaoxin.appbase.utils.AppProxy;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.GlideUtil;
 import com.yaoxin.appbase.utils.NumberUtil;
+import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
-import com.yaoxin.appbase.view.actionsheet.ActionSheet;
 import com.yaoxin.appbase.view.pwdkeyboard.Keyboard;
 import com.yaoxin.appbase.view.pwdkeyboard.PayEditText;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -66,12 +62,7 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
     private String selectToUserId = "";
     private UserInfo targetUserInfo;
     protected ActivityResultLauncher<Intent> forwardTeamLauncher;
-    private static final String[] KEY = new String[] {
-            "1", "2", "3",
-            "4", "5", "6",
-            "7", "8", "9",
-            "<<", "0", "完成"
-    };
+    private static final String[] KEY = new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "<<", "0", "完成"};
 
     private PayEditText payEditText;
     private Keyboard keyboard;
@@ -79,6 +70,7 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
     private GroupInfoBean groupInfoBean;
 
     ArrayList<GroupInfoBean> userList = new ArrayList<>();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,59 +86,86 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
             sessionType = Integer.parseInt(sessT);
             if (sessionType == 1) {
                 type = 1;
-                _requestDataGroup();
+                //_requestDataGroup();
             }
             if (sessionType == 2) {
                 type = 2;
-                _requestDataGroup();
+                //_requestDataGroup();
             }
         }
         if (extras.get("userInfo") != null) {
             String tempUserInfoString = (String) extras.get("userInfo");
             targetUserInfo = new Gson().fromJson(tempUserInfoString, UserInfo.class);
         }
-        forwardTeamLauncher =
-                registerForActivityResult(
-                        new ActivityResultContracts.StartActivityForResult(),
-                        result -> {
-                            if (result.getResultCode() != Activity.RESULT_OK) {
-                                return;
-                            }
-                            Intent data = result.getData();
-                            if (data != null) {
-                                Bundle extras1 = data.getExtras();
+        forwardTeamLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if (result.getResultCode() != Activity.RESULT_OK) {
+                return;
+            }
+            Intent data = result.getData();
+            if (data != null) {
+                Bundle extras1 = data.getExtras();
 //                                GroupInfoBean groupInfoBean1 =
-                                String userInfo1 = data.getStringExtra("userInfo");
-                                if (userInfo1 == null) return;
-                                GroupInfoBean userInfo = new Gson().fromJson(userInfo1,GroupInfoBean.class);
-                                if (userInfo != null) {
-                                    binding.activityFunSendRedPacketToPeopleNameTv.setText(userInfo.name);
-                                    GlideUtil.yh_loadImageRoundedCorner(this,binding.activityFunSendRedPacketToPeopleHeadIv,userInfo.avatar,15);
-                                    selectToUserId = userInfo.userId;
-                                }
-                            }
-                        });
+                String userInfo1 = data.getStringExtra("userInfo");
+                if (userInfo1 == null) return;
+                GroupInfoBean userInfo = new Gson().fromJson(userInfo1, GroupInfoBean.class);
+                if (userInfo != null) {
+                    binding.activityFunSendRedPacketToPeopleNameTv.setText(userInfo.name);
+                    GlideUtil.yh_loadImageRoundedCorner(this, binding.activityFunSendRedPacketToPeopleHeadIv, userInfo.avatar, 15);
+                    selectToUserId = userInfo.userId;
+                }
+            }
+        });
         _initView();
+        StatusBarUtils.transtStatusBar(this, binding.activityFunSendRedPacketNav);
+        showTable();
+        if (type != 0) {
+            binding.tvShouqi.setOnClickListener(view -> {
+                type = 1;
+                showTable();
+            });
+
+            binding.tvZhuanshu.setOnClickListener(view -> {
+                type = 2;
+                showTable();
+            });
+        }
+    }
+
+    private void showTable() {
+        if (type == 0) {
+            binding.tvShouqi.setText("转账");
+            binding.layoutZhuanShu.setVisibility(View.INVISIBLE);
+        } else if (type == 1) {
+            binding.tvShouqi.setTextColor(Color.parseColor("#000000"));
+            binding.viewLine.setVisibility(View.VISIBLE);
+            binding.tvZhuanshu.setTextColor(Color.parseColor("#666666"));
+            binding.viewLine1.setVisibility(View.INVISIBLE);
+            _requestDataGroup();
+        } else if (type == 2) {
+            binding.tvShouqi.setTextColor(Color.parseColor("#666666"));
+            binding.viewLine.setVisibility(View.INVISIBLE);
+            binding.tvZhuanshu.setTextColor(Color.parseColor("#000000"));
+            binding.viewLine1.setVisibility(View.VISIBLE);
+            _requestDataGroup();
+        }
         _updateUI();
     }
 
     void _requestPeople() {
-        TeamRepo.getMemberList(
-                sessionId,
-                new FetchCallback<List<UserInfoWithTeam>>() {
-                    @Override
-                    public void onSuccess(@Nullable List<UserInfoWithTeam> param) {
-                        binding.activityFunSendRedPacketTeamMemberCountTv.setText("本群共"+param.size()+"人");
-                    }
+        TeamRepo.getMemberList(sessionId, new FetchCallback<List<UserInfoWithTeam>>() {
+            @Override
+            public void onSuccess(@Nullable List<UserInfoWithTeam> param) {
+                binding.activityFunSendRedPacketTeamMemberCountTv.setText("本群共" + param.size() + "人");
+            }
 
-                    @Override
-                    public void onFailed(int code) {
-                    }
+            @Override
+            public void onFailed(int code) {
+            }
 
-                    @Override
-                    public void onException(@Nullable Throwable exception) {
-                    }
-                });
+            @Override
+            public void onException(@Nullable Throwable exception) {
+            }
+        });
 //        RegisterBean bean = new RegisterBean();
 //        bean.groupId = sessionId;
 //        bean.page = page +"";
@@ -179,40 +198,36 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
 //                    }
 //                });
     }
+
     void _requestDataGroup() {
+        HttpUtil.apiW().group_groupHomeInfo(sessionId).enqueue(new CommonCallback<NetData>() {
+            @Override
+            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                groupInfoBean = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
+                _requestPeople();
+            }
 
+            @Override
+            public void Failure(Call<NetData> call, Throwable t) {
 
-
-        HttpUtil.apiW().group_groupHomeInfo(sessionId)
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-
-                        groupInfoBean = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
-                        _requestPeople();
-                    }
-
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
-
-                    }
-                });
+            }
+        });
     }
+
     @Override
     protected void _requestData() {
-        HttpUtil.apiW().home_balance()
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        UserBean bean = new Gson().fromJson(body.data.toString(),UserBean.class);
-                        binding.activityFunSendRedPacketBalanceTv.setText(NumberUtil.formartMoney(bean.balance));
-                    }
+        HttpUtil.apiW().home_balance().enqueue(new CommonCallback<NetData>() {
+            @Override
+            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                UserBean bean = new Gson().fromJson(body.data.toString(), UserBean.class);
+                binding.activityFunSendRedPacketBalanceTv.setText(NumberUtil.formartMoney(bean.balance));
+            }
 
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
+            @Override
+            public void Failure(Call<NetData> call, Throwable t) {
 
-                    }
-                });
+            }
+        });
 
     }
 
@@ -223,7 +238,6 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
         binding.activityFunSendRedPacketSendTv.setOnClickListener(this);
         binding.activityFunSendRedPacketMoneyEt.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
         binding.activityFunSendRedPacketMoneyEt.setKeyListener(DigitsKeyListener.getInstance("0123456789."));
-
 
         binding.activityFunSendRedPacketCountEt.setInputType(InputType.TYPE_CLASS_NUMBER);
         binding.activityFunSendRedPacketToPeopleLl.setOnClickListener(this);
@@ -257,7 +271,7 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
                     // 设置过滤后的文本
                     binding.activityFunSendRedPacketMoneyEt.setText(cleanedInput.toString());
                     binding.activityFunSendRedPacketMoneyEt.setSelection(cleanedInput.length());
-                    formattedValue =  String.format("%.2f", Double.parseDouble(cleanedInput.toString()));
+                    formattedValue = String.format("%.2f", Double.parseDouble(cleanedInput.toString()));
                 } else {
                     if (!input.isEmpty()) {
                         formattedValue = String.format("%.2f", Double.parseDouble(input));
@@ -277,7 +291,7 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
                     payEditText.add(value);
                 } else if (position == 9) {
                     payEditText.remove();
-                }else if (position == 11) {
+                } else if (position == 11) {
                     //当点击完成的时候，也可以通过payEditText.getText()获取密码，此时不应该注册OnInputFinishedListener接口
 //                    Toast.makeText(getApplication(), "您的密码是：" + payEditText.getText(), Toast.LENGTH_SHORT).show();
 //                    finish();
@@ -316,7 +330,7 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
         } else if (type == 2) {
             if (targetUserInfo != null) {
                 binding.activityFunSendRedPacketToPeopleNameTv.setText(targetUserInfo.getName());
-                GlideUtil.yh_loadImageRoundedCorner(this,binding.activityFunSendRedPacketToPeopleHeadIv,targetUserInfo.getAvatar(),15);
+                GlideUtil.yh_loadImageRoundedCorner(this, binding.activityFunSendRedPacketToPeopleHeadIv, targetUserInfo.getAvatar(), 15);
                 selectToUserId = targetUserInfo.getAccount();
             }
             binding.activityFunSendRedPacketToPeopleLl.setVisibility(View.VISIBLE);
@@ -367,20 +381,15 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
                 public void inputFinish(String password) {
                     sendRedWithPwd(password);
                 }
-            },moneyStr);
+            }, moneyStr);
             // 显示窗口
-            popEnterPassword.showAtLocation(binding.activityFunSendRedPacketLl,
-                    Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); // 设置layout在PopupWindow中显示的位置
+            popEnterPassword.showAtLocation(binding.activityFunSendRedPacketLl, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); // 设置layout在PopupWindow中显示的位置
 
 
         } else if (v == binding.activityFunSendRedPacketToPeopleLl) {
 
-            DataUtil.setStringValue(new Gson().toJson(groupInfoBean),"groupInfo");
-            XKitRouter.withKey(Constant.FunSelected_User_ActivityKey)
-                    .withParam("type","4")
-                    .withParam("groupId",sessionId)
-                    .withContext(this)
-                    .navigate(forwardTeamLauncher);
+            DataUtil.setStringValue(new Gson().toJson(groupInfoBean), "groupInfo");
+            XKitRouter.withKey(Constant.FunSelected_User_ActivityKey).withParam("type", "4").withParam("groupId", sessionId).withContext(this).navigate(forwardTeamLauncher);
 //            XKitRouter.withKey(Constant.TeamMemberListActivity_Router)
 //                    .withParam("sessionId",sessionId)
 //                    .withParam("b_type","1")
@@ -409,20 +418,29 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
         if (type == 0) {
             bean.password = pwd;
             bean.toUserId = sessionId;
-            HttpUtil.apiW().red_personRedpacket(bean)
-                    .enqueue(new CommonCallback<NetData>() {
-                        @Override
-                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+            HttpUtil.apiW().red_personRedpacket(bean).enqueue(new CommonCallback<NetData>() {
+                @Override
+                public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                    ToastUtils.toastMsg("发送成功");
+                    finish();
+                }
 
-                            ToastUtils.toastMsg("发送成功");
-                            finish();
+                @Override
+                public void Failure(Call<NetData> call, Throwable t) {
+                    if (t instanceof NetServerException) {
+                        if (((NetServerException) t).getErrCode() == 8008) {
+                            try {
+                                Intent intent = new Intent();
+                                intent.putExtra("type", "0");
+                                intent.setClassName(getPackageName(), "com.turunsi.yaoxin.main.mine.purse.pwdmanager.PursePwdManagerSetActivity");
+                                startActivity(intent);
+                            } catch (Exception e) {
+                                // 处理找不到Activity的情况
+                            }
                         }
-
-                        @Override
-                        public void Failure(Call<NetData> call, Throwable t) {
-
-                        }
-                    });
+                    }
+                }
+            });
         } else if (type == 1) {
             int count = Integer.parseInt(countStr);
             if (count <= 0) {
@@ -432,20 +450,29 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
             bean.groupId = sessionId;
             bean.num = count;
             bean.tradePassword = pwd;
-            HttpUtil.apiW().red_sendGroupRedpacket(bean)
-                    .enqueue(new CommonCallback<NetData>() {
-                        @Override
-                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+            HttpUtil.apiW().red_sendGroupRedpacket(bean).enqueue(new CommonCallback<NetData>() {
+                @Override
+                public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                    ToastUtils.toastMsg("发送成功");
+                    finish();
+                }
 
-                            ToastUtils.toastMsg("发送成功");
-                            finish();
+                @Override
+                public void Failure(Call<NetData> call, Throwable t) {
+                    if (t instanceof NetServerException) {
+                        if (((NetServerException) t).getErrCode() == 8008) {
+                            try {
+                                Intent intent = new Intent();
+                                intent.putExtra("type", "0");
+                                intent.setClassName(getPackageName(), "com.turunsi.yaoxin.main.mine.purse.pwdmanager.PursePwdManagerSetActivity");
+                                startActivity(intent);
+                            } catch (Exception e) {
+                                // 处理找不到Activity的情况
+                            }
                         }
-
-                        @Override
-                        public void Failure(Call<NetData> call, Throwable t) {
-
-                        }
-                    });
+                    }
+                }
+            });
         } else if (type == 2) {
             if (selectToUserId == null || selectToUserId.isEmpty()) {
                 ToastUtils.toastMsg("请选择成员");
@@ -454,23 +481,22 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
             bean.password = pwd;
             bean.toUserId = selectToUserId;
             bean.groupId = sessionId;
-            HttpUtil.apiW().red_sendExclusiveRedPacket(bean)
-                    .enqueue(new CommonCallback<NetData>() {
-                        @Override
-                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+            HttpUtil.apiW().red_sendExclusiveRedPacket(bean).enqueue(new CommonCallback<NetData>() {
+                @Override
+                public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                    ToastUtils.toastMsg("发送成功");
+                    finish();
+                }
 
-                            ToastUtils.toastMsg("发送成功");
-                            finish();
-                        }
+                @Override
+                public void Failure(Call<NetData> call, Throwable t) {
 
-                        @Override
-                        public void Failure(Call<NetData> call, Throwable t) {
-
-                        }
-                    });
+                }
+            });
 
         }
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
