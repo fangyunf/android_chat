@@ -105,14 +105,13 @@ public abstract class FunChatFragment extends ChatBaseFragment {
 //        }
 
 
-
-
         return viewBinding.getRoot();
     }
 
     void _updateMessageCell(IMMessage message) {
-        chatView.getMessageListView().updateMessage(message,null);
+        chatView.getMessageListView().updateMessage(message, null);
     }
+
     @Override
     public Integer getReplayMessageClickPreviewDialogBgRes() {
         return R.color.color_ededed;
@@ -193,7 +192,7 @@ public abstract class FunChatFragment extends ChatBaseFragment {
                     for (GroupInfoBean bean : DataUtil.getFriendInfoList()) {
                         if (bean.memberCode.equals(msgBean.result.memberCode)) {
                             RegisterBean bean1 = new RegisterBean();
-                            bean1.phoneAndCode =  msgBean.result.memberCode;
+                            bean1.phoneAndCode = msgBean.result.memberCode;
                             bean1.type = 0;
                             HttpUtil.apiW().friends_search(bean1)
                                     .enqueue(new CommonCallback<NetData>() {
@@ -215,7 +214,7 @@ public abstract class FunChatFragment extends ChatBaseFragment {
                         }
                     }
                     RegisterBean bean = new RegisterBean();
-                    bean.phoneAndCode =  msgBean.result.memberCode;
+                    bean.phoneAndCode = msgBean.result.memberCode;
                     bean.type = 0;
                     HttpUtil.apiW().friends_search(bean)
                             .enqueue(new CommonCallback<NetData>() {
@@ -223,8 +222,8 @@ public abstract class FunChatFragment extends ChatBaseFragment {
                                 public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                                     UserBean userInfo = new Gson().fromJson(body.data.toString(), UserBean.class);
                                     HashMap map = new HashMap();
-                                    map.put("user",new Gson().toJson(userInfo));
-                                    FunAddFriendVerifyActivity.start(FunAddFriendVerifyActivity.class,getActivity(), map);
+                                    map.put("user", new Gson().toJson(userInfo));
+                                    FunAddFriendVerifyActivity.start(FunAddFriendVerifyActivity.class, getActivity(), map);
                                 }
 
                                 @Override
@@ -241,13 +240,11 @@ public abstract class FunChatFragment extends ChatBaseFragment {
                             @Override
                             public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                                 CustomMsgBean redBean = new Gson().fromJson(body.data.toString(), CustomMsgBean.class);
-                                if (redBean.type == 1 || redBean.type == 2 || redBean.type == 3) {
+                                if (redBean.type == 1 || redBean.type == 3) {
                                     //可领取
                                     if (redBean.type == 1) {
                                         redBean.redPacketId = bean.redpacketId;
                                     }
-
-
                                     if (getActivity() != null) {
                                         try {
                                             FunOpenRedPacketFragment.showV(getActivity().getSupportFragmentManager(), bean.redpacketId, redBean.type, sessionID, msgBean, messageInfo.getMessage(), new FunOpenRedPacketFragment.OpenRedPacketBlock() {
@@ -263,14 +260,14 @@ public abstract class FunChatFragment extends ChatBaseFragment {
                                         ToastUtils.toastMsg("网络错误");
                                     }
                                 }
-                                if (redBean.type == 4 || redBean.type == 5) {
+                                if (redBean.type == 2 || redBean.type == 4 || redBean.type == 5) {
                                     /// 当前用户领取已领取过当前红包，展示领取详细信息
                                     ///当红包是个人/专属，当前非目标领取用户，直接显示查看领取详情
                                     HashMap map = new HashMap();
-                                    map.put("redpacketId",bean.redpacketId);
+                                    map.put("redpacketId", bean.redpacketId);
                                     Activity context = getActivity();
                                     if (context != null) {
-                                        FunRedPacketResultActivity.start(FunRedPacketResultActivity.class,context,map);
+                                        FunRedPacketResultActivity.start(FunRedPacketResultActivity.class, context, map);
                                     }
                                 }
 

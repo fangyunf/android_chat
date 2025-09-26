@@ -307,10 +307,10 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 
     private void updateUIGrade() {
         if (DataUtil.getUserInfo().grade > 0) {
-            binding.fragmentMineGradeRl.setVisibility(View.VISIBLE);
-            binding.fragmentMineGradeTv.setVisibility(View.VISIBLE);
+//            binding.fragmentMineGradeRl.setVisibility(View.VISIBLE);
+//            binding.fragmentMineGradeTv.setVisibility(View.VISIBLE);
             binding.fragmentMineGradeIv.setVisibility(View.VISIBLE);
-            binding.fragmentMineGradeTv.setText(DataUtil.getUserInfo().grade + "级靓号用户");
+//            binding.fragmentMineGradeTv.setText(DataUtil.getUserInfo().grade + "级靓号用户");
             String imageName = "mine_grade_level_" + DataUtil.getUserInfo().grade;
             Resources resources = getResources();
             int resId = resources.getIdentifier(imageName, "mipmap", getContext().getPackageName());

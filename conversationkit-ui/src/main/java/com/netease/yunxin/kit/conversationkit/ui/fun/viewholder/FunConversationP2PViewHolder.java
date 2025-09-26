@@ -104,7 +104,7 @@ public class FunConversationP2PViewHolder extends FunConversationBaseViewHolder 
             int grader = (int) data.infoData.getUserInfo().getExtensionMap().get("grade");
             if (grader > 0) {
                 viewBinding.tvGrader.setVisibility(View.VISIBLE);
-                String imageName = "mine_grade_level_" + DataUtil.getUserInfo().grade;
+                String imageName = "mine_grade_level_" + grader;
                 Resources resources = viewBinding.tvGrader.getResources();
                 int resId = resources.getIdentifier(imageName, "mipmap", viewBinding.tvGrader.getContext().getPackageName());
                 // 如果找到了资源，则可以使用这个ID获取Drawable
