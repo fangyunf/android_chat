@@ -843,7 +843,7 @@ public abstract class ChatBaseMessageViewHolder extends CommonBaseMessageViewHol
             }
             if (grader > 0 && (messageBean.getMessageData().getMessage().getSessionType() == SessionTypeEnum.Team)) {
                 baseViewBinding.ivOtherGrade.setVisibility(View.VISIBLE);
-                String imageName = "mine_grade_level_" + DataUtil.getUserInfo().grade;
+                String imageName = "mine_grade_level_" + grader;
                 Resources resources = baseViewBinding.ivOtherGrade.getResources();
                 int resId = resources.getIdentifier(imageName, "mipmap", baseViewBinding.ivOtherGrade.getContext().getPackageName());
                 // 如果找到了资源，则可以使用这个ID获取Drawable
