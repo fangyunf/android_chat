@@ -5,6 +5,7 @@
 package com.netease.yunxin.kit.chatkit.ui.view.message.viewholder;
 
 import android.content.res.Resources;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -711,7 +712,8 @@ public abstract class ChatBaseMessageViewHolder extends CommonBaseMessageViewHol
                         // 自定义设置消息未读状态图标资源
                         baseViewBinding.ivStatus.setImageResource(messageStatusUIOption.unreadFlagIconRes);
                     } else {
-                        baseViewBinding.ivStatus.setImageResource(R.drawable.ic_message_unread);
+                        //baseViewBinding.ivStatus.setImageResource(R.drawable.ic_message_unread);
+                        baseViewBinding.ivStatus.setImageDrawable(new BitmapDrawable());
                     }
                 }
             }
@@ -865,7 +867,7 @@ public abstract class ChatBaseMessageViewHolder extends CommonBaseMessageViewHol
             }
             if (grader > 0 && (messageBean.getMessageData().getMessage().getSessionType() == SessionTypeEnum.Team)) {
                 baseViewBinding.ivOtherGrade.setVisibility(View.VISIBLE);
-                String imageName = "mine_grade_level_" + DataUtil.getUserInfo().grade;
+                String imageName = "mine_grade_level_" + grader;
                 Resources resources = baseViewBinding.ivOtherGrade.getResources();
                 int resId = resources.getIdentifier(imageName, "mipmap", baseViewBinding.ivOtherGrade.getContext().getPackageName());
                 // 如果找到了资源，则可以使用这个ID获取Drawable
