@@ -21,8 +21,10 @@ android {
         applicationId = "com.turunsi.tingmei"
         minSdk = 21
         targetSdk = 33
-        versionCode = 3
-        versionName = "1.0.15"
+//        versionCode = 3
+//        versionName = "1.0.15"
+        versionCode = 4
+        versionName = "1.0.16"
         multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
