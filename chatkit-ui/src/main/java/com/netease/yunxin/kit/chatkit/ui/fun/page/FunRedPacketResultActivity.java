@@ -67,7 +67,7 @@ public class FunRedPacketResultActivity extends BaseActivity implements View.OnC
         binding.activityFunRedPacketResultDetailNav.setLayoutParams(params);
         binding.activityFunRedPacketResultDetailNav.setPadding(0, BarUtils.getStatusBarHeight(), 0, 0);
     }
-    
+
     protected void _requestData1() {
         if (redpacketId == null || redpacketId.isEmpty()) {
             ToastUtils.toastMsg("网络错误");
@@ -91,7 +91,7 @@ public class FunRedPacketResultActivity extends BaseActivity implements View.OnC
                                     maxMoeny = Double.parseDouble(tempBean.amount);
                                     bestIndex = index;
                                 }
-                                index ++;
+                                index++;
                             }
                             redBean.vos.get(bestIndex).isBest = true;
                         }
@@ -115,12 +115,16 @@ public class FunRedPacketResultActivity extends BaseActivity implements View.OnC
         binding.activityFunRedPacketResultDetailGreetingTv.setText(redBean.title);
         if (redBean.redpacketType == 21) {
             binding.activityFunRedPacketResultDetailSenderTv.setText(redBean.sendName + "发出的专属红包");
-
         } else if (redBean.redpacketType == 22) {
             binding.activityFunRedPacketResultDetailSenderTv.setText(redBean.sendName + "发出的个人红包");
         } else if (redBean.redpacketType == 23) {
             binding.activityFunRedPacketResultDetailSenderTv.setText(redBean.sendName + "发出的拼手气红包");
-
+        } else if (redBean.redpacketType == 28) {
+            binding.activityFunRedPacketResultDetailSenderTv.setText(redBean.sendName + "发起的转账");
+            binding.activityFunRedPacketResultDetailGreetingTv.setText("你收到一笔转账");
+            binding.activityFunRedPacketResultDetailMoneyTv.setText(NumberUtil.formartMoney(redBean.sendAmount));
+            binding.activityFunRedPacketResultDetailBottomLl.setVisibility(View.GONE);
+            return;
         }
         if (redBean.type == 5) {
             binding.activityFunRedPacketResultDetailMoneyTv.setText(NumberUtil.formartMoney(redBean.sendAmount));
@@ -150,7 +154,7 @@ public class FunRedPacketResultActivity extends BaseActivity implements View.OnC
     protected void _initView() {
 
         binding.activityFunRedPacketResultDetailNav.addCloseImageButton().setOnClickListener(this);
-//        binding.activityFunRedPacketResultDetailRedPacketRecordTv.setOnClickListener(this);
+        binding.activityFunRedPacketResultDetailRedPacketRecordTv.setOnClickListener(this);
 //        binding.activityFunRedPacketResultDetailNav.setActionText("红包记录");
         binding.activityFunRedPacketResultDetailRv.setLayoutManager(new LinearLayoutManager(this));
         binding.activityFunRedPacketResultDetailRv.setAdapter(adapter);
@@ -162,10 +166,9 @@ public class FunRedPacketResultActivity extends BaseActivity implements View.OnC
     public void onClick(View v) {
         if (v == binding.activityFunRedPacketResultDetailNav.addCloseImageButton()) {
             finish();
+        } else if (v == binding.activityFunRedPacketResultDetailRedPacketRecordTv) {
+            FunRedPacketRecordListActivity.start(FunRedPacketRecordListActivity.class, this, null);
         }
-//        else if (v == binding.activityFunRedPacketResultDetailRedPacketRecordTv) {
-//            FunRedPacketRecordListActivity.start(FunRedPacketRecordListActivity.class,this,null);
-//        }
 //        else if (v == binding.activityFunSendRedPacketPinChangeTypeLl) {
 //        }
     }

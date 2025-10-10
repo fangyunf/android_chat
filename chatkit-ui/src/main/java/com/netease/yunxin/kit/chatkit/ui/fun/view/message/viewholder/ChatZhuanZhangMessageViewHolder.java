@@ -22,58 +22,57 @@ import java.util.Map;
 
 public class ChatZhuanZhangMessageViewHolder extends FunChatBaseMessageViewHolder {
 
-  protected FunChatMessageZhuanZhangViewHolderBinding viewBinding;
+    protected FunChatMessageZhuanZhangViewHolderBinding viewBinding;
 
-  public ChatZhuanZhangMessageViewHolder(
-          @NonNull ChatBaseMessageViewHolderBinding parent, int viewType) {
-    super(parent, viewType);
-  }
+    public ChatZhuanZhangMessageViewHolder(
+            @NonNull ChatBaseMessageViewHolderBinding parent, int viewType) {
+        super(parent, viewType);
+    }
 
-  @Override
-  protected void addViewToMessageContainer() {
-    viewBinding =
-            FunChatMessageZhuanZhangViewHolderBinding.inflate(
-            LayoutInflater.from(parent.getContext()), getMessageContainer(), true);
-  }
+    @Override
+    protected void addViewToMessageContainer() {
+        viewBinding = FunChatMessageZhuanZhangViewHolderBinding.inflate(
+                LayoutInflater.from(parent.getContext()), getMessageContainer(), true);
+    }
 
-  @Override
-  public void bindData(ChatMessageBean message, ChatMessageBean lastMessage) {
-    super.bindData(message, lastMessage);
-    if (message != null
-            && message.getMessageData() != null
-            && !message.getMessageData().getMessage().getAttachStr().isEmpty()){
-      Map<String, Object> localExtension = message.getMessageData().getMessage().getLocalExtension();
-      boolean hasDraw = false;
-      if (localExtension != null && DataUtil.getUserid().equals(localExtension.get("userId"))) {
-        hasDraw = true;
-      }
+    @Override
+    public void bindData(ChatMessageBean message, ChatMessageBean lastMessage) {
+        super.bindData(message, lastMessage);
+        if (message != null
+                && message.getMessageData() != null
+                && !message.getMessageData().getMessage().getAttachStr().isEmpty()) {
+            Map<String, Object> localExtension = message.getMessageData().getMessage().getLocalExtension();
+            boolean hasDraw = false;
+            if (localExtension != null && DataUtil.getUserid().equals(localExtension.get("userId"))) {
+                hasDraw = true;
+            }
 
-      CustomMsgBean bean = new Gson().fromJson(message.getMessageData().getMessage().getAttachStr(), CustomMsgBean.class);
-      bean.result = new Gson().fromJson(bean.data, CustomMsgBean.class);
-      if (hasDraw) {
-        viewBinding.funChatMessageRedPacketViewHolderBgIv.setImageResource( R.drawable.chat_zhuanzhang_bg_is_open);
-      } else {
-        viewBinding.funChatMessageRedPacketViewHolderBgIv.setImageResource( R.drawable.chat_zhuanzhang_bg_no_open);
-      }
-      if (bean.result.toUserId.equals(DataUtil.getUserid())) {
-        viewBinding.funChatMessageRedPacketViewHolderGreetingTv.setText("你收到了一笔转账");
-      } else {
-        viewBinding.funChatMessageRedPacketViewHolderGreetingTv.setText("你发起了一笔转账");
-      }
-      viewBinding.funChatMessageRedPacketViewHolderTimeTv.setText(TimeUtil.stampToDate(bean.result.createTime));
+            CustomMsgBean bean = new Gson().fromJson(message.getMessageData().getMessage().getAttachStr(), CustomMsgBean.class);
+            bean.result = new Gson().fromJson(bean.data, CustomMsgBean.class);
+            if (hasDraw) {
+                viewBinding.funChatMessageRedPacketViewHolderBgIv.setImageResource(R.drawable.chat_zhuanzhang_bg_is_open);
+            } else {
+                viewBinding.funChatMessageRedPacketViewHolderBgIv.setImageResource(R.drawable.chat_zhuanzhang_bg_no_open);
+            }
+            if (bean.result.toUserId.equals(DataUtil.getUserid())) {
+                viewBinding.funChatMessageRedPacketViewHolderGreetingTv.setText("你收到了一笔转账");
+            } else {
+                viewBinding.funChatMessageRedPacketViewHolderGreetingTv.setText("你发起了一笔转账");
+            }
+            viewBinding.funChatMessageRedPacketViewHolderTimeTv.setText(TimeUtil.stampToDate(bean.result.createTime));
 //      if (bean.type == 21) {
-        viewBinding.funChatMessageRedPacketViewHolderMoneyTv.setText("¥" + NumberUtil.formartMoney(bean.result.amount));
+            viewBinding.funChatMessageRedPacketViewHolderMoneyTv.setText("¥" + NumberUtil.formartMoney(bean.result.amount));
 //      } else {
 //        viewBinding.funChatMessageRedPacketViewHolderMoneyTv.setText("");
 //      }
 
 
+        }
     }
-  }
 
-  @Override
-  protected void onMessageBackgroundConfig(ChatMessageBean messageBean) {
-    super.onMessageBackgroundConfig(messageBean);
-    viewBinding.getRoot().setBackgroundResource(R.color.title_transfer);
-  }
+    @Override
+    protected void onMessageBackgroundConfig(ChatMessageBean messageBean) {
+        super.onMessageBackgroundConfig(messageBean);
+        viewBinding.getRoot().setBackgroundResource(R.color.title_transfer);
+    }
 }
