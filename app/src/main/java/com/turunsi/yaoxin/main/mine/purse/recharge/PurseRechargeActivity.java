@@ -285,6 +285,33 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
         }
     }
 
+    /**
+     * 启动支付宝支付
+     *
+     * @param orderInfo 后台返回的 orderInfo（即 iOS 中 response[@"data"][@"url"]）
+     */
+    private void startAlipay(String orderInfo) {
+        Runnable payRunnable = () -> {
+            PayTask alipay = new PayTask(PurseRechargeActivity.this);
+            Map<String, String> result = alipay.payV2(orderInfo, true);
+            Message msg = new Message();
+            msg.what = SDK_PAY_FLAG;
+            msg.obj = result;
+            mHandler.sendMessage(msg);
+        };
+        Thread payThread = new Thread(payRunnable);
+        payThread.start();
+    }
+
+
+    private void startAlipayPayment1(String url) {
+        if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("alipay://")) {
+            startAlipayPayment(url);
+        } else {
+            startAlipay(url);
+        }
+    }
+
     private void startAlipayPayment(String url) {
         if (url != null) {
             try {

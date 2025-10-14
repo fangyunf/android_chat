@@ -99,6 +99,7 @@ dependencies {
     implementation("androidx.annotation:annotation:1.3.0")
     implementation("com.github.jenly1314.AppUpdater:app-updater:1.2.0")
     implementation("com.github.jenly1314.AppUpdater:app-dialog:1.2.0")
+    
 
 
 }
