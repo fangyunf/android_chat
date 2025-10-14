@@ -358,7 +358,7 @@ public interface ServiceW {
             @Body RequestParamsBean userBean
     );
     //  好友列表
-    @POST("/pay/sixwx")
+    @POST("/pay/sixWx")
     Call<NetData> pay_sixwx(
             @Body RequestParamsBean userBean
     );
