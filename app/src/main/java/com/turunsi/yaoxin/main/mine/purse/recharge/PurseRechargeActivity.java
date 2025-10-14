@@ -139,7 +139,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
         binding.activityMinePurseRechargeWxPayBtn.setOnClickListener(this);
         binding.activityMinePurseRechargeAliPayBtn.setOnClickListener(this);
 
-        binding.activityMinePurseRechargeWxPayBtn.setVisibility(View.GONE);
+//        binding.activityMinePurseRechargeWxPayBtn.setVisibility(View.GONE);
 
         if (_type == 0) {
             binding.activityMinePurseRechargeQqPayBtn.setVisibility(View.GONE);
@@ -256,21 +256,51 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
                 }
             });
         } else {
+            if ("alipay".equals(payType)) {
+                HttpUtil.apiW().pay_six(registerBean).enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                        UserBean userBean = new Gson().fromJson(body.data.toString(), UserBean.class);
+                        startAlipayPayment1(userBean.url);
+                    }
 
-            registerBean.type = payType;
-            HttpUtil.apiW().pay_six(registerBean).enqueue(new CommonCallback<NetData>() {
-                @Override
-                public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                    UserBean userBean = new Gson().fromJson(body.data.toString(), UserBean.class);
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
+
+                    }
+                });
+            } else if ("wxpay".equals(payType)) {
+                registerBean.type = payType;
+                HttpUtil.apiW().pay_sixwx(registerBean).enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                        UserBean userBean = new Gson().fromJson(body.data.toString(), UserBean.class);
 //                        RechargeScanFragment.showV(getSupportFragmentManager(),payType.equals("wxpay")?"请使用微信扫码":"请使用支付宝扫码",userBean.payUrl);
-                    startAlipayPayment(userBean.url);
-                }
+                        startAlipayPayment(userBean.url);
+                    }
 
-                @Override
-                public void Failure(Call<NetData> call, Throwable t) {
-                    Log.i("fanbo", t.getMessage());
-                }
-            });
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
+
+                    }
+                });
+            }
+
+
+//            registerBean.type = payType;
+//            HttpUtil.apiW().pay_six(registerBean).enqueue(new CommonCallback<NetData>() {
+//                @Override
+//                public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+//                    UserBean userBean = new Gson().fromJson(body.data.toString(), UserBean.class);
+////                        RechargeScanFragment.showV(getSupportFragmentManager(),payType.equals("wxpay")?"请使用微信扫码":"请使用支付宝扫码",userBean.payUrl);
+//                    startAlipayPayment(userBean.url);
+//                }
+//
+//                @Override
+//                public void Failure(Call<NetData> call, Throwable t) {
+//                    Log.i("fanbo", t.getMessage());
+//                }
+//            });
 
 //            registerBean.name = "12";
 //            registerBean.configId = "2";

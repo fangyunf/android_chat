@@ -390,6 +390,11 @@ public interface ServiceW {
     );
 
     //  好友列表
+    @POST("/pay/sixWx")
+    Call<NetData> pay_sixwx(
+            @Body RequestParamsBean userBean
+    );
+
     @POST("/pay/six")
     Call<NetData> pay_six(
             @Body RequestParamsBean userBean
