@@ -42,6 +42,8 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
     String payType = "alipay";
     int _type = 0;
 
+    private static final int SDK_PAY_FLAG = 1;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
