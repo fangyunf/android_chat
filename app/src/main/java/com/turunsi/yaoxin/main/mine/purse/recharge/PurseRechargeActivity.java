@@ -1,8 +1,11 @@
 package com.turunsi.yaoxin.main.mine.purse.recharge;
 
+import static com.eidlink.idocr.sdk.util.DelayUtil.mHandler;
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Message;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -13,6 +16,7 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 
+import com.alipay.sdk.app.PayTask;
 import com.google.gson.Gson;
 import com.turunsi.yaoxin.R;
 import com.yaoxin.appbase.activity.BaseActivity;
@@ -27,6 +31,8 @@ import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.DialogAlertUtil;
 import com.yaoxin.appbase.utils.NumberUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
+
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Response;
