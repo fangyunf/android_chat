@@ -4,16 +4,16 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.turunsi.yiliao",
+  "applicationId": "com.turunsi.mishang",
   "variantName": "release",
   "elements": [
     {
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 6,
-      "versionName": "1.0.5",
-      "outputFile": "yiliao_release_v1.0.5.apk"
+      "versionCode": 1,
+      "versionName": "1.0.0",
+      "outputFile": "mishang_release_v1.0.0.apk"
     }
   ],
   "elementType": "File"
