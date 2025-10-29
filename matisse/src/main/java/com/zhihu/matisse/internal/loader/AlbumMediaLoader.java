@@ -120,7 +120,11 @@ public class AlbumMediaLoader extends CursorLoader {
     }
     // ===============================================================
 
-    private static final String ORDER_BY = MediaStore.Images.Media.DATE_TAKEN + " DESC";
+//    private static final String ORDER_BY = MediaStore.Images.Media.DATE_TAKEN + " DESC";
+
+    // 使用 DATE_ADDED 匹配系统相册的排序（最新添加的在前面）
+    // 如果要按拍摄时间排序，使用 DATE_TAKEN；如果要按修改时间，使用 DATE_MODIFIED
+    private static final String ORDER_BY = MediaStore.Files.FileColumns.DATE_ADDED + " DESC";
     private final boolean mEnableCapture;
 
     private AlbumMediaLoader(Context context, String selection, String[] selectionArgs, boolean capture) {

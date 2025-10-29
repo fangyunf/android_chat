@@ -439,7 +439,7 @@ public abstract class ChatBaseFragment extends BaseFragment {
                 permission = new String[]{Manifest.permission.READ_MEDIA_IMAGES, Manifest.permission.READ_MEDIA_VIDEO};
             }
             if (PermissionUtils.hasPermissions(ChatBaseFragment.this.getContext(), permission)) {
-//            startPickMedia();
+                //startPickMedia();
                 UploadUtil.choosePhotoLibrary(ChatBaseFragment.this, 9);
             } else {
                 requestCameraPermission(permission, REQUEST_READ_EXTERNAL_STORAGE_PERMISSION_ALBUM);
