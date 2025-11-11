@@ -11,23 +11,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/jinzita_common_page_bg" />
+
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/dimen_20_dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
-                android:src="@mipmap/jinzita_common_page_bg"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -331,8 +328,7 @@
                         android:id="@+id/fragment_mine_ysgl_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:visibility="gone"
-                        app:leftImg="@mipmap/mine_index_item_ysgl"
+                        app:leftImg="@mipmap/mine_index_item_tysz"
                         app:titleText="隐私管理" />
 
                     <com.yaoxin.appbase.view.IconTitleArrowTemplate
@@ -395,16 +391,13 @@
                     <com.yaoxin.appbase.view.IconTitleArrowTemplate
                         android:id="@+id/fragment_mine_xtsz_view"
                         android:layout_width="match_parent"
-
                         android:layout_height="wrap_content"
                         android:visibility="gone"
-
                         app:titleText="" />
                 </LinearLayout>
 
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
