@@ -23,7 +23,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="22dp"
                 android:text="群邀请确认"
-                android:textColor="@color/color_white"
+                android:textColor="@color/black"
                 android:textSize="16sp" />
 
             <TextView
@@ -32,7 +32,7 @@
                 android:layout_height="17dp"
                 android:layout_marginTop="@dimen/dimen_4_dp"
                 android:text="启用后，需群主管理员确认才能邀请群成员"
-                android:textColor="@color/color_white"
+                android:textColor="@color/black"
                 android:textSize="12sp" />
         </LinearLayout>
 

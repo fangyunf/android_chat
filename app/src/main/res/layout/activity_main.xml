@@ -24,7 +24,6 @@
         android:id="@+id/bottom_group"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_60_dp"
-        android:background="#091125"
         android:clipChildren="false"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"

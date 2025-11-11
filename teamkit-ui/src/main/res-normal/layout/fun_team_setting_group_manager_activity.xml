@@ -9,13 +9,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/icon_app_bg"
     android:orientation="vertical">
 
     <com.yaoxin.appbase.navbar.NavToolbar
         android:id="@+id/fun_team_setting_group_manager_activity_nav"
         style="@style/WhiteFontToolbar"
-        android:background="@color/transparent"
+        android:background="@color/app_theme_color"
         app:back_icon="@mipmap/temp_ic_back_white"
         app:enable_under_divider="true"
         app:support_translucent_status_bar="false"

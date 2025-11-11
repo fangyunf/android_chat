@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="@string/chat_message_signal"
-        android:textColor="@color/color_white"
+        android:textColor="@color/black"
         android:textSize="@dimen/text_size_14" />
 
     <TextView
@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
-        android:textColor="@color/color_white"
+        android:textColor="@color/black"
         android:textSize="@dimen/text_size_14"
         android:visibility="gone" />
 
@@ -37,7 +37,6 @@
         android:id="@+id/arrow_icon"
         android:layout_width="@dimen/dimen_20_dp"
         android:layout_height="wrap_content"
-        android:rotation="180"
-        android:src="@drawable/ic_back_white"
+        android:src="@drawable/ic_right_arrow"
         android:visibility="visible" />
 </LinearLayout>

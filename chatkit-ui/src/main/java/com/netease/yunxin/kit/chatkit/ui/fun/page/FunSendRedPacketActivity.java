@@ -143,7 +143,7 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
             binding.tvShouqi.setText("个人红包");
             binding.layoutZhuanShu.setVisibility(View.INVISIBLE);
         } else if (type == 1) {
-            binding.tvShouqi.setTextColor(Color.WHITE);
+            binding.tvShouqi.setTextColor(Color.BLACK);
             binding.viewLine.setVisibility(View.VISIBLE);
 //            binding.tvZhuanshu.setTextColor(Color.parseColor("#F4B9C4"));
             binding.viewLine1.setVisibility(View.INVISIBLE);
@@ -151,7 +151,7 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
         } else if (type == 2) {
 //            binding.tvShouqi.setTextColor(Color.parseColor("#F4B9C4"));
             binding.viewLine.setVisibility(View.INVISIBLE);
-            binding.tvZhuanshu.setTextColor(Color.WHITE);
+            binding.tvZhuanshu.setTextColor(Color.BLACK);
             binding.viewLine1.setVisibility(View.VISIBLE);
             _requestDataGroup();
         }

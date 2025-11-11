@@ -11,7 +11,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.ImageView;
 
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -27,6 +29,7 @@ import com.netease.yunxin.kit.chatkit.ui.fun.view.MessageBottomLayout;
 import com.netease.yunxin.kit.chatkit.ui.model.ChatMessageBean;
 import com.netease.yunxin.kit.chatkit.ui.page.viewmodel.ChatP2PViewModel;
 import com.netease.yunxin.kit.common.ui.viewmodel.LoadStatus;
+import com.netease.yunxin.kit.common.utils.SizeUtils;
 import com.netease.yunxin.kit.corekit.im.model.FriendInfo;
 import com.netease.yunxin.kit.corekit.im.model.UserInfo;
 import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
@@ -94,6 +97,12 @@ public class FunChatP2PFragment extends FunChatFragment {
                                         .withContext(requireActivity())
                                         .navigate();
                             });
+            
+            ImageView actionImageView = chatView.getTitleBar().getActionImageView();
+            ViewGroup.LayoutParams layoutParams = actionImageView.getLayoutParams();
+            layoutParams.width = SizeUtils.dp2px(40);
+            layoutParams.height = SizeUtils.dp2px(40);
+            actionImageView.setLayoutParams(layoutParams);
         }
         EventBus.getDefault().register(this);
     }

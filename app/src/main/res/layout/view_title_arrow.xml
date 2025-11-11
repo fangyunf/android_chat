@@ -19,7 +19,7 @@
             android:layout_height="22dp"
             android:layout_weight="1"
             android:text="设置支付密码"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="16sp" />
 
         <TextView
@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="+86 18298986543"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="16sp"
             android:visibility="gone" />
 
@@ -35,7 +35,7 @@
             android:id="@+id/view_title_arrow_arrow_iv"
             android:layout_width="@dimen/dimen_20_dp"
             android:layout_height="@dimen/dimen_20_dp"
-            android:src="@mipmap/icon_right_white_bg" />
+            android:src="@mipmap/dtf_right_arrow" />
     </LinearLayout>
 
     <View

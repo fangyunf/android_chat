@@ -6,11 +6,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="fitXY"
-        android:src="@mipmap/icon_app_bg" />
+<!--    <ImageView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:scaleType="fitXY"-->
+<!--        android:src="@mipmap/icon_app_bg" />-->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,7 +21,7 @@
         <com.yaoxin.appbase.navbar.NavToolbar
             android:id="@+id/activity_xiaozhushou_nav"
             style="@style/WhiteFontToolbar"
-            android:background="@color/transparent"
+            android:background="@color/app_theme_color"
             app:back_icon="@mipmap/temp_ic_back_white"
             app:enable_under_divider="true"
             app:support_translucent_status_bar="false"

@@ -9,14 +9,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/icon_app_bg"
     android:orientation="vertical">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@mipmap/icon_app_bg"
-        android:scaleType="fitXY" />
+    <!--    <ImageView-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:background="@mipmap/icon_app_bg"-->
+    <!--        android:scaleType="fitXY" />-->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,7 +25,7 @@
         <com.yaoxin.appbase.navbar.NavToolbar
             android:id="@+id/activity_mine_pwd_set_mager_nav"
             style="@style/WhiteFontToolbar"
-            android:background="@color/transparent"
+            android:background="@color/app_theme_color"
             app:back_icon="@mipmap/temp_ic_back_white"
             app:enable_under_divider="true"
             app:support_translucent_status_bar="false"

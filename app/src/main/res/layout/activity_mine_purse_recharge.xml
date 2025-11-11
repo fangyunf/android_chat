@@ -4,13 +4,12 @@
     xmlns:tl="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/icon_app_bg"
     android:orientation="vertical">
 
     <com.yaoxin.appbase.navbar.NavToolbar
         android:id="@+id/activity_mine_purse_recharge_nav"
         style="@style/WhiteFontToolbar"
-        android:background="@color/transparent"
+        android:background="@color/app_theme_color"
         app:back_icon="@mipmap/temp_ic_back_white"
         app:enable_under_divider="true"
         app:support_translucent_status_bar="false"
@@ -123,7 +122,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="购买数量"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textSize="16sp" />
                 <!--                <ImageView-->
                 <!--                    android:layout_marginLeft="5dp"-->
@@ -213,7 +212,7 @@
             android:layout_height="64dp"
             android:layout_marginTop="@dimen/dimen_20_dp"
             android:text="充值说明：\n1.充值实时到账\n2.充值未到账情况联系客服处理"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="14sp" />
 
         <TextView

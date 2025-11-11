@@ -15,10 +15,10 @@
             android:id="@+id/cell_fun_team_setting_users_mingdan_tv_index"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#2a578b"
+            android:background="@color/color_white"
             android:paddingLeft="12dp"
             android:text="A"
-            android:textColor="@color/color_white"
+            android:textColor="@color/black"
             android:textSize="14sp" />
     </LinearLayout>
 
@@ -44,7 +44,7 @@
             android:layout_marginLeft="@dimen/dimen_8_dp"
             android:layout_weight="1"
             android:text="哔哩吧啦"
-            android:textColor="@color/color_white"
+            android:textColor="@color/black"
             android:textSize="16sp" />
     </LinearLayout>
 

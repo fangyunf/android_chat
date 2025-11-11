@@ -4,14 +4,13 @@
     xmlns:tl="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/icon_app_bg"
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
     <com.yaoxin.appbase.navbar.NavToolbar
         android:id="@+id/activity_mine_down_load_nav"
         style="@style/WhiteFontToolbar"
-        android:background="@color/transparent"
+        android:background="@color/app_theme_color"
         app:back_icon="@mipmap/temp_ic_back_white"
         app:enable_under_divider="true"
         app:support_translucent_status_bar="false"
@@ -24,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="苹果官方下载地址:"
-        android:textColor="@color/white" />
+        android:textColor="@color/black" />
 
     <TextView
         android:id="@+id/activity_mine_down_load_ios"
@@ -32,14 +31,14 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text=""
-        android:textColor="@color/white" />
+        android:textColor="@color/black" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="安卓官方下载地址:"
-        android:textColor="@color/white" />
+        android:textColor="@color/black" />
 
     <TextView
         android:id="@+id/activity_mine_down_load_android"
@@ -47,6 +46,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text=""
-        android:textColor="@color/white" />
+        android:textColor="@color/black" />
 
 </LinearLayout>

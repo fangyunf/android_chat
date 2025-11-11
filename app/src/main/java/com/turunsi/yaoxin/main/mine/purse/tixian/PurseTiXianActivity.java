@@ -141,7 +141,7 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
         binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setBackground(new BitmapDrawable());
         binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setGravity(gravity);
         binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setHint("请选择");
-        binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setTextColor(Color.WHITE);
+        binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setTextColor(Color.BLACK);
         setWithItem();
     }
 

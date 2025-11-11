@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="22dp"
             android:text="提现成功"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="16sp" />
 
         <TextView
@@ -29,7 +29,7 @@
             android:layout_height="20dp"
             android:layout_marginTop="11dp"
             android:text="金额"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="14sp" />
 
         <TextView
@@ -37,7 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="42dp"
             android:text="¥0.00"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="30sp" />
     </LinearLayout>
 
@@ -62,7 +62,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:text="收款方式"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="14sp" />
 
             <TextView
@@ -71,7 +71,7 @@
                 android:layout_height="20dp"
                 android:layout_marginLeft="@dimen/dimen_10_dp"
                 android:text=" 银行"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="14sp" />
         </LinearLayout>
 
@@ -85,7 +85,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:text="交易状态"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="14sp" />
 
             <TextView
@@ -94,7 +94,7 @@
                 android:layout_height="20dp"
                 android:layout_marginLeft="@dimen/dimen_10_dp"
                 android:text=" 银行"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="14sp" />
         </LinearLayout>
 
@@ -108,18 +108,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:text="申请时间"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/item_xiaozhushou_list_time_tv"
-
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:layout_alignParentEnd="true"
                 android:layout_marginLeft="@dimen/dimen_10_dp"
                 android:text="2023-03-09 12:17:09"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="14sp" />
         </LinearLayout>
     </LinearLayout>

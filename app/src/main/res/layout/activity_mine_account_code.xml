@@ -7,11 +7,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="fitXY"
-        android:src="@mipmap/icon_app_bg" />
+    <!--    <ImageView-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:scaleType="fitXY"-->
+    <!--        android:src="@mipmap/icon_app_bg" />-->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,7 +22,7 @@
         <com.yaoxin.appbase.navbar.NavToolbar
             android:id="@+id/activity_mine_account_code_nav"
             style="@style/WhiteFontToolbar"
-            android:background="@color/transparent"
+            android:background="@color/app_theme_color"
             app:back_icon="@mipmap/temp_ic_back_white"
             app:support_translucent_status_bar="false"
             app:title="我的二维码"
@@ -51,7 +51,7 @@
                 android:layout_height="28dp"
                 android:layout_marginTop="15dp"
                 android:text="会飞的洋芋"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="20sp" />
 
 
@@ -65,7 +65,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textSize="14sp"
                     tools:text="sdfdsfsd" />
 
@@ -99,7 +99,7 @@
                 android:background="@drawable/bg_copy"
                 android:gravity="center"
                 android:text="复制账号"
-                android:textColor="@color/color_white" />
+                android:textColor="@color/black" />
 
 
             <RelativeLayout
@@ -126,7 +126,7 @@
                 android:layout_marginTop="@dimen/dimen_15_dp"
                 android:gravity="center"
                 android:text="扫一扫二维码，加我好友"
-                android:textColor="#ffffffff"
+                android:textColor="@color/black"
                 android:textSize="16sp" />
 
         </LinearLayout>

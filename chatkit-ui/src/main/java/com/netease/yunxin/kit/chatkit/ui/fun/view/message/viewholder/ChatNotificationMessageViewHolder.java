@@ -116,7 +116,7 @@ public class ChatNotificationMessageViewHolder extends FunChatBaseMessageViewHol
 //      textBinding.messageText.setTextColor(
 //          IMKitClient.getApplicationContext().getResources().getColor(R.color.color_999999));
             textBinding.messageText.setTextColor(
-                    IMKitClient.getApplicationContext().getResources().getColor(R.color.color_white));
+                    IMKitClient.getApplicationContext().getResources().getColor(R.color.color_999999));
             textBinding.messageText.setTextSize(12);
             String content = TeamNotificationHelper.getTeamNotificationText(message.getMessageData());
             textBinding.messageText.setText(content);

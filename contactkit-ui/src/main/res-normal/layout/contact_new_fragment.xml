@@ -6,7 +6,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/icon_app_bg">
+    android:background="@color/app_theme_color">
 
     <ImageView
         android:layout_width="match_parent"
@@ -17,6 +17,7 @@
 
     <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
+
         android:layout_height="match_parent"
         android:orientation="vertical">
 
@@ -25,7 +26,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
-            android:paddingHorizontal="15dp">
+            android:background="@color/app_theme_color"
+            android:paddingHorizontal="15dp"
+            android:paddingBottom="@dimen/dimen_10_dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -57,30 +60,36 @@
             </LinearLayout>
         </LinearLayout>
 
-
         <LinearLayout
-            android:id="@+id/contact_new_fragment_search_ll"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/bg_white_stork_rounded_bg"
-            android:gravity="left|center">
+            android:layout_height="wrap_content"
+            android:background="@color/color_white">
 
-            <ImageView
-                android:layout_width="@dimen/dimen_20_dp"
-                android:layout_height="@dimen/dimen_20_dp"
-                android:layout_marginLeft="@dimen/dimen_10_dp"
-                android:layout_marginRight="10dp"
-                android:src="@mipmap/icon_white_suosuo" />
+            <LinearLayout
+                android:id="@+id/contact_new_fragment_search_ll"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/fun_bg_black_store_rounded_9"
+                android:gravity="left|center">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="搜索"
-                android:textColor="@color/color_white"
-                android:textSize="15sp" />
+                <ImageView
+                    android:layout_width="@dimen/dimen_20_dp"
+                    android:layout_height="@dimen/dimen_20_dp"
+                    android:layout_marginLeft="@dimen/dimen_10_dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@mipmap/conversation_list_index_search_icon1" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="搜索"
+                    android:textColor="@color/color_black"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
 
         </LinearLayout>
         <!--        <LinearLayout-->
@@ -170,7 +179,8 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/main_search">
+            android:layout_below="@+id/main_search"
+            android:background="@color/color_white">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/contact_new_fragment_rv"
@@ -185,7 +195,7 @@
                 android:layout_height="match_parent"
                 android:padding="8dp"
                 app:sidebar_lazy_respond="false"
-                app:sidebar_text_color="@color/color_white" />
+                app:sidebar_text_color="@color/color_black" />
 
         </FrameLayout>
 

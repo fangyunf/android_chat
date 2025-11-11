@@ -59,7 +59,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         StatusBarUtils.setStatusBarLightMode(this, true, true);
-
 //        binding.activityLoginLoginLl.setOnClickListener(this);
 //        binding.activityLoginRegisterLl.setOnClickListener(this);
         binding.activityLoginForgetTv.setOnClickListener(this);

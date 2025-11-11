@@ -62,7 +62,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
-                android:textColor="@color/color_white"
+                android:textColor="@color/black"
                 android:textSize="16sp" />
 
             <TextView
@@ -74,7 +74,7 @@
                 android:gravity="center"
                 android:paddingHorizontal="7dp"
                 android:text="ID:77799"
-                android:textColor="@color/color_white"
+                android:textColor="@color/black"
                 android:textSize="10sp"
                 android:visibility="gone" />
 
@@ -105,7 +105,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:textColor="@color/color_white"
+                android:textColor="@color/black"
                 android:textSize="12sp" />
         </LinearLayout>
 
@@ -118,7 +118,7 @@
             android:ellipsize="end"
             android:maxWidth="@dimen/dimen_100_dp"
             android:maxLines="1"
-            android:textColor="@color/color_white"
+            android:textColor="@color/black"
             android:textSize="@dimen/text_size_12" />
 
         <ImageView

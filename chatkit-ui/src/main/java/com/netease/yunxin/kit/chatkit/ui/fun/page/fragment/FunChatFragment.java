@@ -80,9 +80,9 @@ public abstract class FunChatFragment extends ChatBaseFragment {
         DataUtil.qunzhuId = "";
         viewBinding = FunChatFragmentBinding.inflate(inflater, container, false);
         chatView = viewBinding.chatView;
-//        changeStatusBarColor(R.color.color_white);
         viewBinding.chatView.getTitleBar().getBackImageView().setImageResource(com.yaoxin.appbase.R.mipmap.temp_ic_back_white);
         StatusBarUtils.setStatusBarLightMode(getActivity(), true, true);
+        changeStatusBarColor(com.yaoxin.appbase.R.color.app_theme_color);
         try {
             SoftKeyboardFixerForFullscreen.assistActivity(getActivity());
             FrameLayout frameLayout = viewBinding.chatView.getTitleBarLayout();

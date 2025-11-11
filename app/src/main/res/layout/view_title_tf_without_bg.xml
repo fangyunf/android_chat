@@ -12,7 +12,7 @@
         android:layout_width="@dimen/dimen_70_dp"
         android:layout_height="@dimen/dimen_22_dp"
         android:text="手机号号"
-        android:textColor="@color/white"
+        android:textColor="@color/color_black"
         android:textSize="@dimen/text_size_14" />
 
     <EditText
@@ -46,6 +46,6 @@
         android:layout_width="@dimen/dimen_16_dp"
         android:layout_height="12dp"
         android:layout_marginLeft="4dp"
-        android:src="@mipmap/icon_right_white_bg"
+        android:src="@mipmap/dtf_right_arrow"
         android:visibility="gone" />
 </LinearLayout>
