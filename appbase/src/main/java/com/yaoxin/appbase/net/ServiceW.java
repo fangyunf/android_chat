@@ -529,4 +529,9 @@ public interface ServiceW {
     @POST("/meteor/list")
     Call<NetData> meteor_list();
 
+    @POST("/meteor/buyMember")
+    Call<NetData> meteor_buyMember(
+            @Body RegisterBean userBean
+    );
+
 }

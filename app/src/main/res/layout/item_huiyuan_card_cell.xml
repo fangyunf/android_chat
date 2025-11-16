@@ -2,9 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/item_huiyuan_card_cell_bg_ll"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:layout_marginHorizontal="16dp"
-    android:minHeight="120dp"
+    android:background="@drawable/bg_card_vip"
     android:orientation="vertical"
     android:padding="20dp"
     android:gravity="center">

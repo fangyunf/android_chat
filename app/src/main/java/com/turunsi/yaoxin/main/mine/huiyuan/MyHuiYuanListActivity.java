@@ -77,7 +77,7 @@ public class MyHuiYuanListActivity extends BaseActivity implements View.OnClickL
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
         binding.activityMineMyHuiyuanListBottomRv.setLayoutManager(gridLayoutManager);
         CommonGridSpacingItemDecoration gridSpacingItemDecoration =
-                new CommonGridSpacingItemDecoration(3, SizeUtils.dp2px(10), false);
+                new CommonGridSpacingItemDecoration(3, SizeUtils.dp2px(12), true);
         binding.activityMineMyHuiyuanListBottomRv.addItemDecoration(gridSpacingItemDecoration);
         binding.activityMineMyHuiyuanListBottomRv.setAdapter(adapter);
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener<Integer>() {
