@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/dimen_16_dp"
+    android:background="@mipmap/icon_dialog"
+    android:orientation="vertical"
+    android:paddingTop="24dp"
+    android:paddingBottom="16dp">
+
+    <!-- 标题 -->
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingBottom="24dp"
+        android:text="更多功能"
+        android:textColor="#000000"
+        android:textSize="16sp" />
+
+    <!-- 功能按钮容器 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingHorizontal="20dp"
+        android:paddingBottom="24dp">
+
+        <!-- 建群聊 -->
+        <LinearLayout
+            android:id="@+id/ll_create_group"
+            android:layout_width="76dp"
+            android:layout_height="76dp"
+            android:background="@mipmap/icon_qunliao_c"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_10_dp"
+                android:text="建群聊"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <!-- 加好友 -->
+        <LinearLayout
+            android:id="@+id/ll_add_friend"
+            android:layout_width="76dp"
+            android:layout_height="76dp"
+            android:layout_marginHorizontal="@dimen/dimen_30_dp"
+            android:layout_marginLeft="@dimen/dimen_30_dp"
+            android:background="@mipmap/icon_add_frend"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_10_dp"
+                android:text="加好友"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp" />
+
+
+        </LinearLayout>
+
+        <!-- 扫一扫 -->
+        <LinearLayout
+            android:id="@+id/ll_scan"
+            android:layout_width="76dp"
+            android:layout_height="76dp"
+            android:background="@mipmap/icon_sys"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_10_dp"
+                android:text="扫一扫"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp">
+
+
+                <!-- 角标 -->
+                <TextView
+                    android:id="@+id/tv_badge"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginTop="-6dp"
+                    android:layout_marginEnd="-6dp"
+                    android:background="@drawable/bg_fd2635_rounded_7"
+                    android:gravity="center"
+                    android:text="15"
+                    android:textColor="#FFFFFF"
+                    android:textSize="10sp"
+                    android:visibility="gone" />
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- 关闭按钮 -->
+    <ImageView
+        android:id="@+id/iv_close"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_gravity="center"
+        android:contentDescription="关闭"
+        android:src="@mipmap/icon_dialog_close" />
+
+</LinearLayout>
+

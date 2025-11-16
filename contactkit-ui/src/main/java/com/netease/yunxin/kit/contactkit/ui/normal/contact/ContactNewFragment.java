@@ -64,6 +64,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -346,19 +347,19 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
                 }
             }
         });
-
     }
 
     protected void loadTitle() {
 
     }
 
-
     @Override
     public void onClick(View v) {
-
         if (v == binding.contactNewFragmentXiaozhushou) {
-
+            XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_P2P_PAGE)
+                    .withParam(RouterConstant.CHAT_ID_KRY, DataUtil.getKeFuId())
+                    .withContext(requireContext())
+                    .navigate();
         } else if (v == binding.contactNewFragmentFriendTv) {
             resetState();
             binding.contactNewFragmentFriendTv.setSelected(true);
@@ -379,7 +380,7 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
             resetState();
             binding.contactNewFragmentNewFriendTv.setSelected(true);
             binding.contactNewFragmentNewFriendNumTv.setVisibility(View.GONE);
-            
+
             binding.contactNewFragmentRv.setAdapter(verifyAdapter);
             verifyAdapter.setItems(verifyList);
             verifyAdapter.notifyDataSetChanged();

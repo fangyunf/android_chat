@@ -61,6 +61,7 @@ import com.yaoxin.appbase.utils.BarUtils;
 import com.yaoxin.appbase.utils.BaseEvent;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.StatusBarUtils;
+import com.yaoxin.appbase.view.MoreFunctionsBottomDialog;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -424,19 +425,38 @@ public class FunConversationFragment extends ConversationBaseFragment {
             @Override
             public void onClick(View v) {
                 Context context = getContext();
-                int memberLimit = ConversationUIConstant.MAX_TEAM_MEMBER;
-                ContentListPopView contentListPopView =
-                        new ContentListPopView.Builder(context)
-                                .addItem(FunPopItemFactory.getCreateAdvancedTeamItem(context, memberLimit))
-                                .addItem(FunPopItemFactory.getDivideLineItem(context))
-                                .addItem(FunPopItemFactory.getAddFriendItem(context))
-                                .addItem(FunPopItemFactory.getDivideLineItem(context))
-                                .addItem(FunPopItemFactory.getScanItem(context))
-                                .enableShadow(false)
-                                .backgroundRes(R.drawable.fun_conversation_view_pop_bg)
-                                .build();
-                contentListPopView.showAsDropDown(
-                        v, (int) requireContext().getResources().getDimension(R.dimen.pop_margin_right), 0);
+//                int memberLimit = ConversationUIConstant.MAX_TEAM_MEMBER;
+//                ContentListPopView contentListPopView =
+//                        new ContentListPopView.Builder(context)
+//                                .addItem(FunPopItemFactory.getCreateAdvancedTeamItem(context, memberLimit))
+//                                .addItem(FunPopItemFactory.getDivideLineItem(context))
+//                                .addItem(FunPopItemFactory.getAddFriendItem(context))
+//                                .addItem(FunPopItemFactory.getDivideLineItem(context))
+//                                .addItem(FunPopItemFactory.getScanItem(context))
+//                                .enableShadow(false)
+//                                .backgroundRes(R.drawable.fun_conversation_view_pop_bg)
+//                                .build();
+//                contentListPopView.showAsDropDown(
+//                        v, (int) requireContext().getResources().getDimension(R.dimen.pop_margin_right), 0);
+                MoreFunctionsBottomDialog dialog = new MoreFunctionsBottomDialog()
+                        .setBadgeCount(0) // 设置扫一扫角标数量，0 或负数表示隐藏
+                        .setOnFunctionClickListener(functionType -> {
+                            switch (functionType) {
+                                case 1: // 建群聊
+                                    // 处理建群聊逻辑
+                                    EventBus.getDefault().post(new BaseEvent("gotoCreate"));
+                                    break;
+                                case 2: // 加好友
+                                    // 处理加好友逻辑
+                                    XKitRouter.withKey(PATH_FUN_ADD_FRIEND_PAGE).withContext(context).navigate();
+                                    break;
+                                case 3: // 扫一扫
+                                    EventBus.getDefault().post(new BaseEvent("gotoScan"));
+                                    // 处理扫一扫逻辑
+                                    break;
+                            }
+                        });
+                dialog.show(getChildFragmentManager());
             }
         });
     }
