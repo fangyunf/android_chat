@@ -17,11 +17,13 @@ import com.yaoxin.appbase.R;
 public class IconTitleArrowTemplate_1 extends LinearLayout {
     public TextView rightTv;
     public ImageView rightIv;
+
     public IconTitleArrowTemplate_1(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        init(context,attrs);
+        init(context, attrs);
     }
-    private void init(Context context,@Nullable AttributeSet attrs) {
+
+    private void init(Context context, @Nullable AttributeSet attrs) {
         // Inflate the XML layout
         LayoutInflater.from(context).inflate(R.layout.icon_title_arrow_template_1, this, true);
         TextView titleTv = findViewById(R.id.icon_title_arrow_template_title_tv);
@@ -34,7 +36,7 @@ public class IconTitleArrowTemplate_1 extends LinearLayout {
         if (attrs != null) {
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.IconTitleArrowTemplate);
             String titleTvText = a.getString(R.styleable.IconTitleArrowTemplate_titleText);
-            boolean hiddenIv = a.getBoolean(R.styleable.IconTitleArrowTemplate_hideImg,false);
+            boolean hiddenIv = a.getBoolean(R.styleable.IconTitleArrowTemplate_hideImg, false);
 
             Drawable customImage = a.getDrawable(R.styleable.IconTitleArrowTemplate_leftImg);
 //            int bgColor = a
@@ -43,8 +45,7 @@ public class IconTitleArrowTemplate_1 extends LinearLayout {
 //                            Color.WHITE);
             int textColor = a
                     .getColor(
-                            R.styleable.IconTitleArrowTemplate_textColor,
-                            Color.WHITE);
+                            R.styleable.IconTitleArrowTemplate_textColor, Color.BLACK);
             a.recycle();
 
             // Apply custom attributes to views

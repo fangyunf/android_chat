@@ -6,9 +6,12 @@
     </declare-styleable>
     <declare-styleable name="IconTitleArrowTemplate">
         <attr name="leftImg" format="reference" />
+        <attr name="hideImg" format="boolean" />
         <attr name="titleText" format="string" />
-
+        <attr name="bgColor" format="color|reference" />
+        <attr name="textColor" format="color|reference" />
     </declare-styleable>
+
     <declare-styleable name="ActionSheet">
         <attr name="actionSheetBackground" format="color|reference" />
         <attr name="cancelButtonBackground" format="color|reference" />
@@ -94,8 +97,8 @@
         <attr name="zpb_show_second_progress" format="boolean" />
         <attr name="zpb_second_progress" format="integer" />
         <attr name="zpb_show_second_point_shape" format="enum">
-            <enum name="point" value="0"/>
-            <enum name="line" value="1"/>
+            <enum name="point" value="0" />
+            <enum name="line" value="1" />
         </attr>
         <attr name="zpb_open_gradient" format="boolean" />
         <attr name="zpb_gradient_from" format="color|reference" />
@@ -103,15 +106,15 @@
         <attr name="zpb_open_second_gradient" format="boolean" />
         <attr name="zpb_second_gradient_from" format="color|reference" />
         <attr name="zpb_second_gradient_to" format="color|reference" />
-        <attr name="zpb_show_mode" format="enum" >
-            <enum name="round" value="0"/>
-            <enum name="rect" value="1"/>
-            <enum name="round_rect" value="2"/>
+        <attr name="zpb_show_mode" format="enum">
+            <enum name="round" value="0" />
+            <enum name="rect" value="1" />
+            <enum name="round_rect" value="2" />
         </attr>
-        <attr name="zpb_round_rect_radius" format="dimension|reference"/>
-        <attr name="zpb_draw_border" format="boolean"/>
-        <attr name="zpb_border_width" format="dimension|reference"/>
-        <attr name="zpb_border_color" format="color|reference"/>
+        <attr name="zpb_round_rect_radius" format="dimension|reference" />
+        <attr name="zpb_draw_border" format="boolean" />
+        <attr name="zpb_border_width" format="dimension|reference" />
+        <attr name="zpb_border_color" format="color|reference" />
 
     </declare-styleable>
 </resources>

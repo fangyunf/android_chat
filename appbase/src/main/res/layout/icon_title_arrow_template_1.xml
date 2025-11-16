@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/icon_title_arrow_template_ll"
     android:layout_width="match_parent"
-    android:layout_height="56dp"
+    android:layout_height="50dp"
     android:background="@color/color_white"
     android:gravity="center_vertical"
     android:orientation="horizontal"

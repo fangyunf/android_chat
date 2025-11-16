@@ -53,14 +53,14 @@
                         android:id="@+id/fun_conversation_fragment_search_iv"
                         android:layout_marginHorizontal="10dp"
                         android:src="@drawable/conversation_list_index_notice_icon"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"/>
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"/>
                     <ImageView
+                        android:layout_marginLeft="@dimen/dimen_10_dp"
                         android:id="@+id/fun_conversation_fragment_more_iv"
-
                         android:src="@drawable/conversation_index_pop_more"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"/>
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"/>
                 </LinearLayout>
             </LinearLayout>
 

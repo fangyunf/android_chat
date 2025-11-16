@@ -88,6 +88,7 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
     List<UserBean> verifyList = new ArrayList<>();
 
     int _selectIndex = 0;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -103,11 +104,11 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
         binding.contactNewFragmentNewFriendLl.setOnClickListener(this);
         binding.contactNewFragmentSearchIv.setOnClickListener(this);
         binding.contactNewFragmentMoreIv.setOnClickListener(this);
+        binding.contactNewFragmentXiaozhushou.setOnClickListener(this);
         _initViews();
         _requestData();
         return binding.getRoot();
     }
-
 
 
     @Override
@@ -198,9 +199,10 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                        Type type = new TypeToken<List<GroupInfoBean>>() {}.getType();
+                        Type type = new TypeToken<List<GroupInfoBean>>() {
+                        }.getType();
 
-                        groupListDataList = new Gson().fromJson(body.data.toString(),type);
+                        groupListDataList = new Gson().fromJson(body.data.toString(), type);
                         if (_selectIndex == 1) {
                             binding.contactNewFragmentRv.setAdapter(groupListAdapter);
                             groupListAdapter.setItems(groupListDataList);
@@ -220,7 +222,7 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        NetData listData = new Gson().fromJson(body.data.toString(),NetData.class);
+                        NetData listData = new Gson().fromJson(body.data.toString(), NetData.class);
                         Gson gson = new Gson();
                         verifyList =
                                 gson.fromJson(new Gson().toJson(listData.data), new TypeToken<List<UserBean>>() {
@@ -270,8 +272,8 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
                 UserBean bean = baseQuickAdapter.getItem(i);
                 bean.page_type = 100;
                 HashMap map = new HashMap();
-                map.put("user",new Gson().toJson(bean));
-                FunAddFriendVerifyActivity.start(FunAddFriendVerifyActivity.class,that,map);
+                map.put("user", new Gson().toJson(bean));
+                FunAddFriendVerifyActivity.start(FunAddFriendVerifyActivity.class, that, map);
             }
         });
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener<GroupInfoBean>() {
@@ -307,18 +309,18 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
         adapter.addOnItemChildClickListener(R.id.contact_index_headview_3_ll, new BaseQuickAdapter.OnItemChildClickListener<GroupInfoBean>() {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<GroupInfoBean, ?> baseQuickAdapter, @NonNull View view, int i) {
-            XKitRouter.withKey(RouterConstant.PATH_FUN_MY_NOTIFICATION_PAGE)
-                    .withContext(requireContext())
-                    .navigate();
+                XKitRouter.withKey(RouterConstant.PATH_FUN_MY_NOTIFICATION_PAGE)
+                        .withContext(requireContext())
+                        .navigate();
             }
         });
         adapter.addOnItemChildClickListener(R.id.contact_index_headview_4_ll, new BaseQuickAdapter.OnItemChildClickListener<GroupInfoBean>() {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<GroupInfoBean, ?> baseQuickAdapter, @NonNull View view, int i) {
-            XKitRouter.withKey(RouterConstant.PATH_FUN_MY_NOTIFICATION_PAGE)
-                    .withParam("type","1")
-                    .withContext(requireContext())
-                    .navigate();
+                XKitRouter.withKey(RouterConstant.PATH_FUN_MY_NOTIFICATION_PAGE)
+                        .withParam("type", "1")
+                        .withContext(requireContext())
+                        .navigate();
             }
         });
         adapter.addOnItemChildClickListener(R.id.contact_index_headview_5_ll, new BaseQuickAdapter.OnItemChildClickListener<GroupInfoBean>() {
@@ -327,7 +329,7 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
 //                XKitRouter.withKey(Constant.XiaoZhuShouActivityKey)
 //                        .withContext(requireContext())
 //                        .navigate();
-                SystemNotice_NewActivity.start(SystemNotice_NewActivity.class,requireContext(),null);
+                SystemNotice_NewActivity.start(SystemNotice_NewActivity.class, requireContext(), null);
             }
         });
 
@@ -354,16 +356,17 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        if (v == binding.contactNewFragmentFriendTv) {
+
+        if (v == binding.contactNewFragmentXiaozhushou) {
+
+        } else if (v == binding.contactNewFragmentFriendTv) {
             resetState();
             binding.contactNewFragmentFriendTv.setSelected(true);
-
             _selectIndex = 0;
             binding.contactNewFragmentMainSideBar.setVisibility(View.VISIBLE);
             binding.contactNewFragmentRv.setAdapter(adapter);
             adapter.setItems(mContactModels);
             adapter.notifyDataSetChanged();
-
         } else if (v == binding.contactNewFragmentGroupTv) {
             resetState();
             _selectIndex = 1;
@@ -376,8 +379,7 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
             resetState();
             binding.contactNewFragmentNewFriendTv.setSelected(true);
             binding.contactNewFragmentNewFriendNumTv.setVisibility(View.GONE);
-
-
+            
             binding.contactNewFragmentRv.setAdapter(verifyAdapter);
             verifyAdapter.setItems(verifyList);
             verifyAdapter.notifyDataSetChanged();
@@ -405,6 +407,6 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
 
     public void setContactCallback(IContactCallback contactCallback) {
         this.contactCallback = contactCallback;
-        this.contactCallback.updateUnreadCount(applyNumBean.friendApplyNum+applyNumBean.groupApplyNum);
+        this.contactCallback.updateUnreadCount(applyNumBean.friendApplyNum + applyNumBean.groupApplyNum);
     }
 }
