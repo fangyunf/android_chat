@@ -15,9 +15,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.animation.ObjectAnimator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
@@ -108,6 +110,13 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
         binding.contactNewFragmentXiaozhushou.setOnClickListener(this);
         _initViews();
         _requestData();
+        // 初始化指示器位置（延迟执行，确保布局完成）
+        binding.getRoot().post(new Runnable() {
+            @Override
+            public void run() {
+                updateIndicatorPosition(0);
+            }
+        });
         return binding.getRoot();
     }
 
@@ -368,6 +377,7 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
             binding.contactNewFragmentRv.setAdapter(adapter);
             adapter.setItems(mContactModels);
             adapter.notifyDataSetChanged();
+            updateIndicatorPosition(0);
         } else if (v == binding.contactNewFragmentGroupTv) {
             resetState();
             _selectIndex = 1;
@@ -375,6 +385,7 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
             binding.contactNewFragmentRv.setAdapter(groupListAdapter);
             groupListAdapter.setItems(groupListDataList);
             groupListAdapter.notifyDataSetChanged();
+            updateIndicatorPosition(1);
         } else if (v == binding.contactNewFragmentNewFriendLl) {
             _selectIndex = 2;
             resetState();
@@ -384,6 +395,7 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
             binding.contactNewFragmentRv.setAdapter(verifyAdapter);
             verifyAdapter.setItems(verifyList);
             verifyAdapter.notifyDataSetChanged();
+            updateIndicatorPosition(2);
 
         } else if (v == binding.contactNewFragmentSearchIv) {
             XKitRouter.withKey("SearchNewActivity")
@@ -404,6 +416,60 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
         binding.contactNewFragmentFriendTv.setSelected(false);
         binding.contactNewFragmentGroupTv.setSelected(false);
         binding.contactNewFragmentNewFriendTv.setSelected(false);
+    }
+
+    /**
+     * 更新指示器位置
+     *
+     * @param index 选中的 tab 索引：0-好友列表，1-群组列表，2-新的好友
+     */
+    private void updateIndicatorPosition(int index) {
+        ImageView indicator = binding.contactNewFragmentIndicatorIv;
+        View targetView;
+
+        switch (index) {
+            case 0:
+                targetView = binding.contactNewFragmentFriendTv;
+                break;
+            case 1:
+                targetView = binding.contactNewFragmentGroupTv;
+                break;
+            case 2:
+                // 对于新的好友，使用整个 LinearLayout 来计算中心位置
+                targetView = binding.contactNewFragmentNewFriendLl;
+                break;
+            default:
+                targetView = binding.contactNewFragmentFriendTv;
+                break;
+        }
+
+        // 确保 View 已经布局完成
+        if (targetView.getWidth() == 0) {
+            targetView.post(() -> updateIndicatorPosition(index));
+            return;
+        }
+
+        // 获取目标 View 的中心 X 坐标（相对于父容器）
+        // 使用 getLeft() + getWidth()/2 来计算中心点
+        float targetCenterX = targetView.getLeft() + targetView.getWidth() / 2f;
+
+        // 获取指示器宽度
+        indicator.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+        int indicatorWidth = indicator.getMeasuredWidth();
+
+        // 计算指示器应该移动到的位置（居中到目标 View）
+        // 指示器初始位置在父容器中心（layout_centerHorizontal="true"），所以 translationX=0 时在中心
+        // 要移动到目标位置，需要计算：目标中心 - 父容器中心
+        ViewGroup parent = (ViewGroup) indicator.getParent();
+        float parentCenterX = parent.getWidth() / 2f;
+        // 指示器左边缘应该对齐到 targetCenterX - indicatorWidth/2
+        // 由于指示器初始在 parentCenterX，所以偏移量是 targetCenterX - parentCenterX
+        float targetX = targetCenterX - parentCenterX;
+
+        // 使用动画移动指示器
+        ObjectAnimator animator = ObjectAnimator.ofFloat(indicator, "translationX", indicator.getTranslationX(), targetX);
+        animator.setDuration(300);
+        animator.start();
     }
 
     public void setContactCallback(IContactCallback contactCallback) {
