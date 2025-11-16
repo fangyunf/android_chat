@@ -16,6 +16,7 @@ import com.yaoxin.appbase.model.UserBean;
 public class MyLiangHaoListAdapter extends BaseQuickAdapter<Integer, QuickViewHolder> {
 
     public Integer selectNumber = 0;
+
     @Override
     protected void onBindViewHolder(@NonNull QuickViewHolder quickViewHolder, int i, @Nullable Integer orderListBean) {
         TextView phoneTv = quickViewHolder.getView(R.id.item_mine_fuhao_list_cell_tv);

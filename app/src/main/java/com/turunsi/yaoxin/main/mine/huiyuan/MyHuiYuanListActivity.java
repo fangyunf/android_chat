@@ -4,22 +4,24 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.chad.library.adapter4.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.netease.yunxin.kit.common.utils.SizeUtils;
+import com.turunsi.yaoxin.R;
 import com.turunsi.yaoxin.databinding.ActivityMineMyFuhaoListBinding;
 import com.turunsi.yaoxin.databinding.ActivityMineMyHuiyuanListBinding;
 import com.turunsi.yaoxin.main.mine.fuhao.BuyFeatureActivity;
 import com.turunsi.yaoxin.main.mine.fuhao.adapter.MyFuHaoListAdapter;
+import com.turunsi.yaoxin.main.mine.huiyuan.adapter.HuiYuanCardPagerAdapter;
 import com.turunsi.yaoxin.main.mine.huiyuan.adapter.MyHuiYuanListAdapter;
 import com.turunsi.yaoxin.main.mine.huiyuan.adapter.MyLiangHaoListAdapter;
 import com.yaoxin.appbase.activity.BaseActivity;
@@ -56,10 +58,9 @@ public class MyHuiYuanListActivity extends BaseActivity implements View.OnClickL
     ActivityMineMyHuiyuanListBinding binding;
 
     MyLiangHaoListAdapter adapter = new MyLiangHaoListAdapter();
-    MyHuiYuanListAdapter topAdapter = new MyHuiYuanListAdapter();
+    HuiYuanCardPagerAdapter cardPagerAdapter = new HuiYuanCardPagerAdapter();
 
     HuiYuanBean dataBean = new HuiYuanBean();
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -92,68 +93,78 @@ public class MyHuiYuanListActivity extends BaseActivity implements View.OnClickL
     }
 
     void cardInit() {
-
-
-        RecyclerView recyclerView = binding.activityMineMyHuiyuanListTopRv;
-
-        // 设置水平线性布局
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        recyclerView.setLayoutManager(layoutManager);
-
+        ViewPager2 viewPager = binding.activityMineMyHuiyuanListTopVp;
+        
         // 设置适配器
-        recyclerView.setAdapter(topAdapter);
-
-        // 添加 LinearSnapHelper，让每次滑动后卡片居中
-        LinearSnapHelper snapHelper = new LinearSnapHelper();
-        snapHelper.attachToRecyclerView(recyclerView);
-
-        topAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener<HuiYuanBean>() {
-            @Override
-            public void onClick(@NonNull BaseQuickAdapter<HuiYuanBean, ?> baseQuickAdapter, @NonNull View view, int i) {
-
-                // 现在 position 是居中的 item 的位置
-                adapter.setItems(dataBean.list.get(i).memberCode);
-                adapter.selectNumber = 0;
-                dataBean.currentIndex = i;
-                adapter.notifyDataSetChanged();
-                binding.activityMineMyHuiyuanListIntroduceTv.setText("以下是" + dataBean.list.get(i).memberConfig.productName);
-            }
+        viewPager.setAdapter(cardPagerAdapter);
+        
+        // 设置页面间距
+        viewPager.setPageTransformer((page, position) -> {
+            float scale = 0.85f + (1 - Math.abs(position)) * 0.15f;
+            page.setScaleX(scale);
+            page.setScaleY(scale);
         });
-        // 设置卡片左右间距
-        recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+        
+        // 设置页面变化监听
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
-            public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
-                int position = parent.getChildAdapterPosition(view);
-                int offset = 16; // 每张卡片的间距
-
-                // 设置第一个卡片的左边距和最后一个卡片的右边距
-                if (position == 0) {
-                    outRect.left = offset * 2;
-                } else {
-                    outRect.left = offset;
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                if (dataBean.list != null && position < dataBean.list.size()) {
+                    adapter.setItems(dataBean.list.get(position).memberCode);
+                    adapter.selectNumber = 0;
+                    dataBean.currentIndex = position;
+                    adapter.notifyDataSetChanged();
+                    binding.activityMineMyHuiyuanListIntroduceTv.setText("以下是" + dataBean.list.get(position).memberConfig.productName);
+                    updateIndicator(position);
                 }
-                outRect.right = offset;
             }
         });
-        // 监听 RecyclerView 滚动以获取当前居中的项目
-//        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//            @Override
-//            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-//                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-//                    // 当滚动停止时
-//                    View centerView = snapHelper.findSnapView(layoutManager);
-//                    if (centerView != null) {
-//                        int i = layoutManager.getPosition(centerView);
-//                        // 现在 position 是居中的 item 的位置
-//                        adapter.setItems(dataBean.list.get(i).memberCode);
-//                        adapter.selectNumber = 0;
-//                        dataBean.currentIndex = i;
-//                        adapter.notifyDataSetChanged();
-//                        binding.activityMineMyHuiyuanListIntroduceTv.setText("以下是" + dataBean.list.get(i).memberConfig.productName);
-//                    }
-//                }
-//            }
-//        });
+        
+        // 初始化指示器
+        initIndicator();
+    }
+    
+    /**
+     * 初始化页面指示器
+     */
+    private void initIndicator() {
+        if (dataBean.list == null || dataBean.list.isEmpty()) {
+            return;
+        }
+        LinearLayout indicatorLayout = binding.activityMineMyHuiyuanListIndicatorLl;
+        indicatorLayout.removeAllViews();
+        
+        for (int i = 0; i < dataBean.list.size(); i++) {
+            View indicator = new View(this);
+            int size = SizeUtils.dp2px(6);
+            int margin = SizeUtils.dp2px(4);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(size, size);
+            params.setMargins(margin, 0, margin, 0);
+            indicator.setLayoutParams(params);
+            indicator.setBackgroundResource(R.drawable.bg_indicator_unselected);
+            indicatorLayout.addView(indicator);
+        }
+        
+        // 设置第一个为选中状态
+        if (indicatorLayout.getChildCount() > 0) {
+            indicatorLayout.getChildAt(0).setBackgroundResource(R.drawable.bg_indicator_selected);
+        }
+    }
+    
+    /**
+     * 更新页面指示器
+     */
+    private void updateIndicator(int selectedPosition) {
+        LinearLayout indicatorLayout = binding.activityMineMyHuiyuanListIndicatorLl;
+        for (int i = 0; i < indicatorLayout.getChildCount(); i++) {
+            View indicator = indicatorLayout.getChildAt(i);
+            if (i == selectedPosition) {
+                indicator.setBackgroundResource(R.drawable.bg_indicator_selected);
+            } else {
+                indicator.setBackgroundResource(R.drawable.bg_indicator_unselected);
+            }
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -178,12 +189,12 @@ public class MyHuiYuanListActivity extends BaseActivity implements View.OnClickL
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
                         dataBean = new Gson().fromJson(body.data.toString(), HuiYuanBean.class);
-                        topAdapter.setItems(dataBean.list);
+                        cardPagerAdapter.setDataList(dataBean.list);
                         adapter.setItems(dataBean.list.get(0).memberCode);
                         binding.activityMineMyHuiyuanListIntroduceTv.setText("以下是" + dataBean.list.get(0).memberConfig.productName);
 
-                        topAdapter.notifyDataSetChanged();
                         adapter.notifyDataSetChanged();
+                        initIndicator();
 
                     }
 

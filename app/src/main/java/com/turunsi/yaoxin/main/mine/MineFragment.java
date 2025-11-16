@@ -45,6 +45,7 @@ import com.turunsi.yaoxin.main.mine.collection.CollectionListActivity;
 import com.turunsi.yaoxin.main.mine.fragment.AccountCodeDialogFragment;
 import com.turunsi.yaoxin.main.mine.fuhao.BuyGroupFeatureActivity;
 import com.turunsi.yaoxin.main.mine.fuhao.MyFuHaoListActivity;
+import com.turunsi.yaoxin.main.mine.huiyuan.MyHuiYuanListActivity;
 import com.turunsi.yaoxin.main.mine.order.OrderListActivity;
 import com.turunsi.yaoxin.main.mine.purse.PurseIndexActivity;
 import com.turunsi.yaoxin.main.mine.purse.pwdmanager.PursePwdManagerSetActivity;
@@ -334,66 +335,67 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 //            SettingNewActivity.start(SettingNewActivity.class,getContext(),null);
         } else if (v == binding.fragmentMineHyzxView || v == binding.fragmentMineGotoUpgradeTv) {
             Activity that = getActivity();
+            MyHuiYuanListActivity.start(MyHuiYuanListActivity.class, requireContext(), null);
 
-            if ("1".equals(DataUtil.getUserInfo().hy)) {
-                ToastUtils.toastMsg("已经是会员");
-            } else {
-
-                DialogAlertUtil.showAlert("确定购买会员\n成为会员后砸蛋中奖几率翻倍，更有机会获得彩蛋", new DialogAlertUtil.DialogAlertUtilCallBack() {
-                    @Override
-                    public void clickType(int type) {
-                        if (type == 1) {
-                            HttpUtil.apiW().caidan_huiYuanJia(new RegisterBean())
-                                    .enqueue(new CommonCallback<NetData>() {
-                                        @Override
-                                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-
-                                            CustomMsgBean msgBean = new Gson().fromJson(body.data.toString(), CustomMsgBean.class);
-                                            String moneyStr = NumberUtil.formartMoney_zhengshu(msgBean.price);
-
-                                            PopEnterPassword popEnterPassword = new PopEnterPassword(that, new OnPasswordInputFinish() {
-                                                @Override
-                                                public void inputFinish(String password) {
-
-                                                    HttpUtil.apiW().caidan_gmHuiYuan(new RegisterBean())
-                                                            .enqueue(new CommonCallback<NetData>() {
-                                                                @Override
-                                                                public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-
-                                                                    ToastUtils.toastMsg("购买成功");
-                                                                    UserBean userInfo = DataUtil.getUserInfo();
-                                                                    userInfo.hy = "1";
-                                                                    DataUtil.putUserInfo(userInfo);
-
-                                                                }
-
-                                                                @Override
-                                                                public void Failure(Call<NetData> call, Throwable t) {
-
-                                                                }
-                                                            });
-
-                                                }
-                                            }, moneyStr);
-
-                                            // 显示窗口
-                                            popEnterPassword.showAtLocation(binding.fragmentMineRootCl,
-                                                    Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); // 设置layout在PopupWindow中显示的位置
-
-
-                                        }
-
-                                        @Override
-                                        public void Failure(Call<NetData> call, Throwable t) {
-
-                                        }
-                                    });
-
-                        }
-                    }
-                }, getActivity().getSupportFragmentManager());
-
-            }
+//            if ("1".equals(DataUtil.getUserInfo().hy)) {
+//                ToastUtils.toastMsg("已经是会员");
+//            } else {
+//
+//                DialogAlertUtil.showAlert("确定购买会员\n成为会员后砸蛋中奖几率翻倍，更有机会获得彩蛋", new DialogAlertUtil.DialogAlertUtilCallBack() {
+//                    @Override
+//                    public void clickType(int type) {
+//                        if (type == 1) {
+//                            HttpUtil.apiW().caidan_huiYuanJia(new RegisterBean())
+//                                    .enqueue(new CommonCallback<NetData>() {
+//                                        @Override
+//                                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+//
+//                                            CustomMsgBean msgBean = new Gson().fromJson(body.data.toString(), CustomMsgBean.class);
+//                                            String moneyStr = NumberUtil.formartMoney_zhengshu(msgBean.price);
+//
+//                                            PopEnterPassword popEnterPassword = new PopEnterPassword(that, new OnPasswordInputFinish() {
+//                                                @Override
+//                                                public void inputFinish(String password) {
+//
+//                                                    HttpUtil.apiW().caidan_gmHuiYuan(new RegisterBean())
+//                                                            .enqueue(new CommonCallback<NetData>() {
+//                                                                @Override
+//                                                                public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+//
+//                                                                    ToastUtils.toastMsg("购买成功");
+//                                                                    UserBean userInfo = DataUtil.getUserInfo();
+//                                                                    userInfo.hy = "1";
+//                                                                    DataUtil.putUserInfo(userInfo);
+//
+//                                                                }
+//
+//                                                                @Override
+//                                                                public void Failure(Call<NetData> call, Throwable t) {
+//
+//                                                                }
+//                                                            });
+//
+//                                                }
+//                                            }, moneyStr);
+//
+//                                            // 显示窗口
+//                                            popEnterPassword.showAtLocation(binding.fragmentMineRootCl,
+//                                                    Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); // 设置layout在PopupWindow中显示的位置
+//
+//
+//                                        }
+//
+//                                        @Override
+//                                        public void Failure(Call<NetData> call, Throwable t) {
+//
+//                                        }
+//                                    });
+//
+//                        }
+//                    }
+//                }, getActivity().getSupportFragmentManager());
+//
+//            }
 
 //            XKitRouter.withKey(com.yaoxin.appbase.net.Constant.BaseWebViewActivityKey)
 //                    .withParam("type","3")

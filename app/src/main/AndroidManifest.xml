@@ -242,6 +242,7 @@
         <activity android:name=".main.mine.purse.alipay.BindAlipayActivity" />
         <activity android:name=".main.mine.account.Mine_Pwd_Set_ManagerActivity" />
         <activity android:name="com.netease.yunxin.kit.chatkit.ui.fun.page.FunSendZhuanZhangActivity" />
+        <activity android:name=".main.mine.huiyuan.MyHuiYuanListActivity" />
 
         <!-- 云信 NIM SDK 进程间通信provider-->
         <provider
