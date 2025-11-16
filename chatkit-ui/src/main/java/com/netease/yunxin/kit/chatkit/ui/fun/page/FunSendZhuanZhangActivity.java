@@ -49,6 +49,7 @@ public class FunSendZhuanZhangActivity extends BaseActivity implements View.OnCl
     private GroupInfoBean groupInfoBean;
 
     ArrayList<GroupInfoBean> userList = new ArrayList<>();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +70,7 @@ public class FunSendZhuanZhangActivity extends BaseActivity implements View.OnCl
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        UserBean bean = new Gson().fromJson(body.data.toString(),UserBean.class);
+                        UserBean bean = new Gson().fromJson(body.data.toString(), UserBean.class);
                         binding.activityFunSendRedPacketBalanceTv.setText(NumberUtil.formartMoney(bean.balance));
                     }
 
@@ -122,7 +123,7 @@ public class FunSendZhuanZhangActivity extends BaseActivity implements View.OnCl
                     // 设置过滤后的文本
                     binding.activityFunSendRedPacketMoneyEt.setText(cleanedInput.toString());
                     binding.activityFunSendRedPacketMoneyEt.setSelection(cleanedInput.length());
-                    formattedValue =  String.format("%.2f", Double.parseDouble(cleanedInput.toString()));
+                    formattedValue = String.format("%.2f", Double.parseDouble(cleanedInput.toString()));
                 } else {
                     if (!input.isEmpty()) {
                         formattedValue = String.format("%.2f", Double.parseDouble(input));
@@ -187,7 +188,7 @@ public class FunSendZhuanZhangActivity extends BaseActivity implements View.OnCl
                 public void inputFinish(String password) {
                     sendRedWithPwd(password);
                 }
-            },moneyStr);
+            }, moneyStr);
             // 显示窗口
             popEnterPassword.showAtLocation(binding.activityFunSendRedPacketLl,
                     Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); // 设置layout在PopupWindow中显示的位置
@@ -218,7 +219,6 @@ public class FunSendZhuanZhangActivity extends BaseActivity implements View.OnCl
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-
                         ToastUtils.toastMsg("发送成功");
                         finish();
                     }
@@ -229,6 +229,7 @@ public class FunSendZhuanZhangActivity extends BaseActivity implements View.OnCl
                     }
                 });
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

@@ -101,10 +101,10 @@
         <!--        <meta-data-->
         <!--            android:name="com.netease.nim.appKey"-->
         <!--            android:value="abef316f1b6c48ed36aa5135cdaf86c0" />-->
-        
-<!--        <meta-data-->
-<!--            android:name="com.netease.nim.appKey"-->
-<!--            android:value="35ecfac3fea53f25155b6258d76b8fc2" />-->
+
+        <!--        <meta-data-->
+        <!--            android:name="com.netease.nim.appKey"-->
+        <!--            android:value="35ecfac3fea53f25155b6258d76b8fc2" />-->
 
         <meta-data
             android:name="com.netease.nim.appKey"
@@ -241,6 +241,7 @@
         <activity android:name=".main.mine.account.AccountDetailActivity" />
         <activity android:name=".main.mine.purse.alipay.BindAlipayActivity" />
         <activity android:name=".main.mine.account.Mine_Pwd_Set_ManagerActivity" />
+        <activity android:name="com.netease.yunxin.kit.chatkit.ui.fun.page.FunSendZhuanZhangActivity" />
 
         <!-- 云信 NIM SDK 进程间通信provider-->
         <provider
