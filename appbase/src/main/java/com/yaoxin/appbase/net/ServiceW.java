@@ -526,4 +526,7 @@ public interface ServiceW {
             @Body RegisterBean userBean
     );
 
+    @POST("/meteor/list")
+    Call<NetData> meteor_list();
+
 }
