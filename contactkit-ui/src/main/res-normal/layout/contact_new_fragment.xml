@@ -53,13 +53,14 @@
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:src="@mipmap/conversation_index_pop_search" />
-
-                    <ImageView
+                    
+                    <com.makeramen.roundedimageview.RoundedImageView
                         android:id="@+id/contact_new_fragment_xiaozhushou"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_marginLeft="@dimen/dimen_20_dp"
-                        android:src="@mipmap/app_default_base_icon_xiaozhushou" />
+                        android:src="@mipmap/app_default_base_icon_xiaozhushou"
+                        app:riv_corner_radius="15dp" />
 
                     <ImageView
                         android:id="@+id/contact_new_fragment_more_iv"

@@ -234,6 +234,11 @@ public class MessageBottomLayout extends FrameLayout
         });
     }
 
+    public View getOpt4() {
+        return mBinding.funChatMessageBottomViewOpt4;
+    }
+
+
     public FunChatMessageBottomViewBinding getViewBinding() {
         return mBinding;
     }
