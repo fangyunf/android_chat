@@ -19,29 +19,28 @@ import com.netease.yunxin.kit.chatkit.ui.model.ChatMessageBean;
 
 public class ChatRedPacketMessageViewHolder extends NormalChatBaseMessageViewHolder {
 
-  protected NormalChatMessageRedPacketViewHolderBinding viewBinding;
+    protected NormalChatMessageRedPacketViewHolderBinding viewBinding;
 
-  public ChatRedPacketMessageViewHolder(
-      @NonNull ChatBaseMessageViewHolderBinding parent, int viewType) {
-    super(parent, viewType);
-  }
+    public ChatRedPacketMessageViewHolder(
+            @NonNull ChatBaseMessageViewHolderBinding parent, int viewType) {
+        super(parent, viewType);
+    }
 
-  @Override
-  protected void addViewToMessageContainer() {
-    viewBinding =
-            NormalChatMessageRedPacketViewHolderBinding.inflate(
-            LayoutInflater.from(parent.getContext()), getMessageContainer(), true);
-  }
+    @Override
+    protected void addViewToMessageContainer() {
+        viewBinding = NormalChatMessageRedPacketViewHolderBinding.inflate(
+                LayoutInflater.from(parent.getContext()), getMessageContainer(), true);
+    }
 
-  @Override
-  public void bindData(ChatMessageBean message, ChatMessageBean lastMessage) {
-    super.bindData(message, lastMessage);
-    if (message != null
-        && message.getMessageData() != null
-        && message.getMessageData().getMessage().getAttachment() instanceof RichTextAttachment) {
-      RichTextAttachment attachment =
-          (RichTextAttachment) message.getMessageData().getMessage().getAttachment();
-      if (attachment != null) {
+    @Override
+    public void bindData(ChatMessageBean message, ChatMessageBean lastMessage) {
+        super.bindData(message, lastMessage);
+        if (message != null
+                && message.getMessageData() != null
+                && message.getMessageData().getMessage().getAttachment() instanceof RichTextAttachment) {
+            RichTextAttachment attachment =
+                    (RichTextAttachment) message.getMessageData().getMessage().getAttachment();
+            if (attachment != null) {
 //        viewBinding.messageTitle.setText(attachment.title);
 //        if (TextUtils.isEmpty(attachment.body)) {
 //          viewBinding.messageContent.setVisibility(View.GONE);
@@ -53,7 +52,7 @@ public class ChatRedPacketMessageViewHolder extends NormalChatBaseMessageViewHol
 //              attachment.body,
 //              message.getMessageData().getMessage());
 //        }
-      }
+            }
+        }
     }
-  }
 }
