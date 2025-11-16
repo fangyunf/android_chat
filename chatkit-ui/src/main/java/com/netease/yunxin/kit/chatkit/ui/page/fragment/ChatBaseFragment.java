@@ -659,7 +659,16 @@ public abstract class ChatBaseFragment extends BaseFragment {
                   .navigate();
         }
 
-        @Override
+          @Override
+          public void sendZhuanZhang() {
+              if (getSessionType() == SessionTypeEnum.P2P) {
+                  HashMap map = new HashMap();
+                  map.put("sessionId",getSessionId());
+                  FunSendZhuanZhangActivity.start(FunSendZhuanZhangActivity.class,getContext(),map);
+              }
+          }
+
+          @Override
         public void sendRedPacket() {
 
           if (getSessionType() == SessionTypeEnum.P2P) {

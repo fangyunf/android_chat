@@ -5,49 +5,58 @@
 package com.netease.yunxin.kit.chatkit.ui.interfaces;
 
 import android.view.View;
+
 import com.netease.nimlib.sdk.msg.attachment.MsgAttachment;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.yunxin.kit.chatkit.ui.model.ChatMessageBean;
+
 import java.io.File;
 
-/** handle message event in Chat page */
+/**
+ * handle message event in Chat page
+ */
 public interface IMessageProxy {
-  boolean sendTextMessage(String msg, ChatMessageBean replyMsg);
+    boolean sendTextMessage(String msg, ChatMessageBean replyMsg);
 
-  boolean sendRichTextMessage(String title, String content, ChatMessageBean replyMsg);
+    boolean sendRichTextMessage(String title, String content, ChatMessageBean replyMsg);
 
-  void pickMedia();
+    void pickMedia();
 
-  void takePicture();
+    void takePicture();
 
-  void captureVideo();
+    void captureVideo();
 
-  boolean sendFile();
+    boolean sendFile();
 
-  boolean sendAudio(File audioFile, long audioLength, ChatMessageBean replyMsg);
+    boolean sendAudio(File audioFile, long audioLength, ChatMessageBean replyMsg);
 
-  boolean sendCustomMessage(MsgAttachment attachment, String content);
+    boolean sendCustomMessage(MsgAttachment attachment, String content);
 
-  void onTypeStateChange(boolean isTyping);
+    void onTypeStateChange(boolean isTyping);
 
-  boolean hasPermission(String permission);
+    boolean hasPermission(String permission);
 
-  void onCustomAction(View view, String action);
+    void onCustomAction(View view, String action);
 
-  boolean onActionClick(View view, String action);
+    boolean onActionClick(View view, String action);
 
-  boolean onMultiActionClick(View view, String action);
+    boolean onMultiActionClick(View view, String action);
 
-  void sendLocationLaunch();
+    void sendLocationLaunch();
 
-  void videoCall();
+    void videoCall();
 
-  void audioCall();
-  void sendRedPacket();
-  void sendMingPian();
-  void sendShouCang();
+    void audioCall();
 
-  String getSessionId();
+    void sendRedPacket();
 
-  SessionTypeEnum getSessionType();
+    void sendMingPian();
+
+    void sendShouCang();
+
+    void sendZhuanZhang();
+
+    String getSessionId();
+
+    SessionTypeEnum getSessionType();
 }
