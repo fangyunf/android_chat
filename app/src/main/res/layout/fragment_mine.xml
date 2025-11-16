@@ -10,21 +10,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:src="@mipmap/jinzita_common_page_bg"
+        app:layout_constraintStart_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="fitXY"
-                android:src="@mipmap/jinzita_common_page_bg"
-                app:layout_constraintTop_toTopOf="parent" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -195,6 +196,24 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:layout_marginTop="@dimen/dimen_16_dp"
+                    android:background="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.yaoxin.appbase.view.IconTitleArrowTemplate
+                        android:id="@+id/fragment_mine_ltsz_view"
+                        android:layout_width="0dp"
+                        android:layout_height="64dp"
+                        android:layout_columnWeight="1"
+                        app:leftImg="@mipmap/mine_index_item_ltsz"
+                        app:titleText="聊天设置" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="15dp"
@@ -219,13 +238,13 @@
                         android:paddingBottom="10dp"
                         android:rowCount="2">
 
-                        <com.yaoxin.appbase.view.IconTitleArrowTemplate
-                            android:id="@+id/fragment_mine_ltsz_view"
-                            android:layout_width="0dp"
-                            android:layout_height="64dp"
-                            android:layout_columnWeight="1"
-                            app:leftImg="@mipmap/mine_index_item_ltsz"
-                            app:titleText="聊天设置" />
+<!--                        <com.yaoxin.appbase.view.IconTitleArrowTemplate-->
+<!--                            android:id="@+id/fragment_mine_ltsz_view"-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="64dp"-->
+<!--                            android:layout_columnWeight="1"-->
+<!--                            app:leftImg="@mipmap/mine_index_item_ltsz"-->
+<!--                            app:titleText="聊天设置" />-->
 
                         <com.yaoxin.appbase.view.IconTitleArrowTemplate
                             android:id="@+id/fragment_mine_ysgl_view"
