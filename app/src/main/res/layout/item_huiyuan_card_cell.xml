@@ -3,7 +3,6 @@
     android:id="@+id/item_huiyuan_card_cell_bg_ll"
     android:layout_width="79dp"
     android:layout_height="37dp"
-    android:background="@mipmap/mine_huiyuan_top_bg_1"
     android:orientation="vertical"
     android:padding="16dp">
 
