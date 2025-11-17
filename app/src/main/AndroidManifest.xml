@@ -106,9 +106,13 @@
         <!--            android:name="com.netease.nim.appKey"-->
         <!--            android:value="35ecfac3fea53f25155b6258d76b8fc2" />-->
 
+        <!--        <meta-data-->
+        <!--            android:name="com.netease.nim.appKey"-->
+        <!--            android:value="3e6f6c038d4700297edeed2ffe683376" />-->
+
         <meta-data
             android:name="com.netease.nim.appKey"
-            android:value="3e6f6c038d4700297edeed2ffe683376" />
+            android:value="35ecfac3fea53f25155b6258d76b8fc2" />
 
         <meta-data
             android:name="com.amap.api.v2.apikey"
