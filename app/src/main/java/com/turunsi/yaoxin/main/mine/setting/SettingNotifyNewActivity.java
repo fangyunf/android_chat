@@ -55,7 +55,7 @@ public class SettingNotifyNewActivity extends BaseActivity {
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        UserBean userBean = new Gson().fromJson(body.data.toString(),UserBean.class);
+                        UserBean userBean = new Gson().fromJson(body.data.toString(), UserBean.class);
                         if (userBean != null) {
                             initView(userBean);
                         }
@@ -72,6 +72,7 @@ public class SettingNotifyNewActivity extends BaseActivity {
         viewBinding.activityMineSettingNotifyCell1.viewTitleArrowTv.setText("新消息通知");
         viewBinding.activityMineSettingNotifyCell1.viewTitleArrowRightTvSwitch.setVisibility(View.VISIBLE);
         viewBinding.activityMineSettingNotifyCell1.viewTitleArrowArrowIv.setVisibility(View.GONE);
+        viewBinding.activityMineSettingNotifyCell1.viewTitleArrowLl.setVisibility(View.GONE);
 
         viewBinding.activityMineSettingNotifyCell2.viewTitleArrowTv.setText("声音");
         viewBinding.activityMineSettingNotifyCell2.viewTitleArrowRightTvSwitch.setVisibility(View.VISIBLE);
@@ -116,13 +117,13 @@ public class SettingNotifyNewActivity extends BaseActivity {
     void updateStatus(int type) {
         RegisterBean registerBean = new RegisterBean();
         if (type == 1) {
-            registerBean.allDisturb = viewBinding.activityMineSettingNotifyCell1.viewTitleArrowRightTvSwitch.isSelected() ? "0":"1";
+            registerBean.allDisturb = viewBinding.activityMineSettingNotifyCell1.viewTitleArrowRightTvSwitch.isSelected() ? "0" : "1";
         }
         if (type == 2) {
-            registerBean.sound = viewBinding.activityMineSettingNotifyCell2.viewTitleArrowRightTvSwitch.isSelected() ? "0":"1";
+            registerBean.sound = viewBinding.activityMineSettingNotifyCell2.viewTitleArrowRightTvSwitch.isSelected() ? "0" : "1";
         }
         if (type == 3) {
-            registerBean.shake = viewBinding.activityMineSettingNotifyCell3.viewTitleArrowRightTvSwitch.isSelected() ? "0":"1";
+            registerBean.shake = viewBinding.activityMineSettingNotifyCell3.viewTitleArrowRightTvSwitch.isSelected() ? "0" : "1";
         }
         HttpUtil.apiW().home_soundSwitch(registerBean)
                 .enqueue(new CommonCallback<NetData>() {
@@ -131,17 +132,17 @@ public class SettingNotifyNewActivity extends BaseActivity {
                         ToastUtils.toastMsg(body.msg);
                         if (type == 1) {
 //                            NIMClient.toggleNotification("1".equals(registerBean.allDisturb));
-                        } else if (type == 2)  {
+                        } else if (type == 2) {
 
                             StatusBarNotificationConfig config = NimSDKOptionConfig.loadStatusBarNotificationConfig();
 
-                            config.ring = !viewBinding.activityMineSettingNotifyCell2.viewTitleArrowRightTvSwitch.isSelected() ;
-                            config.vibrate = viewBinding.activityMineSettingNotifyCell3.viewTitleArrowRightTvSwitch.isSelected() ;
+                            config.ring = !viewBinding.activityMineSettingNotifyCell2.viewTitleArrowRightTvSwitch.isSelected();
+                            config.vibrate = viewBinding.activityMineSettingNotifyCell3.viewTitleArrowRightTvSwitch.isSelected();
                             NIMClient.updateStatusBarNotificationConfig(config);
-                        } else if (type == 3)  {
+                        } else if (type == 3) {
                             StatusBarNotificationConfig config = NimSDKOptionConfig.loadStatusBarNotificationConfig();
-                            config.ring = viewBinding.activityMineSettingNotifyCell2.viewTitleArrowRightTvSwitch.isSelected() ;
-                            config.vibrate = !viewBinding.activityMineSettingNotifyCell3.viewTitleArrowRightTvSwitch.isSelected() ;
+                            config.ring = viewBinding.activityMineSettingNotifyCell2.viewTitleArrowRightTvSwitch.isSelected();
+                            config.vibrate = !viewBinding.activityMineSettingNotifyCell3.viewTitleArrowRightTvSwitch.isSelected();
                             NIMClient.updateStatusBarNotificationConfig(config);
                         }
                         _requestData();
@@ -154,6 +155,7 @@ public class SettingNotifyNewActivity extends BaseActivity {
                     }
                 });
     }
+
     void updatConfig() {
 
     }
