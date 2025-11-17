@@ -14,16 +14,16 @@ public class Constant {
 //    public static final String ENCODE_KEY = "frxsecretpadding";
 //    public static final String MSG_ENCODE_KEY = "carefullanimchat";
 
-//    public static final String BASE_URL = "http://anjuxtaids0w1.163-yunxin-api.com:17117/";
-//    public static final String BASE_URL_H5 = "http://anjuxtaids0w1.163-yunxin-api.com:17117";
-//    public static final String ENCODE_KEY = "wesecretpaddingg";
-//    public static final String MSG_ENCODE_KEY = "wallstreetimchat";
+    public static final String BASE_URL = "http://anjuxtaids0w1.163-yunxin-api.com:17117/";
+    public static final String BASE_URL_H5 = "http://anjuxtaids0w1.163-yunxin-api.com:17117";
+    public static final String ENCODE_KEY = "wesecretpaddingg";
+    public static final String MSG_ENCODE_KEY = "wallstreetimchat";
 
 
-    public static final String BASE_URL = "http://tirsome.zhblock.com/";
-    public static final String BASE_URL_H5 = "http://tirsome.zhblock.com";
-    public static final String ENCODE_KEY = "B7cLd9gFqZpX4hVy";
-    public static final String MSG_ENCODE_KEY = "B7cLd9gFqZpX4hVy";
+//    public static final String BASE_URL = "http://tirsome.zhblock.com/";
+//    public static final String BASE_URL_H5 = "http://tirsome.zhblock.com";
+//    public static final String ENCODE_KEY = "B7cLd9gFqZpX4hVy";
+//    public static final String MSG_ENCODE_KEY = "B7cLd9gFqZpX4hVy";
 
 //    public static final String BASE_URL = "http://cskz.sixeight.cn/";
 //    public static final String BASE_URL_H5 = "http://cskz.sixeight.cn";
