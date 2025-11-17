@@ -148,13 +148,11 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
             bean.zfbUrl = aliPayBean.usdt;
             bean.userUsdtId = aliPayBean.id + "";
         } else if (payType.equals("wxpay")) {
-
             bean.zfbNo = wxPayBean.phone;
             bean.name = wxPayBean.name;
             bean.zfbUrl = wxPayBean.usdt;
-            bean.userUsdtId = wxPayBean.id +"";
+            bean.userUsdtId = wxPayBean.id + "";
         } else if (payType.equals("yhkpay")) {
-
             bean.zfbNo = yhkPayBean.phone;
             bean.name = yhkPayBean.name;
             bean.zfbUrl = yhkPayBean.usdt;
