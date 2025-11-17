@@ -100,6 +100,13 @@
 
             android:layout_height="wrap_content" />
 
+        <include
+            android:id="@+id/activity_mine_bind_kaihu_name"
+            layout="@layout/view_top_title_et"
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content" />
+
         <LinearLayout
             android:id="@+id/activity_mine_bind_alipay_upload_ll"
             android:layout_width="match_parent"
