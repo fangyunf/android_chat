@@ -540,4 +540,9 @@ public interface ServiceW {
             @Body RequestParams1Bean userBean
     );
 
+    @POST("/pay/gsPay")
+    Call<NetData> pay_gsPay(
+            @Body RequestParamsBean userBean
+    );
+
 }
