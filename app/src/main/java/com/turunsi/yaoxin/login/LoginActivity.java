@@ -50,7 +50,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     boolean isAgree = false;
 
     int _type = 0;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +80,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         binding.activityLoginTf3.viewTitleTfCountEt.setTransformationMethod(PasswordTransformationMethod.getInstance());
 
 
+
         CountDownView mCountDownView = binding.activityLoginTf2.viewTitleTfCountCaptcha;
         mCountDownView.setUserEdit(binding.activityLoginTf1.viewTitleTfCountEt);
         mCountDownView.setCountDownTime(60);
@@ -102,8 +102,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 //            binding.activityLoginTf3.viewTitleTfCountEt.setText("shaoli111");
 
 //            148913963  697845074
-            binding.activityLoginTf1.viewTitleTfCountEt.setText("13100000099");
-            binding.activityLoginTf3.viewTitleTfCountEt.setText("x8831082");
+            binding.activityLoginTf1.viewTitleTfCountEt.setText("13761543036");
+            binding.activityLoginTf3.viewTitleTfCountEt.setText("a1234567");
         }
     }
 
@@ -143,7 +143,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 //            binding.activityLoginTitleIv.setImageResource(R.mipmap.common_login_title_forget);
         }
     }
-
     @Override
     public void onClick(View v) {
 //        if (v == binding.activityLoginIsAgreeLl) {
@@ -169,7 +168,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 binding.activityLoginTf3.viewTitleTfCountEt.setTransformationMethod(null);
 
             }
-        } else if (v == binding.activityLoginForgetTv) {
+        }
+        else if (v == binding.activityLoginForgetTv) {
 //            ForgetPwdActivity.start(ForgetPwdActivity.class, this, null);
             if (_type == 0) {
                 changeTitleWithType(2);
@@ -206,16 +206,16 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 bean.phoneNo = phone;
                 bean.password = pwd;
                 Activity that = this;
-                LoadingDialog.showDialog(getSupportFragmentManager(), "登陆中");
+                LoadingDialog.showDialog(getSupportFragmentManager(),"登陆中");
                 HttpUtil.apiW().customer_login(bean)
                         .enqueue(new CommonCallback<NetData>() {
                             @Override
                             public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                                UserBean userBean = new Gson().fromJson((String) body.data, UserBean.class);
+                                UserBean userBean = new Gson().fromJson((String) body.data,UserBean.class);
                                 DataUtil.putUserInfo(userBean);
                                 DataUtil.putToken(userBean.token);
                                 DataUtil.addLoginUserInfoList(userBean);
-                                IMUtil.loginIM(that, userBean.userId, userBean.imToken);
+                                IMUtil.loginIM(that,userBean.userId,userBean.imToken);
                             }
 
                             @Override
@@ -226,9 +226,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                     if (exception.getErrCode() == 601) {
 
                                         HashMap map = new HashMap<>();
-                                        map.put("type", "0");
-                                        map.put("phone", phone);
-                                        OtherPlaceLoginActivity.start(OtherPlaceLoginActivity.class, that, map);
+                                        map.put("type","0");
+                                        map.put("phone",phone);
+                                        OtherPlaceLoginActivity.start(OtherPlaceLoginActivity.class,that,map);
 //                                        OtherPlaceLoginFragment fragment = new OtherPlaceLoginFragment();
 //                                        fragment.showNow(getSupportFragmentManager(),"OtherPlaceLoginFragment");
                                     }
@@ -269,17 +269,17 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 registerBean.clientType = Constant.clientType;
 
                 Activity that = this;
-                LoadingDialog.showDialog(getSupportFragmentManager(), "注册中");
+                LoadingDialog.showDialog(getSupportFragmentManager(),"注册中");
 
                 HttpUtil.apiW().customer_register(registerBean)
                         .enqueue(new CommonCallback<NetData>() {
                             @Override
                             public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                                UserBean userBean = new Gson().fromJson((String) body.data, UserBean.class);
+                                UserBean userBean = new Gson().fromJson((String) body.data,UserBean.class);
                                 DataUtil.putUserInfo(userBean);
                                 DataUtil.putToken(userBean.token);
-                                IMUtil.loginIM(that, userBean.userId, userBean.imToken);
-                                SPUtils.getInstance().put("isRegister", true);
+                                IMUtil.loginIM(that,userBean.userId,userBean.imToken);
+                                SPUtils.getInstance().put("isRegister",true);
                             }
 
                             @Override
