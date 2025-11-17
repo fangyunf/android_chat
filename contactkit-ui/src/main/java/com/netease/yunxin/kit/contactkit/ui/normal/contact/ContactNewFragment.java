@@ -22,6 +22,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
@@ -76,21 +78,33 @@ import retrofit2.Response;
  */
 public class ContactNewFragment extends BaseFragment implements View.OnClickListener {
     private final String TAG = "ContactFragment";
-    private ContactNewFragmentBinding binding;
-    private ContactEntranceBean verifyBean;
+    protected IContactCallback contactCallback;
     ArrayList<GroupInfoBean> mContactModels = new ArrayList<>();
     ContactUserListAdapter adapter = new ContactUserListAdapter();
-    protected IContactCallback contactCallback;
     GroupInfoBean applyNumBean = new GroupInfoBean();
-
     GroupListAdapter groupListAdapter = new GroupListAdapter();
     List<GroupInfoBean> groupListDataList = new ArrayList<>();
-
     NewFriendListAdapter verifyAdapter = new NewFriendListAdapter();
-
     List<UserBean> verifyList = new ArrayList<>();
-
     int _selectIndex = 0;
+    private ContactNewFragmentBinding binding;
+    private ContactEntranceBean verifyBean;
+    private ActivityResultLauncher<Intent> verifyLauncher;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        verifyLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        loadApplyNum();
+                        if (_selectIndex == 2) {
+                            loadVerifyList();
+                        }
+                    }
+                });
+    }
 
     @Nullable
     @Override
@@ -119,16 +133,16 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
         });
         return binding.getRoot();
     }
-
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        _requestData();
-    }
-
+    
     @Override
     protected void _requestData() {
+        loadFriendList();
+        loadApplyNum();
+        loadGroupList();
+        loadVerifyList();
+    }
+
+    private void loadFriendList() {
         HttpUtil.apiW().friends_friendList(new RegisterBean())
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
@@ -169,7 +183,9 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
 
                     }
                 });
+    }
 
+    private void loadApplyNum() {
         HttpUtil.apiW().friends_applyListNum(new RegisterBean())
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
@@ -186,12 +202,6 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
                         } else {
                             binding.contactNewFragmentNewFriendNumTv.setVisibility(View.GONE);
                         }
-//                        if (applyNumBean.groupApplyNum > 0) {
-//                            binding.contactNewFragmentGroupNoticeTv.setText(applyNumBean.groupApplyNum + "");
-//                            binding.contactNewFragmentGroupNoticeTv.setVisibility(View.VISIBLE);
-//                        } else {
-//                            binding.contactNewFragmentGroupNoticeTv.setVisibility(View.GONE);
-//                        }
                         if (contactCallback != null) {
                             contactCallback.updateUnreadCount(applyNumBean.friendApplyNum);
                         }
@@ -203,7 +213,9 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
 
                     }
                 });
+    }
 
+    private void loadGroupList() {
         HttpUtil.apiW().group_userGroups(new RegisterBean())
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
@@ -225,7 +237,9 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
 
                     }
                 });
+    }
 
+    private void loadVerifyList() {
         RegisterBean bean = new RegisterBean();
         bean.pageNo = "0";
         HttpUtil.apiW().friends_applyList(bean)
@@ -281,9 +295,7 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
             public void onClick(@NonNull BaseQuickAdapter<UserBean, ?> baseQuickAdapter, @NonNull View view, int i) {
                 UserBean bean = baseQuickAdapter.getItem(i);
                 bean.page_type = 100;
-                HashMap map = new HashMap();
-                map.put("user", new Gson().toJson(bean));
-                FunAddFriendVerifyActivity.start(FunAddFriendVerifyActivity.class, that, map);
+                launchVerifyDetail(bean);
             }
         });
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener<GroupInfoBean>() {
@@ -378,6 +390,7 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
             adapter.setItems(mContactModels);
             adapter.notifyDataSetChanged();
             updateIndicatorPosition(0);
+            loadFriendList();
         } else if (v == binding.contactNewFragmentGroupTv) {
             resetState();
             _selectIndex = 1;
@@ -386,16 +399,18 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
             groupListAdapter.setItems(groupListDataList);
             groupListAdapter.notifyDataSetChanged();
             updateIndicatorPosition(1);
+            loadGroupList();
         } else if (v == binding.contactNewFragmentNewFriendLl) {
             _selectIndex = 2;
             resetState();
             binding.contactNewFragmentNewFriendTv.setSelected(true);
-            binding.contactNewFragmentNewFriendNumTv.setVisibility(View.GONE);
 
             binding.contactNewFragmentRv.setAdapter(verifyAdapter);
             verifyAdapter.setItems(verifyList);
             verifyAdapter.notifyDataSetChanged();
             updateIndicatorPosition(2);
+            loadApplyNum();
+            loadVerifyList();
 
         } else if (v == binding.contactNewFragmentSearchIv) {
             XKitRouter.withKey("SearchNewActivity")
@@ -475,5 +490,11 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
     public void setContactCallback(IContactCallback contactCallback) {
         this.contactCallback = contactCallback;
         this.contactCallback.updateUnreadCount(applyNumBean.friendApplyNum + applyNumBean.groupApplyNum);
+    }
+
+    private void launchVerifyDetail(UserBean bean) {
+        Intent intent = new Intent(requireContext(), FunAddFriendVerifyActivity.class);
+        intent.putExtra("user", new Gson().toJson(bean));
+        verifyLauncher.launch(intent);
     }
 }

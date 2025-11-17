@@ -382,37 +382,37 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
         } else if (v == binding.activityMinePurseTixianAllTixianTv) {
             binding.activityMinePurseTixianMoneyEt.setText(accountMoeny);
         } else if (v == binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgLl || v == binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt) {
-
-//            DialogAlertUtil.showSheetView(this, getSupportFragmentManager(), new String[]{"支付宝", "微信", "银行卡"}, new DialogAlertUtil.DialogAlertUtilCallBack() {
-//                @Override
-//                public void clickType(int type) {
-//                    if (type == 1) {
-//                        if (aliPayBean != null) {
-//                            binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setText("支付宝:" + aliPayBean.phone);
-//                        } else {
-//                            ToastUtils.toastMsg("请绑定支付宝账号");
-//                            return;
-//                        }
-//                        payType = "alipay";
-//                    } else if (type == 2) {
-//                        if (wxPayBean != null) {
-//                            binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setText("微信:" + wxPayBean.phone);
-//                        } else {
-//                            ToastUtils.toastMsg("请绑定微信账号");
-//                            return;
-//                        }
-//                        payType = "wxpay";
-//                    } else if (type == 3) {
-//                        if (yhkPayBean != null) {
-//                            binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setText("银行卡:" + yhkPayBean.phone);
-//                        } else {
-//                            ToastUtils.toastMsg("请绑定银行卡账号");
-//                            return;
-//                        }
-//                        payType = "yhkpay";
-//                    }
-//                }
-//            });
+//            , "微信", "银行卡"
+            DialogAlertUtil.showSheetView(this, getSupportFragmentManager(), new String[]{"支付宝"}, new DialogAlertUtil.DialogAlertUtilCallBack() {
+                @Override
+                public void clickType(int type) {
+                    if (type == 1) {
+                        if (aliPayBean != null) {
+                            binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setText("支付宝:" + aliPayBean.phone);
+                        } else {
+                            ToastUtils.toastMsg("请绑定支付宝账号");
+                            return;
+                        }
+                        payType = "alipay";
+                    } else if (type == 2) {
+                        if (wxPayBean != null) {
+                            binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setText("微信:" + wxPayBean.phone);
+                        } else {
+                            ToastUtils.toastMsg("请绑定微信账号");
+                            return;
+                        }
+                        payType = "wxpay";
+                    } else if (type == 3) {
+                        if (yhkPayBean != null) {
+                            binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setText("银行卡:" + yhkPayBean.phone);
+                        } else {
+                            ToastUtils.toastMsg("请绑定银行卡账号");
+                            return;
+                        }
+                        payType = "yhkpay";
+                    }
+                }
+            });
         }
     }
 

@@ -1,5 +1,6 @@
 package com.netease.yunxin.kit.contactkit.ui.fun.addfriend;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 
@@ -96,6 +97,7 @@ public class FunAddFriendVerifyActivity extends BaseActivity implements View.OnC
                         @Override
                         public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                             ToastUtils.toastMsg(body.msg);
+                            setResult(Activity.RESULT_OK);
                             finish();
                         }
 
@@ -123,6 +125,7 @@ public class FunAddFriendVerifyActivity extends BaseActivity implements View.OnC
                         @Override
                         public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                             ToastUtils.toastMsg(body.msg);
+                            setResult(Activity.RESULT_OK);
                             finish();
                         }
 
@@ -142,6 +145,7 @@ public class FunAddFriendVerifyActivity extends BaseActivity implements View.OnC
                         @Override
                         public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                             ToastUtils.toastMsg(body.msg);
+                            setResult(Activity.RESULT_OK);
                             finish();
                         }
 

@@ -82,7 +82,8 @@
                     android:gravity="center"
                     android:text="充值"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/text_size_15" />
+                    android:textSize="@dimen/text_size_15"
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/activity_mine_purse_index_recharge_tv2"
@@ -91,12 +92,10 @@
                     android:layout_marginLeft="15dp"
                     android:background="@drawable/bg_app_theme_color_rounded_10"
                     android:gravity="center"
-                    android:text="充值2"
+                    android:text="充值"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/text_size_15"
-                    android:visibility="gone" />
-
-
+                    android:textSize="@dimen/text_size_15" />
+                
             </LinearLayout>
 
         </LinearLayout>

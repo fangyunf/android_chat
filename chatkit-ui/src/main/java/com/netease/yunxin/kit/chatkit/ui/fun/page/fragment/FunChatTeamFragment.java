@@ -190,35 +190,35 @@ public class FunChatTeamFragment extends FunChatFragment {
     }
 
     void _requestCaiData() {
-        RegisterBean registerBean = new RegisterBean();
-        registerBean.groupId = sessionID;
-        HttpUtil.apiW().caidan_groupCaidan(registerBean)
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        Type type = new TypeToken<List<CustomMsgBean>>() {
-                        }.getType();
-                        List<CustomMsgBean> tempList = new Gson().fromJson(body.data.toString(), type);
-                        if (tempList == null || tempList.isEmpty()) {
-                            viewBinding.chatView.getChatViewFunLayoutBinding().funChatViewEggLl.setVisibility(View.GONE);
-                            return;
-                        }
-                        int totalMoney = 0;
-                        for (CustomMsgBean tempBean : tempList) {
-                            totalMoney += Integer.parseInt(tempBean.amount);
-                        }
-                        viewBinding.chatView.getChatViewFunLayoutBinding().funChatViewEggLl.setVisibility(View.VISIBLE);
-                        viewBinding.chatView.getChatViewFunLayoutBinding().funChatViewEggLl.setOnClickListener(v -> {
-                            ChatEggOpenDialogFragment.showV(getActivity().getSupportFragmentManager(), tempList.get(0));
-                        });
-                        viewBinding.chatView.getChatViewFunLayoutBinding().funChatViewEggTitleTv.setText(tempList.size() + "个彩蛋\n共" + NumberUtil.formartMoney_zhengshu(totalMoney + "") + "元");
-                    }
-
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
-
-                    }
-                });
+//        RegisterBean registerBean = new RegisterBean();
+//        registerBean.groupId = sessionID;
+//        HttpUtil.apiW().caidan_groupCaidan(registerBean)
+//                .enqueue(new CommonCallback<NetData>() {
+//                    @Override
+//                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+//                        Type type = new TypeToken<List<CustomMsgBean>>() {
+//                        }.getType();
+//                        List<CustomMsgBean> tempList = new Gson().fromJson(body.data.toString(), type);
+//                        if (tempList == null || tempList.isEmpty()) {
+//                            viewBinding.chatView.getChatViewFunLayoutBinding().funChatViewEggLl.setVisibility(View.GONE);
+//                            return;
+//                        }
+//                        int totalMoney = 0;
+//                        for (CustomMsgBean tempBean : tempList) {
+//                            totalMoney += Integer.parseInt(tempBean.amount);
+//                        }
+//                        viewBinding.chatView.getChatViewFunLayoutBinding().funChatViewEggLl.setVisibility(View.VISIBLE);
+//                        viewBinding.chatView.getChatViewFunLayoutBinding().funChatViewEggLl.setOnClickListener(v -> {
+//                            ChatEggOpenDialogFragment.showV(getActivity().getSupportFragmentManager(), tempList.get(0));
+//                        });
+//                        viewBinding.chatView.getChatViewFunLayoutBinding().funChatViewEggTitleTv.setText(tempList.size() + "个彩蛋\n共" + NumberUtil.formartMoney_zhengshu(totalMoney + "") + "元");
+//                    }
+//
+//                    @Override
+//                    public void Failure(Call<NetData> call, Throwable t) {
+//
+//                    }
+//                });
     }
 
     private void refreshView() {
