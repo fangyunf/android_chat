@@ -11,9 +11,9 @@
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 3,
-      "versionName": "1.1.0",
-      "outputFile": "mayixiaosi_release_v1.1.0.apk"
+      "versionCode": 4,
+      "versionName": "1.1.1",
+      "outputFile": "mayixiaosi_release_v1.1.1.apk"
     }
   ],
   "elementType": "File"
