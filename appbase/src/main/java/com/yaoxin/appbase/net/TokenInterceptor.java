@@ -53,7 +53,7 @@ public class TokenInterceptor implements Interceptor {
                 builder.addHeader("phone", DataUtil.getUserInfo().phoneNo);
             }
             builder.addHeader("deviceId", DeviceUtils.getDeviceId(AppProxy.getInstance().getContext()));
-            builder.addHeader("user-agent", DeviceUtils.getDeviceName());
+            builder.addHeader("user-agent", DeviceUtils.getDeviceName() + "=" + "Android" + Build.VERSION.RELEASE + "=Android");
             // 创建新的请求
             Request newRequest = builder
                     .method(original.method(), newRequestBody)
@@ -68,7 +68,7 @@ public class TokenInterceptor implements Interceptor {
             requestBuilder.addHeader("phone", DataUtil.getUserInfo().phoneNo);
         }
         requestBuilder.addHeader("deviceId", DeviceUtils.getDeviceId(AppProxy.getInstance().getContext()));
-        requestBuilder.addHeader("user-agent", DeviceUtils.getDeviceName());
+        requestBuilder.addHeader("user-agent", DeviceUtils.getDeviceName() + "=" + Build.VERSION.RELEASE + "=Android");
         original = requestBuilder.build();
         return chain.proceed(original);
     }

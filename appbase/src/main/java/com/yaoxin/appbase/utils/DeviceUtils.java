@@ -425,6 +425,6 @@ public class DeviceUtils {
         String brand = Build.BRAND;        // 品牌，如：Xiaomi、Samsung、Huawei
         String model = Build.MODEL;        // 型号，如：Mi 10、SM-G975F、P40 Pro
         String manufacturer = Build.MANUFACTURER; // 制造商，如：Xiaomi、samsung、HUAWEI
-        return brand + " " + model;
+        return brand + "/" + model;
     }
 }

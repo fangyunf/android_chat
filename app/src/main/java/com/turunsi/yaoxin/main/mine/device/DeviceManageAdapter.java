@@ -37,7 +37,7 @@ public class DeviceManageAdapter extends BaseQuickAdapter<DeviceInfoBean, QuickV
         TextView tvLoginTime = quickViewHolder.getView(R.id.tvLoginTime);
         TextView tvDelete = quickViewHolder.getView(R.id.tvDelete);
         TextView tvJIzi = quickViewHolder.getView(R.id.tvJIzi);
-        tvTitle.setText(deviceInfoBean.ua);
+        tvTitle.setText(deviceInfoBean.getDeviceName());
         if (deviceInfoBean.deviceId.equals(DeviceUtils.getDeviceId(tvLoginTime.getContext()))) {
             tvLoginTime.setText("当前在线");
             tvJIzi.setVisibility(View.VISIBLE);
