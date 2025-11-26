@@ -19,6 +19,7 @@ import android.animation.ObjectAnimator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -122,6 +123,11 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
         binding.contactNewFragmentSearchIv.setOnClickListener(this);
         binding.contactNewFragmentMoreIv.setOnClickListener(this);
         binding.contactNewFragmentXiaozhushou.setOnClickListener(this);
+
+        FrameLayout.LayoutParams layoutParams1 = (FrameLayout.LayoutParams) binding.contactNewFragmentRv.getLayoutParams();
+        layoutParams.topMargin = BarUtils.getStatusBarHeight();
+        binding.contactNewFragmentRv.setLayoutParams(layoutParams1);
+
         _initViews();
         _requestData();
         // 初始化指示器位置（延迟执行，确保布局完成）
@@ -133,7 +139,7 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
         });
         return binding.getRoot();
     }
-    
+
     @Override
     protected void _requestData() {
         loadFriendList();
