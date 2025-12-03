@@ -68,7 +68,7 @@ public class TokenInterceptor implements Interceptor {
             requestBuilder.addHeader("phone", DataUtil.getUserInfo().phoneNo);
         }
         requestBuilder.addHeader("deviceId", DeviceUtils.getDeviceId(AppProxy.getInstance().getContext()));
-        requestBuilder.addHeader("user-agent", DeviceUtils.getDeviceName() + "=" + Build.VERSION.RELEASE + "=Android");
+        requestBuilder.addHeader("user-agent", DeviceUtils.getDeviceName() + "=" + "Android" + Build.VERSION.RELEASE + "=Android");
         original = requestBuilder.build();
         return chain.proceed(original);
     }
