@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layoutbg"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
+    android:background="@mipmap/icon_gour_buy1"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/item_group_grade_benefits_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:lineSpacingExtra="4dp"
+        android:text="群人数上限1000人\n靓号优惠3%\n商城优惠1%"
+        android:textColor="#AA795F"
+        android:textSize="12sp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/item_group_grade_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="VIP1"
+            android:textColor="#4A0D0C"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/item_group_grade_price_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimen_10_dp"
+            android:text="¥188/永久"
+            android:textColor="#FB4940"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+
+</LinearLayout>
+

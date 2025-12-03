@@ -135,9 +135,9 @@
                         android:orientation="vertical">
 
                         <LinearLayout
-
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical">
 
                             <TextView
                                 android:id="@+id/tvName"
@@ -298,7 +298,7 @@
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/dimen_50_dp"
+                            android:layout_marginLeft="@dimen/dimen_30_dp"
                             android:layout_weight="1"
                             android:orientation="vertical">
 
@@ -321,7 +321,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/dimen_10_dp"
-                            android:layout_marginRight="@dimen/dimen_40_dp"
+                            android:layout_marginRight="@dimen/dimen_20_dp"
                             android:background="@drawable/bg_fffffff_stork_4"
                             android:drawableRight="@mipmap/icon_right_white"
                             android:paddingHorizontal="4dp"

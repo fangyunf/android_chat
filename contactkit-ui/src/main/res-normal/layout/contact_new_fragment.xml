@@ -170,7 +170,6 @@
         </LinearLayout>
 
         <FrameLayout
-
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/main_search"
@@ -182,7 +181,7 @@
                 android:layout_height="match_parent"
                 android:background="@color/transparent" />
 
-            <!--字母导航栏-->
+            <!--字母导航栏（只在好友列表显示）-->
             <com.nanchen.wavesidebar.WaveSideBarView
                 android:id="@+id/contact_new_fragment_main_side_bar"
                 android:layout_width="match_parent"

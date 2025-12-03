@@ -271,8 +271,8 @@ public class MainActivity extends BaseActivity {
         //mConversationFragment1 = FunConversationFragment.newInstance(1);
         mContactFragment = new ContactNewFragment();
         fragments.add(mConversationFragment);
-        fragments.add(new FoundFragment());
         fragments.add(mContactFragment);
+        fragments.add(new FoundFragment());
         fragments.add(new MineFragment());
 //        fragments.add(mConversationFragment1);
         FragmentAdapter fragmentAdapter = new FragmentAdapter(this);
@@ -291,7 +291,7 @@ public class MainActivity extends BaseActivity {
         super.onResume();
         initContactFragment(mContactFragment);
         initConversationFragment(mConversationFragment);
-        initConversationFragment(mConversationFragment1);
+        //initConversationFragment(mConversationFragment1);
     }
 
     @Override
@@ -375,20 +375,20 @@ public class MainActivity extends BaseActivity {
                     }
 
                     if (conversationFragment == mConversationFragment) {
-                        if (singleChatUnreadCount > 0) {
+                        if ((singleChatUnreadCount + groupChatUnreadCount) > 0) {
                             activityMainBinding.conversationDot.setVisibility(View.VISIBLE);
                         } else {
                             activityMainBinding.conversationDot.setVisibility(View.GONE);
                         }
                     }
-                    if (conversationFragment == mConversationFragment1) {
-                        if (groupChatUnreadCount > 0) {
-                            activityMainBinding.conversationDot1.setVisibility(View.VISIBLE);
-                        } else {
-                            activityMainBinding.conversationDot1.setVisibility(View.GONE);
-
-                        }
-                    }
+//                    if (conversationFragment == mConversationFragment1) {
+//                        if (groupChatUnreadCount > 0) {
+//                            activityMainBinding.conversationDot1.setVisibility(View.VISIBLE);
+//                        } else {
+//                            activityMainBinding.conversationDot1.setVisibility(View.GONE);
+//
+//                        }
+//                    }
                 }
             });
         }
@@ -398,9 +398,9 @@ public class MainActivity extends BaseActivity {
         if (contactFragment != null) {
             contactFragment.setContactCallback(count -> {
                 if (count > 0) {
-                    activityMainBinding.contactDot.setVisibility(View.VISIBLE);
+                    activityMainBinding.conversationDot1.setVisibility(View.VISIBLE);
                 } else {
-                    activityMainBinding.contactDot.setVisibility(View.GONE);
+                    activityMainBinding.conversationDot1.setVisibility(View.GONE);
                 }
             });
         }

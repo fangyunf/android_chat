@@ -500,9 +500,11 @@ public interface ServiceW {
             @Body RegisterBean userBean
     );
 
-    //  好友列表
+    //  群等级列表
     @POST("/group/groupGrade")
-    Call<NetData> group_groupGrade();
+    Call<NetData> group_groupGrade(
+            @Body RegisterBean userBean
+    );
 
     //  群拉黑
     @POST("/group/addDeleteBlack")
