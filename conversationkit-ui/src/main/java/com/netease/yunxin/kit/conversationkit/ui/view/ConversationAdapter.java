@@ -139,6 +139,11 @@ public class ConversationAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 if (isShow) {
                     notifyItemInserted(insertIndex);
                 }
+            } else if (_type == 3) {
+                conversationList.add(insertIndex, data);
+                if (isShow) {
+                    notifyItemInserted(insertIndex);
+                }
             }
         }
         layoutManager.scrollToPosition(position);

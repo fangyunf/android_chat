@@ -150,6 +150,16 @@ public abstract class ConversationBaseFragment extends BaseFragment implements I
                                                 tempList.add(tempBean);
                                             }
                                             // tempList.add(tempBean);
+                                        } else if (_type == 3) {
+                                            if (tempBean.viewType == 1) {
+                                                String userid = DataUtil.getUserid();
+                                                String targetUserId = (String) tempBean.param;
+                                                if (!userid.equals(targetUserId)) {
+                                                    tempList.add(tempBean);
+                                                }
+                                            } else if (tempBean.viewType == 2) {
+                                                tempList.add(tempBean);
+                                            }
                                         }
                                     }
                                 }

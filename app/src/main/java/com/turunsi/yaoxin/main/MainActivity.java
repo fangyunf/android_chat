@@ -45,6 +45,7 @@ import com.turunsi.yaoxin.CustomConfig;
 import com.turunsi.yaoxin.IMApplication;
 import com.turunsi.yaoxin.R;
 import com.turunsi.yaoxin.databinding.ActivityMainBinding;
+import com.turunsi.yaoxin.fragment.FoundFragment;
 import com.turunsi.yaoxin.login.LoginActivity;
 import com.turunsi.yaoxin.main.mine.MineFragment;
 import com.turunsi.yaoxin.main.mine.setting.SettingNewActivity;
@@ -266,15 +267,14 @@ public class MainActivity extends BaseActivity {
         List<Fragment> fragments = new ArrayList<>();
 
         changeStatusBarColor(R.color.fun_page_bg_color);
-        mConversationFragment = FunConversationFragment.newInstance(0);
-        mConversationFragment1 = FunConversationFragment.newInstance(1);
+        mConversationFragment = FunConversationFragment.newInstance(3);
+        //mConversationFragment1 = FunConversationFragment.newInstance(1);
         mContactFragment = new ContactNewFragment();
-
         fragments.add(mConversationFragment);
-        fragments.add(mConversationFragment1);
+        fragments.add(new FoundFragment());
         fragments.add(mContactFragment);
         fragments.add(new MineFragment());
-
+//        fragments.add(mConversationFragment1);
         FragmentAdapter fragmentAdapter = new FragmentAdapter(this);
         fragmentAdapter.setFragmentList(fragments);
         activityMainBinding.viewPager.setUserInputEnabled(false);

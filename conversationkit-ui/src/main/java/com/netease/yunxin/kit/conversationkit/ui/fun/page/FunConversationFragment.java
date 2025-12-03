@@ -114,6 +114,8 @@ public class FunConversationFragment extends ConversationBaseFragment {
         initView();
         if (_type == 1) {
             viewBinding.funConversationFragmentTitleTv.setText("群聊");
+        } else if (_type == 3) {
+            viewBinding.funConversationFragmentTitleTv.setText("消息");
         } else {
             viewBinding.funConversationFragmentTitleTv.setText("对话");
         }
@@ -148,7 +150,7 @@ public class FunConversationFragment extends ConversationBaseFragment {
     @Override
     public void onPause() {
         super.onPause();
-        if (_type == 0) {
+        if (_type == 0 || _type == 3) {
             if (!AppProxy.searchKeyWord0.isEmpty()) {
                 viewBinding.funConversationFragmentEt.setText("");
                 AppProxy.searchKeyWord0 = "";
@@ -180,7 +182,7 @@ public class FunConversationFragment extends ConversationBaseFragment {
             @Override
             public void afterTextChanged(Editable s) {
                 String string = s.toString();
-                if (_type == 0) {
+                if (_type == 0 || _type == 3) {
                     AppProxy.getInstance().searchKeyWord0 = string;
                 } else {
                     AppProxy.getInstance().searchKeyWord1 = string;
@@ -266,9 +268,7 @@ public class FunConversationFragment extends ConversationBaseFragment {
 
                     }
                 });
-        if (_type == 1) {
-
-
+        if (_type == 1 || _type == 3) {
             HttpUtil.apiW().group_userGroups(new RegisterBean())
                     .enqueue(new CommonCallback<NetData>() {
                         @Override
@@ -300,8 +300,8 @@ public class FunConversationFragment extends ConversationBaseFragment {
                         }
                     });
         }
-        if (_type == 0) {
 
+        if (_type == 0 || _type == 3) {
             HttpUtil.apiW().customer_systemAppUser(new RegisterBean())
                     .enqueue(new CommonCallback<NetData>() {
                         @Override
@@ -502,7 +502,7 @@ public class FunConversationFragment extends ConversationBaseFragment {
         _initTopStatus(0);
         conversationView.setData(conversationList);
         // --- Add scrolling header for P2P tab (_type == 0) using ConcatAdapter ---
-        if (_type == 0) {
+        if (_type == 0 || _type == 3) {
             RecyclerView rv = conversationView.getRecyclerView();
             RecyclerView.Adapter<?> origin = conversationView.getAdapter();
             RecyclerView.Adapter<RecyclerView.ViewHolder> headerAdapter = new RecyclerView.Adapter<RecyclerView.ViewHolder>() {

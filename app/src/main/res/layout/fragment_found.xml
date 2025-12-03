@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2022 NetEase, Inc. All rights reserved.
+  ~ Use of this source code is governed by a MIT license that can be
+  ~ found in the LICENSE file.
+  -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_F2F2F2">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:src="@mipmap/jinzita_common_page_bg"
+        android:visibility="gone" />
+
+    <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:id="@+id/contact_new_fragment_top_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:paddingHorizontal="15dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:paddingRight="10dp">
+
+                <TextView
+                    android:id="@+id/fun_conversation_fragment_title_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="发现"
+                    android:textColor="@color/color_black"
+                    android:textSize="20sp" />
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_20_dp"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvDaymic"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_60_dp"
+                    android:drawableLeft="@mipmap/icon_a_x"
+                    android:drawableRight="@drawable/ic_frame_mine_right_arrow"
+                    android:drawablePadding="@dimen/text_size_10"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="@dimen/dimen_16_dp"
+                    android:text="动态"
+                    android:textColor="@color/color_black"
+                    android:textSize="16sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="@dimen/dimen_20_dp"
+                    android:background="#EFEFEF" />
+
+
+                <TextView
+                    android:id="@+id/tvSao"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_60_dp"
+                    android:drawableLeft="@mipmap/icon_a_s"
+                    android:drawableRight="@drawable/ic_frame_mine_right_arrow"
+                    android:drawablePadding="@dimen/text_size_10"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="@dimen/dimen_16_dp"
+                    android:text="扫一扫"
+                    android:textColor="@color/color_black"
+                    android:textSize="16sp" />
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/color_white"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/contact_new_fragment_friend_tv"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="好友列表"
+                android:textColor="@drawable/fun_common_text_color_selector"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/contact_new_fragment_group_tv"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="群组列表"
+                android:textColor="@drawable/fun_common_text_color_selector"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:id="@+id/contact_new_fragment_new_friend_ll"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+
+                android:gravity="center_vertical|center">
+
+                <TextView
+                    android:id="@+id/contact_new_fragment_new_friend_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="新的好友"
+                    android:textColor="@drawable/fun_common_text_color_selector"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/contact_new_fragment_new_friend_num_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="18dp"
+                    android:background="@drawable/fun_bg_red_rounded_9"
+                    android:gravity="center"
+                    android:minWidth="18dp"
+                    android:text=""
+                    android:textColor="@color/color_white"
+                    android:textSize="12sp"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -14,10 +14,18 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:background="@mipmap/app_mine_theme_new_bg"
+        android:layout_height="270dp"
+        android:background="@color/white"
         app:layout_constraintStart_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+
+    <!--    <ImageView-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="200dp"-->
+    <!--        android:background="@mipmap/app_mine_theme_new_bg"-->
+    <!--        app:layout_constraintStart_toEndOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent" />-->
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -73,16 +81,27 @@
                     android:gravity="center_vertical"
                     android:paddingHorizontal="15dp">
 
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1" />
-
                     <ImageView
                         android:id="@+id/fragment_mine_erweima_iv"
                         android:layout_width="@dimen/dimen_30_dp"
                         android:layout_height="@dimen/dimen_30_dp"
                         android:src="@mipmap/mine_index_erweima" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+
+                    <TextView
+                        android:id="@+id/tv_info"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_fffffff_stork_30"
+                        android:paddingHorizontal="@dimen/dimen_10_dp"
+                        android:paddingVertical="@dimen/dimen_5_dp"
+                        android:text="编辑"
+                        android:textColor="@color/black" />
 
 
                     <ImageView
@@ -90,13 +109,15 @@
                         android:layout_width="@dimen/dimen_24_dp"
                         android:layout_height="@dimen/dimen_24_dp"
                         android:layout_marginLeft="@dimen/dimen_20_dp"
-                        android:src="@mipmap/mine_index_shezhi_icon" />
+                        android:src="@mipmap/mine_index_shezhi_icon"
+                        android:visibility="gone" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
+                    android:gravity="center"
+                    android:orientation="vertical"
                     android:padding="@dimen/dimen_16_dp">
 
                     <com.netease.yunxin.kit.common.ui.widgets.ContactAvatarView
@@ -105,13 +126,16 @@
                         android:layout_height="52dp" />
 
                     <LinearLayout
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="10dp"
+                        android:layout_marginTop="@dimen/dimen_10_dp"
                         android:layout_weight="1"
+                        android:gravity="center_horizontal"
                         android:orientation="vertical">
 
                         <LinearLayout
+
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content">
 
@@ -120,18 +144,17 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:singleLine="true"
-                                android:text=""
-                                android:textColor="@color/white"
+                                android:textColor="@color/black"
                                 android:textSize="18sp"
-                                tools:ignore="SpUsage" />
+                                tools:text="11111" />
 
                             <ImageView
                                 android:id="@+id/fragment_mine_grade_iv"
                                 android:layout_width="40dp"
                                 android:layout_height="18dp"
-                                android:visibility="gone"
                                 android:layout_marginLeft="5dp"
-                                android:src="@mipmap/mine_grade_level_1" />
+                                android:src="@mipmap/mine_grade_level_1"
+                                android:visibility="gone" />
 
                         </LinearLayout>
 
@@ -145,8 +168,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:singleLine="true"
-                                android:textColor="@color/white"
-                                android:textSize="14sp" />
+                                android:textColor="@color/black"
+                                android:textSize="14sp"
+                                tools:text="122222" />
 
                             <ImageView
                                 android:id="@+id/fragment_mine_copy_iv"
@@ -157,15 +181,6 @@
                         </LinearLayout>
                     </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/tv_info"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/bg_fffffff_stork_30"
-                        android:paddingHorizontal="@dimen/dimen_10_dp"
-                        android:paddingVertical="@dimen/dimen_5_dp"
-                        android:text="编辑资料"
-                        android:textColor="@color/white" />
 
                 </LinearLayout>
 
@@ -273,10 +288,56 @@
                         </LinearLayout>
                     </LinearLayout>
 
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@mipmap/icon_kaitong"
+                        android:gravity="center_vertical">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/dimen_50_dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="多种精选权益"
+                                android:textColor="@color/white" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="30dp"
+                                android:text="开通会员立享"
+                                android:textColor="@color/white" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tv_kaitong"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen_10_dp"
+                            android:layout_marginRight="@dimen/dimen_40_dp"
+                            android:background="@drawable/bg_fffffff_stork_4"
+                            android:drawableRight="@mipmap/icon_right_white"
+                            android:paddingHorizontal="4dp"
+                            android:paddingVertical="2dp"
+                            android:text="立即开通"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+
+
                     <com.yaoxin.appbase.view.IconTitleArrowTemplate
                         android:id="@+id/fragment_mine_zcqy_view"
                         android:layout_width="match_parent"
                         android:layout_height="55dp"
+                        android:layout_marginTop="@dimen/dimen_20_dp"
                         android:background="@drawable/bg_white_rounded_10"
                         app:leftImg="@mipmap/mine_index_item_zcqy"
                         app:titleText="资产权益" />
@@ -441,11 +502,14 @@
                     <com.yaoxin.appbase.view.IconTitleArrowTemplate
                         android:id="@+id/fragment_mine_xtsz_view"
                         android:layout_width="match_parent"
-
                         android:layout_height="wrap_content"
                         android:visibility="gone"
-
                         app:titleText="" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp" />
+
                 </LinearLayout>
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>

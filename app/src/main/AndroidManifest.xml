@@ -237,6 +237,7 @@
         <activity android:name=".main.mine.account.Mine_Pwd_Set_ManagerActivity" />
         <activity android:name=".main.mine.huiyuan.LiangHaoZoneActivity" />
         <activity android:name=".main.mine.huiyuan.LiangHaoZoneMoreActivity" />
+        <activity android:name=".main.mine.dynamics.OfficialDynamicsActivity" />
 
         <!-- 云信 NIM SDK 进程间通信provider-->
         <provider
