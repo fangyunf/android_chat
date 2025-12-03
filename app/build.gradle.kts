@@ -18,7 +18,7 @@ android {
         }
     }
     defaultConfig {
-        applicationId = "com.turunsi.mishang"
+        applicationId = "com.turunsi.miliao"
         minSdk = 21
         targetSdk = 33
         versionCode = 1
