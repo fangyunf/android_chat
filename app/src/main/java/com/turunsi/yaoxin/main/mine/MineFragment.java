@@ -48,6 +48,7 @@ import com.turunsi.yaoxin.main.mine.collection.CollectionListActivity;
 import com.turunsi.yaoxin.main.mine.fragment.AccountCodeDialogFragment;
 import com.turunsi.yaoxin.main.mine.fuhao.BuyGroupFeatureActivity;
 import com.turunsi.yaoxin.main.mine.fuhao.MyFuHaoListActivity;
+import com.turunsi.yaoxin.main.mine.group.GroupGradeActivity;
 import com.turunsi.yaoxin.main.mine.huiyuan.LiangHaoZoneActivity;
 import com.turunsi.yaoxin.main.mine.huiyuan.MyHuiYuanListActivity;
 import com.turunsi.yaoxin.main.mine.order.OrderListActivity;
@@ -266,6 +267,14 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 //        binding.mineFragmentMyManagerItem7.viewMineFragmentItemCellIcon.setImageResource(R.mipmap.mine_fragment_index_cell_icon_kefu);
 
         binding.cavIcon.setOnClickListener(this);
+
+        binding.tvKaitong.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), GroupGradeActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void refreshUserInfo(String account) {

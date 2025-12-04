@@ -238,6 +238,7 @@
         <activity android:name=".main.mine.huiyuan.LiangHaoZoneActivity" />
         <activity android:name=".main.mine.huiyuan.LiangHaoZoneMoreActivity" />
         <activity android:name=".main.mine.group.GroupGradeActivity" />
+        <activity android:name=".main.mine.group.SelectGroupActivity" />
         <activity android:name=".main.mine.dynamics.OfficialDynamicsActivity" />
 
         <!-- 云信 NIM SDK 进程间通信provider-->

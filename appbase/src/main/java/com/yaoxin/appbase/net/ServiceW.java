@@ -502,9 +502,7 @@ public interface ServiceW {
 
     //  群等级列表
     @POST("/group/groupGrade")
-    Call<NetData> group_groupGrade(
-            @Body RegisterBean userBean
-    );
+    Call<NetData> group_groupGrade();
 
     //  群拉黑
     @POST("/group/addDeleteBlack")

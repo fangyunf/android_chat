@@ -64,6 +64,7 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
     int page_type = 0;
     GroupInfoBean groupInfoBean;
     ArrayList ids = new ArrayList<>();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +72,7 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
         String temp = DataUtil.getStringValue("groupInfo");
 
         if (temp != null) {
-            groupInfoBean = new Gson().fromJson(temp,GroupInfoBean.class);
+            groupInfoBean = new Gson().fromJson(temp, GroupInfoBean.class);
         }
 
         if (type1 != null) {
@@ -107,16 +108,17 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
         _requestData1();
         _initView();
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        DataUtil.setStringValue("","groupInfo");
+        DataUtil.setStringValue("", "groupInfo");
     }
 
 
     protected void _requestData1() {
         if (page_type == 3 || page_type == 4) {
-            if (groupInfoBean == null ) {
+            if (groupInfoBean == null) {
                 return;
             }
             if (page_type == 4) {
@@ -172,7 +174,7 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
                         });
                         if (page_type == 2) {
                             ArrayList<GroupInfoBean> tempArray = new ArrayList<>();
-                            for (GroupInfoBean tempBean :mContactModels) {
+                            for (GroupInfoBean tempBean : mContactModels) {
                                 if (!ids.contains(tempBean.userId)) {
                                     tempArray.add(tempBean);
                                 }
@@ -248,13 +250,13 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
                 int count = 0;
                 for (GroupInfoBean tempInfoBean : baseQuickAdapter.getItems()) {
                     if (tempInfoBean.isSelected) {
-                        count ++;
+                        count++;
                     }
 
                 }
                 if (count > 0) {
                     binding.activityFunSelectedUserConfirmTv.setText("确定  " + count);
-                } else  {
+                } else {
 
                     binding.activityFunSelectedUserConfirmTv.setText("确定");
                 }
@@ -312,7 +314,7 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
 
     @Override
     public void onClick(View view) {
-        if (view == binding.activityFunSelectedUserNav.addCloseImageButton()){
+        if (view == binding.activityFunSelectedUserNav.addCloseImageButton()) {
             finish();
         } else if (view == binding.activityFunSelectedUserConfirmTv) {
 
@@ -333,7 +335,7 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
                     return;
                 }
 
-                DialogAlertUtil.showInputAlert(this,"温馨提示","请输入群聊名称", new DialogAlertUtil.InputAlertCallBack() {
+                DialogAlertUtil.showInputAlert(this, "温馨提示", "请输入群聊名称", new DialogAlertUtil.InputAlertCallBack() {
                     @Override
                     public void inputText(String text) {
                         RegisterBean bean = new RegisterBean();
@@ -345,7 +347,7 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
                                     @Override
                                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                                         finish();
-                                        CustomMsgBean bean1 = new Gson().fromJson(body.data.toString(),CustomMsgBean.class);
+                                        CustomMsgBean bean1 = new Gson().fromJson(body.data.toString(), CustomMsgBean.class);
                                         XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_TEAM_PAGE)
                                                 .withParam(RouterConstant.CHAT_ID_KRY, bean1.groupId)
                                                 .withContext(AppProxy.getInstance().getContext())

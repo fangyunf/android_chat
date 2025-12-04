@@ -10,6 +10,7 @@ import com.chad.library.adapter4.BaseQuickAdapter;
 import com.chad.library.adapter4.viewholder.QuickViewHolder;
 import com.turunsi.yaoxin.R;
 import com.yaoxin.appbase.model.GroupInfoBean;
+import com.yaoxin.appbase.utils.NumberUtil;
 
 /**
  * 群等级列表适配器
@@ -24,11 +25,9 @@ public class GroupGradeAdapter extends BaseQuickAdapter<GroupInfoBean, QuickView
         holder.itemView.setSelected(item.isSelected);
         holder.setBackgroundResource(R.id.layoutbg, item.isSelected ? R.mipmap.icon_gour_buy2 : R.mipmap.icon_gour_buy1);
         // 显示等级名称
-        holder.setText(R.id.item_group_grade_name_tv, item.gradeName != null ? item.gradeName : "VIP" + item.grade);
-
+        holder.setText(R.id.item_group_grade_name_tv, item.gradeName != null ? item.gradeName : "VIP" + (item.grade - 1));
         // 显示价格
-        holder.setText(R.id.item_group_grade_price_tv, "¥" + item.price + "/永久");
-
+        holder.setText(R.id.item_group_grade_price_tv, "¥" + (item.price / 100) + "/永久");
         // 显示权益内容
         StringBuilder benefits = getStringBuilder(item);
 
@@ -38,15 +37,11 @@ public class GroupGradeAdapter extends BaseQuickAdapter<GroupInfoBean, QuickView
     @NonNull
     private static StringBuilder getStringBuilder(@NonNull GroupInfoBean item) {
         StringBuilder benefits = new StringBuilder();
-        if (item.maxMembers != null && !item.maxMembers.isEmpty()) {
-            benefits.append("群人数上限").append(item.maxMembers).append("人\n");
-        }
-        if (item.discount != null && !item.discount.isEmpty()) {
-            benefits.append("靓号优惠").append(item.discount).append("%\n");
-        }
-        if (item.mallDiscount != null && !item.mallDiscount.isEmpty()) {
-            benefits.append("商城优惠").append(item.mallDiscount).append("%");
-        }
+        benefits.append("超级群1个(上限").append(item.grade * 1000).append("人").append("\n");
+        benefits.append("好友人数").append(item.grade * 1000).append("人\n");
+        benefits.append("靓号优惠3").append("%\n");
+        benefits.append("商城优惠3").append("%");
+
         return benefits;
     }
 
