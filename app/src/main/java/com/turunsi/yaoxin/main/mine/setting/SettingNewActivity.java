@@ -89,7 +89,6 @@ public class SettingNewActivity extends BaseActivity implements View.OnClickList
         viewBinding.activityMineSetNewDownload.viewTitleArrowTv.setText("下载地址");
         viewBinding.activityMineSetNewLoginOut.viewTitleArrowTv.setText("退出登录");
         viewBinding.activityMineSetNewZhuxiao.viewTitleArrowTv.setText("注销账号");
-        viewBinding.activityMineSetNewZhuxiao.viewTitleArrowLl.setVisibility(View.GONE);
         viewBinding.activityMineSetNewExchangeAcount.viewTitleArrowTv.setText("切换账号");
 
 //      viewBinding.activityMineSetNewExchangeAcount.viewTitleArrowTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.app_theme_red_color));
