@@ -13,7 +13,6 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-
         <!-- 立即开通按钮 -->
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -343,10 +342,10 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_margin="16dp"
-            android:background="@drawable/fun_bg_app_theme_color_rounded_22"
+            android:background="@drawable/fun_bg_fc8a41_color_rounded_22"
             android:gravity="center"
             android:text="立即开通"
-            android:textColor="@color/color_white"
+            android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold" />
     </LinearLayout>
@@ -355,11 +354,11 @@
         android:id="@+id/activity_buy_feature_nav"
         style="@style/WhiteFontToolbar"
         android:background="@color/transparent"
-        app:back_icon="@mipmap/temp_ic_back_white"
+        app:back_icon="@mipmap/temp_ic_back"
         app:enable_under_divider="true"
         app:support_translucent_status_bar="false"
         app:title="会员中心"
-        app:title_text_color="@color/white"
+        app:title_text_color="@color/black"
         app:under_divider_color="@color/transparent" />
 
 </FrameLayout>

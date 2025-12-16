@@ -9,7 +9,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_F2F2F2">
+    android:background="@color/color_white">
 
     <ImageView
         android:layout_width="match_parent"
@@ -28,6 +28,7 @@
             android:id="@+id/topLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#FCEE5C"
             android:orientation="vertical"
             tools:ignore="MissingConstraints">
 
@@ -86,7 +87,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10dp"
                 android:layout_marginTop="13dp"
-                android:background="@drawable/bg_e3e3e3_rounded_10"
+                android:background="@drawable/bg_white_rounded_30"
                 android:gravity="center">
 
                 <EditText
@@ -94,7 +95,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dimen_48_dp"
                     android:autofillHints=""
-                    android:background="@drawable/bg_e3e3e3_rounded_10"
+                    android:background="@color/transparent"
                     android:drawableStart="@mipmap/conversation_list_index_search_icon1"
                     android:drawablePadding="5dp"
                     android:hint="搜索"
@@ -110,7 +111,10 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
                 android:layout_marginTop="@dimen/dimen_10_dp"
+                android:layout_marginBottom="@dimen/dimen_8_dp"
+                android:background="@drawable/bg_white_rounded_30"
                 android:gravity="center_vertical"
                 android:paddingHorizontal="10dp">
 

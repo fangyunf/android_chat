@@ -10,8 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
 
         <com.yaoxin.appbase.navbar.NavToolbar
             android:id="@+id/activity_mine_zhuxiao_confirm_nav"
@@ -27,58 +26,59 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_margin="15dp"
-            android:padding="15dp"
             android:background="@drawable/bg_f2f2f2_rounded_10"
+            android:orientation="vertical"
+            android:padding="15dp"
 
             >
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="注销帐号有以下风险"
                 android:textColor="@color/black"
-                android:textSize="18sp"
-                />
+                android:textSize="18sp" />
+
             <TextView
-                android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:text="账号近期不存在交易"
                 android:textColor="@color/black"
-                android:textSize="14sp"
-                />
+                android:textSize="14sp" />
+
             <TextView
-                android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:text="永久注销，无法登录"
                 android:textColor="@color/black"
-                android:textSize="14sp"
-                />
+                android:textSize="14sp" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="帐号一旦注销，无法登录"
-                android:textSize="12sp"
                 android:textColor="#999999"
-                />
+                android:textSize="12sp" />
+
             <TextView
-                android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:text="相关权益主动放弃确认"
                 android:textColor="@color/black"
-                android:textSize="14sp"
-                />
+                android:textSize="14sp" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="如果积分、会员、订单数据等，注销后将视为主动放弃"
-                android:textSize="12sp"
                 android:textColor="#999999"
-                />
+                android:textSize="12sp" />
         </LinearLayout>
+
         <include
             android:id="@+id/activity_mine_zhuxiao_confirm_get_code"
             layout="@layout/view_top_title_et"
@@ -86,17 +86,17 @@
 
             android:layout_height="wrap_content" />
     </LinearLayout>
+
     <TextView
         android:id="@+id/activity_mine_zhuxiao_confirm_tv"
         android:layout_width="match_parent"
-        android:layout_marginHorizontal="20dp"
         android:layout_height="50dp"
-        android:layout_marginBottom="80dp"
         android:layout_alignParentBottom="true"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="80dp"
         android:background="@drawable/bg_app_theme_color_rounded_10"
         android:gravity="center"
         android:text="确定"
-        android:textColor="#ffffffff"
-        android:textSize="16sp"
-        />
+        android:textColor="@color/black"
+        android:textSize="16sp" />
 </RelativeLayout>

@@ -51,7 +51,9 @@ public class FunSearchMessageViewHolder extends BaseViewHolder<ChatSearchBean> {
 
       viewBinding.getRoot().setOnClickListener(v -> itemListener.onClick(v, data, position));
     }
+
   }
+
 
   private void setUserInfo(ChatSearchBean data) {
     //get nick name

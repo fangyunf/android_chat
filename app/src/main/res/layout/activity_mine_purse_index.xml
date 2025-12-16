@@ -70,15 +70,11 @@
 
                 <TextView
                     android:id="@+id/activity_mine_purse_index_recharge_tv"
-
                     android:layout_width="100dp"
-
                     android:layout_height="32dp"
                     android:layout_marginLeft="15dp"
                     android:background="@drawable/bg_app_theme_color_rounded_10"
-
                     android:gravity="center"
-
                     android:text="充值"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_size_15" />
@@ -87,11 +83,10 @@
                     android:id="@+id/activity_mine_purse_index_tixian_tv"
                     android:layout_width="100dp"
                     android:layout_height="32dp"
-
                     android:background="@drawable/bg_white_rounded_10"
                     android:gravity="center"
                     android:text="提现"
-                    android:textColor="@color/app_theme_color"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/text_size_15" />
 
                 <TextView
@@ -113,11 +108,11 @@
 
 
         <LinearLayout
-            android:background="@drawable/bg_white_rounded_10"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="15dp"
             android:layout_marginTop="10dp"
+            android:background="@drawable/bg_white_rounded_10"
             android:orientation="vertical">
 
             <com.yaoxin.appbase.view.IconTitleArrowTemplate

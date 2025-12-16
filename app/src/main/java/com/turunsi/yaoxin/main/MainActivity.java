@@ -106,15 +106,8 @@ import retrofit2.Response;
  */
 public class MainActivity extends BaseActivity {
 
-    private ActivityMainBinding activityMainBinding;
-    private static final int START_INDEX = 0;
-    private View mCurrentTab;
-    //  private BaseContactFragment mContactFragment;
-    private ContactNewFragment mContactFragment;
-    private ConversationBaseFragment mConversationFragment;
-    private ConversationBaseFragment mConversationFragment1;
     public static final int REQUEST_CODE_SCAN = 0x01;
-
+    private static final int START_INDEX = 0;
     //皮肤变更事件
     EventNotify<SkinEvent> skinNotify = new EventNotify<SkinEvent>() {
         @Override
@@ -131,6 +124,12 @@ public class MainActivity extends BaseActivity {
             return "skinEvent";
         }
     };
+    private ActivityMainBinding activityMainBinding;
+    private View mCurrentTab;
+    //  private BaseContactFragment mContactFragment;
+    private ContactNewFragment mContactFragment;
+    private ConversationBaseFragment mConversationFragment;
+    private ConversationBaseFragment mConversationFragment1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -265,11 +264,11 @@ public class MainActivity extends BaseActivity {
         ALog.d(Constant.PROJECT_TAG, "MainActivity:initView");
         //    loadConfig();
         List<Fragment> fragments = new ArrayList<>();
-
         changeStatusBarColor(R.color.fun_page_bg_color);
         mConversationFragment = FunConversationFragment.newInstance(3);
         //mConversationFragment1 = FunConversationFragment.newInstance(1);
         mContactFragment = new ContactNewFragment();
+        fragments.add(new ShopNewFragment());
         fragments.add(mConversationFragment);
         fragments.add(mContactFragment);
         fragments.add(new FoundFragment());
@@ -330,23 +329,23 @@ public class MainActivity extends BaseActivity {
     @SuppressLint("UseCompatLoadingForDrawables")
     private void resetTabSkin() {
         if (mCurrentTab == activityMainBinding.contactBtnGroup) {
-            activityMainBinding.viewPager.setCurrentItem(2, false);
+            activityMainBinding.viewPager.setCurrentItem(3, false);
             activityMainBinding.contact.setTextColor(getResources().getColor(R.color.fun_tab_checked_color));
             activityMainBinding.contact.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.mine_tabbar_txl_sel), null, null);
             changeStatusBarColor(R.color.fun_page_bg_color);
         } else if (mCurrentTab == activityMainBinding.myselfBtnGroup) {
-            activityMainBinding.viewPager.setCurrentItem(3, false);
+            activityMainBinding.viewPager.setCurrentItem(4, false);
             activityMainBinding.mine.setTextColor(getResources().getColor(R.color.fun_tab_checked_color));
             activityMainBinding.mine.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.mine_tabbar_mine_sel), null, null);
 
             changeStatusBarColor(R.color.color_white);
         } else if (mCurrentTab == activityMainBinding.conversationBtnGroup) {
-            activityMainBinding.viewPager.setCurrentItem(0, false);
+            activityMainBinding.viewPager.setCurrentItem(1, false);
             activityMainBinding.conversation.setTextColor(getResources().getColor(R.color.fun_tab_checked_color));
             activityMainBinding.conversation.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.mine_tabbar_msg_sel), null, null);
             changeStatusBarColor(R.color.fun_page_bg_color);
         } else if (mCurrentTab == activityMainBinding.conversationBtnGroup1) {
-            activityMainBinding.viewPager.setCurrentItem(1, false);
+            activityMainBinding.viewPager.setCurrentItem(2, false);
             activityMainBinding.conversation1.setTextColor(getResources().getColor(R.color.fun_tab_checked_color));
             activityMainBinding.conversation1.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.mine_tabbar_msg_group_sel), null, null);
             changeStatusBarColor(R.color.fun_page_bg_color);
@@ -483,16 +482,6 @@ public class MainActivity extends BaseActivity {
         CustomConfig.configChatKit(this);
     }
 
-    //皮肤变更事件
-    public static class SkinEvent extends BaseEvent {
-        @NonNull
-        @Override
-        public String getType() {
-            return "skinEvent";
-        }
-    }
-
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(com.yaoxin.appbase.utils.BaseEvent event) {
         if ("gotoScan".equals(event.getTag())) {
@@ -568,6 +557,15 @@ public class MainActivity extends BaseActivity {
                     break;
             }
 
+        }
+    }
+
+    //皮肤变更事件
+    public static class SkinEvent extends BaseEvent {
+        @NonNull
+        @Override
+        public String getType() {
+            return "skinEvent";
         }
     }
 

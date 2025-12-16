@@ -114,7 +114,7 @@
             android:ellipsize="end"
             android:maxWidth="@dimen/dimen_100_dp"
             android:maxLines="1"
-            android:textColor="@color/app_theme_color"
+            android:textColor="#818181"
             android:textSize="@dimen/text_size_12" />
 
         <ImageView

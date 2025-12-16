@@ -43,13 +43,18 @@
     <color name="color_nav_theme_color">#F6F6F6</color>
     <color name="black_50_transparent">#80000000</color>
 
+
     <color name="color_ffe935">#ffe935</color>
     <color name="color_ff666666">#ff666666</color>
-    <color name="app_theme_color">#007AFF</color>
+<!--    <color name="app_theme_color">#007AFF</color>-->
+    <color name="app_theme_color">#FC8A41</color>
     <color name="app_chat_view_bg_color">#F1F1F1</color>
     <color name="app_chat_send_pop_bg">#377AF5</color>
     <color name="app_chat_receive_pop_bg">#FFFFFF</color>
     <color name="app_theme_red_color">#FF0000</color>
     <color name="app_theme_aplha_color">#33006CFF</color>
+    <color name="color_fc8a41">#FC8A41</color>
+
+
 
 </resources>

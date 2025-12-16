@@ -47,7 +47,7 @@ public class ChatTextMessageViewHolder extends FunChatBaseMessageViewHolder {
         } else {
             if (message.getMessageData().getFromUser() != null && message.getMessageData().getFromUser().getAccount().equals(DataUtil.getUserid())) {
                 textBinding.messageText.setTextColor(
-                        parent.getContext().getResources().getColor(com.yaoxin.appbase.R.color.app_theme_color));
+                        parent.getContext().getResources().getColor(com.yaoxin.appbase.R.color.color_333333));
             } else {
                 textBinding.messageText.setTextColor(
                         parent.getContext().getResources().getColor(R.color.color_333333));
