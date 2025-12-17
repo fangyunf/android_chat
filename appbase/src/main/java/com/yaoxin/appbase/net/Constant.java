@@ -13,10 +13,9 @@ public class Constant {
 //    public static final String BASE_URL = "http://sy.sxweinizx.com/";
 //    public static final String ENCODE_KEY = "frxsecretpadding";
 //    public static final String MSG_ENCODE_KEY = "carefullanimchat";
-
-    public static final String BASE_URL = "http://yiyouliao263sjhw.163-yunxin-api.com:17117/";
-    public static final String BASE_URL_H5 = "http://yiyouliao263sjhw.163-yunxin-api.com:17117";
-    public static final String CHOUJIANG_H5 = "http://yiyouliao263sjhw.163-yunxin-api.com:17117/gw/build/index.html#/";
+    public static final String BASE_URL = "http://xinyuishangou1217xinkai.xiaoyujianggao.xyz:17117/";
+    public static final String BASE_URL_H5 = "http://xinyuishangou1217xinkai.xiaoyujianggao.xyz:17117";
+    public static final String CHOUJIANG_H5 = "http://xinyuishangou1217xinkai.xiaoyujianggao.xyz:17117/gw/build/index.html#/";
     public static final String ENCODE_KEY = "wesecretpaddingg";
     public static final String MSG_ENCODE_KEY = "wallstreetimchat";
 
