@@ -240,6 +240,9 @@
         <activity android:name=".main.mine.group.GroupGradeActivity" />
         <activity android:name=".main.mine.group.SelectGroupActivity" />
         <activity android:name=".main.mine.dynamics.OfficialDynamicsActivity" />
+        <activity android:name=".main.shop.ProductDetailActivity" />
+        <activity android:name=".main.shop.SearchActivity" />
+        <activity android:name=".main.shop.ShopAddressListActivity" />
 
         <!-- 云信 NIM SDK 进程间通信provider-->
         <provider

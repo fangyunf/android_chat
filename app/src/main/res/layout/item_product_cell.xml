@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginBottom="10dp"
+    android:background="@drawable/bg_product_cell"
+    android:orientation="horizontal"
+    android:padding="15dp">
+
+    <!-- 商品图片 -->
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/item_product_image_iv"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginRight="15dp"
+            android:scaleType="centerCrop" />
+
+        <!-- 收藏按钮 -->
+        <ImageView
+            android:id="@+id/item_product_collect_iv"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="start"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@mipmap/icon_collect" />
+
+    </FrameLayout>
+
+    <!-- 右侧内容 -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+
+        <!-- 商品名称 -->
+        <TextView
+            android:id="@+id/item_product_name_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textColor="@color/color_black"
+            android:textSize="16sp" />
+
+        <!-- 价格和立即租按钮容器 -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginTop="8dp"
+            android:background="@mipmap/price_bg"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <!-- 价格 -->
+            <TextView
+                android:id="@+id/item_product_price_tv"
+                android:layout_width="75dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textColor="@color/color_white"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <!-- 立即租按钮 -->
+            <TextView
+                android:id="@+id/item_product_rent_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="@dimen/dimen_24_dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:layout_marginTop="6dp"
+                android:text="立即租"
+                android:textColor="@color/color_black"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
+

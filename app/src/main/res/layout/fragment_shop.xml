@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragment_shop_root_ll"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/home_bg"
+    android:orientation="vertical">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- 头部图片 -->
+            <ImageView
+                android:id="@+id/fragment_shop_header_iv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="@dimen/dimen_50_dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                android:src="@mipmap/home_header_img" />
+
+            <!-- 搜索框容器 -->
+            <LinearLayout
+                android:id="@+id/fragment_shop_search_container"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_search_container"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="20dp">
+
+                <EditText
+                    android:id="@+id/fragment_shop_search_et"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:hint="输入商品关键字"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/fragment_shop_search_btn"
+                    android:layout_width="55dp"
+                    android:layout_height="34dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/bg_search_button"
+                    android:padding="8dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/icon_search" />
+
+            </LinearLayout>
+
+            <!-- 购买区域背景 -->
+            <LinearLayout
+                android:id="@+id/fragment_shop_buy_bg_ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:background="@mipmap/img_bg_buy"
+                android:clickable="true"
+                android:focusable="true"
+                android:orientation="vertical"
+                android:paddingTop="45dp"
+                android:paddingBottom="16dp">
+
+                <!-- 购买商品网格列表（3列，不滑动） -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/fragment_shop_buy_rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
+                    android:orientation="horizontal" />
+
+            </LinearLayout>
+
+            <!-- 商品列表 -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/fragment_shop_product_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="vertical" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>
+

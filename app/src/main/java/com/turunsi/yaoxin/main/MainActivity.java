@@ -101,6 +101,8 @@ import pub.devrel.easypermissions.EasyPermissions;
 import retrofit2.Call;
 import retrofit2.Response;
 
+import com.turunsi.yaoxin.main.shop.ShopFragment;
+
 /**
  * IM Main Page include four tab , message/contact/live/profile
  */
@@ -268,7 +270,7 @@ public class MainActivity extends BaseActivity {
         mConversationFragment = FunConversationFragment.newInstance(3);
         //mConversationFragment1 = FunConversationFragment.newInstance(1);
         mContactFragment = new ContactNewFragment();
-        fragments.add(new ShopNewFragment());
+        fragments.add(new ShopFragment());
         fragments.add(mConversationFragment);
         fragments.add(mContactFragment);
         fragments.add(new FoundFragment());

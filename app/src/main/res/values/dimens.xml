@@ -7,6 +7,7 @@
 
 <resources>
     <dimen name="dimen_8_dp">8dp</dimen>
+    <dimen name="dimen_10_dp">10dp</dimen>
     <dimen name="dimen_15_dp">15dp</dimen>
     <dimen name="dimen_16_dp">16dp</dimen>
     <dimen name="dimen_17_dp">17dp</dimen>

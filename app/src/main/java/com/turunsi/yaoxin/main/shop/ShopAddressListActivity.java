@@ -1,4 +1,4 @@
-package com.turunsi.yaoxin.main.mine.address;
+package com.turunsi.yaoxin.main.shop;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.yaoxin.appbase.activity.BaseActivity;
+import com.turunsi.yaoxin.R;
 import com.turunsi.yaoxin.databinding.ActivityMineAddressListBinding;
 import com.turunsi.yaoxin.main.mine.address.adapter.AddressListAdapter;
 import com.turunsi.yaoxin.main.mine.address.bean.AddressListBean;
@@ -15,66 +16,62 @@ import com.turunsi.yaoxin.main.mine.address.bean.AddressListBean;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddressListActivity extends BaseActivity implements View.OnClickListener {
-    ActivityMineAddressListBinding binding;
+/**
+ * 商城地址选择页面（从商品详情页跳转）
+ */
+public class ShopAddressListActivity extends BaseActivity implements View.OnClickListener {
+    
+    private ActivityMineAddressListBinding binding;
     private AddressListAdapter adapter;
     private List<AddressListBean> dataList = new ArrayList<>();
-    private boolean isSelectMode = false; // 是否为选择模式（从购买弹窗跳转）
-
+    
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMineAddressListBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        
         binding.activityMineAddressListNav.addCloseImageButton().setOnClickListener(this);
         binding.activityMineAddressListAddRl.setOnClickListener(this);
-
-        // 检查是否为选择模式（从购买弹窗跳转）
-        isSelectMode = getIntent().getBooleanExtra("select_mode", false);
-
+        
         binding.activityMineAddressListRv.setLayoutManager(new LinearLayoutManager(this));
         adapter = new AddressListAdapter();
         binding.activityMineAddressListRv.setAdapter(adapter);
-
+        
+        // TODO: 从API加载地址列表
+        loadAddressList();
+        
         // 设置点击监听
         adapter.setOnItemClickListener((adapter, view, position) -> {
-            if (isSelectMode) {
-                // 选择模式：返回选中的地址
-                AddressListBean address = dataList.get(position);
-                Intent resultIntent = new Intent();
-                resultIntent.putExtra("address", address);
-                setResult(RESULT_OK, resultIntent);
-                finish();
-            } else {
-                // 普通模式：可以编辑或删除地址
-                // TODO: 实现编辑或删除逻辑
-            }
+            AddressListBean address = dataList.get(position);
+            // 返回选中的地址
+            Intent resultIntent = new Intent();
+            resultIntent.putExtra("address", address);
+            setResult(RESULT_OK, resultIntent);
+            finish();
         });
-
-        loadAddressList();
     }
-
+    
     private void loadAddressList() {
-        // TODO: 从API加载地址列表
+        // TODO: 从API或本地数据库加载地址列表
         // 这里先用假数据
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 5; i++) {
             AddressListBean bean = new AddressListBean();
             bean.id = "address_" + i;
-            bean.name = "测试用户" + i;
-            bean.phone = "138****" + String.format("%04d", i);
-            bean.fullAddress = "测试地址" + i;
             dataList.add(bean);
         }
         adapter.setItems(dataList);
     }
-
+    
     @Override
     public void onClick(View v) {
         if (v == binding.activityMineAddressListNav.addCloseImageButton()) {
             finish();
         } else if (v == binding.activityMineAddressListAddRl) {
-            AddressAddActivity.start(AddressAddActivity.class, this, null);
+            // TODO: 跳转到添加地址页面
+            // Intent intent = new Intent(this, AddressAddActivity.class);
+            // startActivity(intent);
         }
     }
-
 }
+

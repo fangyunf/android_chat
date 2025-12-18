@@ -1,0 +1,261 @@
+[
+  {
+    "productId": "camera_001",
+    "productName": "佳能 EOS R5 全画幅无反相机",
+    "productCoverImages": [
+      "carme_main_1_1.jpg",
+      "carme_main_1_2.jpg"
+    ],
+    "productDetailImage": "carme_detail_1.jpg",
+    "monthlyRentPrice": 1200,
+    "depositPrice": 5000,
+    "productRecommendationTags": "专业级 | 4K视频 | 高像素",
+    "productRentalDaysSpecs": ["1个月", "3个月", "6个月"],
+    "isCollected": false,
+    "limitedTimeActivityStartTime": "2025-01-01 00:00:00",
+    "limitedTimeActivityEndTime": "2025-12-31 23:59:59"
+  },
+  {
+    "productId": "camera_002",
+    "productName": "索尼 A7M4 全画幅微单相机",
+    "productCoverImages": [
+      "carme_main_2_1.jpg",
+      "carme_main_2_2.jpg",
+      "carme_main_2_3.jpg"
+    ],
+    "productDetailImage": "carme_detail_2.jpg",
+    "monthlyRentPrice": 1000,
+    "depositPrice": 4500,
+    "productRecommendationTags": "视频拍摄 | 自动对焦 | 轻便",
+    "productRentalDaysSpecs": ["1个月", "3个月", "6个月"],
+    "isCollected": false,
+    "limitedTimeActivityStartTime": "2025-01-01 00:00:00",
+    "limitedTimeActivityEndTime": "2025-12-31 23:59:59"
+  },
+  {
+    "productId": "camera_003",
+    "productName": "尼康 Z6 II 全画幅无反相机",
+    "productCoverImages": [
+      "carme_main_3_1.jpg",
+      "carme_main_3_2.jpg",
+      "carme_main_3_3.jpg"
+    ],
+    "productDetailImage": "carme_detail_3.jpg",
+    "monthlyRentPrice": 900,
+    "depositPrice": 4000,
+    "productRecommendationTags": "高速连拍 | 低光拍摄 | 防抖",
+    "productRentalDaysSpecs": ["1个月", "3个月", "6个月"],
+    "isCollected": false,
+    "limitedTimeActivityStartTime": "2025-01-01 00:00:00",
+    "limitedTimeActivityEndTime": "2025-12-31 23:59:59"
+  },
+  {
+    "productId": "camera_004",
+    "productName": "富士 X-T5 APS-C画幅无反相机",
+    "productCoverImages": [
+      "carme_main_4_1.jpg",
+      "carme_main_4_2.jpg"
+    ],
+    "productDetailImage": "carme_detail_4.jpg",
+    "monthlyRentPrice": 800,
+    "depositPrice": 3500,
+    "productRecommendationTags": "胶片模拟 | 复古外观 | 便携",
+    "productRentalDaysSpecs": ["1个月", "3个月", "6个月"],
+    "isCollected": false,
+    "limitedTimeActivityStartTime": "2025-01-01 00:00:00",
+    "limitedTimeActivityEndTime": "2025-12-31 23:59:59"
+  },
+  {
+    "productId": "camera_005",
+    "productName": "松下 GH6 M4/3画幅无反相机",
+    "productCoverImages": [
+      "carme_main_5_1.jpg",
+      "carme_main_5_2.jpg",
+      "carme_main_5_3.jpg"
+    ],
+    "productDetailImage": "carme_detail_5.jpg",
+    "monthlyRentPrice": 750,
+    "depositPrice": 3000,
+    "productRecommendationTags": "视频专业 | 5.7K录制 | 防抖",
+    "productRentalDaysSpecs": ["1个月", "3个月", "6个月"],
+    "isCollected": false,
+    "limitedTimeActivityStartTime": "2025-01-01 00:00:00",
+    "limitedTimeActivityEndTime": "2025-12-31 23:59:59"
+  },
+  {
+    "productId": "camera_006",
+    "productName": "佳能 EOS R6 Mark II 全画幅无反相机",
+    "productCoverImages": [
+      "carme_main_6_1.jpg",
+      "carme_main_6_2.jpg",
+      "carme_main_6_3.jpg"
+    ],
+    "productDetailImage": "carme_detail_6.jpg",
+    "monthlyRentPrice": 1100,
+    "depositPrice": 4800,
+    "productRecommendationTags": "高速对焦 | 连拍 | 视频",
+    "productRentalDaysSpecs": ["1个月", "3个月", "6个月"],
+    "isCollected": false,
+    "limitedTimeActivityStartTime": "2025-01-01 00:00:00",
+    "limitedTimeActivityEndTime": "2025-12-31 23:59:59"
+  },
+  {
+    "productId": "camera_007",
+    "productName": "索尼 A7C 全画幅微单相机",
+    "productCoverImages": [
+      "carme_main_7_1.jpg"
+    ],
+    "productDetailImage": "carme_detail_7.jpg",
+    "monthlyRentPrice": 850,
+    "depositPrice": 3800,
+    "productRecommendationTags": "轻便 | 全画幅 | 便携",
+    "productRentalDaysSpecs": ["1个月", "3个月", "6个月"],
+    "isCollected": false,
+    "limitedTimeActivityStartTime": "2025-01-01 00:00:00",
+    "limitedTimeActivityEndTime": "2025-12-31 23:59:59"
+  },
+  {
+    "productId": "camera_008",
+    "productName": "尼康 Z7 II 全画幅无反相机",
+    "productCoverImages": [
+      "carme_main_8_1.jpg"
+    ],
+    "productDetailImage": "carme_detail_8.jpg",
+    "monthlyRentPrice": 1300,
+    "depositPrice": 5500,
+    "productRecommendationTags": "高像素 | 专业 | 画质",
+    "productRentalDaysSpecs": ["1个月", "3个月", "6个月"],
+    "isCollected": false,
+    "limitedTimeActivityStartTime": "2025-01-01 00:00:00",
+    "limitedTimeActivityEndTime": "2025-12-31 23:59:59"
+  },
+  {
+    "productId": "camera_009",
+    "productName": "富士 GFX 100S 中画幅无反相机",
+    "productCoverImages": [
+      "carme_main_9_1.jpg",
+      "carme_main_9_2.jpg"
+    ],
+    "productDetailImage": "carme_detail_9.jpg",
+    "monthlyRentPrice": 2000,
+    "depositPrice": 8000,
+    "productRecommendationTags": "中画幅 | 1亿像素 | 专业",
+    "productRentalDaysSpecs": ["1个月", "3个月", "6个月"],
+    "isCollected": false,
+    "limitedTimeActivityStartTime": "2025-01-01 00:00:00",
+    "limitedTimeActivityEndTime": "2025-12-31 23:59:59"
+  },
+  {
+    "productId": "camera_010",
+    "productName": "佳能 EOS R3 全画幅无反相机",
+    "productCoverImages": [
+      "carme_main_10_1.jpg",
+      "carme_main_10_2.jpg"
+    ],
+    "productDetailImage": "carme_detail_10.jpg",
+    "monthlyRentPrice": 1500,
+    "depositPrice": 6000,
+    "productRecommendationTags": "体育摄影 | 高速连拍 | 专业",
+    "productRentalDaysSpecs": ["1个月", "3个月", "6个月"],
+    "isCollected": false,
+    "limitedTimeActivityStartTime": "2025-01-01 00:00:00",
+    "limitedTimeActivityEndTime": "2025-12-31 23:59:59"
+  },
+  {
+    "productId": "camera_011",
+    "productName": "相机-11",
+    "productCoverImages": [
+      "相机-11-主图1.jpg",
+      "相机-11-主图2.jpg"
+    ],
+    "productDetailImage": "",
+    "monthlyRentPrice": 600,
+    "depositPrice": 2500,
+    "productRecommendationTags": "入门级 | 易用 | 性价比",
+    "productRentalDaysSpecs": ["1个月", "3个月", "6个月"],
+    "isCollected": false,
+    "limitedTimeActivityStartTime": "2025-01-01 00:00:00",
+    "limitedTimeActivityEndTime": "2025-12-31 23:59:59"
+  },
+  {
+    "productId": "camera_012",
+    "productName": "相机-12",
+    "productCoverImages": [
+      "相机-12-主图1.jpg",
+      "相机-12-主图2.jpg"
+    ],
+    "productDetailImage": "相机-12-详情页.jpg",
+    "monthlyRentPrice": 700,
+    "depositPrice": 2800,
+    "productRecommendationTags": "中端 | 多功能 | 实用",
+    "productRentalDaysSpecs": ["1个月", "3个月", "6个月"],
+    "isCollected": false,
+    "limitedTimeActivityStartTime": "2025-01-01 00:00:00",
+    "limitedTimeActivityEndTime": "2025-12-31 23:59:59"
+  },
+  {
+    "productId": "camera_013",
+    "productName": "相机-13",
+    "productCoverImages": [
+      "相机-13-主图1.jpg",
+      "相机-13-主图2.jpg"
+    ],
+    "productDetailImage": "相机-13-详情页.jpg",
+    "monthlyRentPrice": 650,
+    "depositPrice": 2700,
+    "productRecommendationTags": "入门进阶 | 画质好 | 便携",
+    "productRentalDaysSpecs": ["1个月", "3个月", "6个月"],
+    "isCollected": false,
+    "limitedTimeActivityStartTime": "2025-01-01 00:00:00",
+    "limitedTimeActivityEndTime": "2025-12-31 23:59:59"
+  },
+  {
+    "productId": "camera_014",
+    "productName": "相机-14",
+    "productCoverImages": [
+      "相机-14-主图1.jpg",
+      "相机-14-主图2.jpg"
+    ],
+    "productDetailImage": "相机-14-详情页.jpg",
+    "monthlyRentPrice": 680,
+    "depositPrice": 2900,
+    "productRecommendationTags": "中端 | 视频拍摄 | 防抖",
+    "productRentalDaysSpecs": ["1个月", "3个月", "6个月"],
+    "isCollected": false,
+    "limitedTimeActivityStartTime": "2025-01-01 00:00:00",
+    "limitedTimeActivityEndTime": "2025-12-31 23:59:59"
+  },
+  {
+    "productId": "camera_015",
+    "productName": "相机-15",
+    "productCoverImages": [
+      "相机-15-主图1.jpg",
+      "相机-15-主图2.jpg"
+    ],
+    "productDetailImage": "相机-15-详情页.jpg",
+    "monthlyRentPrice": 720,
+    "depositPrice": 3000,
+    "productRecommendationTags": "中高端 | 全画幅 | 专业",
+    "productRentalDaysSpecs": ["1个月", "3个月", "6个月"],
+    "isCollected": false,
+    "limitedTimeActivityStartTime": "2025-01-01 00:00:00",
+    "limitedTimeActivityEndTime": "2025-12-31 23:59:59"
+  },
+  {
+    "productId": "camera_016",
+    "productName": "相机-16",
+    "productCoverImages": [
+      "相机-16-主图1.jpg",
+      "相机-16-主图2.jpg"
+    ],
+    "productDetailImage": "相机-16-详情页.jpg",
+    "monthlyRentPrice": 750,
+    "depositPrice": 3200,
+    "productRecommendationTags": "高端 | 4K视频 | 高性能",
+    "productRentalDaysSpecs": ["1个月", "3个月", "6个月"],
+    "isCollected": false,
+    "limitedTimeActivityStartTime": "2025-01-01 00:00:00",
+    "limitedTimeActivityEndTime": "2025-12-31 23:59:59"
+  }
+]
+
