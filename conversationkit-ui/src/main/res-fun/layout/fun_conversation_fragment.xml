@@ -28,7 +28,7 @@
             android:id="@+id/topLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#FCEE5C"
+            android:background="@color/app_theme_color"
             android:orientation="vertical"
             tools:ignore="MissingConstraints">
 
@@ -61,7 +61,7 @@
                         android:gravity="center"
                         android:paddingLeft="@dimen/dimen_35_dp"
                         android:text="对话"
-                        android:textColor="@color/black"
+                        android:textColor="@color/color_white"
                         android:textSize="20sp" />
 
                     <ImageView
