@@ -47,5 +47,7 @@ public class UserBean {
 
     public String usdt;
 
+    public boolean needAuthentication;
+
 
 }

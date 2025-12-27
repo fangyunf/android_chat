@@ -67,8 +67,6 @@ public abstract class CommonCallback<T> implements Callback<T> {
                                     .withContext(AppProxy.getInstance().getContext())
                                     .navigate();
                         }
-
-
                         break;
                     case -101://认证过期
                         ToastUtils.toastMsg(((NetData) t).msg);
