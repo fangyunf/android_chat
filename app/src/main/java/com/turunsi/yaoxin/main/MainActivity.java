@@ -187,6 +187,7 @@ public class MainActivity extends BaseActivity {
         AppDialogConfig config = new AppDialogConfig(this);
         config.setTitle("应用升级")
                 .setConfirm("升级")
+                .setHideCancel(true)
                 .setContent(updateMsg)
                 .setOnClickConfirm(new View.OnClickListener() {
                     @Override
