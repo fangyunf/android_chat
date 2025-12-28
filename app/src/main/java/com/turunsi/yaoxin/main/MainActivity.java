@@ -10,6 +10,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -192,42 +193,52 @@ public class MainActivity extends BaseActivity {
                 .setOnClickConfirm(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        AppUpdater appUpdater = new AppUpdater.Builder(MainActivity.this)
-                                .setUrl(downLoadUrl)
-                                .build();
-                        appUpdater.setHttpManager(OkHttpManager.getInstance()) // 使用OkHttp的实现进行下载
-                                .setUpdateCallback(new UpdateCallback() { // 更新回调
-                                    @Override
-                                    public void onDownloading(boolean isDownloading) {
-                                        // 下载中：isDownloading为true时，表示已经在下载，即之前已经启动了下载；为false时，表示当前未开始下载，即将开始下载
-                                    }
+                        try {
+                            Intent intent = new Intent(Intent.ACTION_VIEW);
+                            // 设置URL，替换为你想打开的网页地址
+                            intent.setData(Uri.parse(downLoadUrl));
+                            // 启动Intent，跳转到浏览器
+                            startActivity(intent);
+                        } catch (Exception e) {
+                            ToastUtils.toastMsg("下载地址异常");
+                        }
 
-                                    @Override
-                                    public void onStart(String url) {
-                                        // 开始下载
-                                    }
-
-                                    @Override
-                                    public void onProgress(long progress, long total, boolean isChanged) {
-                                        // 下载进度更新：建议在isChanged为true时，才去更新界面的进度；因为实际的进度变化频率很高
-                                    }
-
-                                    @Override
-                                    public void onFinish(File file) {
-                                        // 下载完成
-                                    }
-
-                                    @Override
-                                    public void onError(Exception e) {
-                                        // 下载失败
-                                    }
-
-                                    @Override
-                                    public void onCancel() {
-                                        // 取消下载
-                                    }
-                                }).start();
-                        AppDialog.INSTANCE.dismissDialogFragment(getSupportFragmentManager());
+//                        AppUpdater appUpdater = new AppUpdater.Builder(MainActivity.this)
+//                                .setUrl(downLoadUrl)
+//                                .build();
+//                        appUpdater.setHttpManager(OkHttpManager.getInstance()) // 使用OkHttp的实现进行下载
+//                                .setUpdateCallback(new UpdateCallback() { // 更新回调
+//                                    @Override
+//                                    public void onDownloading(boolean isDownloading) {
+//                                        // 下载中：isDownloading为true时，表示已经在下载，即之前已经启动了下载；为false时，表示当前未开始下载，即将开始下载
+//                                    }
+//
+//                                    @Override
+//                                    public void onStart(String url) {
+//                                        // 开始下载
+//                                    }
+//
+//                                    @Override
+//                                    public void onProgress(long progress, long total, boolean isChanged) {
+//                                        // 下载进度更新：建议在isChanged为true时，才去更新界面的进度；因为实际的进度变化频率很高
+//                                    }
+//
+//                                    @Override
+//                                    public void onFinish(File file) {
+//                                        // 下载完成
+//                                    }
+//
+//                                    @Override
+//                                    public void onError(Exception e) {
+//                                        // 下载失败
+//                                    }
+//
+//                                    @Override
+//                                    public void onCancel() {
+//                                        // 取消下载
+//                                    }
+//                                }).start();
+//                        AppDialog.INSTANCE.dismissDialogFragment(getSupportFragmentManager());
                     }
                 });
         AppDialog.INSTANCE.showDialogFragment(getSupportFragmentManager(), config);
