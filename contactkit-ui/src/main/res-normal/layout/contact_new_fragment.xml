@@ -21,68 +21,76 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-
         <LinearLayout
-            android:id="@+id/contact_new_fragment_top_ll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:paddingHorizontal="15dp">
+            android:background="@drawable/home_bg"
+            android:orientation="vertical">
+
 
             <LinearLayout
+                android:id="@+id/contact_new_fragment_top_ll"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:paddingRight="10dp">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:paddingHorizontal="15dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:paddingRight="10dp">
+
+                    <TextView
+                        android:id="@+id/fun_conversation_fragment_title_tv"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="60dp"
+                        android:text="联系人"
+                        android:textColor="@color/color_black"
+                        android:textSize="20sp" />
+
+                    <ImageView
+                        android:id="@+id/contact_new_fragment_search_iv"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_marginHorizontal="10dp"
+                        android:src="@mipmap/conversation_list_index_notice_icon" />
+
+                    <ImageView
+                        android:id="@+id/contact_new_fragment_more_iv"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:src="@mipmap/conversation_index_pop_more" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/contact_new_fragment_search_ll"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="@dimen/dimen_16_dp"
+                android:background="@drawable/bg_white_rounded_12"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@mipmap/conversation_list_index_search_icon1" />
 
                 <TextView
-                    android:id="@+id/fun_conversation_fragment_title_tv"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:paddingLeft="60dp"
-                    android:text="联系人"
-                    android:textColor="@color/color_black"
-                    android:textSize="20sp" />
+                    android:text="搜索"
+                    android:textColor="#8E8E93"
+                    android:textSize="16sp" />
 
-                <ImageView
-                    android:id="@+id/contact_new_fragment_search_iv"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_marginHorizontal="10dp"
-                    android:src="@mipmap/conversation_list_index_notice_icon" />
-
-                <ImageView
-                    android:id="@+id/contact_new_fragment_more_iv"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:src="@mipmap/conversation_index_pop_more" />
             </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/contact_new_fragment_search_ll"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="@dimen/dimen_16_dp"
-            android:background="@drawable/bg_e3e3e3_rounded_10"
-            android:gravity="center">
-
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginRight="10dp"
-                android:src="@mipmap/conversation_list_index_search_icon1" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="搜索"
-                android:textColor="#8E8E93"
-                android:textSize="16sp" />
 
         </LinearLayout>
         <!--        <LinearLayout-->

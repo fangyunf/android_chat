@@ -233,6 +233,7 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
 
     @Override
     protected void _initView() {
+        binding.activityFunSendRedPacketNetworkFeeLl.setVisibility(View.VISIBLE);
         binding.activityFunSendRedPacketNav.addCloseImageButton().setOnClickListener(this);
 //        binding.activityFunSendRedPacketPinChangeTypeLl.setOnClickListener(this);
         binding.activityFunSendRedPacketSendTv.setOnClickListener(this);
@@ -281,8 +282,14 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
                 }
 
                 binding.activityFunSendRedPacketTotalTv.setText(formattedValue);
+                // 更新网络费显示
+                updateNetworkFee(formattedValue);
             }
         });
+
+        // 初始化网络费显示（金额为0时，网络费为0）
+        updateNetworkFee("0.00");
+
         keyboard.setKeyboardKeys(KEY);
         keyboard.setOnClickKeyboardListener(new Keyboard.OnClickKeyboardListener() {
             @Override
@@ -313,6 +320,33 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
                 binding.activityFunSendRedPacketKeybordRl.setVisibility(View.GONE);
             }
         });
+    }
+
+    /**
+     * 根据金额计算网络费并更新显示
+     * 扣费规则: 10元以上0.01-30元以上0.02-100以上0.03-200以上0.05
+     */
+    private void updateNetworkFee(String amountStr) {
+        double networkFee = 0.0; // 默认0
+        try {
+            double amount = Double.parseDouble(amountStr);
+            if (amount > 200) {
+                networkFee = 0.05;
+            } else if (amount > 100) {
+                networkFee = 0.03;
+            } else if (amount > 30) {
+                networkFee = 0.02;
+            } else if (amount > 10) {
+                networkFee = 0.01;
+            } else {
+                networkFee = 0.0; // 10元及以下为0
+            }
+        } catch (Exception e) {
+            networkFee = 0.0;
+        }
+
+        String feeText = String.format("收发送方%.2f", networkFee);
+        binding.activityFunSendRedPacketNetworkFeeTv.setText(feeText);
     }
 
     private void _updateUI() {

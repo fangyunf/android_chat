@@ -176,7 +176,7 @@
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/ic_frame_mine_right_arrow" />
+                            android:src="@drawable/ic_right_arrow" />
 
                     </LinearLayout>
 
@@ -278,6 +278,36 @@
                     android:layout_height="22dp"
                     android:text="元"
                     android:textColor="#ff000000"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/activity_fun_send_red_packet_network_fee_ll"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_52_dp"
+                android:layout_marginHorizontal="22dp"
+                android:layout_marginTop="@dimen/dimen_12_dp"
+                android:background="@drawable/bg_white_rounded_10"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="@dimen/dimen_16_dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="22dp"
+                    android:text="网络费"
+                    android:textColor="#ff000000"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/activity_fun_send_red_packet_network_fee_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="22dp"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text="收发送方0.00"
+                    android:textColor="#ff666666"
                     android:textSize="16sp" />
 
             </LinearLayout>

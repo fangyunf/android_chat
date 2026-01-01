@@ -31,9 +31,7 @@ public class ChatTextMessageViewHolder extends FunChatBaseMessageViewHolder {
 
     @Override
     public void addViewToMessageContainer() {
-        textBinding =
-                FunChatMessageTextViewHolderBinding.inflate(
-                        LayoutInflater.from(parent.getContext()), getMessageContainer(), true);
+        textBinding = FunChatMessageTextViewHolderBinding.inflate(LayoutInflater.from(parent.getContext()), getMessageContainer(), true);
     }
 
     @Override
@@ -46,31 +44,21 @@ public class ChatTextMessageViewHolder extends FunChatBaseMessageViewHolder {
             textBinding.messageText.setTextColor(properties.getMessageTextColor());
         } else {
             if (message.getMessageData().getFromUser() != null && message.getMessageData().getFromUser().getAccount().equals(DataUtil.getUserid())) {
-                textBinding.messageText.setTextColor(
-                        parent.getContext().getResources().getColor(com.yaoxin.appbase.R.color.app_theme_color));
+                textBinding.messageText.setTextColor(parent.getContext().getResources().getColor(com.yaoxin.appbase.R.color.color_white));
             } else {
-                textBinding.messageText.setTextColor(
-                        parent.getContext().getResources().getColor(R.color.color_333333));
+                textBinding.messageText.setTextColor(parent.getContext().getResources().getColor(R.color.color_333333));
             }
         }
         if (message.getMessageData().getMessage().getMsgType() == MsgTypeEnum.text) {
 
             if (isForwardMsg()) {
-                MessageHelper.identifyFaceExpression(
-                        textBinding.getRoot().getContext(),
-                        textBinding.messageText,
-                        message.getMessageData().getMessage().getContent(),
-                        ImageSpan.ALIGN_BOTTOM);
+                MessageHelper.identifyFaceExpression(textBinding.getRoot().getContext(), textBinding.messageText, message.getMessageData().getMessage().getContent(), ImageSpan.ALIGN_BOTTOM);
             } else {
-                MessageHelper.identifyExpression(
-                        textBinding.getRoot().getContext(),
-                        textBinding.messageText,
-                        message.getMessageData().getMessage());
+                MessageHelper.identifyExpression(textBinding.getRoot().getContext(), textBinding.messageText, message.getMessageData().getMessage());
             }
         } else {
             //文件消息暂不支持所以展示提示信息
-            textBinding.messageText.setText(
-                    parent.getContext().getResources().getString(R.string.chat_message_not_support_tips));
+            textBinding.messageText.setText(parent.getContext().getResources().getString(R.string.chat_message_not_support_tips));
         }
     }
 

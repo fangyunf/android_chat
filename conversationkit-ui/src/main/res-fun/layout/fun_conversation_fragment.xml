@@ -25,6 +25,7 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:background="@drawable/home_bg"
             android:id="@+id/topLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -59,7 +60,7 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:paddingLeft="@dimen/dimen_35_dp"
-                        android:text="对话"
+                        android:text="消息"
                         android:textColor="@color/black"
                         android:textSize="20sp" />
 
@@ -94,7 +95,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dimen_48_dp"
                     android:autofillHints=""
-                    android:background="@drawable/bg_e3e3e3_rounded_10"
+                    android:background="@drawable/bg_white_rounded_12"
                     android:drawableStart="@mipmap/conversation_list_index_search_icon1"
                     android:drawablePadding="5dp"
                     android:hint="搜索"
@@ -128,7 +129,7 @@
                     app:mvDirection="bottom_to_top"
                     app:mvInterval="3000"
                     app:mvSingleLine="true"
-                    app:mvTextColor="#8E8E93"
+                    app:mvTextColor="#0192FF"
                     app:mvTextSize="14sp" />
 
             </LinearLayout>

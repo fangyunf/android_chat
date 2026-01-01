@@ -207,14 +207,14 @@ public class IMApplication extends MultiDexApplication {
                         try {
                             CustomMsgBean msgBean = new Gson().fromJson(message.getAttachStr(), CustomMsgBean.class);
                             msgBean.result = new Gson().fromJson(msgBean.data, CustomMsgBean.class);
-                            if (msgBean.type == 21) {
-                                if (DataUtil.getUserid().equals(msgBean.result.toUserId) || DataUtil.getUserid().equals(msgBean.result.fromUserId) || msgBean.result.adminIds.contains(DataUtil.getUserid())) {
-                                    return false;
-                                }
-                                return true;
-
-                            }
-
+//                            if (msgBean.type == 21) {
+//                                if (DataUtil.getUserid().equals(msgBean.result.toUserId) || DataUtil.getUserid().equals(msgBean.result.fromUserId) || msgBean.result.adminIds.contains(DataUtil.getUserid())) {
+//                                    return false;
+//                                }
+//                                return true;
+//
+//                            }
+                            return false;
                         } catch (Exception e) {
 
                         }

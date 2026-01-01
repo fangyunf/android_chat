@@ -102,10 +102,10 @@
                 android:maxLength="20"
                 android:paddingStart="@dimen/dimen_16_dp"
                 android:singleLine="true"
-                android:textStyle="bold"
                 android:textColorHint="@color/color_b3b7bc"
                 android:textCursorDrawable="@null"
                 android:textSize="@dimen/text_size_16"
+                android:textStyle="bold"
                 tools:ignore="LabelFor" />
 
             <EditText

@@ -239,6 +239,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         binding.fragmentMineTcdlView.setOnClickListener(this);
         binding.fragmentMineCopyIos.setOnClickListener(this);
         binding.fragmentMineCopyAndroid.setOnClickListener(this);
+        binding.fragmentMineGwdzView.setOnClickListener(this);
         binding.tvInfo.setOnClickListener(this);
 
 //        binding.mineFragmentMyManagerItem1.viewMineFragmentItemCellCl.setOnClickListener(this);
@@ -355,7 +356,10 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         Context context = getContext();
-        if (v == binding.fragmentMineErweimaIv) {
+
+        if (v == binding.fragmentMineGwdzView) {
+            DownLoadActivity.start(DownLoadActivity.class, getActivity(), null);
+        } else if (v == binding.fragmentMineErweimaIv) {
 //            if (getActivity() != null) {
 //                AccountCodeDialogFragment.showV(getActivity().getSupportFragmentManager());
 //            }

@@ -77,7 +77,7 @@
                 android:drawableTop="@mipmap/mine_tabbar_msg_sel"
                 android:drawablePadding="-2dp"
                 android:gravity="center"
-                android:text="对话"
+                android:text="消息"
                 android:textColor="@color/tab_checked_color"
                 android:textSize="12sp" />
 
@@ -109,7 +109,7 @@
                 android:drawableTop="@mipmap/mine_tabbar_msg_group_normal"
                 android:drawablePadding="-2dp"
                 android:gravity="center"
-                android:text="联系人"
+                android:text="群聊"
                 android:textColor="@color/tab_unchecked_color"
                 android:textSize="12sp" />
 
@@ -140,7 +140,7 @@
                 android:drawableTop="@mipmap/mine_tabbar_txl_normal"
                 android:drawablePadding="-2dp"
                 android:gravity="center"
-                android:text="发现"
+                android:text="联系人"
                 android:textColor="@color/tab_unchecked_color"
                 android:textSize="12sp" />
 
@@ -172,7 +172,7 @@
                 android:drawableTop="@mipmap/mine_tabbar_mine_normal"
                 android:drawablePadding="-2dp"
                 android:gravity="center"
-                android:text="@string/tab_mine_tab_text"
+                android:text="我的"
                 android:textColor="@color/tab_unchecked_color"
                 android:textSize="12sp" />
 
