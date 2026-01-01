@@ -21,8 +21,8 @@ android {
         applicationId = "com.turunsi.baoxin"
         minSdk = 21
         targetSdk = 33
-        versionCode = 13
-        versionName = "1.1.2"
+        versionCode = 14
+        versionName = "1.1.3"
         multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
