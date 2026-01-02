@@ -70,7 +70,7 @@
                 android:id="@+id/fun_chat_view_group_notice_ll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#FF56C2"
+                android:background="#6aa9f6"
                 android:gravity="center_vertical"
                 android:paddingHorizontal="10dp"
                 android:visibility="gone">

@@ -36,14 +36,13 @@
             android:textSize="15sp" />
 
         <TextView
-            android:id="@+id/fun_chat_message_red_packet_view_holder_money_tv"
+            android:id="@+id/fun_chat_message_red_packet_view_holder_type_tv"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
+            android:textSize="14sp"
             android:layout_marginLeft="55dp"
-
-            android:text="0.00"
-            android:textColor="@color/color_white"
-            android:textSize="16sp" />
+            android:text="红包"
+            android:textColor="@color/color_white" />
 
         <View
             android:layout_width="match_parent"
@@ -62,20 +61,21 @@
             android:paddingHorizontal="@dimen/dimen_10_dp">
 
             <TextView
-                android:id="@+id/fun_chat_message_red_packet_view_holder_type_tv"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="红包"
-                android:textColor="#ffffffff"
-                android:textSize="10sp" />
-
-            <TextView
                 android:id="@+id/fun_chat_message_red_packet_view_holder_time_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="2023-11-08 19:20:30"
                 android:textColor="#ffffffff"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/fun_chat_message_red_packet_view_holder_money_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="0.00"
+                android:textColor="@color/color_white"
                 android:textSize="10sp" />
         </LinearLayout>
     </LinearLayout>

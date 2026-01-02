@@ -41,17 +41,22 @@ public class ChatZhuanZhangMessageViewHolder extends FunChatBaseMessageViewHolde
         if (message != null
                 && message.getMessageData() != null
                 && !message.getMessageData().getMessage().getAttachStr().isEmpty()) {
-            Map<String, Object> localExtension = message.getMessageData().getMessage().getLocalExtension();
-            boolean hasDraw = false;
-            if (localExtension != null && DataUtil.getUserid().equals(localExtension.get("userId"))) {
-                hasDraw = true;
-            }
-
             CustomMsgBean bean = new Gson().fromJson(message.getMessageData().getMessage().getAttachStr(), CustomMsgBean.class);
             bean.result = new Gson().fromJson(bean.data, CustomMsgBean.class);
+            
+            Map<String, Object> localExtension = message.getMessageData().getMessage().getLocalExtension();
+            boolean hasDraw = false;
+            // 转账只有接收者才能打开，所以需要同时判断是接收者且localExtension中有userId
+            if (localExtension != null 
+                    && DataUtil.getUserid().equals(localExtension.get("userId"))
+                    && bean.result.toUserId.equals(DataUtil.getUserid())) {
+                hasDraw = true;
+            }
             if (hasDraw) {
-                viewBinding.funChatMessageRedPacketViewHolderBgIv.setImageResource(R.drawable.chat_zhuanzhang_bg_is_open);
+                viewBinding.funChatMessageRedPacketViewHolderBgIv.setImageResource(R.drawable.chat_zhuanzhang_bg_no_open);
+                viewBinding.funChatMessageRedPacketViewHolderBgIv.setImageAlpha(128);
             } else {
+                viewBinding.funChatMessageRedPacketViewHolderBgIv.setImageAlpha(255);
                 viewBinding.funChatMessageRedPacketViewHolderBgIv.setImageResource(R.drawable.chat_zhuanzhang_bg_no_open);
             }
             if (bean.result.toUserId.equals(DataUtil.getUserid())) {

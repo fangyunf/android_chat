@@ -4,16 +4,16 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.turunsi.miliao",
+  "applicationId": "com.turunsi.xingyu",
   "variantName": "release",
   "elements": [
     {
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 5,
-      "versionName": "1.0.4",
-      "outputFile": "miliao_release_v1.0.4.apk"
+      "versionCode": 1,
+      "versionName": "1.0.0",
+      "outputFile": "miliao_release_v1.0.0.apk"
     }
   ],
   "elementType": "File"
