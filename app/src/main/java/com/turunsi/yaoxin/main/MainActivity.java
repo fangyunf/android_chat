@@ -8,10 +8,14 @@ import static com.yzq.zxinglibrary.common.Constant.CODED_CONTENT;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.view.View;
 
@@ -104,7 +108,7 @@ import retrofit2.Response;
 /**
  * IM Main Page include four tab , message/contact/live/profile
  */
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements EasyPermissions.PermissionCallbacks {
 
     private ActivityMainBinding activityMainBinding;
     private static final int START_INDEX = 0;
@@ -497,29 +501,7 @@ public class MainActivity extends BaseActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(com.yaoxin.appbase.utils.BaseEvent event) {
         if ("gotoScan".equals(event.getTag())) {
-            String[] permission = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
-            // 根据系统版本判断，如果是Android13则采用Manifest.permission.READ_MEDIA_IMAGES
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                permission = new String[]{Manifest.permission.READ_MEDIA_IMAGES, Manifest.permission.READ_MEDIA_VIDEO};
-            }
-            if (!EasyPermissions.hasPermissions(this, permission)) {
-                // 请求相机权限
-                EasyPermissions.requestPermissions(this, "需要访问相册权限", com.yaoxin.appbase.net.Constant.RC_PHOTO_PICKER_PERM, permission);
-                return;
-            }
-
-
-            String[] perms1 = {Manifest.permission.CAMERA};
-            if (!EasyPermissions.hasPermissions(this, perms1)) {
-                EasyPermissions.requestPermissions(this, "需要访问相机权限", com.yaoxin.appbase.net.Constant.RC_PHOTO_CAMERA_PERM, perms1);
-                return;
-            }
-//      ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeCustomAnimation(this, R.anim.in, R.anim.out);
-//      Intent intent = new Intent(this, QRCodeScanActivity.class);
-//      ActivityCompat.startActivityForResult(this, intent, REQUEST_CODE_SCAN, optionsCompat.toBundle());
-
-            Intent intent = new Intent(this, CaptureActivity.class);
-            startActivityForResult(intent, REQUEST_CODE_SCAN);
+            checkAndRequestScanPermissions();
         } else if ("gotoCreate".equals(event.getTag())) {
             XKitRouter.withKey(com.yaoxin.appbase.net.Constant.FunSelected_User_ActivityKey).withContext(this).withParam("type", "1").navigate();
 
@@ -529,6 +511,13 @@ public class MainActivity extends BaseActivity {
             XKitRouter.withKey(RouterConstant.PATH_FUN_ADD_FRIEND_PAGE).withContext(this).navigate();
         }
 
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        // 将权限请求结果传递给 EasyPermissions
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
 
     @Override
@@ -570,6 +559,95 @@ public class MainActivity extends BaseActivity {
             }
 
         }
+    }
+
+    /**
+     * 检查并请求扫码所需的权限
+     */
+    private void checkAndRequestScanPermissions() {
+        // 先检查相册权限
+        String[] storagePermission;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            storagePermission = new String[]{Manifest.permission.READ_MEDIA_IMAGES, Manifest.permission.READ_MEDIA_VIDEO};
+        } else {
+            storagePermission = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        }
+        
+        if (!EasyPermissions.hasPermissions(this, storagePermission)) {
+            EasyPermissions.requestPermissions(this, "需要访问相册权限才能使用扫码功能", 
+                    com.yaoxin.appbase.net.Constant.RC_PHOTO_PICKER_PERM, storagePermission);
+            return;
+        }
+
+        // 再检查相机权限
+        String[] cameraPermission = {Manifest.permission.CAMERA};
+        if (!EasyPermissions.hasPermissions(this, cameraPermission)) {
+            EasyPermissions.requestPermissions(this, "需要访问相机权限才能使用扫码功能", 
+                    com.yaoxin.appbase.net.Constant.RC_PHOTO_CAMERA_PERM, cameraPermission);
+            return;
+        }
+
+        // 所有权限都已授予，打开扫码页面
+        openScanActivity();
+    }
+
+    /**
+     * 打开扫码页面
+     */
+    private void openScanActivity() {
+        Intent intent = new Intent(this, CaptureActivity.class);
+        startActivityForResult(intent, REQUEST_CODE_SCAN);
+    }
+
+    @Override
+    public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
+        // 权限授予后，重新检查所有权限并继续流程
+        checkAndRequestScanPermissions();
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
+        // 检查是否有权限被永久拒绝
+        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
+            // 有权限被永久拒绝，引导用户到设置页面
+            showPermissionDeniedDialog();
+        } else {
+            // 权限被拒绝但未永久拒绝，可以再次请求
+            ToastUtils.toastMsg("需要相关权限才能使用扫码功能");
+        }
+    }
+
+    /**
+     * 显示权限被拒绝的对话框，引导用户到设置页面
+     */
+    private void showPermissionDeniedDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle("权限被拒绝")
+                .setMessage("扫码功能需要相机和相册权限，请在设置中开启相关权限")
+                .setPositiveButton("去设置", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        openAppSettings();
+                        dialog.dismiss();
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .show();
+    }
+
+    /**
+     * 打开应用设置页面
+     */
+    private void openAppSettings() {
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        Uri uri = Uri.fromParts("package", getPackageName(), null);
+        intent.setData(uri);
+        startActivity(intent);
     }
 
 }
