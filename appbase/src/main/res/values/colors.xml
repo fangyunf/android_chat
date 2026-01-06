@@ -53,4 +53,15 @@
     <color name="app_theme_red_color">#FF0000</color>
     <color name="app_theme_aplha_color">#33006CFF</color>
 
+    <color name="grade_color_1">#F0610C</color>
+    <color name="grade_color_2">#0094F5</color>
+    <color name="grade_color_3">#8326FA</color>
+    <color name="grade_color_4">#EB4E50</color>
+    <color name="grade_color_5">#EB8D00</color>
+    <color name="grade_color_6">#BA7E1A</color>
+    <color name="grade_color_7">#0094F5</color>
+    <color name="grade_color_8">#D52BF8</color>
+    <color name="grade_color_9">#DE7930</color>
+    <color name="grade_color_10">#EF6BCF</color>
+
 </resources>

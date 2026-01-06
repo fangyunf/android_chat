@@ -126,8 +126,8 @@
 
     <ImageView
         android:id="@+id/ivOtherGrade"
-        android:layout_width="@dimen/dimen_36_dp"
-        android:layout_height="18dp"
+        android:layout_width="60dp"
+        android:layout_height="20dp"
         android:layout_marginLeft="5dp"
         android:src="@mipmap/mine_grade_level_1"
         android:visibility="gone"

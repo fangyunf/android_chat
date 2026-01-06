@@ -5,6 +5,7 @@
 package com.netease.yunxin.kit.chatkit.ui.view.message.viewholder;
 
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
@@ -48,6 +49,7 @@ import com.netease.yunxin.kit.corekit.im.provider.FetchCallback;
 import com.yaoxin.appbase.model.GroupInfoBean;
 import com.yaoxin.appbase.utils.AppProxy;
 import com.yaoxin.appbase.utils.DataUtil;
+import com.yaoxin.appbase.utils.ResourceHelper;
 
 import java.util.List;
 import java.util.Map;
@@ -867,22 +869,28 @@ public abstract class ChatBaseMessageViewHolder extends CommonBaseMessageViewHol
             }
             if (grader > 0 && (messageBean.getMessageData().getMessage().getSessionType() == SessionTypeEnum.Team)) {
                 baseViewBinding.ivOtherGrade.setVisibility(View.VISIBLE);
-                String imageName = "mine_grade_level_" + grader;
-                Resources resources = baseViewBinding.ivOtherGrade.getResources();
-                int resId = resources.getIdentifier(imageName, "mipmap", baseViewBinding.ivOtherGrade.getContext().getPackageName());
-                // 如果找到了资源，则可以使用这个ID获取Drawable
-                Drawable drawable = null;
-                if (resId > 0) {
-                    drawable = ContextCompat.getDrawable(baseViewBinding.ivOtherGrade.getContext(), resId);
-                }
-                // 如果需要将drawable设置到ImageView中
-                if (drawable != null) {
-                    baseViewBinding.ivOtherGrade.setImageDrawable(drawable);
-                }
+//                String imageName = "mine_grade_level_" + grader;
+//                Resources resources = baseViewBinding.ivOtherGrade.getResources();
+//                int resId = resources.getIdentifier(imageName, "mipmap", baseViewBinding.ivOtherGrade.getContext().getPackageName());
+//                // 如果找到了资源，则可以使用这个ID获取Drawable
+//                Drawable drawable = null;
+//                if (resId > 0) {
+//                    drawable = ContextCompat.getDrawable(baseViewBinding.ivOtherGrade.getContext(), resId);
+//                }
+//                // 如果需要将drawable设置到ImageView中
+//                if (drawable != null) {
+//                    baseViewBinding.ivOtherGrade.setImageDrawable(drawable);
+//                }
+                int gradeColor = ResourceHelper.getGradeColor(baseViewBinding.myAvatar.getContext(), grader);
+                baseViewBinding.ivOtherGrade.setImageDrawable(ResourceHelper.getGradeDrawable(baseViewBinding.myAvatar.getContext(), grader));
+                baseViewBinding.otherUsername.setTextColor(gradeColor);
+
             } else {
+                baseViewBinding.otherUsername.setTextColor(Color.parseColor("#333333"));
                 baseViewBinding.ivOtherGrade.setVisibility(View.GONE);
             }
         } else {
+            baseViewBinding.otherUsername.setTextColor(Color.parseColor("#333333"));
             baseViewBinding.ivOtherGrade.setVisibility(View.GONE);
             // 发送消息当前用户头像显示，对方用户头像隐藏
             baseViewBinding.myAvatar.setVisibility(View.VISIBLE);

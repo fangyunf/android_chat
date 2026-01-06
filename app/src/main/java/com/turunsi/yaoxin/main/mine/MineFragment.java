@@ -81,6 +81,7 @@ import com.yaoxin.appbase.pswkeyboard.widget.PopEnterPassword;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.DialogAlertUtil;
 import com.yaoxin.appbase.utils.NumberUtil;
+import com.yaoxin.appbase.utils.ResourceHelper;
 import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
 
@@ -320,19 +321,8 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 //            binding.fragmentMineGradeRl.setVisibility(View.VISIBLE);
 //            binding.fragmentMineGradeTv.setVisibility(View.VISIBLE);
             binding.fragmentMineGradeIv.setVisibility(View.VISIBLE);
-//            binding.fragmentMineGradeTv.setText(DataUtil.getUserInfo().grade + "级靓号用户");
-            String imageName = "mine_grade_level_" + DataUtil.getUserInfo().grade;
-            Resources resources = getResources();
-            int resId = resources.getIdentifier(imageName, "mipmap", getContext().getPackageName());
-            // 如果找到了资源，则可以使用这个ID获取Drawable
-            Drawable drawable = null;
-            if (resId > 0) {
-                drawable = ContextCompat.getDrawable(getContext(), resId);
-            }
-            // 如果需要将drawable设置到ImageView中
-            if (drawable != null) {
-                binding.fragmentMineGradeIv.setImageDrawable(drawable);
-            }
+            binding.fragmentMineGradeIv.setImageDrawable(ResourceHelper.getGradeDrawable(requireActivity(), DataUtil.getUserInfo().grade));
+            binding.tvName.setTextColor(ResourceHelper.getGradeColor(requireActivity(), DataUtil.getUserInfo().grade));
         } else {
             binding.fragmentMineGradeRl.setVisibility(View.GONE);
             binding.fragmentMineGradeTv.setVisibility(View.GONE);

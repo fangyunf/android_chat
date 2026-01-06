@@ -38,13 +38,20 @@
 
         <TextView
             android:id="@+id/cell_fun_team_setting_users_mingdan_name_tv"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="22dp"
             android:layout_marginLeft="@dimen/dimen_8_dp"
-            android:layout_weight="1"
             android:text="哔哩吧啦"
             android:textColor="#ff000000"
             android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/ivGrade"
+            android:layout_width="@dimen/dimen_60_dp"
+            android:layout_height="@dimen/dimen_20_dp"
+            android:layout_marginLeft="5dp"
+            android:src="@mipmap/mine_grade_level_1"
+            android:visibility="gone" />
     </LinearLayout>
 
     <View

@@ -144,8 +144,8 @@
 
                             <ImageView
                                 android:id="@+id/fragment_mine_grade_iv"
-                                android:layout_width="40dp"
-                                android:layout_height="18dp"
+                                android:layout_width="@dimen/dimen_60_dp"
+                                android:layout_height="@dimen/dimen_20_dp"
                                 android:layout_marginLeft="5dp"
                                 android:src="@mipmap/mine_grade_level_1"
                                 android:visibility="gone" />
