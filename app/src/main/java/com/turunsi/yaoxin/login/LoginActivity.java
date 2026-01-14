@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import com.netease.yunxin.kit.common.utils.SizeUtils;
 import com.netease.yunxin.kit.corekit.route.XKitRouter;
 import com.turunsi.yaoxin.BuildConfig;
 import com.turunsi.yaoxin.R;
+import com.turunsi.yaoxin.utils.AppUtils;
 import com.turunsi.yaoxin.utils.IMUtil;
 import com.yaoxin.appbase.activity.BaseActivity;
 import com.turunsi.yaoxin.databinding.ActivityLoginBinding;
@@ -70,16 +72,27 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         binding.activityLoginTf1.viewTitleTfCountIv.setImageResource(R.mipmap.login_icon_phone);
         binding.activityLoginTf2.viewTitleTfCountIv.setImageResource(R.mipmap.login_icon_code);
         binding.activityLoginTf3.viewTitleTfCountIv.setImageResource(R.mipmap.login_icon_password);
+        binding.activityLoginTf4.viewTitleTfCountIv.setImageResource(R.mipmap.login_icon_password);
         binding.activityLoginTf1.viewTitleTfCountEt.setHint("输入手机号");
         binding.activityLoginTf2.viewTitleTfCountEt.setHint("输入验证码");
         binding.activityLoginTf3.viewTitleTfCountEt.setHint("输入密码");
+        binding.activityLoginTf4.viewTitleTfCountEt.setHint("请再次输入密码");
         binding.activityLoginTf1.viewTitleTfCountEt.setInputType(InputType.TYPE_CLASS_NUMBER);
         binding.activityLoginTf2.viewTitleTfCountEt.setInputType(InputType.TYPE_CLASS_NUMBER);
         binding.activityLoginTf3.viewTitleTfCountEyeRl.setVisibility(View.VISIBLE);
-        binding.activityLoginTf3.viewTitleTfCountEyeRl.setOnClickListener(this);
-        binding.activityLoginTf3.viewTitleTfCountEyeIv.setSelected(true);
-        binding.activityLoginTf3.viewTitleTfCountEt.setTransformationMethod(PasswordTransformationMethod.getInstance());
+        binding.activityLoginTf4.viewTitleTfCountEyeRl.setVisibility(View.VISIBLE);
 
+        binding.activityLoginTf3.viewTitleTfCountEyeRl.setOnClickListener(this);
+        binding.activityLoginTf4.viewTitleTfCountEyeRl.setOnClickListener(this);
+
+        binding.activityLoginTf3.viewTitleTfCountEyeIv.setSelected(true);
+        binding.activityLoginTf4.viewTitleTfCountEyeIv.setSelected(true);
+
+        binding.activityLoginTf3.viewTitleTfCountEt.setTransformationMethod(PasswordTransformationMethod.getInstance());
+        binding.activityLoginTf4.viewTitleTfCountEt.setTransformationMethod(PasswordTransformationMethod.getInstance());
+
+        binding.layouLogin.setOnClickListener(this);
+        binding.layouRegister.setOnClickListener(this);
 
         CountDownView mCountDownView = binding.activityLoginTf2.viewTitleTfCountCaptcha;
         mCountDownView.setUserEdit(binding.activityLoginTf1.viewTitleTfCountEt);
@@ -96,7 +109,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             }
         });
         changeTitleWithType(0);
-
     }
 
     void changeTitleWithType(int type) {
@@ -105,22 +117,28 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             binding.activityLoginTf2.viewRoundTfLl.setVisibility(View.GONE);
             binding.activityLoginLoginTv.setText("登录");
             binding.activityLoginTitleTv.setText("登录");
-            binding.tvTip.setText("请使用已注册的账号密码");
             binding.activityLoginForgetTv.setText("忘记密码");
-            binding.activityLoginRegisterTv.setText("没有账号，去注册");
             binding.activityLoginForgetTv.setVisibility(View.VISIBLE);
             binding.activityLoginRegisterTv.setVisibility(View.VISIBLE);
             binding.activityLoginTitleIv.setImageResource(R.mipmap.common_login_title_login);
+            binding.viewLine.setVisibility(View.VISIBLE);
+            binding.viewLine1.setVisibility(View.INVISIBLE);
+            binding.tvVersion.setVisibility(View.GONE);
+            binding.activityLoginTf4.viewRoundTfLl.setVisibility(View.GONE);
         } else if (type == 1) {
+            binding.viewLine.setVisibility(View.INVISIBLE);
+            binding.viewLine1.setVisibility(View.VISIBLE);
             binding.activityLoginTf2.viewRoundTfLl.setVisibility(View.VISIBLE);
             binding.activityLoginTf2.viewTitleTfCountCaptcha.setVisibility(View.VISIBLE);
             binding.activityLoginLoginTv.setText("注册");
             binding.activityLoginTitleTv.setText("注册");
-            binding.tvTip.setText("请使用已注册的账号密码");
             binding.activityLoginRegisterTv.setText("已有账号，去登录");
             binding.activityLoginRegisterTv.setVisibility(View.VISIBLE);
             binding.activityLoginForgetTv.setVisibility(View.GONE);
             binding.activityLoginTitleIv.setImageResource(R.mipmap.common_login_title_register);
+            binding.tvVersion.setVisibility(View.VISIBLE);
+            binding.tvVersion.setText("版本号:" + AppUtils.getAppVersionName(this));
+            binding.activityLoginTf4.viewRoundTfLl.setVisibility(View.VISIBLE);
         } else if (type == 2) {
             binding.activityLoginTf2.viewRoundTfLl.setVisibility(View.VISIBLE);
             binding.activityLoginTf2.viewTitleTfCountCaptcha.setVisibility(View.VISIBLE);
@@ -132,6 +150,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             binding.activityLoginForgetTv.setVisibility(View.GONE);
             binding.activityLoginTitleIv.setImageResource(R.mipmap.common_login_title_forget);
         }
+
+        //我修改的
+        binding.activityLoginRegisterTv.setVisibility(View.GONE);
+
         if (BuildConfig.DEBUG) {
             binding.activityLoginTf1.viewTitleTfCountEt.setText("13761543036");
             binding.activityLoginTf3.viewTitleTfCountEt.setText("a1234567");
@@ -155,7 +177,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 //                    .withContext(this)
 //                    .navigate();
 //        }  else
-        if (v == binding.activityLoginTf3.viewTitleTfCountEyeRl) {
+        if (v == binding.layouLogin) {
+            changeTitleWithType(0);
+        } else if (v == binding.layouRegister) {
+            changeTitleWithType(1);
+        } else if (v == binding.activityLoginTf3.viewTitleTfCountEyeRl) {
             binding.activityLoginTf3.viewTitleTfCountEyeIv.setSelected(!binding.activityLoginTf3.viewTitleTfCountEyeIv.isSelected());
             if (binding.activityLoginTf3.viewTitleTfCountEyeIv.isSelected()) {
                 binding.activityLoginTf3.viewTitleTfCountEt.setTransformationMethod(PasswordTransformationMethod.getInstance());
@@ -163,13 +189,22 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 binding.activityLoginTf3.viewTitleTfCountEt.setTransformationMethod(null);
 
             }
-        } else if (v == binding.activityLoginForgetTv) {
-//            ForgetPwdActivity.start(ForgetPwdActivity.class, this, null);
-            if (_type == 0) {
-                changeTitleWithType(2);
-            } else if (_type == 1 || _type == 2) {
-                changeTitleWithType(0);
+        } else if (v == binding.activityLoginTf4.viewTitleTfCountEyeRl) {
+            binding.activityLoginTf4.viewTitleTfCountEyeIv.setSelected(!binding.activityLoginTf4.viewTitleTfCountEyeIv.isSelected());
+            if (binding.activityLoginTf4.viewTitleTfCountEyeIv.isSelected()) {
+                binding.activityLoginTf4.viewTitleTfCountEt.setTransformationMethod(PasswordTransformationMethod.getInstance());
+            } else {
+                binding.activityLoginTf4.viewTitleTfCountEt.setTransformationMethod(null);
             }
+        } else if (v == binding.activityLoginForgetTv) {
+            ForgetPwdActivity.start(ForgetPwdActivity.class, this, null);
+//            if (_type == 0) {
+//                changeTitleWithType(2);
+//            } else if (_type == 1 || _type == 2) {
+//                changeTitleWithType(0);
+//            }
+
+
 //            changeTitleWithType(_type == 0 ? 2 : 0);
         } else if (v == binding.activityLoginRegisterTv) {
 //            ForgetPwdActivity.start(ForgetPwdActivity.class, this, null);
@@ -181,7 +216,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         } else if (v == binding.activityLoginLoginTv) {
 
             if (_type == 0) {
-
 //                if (!binding.activityLoginIsCheckedIv.isSelected()) {
 //                    ToastUtils.toastMsg("请同意协议");
 //                    return;
@@ -192,10 +226,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     return;
                 }
                 String pwd = getTextStr(binding.activityLoginTf3.viewTitleTfCountEt);
-                if (pwd.isEmpty()) {
+                if (TextUtils.isEmpty(pwd)) {
                     ToastUtils.toastMsg("密码输入有误");
                     return;
                 }
+
                 RegisterBean bean = new RegisterBean();
                 bean.phoneNo = phone;
                 bean.password = pwd;
@@ -217,7 +252,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
                             NetServerException exception = (NetServerException) t;
                             if (exception.getErrCode() == 601) {
-
                                 HashMap map = new HashMap<>();
                                 map.put("type", "0");
                                 map.put("phone", phone);
@@ -245,7 +279,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     return;
                 }
                 String code = getTextStr(binding.activityLoginTf2.viewTitleTfCountEt);
-                if (code.length() > 6) {
+                if (TextUtils.isEmpty(code) || code.length() > 6) {
                     ToastUtils.toastMsg("验证码错误");
                     return;
                 }
@@ -254,6 +288,17 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     ToastUtils.toastMsg("请输入密码");
                     return;
                 }
+
+                String newPwd = getTextStr(binding.activityLoginTf4.viewTitleTfCountEt);
+                if (TextUtils.isEmpty(newPwd)) {
+                    ToastUtils.toastMsg("确认密码输入有误");
+                    return;
+                }
+                if (!(pwd1.equals(newPwd))) {
+                    ToastUtils.toastMsg("两次密码不一致");
+                    return;
+                }
+
                 RegisterBean registerBean = new RegisterBean();
                 registerBean.phoneNo = phone;
                 registerBean.password = pwd1;
