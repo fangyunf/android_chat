@@ -70,6 +70,8 @@ import com.yaoxin.appbase.utils.PinnedHeaderDecoration;
 import com.yaoxin.appbase.utils.StatusBarUtils;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -139,11 +141,43 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(BaseEvent event) {
+        if ("refresh_notice".equals(event.getTag())) {
+            loadMessageCount();
+        }
+    }
+
     @Override
     protected void _requestData() {
 //        _requestMemeber(1);
         loadFriendList();
+        loadMessageCount();
+        loadTeamList();
+        RegisterBean bean = new RegisterBean();
+        bean.pageNo = "0";
+        HttpUtil.apiW().friends_applyList(bean).enqueue(new CommonCallback<NetData>() {
+            @Override
+            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                NetData listData = new Gson().fromJson(body.data.toString(), NetData.class);
+                Gson gson = new Gson();
+                verifyList = gson.fromJson(new Gson().toJson(listData.data), new TypeToken<List<UserBean>>() {
+                }.getType());
+                if (_selectIndex == 2) {
+                    binding.contactNewFragmentRv.setAdapter(verifyAdapter);
+                    verifyAdapter.setItems(verifyList);
+                    verifyAdapter.notifyDataSetChanged();
+                }
+            }
 
+            @Override
+            public void Failure(Call<NetData> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void loadMessageCount() {
         HttpUtil.apiW().friends_applyListNum(new RegisterBean()).enqueue(new CommonCallback<NetData>() {
             @Override
             public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
@@ -159,33 +193,9 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
 //                            binding.contactNewFragmentGroupNoticeTv.setVisibility(View.GONE);
 //                        }
                 if (contactCallback != null) {
-                    contactCallback.updateUnreadCount(applyNumBean.friendApplyNum);
+                    contactCallback.updateUnreadCount(applyNumBean.friendApplyNum + applyNumBean.groupApplyNum);
                 }
 
-            }
-
-            @Override
-            public void Failure(Call<NetData> call, Throwable t) {
-
-            }
-        });
-
-        loadTeamList();
-
-        RegisterBean bean = new RegisterBean();
-        bean.pageNo = "0";
-        HttpUtil.apiW().friends_applyList(bean).enqueue(new CommonCallback<NetData>() {
-            @Override
-            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                NetData listData = new Gson().fromJson(body.data.toString(), NetData.class);
-                Gson gson = new Gson();
-                verifyList = gson.fromJson(new Gson().toJson(listData.data), new TypeToken<List<UserBean>>() {
-                }.getType());
-                if (_selectIndex == 2) {
-                    binding.contactNewFragmentRv.setAdapter(verifyAdapter);
-                    verifyAdapter.setItems(verifyList);
-                    verifyAdapter.notifyDataSetChanged();
-                }
             }
 
             @Override
