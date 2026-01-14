@@ -46,12 +46,17 @@
     <color name="color_ffe935">#ffe935</color>
     <color name="color_ff666666">#ff666666</color>
     <!--    <color name="app_theme_color">#007AFF</color>-->
-    <color name="app_theme_color">#ff55c3</color>
+    <color name="app_theme_color">#8f55ff</color>
     <color name="app_chat_view_bg_color">#F1F1F1</color>
     <color name="app_chat_send_pop_bg">#377AF5</color>
     <color name="app_chat_receive_pop_bg">#FFFFFF</color>
     <color name="app_theme_red_color">#FF0000</color>
     <color name="app_theme_aplha_color">#33006CFF</color>
+
+    <!-- 直接使用十六进制 -->
+    <color name="color_84FD00">#84FD00</color>
+    <color name="color_FEF600">#FEF600</color>
+    <color name="color_8f55ff">#8f55ff</color>
 
     <color name="grade_color_1">#F0610C</color>
     <color name="grade_color_2">#0094F5</color>

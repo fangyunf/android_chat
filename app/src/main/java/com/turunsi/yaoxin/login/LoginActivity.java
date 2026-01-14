@@ -1,15 +1,23 @@
 package com.turunsi.yaoxin.login;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.InputType;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 import com.google.gson.Gson;
 import com.netease.yunxin.kit.common.utils.SPUtils;
@@ -65,10 +73,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         binding.activityLoginForgetTv.setOnClickListener(this);
         binding.activityLoginRegisterTv.setOnClickListener(this);
         binding.activityLoginLoginTv.setOnClickListener(this);
-//        binding.activityLoginIsAgreeLl.setOnClickListener(this);
-//        binding.activityLoginIsCheckedTxt2.setOnClickListener(this);
-//        binding.activityLoginIsCheckedTxt4.setOnClickListener(this);
-//        binding.activityLoginIsAgreeLl.setOnClickListener(this);
+        binding.activityLoginIsAgreeLl.setOnClickListener(this);
         binding.activityLoginTf1.viewTitleTfCountIv.setImageResource(R.mipmap.login_icon_phone);
         binding.activityLoginTf2.viewTitleTfCountIv.setImageResource(R.mipmap.login_icon_code);
         binding.activityLoginTf3.viewTitleTfCountIv.setImageResource(R.mipmap.login_icon_password);
@@ -94,6 +99,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         binding.layouLogin.setOnClickListener(this);
         binding.layouRegister.setOnClickListener(this);
 
+        // 设置协议和隐私政策的 SpannableString
+        setupAgreementText();
+
         CountDownView mCountDownView = binding.activityLoginTf2.viewTitleTfCountCaptcha;
         mCountDownView.setUserEdit(binding.activityLoginTf1.viewTitleTfCountEt);
         mCountDownView.setCountDownTime(60);
@@ -114,6 +122,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     void changeTitleWithType(int type) {
         _type = type;
         if (type == 0) {
+
+            binding.layoutBtnBg.setBackgroundResource(R.mipmap.bg_login_btn);
+
             binding.activityLoginTf2.viewRoundTfLl.setVisibility(View.GONE);
             binding.activityLoginLoginTv.setText("登录");
             binding.activityLoginTitleTv.setText("登录");
@@ -126,6 +137,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             binding.tvVersion.setVisibility(View.GONE);
             binding.activityLoginTf4.viewRoundTfLl.setVisibility(View.GONE);
         } else if (type == 1) {
+            binding.layoutBtnBg.setBackgroundResource(R.mipmap.bg_register_btn);
             binding.viewLine.setVisibility(View.INVISIBLE);
             binding.viewLine1.setVisibility(View.VISIBLE);
             binding.activityLoginTf2.viewRoundTfLl.setVisibility(View.VISIBLE);
@@ -136,7 +148,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             binding.activityLoginRegisterTv.setVisibility(View.VISIBLE);
             binding.activityLoginForgetTv.setVisibility(View.GONE);
             binding.activityLoginTitleIv.setImageResource(R.mipmap.common_login_title_register);
-            binding.tvVersion.setVisibility(View.VISIBLE);
+            binding.tvVersion.setVisibility(View.GONE);
             binding.tvVersion.setText("版本号:" + AppUtils.getAppVersionName(this));
             binding.activityLoginTf4.viewRoundTfLl.setVisibility(View.VISIBLE);
         } else if (type == 2) {
@@ -160,24 +172,79 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         }
     }
 
+    /**
+     * 设置协议和隐私政策的 SpannableString
+     */
+    private void setupAgreementText() {
+        String text = "登陆/注册即表示同意《服务协议》和《隐私政策》";
+        SpannableString spannableString = new SpannableString(text);
+
+        // 设置"《服务协议》"的样式和点击事件
+        String serviceAgreement = "《服务协议》";
+        int serviceStart = text.indexOf(serviceAgreement);
+        int serviceEnd = serviceStart + serviceAgreement.length();
+
+        if (serviceStart >= 0) {
+            // 设置颜色和点击事件（无下划线）
+            spannableString.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, com.yaoxin.appbase.R.color.color_8f55ff)),
+                    serviceStart, serviceEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spannableString.setSpan(new ClickableSpan() {
+                @Override
+                public void onClick(@NonNull View widget) {
+                    XKitRouter.withKey(Constant.BaseWebViewActivityKey)
+                            .withParam("type", "2")
+                            .withParam("title", "服务协议")
+                            .withContext(LoginActivity.this)
+                            .navigate();
+                }
+
+                @Override
+                public void updateDrawState(@NonNull android.text.TextPaint ds) {
+                    super.updateDrawState(ds);
+                    ds.setUnderlineText(false); // 去掉下划线
+                }
+            }, serviceStart, serviceEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+
+        // 设置"《隐私政策》"的样式和点击事件
+        String privacyPolicy = "《隐私政策》";
+        int privacyStart = text.indexOf(privacyPolicy);
+        int privacyEnd = privacyStart + privacyPolicy.length();
+
+        if (privacyStart >= 0) {
+            // 设置颜色和点击事件（无下划线）
+            spannableString.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, com.yaoxin.appbase.R.color.color_8f55ff)),
+                    privacyStart, privacyEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spannableString.setSpan(new ClickableSpan() {
+                @Override
+                public void onClick(@NonNull View widget) {
+                    XKitRouter.withKey(Constant.BaseWebViewActivityKey)
+                            .withParam("type", "1")
+                            .withParam("title", "隐私政策")
+                            .withContext(LoginActivity.this)
+                            .navigate();
+                }
+
+                @Override
+                public void updateDrawState(@NonNull android.text.TextPaint ds) {
+                    super.updateDrawState(ds);
+                    ds.setUnderlineText(false); // 去掉下划线
+                }
+            }, privacyStart, privacyEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+
+        // 设置 TextView
+        binding.activityLoginAgreeTv.setText(spannableString);
+        binding.activityLoginAgreeTv.setMovementMethod(LinkMovementMethod.getInstance());
+        binding.activityLoginAgreeTv.setHighlightColor(Color.TRANSPARENT); // 移除点击时的背景色
+    }
+
     @Override
     public void onClick(View v) {
-//        if (v == binding.activityLoginIsAgreeLl) {
-//            binding.activityLoginIsCheckedIv.setSelected(!binding.activityLoginIsCheckedIv.isSelected());
-//        }  else if (v == binding.activityLoginIsCheckedTxt2) {
-//            XKitRouter.withKey(Constant.BaseWebViewActivityKey)
-//                .withParam("type","2")
-//                .withParam("title","服务协议")
-//                .withContext(this)
-//                .navigate();
-//        }  else if (v == binding.activityLoginIsCheckedTxt4) {
-//            XKitRouter.withKey(Constant.BaseWebViewActivityKey)
-//                    .withParam("type","1")
-//                    .withParam("title","隐私政策")
-//                    .withContext(this)
-//                    .navigate();
-//        }  else
-        if (v == binding.layouLogin) {
+        if (v == binding.activityLoginIsAgreeLl) {
+            // 点击整个布局时切换复选框状态
+            binding.activityLoginIsCheckedIv.setSelected(!binding.activityLoginIsCheckedIv.isSelected());
+        } else if (v == binding.layouLogin) {
             changeTitleWithType(0);
         } else if (v == binding.layouRegister) {
             changeTitleWithType(1);
