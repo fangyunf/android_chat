@@ -77,6 +77,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -115,8 +116,6 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
         binding.contactNewFragmentMoreIv.setOnClickListener(this);
         _initViews();
         _requestData();
-
-
         return binding.getRoot();
     }
 
@@ -382,7 +381,11 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
         });
 
         headerView.findViewById(R.id.contact_header_blacklist_ll).setOnClickListener(v -> {
-            XKitRouter.withKey(RouterConstant.PATH_FUN_MY_BLACK_PAGE).withContext(getContext()).navigate();
+            //XKitRouter.withKey(RouterConstant.PATH_FUN_MY_BLACK_PAGE).withContext(getContext()).navigate();
+            XKitRouter.withKey(RouterConstant.PATH_FUN_MY_NOTIFICATION_PAGE)
+                    .withParam("type", "1")
+                    .withContext(Objects.requireNonNull(getContext()))
+                    .navigate();
         });
 
         // Tab 点击事件
@@ -417,6 +420,14 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
             badgeTv.setText(String.valueOf(applyNumBean.friendApplyNum));
         } else {
             badgeTv.setVisibility(View.GONE);
+        }
+
+        TextView groupnum = headerView.findViewById(R.id.contact_header_group_num_tv);
+        if (applyNumBean.groupApplyNum > 0) {
+            groupnum.setVisibility(View.VISIBLE);
+            groupnum.setText(String.valueOf(applyNumBean.groupApplyNum));
+        } else {
+            groupnum.setVisibility(View.GONE);
         }
     }
 

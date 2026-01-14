@@ -6,131 +6,175 @@
     android:background="@color/color_white"
     android:orientation="vertical">
 
-    <!-- 新的好友 -->
+
     <LinearLayout
-        android:id="@+id/contact_header_new_friend_ll"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="?android:attr/selectableItemBackground"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingHorizontal="16dp">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_10_dp"
+        android:orientation="horizontal">
 
-        <ImageView
-            android:layout_width="42dp"
-            android:layout_height="42dp"
-            android:src="@mipmap/caontact_list_header_new_friend" />
-
-        <TextView
+        <!-- 黑名单 -->
+        <LinearLayout
+            android:id="@+id/contact_header_blacklist_ll"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginHorizontal="@dimen/dimen_8_dp"
             android:layout_weight="1"
-            android:text="新的好友"
-            android:textColor="@color/color_333333"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/contact_header_new_friend_num_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="18dp"
-            android:background="@drawable/fun_bg_red_rounded_9"
+            android:background="?android:attr/selectableItemBackground"
             android:gravity="center"
-            android:minWidth="18dp"
-            android:paddingHorizontal="4dp"
-            android:textColor="@color/color_white"
-            android:textSize="11sp"
-            android:visibility="gone" />
-    </LinearLayout>
+            android:orientation="vertical">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/color_E8E8E8" />
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_f6f1ff_rounded_4">
 
-    <!-- 我的群组 -->
-    <LinearLayout
-        android:id="@+id/contact_header_my_groups_ll"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="?android:attr/selectableItemBackground"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingHorizontal="16dp">
+                <ImageView
+                    android:layout_width="@dimen/dimen_20_dp"
+                    android:layout_height="42dp"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/caontact_list_grou_note" />
 
-        <ImageView
-            android:layout_width="42dp"
-            android:layout_height="42dp"
-            android:src="@mipmap/caontact_list_header_qunliao" />
+                <TextView
+                    android:id="@+id/contact_header_group_num_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="18dp"
+                    android:layout_gravity="right"
+                    android:background="@drawable/fun_bg_red_rounded_9"
+                    android:gravity="center"
+                    android:minWidth="18dp"
+                    android:paddingHorizontal="4dp"
+                    android:textColor="@color/color_white"
+                    android:textSize="11sp"
+                    android:visibility="gone" />
 
-        <TextView
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_8_dp"
+                android:text="群通知"
+                android:textColor="@color/color_333333"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <!-- 我的群组 -->
+        <LinearLayout
+            android:id="@+id/contact_header_my_groups_ll"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:layout_weight="1"
-            android:text="我的群组"
-            android:textColor="@color/color_333333"
-            android:textSize="16sp" />
-    </LinearLayout>
+            android:background="?android:attr/selectableItemBackground"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/color_E8E8E8" />
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_f6f1ff_rounded_4">
 
-    <!-- 官方客服 -->
-    <LinearLayout
-        android:id="@+id/contact_header_customer_service_ll"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="?android:attr/selectableItemBackground"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingHorizontal="16dp">
 
-        <ImageView
-            android:layout_width="42dp"
-            android:layout_height="42dp"
-            android:src="@mipmap/caontact_list_header_kefu" />
+                <ImageView
+                    android:layout_width="@dimen/dimen_20_dp"
+                    android:layout_height="42dp"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/caontact_list_header_qunliao" />
 
-        <TextView
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_8_dp"
+                android:text="我的群组"
+                android:textColor="@color/color_333333"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+
+        <!-- 新的好友 -->
+        <LinearLayout
+            android:id="@+id/contact_header_new_friend_ll"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginLeft="@dimen/dimen_8_dp"
             android:layout_weight="1"
-            android:text="官方客服"
-            android:textColor="@color/color_333333"
-            android:textSize="16sp" />
-    </LinearLayout>
+            android:background="?android:attr/selectableItemBackground"
+            android:gravity="center"
+            android:orientation="vertical">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/color_E8E8E8" />
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_f6f1ff_rounded_4">
 
-    <!-- 黑名单 -->
-    <LinearLayout
-        android:id="@+id/contact_header_blacklist_ll"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="?android:attr/selectableItemBackground"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingHorizontal="16dp">
+                <ImageView
+                    android:layout_width="@dimen/dimen_20_dp"
+                    android:layout_height="42dp"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/caontact_list_header_new_friend" />
 
-        <ImageView
-            android:layout_width="42dp"
-            android:layout_height="42dp"
-            android:src="@mipmap/caontact_list_header_hmd" />
+                <TextView
+                    android:id="@+id/contact_header_new_friend_num_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="18dp"
+                    android:layout_gravity="right"
+                    android:background="@drawable/fun_bg_red_rounded_9"
+                    android:gravity="center"
+                    android:minWidth="18dp"
+                    android:paddingHorizontal="4dp"
+                    android:textColor="@color/color_white"
+                    android:textSize="11sp"
+                    android:visibility="gone" />
 
-        <TextView
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="新的好友"
+                android:textColor="@color/color_333333"
+                android:textSize="14sp" />
+
+
+        </LinearLayout>
+
+
+        <!-- 官方客服 -->
+        <LinearLayout
+            android:id="@+id/contact_header_customer_service_ll"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginHorizontal="@dimen/dimen_8_dp"
             android:layout_weight="1"
-            android:text="黑名单"
-            android:textColor="@color/color_333333"
-            android:textSize="16sp" />
+            android:background="?android:attr/selectableItemBackground"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_f6f1ff_rounded_4">
+
+                <ImageView
+                    android:layout_width="@dimen/dimen_20_dp"
+                    android:layout_height="42dp"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/caontact_list_header_kefu" />
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_8_dp"
+                android:text="官方客服"
+                android:textColor="@color/color_333333"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+
     </LinearLayout>
 
     <!-- Tab 切换 -->
@@ -223,7 +267,8 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="@color/color_E8E8E8" />
+        android:background="@color/color_E8E8E8"
+        android:visibility="gone" />
 
 </LinearLayout>
 

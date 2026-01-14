@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/view_title_tf_without_bg_ll"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:paddingHorizontal="@dimen/dimen_15_dp"
+    android:paddingTop="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/view_title_tf_without_bg_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="title"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_16" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp">
+
+            <EditText
+                android:id="@+id/view_title_tf_without_bg_et"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:background="@color/transparent"
+                android:cursorVisible="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:hint="请输入"
+                android:paddingHorizontal="@dimen/dimen_12_dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/color_999999"
+                android:textSize="@dimen/text_size_15" />
+
+            <com.yaoxin.appbase.view.loginlib.view.CountDownView
+                android:id="@+id/btn_captcha"
+                android:layout_width="wrap_content"
+                android:layout_height="44dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="12dp"
+                android:gravity="center"
+                android:text="获取验证码"
+                android:textColor="@color/app_theme_color"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="@dimen/dimen_10_dp"
+        android:background="#c8c8c8" />
+
+
+</LinearLayout>
