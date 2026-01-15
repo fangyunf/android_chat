@@ -116,6 +116,7 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
         binding.contactNewFragmentSearchIv.setOnClickListener(this);
         binding.contactNewFragmentSearchLl.setOnClickListener(this);
         binding.contactNewFragmentMoreIv.setOnClickListener(this);
+        binding.contactNewFragmentSao.setOnClickListener(this);
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
         }
@@ -640,6 +641,8 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
             XKitRouter.withKey("SearchNewActivity").withContext(requireContext()).navigate();
         } else if (v == binding.contactNewFragmentMoreIv) {
             XKitRouter.withKey(PATH_FUN_ADD_FRIEND_PAGE).withContext(requireContext()).navigate();
+        } else if (v == binding.contactNewFragmentSao) {
+            EventBus.getDefault().post(new BaseEvent("gotoScan"));
         }
     }
 

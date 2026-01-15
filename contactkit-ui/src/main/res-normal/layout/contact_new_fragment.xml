@@ -46,9 +46,9 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:gravity="center"
-                        android:paddingLeft="60dp"
-                        android:text="联系人"
+                        android:gravity="left"
+                        android:text="朋友"
+
                         android:textColor="@color/color_black"
                         android:textSize="20sp" />
 
@@ -57,13 +57,21 @@
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:layout_marginHorizontal="10dp"
-                        android:src="@mipmap/conversation_list_index_notice_icon" />
+                        android:src="@mipmap/conversation_list_index_notice_icon"
+                        android:visibility="gone" />
 
                     <ImageView
                         android:id="@+id/contact_new_fragment_more_iv"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
-                        android:src="@mipmap/conversation_index_pop_more" />
+                        android:src="@mipmap/conversation_index_pop_more"
+                        android:visibility="gone" />
+
+                    <ImageView
+                        android:id="@+id/contact_new_fragment_sao"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:src="@mipmap/conversation_index_pop_sao" />
                 </LinearLayout>
             </LinearLayout>
 

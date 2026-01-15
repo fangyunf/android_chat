@@ -24,32 +24,26 @@ public class ChatZhuanZhangMessageViewHolder extends FunChatBaseMessageViewHolde
 
     protected FunChatMessageZhuanZhangViewHolderBinding viewBinding;
 
-    public ChatZhuanZhangMessageViewHolder(
-            @NonNull ChatBaseMessageViewHolderBinding parent, int viewType) {
+    public ChatZhuanZhangMessageViewHolder(@NonNull ChatBaseMessageViewHolderBinding parent, int viewType) {
         super(parent, viewType);
     }
 
     @Override
     protected void addViewToMessageContainer() {
-        viewBinding = FunChatMessageZhuanZhangViewHolderBinding.inflate(
-                LayoutInflater.from(parent.getContext()), getMessageContainer(), true);
+        viewBinding = FunChatMessageZhuanZhangViewHolderBinding.inflate(LayoutInflater.from(parent.getContext()), getMessageContainer(), true);
     }
 
     @Override
     public void bindData(ChatMessageBean message, ChatMessageBean lastMessage) {
         super.bindData(message, lastMessage);
-        if (message != null
-                && message.getMessageData() != null
-                && !message.getMessageData().getMessage().getAttachStr().isEmpty()) {
+        if (message != null && message.getMessageData() != null && !message.getMessageData().getMessage().getAttachStr().isEmpty()) {
             CustomMsgBean bean = new Gson().fromJson(message.getMessageData().getMessage().getAttachStr(), CustomMsgBean.class);
             bean.result = new Gson().fromJson(bean.data, CustomMsgBean.class);
-            
+
             Map<String, Object> localExtension = message.getMessageData().getMessage().getLocalExtension();
             boolean hasDraw = false;
             // 转账只有接收者才能打开，所以需要同时判断是接收者且localExtension中有userId
-            if (localExtension != null 
-                    && DataUtil.getUserid().equals(localExtension.get("userId"))
-                    && bean.result.toUserId.equals(DataUtil.getUserid())) {
+            if (localExtension != null && DataUtil.getUserid().equals(localExtension.get("userId")) && bean.result.toUserId.equals(DataUtil.getUserid())) {
                 hasDraw = true;
             }
             if (hasDraw) {

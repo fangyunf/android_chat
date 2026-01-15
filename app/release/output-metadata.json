@@ -4,16 +4,16 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.turunsi.xingyuxing",
+  "applicationId": "com.turunsi.qianmanman",
   "variantName": "release",
   "elements": [
     {
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 6,
-      "versionName": "1.0.5",
-      "outputFile": "xingyu_release_v1.0.5.apk"
+      "versionCode": 1,
+      "versionName": "1.0.0",
+      "outputFile": "qianmanman_release_v1.0.0.apk"
     }
   ],
   "elementType": "File"
