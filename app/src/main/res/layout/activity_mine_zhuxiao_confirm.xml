@@ -1,102 +1,151 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tl="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:orientation="vertical">
+    android:background="@mipmap/bg_base">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <com.yaoxin.appbase.navbar.NavToolbar
             android:id="@+id/activity_mine_zhuxiao_confirm_nav"
             style="@style/WhiteFontToolbar"
-            android:background="@color/white"
+            android:background="@color/transparent"
             app:back_icon="@mipmap/temp_ic_back"
             app:enable_under_divider="true"
             app:support_translucent_status_bar="false"
-            app:title="注销风险提示"
+            app:title="注销账户"
             app:title_text_color="@color/color_333333"
             app:under_divider_color="@color/transparent" />
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_margin="15dp"
-            android:padding="15dp"
-            android:background="@drawable/bg_f2f2f2_rounded_10"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:fillViewport="true">
 
-            >
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="注销帐号有以下风险"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                />
-            <TextView
-                android:layout_marginTop="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="账号近期不存在交易"
-                android:textColor="@color/black"
-                android:textSize="14sp"
-                />
-            <TextView
-                android:layout_marginTop="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="永久注销，无法登录"
-                android:textColor="@color/black"
-                android:textSize="14sp"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="帐号一旦注销，无法登录"
-                android:textSize="12sp"
-                android:textColor="#999999"
-                />
-            <TextView
-                android:layout_marginTop="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="相关权益主动放弃确认"
-                android:textColor="@color/black"
-                android:textSize="14sp"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="如果积分、会员、订单数据等，注销后将视为主动放弃"
-                android:textSize="12sp"
-                android:textColor="#999999"
-                />
-        </LinearLayout>
-        <include
-            android:id="@+id/activity_mine_zhuxiao_confirm_get_code"
-            layout="@layout/view_top_title_et"
-            android:layout_width="match_parent"
+                android:layout_marginTop="40dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingHorizontal="20dp"
+                android:paddingBottom="20dp">
 
-            android:layout_height="wrap_content" />
+                <!-- 警告图标 -->
+                <ImageView
+                    android:id="@+id/ivWarningIcon"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:contentDescription="警告图标"
+                    android:src="@mipmap/zhuxiao_top" />
+
+                <!-- 标题 -->
+                <TextView
+                    android:id="@+id/tvTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="申请注销的账号"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <!-- 警告信息 -->
+                <TextView
+                    android:id="@+id/tvWarning"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="注意,注销账号后以下信息将被清空且无法找回"
+                    android:textColor="@color/color_666666"
+                    android:textSize="14sp" />
+
+                <!-- 列表项 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_20_dp"
+                    android:background="@drawable/bg_white_rounded_12"
+                    android:orientation="vertical"
+                    android:padding="@dimen/dimen_20_dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="1. 您的好友和群组等"
+                            android:textColor="@color/color_black"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:text="2. 您的身份、账户信息等"
+                            android:textColor="@color/color_black"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:text="3. 您的钱包、记录、银行卡等"
+                            android:textColor="@color/color_black"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <!-- 温馨提示 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="32dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="温馨提示:"
+                            android:textColor="@color/color_black"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:lineSpacingExtra="4dp"
+                            android:text="账号注销后，您的所有数据和账号信息将全部丢失，账号一旦注销不可恢复，为避免您的个人损失，请谨慎操作"
+                            android:textColor="@color/color_666666"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- 底部按钮 -->
+                <TextView
+                    android:id="@+id/activity_mine_zhuxiao_confirm_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginTop="@dimen/dimen_50_dp"
+                    android:layout_marginBottom="40dp"
+                    android:background="@drawable/btn_bg"
+                    android:gravity="center"
+                    android:text="申请注销"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </ScrollView>
     </LinearLayout>
-    <TextView
-        android:id="@+id/activity_mine_zhuxiao_confirm_tv"
-        android:layout_width="match_parent"
-        android:layout_marginHorizontal="20dp"
-        android:layout_height="50dp"
-        android:layout_marginBottom="80dp"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/bg_app_theme_color_rounded_10"
-        android:gravity="center"
-        android:text="确定"
-        android:textColor="#ffffffff"
-        android:textSize="16sp"
-        />
+
+
 </RelativeLayout>

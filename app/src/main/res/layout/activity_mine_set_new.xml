@@ -37,25 +37,29 @@
                 android:id="@+id/activity_mine_set_new_notice_voice"
                 layout="@layout/view_title_arrow"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
 
             <include
                 android:id="@+id/activity_mine_set_new_anquan_set"
                 layout="@layout/view_title_arrow"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
 
             <include
                 android:id="@+id/activity_mine_set_new_yinsi_set"
                 layout="@layout/view_title_arrow"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
 
             <include
                 android:id="@+id/activity_mine_set_new_mima_set"
                 layout="@layout/view_title_arrow"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
 
             <include
                 android:id="@+id/activity_mine_set_new_delete_cache"
@@ -69,9 +73,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-
             <include
                 android:id="@+id/activity_mine_set_new_about_us"
+                layout="@layout/view_title_arrow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <include
+                android:id="@+id/activity_mine_set_heimingdan"
                 layout="@layout/view_title_arrow"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -80,7 +89,8 @@
                 android:id="@+id/activity_mine_set_new_download"
                 layout="@layout/view_title_arrow"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
 
             <include
                 android:id="@+id/activity_mine_set_new_exchange_acount"

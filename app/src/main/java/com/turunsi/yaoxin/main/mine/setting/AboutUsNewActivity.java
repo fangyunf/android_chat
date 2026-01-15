@@ -29,6 +29,7 @@ import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.Constant;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.DataUtil;
+import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
 
 import retrofit2.Call;
@@ -36,61 +37,59 @@ import retrofit2.Response;
 
 public class AboutUsNewActivity extends BaseActivity implements View.OnClickListener {
 
-  private ActivityMineAboutUsNewBinding viewBinding;
+    private ActivityMineAboutUsNewBinding viewBinding;
 
-  @Override
-  protected void onCreate(@Nullable Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 //    changeStatusBarColor(R.color.color_e9eff5);
-    viewBinding = ActivityMineAboutUsNewBinding.inflate(getLayoutInflater());
-    setContentView(viewBinding.getRoot());
-    initView();
-  }
-
-  private void initView() {
-
-    viewBinding.activityMineAboutUsNewNav.addCloseImageButton().setOnClickListener(this);
-    viewBinding.activityMineAboutUsNewFuwuXieyi.viewTitleArrowLl.setOnClickListener(this);
-    viewBinding.activityMineAboutUsNewYinsiZhengce.viewTitleArrowLl.setOnClickListener(this);
-
-
-    viewBinding.activityMineAboutUsNewFuwuXieyi.viewTitleArrowTv.setText("服务协议");
-    viewBinding.activityMineAboutUsNewYinsiZhengce.viewTitleArrowTv.setText("隐私政策");
-    viewBinding.activityMineAboutUsNewAppNumber.viewTitleArrowTv.setText("版本号");
-    viewBinding.activityMineAboutUsNewAppNumber.viewTitleArrowRightTv.setVisibility(View.VISIBLE);
-    viewBinding.activityMineAboutUsNewAppNumber.viewTitleArrowRightTv.setText(getAppVersionName());
-
-    viewBinding.activityMineAboutUsNewAppNumber.viewTitleArrowArrowIv.setVisibility(View.GONE);
-  }
-  private String getAppVersionName() {
-    String versionName = "";
-    try {
-      PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-      versionName = packageInfo.versionName;
-    } catch (PackageManager.NameNotFoundException e) {
-      e.printStackTrace();
+        viewBinding = ActivityMineAboutUsNewBinding.inflate(getLayoutInflater());
+        setContentView(viewBinding.getRoot());
+        StatusBarUtils.transtStatusBar(this, viewBinding.activityMineAboutUsNewNav);
+        initView();
     }
-    return versionName;
-  }
-  @Override
-  public void onClick(View v) {
-    if (v == viewBinding.activityMineAboutUsNewFuwuXieyi.viewTitleArrowLl) {
 
-      XKitRouter.withKey(Constant.BaseWebViewActivityKey)
-              .withParam("type","2")
-              .withParam("title","服务协议")
-              .withContext(this)
-              .navigate();
-    } else if (v == viewBinding.activityMineAboutUsNewYinsiZhengce.viewTitleArrowLl) {
-      XKitRouter.withKey(Constant.BaseWebViewActivityKey)
-              .withParam("type","1")
-              .withParam("title","隐私政策")
-              .withContext(this)
-              .navigate();
-    } else if (v == viewBinding.activityMineAboutUsNewNav.addCloseImageButton()) {
-      finish();
+    private void initView() {
+        viewBinding.activityMineAboutUsNewNav.addCloseImageButton().setOnClickListener(this);
 
+        // 设置版本号
+        String versionName = getAppVersionName();
+        viewBinding.tvVersion.setText("版本号" + versionName);
+        // 设置点击事件
+        viewBinding.tvShareApp.setOnClickListener(this);
+        viewBinding.tvServiceAgreement.setOnClickListener(this);
+        viewBinding.tvPrivacyPolicy.setOnClickListener(this);
+        viewBinding.tvVersionUpdate.setOnClickListener(this);
     }
-  }
+
+    private String getAppVersionName() {
+        String versionName = "";
+        try {
+            PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+            versionName = packageInfo.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return versionName;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v == viewBinding.activityMineAboutUsNewNav.addCloseImageButton()) {
+            finish();
+        } else if (v == viewBinding.tvShareApp) {
+            // TODO: 实现分享APP功能
+            ToastUtils.toastMsg("分享APP功能待实现");
+        } else if (v == viewBinding.tvServiceAgreement) {
+            // 服务协议
+            XKitRouter.withKey(Constant.BaseWebViewActivityKey).withParam("type", "2").withParam("title", "服务协议").withContext(this).navigate();
+        } else if (v == viewBinding.tvPrivacyPolicy) {
+            // 隐私政策
+            XKitRouter.withKey(Constant.BaseWebViewActivityKey).withParam("type", "1").withParam("title", "隐私政策").withContext(this).navigate();
+        } else if (v == viewBinding.tvVersionUpdate) {
+            // TODO: 实现版本更新功能
+            ToastUtils.toastMsg("版本更新功能待实现");
+        }
+    }
 
 }

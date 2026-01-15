@@ -53,7 +53,7 @@ public class PursePwdManagerSetActivity extends BaseActivity implements View.OnC
         binding.activityMineAddressAddSaveRl.setOnClickListener(this);
 
         if (extras != null) {
-            String typeString = (String)extras.get("type");
+            String typeString = (String) extras.get("type");
             type = Integer.parseInt(typeString);
         }
 
@@ -94,10 +94,10 @@ public class PursePwdManagerSetActivity extends BaseActivity implements View.OnC
             binding.activityMinePursePwdManagerSetNav.setTitle("注销账号");
             binding.activityMinePursePwdManagerSetSetPwd.viewTitleTfWithoutBgLl.setVisibility(View.GONE);
             binding.activityMinePursePwdManagerSetConfirmPwd.viewTitleTfWithoutBgLl.setVisibility(View.GONE);
-
             binding.activityMinePursePwdManagerSetPhone.viewTitleTfWithoutBgTv.setText("手机号");
         }
     }
+
     private void _initSetCell() {
         binding.activityMinePursePwdManagerSetPhone.viewTitleTfWithoutBgTv.setText("手机号");
         binding.activityMinePursePwdManagerSetSetPwd.viewTitleTfWithoutBgTv.setText("输入密码");
@@ -118,6 +118,7 @@ public class PursePwdManagerSetActivity extends BaseActivity implements View.OnC
 //        binding.activityMinePursePwdManagerSetConfirmPwd.viewTitleTfWithoutBgEt.setBackgroundColor(getResources().getColor(R.color.color_white));
 //        binding.activityMinePursePwdManagerSetConfirmPwd.viewTitleTfWithoutBgLl.setBackgroundColor(getResources().getColor(R.color.color_white));
     }
+
     private void _initModifyCell() {
         binding.activityMinePursePwdManagerSetPhone.viewTitleTfWithoutBgTv.setText("原密码");
         binding.activityMinePursePwdManagerSetSetPwd.viewTitleTfWithoutBgTv.setText("新密码");
@@ -162,8 +163,8 @@ public class PursePwdManagerSetActivity extends BaseActivity implements View.OnC
             finish();
         } else if (v == binding.activityMinePursePwdManagerSetForgetPwdTv) {
             HashMap map = new HashMap();
-            map.put("type","2");
-            PursePwdManagerSetActivity.start(PursePwdManagerSetActivity.class,this,map);
+            map.put("type", "2");
+            PursePwdManagerSetActivity.start(PursePwdManagerSetActivity.class, this, map);
         } else if (v == binding.activityMineAddressAddSaveRl) {
 
             String phone = getTextStr(binding.activityMinePursePwdManagerSetPhone.viewTitleTfWithoutBgEt);
@@ -219,7 +220,7 @@ public class PursePwdManagerSetActivity extends BaseActivity implements View.OnC
 
                         }
                     });
-            
+
         }
     }
 

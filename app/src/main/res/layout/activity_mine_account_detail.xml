@@ -1,219 +1,274 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tl="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_F2F2F2">
+    android:background="@mipmap/bg_base">
 
+
+    <com.yaoxin.appbase.navbar.NavToolbar
+        android:id="@+id/activity_mine_account_detail_nav"
+        style="@style/WhiteFontToolbar"
+        android:background="@color/transparent"
+        app:back_icon="@mipmap/temp_ic_back"
+        app:enable_under_divider="true"
+        app:layout_constraintStart_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:menu_text_color="@color/color_8f55ff"
+        app:support_translucent_status_bar="false"
+        app:title="我的资料"
+        app:title_text_color="@color/color_333333"
+        app:under_divider_color="@color/transparent" />
+
+
+    <!--    &lt;!&ndash; 顶部导航栏 &ndash;&gt;-->
+    <!--    <ImageView-->
+    <!--        android:id="@+id/ivBack"-->
+    <!--        android:layout_width="26dp"-->
+    <!--        android:layout_height="48dp"-->
+    <!--        android:layout_marginStart="20dp"-->
+    <!--        android:src="@mipmap/temp_ic_back"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/tvTitle"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="48dp"-->
+    <!--        android:gravity="center"-->
+    <!--        android:text="个人资料"-->
+    <!--        android:textColor="@color/color_333333"-->
+    <!--        android:textSize="16dp"-->
+    <!--        android:textStyle="bold"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        tools:ignore="SpUsage" />-->
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/tvComplete"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="48dp"-->
+    <!--        android:layout_marginEnd="20dp"-->
+    <!--        android:gravity="center_vertical"-->
+    <!--        android:text="完成"-->
+    <!--        android:textColor="@color/color_8f55ff"-->
+    <!--        android:textSize="16dp"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+    <!-- 头像部分 -->
     <LinearLayout
+        android:id="@+id/llAvatarContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/activity_mine_account_detail_nav">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/activity_mine_account_detail_head_iv"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginBottom="12dp"
+            android:scaleType="centerCrop"
+            app:riv_corner_radius="40dp" />
+
+        <TextView
+            android:id="@+id/tvSetPhoto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="设置新照片"
+            android:textColor="@color/color_999999"
+            android:textSize="14dp" />
+    </LinearLayout>
+
+    <!-- 用户信息区域 -->
+    <LinearLayout
+        android:id="@+id/llUserInfo"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dimen_20_dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginRight="@dimen/dimen_20_dp"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/llAvatarContainer"
+        tools:ignore="SpUsage">
 
-        <com.yaoxin.appbase.navbar.NavToolbar
-            android:id="@+id/activity_mine_account_detail_nav"
-            style="@style/WhiteFontToolbar"
-            android:background="@color/transparent"
-            app:back_icon="@mipmap/temp_ic_back"
-            app:enable_under_divider="true"
-            app:support_translucent_status_bar="false"
-            app:title="我的资料"
-            app:title_text_color="@color/color_333333"
-            app:under_divider_color="@color/transparent" />
-
-        <RelativeLayout
+        <!-- 用户名 -->
+        <FrameLayout
+            android:id="@+id/flName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp">
+            android:background="@drawable/bg_white_rounded_12"
+            android:paddingStart="@dimen/dimen_16_dp"
+            android:paddingTop="16dp"
+            android:paddingEnd="@dimen/dimen_16_dp"
+            android:paddingBottom="16dp">
 
+            <TextView
+                android:id="@+id/tvNameTip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center_vertical"
+                android:text="用户名"
+                android:textColor="@color/color_333333"
+                android:textSize="16dp" />
 
-            <LinearLayout
+            <EditText
+                android:id="@+id/activity_mine_account_detail_name_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="15dp"
-                android:layout_marginTop="30dp"
-                android:background="@drawable/white_bg_rounded_top_20"
-                android:orientation="vertical"
-                android:paddingHorizontal="15dp"
-                android:paddingBottom="15dp"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginStart="80dp"
+                android:background="@color/transparent"
+                android:gravity="end|center_vertical"
+                android:hint="点击更改"
+                android:singleLine="true"
+                android:textColor="@color/color_333333"
+                android:textColorHint="#999999"
+                android:textSize="16dp" />
 
-                >
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="50dp"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical">
+        </FrameLayout>
 
-                    <TextView
-                        android:id="@+id/activity_mine_account_detail_name_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:textSize="17sp" />
+        <TextView
+            android:id="@+id/tvNameHint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_10_dp"
+            android:layout_marginBottom="10dp"
+            android:text="点击输入或更改你的名字"
+            android:textColor="@color/color_999999"
+            android:textSize="14dp" />
 
-                    <TextView
-                        android:id="@+id/activity_mine_account_detail_id_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="20dp"
-                        android:layout_marginTop="10dp"
-                        android:background="@drawable/bg_black_alpha_20_rounded_10"
-                        android:gravity="center"
-                        android:paddingHorizontal="10dp"
-                        android:textColor="#ffffffff"
-                        android:textSize="11sp" />
-                </LinearLayout>
-            </LinearLayout>
 
-            <com.makeramen.roundedimageview.RoundedImageView
-                android:id="@+id/activity_mine_account_detail_head_iv"
-                android:layout_width="61dp"
-                android:layout_height="61dp"
-                android:layout_centerHorizontal="true"
-                android:scaleType="centerCrop"
-                app:riv_corner_radius="30dp" />
+        <!-- 我的昵称 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_white_rounded_12"
+            android:orientation="vertical">
 
-            <LinearLayout
-                android:id="@+id/activity_mine_account_detail_modify_head_tv"
-                android:layout_width="wrap_content"
+            <FrameLayout
+                android:id="@+id/flNickname"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="80dp"
-                android:layout_marginEnd="40dp"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="22dp"
-                    android:layout_height="19dp"
-                    android:src="@mipmap/mine_accout_detail_camera" />
+                android:paddingStart="@dimen/dimen_16_dp"
+                android:paddingTop="16dp"
+                android:paddingEnd="@dimen/dimen_16_dp"
+                android:paddingBottom="16dp">
 
                 <TextView
+                    android:id="@+id/tvNicknameTip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:text="上传头像"
-                    android:textColor="#ff666666"
-                    android:textSize="12sp" />
-            </LinearLayout>
-        </RelativeLayout>
+                    android:layout_gravity="start|center_vertical"
+                    android:text="我的昵称"
+                    android:textColor="@color/color_333333"
+                    android:textSize="16dp" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="15dp">
+                <TextView
+                    android:id="@+id/tvNickname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|center_vertical"
+                    android:layout_marginStart="80dp"
+                    android:gravity="end|center_vertical"
+                    android:singleLine="true"
+                    android:textColor="@color/color_333333"
+                    android:textSize="16dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
+            </FrameLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="@dimen/dimen_16_dp"
+                android:layout_marginEnd="@dimen/dimen_16_dp"
+                android:background="@color/color_f5f8fc" />
+
+            <!-- 我的账号 -->
+            <FrameLayout
+                android:id="@+id/flAccount"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="我的昵称"
-                android:textColor="#ff000000"
-                android:textSize="15sp" />
+                android:paddingStart="@dimen/dimen_16_dp"
+                android:paddingTop="16dp"
+                android:paddingEnd="@dimen/dimen_16_dp"
+                android:paddingBottom="16dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="昵称7天内只能修改一次"
-                android:textColor="#ff999999"
-                android:textSize="12sp" />
+                <TextView
+                    android:id="@+id/tvAccountTip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start|center_vertical"
+                    android:text="我的账号"
+                    android:textColor="@color/color_333333"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:id="@+id/activity_mine_account_detail_detail_id_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|center_vertical"
+                    android:layout_marginStart="80dp"
+                    android:gravity="end|center_vertical"
+                    android:singleLine="true"
+                    android:textColor="@color/color_333333"
+                    android:textSize="16dp" />
+
+                <ImageView
+                    android:id="@+id/ivAccountCopy"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="end|center_vertical"
+                    android:layout_marginEnd="0dp"
+                    android:src="@mipmap/ic_copy"
+                    android:visibility="gone" />
+            </FrameLayout>
         </LinearLayout>
+    </LinearLayout>
 
+    <!-- 底部按钮区域 -->
+    <LinearLayout
+        android:id="@+id/llBottomButtons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dimen_20_dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginRight="@dimen/dimen_20_dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/llUserInfo">
+
+        <!-- 切换其他账号 -->
         <TextView
-            android:id="@+id/activity_mine_account_detail_modify_name_tv"
+            android:id="@+id/tvSwitchAccount"
             android:layout_width="match_parent"
-            android:layout_height="44dp"
-            android:layout_marginHorizontal="15dp"
+            android:layout_height="48dp"
+            android:layout_marginBottom="16dp"
             android:background="@drawable/bg_white_rounded_10"
             android:gravity="center"
-            android:text="修改名字"
-            android:textColor="@color/black"
-            android:textSize="15sp" />
+            android:text="切换其他账号"
+            android:textColor="@color/color_8f55ff"
+            android:textSize="16dp" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="15dp"
-            android:visibility="gone">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="我的ID"
-                android:textColor="#ff000000"
-                android:textSize="15sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="暂不可在此修改"
-                android:textColor="#ff999999"
-                android:textSize="12sp" />
-        </LinearLayout>
-
+        <!-- 退出当前账号 -->
         <TextView
-            android:id="@+id/activity_mine_account_detail_detail_id_tv"
+            android:id="@+id/tvLogout"
             android:layout_width="match_parent"
-            android:layout_height="44dp"
-            android:layout_marginHorizontal="15dp"
-            android:background="@drawable/white_bg_rounded_top_20"
-            android:gravity="center_vertical"
-            android:paddingHorizontal="15dp"
-            android:text=""
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            android:visibility="gone" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="15dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="我的手机号"
-                android:textColor="#ff000000"
-                android:textSize="15sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="暂不可在此修改"
-                android:textColor="#ff999999"
-                android:textSize="12sp" />
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/activity_mine_account_detail_phone_num_tv"
-            android:layout_width="match_parent"
-            android:layout_height="44dp"
-            android:layout_marginHorizontal="15dp"
-            android:background="@drawable/white_bg_rounded_top_20"
-            android:gravity="center_vertical"
-            android:paddingHorizontal="15dp"
-            android:text=""
-            android:textColor="@color/black"
-            android:textSize="15sp" />
-        <!--        <TextView-->
-        <!--            android:id="@+id/activity_mine_account_code_save_photo"-->
-        <!--            android:layout_marginTop="50dp"-->
-        <!--            android:layout_gravity="center_horizontal"-->
-        <!--            android:layout_width="194dp"-->
-        <!--            android:layout_height="44dp"-->
-        <!--            android:text="确定"-->
-        <!--            android:textColor="#ffffffff"-->
-        <!--            android:textSize="16sp"-->
-        <!--            android:gravity="center"-->
-        <!--            android:background="@drawable/fun_bg_app_theme_color_rounded_22"-->
-        <!--            />-->
+            android:layout_height="48dp"
+            android:background="@drawable/bg_white_rounded_10"
+            android:gravity="center"
+            android:text="退出当前账号"
+            android:textColor="@color/color_FF3A3A"
+            android:textSize="16dp" />
     </LinearLayout>
-</RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

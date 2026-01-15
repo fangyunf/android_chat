@@ -1,53 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tl="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_F6F6F6"
-    android:orientation="vertical">
-
-    <com.yaoxin.appbase.navbar.NavToolbar
-        android:id="@+id/activity_mine_about_us_new_nav"
-        style="@style/WhiteFontToolbar"
-        android:background="@color/white"
-        app:back_icon="@mipmap/temp_ic_back"
-        app:enable_under_divider="true"
-        app:support_translucent_status_bar="false"
-        app:title="关于我们"
-        app:title_text_color="@color/color_333333"
-        app:under_divider_color="@color/color_d5d5d5" />
+    android:background="@mipmap/about_bg">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
-        <include
-            android:id="@+id/activity_mine_about_us_new_fuwu_xieyi"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!-- 导航栏 -->
+        <com.yaoxin.appbase.navbar.NavToolbar
+            android:id="@+id/activity_mine_about_us_new_nav"
+            style="@style/WhiteFontToolbar"
+            android:background="@color/transparent"
+            app:back_icon="@mipmap/temp_ic_back"
+            app:enable_under_divider="true"
+            app:support_translucent_status_bar="false"
+            app:title="关于我们"
+            app:title_text_color="@color/color_333333"
+            app:under_divider_color="@color/transparent" />
+
+        <!-- Hero Section - 背景图片区域（显示白色文字和版本号） -->
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            layout="@layout/view_title_arrow"
-            />
+            android:layout_height="0dp"
+            android:layout_weight="1">
 
-        <include
-            android:layout_marginTop="@dimen/dimen_1_dp"
-            android:id="@+id/activity_mine_about_us_new_yinsi_zhengce"
+            <!-- 版本号 - 右上角 -->
+            <TextView
+                android:id="@+id/tvVersion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:text="版本号1.0.0"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
+        <!-- 白色卡片区域 -->
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            layout="@layout/view_title_arrow"
-            />
+            android:layout_height="0dp"
+            android:layout_marginLeft="@dimen/dimen_20_dp"
+            android:layout_marginRight="@dimen/dimen_20_dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-        <include
-            android:layout_marginTop="@dimen/dimen_1_dp"
-            android:id="@+id/activity_mine_about_us_new_app_number"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            layout="@layout/view_title_arrow"
-            />
+            <!-- 四个按钮/列表项 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingHorizontal="20dp">
 
+                <!-- 分享APP -->
+                <TextView
+                    android:id="@+id/tvShareApp"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/fun_bg_gray_rounded_4"
+                    android:gravity="center"
+                    android:text="分享APP"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
 
+                <!-- 服务协议 -->
+                <TextView
+                    android:id="@+id/tvServiceAgreement"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/fun_bg_gray_rounded_4"
+                    android:gravity="center"
+                    android:text="服务协议"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
 
+                <!-- 隐私政策 -->
+                <TextView
+                    android:id="@+id/tvPrivacyPolicy"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/fun_bg_gray_rounded_4"
+                    android:gravity="center"
+                    android:text="隐私政策"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <!-- 版本更新 -->
+                <TextView
+                    android:id="@+id/tvVersionUpdate"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/fun_bg_gray_rounded_4"
+                    android:gravity="center"
+                    android:text="版本更新"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

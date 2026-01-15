@@ -23,6 +23,8 @@ import com.netease.yunxin.kit.common.utils.SizeUtils;
 import com.netease.yunxin.kit.corekit.im.IMKitClient;
 import com.netease.yunxin.kit.corekit.im.provider.FetchCallback;
 import com.netease.yunxin.kit.corekit.im.repo.MiscRepo;
+import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
+import com.netease.yunxin.kit.corekit.route.XKitRouter;
 import com.turunsi.yaoxin.IMApplication;
 import com.turunsi.yaoxin.R;
 import com.turunsi.yaoxin.databinding.ActivityMineSetNewBinding;
@@ -78,6 +80,7 @@ public class SettingNewActivity extends BaseActivity implements View.OnClickList
 
         viewBinding.activityMineSetNewYinsiSet.viewTitleArrowLl.setOnClickListener(this);
         viewBinding.activityMineSetNewMimaSet.viewTitleArrowLl.setOnClickListener(this);
+        viewBinding.activityMineSetHeimingdan.viewTitleArrowLl.setOnClickListener(this);
 
         viewBinding.activityMineSetNewNoticeVoice.viewTitleArrowTv.setText("通知声音");
         viewBinding.activityMineSetNewAnquanSet.viewTitleArrowTv.setText("安全设置");
@@ -93,6 +96,8 @@ public class SettingNewActivity extends BaseActivity implements View.OnClickList
         viewBinding.activityMineSetNewExchangeAcount.viewTitleArrowTv.setText("切换账号");
 
         viewBinding.activityMineSetNewMimaSet.viewTitleArrowTv.setText("密码设置");
+        viewBinding.activityMineSetHeimingdan.viewTitleArrowTv.setText("黑名单");
+
 
 //      viewBinding.activityMineSetNewExchangeAcount.viewTitleArrowTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.app_theme_red_color));
         viewBinding.activityMineSetNewLoginOut.viewTitleArrowTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.app_theme_red_color));
@@ -103,7 +108,9 @@ public class SettingNewActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        if (v == viewBinding.activityMineSetNewMimaSet.viewTitleArrowLl) {
+        if (v == viewBinding.activityMineSetHeimingdan.viewTitleArrowLl) {
+            XKitRouter.withKey(RouterConstant.PATH_FUN_MY_BLACK_PAGE).withContext(this).navigate();
+        } else if (v == viewBinding.activityMineSetNewMimaSet.viewTitleArrowLl) {
             Mine_Pwd_Set_ManagerActivity.start(Mine_Pwd_Set_ManagerActivity.class, this, null);
         } else if (v == viewBinding.activityMineSetNewYinsiSet.viewTitleArrowLl) {
             startActivity(new Intent(SettingNewActivity.this, AccountAnQuanManagerActivity.class));
@@ -160,27 +167,29 @@ public class SettingNewActivity extends BaseActivity implements View.OnClickList
 
             AnQuanSetNewActivity.start(AnQuanSetNewActivity.class, this, null);
         } else if (v == viewBinding.activityMineSetNewZhuxiao.viewTitleArrowLl) {
-            DialogAlertUtil.showAlert("确定注销账号吗？", new DialogAlertUtil.DialogAlertUtilCallBack() {
-                @Override
-                public void clickType(int type) {
-                    if (type == 1) {
-                        HttpUtil.apiW().home_logout()
-                                .enqueue(new CommonCallback<NetData>() {
-                                    @Override
-                                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                                        ToastUtils.toastMsg("注销成功");
-                                        showLogin();
-                                    }
+            ZhuXiaoConfrimActivity.start(ZhuXiaoConfrimActivity.class, this, null);
 
-                                    @Override
-                                    public void Failure(Call<NetData> call, Throwable t) {
-
-                                    }
-                                });
-
-                    }
-                }
-            }, getSupportFragmentManager());
+//            DialogAlertUtil.showAlert("确定注销账号吗？", new DialogAlertUtil.DialogAlertUtilCallBack() {
+//                @Override
+//                public void clickType(int type) {
+//                    if (type == 1) {
+//                        HttpUtil.apiW().home_logout()
+//                                .enqueue(new CommonCallback<NetData>() {
+//                                    @Override
+//                                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+//                                        ToastUtils.toastMsg("注销成功");
+//                                        showLogin();
+//                                    }
+//
+//                                    @Override
+//                                    public void Failure(Call<NetData> call, Throwable t) {
+//
+//                                    }
+//                                });
+//
+//                    }
+//                }
+//            }, getSupportFragmentManager());
         }
     }
 
