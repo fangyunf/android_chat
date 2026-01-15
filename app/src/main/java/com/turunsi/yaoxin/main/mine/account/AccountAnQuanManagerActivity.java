@@ -19,6 +19,7 @@ import com.netease.yunxin.kit.teamkit.ui.fun.activity.FunTeamSettingNew_Forbidde
 import com.netease.yunxin.kit.teamkit.ui.fun.activity.FunTeamSettingNew_TeamUsersActivity;
 import com.netease.yunxin.kit.teamkit.ui.fun.activity.adapter.TeamSettingUserInfoAdapter;
 import com.turunsi.yaoxin.databinding.ActivityAccountAnquanManagerBinding;
+import com.turunsi.yaoxin.main.mine.setting.SettingNotifyNewActivity;
 import com.yaoxin.appbase.activity.BaseActivity;
 import com.yaoxin.appbase.model.GroupInfoBean;
 import com.yaoxin.appbase.model.NetData;
@@ -93,6 +94,7 @@ public class AccountAnQuanManagerActivity extends BaseActivity implements View.O
         binding.activityAccountAnquanManagerCell7.viewTitleArrowRightTvSwitch.setVisibility(View.VISIBLE);
         binding.activityAccountAnquanManagerCell7.viewTitleArrowArrowIv.setVisibility(View.GONE);
 
+        binding.activitySetting.setOnClickListener(view -> SettingNotifyNewActivity.start(SettingNotifyNewActivity.class, AccountAnQuanManagerActivity.this, null));
 
     }
 

@@ -12,8 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitXY"
-        android:src="@mipmap/jinzita_common_page_bg"
-        android:visibility="gone"
+        android:src="@mipmap/bg_wallet"
+
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -36,17 +36,26 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="202dp"
+            android:layout_height="240dp"
             android:layout_marginHorizontal="15dp"
-            android:background="@mipmap/purse_index_money_bg"
+            android:background="@mipmap/bg_wallet_top"
+            android:gravity="center_horizontal"
             android:orientation="vertical"
             android:paddingHorizontal="20dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
-                android:text="总资产"
+                android:layout_marginTop="@dimen/dimen_16_dp"
+                android:text="资产安全有保障"
+                android:textColor="@color/color_FF8A0B"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:text="可用余额"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
 
@@ -62,36 +71,31 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:gravity="end"
-
-                >
-
-                <TextView
-                    android:id="@+id/activity_mine_purse_index_recharge_tv"
-
-                    android:layout_width="100dp"
-
-                    android:layout_height="32dp"
-                    android:layout_marginLeft="15dp"
-                    android:background="@drawable/bg_app_theme_color_rounded_10"
-
-                    android:gravity="center"
-
-                    android:text="充值"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_size_15" />
+                android:layout_marginTop="20dp">
 
                 <TextView
                     android:id="@+id/activity_mine_purse_index_tixian_tv"
-                    android:layout_width="100dp"
-                    android:layout_height="32dp"
-
-                    android:background="@drawable/bg_white_rounded_10"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/dimen_48_dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/fun_bg_gray_line_4"
                     android:gravity="center"
                     android:text="提现"
-                    android:textColor="@color/app_theme_color"
+                    android:textColor="@color/color_333333"
                     android:textSize="@dimen/text_size_15" />
+
+                <TextView
+                    android:id="@+id/activity_mine_purse_index_recharge_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/dimen_48_dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_bg"
+                    android:gravity="center"
+                    android:text="充值"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_size_15" />
+
 
                 <TextView
                     android:id="@+id/activity_mine_purse_index_recharge_tv2"
@@ -110,14 +114,139 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/layout_zd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_white_rounded_10"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/dimen_16_dp">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@mipmap/icn_wallet_record">
+
+                </ImageView>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dimen_10_dp"
+                    android:layout_weight="@integer/material_motion_duration_long_1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:gravity="center"
+                        android:text="我的账单"
+                        android:textColor="@color/color_333333"
+                        android:textSize="@dimen/text_size_16" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="资金流动明细"
+                        android:textColor="@color/color_999999"
+                        android:textSize="@dimen/text_size_14" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="@dimen/dimen_16_dp"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/dtf_right_arrow">
+
+                </ImageView>
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
 
         <LinearLayout
-            android:background="@drawable/bg_white_rounded_10"
+            android:id="@+id/layout_zfb"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="15dp"
             android:layout_marginTop="10dp"
+            android:background="@drawable/bg_white_rounded_10"
             android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/dimen_16_dp">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@mipmap/icn_wallet_zfb">
+
+                </ImageView>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dimen_10_dp"
+                    android:layout_weight="@integer/material_motion_duration_long_1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:gravity="center"
+                        android:text="支付宝"
+                        android:textColor="@color/color_333333"
+                        android:textSize="@dimen/text_size_16" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="立即绑定支付宝"
+                        android:textColor="@color/color_999999"
+                        android:textSize="@dimen/text_size_14" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="@dimen/dimen_16_dp"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/dtf_right_arrow">
+
+                </ImageView>
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_white_rounded_10"
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <com.yaoxin.appbase.view.IconTitleArrowTemplate
                 android:id="@+id/activity_mine_purse_index_hbjl"

@@ -92,16 +92,20 @@ public class FunConversationP2PViewHolder extends FunConversationBaseViewHolder 
         }
 
         viewBinding.rootLayout.setLayoutParams(layoutParams);
-//    viewBinding.rootLayout.setBackground(viewBinding.rootLayout.getContext().getDrawable(com.yaoxin.appbase.R.drawable.bg_white_rounded_12));
-//    ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) viewBinding.rootLayout.getLayoutParams();
-//    if (data.param.equals(DataUtil.getUserid()) || AppProxy.getInstance().showType == 2) {
-//      layoutParams.topMargin = 0;
-//      layoutParams.height = 0;
-//    } else {
-//      layoutParams.height = SizeUtils.dp2px(72);
-//      layoutParams.topMargin = SizeUtils.dp2px(5);
-//    }
-//    viewBinding.rootLayout.setLayoutParams(layoutParams);
+        viewBinding.rootLayout.setBackground(viewBinding.rootLayout.getContext().getDrawable(com.yaoxin.appbase.R.drawable.bg_white_rounded_12));
+        layoutParams = (ViewGroup.MarginLayoutParams) viewBinding.rootLayout.getLayoutParams();
+        if (data.param.equals(DataUtil.getUserid()) || AppProxy.getInstance().showType == 2) {
+            layoutParams.topMargin = 0;
+            layoutParams.height = 0;
+        } else {
+            layoutParams.height = SizeUtils.dp2px(72);
+            layoutParams.topMargin = SizeUtils.dp2px(5);
+            layoutParams.leftMargin = SizeUtils.dp2px(16);
+            layoutParams.rightMargin = SizeUtils.dp2px(16);
+        }
+        viewBinding.rootLayout.setLayoutParams(layoutParams);
+
+
         if (data.infoData != null && data.infoData.getUserInfo() != null && data.infoData.getUserInfo().getExtensionMap() != null && data.infoData.getUserInfo().getExtensionMap().get("grade") != null) {
             int grader = (int) data.infoData.getUserInfo().getExtensionMap().get("grade");
             if (grader > 0) {

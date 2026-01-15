@@ -17,6 +17,7 @@ import com.netease.nimlib.sdk.StatusBarNotificationConfig;
 import com.netease.yunxin.kit.common.ui.viewmodel.LoadStatus;
 import com.netease.yunxin.kit.common.utils.SPUtils;
 import com.turunsi.yaoxin.NimSDKOptionConfig;
+import com.turunsi.yaoxin.R;
 import com.turunsi.yaoxin.databinding.ActivityMineSettingNotifyBinding;
 import com.turunsi.yaoxin.databinding.ActivityMineSettingNotifyNewBinding;
 import com.yaoxin.appbase.activity.BaseActivity;
@@ -80,9 +81,16 @@ public class SettingNotifyNewActivity extends BaseActivity {
         viewBinding.activityMineSettingNotifyCell2.viewTitleArrowRightTvSwitch.setVisibility(View.VISIBLE);
         viewBinding.activityMineSettingNotifyCell2.viewTitleArrowArrowIv.setVisibility(View.GONE);
 
+        viewBinding.activityMineSettingNotifyCell2.viewTitleArrowTemplateLeftIv.setVisibility(View.VISIBLE);
+        viewBinding.activityMineSettingNotifyCell2.viewTitleArrowTemplateLeftIv.setImageResource(com.turunsi.yaoxin.R.mipmap.activity_mine_pwd_set_mager_set_pay_pwd);
+
+
         viewBinding.activityMineSettingNotifyCell3.viewTitleArrowTv.setText("震动");
         viewBinding.activityMineSettingNotifyCell3.viewTitleArrowRightTvSwitch.setVisibility(View.VISIBLE);
         viewBinding.activityMineSettingNotifyCell3.viewTitleArrowArrowIv.setVisibility(View.GONE);
+
+        viewBinding.activityMineSettingNotifyCell3.viewTitleArrowTemplateLeftIv.setVisibility(View.VISIBLE);
+        viewBinding.activityMineSettingNotifyCell3.viewTitleArrowTemplateLeftIv.setImageResource(com.turunsi.yaoxin.R.mipmap.activity_mine_pwd_set_mager_zx);
 
         viewBinding.activityMineSettingNotifyCell1.viewTitleArrowRightTvSwitch.setSelected("1".equals(userBean.allDisturb));
         viewBinding.activityMineSettingNotifyCell1.viewTitleArrowRightTvSwitch.setOnClickListener(

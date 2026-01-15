@@ -117,7 +117,7 @@ public class FunConversationFragment extends ConversationBaseFragment {
         } else if (_type == 3) {
             viewBinding.funConversationFragmentTitleTv.setText("消息");
         } else {
-            viewBinding.funConversationFragmentTitleTv.setText("对话");
+            viewBinding.funConversationFragmentTitleTv.setText("消息");
         }
         viewBinding.funConversationFragmentSearchLl.setOnClickListener(v -> {
             XKitRouter.withKey("SearchNewActivity")
@@ -495,7 +495,7 @@ public class FunConversationFragment extends ConversationBaseFragment {
         emptyView = viewBinding.emptyLayout;
 
         setViewHolderFactory(new FunViewHolderFactory());
-        viewBinding.conversationView.addItemDecoration(getItemDecoration());
+        //viewBinding.conversationView.addItemDecoration(getItemDecoration());
 //    viewBinding.funConversationFragmentNav.clearLeftMenu();
         _initHeadCell();
         loadUIConfig();

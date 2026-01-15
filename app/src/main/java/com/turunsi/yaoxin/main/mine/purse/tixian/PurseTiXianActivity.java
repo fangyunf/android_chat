@@ -153,7 +153,7 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
             bean.zfbNo = wxPayBean.phone;
             bean.name = wxPayBean.name;
             bean.zfbUrl = wxPayBean.usdt;
-            bean.userUsdtId = wxPayBean.id +"";
+            bean.userUsdtId = wxPayBean.id + "";
         } else if (payType.equals("yhkpay")) {
 
             bean.zfbNo = yhkPayBean.phone;
@@ -191,6 +191,7 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
                         UserBean bean = new Gson().fromJson(body.data.toString(), UserBean.class);
                         accountMoeny = NumberUtil.formartMoney(bean.balance);
                         binding.activityMinePurseMyLingqian.viewTitleTfWithoutBgEt.setText("¥" + NumberUtil.formartMoney(bean.balance));
+                        binding.tvBlance.setText("¥" + NumberUtil.formartMoney(bean.balance));
                     }
 
                     @Override
@@ -295,7 +296,7 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
 
                             // 即使失败也要检查是否所有请求都完成了
                             if (completedRequests == 2) {
-                        handleAllRequestsCompleted();
+                                handleAllRequestsCompleted();
                             }
                         }
                     }
@@ -306,15 +307,18 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
         // 所有请求完成后的处理逻辑
         if (aliPayBean != null) {
             payType = "alipay";
-            binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setText("支付宝：" + aliPayBean.phone);
+            binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setText("支付宝");
+            binding.viewTixianWay.setText(aliPayBean.phone);
         } else {
             if (wxPayBean != null) {
                 payType = "wxpay";
-                binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setText("微信：" + wxPayBean.phone);
+                binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setText("微信");
+                binding.viewTixianWay.setText(wxPayBean.phone);
             } else {
                 if (yhkPayBean != null) {
                     payType = "yhkpay";
-                    binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setText("银行卡：" + yhkPayBean.phone);
+                    binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setText("银行卡");
+                    binding.viewTixianWay.setText(yhkPayBean.phone);
                 }
             }
         }
@@ -395,7 +399,8 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
                 public void clickType(int type) {
                     if (type == 1) {
                         if (aliPayBean != null) {
-                            binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setText("支付宝:" + aliPayBean.phone);
+                            binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setText("支付宝");
+                            binding.viewTixianWay.setText(aliPayBean.phone);
                         } else {
                             ToastUtils.toastMsg("请绑定支付宝账号");
                             return;
@@ -403,7 +408,8 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
                         payType = "alipay";
                     } else if (type == 2) {
                         if (wxPayBean != null) {
-                            binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setText("微信:" + wxPayBean.phone);
+                            binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setText("微信");
+                            binding.viewTixianWay.setText(wxPayBean.phone);
                         } else {
                             ToastUtils.toastMsg("请绑定微信账号");
                             return;
@@ -411,7 +417,8 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
                         payType = "wxpay";
                     } else if (type == 3) {
                         if (yhkPayBean != null) {
-                            binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setText("银行卡:" + yhkPayBean.phone);
+                            binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setText("银行卡");
+                            binding.viewTixianWay.setText(yhkPayBean.phone);
                         } else {
                             ToastUtils.toastMsg("请绑定银行卡账号");
                             return;

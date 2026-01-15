@@ -38,17 +38,14 @@ public class FunConversationTeamViewHolder extends FunConversationBaseViewHolder
             if (teamInfo.getIcon().startsWith("https://s.netease.im") || teamInfo.getIcon().isEmpty()) {
                 viewBinding.avatarView.setData(com.yaoxin.appbase.R.mipmap.app_default_base_icon_group, teamInfo.getName(), AvatarColor.avatarColor(teamInfo.getId()));
             } else {
-                viewBinding.avatarView.setData(
-                        teamInfo.getIcon(), teamInfo.getName(), AvatarColor.avatarColor(teamInfo.getId()));
+                viewBinding.avatarView.setData(teamInfo.getIcon(), teamInfo.getName(), AvatarColor.avatarColor(teamInfo.getId()));
             }
 
 //      viewBinding.avatarView.setData(
 //          teamInfo.getIcon(), teamInfo.getName(), AvatarColor.avatarColor(teamInfo.getId()));
             viewBinding.nameTv.setText(teamInfo.getName());
         }
-        if (data.viewType == ConversationConstant.ViewType.TEAM_VIEW
-                && data.infoData.getUnreadCount() > 0
-                && ConversationHelper.hasAit(data.infoData.getContactId())) {
+        if (data.viewType == ConversationConstant.ViewType.TEAM_VIEW && data.infoData.getUnreadCount() > 0 && ConversationHelper.hasAit(data.infoData.getContactId())) {
             viewBinding.aitTv.setVisibility(View.VISIBLE);
         } else {
             viewBinding.aitTv.setVisibility(View.GONE);
@@ -65,17 +62,19 @@ public class FunConversationTeamViewHolder extends FunConversationBaseViewHolder
 
         viewBinding.rootLayout.setLayoutParams(layoutParams);
 
-//    viewBinding.rootLayout.setBackgroundColor(viewBinding.rootLayout.getContext().getResources().getColor(com.yaoxin.appbase.R.color.app_theme_color));
-//    viewBinding.rootLayout.setBackground(viewBinding.rootLayout.getContext().getDrawable(com.yaoxin.appbase.R.drawable.bg_white_rounded_12));
+        //viewBinding.rootLayout.setBackgroundColor(viewBinding.rootLayout.getContext().getResources().getColor(com.yaoxin.appbase.R.color.app_theme_color));
+        viewBinding.rootLayout.setBackground(viewBinding.rootLayout.getContext().getDrawable(com.yaoxin.appbase.R.drawable.bg_white_rounded_12));
 
-//    ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) viewBinding.rootLayout.getLayoutParams();
-//    if (AppProxy.getInstance().showType == 1) {
-//      layoutParams.topMargin = 0;
-//      layoutParams.height = 0;
-//    } else {
-//      layoutParams.height = SizeUtils.dp2px(72);
-//      layoutParams.topMargin = SizeUtils.dp2px(5);
-//    }
-//    viewBinding.rootLayout.setLayoutParams(layoutParams);
+        layoutParams = (ViewGroup.MarginLayoutParams) viewBinding.rootLayout.getLayoutParams();
+        if (AppProxy.getInstance().showType == 1) {
+            layoutParams.topMargin = 0;
+            layoutParams.height = 0;
+        } else {
+            layoutParams.height = SizeUtils.dp2px(72);
+            layoutParams.topMargin = SizeUtils.dp2px(5);
+            layoutParams.leftMargin = SizeUtils.dp2px(16);
+            layoutParams.rightMargin = SizeUtils.dp2px(16);
+        }
+        viewBinding.rootLayout.setLayoutParams(layoutParams);
     }
 }

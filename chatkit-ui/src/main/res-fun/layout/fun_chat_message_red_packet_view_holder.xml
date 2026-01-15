@@ -19,30 +19,23 @@
         android:scaleType="fitXY"
         android:src="@drawable/chat_red_packet_cell_bg_no_open" />
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:paddingRight="@dimen/dimen_7_dp">
 
-        <TextView
-            android:id="@+id/fun_chat_message_red_packet_view_holder_greeting_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="55dp"
-            android:layout_marginTop="12dp"
-            android:text="恭喜发财,大吉大利"
-            android:textColor="#ffffffff"
-            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/fun_chat_message_red_packet_view_holder_type_tv"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
-            android:textSize="14sp"
             android:layout_marginLeft="55dp"
             android:text="红包"
-            android:textColor="@color/color_white" />
+            android:textColor="@color/color_white"
+            android:textSize="14sp"
+            android:visibility="gone" />
 
         <View
             android:layout_width="match_parent"
@@ -60,23 +53,46 @@
             android:orientation="horizontal"
             android:paddingHorizontal="@dimen/dimen_10_dp">
 
-            <TextView
-                android:id="@+id/fun_chat_message_red_packet_view_holder_time_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="2023-11-08 19:20:30"
-                android:textColor="#ffffffff"
-                android:textSize="10sp" />
 
-            <TextView
-                android:id="@+id/fun_chat_message_red_packet_view_holder_money_tv"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="right"
-                android:text="0.00"
-                android:textColor="@color/color_white"
-                android:textSize="10sp" />
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/fun_chat_message_red_packet_view_holder_money_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimen_10_dp"
+            android:layout_marginTop="@dimen/dimen_40_dp"
+            android:gravity="right"
+            android:text="0.00"
+            android:textColor="@color/color_white"
+            android:textSize="16sp" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/fun_chat_message_red_packet_view_holder_greeting_tv"
+        android:layout_width="@dimen/dimen_120_dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="55dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginRight="@dimen/dimen_10_dp"
+        android:text="恭喜发财,大吉大利"
+        android:textColor="#ffffffff"
+        android:textSize="15sp" />
+
+
+    <TextView
+        android:id="@+id/fun_chat_message_red_packet_view_holder_time_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="@dimen/dimen_5_dp"
+        android:layout_marginBottom="@dimen/dimen_5_dp"
+        android:text="2023-11-08 19:20:30"
+        android:textColor="#ffffffff"
+        android:textSize="10sp" />
+
+
 </RelativeLayout>

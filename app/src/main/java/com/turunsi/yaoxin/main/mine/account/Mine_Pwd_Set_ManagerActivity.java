@@ -49,16 +49,14 @@ public class Mine_Pwd_Set_ManagerActivity extends BaseActivity implements View.O
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding =
-                ActivityMinePwdSetMagerBinding.inflate(getLayoutInflater());
+        binding = ActivityMinePwdSetMagerBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
         binding.activityMinePwdSetMagerNav.addCloseImageButton().setOnClickListener(this);
         binding.activityMinePwdSetMagerSetLoginZxLl.setOnClickListener(this);
         binding.activityMinePwdSetMagerSetLoginPwdLl.setOnClickListener(this);
         binding.activityMinePwdSetMagerSetPayPwdLl.setOnClickListener(this);
-
-        StatusBarUtils.transtStatusBar(this,binding.activityMinePwdSetMagerNav);
+        binding.tvPhone.setText("当前账户:+86 " + DataUtil.getUserInfo().phoneNo);
+        StatusBarUtils.transtStatusBar(this, binding.activityMinePwdSetMagerNav);
     }
 
 
@@ -73,10 +71,11 @@ public class Mine_Pwd_Set_ManagerActivity extends BaseActivity implements View.O
         } else if (view == binding.activityMinePwdSetMagerSetPayPwdLl) {
 
             HashMap map = new HashMap();
-            map.put("type","0");
-            PursePwdManagerSetActivity.start(PursePwdManagerSetActivity.class,this,map);
+            map.put("type", "0");
+            PursePwdManagerSetActivity.start(PursePwdManagerSetActivity.class, this, map);
         }
     }
+
     void showLogin() {
         IMKitClient.logoutIM(
                 new com.netease.yunxin.kit.corekit.im.login.LoginCallback<Void>() {

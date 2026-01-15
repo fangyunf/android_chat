@@ -233,7 +233,7 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
 
     @Override
     protected void _initView() {
-        binding.activityFunSendRedPacketNetworkFeeLl.setVisibility(View.VISIBLE);
+        binding.activityFunSendRedPacketNetworkFeeLl.setVisibility(View.GONE);
         binding.activityFunSendRedPacketNav.addCloseImageButton().setOnClickListener(this);
 //        binding.activityFunSendRedPacketPinChangeTypeLl.setOnClickListener(this);
         binding.activityFunSendRedPacketSendTv.setOnClickListener(this);

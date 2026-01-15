@@ -26,7 +26,7 @@
             android:id="@+id/view_title_tf_without_bg_et"
             android:layout_width="match_parent"
             android:layout_height="44dp"
-            android:background="@drawable/bg_f2f2f2_rounded_10"
+            android:background="@drawable/bg_white_rounded_10"
             android:cursorVisible="true"
             android:focusable="true"
             android:focusableInTouchMode="true"
@@ -47,5 +47,5 @@
             android:textColor="@color/app_theme_color"
             android:visibility="gone" />
     </RelativeLayout>
-
+    
 </LinearLayout>

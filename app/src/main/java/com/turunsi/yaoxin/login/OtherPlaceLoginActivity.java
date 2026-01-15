@@ -36,6 +36,7 @@ public class OtherPlaceLoginActivity extends BaseActivity implements View.OnClic
 
     int _type = 0;
     String _phone = "";
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,56 +52,105 @@ public class OtherPlaceLoginActivity extends BaseActivity implements View.OnClic
         if (extras.get("phone") != null) {
             _phone = (String) extras.get("phone");
         }
-        if (_type == 1) {
-            binding.activityOtherPlaceLoginTv2.setTextSize(18);
-            binding.activityOtherPlaceLoginGetCodeLl.setVisibility(View.VISIBLE);
-            binding.activityOtherPlaceLoginTv1.setText("安全验证");
-            binding.activityOtherPlaceLoginTv2.setText(_phone);
-            binding.activityOtherPlaceLoginVerifyLl.setVisibility(View.GONE);
-            binding.activityOtherPlaceLoginNav.getTitleView().setText("安全验证");
-            Activity that = this;
-            binding.activityOtherPlaceLoginSplitEt.setOnInputListener(new OnInputListener() {
-                @Override
-                public void onInputFinished(String content) {
-                    RegisterBean registerBean = new RegisterBean();
-                    registerBean.phoneNo = _phone;
-                    registerBean.captcha = content;
 
+        binding.activityLoginTf1.viewTitleTfCountIv.setImageResource(R.mipmap.login_icon_phone);
+        binding.activityLoginTf2.viewTitleTfCountIv.setImageResource(R.mipmap.login_icon_code);
+        binding.activityLoginTf1.viewTitleTfCountEt.setHint("输入手机号");
+        binding.activityLoginTf2.viewTitleTfCountEt.setHint("输入验证码");
+        binding.activityLoginTf1.viewTitleTfCountEt.setEnabled(false);
+        binding.activityLoginTf1.viewTitleTfCountEt.setText(_phone);
+        binding.activityLoginTf2.viewRoundTfLl.setVisibility(View.VISIBLE);
+        binding.activityLoginTf2.viewTitleTfCountCaptcha.setVisibility(View.VISIBLE);
+        binding.activityOtherPlaceLoginVerify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RegisterBean registerBean = new RegisterBean();
+                registerBean.phoneNo = _phone;
+                registerBean.captcha = binding.activityLoginTf2.viewTitleTfCountEt.getText().toString();
+                HttpUtil.apiW().customer_ydCodeCheck(registerBean)
+                        .enqueue(new CommonCallback<NetData>() {
+                            @Override
+                            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                                ToastUtils.toastMsg("验证成功");
+                                UserBean userBean = new Gson().fromJson((String) body.data, UserBean.class);
+                                DataUtil.putUserInfo(userBean);
+                                DataUtil.putToken(userBean.token);
+                                IMUtil.loginIM(OtherPlaceLoginActivity.this, userBean.userId, userBean.imToken);
+                            }
 
-                    HttpUtil.apiW().customer_ydCodeCheck(registerBean)
-                            .enqueue(new CommonCallback<NetData>() {
-                                @Override
-                                public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                                    ToastUtils.toastMsg("验证成功");
-                                    UserBean userBean = new Gson().fromJson((String) body.data,UserBean.class);
-                                    DataUtil.putUserInfo(userBean);
-                                    DataUtil.putToken(userBean.token);
-                                    IMUtil.loginIM(that,userBean.userId,userBean.imToken);
-                                }
+                            @Override
+                            public void Failure(Call<NetData> call, Throwable t) {
 
-                                @Override
-                                public void Failure(Call<NetData> call, Throwable t) {
+                            }
+                        });
+            }
+        });
 
-                                }
-                            });
-                }
-            });
-            CountDownView mCountDownView = binding.activityOtherPlaceLoginBtnCaptcha;
-            mCountDownView.needVerify = false;
-            mCountDownView.setCountDownTime(60);
-            mCountDownView.setCaptchaListener(new LoginLoader.CaptchaListener() {
-                @Override
-                public void onPre() {
-                    CommonNetUtil.getPhoneCode(_phone);
-                }
+        CountDownView mCountDownView = binding.activityLoginTf2.viewTitleTfCountCaptcha;
+        mCountDownView.needVerify = false;
+        mCountDownView.setCountDownTime(60);
+        mCountDownView.setCaptchaListener(new LoginLoader.CaptchaListener() {
+            @Override
+            public void onPre() {
+                CommonNetUtil.getPhoneCode(_phone);
+            }
 
-                @Override
-                public void onComplete(String phoneOrEmail) {
-                }
-            });
-        }
+            @Override
+            public void onComplete(String phoneOrEmail) {
+            }
+        });
 
+//        if (_type == 1) {
+//            binding.activityOtherPlaceLoginTv2.setTextSize(18);
+//            binding.activityOtherPlaceLoginGetCodeLl.setVisibility(View.VISIBLE);
+//            binding.activityOtherPlaceLoginTv1.setText("安全验证");
+//            binding.activityOtherPlaceLoginTv2.setText(_phone);
+//            binding.activityOtherPlaceLoginVerifyLl.setVisibility(View.GONE);
+//            binding.activityOtherPlaceLoginNav.getTitleView().setText("安全验证");
+//            Activity that = this;
+//            binding.activityOtherPlaceLoginSplitEt.setOnInputListener(new OnInputListener() {
+//                @Override
+//                public void onInputFinished(String content) {
+//                    RegisterBean registerBean = new RegisterBean();
+//                    registerBean.phoneNo = _phone;
+//                    registerBean.captcha = content;
+//
+//
+//                    HttpUtil.apiW().customer_ydCodeCheck(registerBean)
+//                            .enqueue(new CommonCallback<NetData>() {
+//                                @Override
+//                                public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+//                                    ToastUtils.toastMsg("验证成功");
+//                                    UserBean userBean = new Gson().fromJson((String) body.data, UserBean.class);
+//                                    DataUtil.putUserInfo(userBean);
+//                                    DataUtil.putToken(userBean.token);
+//                                    IMUtil.loginIM(that, userBean.userId, userBean.imToken);
+//                                }
+//
+//                                @Override
+//                                public void Failure(Call<NetData> call, Throwable t) {
+//
+//                                }
+//                            });
+//                }
+//            });
+//            CountDownView mCountDownView = binding.activityOtherPlaceLoginBtnCaptcha;
+//            mCountDownView.needVerify = false;
+//            mCountDownView.setCountDownTime(60);
+//            mCountDownView.setCaptchaListener(new LoginLoader.CaptchaListener() {
+//                @Override
+//                public void onPre() {
+//                    CommonNetUtil.getPhoneCode(_phone);
+//                }
+//
+//                @Override
+//                public void onComplete(String phoneOrEmail) {
+//                }
+//            });
+//        }
+//
     }
+
     @Override
     public void onClick(View v) {
         if (v == binding.activityOtherPlaceLoginNav.addCloseImageButton() || binding.activityOtherPlaceLoginDontVerifyTv == v) {
@@ -108,9 +158,9 @@ public class OtherPlaceLoginActivity extends BaseActivity implements View.OnClic
         } else if (v == binding.activityOtherPlaceLoginVerifyTv) {
 
             HashMap map = new HashMap<>();
-            map.put("type","1");
-            map.put("phone",_phone);
-            OtherPlaceLoginActivity.start(OtherPlaceLoginActivity.class,this,map);
+            map.put("type", "1");
+            map.put("phone", _phone);
+            OtherPlaceLoginActivity.start(OtherPlaceLoginActivity.class, this, map);
         }
     }
 }

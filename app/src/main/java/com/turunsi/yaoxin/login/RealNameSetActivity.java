@@ -24,6 +24,7 @@ import com.yaoxin.appbase.net.Constant;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.DeviceUtils;
+import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
 
 import java.util.HashMap;
@@ -40,14 +41,22 @@ public class RealNameSetActivity extends BaseActivity implements View.OnClickLis
         binding = ActivityMineRealNameSetBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         binding.activityMineRealNameSetSaveRl.setOnClickListener(this);
-        binding.activityMineRealNameSetNav.addCloseImageButton().setVisibility(View.GONE);
+        binding.activityMineRealNameSetNav.addCloseImageButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+//        binding.activityMineRealNameSetNav.addCloseImageButton().setVisibility(View.GONE);
         binding.activityMineRealNameSetName.viewTitleTfWithoutBgTv.setText("真实姓名");
         binding.activityMineRealNameSetName.viewTitleTfWithoutBgEt.setHint("请输入真实姓名");
 //        binding.activityMineRealNameSetName.viewTitleTfWithoutBgEt.setBackgroundColor(getResources().getColor(R.color.color_white));
 //        binding.activityMineRealNameSetName.viewTitleTfWithoutBgLl.setBackgroundColor(getResources().getColor(R.color.color_white));
-        
         binding.activityMineRealNameSetIdentityNum.viewTitleTfWithoutBgTv.setText("身份证号");
         binding.activityMineRealNameSetIdentityNum.viewTitleTfWithoutBgEt.setHint("请输入身份证号");
+
+        StatusBarUtils.transtStatusBar(this, binding.activityMineRealNameSetNav);
+
 //        binding.activityMineRealNameSetIdentityNum.viewTitleTfWithoutBgEt.setBackgroundColor(getResources().getColor(R.color.color_white));
 //        binding.activityMineRealNameSetIdentityNum.viewTitleTfWithoutBgLl.setBackgroundColor(getResources().getColor(R.color.color_white));
 
