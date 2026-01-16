@@ -3,7 +3,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#f2f2f2">
 
     <ImageView
         android:id="@+id/activity_login_bg_iv"
@@ -82,7 +83,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="70dp"
+            android:layout_marginTop="80dp"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
@@ -107,16 +108,6 @@
                 android:layout_marginTop="@dimen/dimen_13_dp" />
 
             <TextView
-                android:id="@+id/activity_login_forget_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginTop="@dimen/dimen_10_dp"
-                android:text="忘记密码？"
-                android:textColor="@color/app_theme_color"
-                android:textSize="@dimen/text_size_15" />
-
-            <TextView
                 android:id="@+id/activity_login_login_tv"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
@@ -129,11 +120,22 @@
 
             <TextView
                 android:id="@+id/activity_login_register_tv"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="@dimen/dimen_16_dp"
+                android:background="@drawable/bg_white_rounded_12"
+                android:gravity="center"
+                android:text="立即注册"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_15" />
+
+            <TextView
+                android:id="@+id/activity_login_forget_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
+
                 android:layout_marginTop="@dimen/dimen_10_dp"
-                android:text="没有账号,去注册"
+                android:text="忘记密码？"
                 android:textColor="@color/app_theme_color"
                 android:textSize="@dimen/text_size_15" />
         </LinearLayout>

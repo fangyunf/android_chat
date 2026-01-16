@@ -100,7 +100,7 @@
                         android:id="@+id/inputEt"
                         android:layout_width="match_parent"
                         android:layout_height="44dp"
-                        android:background="@drawable/bg_message_et"
+                        android:background="@drawable/bg_gray_rounded_25"
                         android:ellipsize="end"
                         android:hint="@string/fun_chat_input_hint_tips"
                         android:imeOptions="actionSend"
@@ -209,8 +209,8 @@
 
                 <RadioButton
                     android:id="@+id/inputEmojiRb"
-                    android:layout_width="21dp"
-                    android:layout_height="21dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:layout_centerInParent="true"
                     android:layout_gravity="bottom"
                     android:background="@drawable/chat_fragment_toolbar_emoji"

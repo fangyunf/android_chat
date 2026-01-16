@@ -24,7 +24,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/home_bg"
             android:orientation="vertical">
 
 
@@ -39,7 +38,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
-                    android:paddingRight="10dp">
+                    android:paddingRight="10dp"
+                    android:paddingBottom="@dimen/dimen_16_dp">
 
                     <TextView
                         android:id="@+id/fun_conversation_fragment_title_tv"
@@ -48,7 +48,7 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:paddingLeft="60dp"
-                        android:text="联系人"
+                        android:text="好友"
                         android:textColor="@color/color_black"
                         android:textSize="20sp" />
 
@@ -75,7 +75,8 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="@dimen/dimen_16_dp"
                 android:background="@drawable/bg_white_rounded_12"
-                android:gravity="center">
+                android:gravity="center"
+                android:visibility="gone">
 
                 <ImageView
                     android:layout_width="20dp"
