@@ -429,7 +429,11 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
 
         activityMainBinding.mine.setTextColor(getResources().getColor(R.color.tab_unchecked_color));
         activityMainBinding.mine.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.mine_tabbar_mine_normal), null, null);
-        ;
+
+
+        activityMainBinding.found.setTextColor(getResources().getColor(R.color.tab_unchecked_color));
+        activityMainBinding.found.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.mine_tabbar_found_normal), null, null);
+
 
         activityMainBinding.conversationShop.setTextColor(getResources().getColor(R.color.tab_unchecked_color));
         activityMainBinding.conversationShop.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.mine_tabbar_shop_normal), null, null);
