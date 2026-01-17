@@ -61,7 +61,7 @@ public class FoundFragment extends BaseFragment {
 
         // 邀请好友
         binding.tvInvite.setOnClickListener(v -> {
-            // ToastUtils.toastMsg("邀请好友功能待实现");
+            com.turunsi.yaoxin.register.InviteFriendsActivity.start(getActivity());
         });
 
         // AI机器人

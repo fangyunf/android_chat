@@ -115,8 +115,7 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
         binding.contactNewFragmentMoreIv.setOnClickListener(this);
         _initViews();
         _requestData();
-
-
+        
         return binding.getRoot();
     }
 

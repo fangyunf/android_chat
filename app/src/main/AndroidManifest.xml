@@ -205,6 +205,7 @@
         <activity android:name=".login.RealNameSetActivity" />
         <activity android:name=".register.RegisterActivity" />
         <activity android:name=".register.ForgetPwdActivity" />
+        <activity android:name=".register.InviteFriendsActivity" />
         <activity android:name=".main.mine.DownLoadActivity" />
         <activity android:name=".main.mine.order.OrderListActivity" />
         <activity android:name=".main.mine.address.AddressListActivity" />

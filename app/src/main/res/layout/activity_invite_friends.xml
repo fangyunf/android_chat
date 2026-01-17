@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F2F2F2">
+
+    <!-- 导航栏 -->
+    <com.yaoxin.appbase.navbar.NavToolbar
+        android:id="@+id/activity_invite_friends_nav"
+        style="@style/WhiteFontToolbar"
+        android:background="@color/transparent"
+        app:back_icon="@mipmap/temp_ic_back"
+        app:enable_under_divider="true"
+        app:support_translucent_status_bar="false"
+        app:title="邀请好友下载使用"
+        app:title_text_color="@color/color_333333"
+        app:under_divider_color="@color/transparent" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/activity_invite_friends_nav"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingHorizontal="20dp"
+            android:paddingTop="60dp"
+            android:paddingBottom="40dp">
+
+            <!-- 信封图标 -->
+            <ImageView
+                android:id="@+id/iv_envelope"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center_horizontal"
+                android:contentDescription="信封图标"
+                android:src="@mipmap/ic_yaoqing_top" />
+
+            <!-- 主要消息文本 -->
+            <TextView
+                android:id="@+id/tv_main_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="32dp"
+                android:gravity="center"
+                android:lineSpacingExtra="4dp"
+                android:text="恭喜您已注册成功,获得下方账号数据,恭喜您已注册成功,获得下方账号数据"
+                android:textColor="@color/color_black"
+                android:textSize="16sp" />
+
+            <!-- 账号数据区域 -->
+            <LinearLayout
+                android:id="@+id/ll_account_data"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/bg_white_rounded_10"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/tv_account_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="账号："
+                    android:textColor="@color/color_666666"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_account_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text=""
+                    android:textColor="@color/color_black"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- 复制状态文本 -->
+            <TextView
+                android:id="@+id/tv_copy_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
+                android:text="已复制成功 快去邀请"
+                android:textColor="@color/color_999999"
+                android:textSize="14sp"
+                android:visibility="gone" />
+
+            <!-- 立即邀请按钮 -->
+            <TextView
+                android:id="@+id/btn_invite_now"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="40dp"
+                android:background="@drawable/bg_green_rounded_10"
+                android:gravity="center"
+                android:text="立即邀请"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

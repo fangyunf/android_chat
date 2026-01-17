@@ -52,6 +52,7 @@ import com.turunsi.yaoxin.databinding.ActivityMainBinding;
 import com.turunsi.yaoxin.fragment.FoundFragment;
 import com.turunsi.yaoxin.login.LoginActivity;
 import com.turunsi.yaoxin.main.mine.MineFragment;
+import com.turunsi.yaoxin.main.mine.MineFragment1;
 import com.turunsi.yaoxin.main.mine.setting.SettingNewActivity;
 import com.turunsi.yaoxin.utils.Constant;
 import com.turunsi.yaoxin.utils.DataUtils;
@@ -278,7 +279,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         fragments.add(mContactFragment);
         fragments.add(mConversationFragment1);
         fragments.add(new FoundFragment());
-        fragments.add(new MineFragment());
+        fragments.add(new MineFragment1());
 //        fragments.add(mConversationFragment1);
         FragmentAdapter fragmentAdapter = new FragmentAdapter(this);
         fragmentAdapter.setFragmentList(fragments);
