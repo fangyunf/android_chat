@@ -17,6 +17,7 @@ import com.yaoxin.appbase.fragment.BaseFragment;
 import com.yaoxin.appbase.utils.BarUtils;
 import com.yaoxin.appbase.utils.BaseEvent;
 import com.yaoxin.appbase.utils.StatusBarUtils;
+import com.yaoxin.appbase.utils.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -42,11 +43,35 @@ public class FoundFragment extends BaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        // 朋友圈
         binding.tvDaymic.setOnClickListener(view2 -> {
             Intent intent = new Intent(getActivity(), OfficialDynamicsActivity.class);
             startActivity(intent);
         });
 
+        // 扫一扫
         binding.tvSao.setOnClickListener(view1 -> EventBus.getDefault().post(new BaseEvent("gotoScan")));
+
+
+        // 附近的人
+        binding.tvNearby.setOnClickListener(v -> {
+            // ToastUtils.toastMsg("附近的人功能待实现");
+        });
+
+        // 邀请好友
+        binding.tvInvite.setOnClickListener(v -> {
+            // ToastUtils.toastMsg("邀请好友功能待实现");
+        });
+
+        // AI机器人
+        binding.tvAIRobot.setOnClickListener(v -> {
+            // ToastUtils.toastMsg("AI机器人功能待实现");
+        });
+
+        // 我的开源
+        binding.tvOpenSource.setOnClickListener(v -> {
+            // ToastUtils.toastMsg("我的开源功能待实现");
+        });
     }
 }

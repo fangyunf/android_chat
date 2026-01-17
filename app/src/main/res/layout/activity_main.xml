@@ -157,6 +157,28 @@
         </RelativeLayout>
 
 
+        <RelativeLayout
+            android:id="@+id/found_btn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:onClick="tabClick">
+
+            <TextView
+                android:id="@+id/found"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:drawableTop="@mipmap/mine_tabbar_found_normal"
+                android:drawablePadding="-2dp"
+                android:gravity="center"
+                android:text="发现"
+                android:textColor="@color/tab_unchecked_color"
+                android:textSize="12sp" />
+
+
+        </RelativeLayout>
+
 
         <RelativeLayout
             android:id="@+id/myself_btn_group"
