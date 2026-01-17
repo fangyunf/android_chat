@@ -1,106 +1,149 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingLeft="37dp"
-    android:paddingRight="37dp"
-    >
+    android:background="#f2f2f2">
 
-    <ImageView
-        android:id="@+id/register_activity_back_iv"
-        android:layout_width="@dimen/dimen_20_dp"
-        android:layout_height="@dimen/dimen_16_dp"
-        android:layout_marginTop="64dp"
-        android:src="@mipmap/register_activity_back"
-        />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="43dp"
-        android:text="注册"
-        android:textSize="@dimen/text_size_26"
-        android:textColor="@color/black"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <!-- 导航栏 -->
+    <com.yaoxin.appbase.navbar.NavToolbar
+        android:id="@+id/activity_other_place_login_nav"
+        style="@style/WhiteFontToolbar"
+        android:background="@color/transparent"
+        app:back_icon="@mipmap/temp_ic_back"
+        app:enable_under_divider="true"
+        app:support_translucent_status_bar="false"
+        app:title="欢迎注册"
+        app:title_text_color="@color/black"
+        app:under_divider_color="@color/transparent" />
 
-    <include
-        android:id="@+id/register_activity_phone_tf"
-        android:layout_marginTop="@dimen/dimen_48_dp"
-        layout="@layout/view_title_tf"
+    <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_40_dp" />
+        android:layout_height="match_parent"
+        android:layout_below="@+id/activity_other_place_login_nav"
+        android:fillViewport="true"
+        android:paddingHorizontal="20dp">
 
-    <include
-        android:id="@+id/register_activity_code_tf"
-        layout="@layout/view_title_tf"
-        android:layout_marginTop="@dimen/dimen_16_dp"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_40_dp" />
-    <include
-        android:id="@+id/register_activity_pwd_tf"
-        layout="@layout/view_title_tf"
-        android:layout_marginTop="@dimen/dimen_16_dp"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_40_dp" />
-    <include
-        android:id="@+id/register_activity_pwd2_tf"
-        layout="@layout/view_title_tf"
-        android:layout_marginTop="@dimen/dimen_16_dp"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_40_dp" />
-
-    <TextView
-        android:id="@+id/activity_register_btn"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_44_dp"
-        android:layout_marginTop="@dimen/dimen_16_dp"
-        android:background="@mipmap/login_btn_bg"
-        android:gravity="center"
-        android:text="注册"
-        android:textColor="@color/white"
-        android:textSize="@dimen/text_size_16" />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dimen_24_dp"
-        android:gravity="center_vertical"
-        >
-        <ImageView
-            android:id="@+id/activity_login_is_checked"
-            android:layout_width="@dimen/dimen_16_dp"
-            android:src="@mipmap/login_activity_normal"
-            android:layout_height="@dimen/dimen_16_dp"/>
-
-        <TextView
-            android:id="@+id/activity_login_is_checked_txt1"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dimen_4_dp"
-            android:text="登录即阅读并同意"
-            android:textColor="@color/color_999999"
-            android:textSize="@dimen/text_size_13" />
-        <TextView
-            android:id="@+id/activity_login_is_checked_txt2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="服务协议"
-            android:textColor="@color/color_9A75DB"
-            android:textSize="@dimen/text_size_13" />
-        <TextView
-            android:id="@+id/activity_login_is_checked_txt3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="和"
-            android:textColor="@color/color_999999"
-            android:textSize="@dimen/text_size_13" />
-        <TextView
-            android:id="@+id/activity_login_is_checked_txt4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="隐私保护指引"
-            android:textColor="@color/color_9A75DB"
-            android:textSize="@dimen/text_size_13" />
-    </LinearLayout>
-</LinearLayout>
+            android:orientation="vertical"
+            android:paddingTop="40dp"
+            android:paddingBottom="40dp">
+
+            <!-- 手机号输入框 -->
+            <include
+                android:id="@+id/register_activity_phone_tf"
+                layout="@layout/view_title_tf_count"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <!-- 验证码输入框 -->
+            <include
+                android:id="@+id/register_activity_code_tf"
+                layout="@layout/view_title_tf_count"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp" />
+
+            <!-- 用户名输入框 -->
+            <include
+                android:id="@+id/register_activity_username_tf"
+                layout="@layout/view_title_tf_count"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp" />
+
+            <!-- 密码输入框 -->
+            <include
+                android:id="@+id/register_activity_pwd_tf"
+                layout="@layout/view_title_tf_count"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp" />
+
+            <!-- 确认密码输入框 -->
+            <include
+                android:id="@+id/register_activity_pwd2_tf"
+                layout="@layout/view_title_tf_count"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp" />
+
+            <!-- 性别选择 -->
+            <RadioGroup
+                android:id="@+id/rg_gender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rb_male"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@null"
+                    android:checked="true"
+                    android:drawableLeft="@drawable/app_radio_green_selector"
+                    android:drawablePadding="@dimen/dimen_10_dp"
+                    android:text="男"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <RadioButton
+                    android:id="@+id/rb_female"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:button="@null"
+                    android:drawableLeft="@drawable/app_radio_green_selector"
+                    android:drawablePadding="@dimen/dimen_10_dp"
+                    android:text="女"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+            </RadioGroup>
+
+            <!-- 协议复选框 -->
+            <LinearLayout
+                android:id="@+id/activity_register_agree_ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/activity_register_is_checked_iv"
+                    android:layout_width="@dimen/dimen_18_dp"
+                    android:layout_height="@dimen/dimen_18_dp"
+                    android:button="@null"
+                    android:drawablePadding="0dp"
+                    android:padding="0dp"
+                    android:src="@drawable/app_radio_green_selector" />
+
+                <TextView
+                    android:id="@+id/activity_register_agree_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dimen_8_dp"
+                    android:text="我已阅读并接受《服务条款》《隐私政策》"
+                    android:textColor="@color/color_999999"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <!-- 提交按钮 -->
+            <TextView
+                android:id="@+id/activity_register_btn"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="32dp"
+                android:background="@drawable/bg_green_rounded_10"
+                android:gravity="center"
+                android:text="提交"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

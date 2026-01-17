@@ -68,7 +68,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:maxLines="1"
-                    android:text="官方小助手"
+                    android:text="系统公告"
                     android:textColor="@color/fun_conversation_item_title_text_color"
                     android:textSize="16sp" />
 

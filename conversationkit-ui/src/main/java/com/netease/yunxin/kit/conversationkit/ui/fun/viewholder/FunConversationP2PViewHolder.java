@@ -45,8 +45,7 @@ public class FunConversationP2PViewHolder extends FunConversationBaseViewHolder 
                     AvatarColor.avatarColor(data.infoData.getContactId()));
             viewBinding.nameTv.setText(name);
         } else if (data.param.equals(DataUtil.getXiaoZhuShouId())) {
-
-            String name = "小助手";
+            String name = "官方小助手";
             viewBinding.avatarView.setData(
                     com.yaoxin.appbase.R.mipmap.app_default_base_icon_xiaozhushou,
                     data.infoData.getAvatarName(),

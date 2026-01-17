@@ -107,7 +107,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             binding.activityLoginTitleTv.setText("登录");
             binding.tvTip.setText("请使用已注册的账号密码");
             binding.activityLoginForgetTv.setText("忘记密码");
-            binding.activityLoginRegisterTv.setText("没有账号，去注册");
+            //binding.activityLoginRegisterTv.setText("没有账号，去注册");
+            binding.activityLoginRegisterTv.setText("立即注册");
             binding.activityLoginForgetTv.setVisibility(View.VISIBLE);
             binding.activityLoginRegisterTv.setVisibility(View.VISIBLE);
             binding.activityLoginTitleIv.setImageResource(R.mipmap.common_login_title_login);
@@ -161,23 +162,24 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 binding.activityLoginTf3.viewTitleTfCountEt.setTransformationMethod(PasswordTransformationMethod.getInstance());
             } else {
                 binding.activityLoginTf3.viewTitleTfCountEt.setTransformationMethod(null);
-
             }
         } else if (v == binding.activityLoginForgetTv) {
-//            ForgetPwdActivity.start(ForgetPwdActivity.class, this, null);
-            if (_type == 0) {
-                changeTitleWithType(2);
-            } else if (_type == 1 || _type == 2) {
-                changeTitleWithType(0);
-            }
+            ForgetPwdActivity.start(ForgetPwdActivity.class, this, null);
+//            if (_type == 0) {
+//                changeTitleWithType(2);
+//            } else if (_type == 1 || _type == 2) {
+//                changeTitleWithType(0);
+//            }
 //            changeTitleWithType(_type == 0 ? 2 : 0);
         } else if (v == binding.activityLoginRegisterTv) {
 //            ForgetPwdActivity.start(ForgetPwdActivity.class, this, null);
-            if (_type == 0) {
-                changeTitleWithType(1);
-            } else {
-                changeTitleWithType(0);
-            }
+            RegisterActivity.start(RegisterActivity.class, this, null);
+
+//            if (_type == 0) {
+//                changeTitleWithType(1);
+//            } else {
+//                changeTitleWithType(0);
+//            }
         } else if (v == binding.activityLoginLoginTv) {
 
             if (_type == 0) {
