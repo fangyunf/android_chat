@@ -53,7 +53,7 @@
             android:layout_marginTop="20dp"
             android:text="注册"
             android:textColor="#ff000000"
-            android:textSize="28sp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/tv_tip"
@@ -111,7 +111,7 @@
                 android:id="@+id/activity_login_login_tv"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:layout_marginTop="@dimen/dimen_13_dp"
+                android:layout_marginTop="@dimen/dimen_30_dp"
                 android:background="@drawable/bg_3339ff_rounded_28"
                 android:gravity="center"
                 android:text="登录"
