@@ -29,9 +29,9 @@ public class OfficialDynamicAdapter extends BaseQuickAdapter<GroupInfoBean, Quic
         TextView timeTv = holder.getView(R.id.item_official_dynamic_time_tv);
         ImageView logoIv = holder.getView(R.id.item_official_dynamic_logo_iv);
         
-        titleTv.setText("觅上官方动态");
+        titleTv.setText("三样官方动态");
         contentTv.setText(item.content != null ? item.content : item.name);
-        tagTv.setText("觅上官方发布");
+        tagTv.setText("三样官方动态");
         timeTv.setText(TimeUtil.stampToDate(item.createTime));
         
         // 加载 logo（如果有 avatar 字段）
