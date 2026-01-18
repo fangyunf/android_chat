@@ -56,8 +56,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        StatusBarUtils.setStatusBarLightMode(this, true, true);
-
+        StatusBarUtils.transtStatusBar(this, binding.activityMineLoginNav);
+        binding.activityMineLoginNav.addCloseImageButton().setOnClickListener(view -> finish());
+        //StatusBarUtils.setStatusBarLightMode(this, true, true);
 //        binding.activityLoginLoginLl.setOnClickListener(this);
 //        binding.activityLoginRegisterLl.setOnClickListener(this);
         binding.activityLoginForgetTv.setOnClickListener(this);
@@ -104,13 +105,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         if (type == 0) {
             binding.activityLoginTf2.viewRoundTfLl.setVisibility(View.GONE);
             binding.activityLoginLoginTv.setText("登录");
-            binding.activityLoginTitleTv.setText("登录");
-            binding.tvTip.setText("请使用已注册的账号密码");
+            binding.activityLoginTitleTv.setText("三羊");
+            binding.tvTip.setText("欢迎使用三羊");
             binding.activityLoginForgetTv.setText("忘记密码");
             //binding.activityLoginRegisterTv.setText("没有账号，去注册");
             binding.activityLoginRegisterTv.setText("立即注册");
             binding.activityLoginForgetTv.setVisibility(View.VISIBLE);
-            binding.activityLoginRegisterTv.setVisibility(View.VISIBLE);
+            binding.activityLoginRegisterTv.setVisibility(View.GONE);
             binding.activityLoginTitleIv.setImageResource(R.mipmap.common_login_title_login);
         } else if (type == 1) {
             binding.activityLoginTf2.viewRoundTfLl.setVisibility(View.VISIBLE);

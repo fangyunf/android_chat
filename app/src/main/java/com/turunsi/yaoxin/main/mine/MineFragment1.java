@@ -40,6 +40,7 @@ import com.turunsi.yaoxin.databinding.FragmentMine1Binding;
 import com.turunsi.yaoxin.databinding.FragmentMineBinding;
 import com.turunsi.yaoxin.eggs.EggListIndexActivity;
 import com.turunsi.yaoxin.login.LoginActivity;
+import com.turunsi.yaoxin.login.WelcomeLoginActivity;
 import com.turunsi.yaoxin.main.mine.account.AccountAnQuanManagerActivity;
 import com.turunsi.yaoxin.main.mine.account.AccountDetailActivity;
 import com.turunsi.yaoxin.main.mine.account.AccoutCodeDetailActivity;
@@ -518,7 +519,7 @@ public class MineFragment1 extends BaseFragment implements View.OnClickListener 
 
                         DataUtil.deleteLoginUserInfoList(DataUtil.getUserInfo());
                         DataUtil.deleteData();
-                        startActivity(new Intent(getActivity(), LoginActivity.class));
+                        startActivity(new Intent(getActivity(), WelcomeLoginActivity.class));
                         getActivity().finish();
                     }
                 });

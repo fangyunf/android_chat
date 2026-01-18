@@ -16,6 +16,7 @@ import com.netease.yunxin.kit.corekit.im.IMKitClient;
 import com.turunsi.yaoxin.IMApplication;
 import com.turunsi.yaoxin.R;
 import com.turunsi.yaoxin.login.LoginActivity;
+import com.turunsi.yaoxin.login.WelcomeLoginActivity;
 import com.turunsi.yaoxin.main.mine.setting.ZhuXiaoConfrimActivity;
 import com.turunsi.yaoxin.utils.IMUtil;
 import com.yaoxin.appbase.activity.BaseActivity;
@@ -53,7 +54,7 @@ public class PursePwdManagerSetActivity extends BaseActivity implements View.OnC
         binding.activityMineAddressAddSaveRl.setOnClickListener(this);
 
         if (extras != null) {
-            String typeString = (String)extras.get("type");
+            String typeString = (String) extras.get("type");
             type = Integer.parseInt(typeString);
         }
 
@@ -98,6 +99,7 @@ public class PursePwdManagerSetActivity extends BaseActivity implements View.OnC
             binding.activityMinePursePwdManagerSetPhone.viewTitleTfWithoutBgTv.setText("手机号");
         }
     }
+
     private void _initSetCell() {
         binding.activityMinePursePwdManagerSetPhone.viewTitleTfWithoutBgTv.setText("手机号");
         binding.activityMinePursePwdManagerSetSetPwd.viewTitleTfWithoutBgTv.setText("输入密码");
@@ -118,6 +120,7 @@ public class PursePwdManagerSetActivity extends BaseActivity implements View.OnC
 //        binding.activityMinePursePwdManagerSetConfirmPwd.viewTitleTfWithoutBgEt.setBackgroundColor(getResources().getColor(R.color.color_white));
 //        binding.activityMinePursePwdManagerSetConfirmPwd.viewTitleTfWithoutBgLl.setBackgroundColor(getResources().getColor(R.color.color_white));
     }
+
     private void _initModifyCell() {
         binding.activityMinePursePwdManagerSetPhone.viewTitleTfWithoutBgTv.setText("原密码");
         binding.activityMinePursePwdManagerSetSetPwd.viewTitleTfWithoutBgTv.setText("新密码");
@@ -162,8 +165,8 @@ public class PursePwdManagerSetActivity extends BaseActivity implements View.OnC
             finish();
         } else if (v == binding.activityMinePursePwdManagerSetForgetPwdTv) {
             HashMap map = new HashMap();
-            map.put("type","2");
-            PursePwdManagerSetActivity.start(PursePwdManagerSetActivity.class,this,map);
+            map.put("type", "2");
+            PursePwdManagerSetActivity.start(PursePwdManagerSetActivity.class, this, map);
         } else if (v == binding.activityMineAddressAddSaveRl) {
 
             String phone = getTextStr(binding.activityMinePursePwdManagerSetPhone.viewTitleTfWithoutBgEt);
@@ -177,7 +180,6 @@ public class PursePwdManagerSetActivity extends BaseActivity implements View.OnC
                 return;
             }
             if (type == 100) {
-
                 RegisterBean bean = new RegisterBean();
                 bean.sms = code;
                 HttpUtil.apiW().home_logout1(bean)
@@ -219,7 +221,7 @@ public class PursePwdManagerSetActivity extends BaseActivity implements View.OnC
 
                         }
                     });
-            
+
         }
     }
 
@@ -243,7 +245,7 @@ public class PursePwdManagerSetActivity extends BaseActivity implements View.OnC
                         }
                         DataUtil.deleteLoginUserInfoList(DataUtil.getUserInfo());
                         DataUtil.deleteData();
-                        startActivity(new Intent(PursePwdManagerSetActivity.this, LoginActivity.class));
+                        startActivity(new Intent(PursePwdManagerSetActivity.this, WelcomeLoginActivity.class));
                         finish();
                     }
                 });

@@ -19,6 +19,7 @@ import com.turunsi.yaoxin.IMApplication;
 import com.turunsi.yaoxin.R;
 import com.turunsi.yaoxin.login.LoginActivity;
 import com.turunsi.yaoxin.login.RealNameSetActivity;
+import com.turunsi.yaoxin.login.WelcomeLoginActivity;
 import com.turunsi.yaoxin.main.MainActivity;
 import com.turunsi.yaoxin.main.mine.setting.SettingNewActivity;
 import com.yaoxin.appbase.model.NetData;
@@ -61,6 +62,7 @@ public class IMUtil {
                     }
                 });
     }
+
     public static void getToken() {
         RegisterBean bean = new RegisterBean();
 //        bean.token = token;
@@ -79,6 +81,7 @@ public class IMUtil {
                     }
                 });
     }
+
     public static void showMainActivityAndFinish(Activity context) {
         Intent intent = new Intent();
         intent.setClass(context, MainActivity.class);
@@ -108,7 +111,7 @@ public class IMUtil {
                         }
                         DataUtil.deleteLoginUserInfoList(DataUtil.getUserInfo());
                         DataUtil.deleteData();
-                        activity.startActivity(new Intent(activity, LoginActivity.class));
+                        activity.startActivity(new Intent(activity, WelcomeLoginActivity.class));
                         activity.finish();
                     }
                 });

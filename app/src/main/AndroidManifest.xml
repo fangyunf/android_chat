@@ -51,9 +51,11 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" 
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" 
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
     <!-- Android 13+ (API 33+) 需要更细粒度的媒体权限 -->
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
@@ -104,7 +106,8 @@
         <!--            android:value="2a6664a3c43a1fd51133b7dff030c575" />-->
         <meta-data
             android:name="com.netease.nim.appKey"
-            android:value="02be561c9252638e6f4bc29459e15403" />
+            android:value="52e88fc81c6040fc49fc246c333ea948" />
+        
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="cd71a16bb840431be756188d3a0a1931" />
@@ -196,6 +199,9 @@
         <!--        <activity-->
         <!--            android:name=".splash.SplashActivity" />-->
         <activity android:name=".login.LoginActivity" />
+        <activity android:name=".login.WelcomeLoginActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity android:name=".main.mine.huiyuan.MyHuiYuanListActivity" />
         <activity android:name=".main.mine.setting.ExchangeAccountActivity" />
         <activity android:name=".main.mine.purse.bill.BillDetailListActivity" />

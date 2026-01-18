@@ -19,6 +19,7 @@ import com.turunsi.yaoxin.IMApplication;
 import com.turunsi.yaoxin.databinding.ActivityAccountAnquanManagerBinding;
 import com.turunsi.yaoxin.databinding.ActivityMinePwdSetMagerBinding;
 import com.turunsi.yaoxin.login.LoginActivity;
+import com.turunsi.yaoxin.login.WelcomeLoginActivity;
 import com.turunsi.yaoxin.main.mine.purse.pwdmanager.PursePwdManagerSetActivity;
 import com.turunsi.yaoxin.main.mine.setting.SettingNewActivity;
 import com.turunsi.yaoxin.main.mine.setting.ZhuXiaoConfrimActivity;
@@ -58,7 +59,7 @@ public class Mine_Pwd_Set_ManagerActivity extends BaseActivity implements View.O
         binding.activityMinePwdSetMagerSetLoginPwdLl.setOnClickListener(this);
         binding.activityMinePwdSetMagerSetPayPwdLl.setOnClickListener(this);
 
-        StatusBarUtils.transtStatusBar(this,binding.activityMinePwdSetMagerNav);
+        StatusBarUtils.transtStatusBar(this, binding.activityMinePwdSetMagerNav);
     }
 
 
@@ -73,10 +74,11 @@ public class Mine_Pwd_Set_ManagerActivity extends BaseActivity implements View.O
         } else if (view == binding.activityMinePwdSetMagerSetPayPwdLl) {
 
             HashMap map = new HashMap();
-            map.put("type","0");
-            PursePwdManagerSetActivity.start(PursePwdManagerSetActivity.class,this,map);
+            map.put("type", "0");
+            PursePwdManagerSetActivity.start(PursePwdManagerSetActivity.class, this, map);
         }
     }
+
     void showLogin() {
         IMKitClient.logoutIM(
                 new com.netease.yunxin.kit.corekit.im.login.LoginCallback<Void>() {
@@ -97,7 +99,7 @@ public class Mine_Pwd_Set_ManagerActivity extends BaseActivity implements View.O
                         }
                         DataUtil.deleteLoginUserInfoList(DataUtil.getUserInfo());
                         DataUtil.deleteData();
-                        startActivity(new Intent(Mine_Pwd_Set_ManagerActivity.this, LoginActivity.class));
+                        startActivity(new Intent(Mine_Pwd_Set_ManagerActivity.this, WelcomeLoginActivity.class));
                         finish();
                     }
                 });

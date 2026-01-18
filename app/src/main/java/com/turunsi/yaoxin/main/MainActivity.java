@@ -51,6 +51,7 @@ import com.turunsi.yaoxin.R;
 import com.turunsi.yaoxin.databinding.ActivityMainBinding;
 import com.turunsi.yaoxin.fragment.FoundFragment;
 import com.turunsi.yaoxin.login.LoginActivity;
+import com.turunsi.yaoxin.login.WelcomeLoginActivity;
 import com.turunsi.yaoxin.main.mine.MineFragment;
 import com.turunsi.yaoxin.main.mine.MineFragment1;
 import com.turunsi.yaoxin.main.mine.setting.SettingNewActivity;
@@ -142,7 +143,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         super.onCreate(savedInstanceState);
         ALog.d(Constant.PROJECT_TAG, "MainActivity:onCreate");
         if (TextUtils.isEmpty(IMKitClient.account())) {
-            Intent intent = new Intent(this, LoginActivity.class);
+            Intent intent = new Intent(this, WelcomeLoginActivity.class);
             startActivity(intent);
             finish();
             return;
@@ -484,7 +485,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
                         ((IMApplication) getApplicationContext()).clearActivity(MainActivity.this);
                     }
                     DataUtil.deleteData();
-                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                    startActivity(new Intent(MainActivity.this, WelcomeLoginActivity.class));
                     finish();
                 }
             }
@@ -513,13 +514,11 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
             checkAndRequestScanPermissions();
         } else if ("gotoCreate".equals(event.getTag())) {
             XKitRouter.withKey(com.yaoxin.appbase.net.Constant.FunSelected_User_ActivityKey).withContext(this).withParam("type", "1").navigate();
-
         } else if ("login_out".equals(event.getTag())) {
             IMUtil.loginOut(this);
         } else if ("add_friend".equals(event.getTag())) {
             XKitRouter.withKey(RouterConstant.PATH_FUN_ADD_FRIEND_PAGE).withContext(this).navigate();
         }
-
     }
 
     @Override

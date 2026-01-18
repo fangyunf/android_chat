@@ -30,6 +30,7 @@ import com.turunsi.yaoxin.R;
 import com.turunsi.yaoxin.databinding.ActivityExchangeAccountBinding;
 import com.turunsi.yaoxin.databinding.ActivityMineSetNewBinding;
 import com.turunsi.yaoxin.login.LoginActivity;
+import com.turunsi.yaoxin.login.WelcomeLoginActivity;
 import com.turunsi.yaoxin.main.mine.purse.bankcard.bean.BankCardListBean;
 import com.turunsi.yaoxin.main.mine.setting.adapter.ExchangeAccountAdapter;
 import com.turunsi.yaoxin.register.ForgetPwdActivity;
@@ -102,6 +103,7 @@ public class ExchangeAccountActivity extends BaseActivity implements View.OnClic
 
 
     }
+
     void _requastData() {
 
         List<UserBean> loginUserInfoList = DataUtil.getLoginUserInfoList();
@@ -142,11 +144,12 @@ public class ExchangeAccountActivity extends BaseActivity implements View.OnClic
                                     .clearActivity(ExchangeAccountActivity.this);
                         }
                         DataUtil.deleteData();
-                        startActivity(new Intent(ExchangeAccountActivity.this, LoginActivity.class));
+                        startActivity(new Intent(ExchangeAccountActivity.this, WelcomeLoginActivity.class));
                         finish();
                     }
                 });
     }
+
     void exchangeLogin(UserBean userBean) {
         Activity that = this;
         IMKitClient.logoutIM(
@@ -173,7 +176,7 @@ public class ExchangeAccountActivity extends BaseActivity implements View.OnClic
                         DataUtil.putUserInfo(userBean);
                         DataUtil.putToken(userBean.token);
 //                        DataUtil.addLoginUserInfoList(userBean);
-                        IMUtil.loginIM(that,userBean.userId,userBean.imToken);
+                        IMUtil.loginIM(that, userBean.userId, userBean.imToken);
                     }
                 });
     }

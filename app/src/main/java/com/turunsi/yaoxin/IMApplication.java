@@ -58,6 +58,7 @@ import com.turunsi.yaoxin.crash.AppCrashHandler;
 import com.turunsi.yaoxin.login.LoginActivity;
 import com.turunsi.yaoxin.login.OtherPlaceLoginActivity;
 import com.turunsi.yaoxin.login.RealNameSetActivity;
+import com.turunsi.yaoxin.login.WelcomeLoginActivity;
 import com.turunsi.yaoxin.main.MainActivity;
 import com.turunsi.yaoxin.main.conversation.XiaoZhuShouActivity;
 import com.turunsi.yaoxin.main.mine.MineInfoActivity;
@@ -343,7 +344,16 @@ public class IMApplication extends MultiDexApplication {
                     @Override
                     public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
                         if (TextUtils.isEmpty(IMKitClient.account())
-                                && !(activity instanceof MainActivity || activity instanceof SplashActivity || activity instanceof LoginActivity || activity instanceof RegisterActivity || activity instanceof ForgetPwdActivity || activity instanceof WelcomeActivity || activity instanceof RealNameSetActivity || activity instanceof BaseWebViewActivity || activity instanceof OtherPlaceLoginActivity)
+                                && !(activity instanceof MainActivity
+                                || activity instanceof SplashActivity
+                                || activity instanceof LoginActivity
+                                || activity instanceof RegisterActivity
+                                || activity instanceof ForgetPwdActivity
+                                || activity instanceof WelcomeActivity
+                                || activity instanceof RealNameSetActivity
+                                || activity instanceof BaseWebViewActivity
+                                || activity instanceof OtherPlaceLoginActivity
+                                || activity instanceof WelcomeLoginActivity)
                                 && !coldStart) {
                             activity.finish();
                         } else {

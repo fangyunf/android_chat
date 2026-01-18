@@ -28,6 +28,7 @@ import com.turunsi.yaoxin.R;
 import com.turunsi.yaoxin.databinding.ActivityMineSetNewBinding;
 import com.turunsi.yaoxin.databinding.ActivityMineSettingBinding;
 import com.turunsi.yaoxin.login.LoginActivity;
+import com.turunsi.yaoxin.login.WelcomeLoginActivity;
 import com.turunsi.yaoxin.main.mine.DownLoadActivity;
 import com.turunsi.yaoxin.main.mine.account.AccountAnQuanManagerActivity;
 import com.turunsi.yaoxin.main.mine.account.Mine_Pwd_Set_ManagerActivity;
@@ -204,7 +205,7 @@ public class SettingNewActivity extends BaseActivity implements View.OnClickList
                         }
                         DataUtil.deleteLoginUserInfoList(DataUtil.getUserInfo());
                         DataUtil.deleteData();
-                        startActivity(new Intent(SettingNewActivity.this, LoginActivity.class));
+                        startActivity(new Intent(SettingNewActivity.this, WelcomeLoginActivity.class));
                         finish();
                     }
                 });

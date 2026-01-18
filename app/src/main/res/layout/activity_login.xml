@@ -6,6 +6,18 @@
     android:layout_height="match_parent"
     android:background="#f2f2f2">
 
+    <com.yaoxin.appbase.navbar.NavToolbar
+        android:id="@+id/activity_mine_login_nav"
+        style="@style/WhiteFontToolbar"
+        android:background="@color/transparent"
+        app:back_icon="@mipmap/temp_ic_back"
+        app:enable_under_divider="true"
+        app:support_translucent_status_bar="false"
+        app:title="   "
+        app:title_text_color="@color/color_333333"
+        app:under_divider_color="@color/transparent" />
+
+
     <ImageView
         android:id="@+id/activity_login_bg_iv"
         android:layout_width="match_parent"
@@ -27,7 +39,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="80dp"
         android:gravity="center"
         android:orientation="vertical">
 
