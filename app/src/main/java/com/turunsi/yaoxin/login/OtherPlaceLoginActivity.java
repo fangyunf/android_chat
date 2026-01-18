@@ -66,8 +66,6 @@ public class OtherPlaceLoginActivity extends BaseActivity implements View.OnClic
                     RegisterBean registerBean = new RegisterBean();
                     registerBean.phoneNo = _phone;
                     registerBean.captcha = content;
-
-
                     HttpUtil.apiW().customer_ydCodeCheck(registerBean)
                             .enqueue(new CommonCallback<NetData>() {
                                 @Override
