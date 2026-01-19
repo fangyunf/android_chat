@@ -4,6 +4,7 @@ package com.yaoxin.appbase.net;
 import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.ParamsBean;
 import com.yaoxin.appbase.model.RegisterBean;
+import com.yaoxin.appbase.model.RequestParams1Bean;
 import com.yaoxin.appbase.model.RequestParamsBean;
 import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.ServiceBase;
