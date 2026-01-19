@@ -17,7 +17,7 @@
     <com.yaoxin.appbase.navbar.NavToolbar
         android:id="@+id/activityMineSettingNotifyBackIv"
         style="@style/WhiteFontToolbar"
-        android:background="@color/white"
+        android:background="@color/transparent"
         app:back_icon="@mipmap/temp_ic_back"
         app:enable_under_divider="true"
         app:support_translucent_status_bar="false"

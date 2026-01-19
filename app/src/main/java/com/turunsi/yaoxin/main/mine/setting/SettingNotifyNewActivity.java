@@ -28,6 +28,7 @@ import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.DialogAlertUtil;
+import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
 
 import java.util.List;
@@ -46,14 +47,9 @@ public class SettingNotifyNewActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         viewBinding = ActivityMineSettingNotifyNewBinding.inflate(getLayoutInflater());
         setContentView(viewBinding.getRoot());
-
+        StatusBarUtils.transtStatusBar(this, viewBinding.activityMineSettingNotifyBackIv);
         // 设置返回按钮
-        viewBinding.activityMineSettingNotifyBackIv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        viewBinding.activityMineSettingNotifyBackIv.addCloseImageButton().setOnClickListener(v -> finish());
     }
 
     @Override
