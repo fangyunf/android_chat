@@ -108,9 +108,14 @@ public class FunConversationFragment extends ConversationBaseFragment {
         viewBinding = FunConversationFragmentBinding.inflate(inflater, container, false);
         initView();
 
+        if (_type == 1) {
+            viewBinding.funConversationFragmentTitleTv.setText("群聊");
+        } else if (_type == 3) {
+            viewBinding.funConversationFragmentTitleTv.setText("消息");
+        } else {
+            viewBinding.funConversationFragmentTitleTv.setText("消息");
+        }
 
-
-        viewBinding.funConversationFragmentTitleTv.setText("消息");
         viewBinding.funConversationFragmentSearchIvIcon.setOnClickListener(v -> {
             XKitRouter.withKey("SearchNewActivity")
                     .withContext(requireContext())
@@ -148,6 +153,19 @@ public class FunConversationFragment extends ConversationBaseFragment {
             conversationView.adapter.notifyDataSetChanged();
         }
 
+        if (_type == 0 || _type == 3) {
+            if (!AppProxy.searchKeyWord0.isEmpty()) {
+                viewBinding.funConversationFragmentEt.setText("");
+                AppProxy.searchKeyWord0 = "";
+                conversationView.adapter.notifyDataSetChanged();
+            }
+        } else {
+            if (!AppProxy.searchKeyWord1.isEmpty()) {
+                viewBinding.funConversationFragmentEt.setText("");
+                AppProxy.searchKeyWord1 = "";
+                conversationView.adapter.notifyDataSetChanged();
+            }
+        }
 
     }
 
