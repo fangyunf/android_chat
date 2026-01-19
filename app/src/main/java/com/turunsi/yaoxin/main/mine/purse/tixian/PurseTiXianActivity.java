@@ -1,6 +1,7 @@
 package com.turunsi.yaoxin.main.mine.purse.tixian;
 
 import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
@@ -17,6 +18,9 @@ import com.turunsi.yaoxin.R;
 import com.turunsi.yaoxin.main.mine.purse.alipay.BindAlipayActivity;
 import com.yaoxin.appbase.activity.BaseActivity;
 import com.turunsi.yaoxin.databinding.ActivityMinePurseTixianBinding;
+
+import android.content.Intent;
+
 import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.model.UserBean;
@@ -97,26 +101,12 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
 //        binding.activityMinePurseTixianTixianTypeLl.setOnClickListener(this);
         binding.activityMinePurseTixianAllTixianTv.setOnClickListener(this);
         binding.activityMinePurseTixianTixianBtn.setOnClickListener(this);
-        binding.activityMinePurseTixianAccoutTv.setEnabled(false);
 
-        binding.activityMinePurseMyLingqian.viewTitleTfWithoutBgEt.setBackgroundColor(getResources().getColor(R.color.color_white));
-        binding.activityMinePurseMyLingqian.viewTitleTfWithoutBgLl.setBackgroundColor(getResources().getColor(R.color.color_white));
+        // 设置提现说明点击事件
+        binding.activityMinePurseTixianInstructionTv.setOnClickListener(this);
 
-        binding.activityMinePurseMyLingqian.viewTitleTfWithoutBgLl.setBackground(getResources().getDrawable(com.yaoxin.appbase.R.drawable.bg_f2f2f2_rounded_10));
-        binding.activityMinePurseMyLingqian.viewTitleTfWithoutBgEt.setBackground(getResources().getDrawable(R.color.transparent));
-        binding.activityMinePurseMyLingqian.viewTitleTfWithoutBgTv.setText("我的零钱");
-        binding.activityMinePurseMyLingqian.viewTitleTfWithoutBgArrowIv.setVisibility(View.GONE);
-        int gravity = Gravity.END | Gravity.CENTER_VERTICAL; // 组合重力
-
-        binding.activityMinePurseMyLingqian.viewTitleTfWithoutBgEt.setGravity(gravity);
-//        binding.activityMinePurseMyLingqian.viewTitleTfWithoutBgEt.setText("支付宝");
-        binding.activityMinePurseMyLingqian.viewTitleTfWithoutBgLl.setOnClickListener(this);
-        binding.activityMinePurseMyLingqian.viewTitleTfWithoutBgEt.setFocusable(false);
-        binding.activityMinePurseMyLingqian.viewTitleTfWithoutBgEt.setFocusableInTouchMode(false);
-        binding.activityMinePurseMyLingqian.viewTitleTfWithoutBgEt.setClickable(true);
-        binding.activityMinePurseMyLingqian.viewTitleTfWithoutBgEt.setOnClickListener(this);
-        binding.activityMinePurseTixianAccoutTv.setVisibility(View.GONE);
-
+        // 设置提现方式
+        int gravity = Gravity.END | Gravity.CENTER_VERTICAL;
         binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgArrowIv.setVisibility(View.VISIBLE);
         binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgTv.setText("提现方式");
         binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setOnClickListener(this);
@@ -124,8 +114,8 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
         binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setFocusable(false);
         binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setFocusableInTouchMode(false);
         binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setClickable(true);
-        binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgLl.setBackground(getResources().getDrawable(R.color.color_white));
-        binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setBackground(getResources().getDrawable(R.color.color_white));
+        //binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgLl.setBackground(getResources().getDrawable(R.color.color_white));
+        binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setBackground(new BitmapDrawable());
         binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setGravity(gravity);
         binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setHint("请选择");
     }
@@ -153,7 +143,7 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
             bean.zfbNo = wxPayBean.phone;
             bean.name = wxPayBean.name;
             bean.zfbUrl = wxPayBean.usdt;
-            bean.userUsdtId = wxPayBean.id +"";
+            bean.userUsdtId = wxPayBean.id + "";
         } else if (payType.equals("yhkpay")) {
 
             bean.zfbNo = yhkPayBean.phone;
@@ -190,7 +180,7 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                         UserBean bean = new Gson().fromJson(body.data.toString(), UserBean.class);
                         accountMoeny = NumberUtil.formartMoney(bean.balance);
-                        binding.activityMinePurseMyLingqian.viewTitleTfWithoutBgEt.setText("¥" + NumberUtil.formartMoney(bean.balance));
+                        binding.activityMinePurseBalanceTv.setText("¥ " + NumberUtil.formartMoney(bean.balance));
                     }
 
                     @Override
@@ -330,6 +320,9 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
     public void onClick(View v) {
         if (v == binding.activityMinePurseTixianNav.addCloseImageButton()) {
             finish();
+        } else if (v == binding.activityMinePurseTixianInstructionTv) {
+            // 跳转到提现说明页面
+            startActivity(new Intent(this, PurseTiXianInstructionActivity.class));
         }
 //        else if (v == binding.activityMinePurseTixianTixianTypeLl) {
 //            String[] strings = {"支付宝", "银行卡"};
