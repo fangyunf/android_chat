@@ -546,6 +546,11 @@ public interface ServiceW {
             @Body RegisterBean userBean
     );
 
+    @POST("/bindCard/createUptadeZFB")
+    Call<NetData> bindCard_createUptadeZFB2(
+            @Body RequestParams1Bean userBean
+    );
+
     //   购买会员 入参groupId
     @POST("/caidan/caidaning")
     Call<NetData> caidan_caidaning(
