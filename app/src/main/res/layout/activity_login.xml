@@ -46,7 +46,6 @@
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
-
             <include
                 android:id="@+id/activity_login_tf1"
                 layout="@layout/view_title_tf_count"
