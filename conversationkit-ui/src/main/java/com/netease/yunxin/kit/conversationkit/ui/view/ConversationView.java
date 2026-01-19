@@ -10,10 +10,12 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.netease.nimlib.sdk.friend.model.MuteListChangedNotify;
 import com.netease.nimlib.sdk.team.model.Team;
 import com.netease.yunxin.kit.alog.ALog;
@@ -25,186 +27,190 @@ import com.netease.yunxin.kit.conversationkit.ui.model.ConversationBean;
 import com.netease.yunxin.kit.conversationkit.ui.page.interfaces.ILoadListener;
 import com.netease.yunxin.kit.corekit.im.model.FriendInfo;
 import com.netease.yunxin.kit.corekit.im.model.UserInfo;
+
 import java.util.Comparator;
 import java.util.List;
 
-/** conversation list view */
+/**
+ * conversation list view
+ */
 public class ConversationView extends FrameLayout {
 
-  private final String TAG = "ConversationView";
-  private RecyclerView recyclerView;
-  public ConversationAdapter adapter;
+    private final String TAG = "ConversationView";
+    private RecyclerView recyclerView;
+    public ConversationAdapter adapter;
+    public int _type;
 
-  private ILoadListener loadMoreListener;
-  private final int LOAD_MORE_DIFF = 5;
+    private ILoadListener loadMoreListener;
+    private final int LOAD_MORE_DIFF = 5;
 
-  public ConversationView(Context context) {
-    super(context);
-    init(null);
-  }
-
-  public ConversationView(Context context, @Nullable AttributeSet attrs) {
-    super(context, attrs);
-    init(attrs);
-  }
-
-  public ConversationView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-    super(context, attrs, defStyleAttr);
-    init(attrs);
-  }
-
-  private void init(AttributeSet attrs) {
-    recyclerView = new RecyclerView(getContext());
-    recyclerView.setId(R.id.conversation_rv);
-    this.addView(
-        recyclerView,
-        new FrameLayout.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-    LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-    adapter = new ConversationAdapter(layoutManager);
-    recyclerView.setLayoutManager(layoutManager);
-    recyclerView.setAdapter(adapter);
-    recyclerView.addOnScrollListener(
-        new RecyclerView.OnScrollListener() {
-          @Override
-          public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-            super.onScrollStateChanged(recyclerView, newState);
-            if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-              int position = layoutManager.findLastVisibleItemPosition();
-              if (loadMoreListener != null
-                  && loadMoreListener.hasMore()
-                  && adapter.getItemCount() < position + LOAD_MORE_DIFF) {
-                ConversationBean last = adapter.getData(adapter.getItemCount() - 1);
-                loadMoreListener.loadMore(last);
-              }
-            }
-          }
-
-          @Override
-          public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-            super.onScrolled(recyclerView, dx, dy);
-          }
-        });
-  }
-
-  public void setLoadMoreListener(ILoadListener listener) {
-    this.loadMoreListener = listener;
-  }
-
-  public void setItemClickListener(ViewHolderClickListener listener) {
-    adapter.setViewHolderClickListener(listener);
-  }
-
-  public void addItemDecoration(RecyclerView.ItemDecoration decoration) {
-    recyclerView.addItemDecoration(decoration);
-  }
-
-  public void setViewHolderFactory(IConversationFactory factory) {
-    adapter.setViewHolderFactory(factory);
-  }
-
-  public void setComparator(Comparator<ConversationInfo> comparator) {
-    this.adapter.setComparator(comparator);
-  }
-
-  public void setData(List<ConversationBean> data) {
-    if (adapter != null) {
-      adapter.setData(data);
+    public ConversationView(Context context) {
+        super(context);
+        init(null);
     }
-  }
 
-  public void addData(List<ConversationBean> data) {
-    if (adapter != null) {
-      adapter.appendData(data);
+    public ConversationView(Context context, @Nullable AttributeSet attrs) {
+        super(context, attrs);
+        init(attrs);
     }
-  }
 
-  public void update(List<ConversationBean> data) {
-    if (adapter != null) {
-      ALog.d(LIB_TAG, TAG, "update ConversationBean list, start");
-      adapter.update(data);
-      ALog.d(LIB_TAG, TAG, "update ConversationBean list, end");
+    public ConversationView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        init(attrs);
     }
-  }
 
-  public void update(ConversationBean data) {
-    if (adapter != null) {
-      ALog.d(LIB_TAG, TAG, "update ConversationBean, start");
-      adapter.update(data);
-      ALog.d(LIB_TAG, TAG, "update ConversationBean, end");
-    }
-  }
+    private void init(AttributeSet attrs) {
+        recyclerView = new RecyclerView(getContext());
+        recyclerView.setId(R.id.conversation_rv);
+        this.addView(
+                recyclerView,
+                new FrameLayout.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        adapter = new ConversationAdapter(layoutManager);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
+        recyclerView.addOnScrollListener(
+                new RecyclerView.OnScrollListener() {
+                    @Override
+                    public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                        super.onScrollStateChanged(recyclerView, newState);
+                        if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                            int position = layoutManager.findLastVisibleItemPosition();
+                            if (loadMoreListener != null
+                                    && loadMoreListener.hasMore()
+                                    && adapter.getItemCount() < position + LOAD_MORE_DIFF) {
+                                ConversationBean last = adapter.getData(adapter.getItemCount() - 1);
+                                loadMoreListener.loadMore(last);
+                            }
+                        }
+                    }
 
-  public void updateUserInfo(List<UserInfo> data) {
-    if (adapter != null) {
-      adapter.updateUserInfo(data);
+                    @Override
+                    public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                        super.onScrolled(recyclerView, dx, dy);
+                    }
+                });
     }
-  }
 
-  public void updateFriendInfo(List<FriendInfo> data) {
-    if (adapter != null) {
-      adapter.updateFriendInfo(data);
+    public void setLoadMoreListener(ILoadListener listener) {
+        this.loadMoreListener = listener;
     }
-  }
 
-  public void updateTeamInfo(List<Team> data) {
-    if (adapter != null) {
-      adapter.updateTeamInfo(data);
+    public void setItemClickListener(ViewHolderClickListener listener) {
+        adapter.setViewHolderClickListener(listener);
     }
-  }
 
-  public void updateMuteInfo(MuteListChangedNotify changedNotify) {
-    if (adapter != null) {
-      adapter.updateMuteInfo(changedNotify);
+    public void addItemDecoration(RecyclerView.ItemDecoration decoration) {
+        recyclerView.addItemDecoration(decoration);
     }
-  }
 
-  public void remove(List<ConversationBean> data) {
-    if (adapter != null) {
-      adapter.removeData(data);
+    public void setViewHolderFactory(IConversationFactory factory) {
+        adapter.setViewHolderFactory(factory);
     }
-  }
 
-  public void removeAll() {
-    if (adapter != null) {
-      adapter.removeAll();
+    public void setComparator(Comparator<ConversationInfo> comparator) {
+        this.adapter.setComparator(comparator);
     }
-  }
 
-  public int getDataSize() {
-    if (adapter != null) {
-      return adapter.getItemCount();
+    public void setData(List<ConversationBean> data) {
+        if (adapter != null) {
+            adapter.setData(data);
+        }
     }
-    return 0;
-  }
 
-  public void removeConversation(String id) {
-    if (adapter != null) {
-      adapter.removeData(id);
+    public void addData(List<ConversationBean> data) {
+        if (adapter != null) {
+            adapter.appendData(data);
+        }
     }
-  }
 
-  public void updateAit(List<String> idList) {
-    if (adapter != null) {
-      adapter.updateAit(idList);
+    public void update(List<ConversationBean> data) {
+        if (adapter != null) {
+            ALog.d(LIB_TAG, TAG, "update ConversationBean list, start");
+            adapter.update(data);
+            ALog.d(LIB_TAG, TAG, "update ConversationBean list, end");
+        }
     }
-  }
 
-  public void addStickTop(String id) {
-    if (adapter != null) {
-      adapter.addStickTop(id);
+    public void update(ConversationBean data) {
+        if (adapter != null) {
+            ALog.d(LIB_TAG, TAG, "update ConversationBean, start");
+            adapter.update(data);
+            ALog.d(LIB_TAG, TAG, "update ConversationBean, end");
+        }
     }
-  }
 
-  public void removeStickTop(String id) {
-    if (adapter != null) {
-      adapter.removeStickTop(id);
+    public void updateUserInfo(List<UserInfo> data) {
+        if (adapter != null) {
+            adapter.updateUserInfo(data);
+        }
     }
-  }
 
-  public void setShowTag(boolean show) {
-    if (adapter != null) {
-      adapter.setShowTag(show);
+    public void updateFriendInfo(List<FriendInfo> data) {
+        if (adapter != null) {
+            adapter.updateFriendInfo(data);
+        }
     }
-  }
+
+    public void updateTeamInfo(List<Team> data) {
+        if (adapter != null) {
+            adapter.updateTeamInfo(data);
+        }
+    }
+
+    public void updateMuteInfo(MuteListChangedNotify changedNotify) {
+        if (adapter != null) {
+            adapter.updateMuteInfo(changedNotify);
+        }
+    }
+
+    public void remove(List<ConversationBean> data) {
+        if (adapter != null) {
+            adapter.removeData(data);
+        }
+    }
+
+    public void removeAll() {
+        if (adapter != null) {
+            adapter.removeAll();
+        }
+    }
+
+    public int getDataSize() {
+        if (adapter != null) {
+            return adapter.getItemCount();
+        }
+        return 0;
+    }
+
+    public void removeConversation(String id) {
+        if (adapter != null) {
+            adapter.removeData(id);
+        }
+    }
+
+    public void updateAit(List<String> idList) {
+        if (adapter != null) {
+            adapter.updateAit(idList);
+        }
+    }
+
+    public void addStickTop(String id) {
+        if (adapter != null) {
+            adapter.addStickTop(id);
+        }
+    }
+
+    public void removeStickTop(String id) {
+        if (adapter != null) {
+            adapter.removeStickTop(id);
+        }
+    }
+
+    public void setShowTag(boolean show) {
+        if (adapter != null) {
+            adapter.setShowTag(show);
+        }
+    }
 }

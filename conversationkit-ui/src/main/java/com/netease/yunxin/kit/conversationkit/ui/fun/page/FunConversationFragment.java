@@ -475,6 +475,8 @@ public class FunConversationFragment extends ConversationBaseFragment {
 
     private void initView() {
         conversationView = viewBinding.conversationView;
+        conversationView._type = _type;
+        conversationView.adapter._type = _type;
 
 
         networkErrorView = viewBinding.errorTv;
