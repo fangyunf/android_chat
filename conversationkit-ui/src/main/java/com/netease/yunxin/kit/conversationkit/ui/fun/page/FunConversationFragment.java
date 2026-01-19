@@ -184,8 +184,11 @@ public class FunConversationFragment extends ConversationBaseFragment {
             @Override
             public void afterTextChanged(Editable s) {
                 String string = s.toString();
-                AppProxy.getInstance().searchKeyWord0 = string;
-
+                if (_type == 0 || _type == 3) {
+                    AppProxy.getInstance().searchKeyWord0 = string;
+                } else {
+                    AppProxy.getInstance().searchKeyWord1 = string;
+                }
                 conversationView.adapter.notifyDataSetChanged();
             }
         });
@@ -252,79 +255,83 @@ public class FunConversationFragment extends ConversationBaseFragment {
                 });
 
 
-        HttpUtil.apiW().group_userGroups(new RegisterBean())
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+        if (_type == 1 || _type == 3) {
+            HttpUtil.apiW().group_userGroups(new RegisterBean())
+                    .enqueue(new CommonCallback<NetData>() {
+                        @Override
+                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                        Type type = new TypeToken<List<GroupInfoBean>>() {
-                        }.getType();
+                            Type type = new TypeToken<List<GroupInfoBean>>() {
+                            }.getType();
 
-                        List<GroupInfoBean> dataList = new Gson().fromJson(body.data.toString(), type);
+                            List<GroupInfoBean> dataList = new Gson().fromJson(body.data.toString(), type);
 
-                        for (GroupInfoBean tempGroupInfo : dataList) {
-                            boolean hasConversation = false;
-                            for (ConversationBean tempCoversation : conversationList) {
+                            for (GroupInfoBean tempGroupInfo : dataList) {
+                                boolean hasConversation = false;
+                                for (ConversationBean tempCoversation : conversationList) {
 
-                                if (tempGroupInfo.groupId.equals((String) tempCoversation.param)) {
-                                    hasConversation = true;
-                                    break;
+                                    if (tempGroupInfo.groupId.equals((String) tempCoversation.param)) {
+                                        hasConversation = true;
+                                        break;
+                                    }
+                                }
+                                if (!hasConversation) {
+                                    sendGroupMessage(tempGroupInfo.groupId);
                                 }
                             }
-                            if (!hasConversation) {
-                                sendGroupMessage(tempGroupInfo.groupId);
+                        }
+
+                        @Override
+                        public void Failure(Call<NetData> call, Throwable t) {
+
+                        }
+                    });
+        }
+
+        if (_type == 0 || _type == 3) {
+            HttpUtil.apiW().customer_systemAppUser(new RegisterBean())
+                    .enqueue(new CommonCallback<NetData>() {
+                        @Override
+                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+
+                            String kefuId = body.data.toString().replace("\"", "");
+                            requestKefu(kefuId);
+
+                            String xiaozhushouId = "10086";
+                            DataUtil.putKeFuId(kefuId);
+                            DataUtil.putXiaoZhuShouId(xiaozhushouId);
+
+                            boolean hasKefu = false;
+                            boolean hasXiaoZhushou = false;
+
+                            for (ConversationBean tempBean :
+                                    conversationList) {
+                                if (tempBean.infoData.getContactId().equals(kefuId)) {
+                                    hasKefu = true;
+
+                                }
+                            }
+                            for (ConversationBean tempBean :
+                                    conversationList) {
+                                if (tempBean.infoData.getContactId().equals(xiaozhushouId)) {
+                                    hasXiaoZhushou = true;
+
+                                }
+                            }
+                            if (!hasKefu) {
+                                sendMessage(kefuId);
+                            }
+                            if (!hasXiaoZhushou) {
+                                sendMessage(xiaozhushouId);
                             }
                         }
-                    }
 
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
+                        @Override
+                        public void Failure(Call<NetData> call, Throwable t) {
 
-                    }
-                });
-
-        HttpUtil.apiW().customer_systemAppUser(new RegisterBean())
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-
-                        String kefuId = body.data.toString().replace("\"", "");
-                        requestKefu(kefuId);
-
-                        String xiaozhushouId = "10086";
-                        DataUtil.putKeFuId(kefuId);
-                        DataUtil.putXiaoZhuShouId(xiaozhushouId);
-
-                        boolean hasKefu = false;
-                        boolean hasXiaoZhushou = false;
-
-                        for (ConversationBean tempBean :
-                                conversationList) {
-                            if (tempBean.infoData.getContactId().equals(kefuId)) {
-                                hasKefu = true;
-
-                            }
                         }
-                        for (ConversationBean tempBean :
-                                conversationList) {
-                            if (tempBean.infoData.getContactId().equals(xiaozhushouId)) {
-                                hasXiaoZhushou = true;
-
-                            }
-                        }
-                        if (!hasKefu) {
-                            sendMessage(kefuId);
-                        }
-                        if (!hasXiaoZhushou) {
-                            sendMessage(xiaozhushouId);
-                        }
-                    }
-
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
-
-                    }
-                });
+                    });
+        }
     }
 
     void requestKefu(String kefuId) {
