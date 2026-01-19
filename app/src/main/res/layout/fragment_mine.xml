@@ -492,11 +492,12 @@
                                 android:layout_centerVertical="true"
                                 android:layout_marginRight="@dimen/dimen_10_dp">
 
-                                <ImageView
+                                <CheckBox
                                     android:id="@+id/view_title_arrow_right_tv_switch"
                                     android:layout_width="wrap_content"
-                                    android:layout_height="@dimen/dimen_20_dp"
-                                    android:src="@drawable/fun_common_switch_track_selector" />
+                                    android:layout_height="30dp"
+                                    android:button="@null"
+                                    android:drawableLeft="@drawable/fun_common_switch_track_selector" />
 
                             </LinearLayout>
                         </RelativeLayout>
