@@ -16,26 +16,23 @@ import com.turunsi.yaoxin.R;
 /***
  * Created by wangyong951 on 2019/6/27.
  */
-public class Recharge_PayType_Adpter extends
-        BaseQuickAdapter<String, QuickViewHolder> {
-  String payType = "支付宝";
-  @Override
-  protected void onBindViewHolder(@NonNull QuickViewHolder quickViewHolder, int i, @Nullable String orderListBean) {
-    TextView tv = quickViewHolder.findView(R.id.activity_mine_purse_recharge_paytype_item_tv);
-    ImageView iconIv = quickViewHolder.findView(R.id.activity_mine_purse_recharge_paytype_item_icon);
-    ImageView stateIv = quickViewHolder.findView(R.id.activity_mine_purse_recharge_paytype_item_state_icon);
-    tv.setText(orderListBean);
-    stateIv.setSelected(payType.equals(orderListBean));
-    if (orderListBean.contains("支付宝")) {
+public class Recharge_PayType_Adpter extends BaseQuickAdapter<String, QuickViewHolder> {
+    String payType = "支付宝";
 
-      iconIv.setImageResource(R.mipmap.recharge_index_zfb);
-    }  else if (orderListBean.contains("微信")) {
-
-      iconIv.setImageResource(R.mipmap.recharge_index_wx);
-    } else  {
-
-      iconIv.setImageResource(R.mipmap.recharge_index_bi);
-    }
+    @Override
+    protected void onBindViewHolder(@NonNull QuickViewHolder quickViewHolder, int i, @Nullable String orderListBean) {
+        TextView tv = quickViewHolder.findView(R.id.activity_mine_purse_recharge_paytype_item_tv);
+        ImageView iconIv = quickViewHolder.findView(R.id.activity_mine_purse_recharge_paytype_item_icon);
+        ImageView stateIv = quickViewHolder.findView(R.id.activity_mine_purse_recharge_paytype_item_state_icon);
+        tv.setText(orderListBean);
+        stateIv.setSelected(payType.equals(orderListBean));
+        if (orderListBean.contains("支付宝")) {
+            iconIv.setImageResource(R.mipmap.recharge_index_zfb);
+        } else if (orderListBean.contains("微信")) {
+            iconIv.setImageResource(R.mipmap.recharge_index_wx);
+        } else {
+            iconIv.setImageResource(R.mipmap.recharge_index_bi);
+        }
 //    switch (orderListBean) {
 //      case "支付宝":
 //        iconIv.setImageResource(R.mipmap.recharge_index_zfb);
@@ -53,11 +50,11 @@ public class Recharge_PayType_Adpter extends
 //    tv.setText(orderListBean);
 //    tv.setSelected(selectStr.equals(orderListBean));
 
-  }
+    }
 
-  @NonNull
-  @Override
-  protected QuickViewHolder onCreateViewHolder(@NonNull Context context, @NonNull ViewGroup viewGroup, int i) {
-    return new QuickViewHolder(R.layout.activity_mine_purse_recharge_paytype_item,viewGroup);
-  }
+    @NonNull
+    @Override
+    protected QuickViewHolder onCreateViewHolder(@NonNull Context context, @NonNull ViewGroup viewGroup, int i) {
+        return new QuickViewHolder(R.layout.activity_mine_purse_recharge_paytype_item, viewGroup);
+    }
 }
