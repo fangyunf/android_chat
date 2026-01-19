@@ -80,9 +80,7 @@ public class SettingNotifyNewActivity extends BaseActivity {
         boolean isNotificationOn = "1".equals(userBean.allDisturb); // "0"或空表示开启通知
         viewBinding.activityMineSettingNotifyCell1.viewTitleDetailArrowTemplateSwitch.setSelected(isNotificationOn);
         viewBinding.activityMineSettingNotifyCell1.viewTitleDetailArrowTemplateSwitch.setOnClickListener(v -> {
-            // 先切换状态，然后更新
-            boolean newState = !viewBinding.activityMineSettingNotifyCell1.viewTitleDetailArrowTemplateSwitch.isSelected();
-            viewBinding.activityMineSettingNotifyCell1.viewTitleDetailArrowTemplateSwitch.setSelected(newState);
+
             updateStatus(1);
         });
 
@@ -93,8 +91,7 @@ public class SettingNotifyNewActivity extends BaseActivity {
         boolean isSoundOn = "1".equals(userBean.sound);
         viewBinding.activityMineSettingNotifyCell2.viewTitleDetailArrowTemplateSwitch.setSelected(isSoundOn);
         viewBinding.activityMineSettingNotifyCell2.viewTitleDetailArrowTemplateSwitch.setOnClickListener(v -> {
-            boolean newState = !viewBinding.activityMineSettingNotifyCell2.viewTitleDetailArrowTemplateSwitch.isSelected();
-            viewBinding.activityMineSettingNotifyCell2.viewTitleDetailArrowTemplateSwitch.setSelected(newState);
+
             updateStatus(2);
         });
 
@@ -105,8 +102,6 @@ public class SettingNotifyNewActivity extends BaseActivity {
         boolean isShakeOn = "1".equals(userBean.shake);
         viewBinding.activityMineSettingNotifyCell3.viewTitleDetailArrowTemplateSwitch.setSelected(isShakeOn);
         viewBinding.activityMineSettingNotifyCell3.viewTitleDetailArrowTemplateSwitch.setOnClickListener(v -> {
-            boolean newState = !viewBinding.activityMineSettingNotifyCell3.viewTitleDetailArrowTemplateSwitch.isSelected();
-            viewBinding.activityMineSettingNotifyCell3.viewTitleDetailArrowTemplateSwitch.setSelected(newState);
             updateStatus(3);
         });
 
@@ -176,17 +171,19 @@ public class SettingNotifyNewActivity extends BaseActivity {
     }
 
     void updateStatus(int type) {
+
+
         RegisterBean registerBean = new RegisterBean();
         if (type == 1) {
             // allDisturb: "1"表示免打扰(关闭通知)，"0"表示开启通知
             // isSelected为true表示开启通知，需要发送"0"（不免打扰）
-            registerBean.allDisturb = viewBinding.activityMineSettingNotifyCell1.viewTitleDetailArrowTemplateSwitch.isSelected() ? "1" : "0";
+            registerBean.allDisturb = viewBinding.activityMineSettingNotifyCell1.viewTitleDetailArrowTemplateSwitch.isSelected() ? "0" : "1";
         }
         if (type == 2) {
-            registerBean.sound = viewBinding.activityMineSettingNotifyCell2.viewTitleDetailArrowTemplateSwitch.isSelected() ? "1" : "0";
+            registerBean.sound = viewBinding.activityMineSettingNotifyCell2.viewTitleDetailArrowTemplateSwitch.isSelected() ? "0" : "1";
         }
         if (type == 3) {
-            registerBean.shake = viewBinding.activityMineSettingNotifyCell3.viewTitleDetailArrowTemplateSwitch.isSelected() ? "1" : "0";
+            registerBean.shake = viewBinding.activityMineSettingNotifyCell3.viewTitleDetailArrowTemplateSwitch.isSelected() ? "0" : "1";
         }
         HttpUtil.apiW().home_soundSwitch(registerBean).enqueue(new CommonCallback<NetData>() {
             @Override
