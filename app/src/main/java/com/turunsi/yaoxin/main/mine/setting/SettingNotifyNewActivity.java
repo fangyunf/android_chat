@@ -77,7 +77,7 @@ public class SettingNotifyNewActivity extends BaseActivity {
         viewBinding.activityMineSettingNotifyCell1.viewTitleDetailArrowTemplateTitleTv.setText("消息通知");
         viewBinding.activityMineSettingNotifyCell1.viewTitleDetailArrowTemplateDetailTv.setText("开启后 有新消息将会收到推送");
         viewBinding.activityMineSettingNotifyCell1.viewTitleDetailArrowTemplateSwitch.setVisibility(View.VISIBLE);
-        boolean isNotificationOn = !"1".equals(userBean.allDisturb); // "0"或空表示开启通知
+        boolean isNotificationOn = "1".equals(userBean.allDisturb); // "0"或空表示开启通知
         viewBinding.activityMineSettingNotifyCell1.viewTitleDetailArrowTemplateSwitch.setSelected(isNotificationOn);
         viewBinding.activityMineSettingNotifyCell1.viewTitleDetailArrowTemplateSwitch.setOnClickListener(v -> {
             // 先切换状态，然后更新
@@ -180,7 +180,7 @@ public class SettingNotifyNewActivity extends BaseActivity {
         if (type == 1) {
             // allDisturb: "1"表示免打扰(关闭通知)，"0"表示开启通知
             // isSelected为true表示开启通知，需要发送"0"（不免打扰）
-            registerBean.allDisturb = viewBinding.activityMineSettingNotifyCell1.viewTitleDetailArrowTemplateSwitch.isSelected() ? "0" : "1";
+            registerBean.allDisturb = viewBinding.activityMineSettingNotifyCell1.viewTitleDetailArrowTemplateSwitch.isSelected() ? "1" : "0";
         }
         if (type == 2) {
             registerBean.sound = viewBinding.activityMineSettingNotifyCell2.viewTitleDetailArrowTemplateSwitch.isSelected() ? "1" : "0";
