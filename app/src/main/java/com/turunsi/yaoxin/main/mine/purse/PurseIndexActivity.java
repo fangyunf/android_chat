@@ -49,9 +49,7 @@ public class PurseIndexActivity extends BaseActivity implements View.OnClickList
         binding = ActivityMinePurseIndexBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         binding.activityMinePurseIndexNav.addCloseImageButton().setOnClickListener(this);
-
         StatusBarUtils.setStatusBarLightMode(this, true, true);
-
         LinearLayout.LayoutParams params =
                 (LinearLayout.LayoutParams) binding.activityMinePurseIndexNav.getLayoutParams();
         params.height = params.height + BarUtils.getStatusBarHeight();

@@ -6,6 +6,7 @@ package com.turunsi.yaoxin.main.mine.setting;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
 
@@ -27,6 +28,7 @@ import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.DialogAlertUtil;
+import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
 
 import java.util.ArrayList;
@@ -42,17 +44,40 @@ public class ZhuXiaoConfrimActivity extends BaseActivity implements View.OnClick
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-//    changeStatusBarColor(R.color.color_e9eff5);
     viewBinding = ActivityMineZhuxiaoConfirmBinding.inflate(getLayoutInflater());
     setContentView(viewBinding.getRoot());
+    StatusBarUtils.transtStatusBar(this, viewBinding.activityMineZhuxiaoConfirmNav);
     initView();
   }
 
   private void initView() {
-
     viewBinding.activityMineZhuxiaoConfirmNav.addCloseImageButton().setOnClickListener(this);
     viewBinding.activityMineZhuxiaoConfirmTv.setOnClickListener(this);
 
+    // 设置标题：申请注销 + 掩码手机号
+    String phone = DataUtil.getUserInfo().phone;
+    if (TextUtils.isEmpty(phone)) {
+      phone = DataUtil.getUserInfo().phoneNo;
+    }
+    if (TextUtils.isEmpty(phone)) {
+      phone = DataUtil.getUserInfo().phoneFix;
+    }
+    
+    String maskedPhone = maskPhone(phone);
+    viewBinding.activityMineZhuxiaoConfirmTitleTv.setText("申请注销" + maskedPhone + "账号");
+  }
+
+  /**
+   * 掩码手机号，格式：185****8999
+   */
+  private String maskPhone(String phone) {
+    if (TextUtils.isEmpty(phone) || phone.length() < 7) {
+      return "****";
+    }
+    // 保留前3位和后4位，中间用****替代
+    String prefix = phone.substring(0, 3);
+    String suffix = phone.substring(phone.length() - 4);
+    return prefix + "****" + suffix;
   }
 
   @Override

@@ -9,78 +9,119 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:orientation="vertical">
+    android:background="@color/color_F2F2F2"
+    android:orientation="vertical"
+    tools:ignore="MissingDefaultResource">
 
     <com.yaoxin.appbase.navbar.NavToolbar
-
         android:id="@+id/activity_account_anquan_manager_nav"
         style="@style/WhiteFontToolbar"
-        android:background="#ffffff"
+        android:background="@color/transparent"
         app:back_icon="@mipmap/temp_ic_back"
         app:enable_under_divider="true"
         app:support_translucent_status_bar="false"
-        app:title="安全隐私"
+        app:title="朋友权限"
         app:title_text_color="@color/color_333333"
         app:under_divider_color="@color/transparent" />
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="15dp"
-        android:background="@drawable/bg_f2f2f2_rounded_10"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:background="@color/color_F2F2F2">
 
-        <include
-            android:id="@+id/activity_account_anquan_manager_cell1"
-            layout="@layout/view_title_arrow_template"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="15dp">
 
-        <include
-            android:id="@+id/activity_account_anquan_manager_cell2"
-            layout="@layout/view_title_arrow_template"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <!-- 第一部分：加我为朋友时需要验证 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/bg_white_rounded_10"
+                android:orientation="vertical">
 
-        <include
-            android:id="@+id/activity_account_anquan_manager_cell3"
-            layout="@layout/view_title_arrow_template"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+                <include
+                    android:id="@+id/activity_account_anquan_manager_cell1"
+                    layout="@layout/view_title_detail_arrow_template"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
 
-        <include
-            android:id="@+id/activity_account_anquan_manager_cell4"
-            layout="@layout/view_title_arrow_template"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="18dp"
+                android:paddingTop="16dp"
+                android:paddingEnd="18dp"
+                android:text="可通过以下方式找到我"
+                android:textColor="@color/color_666666"
+                android:textSize="12sp" />
 
-        <include
-            android:id="@+id/activity_account_anquan_manager_cell5"
-            layout="@layout/view_title_arrow_template"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+            <!-- 第二部分：可通过以下方式找到我 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/bg_white_rounded_10"
+                android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="15dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/bg_f2f2f2_rounded_10"
-        android:orientation="vertical">
 
-        <include
-            android:id="@+id/activity_account_anquan_manager_cell6"
-            layout="@layout/view_title_arrow_template"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+                <include
+                    android:id="@+id/activity_account_anquan_manager_cell2"
+                    layout="@layout/view_title_detail_arrow_template"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
-        <include
-            android:id="@+id/activity_account_anquan_manager_cell7"
-            layout="@layout/view_title_arrow_template"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+                <include
+                    android:id="@+id/activity_account_anquan_manager_cell3"
+                    layout="@layout/view_title_detail_arrow_template"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="18dp"
+                android:paddingTop="16dp"
+                android:paddingEnd="18dp"
+                android:text="可通过以下方式添加我"
+                android:textColor="@color/color_666666"
+                android:textSize="12sp" />
+            <!-- 第三部分：可通过以下方式添加我 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/bg_white_rounded_10"
+                android:orientation="vertical">
+
+                <include
+                    android:id="@+id/activity_account_anquan_manager_cell4"
+                    layout="@layout/view_title_detail_arrow_template"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <include
+                    android:id="@+id/activity_account_anquan_manager_cell5"
+                    layout="@layout/view_title_detail_arrow_template"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <include
+                    android:id="@+id/activity_account_anquan_manager_cell6"
+                    layout="@layout/view_title_detail_arrow_template"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>
