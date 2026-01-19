@@ -8,6 +8,7 @@
 
     <item android:drawable="@mipmap/login_activity_checked" android:state_selected="true" />
 
+
     <item android:drawable="@mipmap/login_activity_normal" android:state_selected="false" />
 
 </selector>

@@ -61,6 +61,7 @@ public class IMUtil {
                     }
                 });
     }
+
     public static void getToken() {
         RegisterBean bean = new RegisterBean();
 //        bean.token = token;
@@ -79,6 +80,7 @@ public class IMUtil {
                     }
                 });
     }
+
     public static void showMainActivityAndFinish(Activity context) {
         Intent intent = new Intent();
         intent.setClass(context, MainActivity.class);

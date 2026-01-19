@@ -4,7 +4,12 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.InputType;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
 import android.text.method.PasswordTransformationMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -50,6 +55,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     boolean isAgree = false;
 
     int _type = 0;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,28 +63,25 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         setContentView(binding.getRoot());
         StatusBarUtils.setStatusBarLightMode(this, true, true);
 
-//        binding.activityLoginLoginLl.setOnClickListener(this);
-//        binding.activityLoginRegisterLl.setOnClickListener(this);
         binding.activityLoginForgetTv.setOnClickListener(this);
         binding.activityLoginRegisterTv.setOnClickListener(this);
         binding.activityLoginLoginTv.setOnClickListener(this);
-//        binding.activityLoginIsAgreeLl.setOnClickListener(this);
-//        binding.activityLoginIsCheckedTxt2.setOnClickListener(this);
-//        binding.activityLoginIsCheckedTxt4.setOnClickListener(this);
-//        binding.activityLoginIsAgreeLl.setOnClickListener(this);
+        binding.activityLoginIsAgreeLl.setOnClickListener(this);
+
+        // 设置协议文本的SpannableString
+        setupAgreementText();
         binding.activityLoginTf1.viewTitleTfCountTitleTv.setText("手机号");
         binding.activityLoginTf2.viewTitleTfCountTitleTv.setText("验证码");
         binding.activityLoginTf3.viewTitleTfCountTitleTv.setText("密码");
-        binding.activityLoginTf1.viewTitleTfCountEt.setHint("输入手机号");
+        binding.activityLoginTf1.viewTitleTfCountEt.setHint("输入登录账号");
         binding.activityLoginTf2.viewTitleTfCountEt.setHint("输入验证码");
-        binding.activityLoginTf3.viewTitleTfCountEt.setHint("输入密码");
+        binding.activityLoginTf3.viewTitleTfCountEt.setHint("输入登录密码");
         binding.activityLoginTf1.viewTitleTfCountEt.setInputType(InputType.TYPE_CLASS_NUMBER);
         binding.activityLoginTf2.viewTitleTfCountEt.setInputType(InputType.TYPE_CLASS_NUMBER);
         binding.activityLoginTf3.viewTitleTfCountEyeRl.setVisibility(View.VISIBLE);
         binding.activityLoginTf3.viewTitleTfCountEyeRl.setOnClickListener(this);
         binding.activityLoginTf3.viewTitleTfCountEyeIv.setSelected(true);
         binding.activityLoginTf3.viewTitleTfCountEt.setTransformationMethod(PasswordTransformationMethod.getInstance());
-
 
 
         CountDownView mCountDownView = binding.activityLoginTf2.viewTitleTfCountCaptcha;
@@ -108,7 +111,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     void changeTitleWithType(int type) {
         _type = type;
-
         if (type == 0) {
             binding.activityLoginTf2.viewRoundTfLl.setVisibility(View.GONE);
             binding.activityLoginLoginTv.setText("登录");
@@ -138,24 +140,74 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             binding.activityLoginTitleIv.setImageResource(R.mipmap.common_login_title_forget);
         }
     }
+
+    /**
+     * 设置协议文本的SpannableString，使《用户协议》和《隐私政策》可点击并显示为绿色
+     */
+    private void setupAgreementText() {
+        String text = "我已阅读并同意《用户协议》、《隐私政策》";
+        SpannableString spannableString = new SpannableString(text);
+
+        // 获取主题绿色
+        int greenColor = getResources().getColor(com.yaoxin.appbase.R.color.app_theme_color);
+
+        // 设置《用户协议》的颜色和点击事件
+        int userAgreementStart = text.indexOf("《用户协议》");
+        int userAgreementEnd = userAgreementStart + "《用户协议》".length();
+        spannableString.setSpan(new ForegroundColorSpan(greenColor),
+                userAgreementStart, userAgreementEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(new ClickableSpan() {
+            @Override
+            public void onClick(View widget) {
+                XKitRouter.withKey(Constant.BaseWebViewActivityKey)
+                        .withParam("type", "2")
+                        .withParam("title", "用户协议")
+                        .withContext(LoginActivity.this)
+                        .navigate();
+            }
+
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setColor(greenColor);
+                ds.setUnderlineText(false);
+            }
+        }, userAgreementStart, userAgreementEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        // 设置《隐私政策》的颜色和点击事件
+        int privacyPolicyStart = text.indexOf("《隐私政策》");
+        int privacyPolicyEnd = privacyPolicyStart + "《隐私政策》".length();
+        spannableString.setSpan(new ForegroundColorSpan(greenColor),
+                privacyPolicyStart, privacyPolicyEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(new ClickableSpan() {
+            @Override
+            public void onClick(View widget) {
+                XKitRouter.withKey(Constant.BaseWebViewActivityKey)
+                        .withParam("type", "1")
+                        .withParam("title", "隐私政策")
+                        .withContext(LoginActivity.this)
+                        .navigate();
+            }
+
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setColor(greenColor);
+                ds.setUnderlineText(false);
+            }
+        }, privacyPolicyStart, privacyPolicyEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        // 设置TextView
+        binding.activityLoginIsCheckedTxt.setText(spannableString);
+        binding.activityLoginIsCheckedTxt.setMovementMethod(android.text.method.LinkMovementMethod.getInstance());
+    }
+
     @Override
     public void onClick(View v) {
-//        if (v == binding.activityLoginIsAgreeLl) {
-//            binding.activityLoginIsCheckedIv.setSelected(!binding.activityLoginIsCheckedIv.isSelected());
-//        }  else if (v == binding.activityLoginIsCheckedTxt2) {
-//            XKitRouter.withKey(Constant.BaseWebViewActivityKey)
-//                .withParam("type","2")
-//                .withParam("title","服务协议")
-//                .withContext(this)
-//                .navigate();
-//        }  else if (v == binding.activityLoginIsCheckedTxt4) {
-//            XKitRouter.withKey(Constant.BaseWebViewActivityKey)
-//                    .withParam("type","1")
-//                    .withParam("title","隐私政策")
-//                    .withContext(this)
-//                    .navigate();
-//        }  else
-        if (v == binding.activityLoginTf3.viewTitleTfCountEyeRl) {
+        if (v == binding.activityLoginIsAgreeLl) {
+            binding.activityLoginIsCheckedIv.setSelected(!binding.activityLoginIsCheckedIv.isSelected());
+            isAgree = binding.activityLoginIsCheckedIv.isSelected();
+        } else if (v == binding.activityLoginTf3.viewTitleTfCountEyeRl) {
             binding.activityLoginTf3.viewTitleTfCountEyeIv.setSelected(!binding.activityLoginTf3.viewTitleTfCountEyeIv.isSelected());
             if (binding.activityLoginTf3.viewTitleTfCountEyeIv.isSelected()) {
                 binding.activityLoginTf3.viewTitleTfCountEt.setTransformationMethod(PasswordTransformationMethod.getInstance());
@@ -163,30 +215,29 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 binding.activityLoginTf3.viewTitleTfCountEt.setTransformationMethod(null);
 
             }
-        }
-        else if (v == binding.activityLoginForgetTv) {
-//            ForgetPwdActivity.start(ForgetPwdActivity.class, this, null);
-            if (_type == 0) {
-                changeTitleWithType(2);
-            } else if (_type == 1 || _type == 2) {
-                changeTitleWithType(0);
-            }
+        } else if (v == binding.activityLoginForgetTv) {
+            ForgetPwdActivity.start(ForgetPwdActivity.class, this, null);
+//            if (_type == 0) {
+//                changeTitleWithType(2);
+//            } else if (_type == 1 || _type == 2) {
+//                changeTitleWithType(0);
+//            }
 //            changeTitleWithType(_type == 0 ? 2 : 0);
         } else if (v == binding.activityLoginRegisterTv) {
-//            ForgetPwdActivity.start(ForgetPwdActivity.class, this, null);
-            if (_type == 0) {
-                changeTitleWithType(1);
-            } else {
-                changeTitleWithType(0);
-            }
+            RegisterActivity.start(RegisterActivity.class, this, null);
+//            if (_type == 0) {
+//                changeTitleWithType(1);
+//            } else {
+//                changeTitleWithType(0);
+//            }
         } else if (v == binding.activityLoginLoginTv) {
 
             if (_type == 0) {
 
-//                if (!binding.activityLoginIsCheckedIv.isSelected()) {
-//                    ToastUtils.toastMsg("请同意协议");
-//                    return;
-//                }
+                if (!binding.activityLoginIsCheckedIv.isSelected()) {
+                    ToastUtils.toastMsg("请同意协议");
+                    return;
+                }
                 String phone = getTextStr(binding.activityLoginTf1.viewTitleTfCountEt);
                 if (phone.length() != 11) {
                     ToastUtils.toastMsg("手机格式错误");
@@ -201,16 +252,16 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 bean.phoneNo = phone;
                 bean.password = pwd;
                 Activity that = this;
-                LoadingDialog.showDialog(getSupportFragmentManager(),"登陆中");
+                LoadingDialog.showDialog(getSupportFragmentManager(), "登陆中");
                 HttpUtil.apiW().customer_login(bean)
                         .enqueue(new CommonCallback<NetData>() {
                             @Override
                             public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                                UserBean userBean = new Gson().fromJson((String) body.data,UserBean.class);
+                                UserBean userBean = new Gson().fromJson((String) body.data, UserBean.class);
                                 DataUtil.putUserInfo(userBean);
                                 DataUtil.putToken(userBean.token);
                                 DataUtil.addLoginUserInfoList(userBean);
-                                IMUtil.loginIM(that,userBean.userId,userBean.imToken);
+                                IMUtil.loginIM(that, userBean.userId, userBean.imToken);
                             }
 
                             @Override
@@ -221,9 +272,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                     if (exception.getErrCode() == 601) {
 
                                         HashMap map = new HashMap<>();
-                                        map.put("type","0");
-                                        map.put("phone",phone);
-                                        OtherPlaceLoginActivity.start(OtherPlaceLoginActivity.class,that,map);
+                                        map.put("type", "0");
+                                        map.put("phone", phone);
+                                        OtherPlaceLoginActivity.start(OtherPlaceLoginActivity.class, that, map);
 //                                        OtherPlaceLoginFragment fragment = new OtherPlaceLoginFragment();
 //                                        fragment.showNow(getSupportFragmentManager(),"OtherPlaceLoginFragment");
                                     }
@@ -237,10 +288,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                             }
                         });
             } else if (_type == 1) {
-//                if (!binding.activityLoginIsCheckedIv.isSelected()) {
-//                    ToastUtils.toastMsg("请同意协议");
-//                    return;
-//                }
+                if (!binding.activityLoginIsCheckedIv.isSelected()) {
+                    ToastUtils.toastMsg("请同意协议");
+                    return;
+                }
                 String phone = getTextStr(binding.activityLoginTf1.viewTitleTfCountEt);
                 if (phone.length() != 11) {
                     ToastUtils.toastMsg("手机格式错误");
@@ -264,17 +315,17 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 registerBean.clientType = Constant.clientType;
 
                 Activity that = this;
-                LoadingDialog.showDialog(getSupportFragmentManager(),"注册中");
+                LoadingDialog.showDialog(getSupportFragmentManager(), "注册中");
 
                 HttpUtil.apiW().customer_register(registerBean)
                         .enqueue(new CommonCallback<NetData>() {
                             @Override
                             public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                                UserBean userBean = new Gson().fromJson((String) body.data,UserBean.class);
+                                UserBean userBean = new Gson().fromJson((String) body.data, UserBean.class);
                                 DataUtil.putUserInfo(userBean);
                                 DataUtil.putToken(userBean.token);
-                                IMUtil.loginIM(that,userBean.userId,userBean.imToken);
-                                SPUtils.getInstance().put("isRegister",true);
+                                IMUtil.loginIM(that, userBean.userId, userBean.imToken);
+                                SPUtils.getInstance().put("isRegister", true);
                             }
 
                             @Override

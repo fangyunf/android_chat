@@ -36,6 +36,7 @@ public class OtherPlaceLoginActivity extends BaseActivity implements View.OnClic
 
     int _type = 0;
     String _phone = "";
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,17 +66,15 @@ public class OtherPlaceLoginActivity extends BaseActivity implements View.OnClic
                     RegisterBean registerBean = new RegisterBean();
                     registerBean.phoneNo = _phone;
                     registerBean.captcha = content;
-
-
                     HttpUtil.apiW().customer_ydCodeCheck(registerBean)
                             .enqueue(new CommonCallback<NetData>() {
                                 @Override
                                 public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                                     ToastUtils.toastMsg("验证成功");
-                                    UserBean userBean = new Gson().fromJson((String) body.data,UserBean.class);
+                                    UserBean userBean = new Gson().fromJson((String) body.data, UserBean.class);
                                     DataUtil.putUserInfo(userBean);
                                     DataUtil.putToken(userBean.token);
-                                    IMUtil.loginIM(that,userBean.userId,userBean.imToken);
+                                    IMUtil.loginIM(that, userBean.userId, userBean.imToken);
                                 }
 
                                 @Override
@@ -101,6 +100,7 @@ public class OtherPlaceLoginActivity extends BaseActivity implements View.OnClic
         }
 
     }
+
     @Override
     public void onClick(View v) {
         if (v == binding.activityOtherPlaceLoginNav.addCloseImageButton() || binding.activityOtherPlaceLoginDontVerifyTv == v) {
@@ -108,9 +108,9 @@ public class OtherPlaceLoginActivity extends BaseActivity implements View.OnClic
         } else if (v == binding.activityOtherPlaceLoginVerifyTv) {
 
             HashMap map = new HashMap<>();
-            map.put("type","1");
-            map.put("phone",_phone);
-            OtherPlaceLoginActivity.start(OtherPlaceLoginActivity.class,this,map);
+            map.put("type", "1");
+            map.put("phone", _phone);
+            OtherPlaceLoginActivity.start(OtherPlaceLoginActivity.class, this, map);
         }
     }
 }
