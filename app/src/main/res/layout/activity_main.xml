@@ -14,21 +14,53 @@
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_group"
+        app:layout_constraintBottom_toTopOf="@+id/view"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_weight="1"
         tools:ignore="MissingConstraints" />
 
 
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="0.6dp"
+        android:background="#E2E2E2"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_group"
+        app:layout_constraintStart_toEndOf="parent" />
+
+
     <LinearLayout
         android:id="@+id/bottom_group"
         android:layout_width="match_parent"
-        android:layout_height="57.18dp"
-        android:background="#f7f7f7"
+        android:layout_height="65dp"
+        android:background="@color/white"
         android:clipChildren="false"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:ignore="MissingConstraints">
+
+        <RelativeLayout
+            android:id="@+id/conversation_btn_shop"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:onClick="tabClick"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/conversation_shop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:drawableTop="@mipmap/mine_tabbar_shop_sel"
+                android:drawablePadding="3dp"
+                android:gravity="center"
+                android:text="商城"
+                android:textColor="@color/tab_checked_color"
+                android:textSize="12sp" />
+
+
+        </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/conversation_btn_group"
@@ -43,9 +75,9 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:drawableTop="@mipmap/mine_tabbar_msg_sel"
-                android:drawablePadding="3dp"
+                android:drawablePadding="-2dp"
                 android:gravity="center"
-                android:text="@string/tab_session_tab_text"
+                android:text="消息"
                 android:textColor="@color/tab_checked_color"
                 android:textSize="12sp" />
 
@@ -61,36 +93,13 @@
 
         </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/conversation_btn_shop"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:onClick="tabClick"
-            android:visibility="gone">
-
-            <TextView
-                android:id="@+id/conversation_shop"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:drawableTop="@mipmap/mine_tabbar_shop_normal"
-                android:drawablePadding="3dp"
-                android:gravity="center"
-                android:text="商城"
-                android:textColor="@color/tab_unchecked_color"
-                android:textSize="12sp" />
-
-
-        </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/conversation_btn_group1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:onClick="tabClick"
-            android:visibility="gone">
+            android:onClick="tabClick">
 
             <TextView
                 android:id="@+id/conversation1"
@@ -98,7 +107,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:drawableTop="@mipmap/mine_tabbar_msg_group_normal"
-                android:drawablePadding="3dp"
+                android:drawablePadding="-2dp"
                 android:gravity="center"
                 android:text="群聊"
                 android:textColor="@color/tab_unchecked_color"
@@ -116,7 +125,6 @@
 
         </RelativeLayout>
 
-
         <RelativeLayout
             android:id="@+id/contact_btn_group"
             android:layout_width="match_parent"
@@ -130,9 +138,9 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:drawableTop="@mipmap/mine_tabbar_txl_normal"
-                android:drawablePadding="3dp"
+                android:drawablePadding="-2dp"
                 android:gravity="center"
-                android:text="@string/tab_contact_tab_text"
+                android:text="联系人"
                 android:textColor="@color/tab_unchecked_color"
                 android:textSize="12sp" />
 
@@ -148,6 +156,7 @@
 
         </RelativeLayout>
 
+
         <RelativeLayout
             android:id="@+id/myself_btn_group"
             android:layout_width="match_parent"
@@ -161,9 +170,9 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:drawableTop="@mipmap/mine_tabbar_mine_normal"
-                android:drawablePadding="3dp"
+                android:drawablePadding="-2dp"
                 android:gravity="center"
-                android:text="@string/tab_mine_tab_text"
+                android:text="我的"
                 android:textColor="@color/tab_unchecked_color"
                 android:textSize="12sp" />
 
