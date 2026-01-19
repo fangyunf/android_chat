@@ -53,7 +53,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     ActivityLoginBinding binding;
     private Handler handler;
     boolean isAgree = false;
-
     int _type = 0;
 
     @Override
