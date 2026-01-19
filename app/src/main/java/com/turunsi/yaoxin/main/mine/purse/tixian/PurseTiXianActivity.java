@@ -39,13 +39,14 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 public class PurseTiXianActivity extends BaseActivity implements View.OnClickListener {
-    private final Object lock = new Object();
     ActivityMinePurseTixianBinding binding;
     String accountMoeny;
     String payType = "alipay";
+
     UserBean aliPayBean;
     UserBean wxPayBean;
     UserBean yhkPayBean;
+    private final Object lock = new Object();
     private int completedRequests = 0;
 
     @Override
@@ -152,7 +153,7 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
             bean.zfbNo = wxPayBean.phone;
             bean.name = wxPayBean.name;
             bean.zfbUrl = wxPayBean.usdt;
-            bean.userUsdtId = wxPayBean.id + "";
+            bean.userUsdtId = wxPayBean.id +"";
         } else if (payType.equals("yhkpay")) {
 
             bean.zfbNo = yhkPayBean.phone;
@@ -236,11 +237,11 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
         RegisterBean wechatBean = new RegisterBean();
         wechatBean.type = 1;
         makeRequest(wechatBean, "wechat");
-
-        // 发起银行卡请求
-        RegisterBean bankBean = new RegisterBean();
-        bankBean.type = 3;
-        makeRequest(bankBean, "bank");
+//
+//        // 发起银行卡请求
+//        RegisterBean bankBean = new RegisterBean();
+//        bankBean.type = 3;
+//        makeRequest(bankBean, "bank");
     }
 
     private void makeRequest(RegisterBean bean, String requestType) {
@@ -251,23 +252,28 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
                         Type type = new TypeToken<List<UserBean>>() {
                         }.getType();
                         List<UserBean> tempList = new Gson().fromJson(body.data.toString(), type);
+//                        if (tempList != null && !tempList.isEmpty()) {
+//                            aliPayBean = tempList.get(0);
+//                        }
 
+//                        aliPayBean = new Gson().fromJson(body.data.toString(), UserBean.class);
+//                        handleAllRequestsCompleted();
                         synchronized (lock) {
                             // 根据请求类型保存数据
                             switch (requestType) {
                                 case "alipay":
-                                    if (!tempList.isEmpty()) {
+                                    if (tempList != null && !tempList.isEmpty()) {
 
                                         aliPayBean = tempList.get(0);
                                     }
                                     break;
                                 case "wechat":
-                                    if (!tempList.isEmpty()) {
+                                    if (tempList != null && !tempList.isEmpty()) {
                                         wxPayBean = tempList.get(0);
                                     }
                                     break;
                                 case "bank":
-                                    if (!tempList.isEmpty()) {
+                                    if (tempList != null && !tempList.isEmpty()) {
                                         yhkPayBean = tempList.get(0);
                                     }
                                     break;
@@ -276,7 +282,7 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
                             completedRequests++;
 
                             // 检查是否所有请求都完成了
-                            if (completedRequests == 3) {
+                            if (completedRequests == 2) {
                                 handleAllRequestsCompleted();
                             }
                         }
@@ -288,7 +294,7 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
                             completedRequests++;
 
                             // 即使失败也要检查是否所有请求都完成了
-                            if (completedRequests == 3) {
+                            if (completedRequests == 2) {
                                 handleAllRequestsCompleted();
                             }
                         }
@@ -384,7 +390,7 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
             binding.activityMinePurseTixianMoneyEt.setText(accountMoeny);
         } else if (v == binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgLl || v == binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt) {
 
-            DialogAlertUtil.showSheetView(this, getSupportFragmentManager(), new String[]{"支付宝", "微信", "银行卡"}, new DialogAlertUtil.DialogAlertUtilCallBack() {
+            DialogAlertUtil.showSheetView(this, getSupportFragmentManager(), new String[]{"支付宝", "微信"}, new DialogAlertUtil.DialogAlertUtilCallBack() {
                 @Override
                 public void clickType(int type) {
                     if (type == 1) {

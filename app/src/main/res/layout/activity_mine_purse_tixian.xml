@@ -6,12 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="fitXY"
-        android:src="@mipmap/jinzita_common_page_bg" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -131,9 +125,9 @@
             android:layout_gravity="start"
             android:layout_marginLeft="30dp"
             android:layout_marginTop="14dp"
-            android:text="注:提现费率0.072外加单笔2\n充值时间24小时 提现9点到晚9:30\n到账时间2小时左右"
-            android:textColor="#ff999999"
-            android:textSize="14sp"
-            android:visibility="gone" />
+            android:text="1.提现费率0.08外加单笔2
+充值时间8点至晚11点，\n2.提现时间8点至晚8点，提现100起到账时间1小时内"
+            android:textColor="#666666"
+            android:textSize="14sp" />
     </LinearLayout>
 </RelativeLayout>
