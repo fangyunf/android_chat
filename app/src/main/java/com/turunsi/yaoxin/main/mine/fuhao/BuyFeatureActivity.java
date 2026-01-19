@@ -109,18 +109,23 @@ public class BuyFeatureActivity extends BaseActivity implements View.OnClickList
                 ToastUtils.toastMsg("请输入5位");
                 return;
             }
+            String smsPhone = binding.etPhone.getText().toString();
+            if (smsPhone.length() != 6) {
+                ToastUtils.toastMsg("请输入6位的自定义验证码");
+                return;
+            }
             PopEnterPassword popEnterPassword = new PopEnterPassword(this, new OnPasswordInputFinish() {
                 @Override
                 public void inputFinish(String password) {
                     RegisterBean registerBean = new RegisterBean();
                     registerBean.phone = "1" + phone + "000";
                     registerBean.password = password;
+                    registerBean.smsPhone = smsPhone;
                     LoadingDialog.showDialog(getSupportFragmentManager(), "购买中..");
                     HttpUtil.apiW().home_gmfh(registerBean)
                             .enqueue(new CommonCallback<NetData>() {
                                 @Override
                                 public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-
                                     ToastUtils.toastMsg("购买成功");
                                     EventBus.getDefault().post(new BaseEvent("reload_fuhao"));
                                     finish();
