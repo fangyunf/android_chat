@@ -85,7 +85,17 @@ public class FunConversationFragment extends ConversationBaseFragment {
 
     private boolean _needRefresh;
 
+
     public FunConversationFragment() {
+    }
+
+    // 创建实例的方法，使用 arguments 传递参数
+    public static FunConversationFragment newInstance(int type) {
+        FunConversationFragment fragment = new FunConversationFragment();
+        Bundle args = new Bundle();
+        args.putInt("type", type);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     private int topIndex;
@@ -97,6 +107,9 @@ public class FunConversationFragment extends ConversationBaseFragment {
             @Nullable Bundle savedInstanceState) {
         viewBinding = FunConversationFragmentBinding.inflate(inflater, container, false);
         initView();
+
+
+
         viewBinding.funConversationFragmentTitleTv.setText("消息");
         viewBinding.funConversationFragmentSearchIvIcon.setOnClickListener(v -> {
             XKitRouter.withKey("SearchNewActivity")
