@@ -107,7 +107,10 @@ public class FunConversationFragment extends ConversationBaseFragment {
             @Nullable Bundle savedInstanceState) {
         viewBinding = FunConversationFragmentBinding.inflate(inflater, container, false);
         initView();
-
+        // 获取传递的参数
+        if (getArguments() != null) {
+            _type = getArguments().getInt("type");
+        }
         if (_type == 1) {
             viewBinding.funConversationFragmentTitleTv.setText("群聊");
         } else if (_type == 3) {

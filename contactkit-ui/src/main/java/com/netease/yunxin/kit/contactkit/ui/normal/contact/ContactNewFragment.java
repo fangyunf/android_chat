@@ -33,6 +33,7 @@ import com.google.gson.reflect.TypeToken;
 import com.nanchen.wavesidebar.FirstLetterUtil;
 import com.nanchen.wavesidebar.WaveSideBarView;
 import com.netease.yunxin.kit.common.ui.widgets.ContentListPopView;
+import com.netease.yunxin.kit.common.utils.SizeUtils;
 import com.netease.yunxin.kit.contactkit.ui.R;
 import com.netease.yunxin.kit.contactkit.ui.contact.BaseContactFragment;
 import com.netease.yunxin.kit.contactkit.ui.databinding.ContactFragmentBinding;
@@ -98,7 +99,7 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
 
         StatusBarUtils.setStatusBarLightMode(getActivity(), true, true);
         ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) binding.contactNewFragmentTopLl.getLayoutParams();
-        layoutParams.topMargin = BarUtils.getStatusBarHeight();
+        layoutParams.topMargin = BarUtils.getStatusBarHeight() + SizeUtils.dp2px(20);
         binding.contactNewFragmentTopLl.setLayoutParams(layoutParams);
         binding.contactNewFragmentFriendTv.setOnClickListener(this);
         binding.contactNewFragmentFriendTv.setSelected(true);

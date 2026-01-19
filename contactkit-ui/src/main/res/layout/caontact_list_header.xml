@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/color_ededed"
+    android:background="@color/color_white"
     android:orientation="vertical">
 
     <LinearLayout
@@ -13,7 +13,6 @@
         android:gravity="center_vertical"
         android:paddingHorizontal="@dimen/dimen_16_dp"
         android:paddingVertical="@dimen/dimen_14_dp">
-
 
         <RelativeLayout
             android:layout_width="47dp"
@@ -51,10 +50,10 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_1_dp"
+        android:layout_marginStart="@dimen/dimen_70_dp"
         android:background="#F2F2F2" />
 
     <LinearLayout
-
         android:id="@+id/caontact_list_header_new_qunliao_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -84,6 +83,12 @@
             android:textSize="16sp" />
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_1_dp"
+        android:layout_marginStart="@dimen/dimen_70_dp"
+        android:background="#F2F2F2" />
+
 
     <LinearLayout
         android:id="@+id/caontact_list_header_new_heimingdan_ll"
@@ -102,7 +107,7 @@
                 android:layout_width="42dp"
                 android:layout_height="42dp"
                 android:layout_alignParentBottom="true"
-                android:src="@mipmap/caontact_list_header_heimingdan" />
+                android:src="@mipmap/caontact_list_header_note" />
         </RelativeLayout>
 
         <TextView
@@ -110,7 +115,7 @@
             android:layout_height="22dp"
             android:layout_marginLeft="@dimen/dimen_8_dp"
             android:layout_weight="1"
-            android:text="黑名单"
+            android:text="群通知"
             android:textColor="#ff000000"
             android:textSize="16sp" />
     </LinearLayout>

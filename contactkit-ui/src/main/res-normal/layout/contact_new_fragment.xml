@@ -8,13 +8,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_F2F2F2">
-
-
+    
     <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
 
         <LinearLayout
             android:id="@+id/contact_new_fragment_top_ll"

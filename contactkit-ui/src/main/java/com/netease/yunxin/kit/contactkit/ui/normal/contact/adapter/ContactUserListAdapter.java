@@ -52,9 +52,14 @@ public class ContactUserListAdapter extends BaseQuickAdapter<GroupInfoBean, Quic
                         .navigate();
             });
 
-            hmd.setOnClickListener(view -> XKitRouter.withKey(RouterConstant.PATH_FUN_MY_BLACK_PAGE)
+            hmd.setOnClickListener(view -> XKitRouter.withKey(RouterConstant.PATH_FUN_MY_NOTIFICATION_PAGE)
+                    .withParam("type", "1")
                     .withContext(getContext())
                     .navigate());
+
+//            hmd.setOnClickListener(view -> XKitRouter.withKey(RouterConstant.PATH_FUN_MY_BLACK_PAGE)
+//                    .withContext(getContext())
+//                    .navigate());
 
             if (friendApplyNum > 0) {
                 numTv.setVisibility(View.VISIBLE);

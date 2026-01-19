@@ -48,7 +48,8 @@
                         android:layout_width="@dimen/dimen_20_dp"
                         android:layout_height="@dimen/dimen_20_dp"
                         android:layout_marginHorizontal="10dp"
-                        android:src="@mipmap/conversation_list_index_notice_icon" />
+                        android:src="@mipmap/conversation_list_index_notice_icon"
+                        android:visibility="invisible" />
 
                     <TextView
                         android:id="@+id/fun_conversation_fragment_title_tv"
@@ -82,18 +83,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10dp"
                 android:layout_marginTop="13dp"
-                android:layout_marginBottom="5dp"
                 android:background="@drawable/bg_white_rounded_10"
-                android:gravity="center"
-                android:visibility="gone">
+                android:gravity="center">
 
                 <EditText
                     android:id="@+id/fun_conversation_fragment_et"
                     android:layout_width="match_parent"
-                    android:layout_height="32dp"
+                    android:layout_height="40dp"
                     android:autofillHints=""
-                    android:background="@drawable/bg_f2f2f2_rounded_10"
-                    android:drawableStart="@drawable/ic_search"
+                    android:background="@color/transparent"
+                    android:drawableStart="@mipmap/conversation_index_pop_search"
                     android:drawablePadding="5dp"
                     android:hint="搜索"
                     android:maxLines="1"
@@ -106,11 +105,11 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_marginHorizontal="@dimen/dimen_10_dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:background="#e3e3e3"
+                android:layout_marginHorizontal="@dimen/dimen_10_dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_white_rounded_20"
                 android:gravity="center_vertical"
                 android:paddingHorizontal="@dimen/dimen_16_dp">
 
