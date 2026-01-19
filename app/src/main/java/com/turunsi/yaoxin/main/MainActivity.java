@@ -49,7 +49,6 @@ import com.turunsi.yaoxin.CustomConfig;
 import com.turunsi.yaoxin.IMApplication;
 import com.turunsi.yaoxin.R;
 import com.turunsi.yaoxin.databinding.ActivityMainBinding;
-import com.turunsi.yaoxin.fragment.FoundFragment;
 import com.turunsi.yaoxin.login.LoginActivity;
 import com.turunsi.yaoxin.main.mine.MineFragment;
 import com.turunsi.yaoxin.main.mine.setting.SettingNewActivity;
