@@ -9,6 +9,7 @@ import static com.yzq.zxinglibrary.common.Constant.CODED_CONTENT;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -27,11 +28,9 @@ import androidx.fragment.app.Fragment;
 
 import com.google.gson.Gson;
 //import com.king.camera.scan.CameraScan;
-import com.king.app.dialog.AppDialog;
-import com.king.app.dialog.AppDialogConfig;
 import com.king.app.updater.AppUpdater;
-import com.king.app.updater.callback.UpdateCallback;
 import com.king.app.updater.http.OkHttpManager;
+import com.king.app.updater.listener.DownloadListener;
 import com.netease.lava.nertc.sdk.NERtcOption;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
@@ -118,6 +117,9 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
     private ConversationBaseFragment mConversationFragment;
     private ConversationBaseFragment mConversationFragment1;
     public static final int REQUEST_CODE_SCAN = 0x01;
+    private AlertDialog updateDialog; // 更新提示对话框
+    private ProgressDialog progressDialog; // 下载进度对话框
+    private boolean isUpdateDialogShowing = false; // 标记更新对话框是否显示
 
     //皮肤变更事件
     EventNotify<SkinEvent> skinNotify = new EventNotify<SkinEvent>() {
@@ -170,10 +172,9 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         HttpUtil.apiW().customer_versionCkeck("AOS", BuildConfig.VERSION_NAME).enqueue(new CommonCallback<NetData>() {
             @Override
             public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-
                 if (body.data != null) {
                     ParamsBean updateBean = new Gson().fromJson(body.data.toString(), ParamsBean.class);
-                    showUpdate(updateBean.downloadUrl, updateBean.upMsg);
+                    showUpdate(updateBean.type, updateBean.downloadUrl, updateBean.upMsg);
                 }
             }
 
@@ -184,55 +185,93 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         });
     }
 
-    private void showUpdate(String downLoadUrl, String updateMsg) {
+    private void showUpdate(String type, String downLoadUrl, String updateMsg) {
         if (downLoadUrl == null || downLoadUrl.isEmpty()) {
             return;
         }
 
-        //简单DialogFragment升级
-        AppDialogConfig config = new AppDialogConfig(this);
-        config.setTitle("应用升级").setConfirm("升级").setContent(updateMsg).setOnClickConfirm(new View.OnClickListener() {
+        // 创建系统对话框
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("应用升级");
+        builder.setMessage(updateMsg);
+        builder.setPositiveButton("升级", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                AppUpdater appUpdater = new AppUpdater.Builder(MainActivity.this).setUrl(downLoadUrl).build();
-                appUpdater.setHttpManager(OkHttpManager.getInstance()) // 使用OkHttp的实现进行下载
-                        .setUpdateCallback(new UpdateCallback() { // 更新回调
-                            @Override
-                            public void onDownloading(boolean isDownloading) {
-                                // 下载中：isDownloading为true时，表示已经在下载，即之前已经启动了下载；为false时，表示当前未开始下载，即将开始下载
-                            }
+            public void onClick(DialogInterface dialog, int which) {
+                // 关闭更新提示对话框
+                isUpdateDialogShowing = false;
+                dialog.dismiss();
 
-                            @Override
-                            public void onStart(String url) {
-                                // 开始下载
-                            }
-
-                            @Override
-                            public void onProgress(long progress, long total, boolean isChanged) {
-                                // 下载进度更新：建议在isChanged为true时，才去更新界面的进度；因为实际的进度变化频率很高
-                            }
-
-                            @Override
-                            public void onFinish(File file) {
-                                // 下载完成
-                            }
-
-                            @Override
-                            public void onError(Exception e) {
-                                // 下载失败
-                            }
-
-                            @Override
-                            public void onCancel() {
-                                // 取消下载
-                            }
-                        }).start();
-
-                AppDialog.INSTANCE.dismissDialogFragment(getSupportFragmentManager());
+                // 开始下载并显示进度对话框
+                startDownload(downLoadUrl);
             }
         });
-        AppDialog.INSTANCE.showDialogFragment(getSupportFragmentManager(), config);
 
+        // 如果不是强制更新，显示取消按钮
+        if (!type.equals("1")) {
+            builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    isUpdateDialogShowing = false;
+                    dialog.dismiss();
+                }
+            });
+        }
+
+        updateDialog = builder.create();
+        // 禁止点击返回键关闭对话框
+        updateDialog.setCancelable(false);
+        updateDialog.setCanceledOnTouchOutside(false);
+        isUpdateDialogShowing = true;
+        updateDialog.show();
+    }
+
+    private void startDownload(String downLoadUrl) {
+        // 创建进度对话框
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("正在下载");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progressDialog.setMax(100);
+        progressDialog.setProgress(0);
+        // 禁止点击返回键关闭对话框
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
+
+        AppUpdater appUpdater = new AppUpdater.Builder(MainActivity.this).setUrl(downLoadUrl).setHttpManager(OkHttpManager.getInstance()).setDownloadListener(new DownloadListener() {
+            @Override
+            public void onStart(@NonNull String s) {
+            }
+
+            @Override
+            public void onProgress(long progress, long total) {
+                // 下载进度更新：建议在isChanged为true时，才去更新界面的进度；因为实际的进度变化频率很高
+                if (progressDialog != null) {
+                    int percent = (int) (progress * 100 / total);
+                    progressDialog.setProgress(percent);
+                }
+            }
+
+            @Override
+            public void onSuccess(@NonNull File file) {
+                if (progressDialog != null) {
+                    progressDialog.setProgress(100);
+                    progressDialog.setTitle("下载完成");
+                }
+            }
+
+            @Override
+            public void onError(@NonNull Throwable throwable) {
+                if (progressDialog != null) {
+                    progressDialog.setTitle("下载失败");
+                }
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+        }).build();
+        appUpdater.start();
     }
 
     private void initData() {
@@ -297,13 +336,6 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         initContactFragment(mContactFragment);
         initConversationFragment(mConversationFragment);
         initConversationFragment(mConversationFragment1);
-    }
-
-    @Override
-    protected void onDestroy() {
-        EventCenter.unregisterEventNotify(skinNotify);
-        EventBus.getDefault().unregister(this);
-        super.onDestroy();
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -503,13 +535,11 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
             checkAndRequestScanPermissions();
         } else if ("gotoCreate".equals(event.getTag())) {
             XKitRouter.withKey(com.yaoxin.appbase.net.Constant.FunSelected_User_ActivityKey).withContext(this).withParam("type", "1").navigate();
-
         } else if ("login_out".equals(event.getTag())) {
             IMUtil.loginOut(this);
         } else if ("add_friend".equals(event.getTag())) {
             XKitRouter.withKey(RouterConstant.PATH_FUN_ADD_FRIEND_PAGE).withContext(this).navigate();
         }
-
     }
 
     @Override
@@ -573,16 +603,14 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         }
 
         if (!EasyPermissions.hasPermissions(this, storagePermission)) {
-            EasyPermissions.requestPermissions(this, "需要访问相册权限才能使用扫码功能",
-                    com.yaoxin.appbase.net.Constant.RC_PHOTO_PICKER_PERM, storagePermission);
+            EasyPermissions.requestPermissions(this, "需要访问相册权限才能使用扫码功能", com.yaoxin.appbase.net.Constant.RC_PHOTO_PICKER_PERM, storagePermission);
             return;
         }
 
         // 再检查相机权限
         String[] cameraPermission = {Manifest.permission.CAMERA};
         if (!EasyPermissions.hasPermissions(this, cameraPermission)) {
-            EasyPermissions.requestPermissions(this, "需要访问相机权限才能使用扫码功能",
-                    com.yaoxin.appbase.net.Constant.RC_PHOTO_CAMERA_PERM, cameraPermission);
+            EasyPermissions.requestPermissions(this, "需要访问相机权限才能使用扫码功能", com.yaoxin.appbase.net.Constant.RC_PHOTO_CAMERA_PERM, cameraPermission);
             return;
         }
 
@@ -620,23 +648,18 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
      * 显示权限被拒绝的对话框，引导用户到设置页面
      */
     private void showPermissionDeniedDialog() {
-        new AlertDialog.Builder(this)
-                .setTitle("权限被拒绝")
-                .setMessage("扫码功能需要相机和相册权限，请在设置中开启相关权限")
-                .setPositiveButton("去设置", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        openAppSettings();
-                        dialog.dismiss();
-                    }
-                })
-                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                })
-                .show();
+        new AlertDialog.Builder(this).setTitle("权限被拒绝").setMessage("扫码功能需要相机和相册权限，请在设置中开启相关权限").setPositiveButton("去设置", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                openAppSettings();
+                dialog.dismiss();
+            }
+        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        }).show();
     }
 
     /**
@@ -647,6 +670,31 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         Uri uri = Uri.fromParts("package", getPackageName(), null);
         intent.setData(uri);
         startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed() {
+        // 如果更新对话框或进度对话框正在显示，禁止返回键关闭
+        if (isUpdateDialogShowing || (progressDialog != null && progressDialog.isShowing())) {
+            return;
+        }
+        super.onBackPressed();
+    }
+
+    @Override
+    protected void onDestroy() {
+        // 清理对话框
+        if (updateDialog != null && updateDialog.isShowing()) {
+            updateDialog.dismiss();
+            updateDialog = null;
+        }
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+            progressDialog = null;
+        }
+        EventCenter.unregisterEventNotify(skinNotify);
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
     }
 
 }

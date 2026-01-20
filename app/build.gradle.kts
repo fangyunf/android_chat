@@ -21,7 +21,9 @@ android {
         applicationId = "com.turunsi.qianmanman"
         minSdk = 21
         targetSdk = 33
-        versionCode = 4
+//        versionCode = 5
+//        versionName = "1.0.4"
+        versionCode = 3
         versionName = "1.0.3"
         multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -94,8 +96,13 @@ dependencies {
     implementation("com.huawei.hms:push:6.3.0.302")
     implementation("com.meizu.flyme.internet:push-internal:4.1.0")
     implementation("com.huawei.agconnect:agconnect-core:1.6.5.300")
-    implementation("com.github.jenly1314.AppUpdater:app-updater:1.2.0")
-    implementation("com.github.jenly1314.AppUpdater:app-dialog:1.2.0")
+//    implementation("com.github.jenly1314.AppUpdater:app-updater:1.2.0")
+//    implementation("com.github.jenly1314.AppUpdater:app-dialog:1.2.0")
+    //app-updater
+    implementation("com.github.jenly1314.AppUpdater:app-updater:2.1.0")
+//app-dialog
+    implementation("com.github.jenly1314.AppUpdater:app-dialog:2.1.0")
+
 
     implementation("com.google.code.gson:gson:2.9.0")
     implementation("commons-codec:commons-codec:1.10")
