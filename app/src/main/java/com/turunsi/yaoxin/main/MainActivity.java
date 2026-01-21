@@ -30,7 +30,6 @@ import androidx.fragment.app.Fragment;
 import com.google.gson.Gson;
 //import com.king.camera.scan.CameraScan;
 import com.king.app.updater.AppUpdater;
-import com.king.app.updater.callback.UpdateCallback;
 import com.king.app.updater.http.OkHttpManager;
 import com.king.app.updater.listener.DownloadListener;
 import com.netease.lava.nertc.sdk.NERtcOption;
@@ -232,6 +231,17 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
             }
         });
 
+        // 如果不是强制更新，显示取消按钮
+        if (!type.equals("1")) {
+            builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    isUpdateDialogShowing = false;
+                    dialog.dismiss();
+                }
+            });
+        }
+
         // 禁止点击返回键关闭对话框
         updateDialog = builder.create();
         updateDialog.setCancelable(false);
@@ -253,41 +263,45 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
 
-        AppUpdater appUpdater = new AppUpdater.Builder(MainActivity.this).setInstallApk(true).setHttpManager(OkHttpManager.getInstance()).setUrl(downLoadUrl).setDownloadListener(new DownloadListener() {
-            @Override
-            public void onStart(@NonNull String s) {
-                // 开始下载
-                if (progressDialog != null) {
-                    progressDialog.setTitle("开始下载...");
-                }
-            }
+        AppUpdater appUpdater = new AppUpdater.Builder(MainActivity.this)
+                .setInstallApk(true)
+                .setHttpManager(OkHttpManager.getInstance())
+                .setUrl(downLoadUrl)
+                .setDownloadListener(new DownloadListener() {
+                    @Override
+                    public void onStart(@NonNull String s) {
+                        // 开始下载
+                        if (progressDialog != null) {
+                            progressDialog.setTitle("开始下载...");
+                        }
+                    }
 
-            @Override
-            public void onProgress(long progress, long total) {
-                // 下载进度更新：建议在isChanged为true时，才去更新界面的进度；因为实际的进度变化频率很高
-                if (progressDialog != null && total > 0) {
-                    int percent = (int) (progress * 100 / total);
-                    progressDialog.setProgress(percent);
-                }
-            }
+                    @Override
+                    public void onProgress(long progress, long total) {
+                        // 下载进度更新：建议在isChanged为true时，才去更新界面的进度；因为实际的进度变化频率很高
+                        if (progressDialog != null && total > 0) {
+                            int percent = (int) (progress * 100 / total);
+                            progressDialog.setProgress(percent);
+                        }
+                    }
 
-            @Override
-            public void onSuccess(@NonNull File file) {
-                if (progressDialog != null) {
-                    progressDialog.setTitle("下载完成");
-                }
-            }
+                    @Override
+                    public void onSuccess(@NonNull File file) {
+                        if (progressDialog != null) {
+                            progressDialog.setTitle("下载完成");
+                        }
+                    }
 
-            @Override
-            public void onError(@NonNull Throwable throwable) {
+                    @Override
+                    public void onError(@NonNull Throwable throwable) {
 
-            }
+                    }
 
-            @Override
-            public void onCancel() {
+                    @Override
+                    public void onCancel() {
 
-            }
-        }).build();
+                    }
+                }).build();
         appUpdater.start();
     }
 
