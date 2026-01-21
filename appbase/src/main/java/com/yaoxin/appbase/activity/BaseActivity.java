@@ -3,6 +3,8 @@ package com.yaoxin.appbase.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -51,10 +53,35 @@ public class BaseActivity extends AppCompatActivity {
                 }
             }
     );
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        // 创建固定字体大小的Context，不随系统字体大小改变
+        Context fixedContext = createFixedFontSizeContext(newBase);
+        super.attachBaseContext(fixedContext);
+    }
+
+    /**
+     * 创建固定字体大小的Context，不随系统字体大小改变
+     *
+     * @param context 原始Context
+     * @return 固定字体大小的Context
+     */
+    private Context createFixedFontSizeContext(Context context) {
+        Configuration configuration = context.getResources().getConfiguration();
+        Configuration newConfiguration = new Configuration(configuration);
+        // 设置字体缩放比例为1.0（标准大小）
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            newConfiguration.fontScale = 1.0f;
+        }
+        return context.createConfigurationContext(newConfiguration);
+    }
+
     public void hideKeyboard(View view) {
         InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
+
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -66,6 +93,7 @@ public class BaseActivity extends AppCompatActivity {
         }
         return super.dispatchTouchEvent(event);
     }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,9 +117,11 @@ public class BaseActivity extends AppCompatActivity {
         navToolbar.setLayoutParams(params);
         navToolbar.setPadding(0, BarUtils.getStatusBarHeight(), 0, 0);
     }
+
     protected void callBackResult(Intent data) {
 
     }
+
     protected void _getParams() {
         Intent intent = getIntent();
         if (intent != null && intent.getExtras() != null) {

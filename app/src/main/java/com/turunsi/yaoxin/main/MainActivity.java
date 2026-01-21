@@ -12,6 +12,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -139,6 +140,29 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
     };
 
     @Override
+    protected void attachBaseContext(Context newBase) {
+        // 创建固定字体大小的Context，不随系统字体大小改变
+        Context fixedContext = createFixedFontSizeContext(newBase);
+        super.attachBaseContext(fixedContext);
+    }
+
+    /**
+     * 创建固定字体大小的Context，不随系统字体大小改变
+     *
+     * @param context 原始Context
+     * @return 固定字体大小的Context
+     */
+    private Context createFixedFontSizeContext(Context context) {
+        Configuration configuration = context.getResources().getConfiguration();
+        Configuration newConfiguration = new Configuration(configuration);
+        // 设置字体缩放比例为1.0（标准大小）
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            newConfiguration.fontScale = 1.0f;
+        }
+        return context.createConfigurationContext(newConfiguration);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ALog.d(Constant.PROJECT_TAG, "MainActivity:onCreate");
@@ -190,48 +214,44 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         if (downLoadUrl == null || downLoadUrl.isEmpty()) {
             return;
         }
-
         //简单DialogFragment升级
         AppDialogConfig config = new AppDialogConfig(this);
-        config.setTitle("应用升级").setConfirm("升级").setContent(updateMsg).setOnClickConfirm(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AppUpdater appUpdater = new AppUpdater.Builder(MainActivity.this).setUrl(downLoadUrl).build();
-                appUpdater.setHttpManager(OkHttpManager.getInstance()) // 使用OkHttp的实现进行下载
-                        .setUpdateCallback(new UpdateCallback() { // 更新回调
-                            @Override
-                            public void onDownloading(boolean isDownloading) {
-                                // 下载中：isDownloading为true时，表示已经在下载，即之前已经启动了下载；为false时，表示当前未开始下载，即将开始下载
-                            }
+        config.setTitle("应用升级").setConfirm("升级").setContent(updateMsg).setOnClickConfirm(v -> {
+            AppUpdater appUpdater = new AppUpdater.Builder(MainActivity.this).setInstallApk(true).setUrl(downLoadUrl).build();
+            appUpdater.setHttpManager(OkHttpManager.getInstance()) // 使用OkHttp的实现进行下载
+                    .setUpdateCallback(new UpdateCallback() { // 更新回调
+                        @Override
+                        public void onDownloading(boolean isDownloading) {
+                            // 下载中：isDownloading为true时，表示已经在下载，即之前已经启动了下载；为false时，表示当前未开始下载，即将开始下载
+                        }
 
-                            @Override
-                            public void onStart(String url) {
-                                // 开始下载
-                            }
+                        @Override
+                        public void onStart(String url) {
+                            // 开始下载
+                        }
 
-                            @Override
-                            public void onProgress(long progress, long total, boolean isChanged) {
-                                // 下载进度更新：建议在isChanged为true时，才去更新界面的进度；因为实际的进度变化频率很高
-                            }
+                        @Override
+                        public void onProgress(long progress, long total, boolean isChanged) {
+                            // 下载进度更新：建议在isChanged为true时，才去更新界面的进度；因为实际的进度变化频率很高
+                        }
 
-                            @Override
-                            public void onFinish(File file) {
-                                // 下载完成
-                            }
+                        @Override
+                        public void onFinish(File file) {
+                            // 下载完成
+                        }
 
-                            @Override
-                            public void onError(Exception e) {
-                                // 下载失败
-                            }
+                        @Override
+                        public void onError(Exception e) {
+                            // 下载失败
+                        }
 
-                            @Override
-                            public void onCancel() {
-                                // 取消下载
-                            }
-                        }).start();
+                        @Override
+                        public void onCancel() {
+                            // 取消下载
+                        }
+                    }).start();
 
-                AppDialog.INSTANCE.dismissDialogFragment(getSupportFragmentManager());
-            }
+            AppDialog.INSTANCE.dismissDialogFragment(getSupportFragmentManager());
         });
         AppDialog.INSTANCE.showDialogFragment(getSupportFragmentManager(), config);
 
