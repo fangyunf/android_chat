@@ -16,9 +16,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -90,19 +94,23 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
     private final String TAG = "ContactFragment";
     protected IContactCallback contactCallback;
     ArrayList<GroupInfoBean> mContactModels = new ArrayList<>();
+    ArrayList<GroupInfoBean> mContactModelsAll = new ArrayList<>(); // 保存完整的好友列表用于搜索
     SimpleFriendListAdapter friendAdapter = new SimpleFriendListAdapter();
     GroupInfoBean applyNumBean = new GroupInfoBean();
     SimpleFriendListAdapter groupListAdapter = new SimpleFriendListAdapter();
     List<GroupInfoBean> groupListDataList = new ArrayList<>();
+    List<GroupInfoBean> teamListDataListAll = new ArrayList<>(); // 保存完整的群聊列表用于搜索
     SimpleFriendListAdapter teamListAdapter = new SimpleFriendListAdapter();
     List<GroupInfoBean> teamListDataList = new ArrayList<>();
     NewFriendListAdapter verifyAdapter = new NewFriendListAdapter();
     List<UserBean> verifyList = new ArrayList<>();
+    List<UserBean> verifyListAll = new ArrayList<>(); // 保存完整的新好友列表用于搜索
     int _selectIndex = 0;
     private ContactNewFragmentBinding binding;
     private ContactEntranceBean verifyBean;
     private View headerView;
     private RecyclerView.Adapter<RecyclerView.ViewHolder> headerAdapter;
+    private EditText searchEditText; // 搜索输入框
 
     @Nullable
     @Override
@@ -115,6 +123,10 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
         binding.contactNewFragmentSearchIv.setOnClickListener(this);
         binding.contactNewFragmentSearchLl.setOnClickListener(this);
         binding.contactNewFragmentMoreIv.setOnClickListener(this);
+        // 初始化搜索输入框
+        searchEditText = binding.funConversationFragmentEt;
+        initSearchListener();
+
         _initViews();
         _requestData();
 
@@ -189,6 +201,10 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
                 Gson gson = new Gson();
                 verifyList = gson.fromJson(new Gson().toJson(listData.data), new TypeToken<List<UserBean>>() {
                 }.getType());
+
+                // 保存完整列表用于搜索
+                verifyListAll = new ArrayList<>(verifyList);
+
                 if (_selectIndex == 2) {
                     binding.contactNewFragmentRv.setAdapter(verifyAdapter);
                     verifyAdapter.setItems(verifyList);
@@ -463,6 +479,9 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
                     }
                 }
 
+                // 保存完整列表用于搜索
+                mContactModelsAll = new ArrayList<>(mContactModels);
+
                 // 排序
                 Collections.sort(mContactModels, new Comparator<GroupInfoBean>() {
                     @Override
@@ -474,6 +493,12 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
                 });
 
                 DataUtil.setFriendInfoList(mContactModels);
+
+                // 如果有搜索内容，重新执行搜索
+                if (searchEditText != null && !TextUtils.isEmpty(searchEditText.getText().toString().trim())) {
+                    performSearch(searchEditText.getText().toString().trim());
+                    return;
+                }
                 // 重新创建 adapter
                 friendAdapter = new SimpleFriendListAdapter();
                 friendAdapter.contacts = mContactModels;
@@ -544,6 +569,10 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
                     if (teamListDataList == null) {
                         teamListDataList = new ArrayList<>();
                     }
+
+                    // 保存完整列表用于搜索
+                    teamListDataListAll = new ArrayList<>(teamListDataList);
+
                     // 排序（增加空值检查）
                     Collections.sort(teamListDataList, new Comparator<GroupInfoBean>() {
                         @Override
@@ -556,6 +585,12 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
                             return firstLetter.compareTo(secondLetter);
                         }
                     });
+
+                    // 如果有搜索内容，重新执行搜索
+                    if (searchEditText != null && !TextUtils.isEmpty(searchEditText.getText().toString().trim())) {
+                        performSearch(searchEditText.getText().toString().trim());
+                        return;
+                    }
 
                     // 重新创建 adapter（群聊使用 SimpleFriendListAdapter 支持字母分组）
                     teamListAdapter = new SimpleFriendListAdapter();
@@ -625,6 +660,143 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
         }
     }
 
+
+    /**
+     * 初始化搜索监听器
+     */
+    private void initSearchListener() {
+        if (searchEditText == null) return;
+
+        searchEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String searchText = s.toString().trim();
+                performSearch(searchText);
+            }
+        });
+    }
+
+    /**
+     * 执行搜索
+     */
+    private void performSearch(String searchText) {
+        if (TextUtils.isEmpty(searchText)) {
+            // 搜索为空，恢复原始列表
+            restoreOriginalList();
+            return;
+        }
+
+        // 根据当前选中的 Tab 进行搜索
+        switch (_selectIndex) {
+            case 0:
+                // 搜索好友列表
+                searchFriendList(searchText);
+                break;
+            case 1:
+                // 搜索分组列表（如果有数据）
+                searchGroupList(searchText);
+                break;
+            case 2:
+                // 搜索群聊列表
+                searchTeamList(searchText);
+                break;
+        }
+    }
+
+    /**
+     * 搜索好友列表
+     */
+    private void searchFriendList(String searchText) {
+        if (mContactModelsAll.isEmpty()) {
+            return;
+        }
+
+        ArrayList<GroupInfoBean> filteredList = new ArrayList<>();
+        for (GroupInfoBean contact : mContactModelsAll) {
+            if (contact == null) continue;
+
+            // 优先匹配备注，如果没有备注则匹配名称
+            String matchText = null;
+            if (contact.remark != null && !contact.remark.isEmpty()) {
+                matchText = contact.remark;
+            } else if (contact.name != null && !contact.name.isEmpty()) {
+                matchText = contact.name;
+            }
+
+            if (matchText != null && matchText.toLowerCase().contains(searchText.toLowerCase())) {
+                filteredList.add(contact);
+            }
+        }
+
+        // 更新 adapter
+        friendAdapter.contacts = filteredList;
+        friendAdapter.setItems(filteredList);
+        friendAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * 搜索分组列表
+     */
+    private void searchGroupList(String searchText) {
+        // 分组列表搜索逻辑（如果有数据）
+        // 目前分组列表为空，可以在这里添加搜索逻辑
+    }
+
+    /**
+     * 搜索群聊列表
+     */
+    private void searchTeamList(String searchText) {
+        if (teamListDataListAll.isEmpty()) {
+            return;
+        }
+
+        ArrayList<GroupInfoBean> filteredList = new ArrayList<>();
+        for (GroupInfoBean team : teamListDataListAll) {
+            if (team == null) continue;
+
+            if (team.name != null && team.name.toLowerCase().contains(searchText.toLowerCase())) {
+                filteredList.add(team);
+            }
+        }
+
+        // 更新 adapter
+        teamListAdapter.contacts = filteredList;
+        teamListAdapter.setItems(filteredList);
+        teamListAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * 恢复原始列表
+     */
+    private void restoreOriginalList() {
+        switch (_selectIndex) {
+            case 0:
+                // 恢复好友列表
+                friendAdapter.contacts = mContactModelsAll;
+                friendAdapter.setItems(mContactModelsAll);
+                friendAdapter.notifyDataSetChanged();
+                break;
+            case 1:
+                // 恢复分组列表
+                groupListAdapter.setItems(new ArrayList<>());
+                groupListAdapter.notifyDataSetChanged();
+                break;
+            case 2:
+                // 恢复群聊列表
+                teamListAdapter.contacts = teamListDataListAll;
+                teamListAdapter.setItems(teamListDataListAll);
+                teamListAdapter.notifyDataSetChanged();
+                break;
+        }
+    }
 
     public void setContactCallback(IContactCallback contactCallback) {
         this.contactCallback = contactCallback;
