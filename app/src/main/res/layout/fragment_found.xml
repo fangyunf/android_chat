@@ -11,10 +11,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="25dp"
+        android:background="#e7fcf7"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingHorizontal="20dp"
+        android:paddingTop="@dimen/dimen_25_dp"
         android:paddingBottom="16dp">
 
         <!-- 标题 -->

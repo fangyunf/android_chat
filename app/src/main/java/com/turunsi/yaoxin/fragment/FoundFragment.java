@@ -35,7 +35,8 @@ public class FoundFragment extends BaseFragment {
 
         StatusBarUtils.setStatusBarLightMode(getActivity(), true, true);
         ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) binding.contactNewFragmentTopLl.getLayoutParams();
-        layoutParams.topMargin = BarUtils.getStatusBarHeight() + SizeUtils.dp2px(20);
+//        layoutParams.topMargin = BarUtils.getStatusBarHeight() + SizeUtils.dp2px(20);
+        binding.contactNewFragmentTopLl.setPadding(0, BarUtils.getStatusBarHeight() + SizeUtils.dp2px(20), 0, SizeUtils.dp2px(16));
 
         return binding.getRoot();
     }

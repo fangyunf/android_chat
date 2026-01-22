@@ -339,8 +339,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         ALog.d(Constant.PROJECT_TAG, "MainActivity:initView");
         //    loadConfig();
         List<Fragment> fragments = new ArrayList<>();
-
-        changeStatusBarColor(R.color.fun_page_bg_color);
+        // changeStatusBarColor(R.color.fun_page_bg_color);
         mConversationFragment = FunConversationFragment.newInstance(0);
         mConversationFragment1 = FunConversationFragment.newInstance(1);
         mContactFragment = new ContactNewFragment();
@@ -357,7 +356,8 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         activityMainBinding.viewPager.setCurrentItem(START_INDEX, false);
         activityMainBinding.viewPager.setOffscreenPageLimit(fragments.size());
         mCurrentTab = activityMainBinding.conversationBtnShop;
-        changeStatusBarColor(R.color.color_white);
+        //changeStatusBarColor(R.color.color_white);
+        StatusBarUtils.setStatusBarLightMode(this, true, true);
         resetTabSkin();
     }
 
@@ -416,6 +416,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         resetTabStyle();
         mCurrentTab = view;
         resetTabSkin();
+        // StatusBarUtils.setStatusBarLightMode(this, true, true);
         StatusBarUtils.setStatusBarLightMode(this, true, true);
     }
 
@@ -460,7 +461,6 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
                 if (count == null) {
                     activityMainBinding.conversationDot.setVisibility(View.GONE);
                     activityMainBinding.conversationDot1.setVisibility(View.GONE);
-
                 } else {
                     int singleChatUnreadCount = 0;
                     int groupChatUnreadCount = 0;
@@ -494,9 +494,9 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         if (contactFragment != null) {
             contactFragment.setContactCallback(count -> {
                 if (count > 0) {
-                    activityMainBinding.conversationDot1.setVisibility(View.VISIBLE);
+                    activityMainBinding.contactDot.setVisibility(View.VISIBLE);
                 } else {
-                    activityMainBinding.conversationDot1.setVisibility(View.GONE);
+                    activityMainBinding.contactDot.setVisibility(View.GONE);
                 }
             });
         }
@@ -516,10 +516,8 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         activityMainBinding.mine.setTextColor(getResources().getColor(R.color.tab_unchecked_color));
         activityMainBinding.mine.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.mine_tabbar_mine_normal), null, null);
 
-
         activityMainBinding.found.setTextColor(getResources().getColor(R.color.tab_unchecked_color));
         activityMainBinding.found.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.mine_tabbar_found_normal), null, null);
-
 
         activityMainBinding.conversationShop.setTextColor(getResources().getColor(R.color.tab_unchecked_color));
         activityMainBinding.conversationShop.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.mine_tabbar_shop_normal), null, null);

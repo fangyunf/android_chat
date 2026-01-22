@@ -7,7 +7,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_F2F2F2">
+    android:background="#e7fcf7">
 
     <ImageView
         android:layout_width="match_parent"
@@ -39,7 +39,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
                     android:paddingRight="10dp"
-                    android:paddingBottom="@dimen/dimen_16_dp">
+                    >
 
                     <TextView
                         android:id="@+id/fun_conversation_fragment_title_tv"
@@ -65,6 +65,36 @@
                         android:layout_height="25dp"
                         android:src="@mipmap/conversation_index_pop_more" />
                 </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/fun_conversation_fragment_search_ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="@dimen/dimen_10_dp"
+                android:background="@drawable/home_seach_bg"
+                android:gravity="center">
+
+                <EditText
+                    android:id="@+id/fun_conversation_fragment_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_48_dp"
+                    android:autofillHints=""
+                    android:background="@color/transparent"
+                    android:drawableStart="@mipmap/conversation_list_index_search_icon1"
+                    android:drawablePadding="5dp"
+                    android:hint="搜索"
+                    android:maxLines="1"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="15dp"
+                    android:textColor="@color/color_333333"
+                    android:textColorHint="#8E8E93"
+                    android:textSize="16dp" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -173,7 +203,6 @@
                     android:textColor="@color/color_white"
                     android:textSize="12sp"
                     android:visibility="gone" />
-
 
             </LinearLayout>
         </LinearLayout>

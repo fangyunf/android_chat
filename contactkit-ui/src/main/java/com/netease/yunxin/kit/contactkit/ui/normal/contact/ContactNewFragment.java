@@ -115,7 +115,7 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
         binding.contactNewFragmentMoreIv.setOnClickListener(this);
         _initViews();
         _requestData();
-        
+
         return binding.getRoot();
     }
 
@@ -123,6 +123,7 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
     @Override
     public void onResume() {
         super.onResume();
+        getMessageCount();
         // 确保返回时重新设置 adapter
         if (headerAdapter != null) {
             switch (_selectIndex) {
@@ -139,11 +140,8 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
         }
     }
 
-    @Override
-    protected void _requestData() {
-//        _requestMemeber(1);
-        loadFriendList();
 
+    private void getMessageCount() {
         HttpUtil.apiW().friends_applyListNum(new RegisterBean()).enqueue(new CommonCallback<NetData>() {
             @Override
             public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
@@ -169,6 +167,14 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
 
             }
         });
+    }
+
+    @Override
+    protected void _requestData() {
+//        _requestMemeber(1);
+        loadFriendList();
+
+        getMessageCount();
 
         loadTeamList();
 

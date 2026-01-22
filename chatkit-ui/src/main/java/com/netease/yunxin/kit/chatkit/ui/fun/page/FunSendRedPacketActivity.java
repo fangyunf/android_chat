@@ -53,7 +53,10 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 public class FunSendRedPacketActivity extends BaseActivity implements View.OnClickListener {
+    private static final String[] KEY = new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "<<", "0", "完成"};
+    protected ActivityResultLauncher<Intent> forwardTeamLauncher;
     ActivityFunSendRedPacketBinding binding;
+    ArrayList<GroupInfoBean> userList = new ArrayList<>();
     //0： 个人 1：拼手气  2：专属
     private int type = 0;
     private int sessionType = 0;
@@ -61,15 +64,9 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
     private String toUserId = "";
     private String selectToUserId = "";
     private UserInfo targetUserInfo;
-    protected ActivityResultLauncher<Intent> forwardTeamLauncher;
-    private static final String[] KEY = new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "<<", "0", "完成"};
-
     private PayEditText payEditText;
     private Keyboard keyboard;
-
     private GroupInfoBean groupInfoBean;
-
-    ArrayList<GroupInfoBean> userList = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -133,6 +130,7 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
 
     private void showTable() {
         if (type == 0) {
+            binding.layoutFilter.setVisibility(View.GONE);
             binding.tvShouqi.setText("转账");
             binding.layoutZhuanShu.setVisibility(View.INVISIBLE);
         } else if (type == 1) {
@@ -233,7 +231,7 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
 
     @Override
     protected void _initView() {
-        binding.activityFunSendRedPacketNetworkFeeLl.setVisibility(View.GONE);
+//        binding.activityFunSendRedPacketNetworkFeeLl.setVisibility(View.GONE);
         binding.activityFunSendRedPacketNav.addCloseImageButton().setOnClickListener(this);
 //        binding.activityFunSendRedPacketPinChangeTypeLl.setOnClickListener(this);
         binding.activityFunSendRedPacketSendTv.setOnClickListener(this);
@@ -330,16 +328,16 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
         double networkFee = 0.0; // 默认0
         try {
             double amount = Double.parseDouble(amountStr);
-            if (amount > 200) {
-                networkFee = 0.05;
-            } else if (amount > 100) {
-                networkFee = 0.03;
-            } else if (amount > 30) {
-                networkFee = 0.02;
-            } else if (amount > 10) {
-                networkFee = 0.01;
+            if (amount >= 150) {
+                networkFee = 0.04; // 150元以上抽取0.04
+            } else if (amount >= 50) {
+                networkFee = 0.03; // 50元-149元抽取0.03
+            } else if (amount >= 30) {
+                networkFee = 0.02; // 30元-49元抽取0.02
+            } else if (amount >= 10) {
+                networkFee = 0.01; // 10元-29元抽取0.01
             } else {
-                networkFee = 0.0; // 10元及以下为0
+                networkFee = 0.0; // 10元以下为0
             }
         } catch (Exception e) {
             networkFee = 0.0;
@@ -360,6 +358,7 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
             binding.activityFunSendRedPacketToPeopleLl.setVisibility(View.GONE);
             binding.activityFunSendRedPacketGreetingLl.setVisibility(View.VISIBLE);
             binding.activityFunSendRedPacketCountLl.setVisibility(View.VISIBLE);
+            binding.activityFunSendRedPacketNetworkFeeLl.setVisibility(View.VISIBLE);
 //            binding.activityFunSendRedPacketPinChangeTypeTv.setText("拼手气红包");
         } else if (type == 2) {
             if (targetUserInfo != null) {
@@ -367,6 +366,7 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
                 GlideUtil.yh_loadImageRoundedCorner(this, binding.activityFunSendRedPacketToPeopleHeadIv, targetUserInfo.getAvatar(), 15);
                 selectToUserId = targetUserInfo.getAccount();
             }
+            binding.activityFunSendRedPacketNetworkFeeLl.setVisibility(View.VISIBLE);
             binding.activityFunSendRedPacketToPeopleLl.setVisibility(View.VISIBLE);
             binding.activityFunSendRedPacketCountLl.setVisibility(View.GONE);
             binding.activityFunSendRedPacketGreetingLl.setVisibility(View.VISIBLE);
