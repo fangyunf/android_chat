@@ -141,6 +141,18 @@ android:layout_height="wrap_content">
         app:layout_goneMarginEnd="@dimen/dimen_60_dp"
         app:layout_goneMarginStart="@dimen/dimen_60_dp" />
 
+    <!-- <com.netease.yunxin.kit.common.ui.widgets.LongClickableFrameLayout
+        android:id="@+id/messageContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@id/myAvatar"
+        app:layout_constraintStart_toEndOf="@id/otherUserAvatar"
+        app:layout_constraintTop_toBottomOf="@id/messageTopGroup"
+        app:layout_constraintWidth_default="wrap"
+        android:paddingBottom="@dimen/dimen_4_dp"
+        app:layout_goneMarginEnd="@dimen/dimen_60_dp"
+        app:layout_goneMarginStart="@dimen/dimen_60_dp" /> -->
+
     <com.netease.yunxin.kit.common.ui.widgets.LongClickableFrameLayout
         android:id="@+id/messageContainer"
         android:layout_width="0dp"
