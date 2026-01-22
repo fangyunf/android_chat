@@ -106,11 +106,11 @@ public class FunConversationFragment extends ConversationBaseFragment {
             @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
         viewBinding = FunConversationFragmentBinding.inflate(inflater, container, false);
-        initView();
         // 获取传递的参数
         if (getArguments() != null) {
             _type = getArguments().getInt("type");
         }
+        initView();
         if (_type == 1) {
             viewBinding.funConversationFragmentTitleTv.setText("群聊");
             viewBinding.layoutNote.setVisibility(View.GONE);
@@ -483,7 +483,6 @@ public class FunConversationFragment extends ConversationBaseFragment {
         conversationView = viewBinding.conversationView;
         conversationView._type = _type;
         conversationView.adapter._type = _type;
-
 
         networkErrorView = viewBinding.errorTv;
         emptyView = viewBinding.emptyLayout;

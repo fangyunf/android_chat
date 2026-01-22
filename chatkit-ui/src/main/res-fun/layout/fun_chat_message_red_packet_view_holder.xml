@@ -3,6 +3,7 @@
   ~ Use of this source code is governed by a MIT license that can be
   ~ found in the LICENSE file.
   -->
+<!--    android:layout_width="216dp"-->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -16,16 +17,14 @@
         android:id="@+id/fun_chat_message_red_packet_view_holder_bg_iv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:scaleType="fitXY"
         android:src="@drawable/chat_red_packet_cell_bg_no_open" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingRight="@dimen/dimen_7_dp"
-
-
-        >
+        android:paddingRight="@dimen/dimen_7_dp">
 
         <TextView
             android:id="@+id/fun_chat_message_red_packet_view_holder_greeting_tv"
