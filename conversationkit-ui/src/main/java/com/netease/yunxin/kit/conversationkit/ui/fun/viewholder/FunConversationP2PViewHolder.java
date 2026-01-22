@@ -107,13 +107,17 @@ public class FunConversationP2PViewHolder extends FunConversationBaseViewHolder 
                 viewBinding.tvGrader.setVisibility(View.VISIBLE);
                 viewBinding.nameTv.setTextColor(ResourceHelper.getGradeColor(itemView.getContext(), grader));
                 viewBinding.tvGrader.setImageDrawable(ResourceHelper.getGradeDrawable(itemView.getContext(), grader));
+                viewBinding.ivGradeBg.setVisibility(View.VISIBLE);
+                viewBinding.ivGradeBg.setImageDrawable(ResourceHelper.getGradeBackground(viewBinding.rootLayout.getContext(), grader));
             } else {
                 viewBinding.nameTv.setTextColor(Color.parseColor("#333333"));
                 viewBinding.tvGrader.setVisibility(View.GONE);
+                viewBinding.ivGradeBg.setVisibility(View.GONE);
             }
         } else {
             viewBinding.nameTv.setTextColor(Color.parseColor("#333333"));
             viewBinding.tvGrader.setVisibility(View.GONE);
+            viewBinding.ivGradeBg.setVisibility(View.GONE);
         }
     }
 }

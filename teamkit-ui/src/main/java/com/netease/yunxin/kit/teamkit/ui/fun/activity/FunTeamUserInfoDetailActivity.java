@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.netease.yunxin.kit.chatkit.ui.fun.page.FunChatSettingActivity;
 import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
 import com.netease.yunxin.kit.corekit.route.XKitRouter;
 import com.netease.yunxin.kit.teamkit.ui.databinding.FunTeamUserInfoDetailBinding;
@@ -28,6 +29,7 @@ import com.yaoxin.appbase.utils.BaseEvent;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.DensityUtils;
 import com.yaoxin.appbase.utils.GlideUtil;
+import com.yaoxin.appbase.utils.ResourceHelper;
 import com.yaoxin.appbase.utils.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -49,6 +51,7 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
     boolean isFriend = false;
     GroupInfoBean friendBean;
     ArrayList<GroupInfoBean> members = new ArrayList<>();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +62,7 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
         transtStatusBar(binding.funTeamUserInfoDetailNav);
         groupId = getIntent().getStringExtra("groupId");
         String userId = getIntent().getStringExtra("userId");
-        requestDataWith(groupId,userId);
+        requestDataWith(groupId, userId);
 //        String type = getIntent().getStringExtra("type");
 //        if (type != null && "101".equals(type)) {
 //            String groupId1 = getIntent().getStringExtra("groupId");
@@ -81,32 +84,35 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
 //        groupInfoBean = new Gson().fromJson(result,GroupInfoBean.class);
 
 
-
-
-
-
     }
 
     void updateUI() {
         binding.funTeamUserInfoDetailBottomTv.setOnClickListener(this);
-
         binding.funTeamUserInfoDetailNameTv.setText(groupInfoBean.name);
-        GlideUtil.yh_loadImageRoundedCorner(this,binding.funTeamUserInfoDetailHeadIv,groupInfoBean.avatar,30);
+        GlideUtil.yh_loadImageRoundedCorner(this, binding.funTeamUserInfoDetailHeadIv, groupInfoBean.avatar, 30);
         binding.funTeamUserInfoDetailAccountTv.setText(groupInfoBean.memberCode);
         if (groupInfoBean.grade > 0) {
+
+
             binding.funTeamUserInfoDetailGradeIv.setVisibility(View.VISIBLE);
-            String imageName = "mine_grade_level_" + groupInfoBean.grade;
-            Resources resources = getResources();
-            int resId = resources.getIdentifier(imageName, "mipmap", getPackageName());
-            // 如果找到了资源，则可以使用这个ID获取Drawable
-            Drawable drawable = null;
-            if (resId > 0) {
-                drawable = ContextCompat.getDrawable(this, resId);
-            }
-            // 如果需要将drawable设置到ImageView中
-            if (drawable != null) {
-                binding.funTeamUserInfoDetailGradeIv.setImageDrawable(drawable);
-            }
+            binding.ivGradeBg.setVisibility(View.VISIBLE);
+            binding.funTeamUserInfoDetailGradeIv.setImageDrawable(ResourceHelper.getGradeDrawable(this, groupInfoBean.grade));
+            binding.funTeamUserInfoDetailNameTv.setTextColor(ResourceHelper.getGradeColor(this, groupInfoBean.grade));
+            binding.ivGradeBg.setImageDrawable(ResourceHelper.getGradeBackground(this, groupInfoBean.grade));
+
+//            binding.funTeamUserInfoDetailGradeIv.setVisibility(View.VISIBLE);
+//            String imageName = "mine_grade_level_" + groupInfoBean.grade;
+//            Resources resources = getResources();
+//            int resId = resources.getIdentifier(imageName, "mipmap", getPackageName());
+//            // 如果找到了资源，则可以使用这个ID获取Drawable
+//            Drawable drawable = null;
+//            if (resId > 0) {
+//                drawable = ContextCompat.getDrawable(this, resId);
+//            }
+//            // 如果需要将drawable设置到ImageView中
+//            if (drawable != null) {
+//                binding.funTeamUserInfoDetailGradeIv.setImageDrawable(drawable);
+//            }
         }
 
         binding.funTeamUserInfoDetailYaoqingren.viewTitleArrowTv.setText("邀请人");
@@ -145,16 +151,18 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
         binding.funTeamUserInfoDetailYaoqingren.viewTitleArrowRightTv.setVisibility(View.VISIBLE);
         binding.funTeamUserInfoDetailYaoqingren.viewTitleArrowRightTv.setText(groupInfoBean.inviteName);
     }
-     void requestDataWith(String groupId,String userId) {
+
+    void requestDataWith(String groupId, String userId) {
         HttpUtil.apiW().group_groupHomeInfo(groupId)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                         GroupInfoBean tempGroupInfoBean = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
                         rankState = tempGroupInfoBean.rankState;
-                        _requestPeople(1,userId);
+                        _requestPeople(1, userId);
 
                     }
+
                     @Override
                     public void Failure(Call<NetData> call, Throwable t) {
 
@@ -162,11 +170,12 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
                 });
 
     }
+
     void _requestPeople(int page, String userId) {
         RegisterBean bean = new RegisterBean();
         bean.groupId = groupId;
-        bean.page = page +"";
-        bean.pageNo ="100";
+        bean.page = page + "";
+        bean.pageNo = "100";
         HttpUtil.apiW().group_groupUserListPost(bean)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
@@ -179,12 +188,12 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
                         members.addAll(tempList);
                         if (!tempList.isEmpty()) {
                             if (tempList.size() == 100) {
-                                _requestPeople((page + 1),userId);
+                                _requestPeople((page + 1), userId);
                                 return;
                             }
 
                         }
-                        for (GroupInfoBean temp:
+                        for (GroupInfoBean temp :
                                 members) {
                             if (temp.userId.equals(userId)) {
                                 groupInfoBean = temp;
@@ -213,7 +222,7 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                         Type userListType = new TypeToken<List<GroupInfoBean>>() {
                         }.getType();
-                        List<GroupInfoBean> userList = new Gson().fromJson(body.data.toString(),userListType);
+                        List<GroupInfoBean> userList = new Gson().fromJson(body.data.toString(), userListType);
                         for (GroupInfoBean tempBean :
                                 userList) {
                             if (tempBean.userId.equals(groupInfoBean.userId)) {
@@ -241,7 +250,7 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
                                         @Override
                                         public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                                            GroupInfoBean tempBean = new Gson().fromJson(body.data.toString(),GroupInfoBean.class);
+                                            GroupInfoBean tempBean = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
 
                                             if (tempBean.addFriendsState == 1) {
                                                 if (!isFriend) {
@@ -318,11 +327,11 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
         } else if (v == binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowLl) {
 
             Intent intent = new Intent(this, ModifyInfoActivity.class);
-            intent.putExtra("title","修改备注");
-            intent.putExtra("type","4");
+            intent.putExtra("title", "修改备注");
+            intent.putExtra("type", "4");
             if (friendBean != null && friendBean.remark != null) {
 
-                intent.putExtra("hint",friendBean.remark);
+                intent.putExtra("hint", friendBean.remark);
             }
             activityResultLauncher.launch(intent);
         } else if (v == binding.funTeamUserInfoDetailTichu.viewTitleArrowLl) {
@@ -372,6 +381,7 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
                     }
                 });
     }
+
     @Override
     protected void callBackResult(Intent data) {
         super.callBackResult(data);

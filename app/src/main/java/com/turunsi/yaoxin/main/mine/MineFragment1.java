@@ -274,10 +274,7 @@ public class MineFragment1 extends BaseFragment implements View.OnClickListener 
         String name = TextUtils.isEmpty(userInfo.getName()) ? userInfo.getAccount() : userInfo.getName();
 //        binding.cavIcon.setData(
 //                userInfo.getAvatar(), name, AvatarColor.avatarColor(IMKitClient.account()));
-
-
         GlideUtil.yh_loadImageRoundedCorner(getContext(), binding.cavIcon, DataUtil.getUserInfo().avatar, 2);
-
         binding.tvName.setText(name);
     }
 

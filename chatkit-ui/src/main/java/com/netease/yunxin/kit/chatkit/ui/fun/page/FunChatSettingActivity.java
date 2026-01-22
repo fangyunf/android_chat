@@ -58,7 +58,10 @@ import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.BaseEvent;
+import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.DialogAlertUtil;
+import com.yaoxin.appbase.utils.GlideUtil;
+import com.yaoxin.appbase.utils.ResourceHelper;
 import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
 import com.yaoxin.appbase.view.LoadingDialog;
@@ -114,7 +117,7 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
         EventCenter.registerEventNotify(closeEventNotify);
         changeStatusBarColor(R.color.color_white);
         binding = FunChatSettingActivityBinding.inflate(getLayoutInflater());
-        StatusBarUtils.transtStatusBar(this,binding.funChatSettingActivityNav);
+        StatusBarUtils.transtStatusBar(this, binding.funChatSettingActivityNav);
         viewModel = new ViewModelProvider(this).get(ChatSettingViewModel.class);
         setContentView(binding.getRoot());
         binding.funChatSettingActivityNav.addCloseImageButton().setOnClickListener(this);
@@ -133,16 +136,15 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
     void _reuestInfo() {
         RegisterBean bean = new RegisterBean();
         bean.userId = accId;
-        LoadingDialog.showDialog(getSupportFragmentManager(),"加载中...");
+        LoadingDialog.showDialog(getSupportFragmentManager(), "加载中...");
         HttpUtil.apiW().friends_searchByUserIdF(bean)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        userBean = new Gson().fromJson(body.data.toString(),UserBean.class);
-                        binding.funChatSettingActivityId.setText("ID: "+ userBean.memberCode);
+                        userBean = new Gson().fromJson(body.data.toString(), UserBean.class);
+                        binding.funChatSettingActivityId.setText("ID: " + userBean.memberCode);
                         binding.nameTv.setText(userBean.name);
-                        if (userBean.remark != null && !userBean.remark.isEmpty())
-                        {
+                        if (userBean.remark != null && !userBean.remark.isEmpty()) {
                             binding.funChatSettingActivityMemo.rightTv.setText(userBean.remark);
                             binding.funChatSettingActivityMemo.rightTv.setVisibility(View.VISIBLE);
                         }
@@ -151,12 +153,21 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
                             binding.funChatSettingActivitySendMsgRl.setVisibility(View.GONE);
                             binding.funChatSettingActivityAddFriendTv.setVisibility(View.VISIBLE);
                         }
+
+                        if (userBean.grade > 0) {
+                            binding.funTeamUserInfoDetailGradeIv.setVisibility(View.VISIBLE);
+                            binding.ivGradeBg.setVisibility(View.VISIBLE);
+                            binding.funTeamUserInfoDetailGradeIv.setImageDrawable(ResourceHelper.getGradeDrawable(FunChatSettingActivity.this, userBean.grade));
+                            binding.nameTv.setTextColor(ResourceHelper.getGradeColor(FunChatSettingActivity.this, userBean.grade));
+                            binding.ivGradeBg.setImageDrawable(ResourceHelper.getGradeBackground(FunChatSettingActivity.this, userBean.grade));
+                        }
                     }
 
                     @Override
                     public void Failure(Call<NetData> call, Throwable t) {
 
                     }
+
                     @Override
                     public void end() {
                         super.end();
@@ -164,6 +175,7 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
                     }
                 });
     }
+
     private void initRequest() {
 
         viewModel1 = new ViewModelProvider(this).get(UserInfoViewModel.class);
@@ -271,13 +283,13 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
                         if (type == 1) {
 
 
-                            NIMClient.getService(MsgService.class).clearChattingHistory(userBean.userId,SessionTypeEnum.P2P);
-                            NIMClient.getService(MsgService.class).clearServerHistory(userBean.userId,SessionTypeEnum.P2P);
+                            NIMClient.getService(MsgService.class).clearChattingHistory(userBean.userId, SessionTypeEnum.P2P);
+                            NIMClient.getService(MsgService.class).clearServerHistory(userBean.userId, SessionTypeEnum.P2P);
 
                             EventBus.getDefault().post(new BaseEvent("clearP2PMessageList"));
                         }
                     }
-                },getSupportFragmentManager());
+                }, getSupportFragmentManager());
             }
         });
 
@@ -384,13 +396,14 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
                             .withContext(FunChatSettingActivity.this)
                             .navigate();
                     finish();
-                } else  {
+                } else {
                     finish();
                 }
             }
         });
 
     }
+
     private void registerResult() {
         commentLauncher =
                 registerForActivityResult(
@@ -426,15 +439,17 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
 
     private void refreshView() {
         if (friendInfo != null) {
-            binding.funChatSettingActivityAvatarView.setData(
-                    friendInfo.getAvatar(),
-                    friendInfo.getAvatarName(),
-                    AvatarColor.avatarColor(friendInfo.getAccount()));
+            GlideUtil.yh_loadImageRoundedCorner(this, binding.funChatSettingActivityAvatarView, friendInfo.getAvatar(), 0);
+//            binding.funChatSettingActivityAvatarView.setData(
+//                    friendInfo.getAvatar(),
+//                    friendInfo.getAvatarName(),
+//                    AvatarColor.avatarColor(friendInfo.getAccount()));
             binding.nameTv.setText(friendInfo.getName());
 //            binding.funChatSettingActivityId.setText("ID:" + friendInfo.getAccount());
 //      binding.noTeamNameTv.setText(friendInfo.getName());
         } else if (userInfo == null) {
-            binding.funChatSettingActivityAvatarView.setData(null, accId, AvatarColor.avatarColor(accId));
+            GlideUtil.yh_loadImageRoundedCorner(this, binding.funChatSettingActivityAvatarView, "", 0);
+//            binding.funChatSettingActivityAvatarView.setData(null, accId, AvatarColor.avatarColor(accId));
             binding.nameTv.setText(accId);
 //      binding.noTeamNameTv.setText(accId);
         } else {
@@ -444,8 +459,9 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
                 name = userInfo.getAccount();
             }
             ALog.d(LIB_TAG, TAG, "initView name -->> " + name);
-            binding.funChatSettingActivityAvatarView.setData(
-                    userInfo.getAvatar(), name, AvatarColor.avatarColor(userInfo.getAccount()));
+            GlideUtil.yh_loadImageRoundedCorner(this, binding.funChatSettingActivityAvatarView, userInfo.getAvatar(), 0);
+//            binding.funChatSettingActivityAvatarView.setData(
+//                    userInfo.getAvatar(), name, AvatarColor.avatarColor(userInfo.getAccount()));
             binding.nameTv.setText(name);
             binding.funChatSettingActivityMemo.rightTv.setText(TextUtils.isEmpty(userInfo.getComment()) ? "" : userInfo.getComment());
             binding.funChatSettingActivityMemo.rightTv.setVisibility(View.VISIBLE);

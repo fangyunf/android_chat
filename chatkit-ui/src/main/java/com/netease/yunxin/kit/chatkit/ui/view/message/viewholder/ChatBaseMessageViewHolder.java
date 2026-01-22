@@ -49,6 +49,7 @@ import com.netease.yunxin.kit.corekit.im.provider.FetchCallback;
 import com.yaoxin.appbase.model.GroupInfoBean;
 import com.yaoxin.appbase.utils.AppProxy;
 import com.yaoxin.appbase.utils.DataUtil;
+import com.yaoxin.appbase.utils.GlideUtil;
 import com.yaoxin.appbase.utils.ResourceHelper;
 
 import java.util.List;
@@ -394,8 +395,11 @@ public abstract class ChatBaseMessageViewHolder extends CommonBaseMessageViewHol
         }
         if (userInfo != null) {
             String nickname = userInfo.getName();
-            baseViewBinding.myAvatar.setData(
-                    userInfo.getAvatar(), nickname, AvatarColor.avatarColor(userInfo.getAccount()));
+//            baseViewBinding.myAvatar.setData(
+//                    userInfo.getAvatar(), nickname, AvatarColor.avatarColor(userInfo.getAccount()));
+
+            GlideUtil.yh_loadImageRoundedCorner(baseViewBinding.myAvatar.getContext(), baseViewBinding.myAvatar, userInfo.getAvatar(), 0);
+
         }
         // 自定义设置是否展示当前用户头像
         if (userInfoUIOption.myAvatarVisible != null) {
@@ -499,10 +503,13 @@ public abstract class ChatBaseMessageViewHolder extends CommonBaseMessageViewHol
             updateGoneParam(size);
         }
         // 设置对方用户头像
-        baseViewBinding.otherUserAvatar.setData(
-                avatar,
-                avatarName,
-                AvatarColor.avatarColor(message.getMessageData().getMessage().getFromAccount()));
+//        baseViewBinding.otherUserAvatar.setData(
+//                avatar,
+//                avatarName,
+//                AvatarColor.avatarColor(message.getMessageData().getMessage().getFromAccount()));
+
+        GlideUtil.yh_loadImageRoundedCorner(baseViewBinding.otherUserAvatar.getContext(), baseViewBinding.otherUserAvatar, avatar, 0);
+
         // 自定义设置对方用户头像是否展示
         if (userInfoUIOption.otherUserAvatarVisible != null) {
             baseViewBinding.otherUserAvatar.setVisibility(
@@ -831,6 +838,26 @@ public abstract class ChatBaseMessageViewHolder extends CommonBaseMessageViewHol
     protected void onCommonViewVisibleConfig(ChatMessageBean messageBean) {
         baseViewBinding.chatBaseMessageViewHolderOtherGradeIv.setVisibility(View.GONE);
         baseViewBinding.chatBaseMessageViewHolderMineGradeIv.setVisibility(View.GONE);
+        baseViewBinding.ivOtherGradbg.setVisibility(View.GONE);
+        baseViewBinding.ivMyGradbg.setVisibility(View.GONE);
+
+        String messageUser = messageBean.getMessageData().getMessage().getFromAccount();
+        UserInfo userInfo = MessageHelper.getChatMessageUserInfo(messageUser);
+        // 安全地获取等级值
+        int grader = 0;
+        if (userInfo != null && userInfo.getExtensionMap() != null) {
+            Object gradeObj = userInfo.getExtensionMap().get("grade");
+            if (gradeObj instanceof Number) {
+                grader = ((Number) gradeObj).intValue();
+            } else if (gradeObj instanceof String) {
+                try {
+                    grader = Integer.parseInt((String) gradeObj);
+                } catch (Exception e) {
+                    grader = 0;
+                }
+            }
+        }
+        
         if (MessageHelper.isReceivedMessage(messageBean) || isForwardMsg()) {
             // 收到消息当前用户头像隐藏，对方用户头像显示
             baseViewBinding.myAvatar.setVisibility(View.GONE);
@@ -851,45 +878,21 @@ public abstract class ChatBaseMessageViewHolder extends CommonBaseMessageViewHol
 //      } else {
 
 //      }
-            String messageUser = messageBean.getMessageData().getMessage().getFromAccount();
-            UserInfo userInfo = MessageHelper.getChatMessageUserInfo(messageUser);
-            // 安全地获取等级值
-            int grader = 0;
-            if (userInfo != null && userInfo.getExtensionMap() != null) {
-                Object gradeObj = userInfo.getExtensionMap().get("grade");
-                if (gradeObj instanceof Number) {
-                    grader = ((Number) gradeObj).intValue();
-                } else if (gradeObj instanceof String) {
-                    try {
-                        grader = Integer.parseInt((String) gradeObj);
-                    } catch (Exception e) {
-                        grader = 0;
-                    }
-                }
-            }
-            if (grader > 0 && (messageBean.getMessageData().getMessage().getSessionType() == SessionTypeEnum.Team)) {
+
+            if (grader > 0) {
                 baseViewBinding.ivOtherGrade.setVisibility(View.VISIBLE);
-//                String imageName = "mine_grade_level_" + grader;
-//                Resources resources = baseViewBinding.ivOtherGrade.getResources();
-//                int resId = resources.getIdentifier(imageName, "mipmap", baseViewBinding.ivOtherGrade.getContext().getPackageName());
-//                // 如果找到了资源，则可以使用这个ID获取Drawable
-//                Drawable drawable = null;
-//                if (resId > 0) {
-//                    drawable = ContextCompat.getDrawable(baseViewBinding.ivOtherGrade.getContext(), resId);
-//                }
-//                // 如果需要将drawable设置到ImageView中
-//                if (drawable != null) {
-//                    baseViewBinding.ivOtherGrade.setImageDrawable(drawable);
-//                }
                 int gradeColor = ResourceHelper.getGradeColor(baseViewBinding.myAvatar.getContext(), grader);
+                baseViewBinding.ivOtherGradbg.setVisibility(View.VISIBLE);
+                baseViewBinding.ivOtherGradbg.setImageDrawable(ResourceHelper.getGradeBackground(baseViewBinding.myAvatar.getContext(), grader));
                 baseViewBinding.ivOtherGrade.setImageDrawable(ResourceHelper.getGradeDrawable(baseViewBinding.myAvatar.getContext(), grader));
                 baseViewBinding.otherUsername.setTextColor(gradeColor);
-
             } else {
+                baseViewBinding.ivOtherGradbg.setVisibility(View.GONE);
                 baseViewBinding.otherUsername.setTextColor(Color.parseColor("#333333"));
                 baseViewBinding.ivOtherGrade.setVisibility(View.GONE);
             }
         } else {
+            baseViewBinding.ivOtherGradbg.setVisibility(View.GONE);
             baseViewBinding.otherUsername.setTextColor(Color.parseColor("#333333"));
             baseViewBinding.ivOtherGrade.setVisibility(View.GONE);
             // 发送消息当前用户头像显示，对方用户头像隐藏
@@ -897,6 +900,13 @@ public abstract class ChatBaseMessageViewHolder extends CommonBaseMessageViewHol
             //updateUIGrade(baseViewBinding.chatBaseMessageViewHolderMineGradeIv, true, "");
             baseViewBinding.otherUserAvatar.setVisibility(View.GONE);
             baseViewBinding.otherUserAvatarRole.setVisibility(View.GONE);
+
+            if (grader > 0) {
+                baseViewBinding.ivMyGradbg.setVisibility(View.VISIBLE);
+                baseViewBinding.ivMyGradbg.setImageDrawable(ResourceHelper.getGradeBackground(baseViewBinding.myAvatar.getContext(), grader));
+            } else {
+                baseViewBinding.ivMyGradbg.setVisibility(View.GONE);
+            }
         }
         // 撤回消息消息状态隐藏
         if (messageBean.isRevoked()) {

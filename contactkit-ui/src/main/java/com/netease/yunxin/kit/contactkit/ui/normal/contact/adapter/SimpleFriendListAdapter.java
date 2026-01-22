@@ -35,6 +35,7 @@ public class SimpleFriendListAdapter extends BaseQuickAdapter<GroupInfoBean, Qui
         ImageView avatarIv = holder.getView(R.id.cell_fun_team_setting_users_mingdan_head_iv);
         TextView indexTv = holder.getView(R.id.cell_fun_team_setting_users_mingdan_tv_index);
         TextView nameTv = holder.getView(R.id.cell_fun_team_setting_users_mingdan_name_tv);
+        ImageView tvGradbg = holder.getView(R.id.tvGradbg);
         ImageView ivGrade = holder.getView(R.id.ivGrade);
 
         // 显示名称（优先显示备注，群聊显示群名）
@@ -56,9 +57,12 @@ public class SimpleFriendListAdapter extends BaseQuickAdapter<GroupInfoBean, Qui
 
         if (item.grade > 0) {
             ivGrade.setVisibility(View.VISIBLE);
+            tvGradbg.setVisibility(View.VISIBLE);
+            tvGradbg.setImageDrawable(ResourceHelper.getGradeBackground(getContext(), item.grade));
             nameTv.setTextColor(ResourceHelper.getGradeColor(getContext(), item.grade));
             ivGrade.setImageDrawable(ResourceHelper.getGradeDrawable(getContext(), item.grade));
         } else {
+            tvGradbg.setVisibility(View.GONE);
             nameTv.setTextColor(Color.parseColor("#333333"));
             ivGrade.setVisibility(View.GONE);
         }

@@ -24,82 +24,110 @@
         android:layout_weight="1"
         android:scrollbars="none">
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="15dp"
-            android:layout_marginTop="@dimen/dimen_16_dp"
-            android:background="@drawable/bg_white_rounded_10"
             android:orientation="vertical">
 
-            <include
-                android:id="@+id/activity_mine_set_new_notice_voice"
-                layout="@layout/view_title_arrow"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginTop="@dimen/dimen_16_dp"
+                android:background="@drawable/bg_white_rounded_10"
+                android:orientation="vertical">
 
-            <include
-                android:id="@+id/activity_mine_set_new_anquan_set"
-                layout="@layout/view_title_arrow"
+                <include
+                    android:id="@+id/activity_mine_set_new_notice_voice"
+                    layout="@layout/view_title_arrow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <include
+                    android:id="@+id/activity_mine_set_new_anquan_set"
+                    layout="@layout/view_title_arrow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <include
+                    android:id="@+id/activity_mine_set_new_yinsi_set"
+                    layout="@layout/view_title_arrow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <include
+                    android:id="@+id/activity_mine_set_new_mima_set"
+                    layout="@layout/view_title_arrow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginTop="@dimen/dimen_16_dp"
+                android:background="@drawable/bg_white_rounded_10"
+                android:orientation="vertical">
 
-            <include
-                android:id="@+id/activity_mine_set_new_yinsi_set"
-                layout="@layout/view_title_arrow"
+                <include
+                    android:id="@+id/activity_mine_set_new_delete_cache"
+                    layout="@layout/view_title_arrow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <include
+                    android:id="@+id/activity_mine_set_new_delete_record"
+                    layout="@layout/view_title_arrow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginTop="@dimen/dimen_16_dp"
+                android:background="@drawable/bg_white_rounded_10"
+                android:orientation="vertical">
 
-            <include
-                android:id="@+id/activity_mine_set_new_mima_set"
-                layout="@layout/view_title_arrow"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                <include
+                    android:id="@+id/activity_mine_set_new_about_us"
+                    layout="@layout/view_title_arrow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
-            <include
-                android:id="@+id/activity_mine_set_new_delete_cache"
-                layout="@layout/view_title_arrow"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                <include
+                    android:id="@+id/activity_mine_set_new_download"
+                    layout="@layout/view_title_arrow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
-            <include
-                android:id="@+id/activity_mine_set_new_delete_record"
-                layout="@layout/view_title_arrow"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                <include
+                    android:id="@+id/activity_mine_set_new_exchange_acount"
+                    layout="@layout/view_title_arrow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" />
 
+                <include
+                    android:id="@+id/activity_mine_set_new_zhuxiao"
+                    layout="@layout/view_title_arrow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" />
 
-            <include
-                android:id="@+id/activity_mine_set_new_about_us"
-                layout="@layout/view_title_arrow"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                <include
+                    android:id="@+id/activity_mine_set_new_login_out"
+                    layout="@layout/view_title_arrow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" />
 
-            <include
-                android:id="@+id/activity_mine_set_new_download"
-                layout="@layout/view_title_arrow"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <include
-                android:id="@+id/activity_mine_set_new_exchange_acount"
-                layout="@layout/view_title_arrow"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <include
-                android:id="@+id/activity_mine_set_new_zhuxiao"
-                layout="@layout/view_title_arrow"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <include
-                android:id="@+id/activity_mine_set_new_login_out"
-                layout="@layout/view_title_arrow"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
