@@ -26,110 +26,117 @@ import com.yaoxin.appbase.utils.DataUtil;
 
 import java.util.Map;
 
-/** view holder for Text message */
+/**
+ * view holder for Text message
+ */
 public class ChatTipsMessageViewHolder extends FunChatBaseMessageViewHolder {
 
-  private static final String TAG = "ChatTipsMessageViewHolder";
+    private static final String TAG = "ChatTipsMessageViewHolder";
 
-  FunChatMessageTipViewHolderBinding textBinding;
+    FunChatMessageTipViewHolderBinding textBinding;
 
-  public ChatTipsMessageViewHolder(@NonNull ChatBaseMessageViewHolderBinding parent, int viewType) {
-    super(parent, viewType);
-  }
-
-  @Override
-  public void addViewToMessageContainer() {
-    textBinding =
-        FunChatMessageTipViewHolderBinding.inflate(
-            LayoutInflater.from(parent.getContext()), getMessageContainer(), true);
-  }
-
-  @Override
-  protected void onMessageBackgroundConfig(ChatMessageBean messageBean) {
-    baseViewBinding.messageContainer.setBackgroundResource(R.color.title_transfer);
-  }
-
-  @Override
-  protected void onLayoutConfig(ChatMessageBean messageBean) {
-    ConstraintLayout.LayoutParams messageContainerLayoutParams =
-        (ConstraintLayout.LayoutParams) baseViewBinding.messageContainer.getLayoutParams();
-    ConstraintLayout.LayoutParams messageTopLayoutParams =
-        (ConstraintLayout.LayoutParams) baseViewBinding.messageTopGroup.getLayoutParams();
-    ConstraintLayout.LayoutParams messageBottomLayoutParams =
-        (ConstraintLayout.LayoutParams) baseViewBinding.messageBottomGroup.getLayoutParams();
-    messageContainerLayoutParams.horizontalBias = 0.5f;
-    messageTopLayoutParams.horizontalBias = 0.5f;
-    messageBottomLayoutParams.horizontalBias = 0.5f;
-  }
-
-  @Override
-  protected void onCommonViewVisibleConfig(ChatMessageBean messageBean) {
-    baseViewBinding.otherUsername.setVisibility(View.GONE);
-    baseViewBinding.otherUserAvatar.setVisibility(View.GONE);
-    baseViewBinding.otherUserAvatarRole.setVisibility(View.GONE);
-    baseViewBinding.myAvatar.setVisibility(View.GONE);
-    baseViewBinding.myName.setVisibility(View.GONE);
-    baseViewBinding.messageStatus.setVisibility(View.GONE);
-
-    baseViewBinding.chatBaseMessageViewHolderMineGradeIv.setVisibility(View.GONE);
-    baseViewBinding.chatBaseMessageViewHolderOtherGradeIv.setVisibility(View.GONE);
-  }
-
-  @Override
-  protected boolean needMessageClickAndExtra() {
-    return false;
-  }
-
-  @Override
-  protected boolean needShowTimeView(ChatMessageBean message, ChatMessageBean lastMessage) {
-    return lastMessage == null;
-  }
-
-  @Override
-  public void bindData(ChatMessageBean message, ChatMessageBean lastMessage) {
-    super.bindData(message, lastMessage);
-    String content = message.getMessageData().getMessage().getContent();
-    if (content == null || content.isEmpty()) {
-      // create team tip
-      Map<String, Object> extension = message.getMessageData().getMessage().getRemoteExtension();
-      if (extension != null && extension.get(KEY_TEAM_CREATED_TIP) != null) {
-        content = extension.get(KEY_TEAM_CREATED_TIP).toString();
-      }
+    public ChatTipsMessageViewHolder(@NonNull ChatBaseMessageViewHolderBinding parent, int viewType) {
+        super(parent, viewType);
     }
 
-    if (content != null && !content.isEmpty()) {
-      ViewGroup.MarginLayoutParams layoutParams =
-              (ViewGroup.MarginLayoutParams) baseViewBinding.baseRoot.getLayoutParams();
-      layoutParams.setMargins(0, 0, 0, 0);
-      baseViewBinding.baseRoot.setLayoutParams(layoutParams);
+    @Override
+    public void addViewToMessageContainer() {
+        textBinding =
+                FunChatMessageTipViewHolderBinding.inflate(
+                        LayoutInflater.from(parent.getContext()), getMessageContainer(), true);
+    }
 
-      textBinding.messageTipText.setGravity(Gravity.CENTER);
-      textBinding.messageTipText.setTextColor(
-              IMKitClient.getApplicationContext().getResources().getColor(R.color.color_999999));
-      textBinding.messageTipText.setTextSize(12);
-      if (content.startsWith("{")) {
-        try {
-          CustomMsgBean msgBean = new Gson().fromJson(content,CustomMsgBean.class);
-          textBinding.messageTipText.setText(content);
-          if (msgBean.sendUserId == null || msgBean.receiveUserId == null) {
-            return;
-          }
-          String tempContent = msgBean.receiveUserName + " 领取了 "+ msgBean.sendUserName +" 的红包";
-          if (msgBean.sendUserId.equals(DataUtil.getUserid())) {
-            tempContent = msgBean.receiveUserName + " 领取了 你 的红包";
-          }
-          if (msgBean.receiveUserId.equals(DataUtil.getUserid())) {
-            tempContent = "你 领取了 "+ msgBean.sendUserName +" 的红包";
-          }
-          textBinding.messageTipText.setText(tempContent);
-        } catch (Exception e) {
+    @Override
+    protected void onMessageBackgroundConfig(ChatMessageBean messageBean) {
+        baseViewBinding.messageContainer.setBackgroundResource(R.color.title_transfer);
+    }
 
+    @Override
+    protected void onLayoutConfig(ChatMessageBean messageBean) {
+        ConstraintLayout.LayoutParams messageContainerLayoutParams =
+                (ConstraintLayout.LayoutParams) baseViewBinding.messageContainer.getLayoutParams();
+        ConstraintLayout.LayoutParams messageTopLayoutParams =
+                (ConstraintLayout.LayoutParams) baseViewBinding.messageTopGroup.getLayoutParams();
+        ConstraintLayout.LayoutParams messageBottomLayoutParams =
+                (ConstraintLayout.LayoutParams) baseViewBinding.messageBottomGroup.getLayoutParams();
+        messageContainerLayoutParams.horizontalBias = 0.5f;
+        messageTopLayoutParams.horizontalBias = 0.5f;
+        messageBottomLayoutParams.horizontalBias = 0.5f;
+    }
+
+    @Override
+    protected void onCommonViewVisibleConfig(ChatMessageBean messageBean) {
+        baseViewBinding.otherUsername.setVisibility(View.GONE);
+        baseViewBinding.otherUserAvatar.setVisibility(View.GONE);
+        baseViewBinding.otherUserAvatarRole.setVisibility(View.GONE);
+        baseViewBinding.myAvatar.setVisibility(View.GONE);
+        baseViewBinding.myName.setVisibility(View.GONE);
+        baseViewBinding.messageStatus.setVisibility(View.GONE);
+
+        baseViewBinding.chatBaseMessageViewHolderMineGradeIv.setVisibility(View.GONE);
+        baseViewBinding.chatBaseMessageViewHolderOtherGradeIv.setVisibility(View.GONE);
+    }
+
+    @Override
+    protected boolean needMessageClickAndExtra() {
+        return false;
+    }
+
+    @Override
+    protected boolean needShowTimeView(ChatMessageBean message, ChatMessageBean lastMessage) {
+        return lastMessage == null;
+    }
+
+    @Override
+    public void bindData(ChatMessageBean message, ChatMessageBean lastMessage) {
+        super.bindData(message, lastMessage);
+        String content = message.getMessageData().getMessage().getContent();
+        if (content == null || content.isEmpty()) {
+            // create team tip
+            Map<String, Object> extension = message.getMessageData().getMessage().getRemoteExtension();
+            if (extension != null && extension.get(KEY_TEAM_CREATED_TIP) != null) {
+                content = extension.get(KEY_TEAM_CREATED_TIP).toString();
+            }
         }
-      } else  {
-        textBinding.messageTipText.setText(content);
-      }
-    } else {
-      baseViewBinding.baseRoot.setVisibility(View.GONE);
+
+        if (content != null && !content.isEmpty()) {
+            ViewGroup.MarginLayoutParams layoutParams =
+                    (ViewGroup.MarginLayoutParams) baseViewBinding.baseRoot.getLayoutParams();
+            layoutParams.setMargins(0, 0, 0, 0);
+            baseViewBinding.baseRoot.setLayoutParams(layoutParams);
+
+            textBinding.messageTipText.setGravity(Gravity.CENTER);
+            textBinding.messageTipText.setTextColor(
+                    IMKitClient.getApplicationContext().getResources().getColor(R.color.color_999999));
+            textBinding.messageTipText.setTextSize(12);
+            if (content.startsWith("{")) {
+                try {
+                    CustomMsgBean msgBean = new Gson().fromJson(content, CustomMsgBean.class);
+                    textBinding.messageTipText.setText(content);
+                    if (msgBean.sendUserId == null || msgBean.receiveUserId == null) {
+                        return;
+                    }
+                    // 屏蔽抢包记录：如果是抢包记录消息，隐藏它
+                    if (msgBean.sendUserId != null && msgBean.receiveUserId != null) {
+                        baseViewBinding.baseRoot.setVisibility(View.GONE);
+                        return;
+                    }
+                    String tempContent = msgBean.receiveUserName + " 领取了 " + msgBean.sendUserName + " 的红包";
+                    if (msgBean.sendUserId.equals(DataUtil.getUserid())) {
+                        tempContent = msgBean.receiveUserName + " 领取了 你 的红包";
+                    }
+                    if (msgBean.receiveUserId.equals(DataUtil.getUserid())) {
+                        tempContent = "你 领取了 " + msgBean.sendUserName + " 的红包";
+                    }
+                    textBinding.messageTipText.setText(tempContent);
+                } catch (Exception e) {
+
+                }
+            } else {
+                textBinding.messageTipText.setText(content);
+            }
+        } else {
+            baseViewBinding.baseRoot.setVisibility(View.GONE);
+        }
     }
-  }
 }

@@ -143,6 +143,7 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
                     break;
             }
         }
+        loadMessageCount();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

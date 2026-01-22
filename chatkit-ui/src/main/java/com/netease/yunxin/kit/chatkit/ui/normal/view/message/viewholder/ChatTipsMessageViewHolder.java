@@ -11,11 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import com.google.gson.Gson;
 import com.netease.yunxin.kit.chatkit.ui.R;
 import com.netease.yunxin.kit.chatkit.ui.databinding.ChatBaseMessageViewHolderBinding;
 import com.netease.yunxin.kit.chatkit.ui.databinding.NormalChatMessageTipViewHolderBinding;
 import com.netease.yunxin.kit.chatkit.ui.model.ChatMessageBean;
 import com.netease.yunxin.kit.corekit.im.IMKitClient;
+import com.yaoxin.appbase.model.CustomMsgBean;
 import java.util.Map;
 
 /** view holder for Text message */
@@ -83,6 +85,20 @@ public class ChatTipsMessageViewHolder extends NormalChatBaseMessageViewHolder {
       }
     }
     if (content != null && !content.isEmpty()) {
+      // 屏蔽抢包记录：检查是否是抢包记录消息
+      if (content.startsWith("{")) {
+        try {
+          CustomMsgBean msgBean = new Gson().fromJson(content, CustomMsgBean.class);
+          // 如果是抢包记录消息（包含 sendUserId 和 receiveUserId），隐藏它
+          if (msgBean.sendUserId != null && msgBean.receiveUserId != null) {
+            baseViewBinding.baseRoot.setVisibility(View.GONE);
+            return;
+          }
+        } catch (Exception e) {
+          // 解析失败，继续正常显示
+        }
+      }
+      
       textBinding.messageTipText.setGravity(Gravity.CENTER);
       textBinding.messageTipText.setTextColor(
           IMKitClient.getApplicationContext().getResources().getColor(R.color.color_999999));

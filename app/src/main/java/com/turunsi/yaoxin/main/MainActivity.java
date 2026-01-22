@@ -434,9 +434,9 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         if (contactFragment != null) {
             contactFragment.setContactCallback(count -> {
                 if (count > 0) {
-                    activityMainBinding.conversationDot1.setVisibility(View.VISIBLE);
+                    activityMainBinding.contactDot.setVisibility(View.VISIBLE);
                 } else {
-                    activityMainBinding.conversationDot1.setVisibility(View.GONE);
+                    activityMainBinding.contactDot.setVisibility(View.GONE);
                 }
             });
         }
