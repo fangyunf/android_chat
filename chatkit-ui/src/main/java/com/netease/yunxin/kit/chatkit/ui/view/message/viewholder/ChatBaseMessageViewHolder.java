@@ -398,6 +398,8 @@ public abstract class ChatBaseMessageViewHolder extends CommonBaseMessageViewHol
 //            baseViewBinding.myAvatar.setData(
 //                    userInfo.getAvatar(), nickname, AvatarColor.avatarColor(userInfo.getAccount()));
 
+            int cornerRadius = SizeUtils.dp2px(30);
+            baseViewBinding.myAvatar.setCornerRadius(cornerRadius);
             GlideUtil.yh_loadImageRoundedCorner(baseViewBinding.myAvatar.getContext(), baseViewBinding.myAvatar, userInfo.getAvatar(), 0);
 
         }
@@ -508,6 +510,8 @@ public abstract class ChatBaseMessageViewHolder extends CommonBaseMessageViewHol
 //                avatarName,
 //                AvatarColor.avatarColor(message.getMessageData().getMessage().getFromAccount()));
 
+        int cornerRadius = SizeUtils.dp2px(30);
+        baseViewBinding.otherUserAvatar.setCornerRadius(cornerRadius);
         GlideUtil.yh_loadImageRoundedCorner(baseViewBinding.otherUserAvatar.getContext(), baseViewBinding.otherUserAvatar, avatar, 0);
 
         // 自定义设置对方用户头像是否展示
@@ -857,7 +861,7 @@ public abstract class ChatBaseMessageViewHolder extends CommonBaseMessageViewHol
                 }
             }
         }
-        
+
         if (MessageHelper.isReceivedMessage(messageBean) || isForwardMsg()) {
             // 收到消息当前用户头像隐藏，对方用户头像显示
             baseViewBinding.myAvatar.setVisibility(View.GONE);
