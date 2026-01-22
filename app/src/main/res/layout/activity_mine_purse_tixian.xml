@@ -175,8 +175,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dimen_50_dp"
-                        android:text="注：提现费率0.072外加单笔2，充值时间9点到晚上11点，提现时间9点到晚8点，到账时间1小时以内"
-                        android:textColor="@color/color_999999"
+                        android:text="注:技术服务费率8%+服务费2元/笔\n提现时间（早8.00-晚20.00）\n发起提现后二小时内到账"
+                        android:textColor="@color/color_666666"
                         android:textSize="14sp" />
 
                     <TextView
