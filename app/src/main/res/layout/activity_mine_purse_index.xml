@@ -5,8 +5,7 @@
     xmlns:tl="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EFEFF4">
-
+    android:background="@mipmap/bg_2">
 
     <ImageView
         android:layout_width="match_parent"
@@ -29,24 +28,34 @@
             app:back_icon="@mipmap/temp_ic_back"
             app:enable_under_divider="true"
             app:support_translucent_status_bar="false"
-            app:title="资产权益"
+            app:title="我的钱包"
             app:title_text_color="@color/color_black"
             app:under_divider_color="@color/transparent" />
 
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="202dp"
+            android:layout_height="wrap_content"
             android:layout_marginHorizontal="15dp"
-            android:background="@mipmap/purse_index_money_bg"
+            android:layout_marginTop="@dimen/dimen_50_dp"
+            android:background="@drawable/bg_white_rounded_10"
+            android:gravity="center"
             android:orientation="vertical"
             android:paddingHorizontal="20dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
-                android:text="总资产"
+                android:layout_marginTop="@dimen/dimen_20_dp"
+                android:text="资金安全有保障"
+                android:textColor="@color/app_theme_color"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_40_dp"
+                android:text="总资产(元)"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
 
@@ -54,7 +63,8 @@
                 android:id="@+id/activity_mine_purse_index_balance_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="11dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="@dimen/dimen_30_dp"
                 android:text="¥0.00"
                 android:textColor="@color/black"
                 android:textSize="35sp" />
@@ -62,35 +72,30 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:gravity="end"
 
-                >
+                android:layout_marginBottom="@dimen/dimen_30_dp">
 
                 <TextView
                     android:id="@+id/activity_mine_purse_index_recharge_tv"
-
-                    android:layout_width="100dp"
-
-                    android:layout_height="32dp"
-                    android:layout_marginLeft="15dp"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
                     android:background="@drawable/bg_app_theme_color_rounded_10"
-
                     android:gravity="center"
-
                     android:text="充值"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_size_15" />
 
                 <TextView
                     android:id="@+id/activity_mine_purse_index_tixian_tv"
-                    android:layout_width="100dp"
-                    android:layout_height="32dp"
-
-                    android:background="@drawable/bg_white_rounded_10"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_gray_rounded_line_10"
                     android:gravity="center"
                     android:text="提现"
-                    android:textColor="@color/app_theme_color"
+                    android:textColor="@color/color_black"
                     android:textSize="@dimen/text_size_15" />
 
                 <TextView
@@ -112,11 +117,11 @@
 
 
         <LinearLayout
-            android:background="@drawable/bg_white_rounded_10"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="15dp"
             android:layout_marginTop="10dp"
+            android:background="@drawable/bg_white_rounded_10"
             android:orientation="vertical">
 
             <com.yaoxin.appbase.view.IconTitleArrowTemplate
@@ -154,6 +159,7 @@
                 android:id="@+id/activity_mine_purse_index_wdkb"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 app:titleText="我的卡包" />
         </LinearLayout>
 

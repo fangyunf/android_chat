@@ -39,6 +39,7 @@ import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.DialogAlertUtil;
 import com.yaoxin.appbase.utils.NumberUtil;
+import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
 
 import java.util.ArrayList;
@@ -104,6 +105,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         binding = ActivityMinePurseRechargeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        StatusBarUtils.transtStatusBar(this, binding.activityMinePurseRechargeNav);
         binding.activityMinePurseRechargeNav.addCloseImageButton().setOnClickListener(this);
         recyclerView = binding.activityMinePurseRechargeRv;
         recyclerView1 = binding.activityMinePurseRechargeRv1;
@@ -119,7 +121,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 4);
         Recharge_GridSpacingItemDecoration gridSpacingItemDecoration =
                 new Recharge_GridSpacingItemDecoration(4, SizeUtils.dp2px(10f), false);
-        gridSpacingItemDecoration.leftSpace = SizeUtils.dp2px(3f);
+        gridSpacingItemDecoration.leftSpace = SizeUtils.dp2px(10f);
         recyclerView.addItemDecoration(gridSpacingItemDecoration);
         recyclerView.setLayoutManager(gridLayoutManager);
         adpter = new Recharge_Adpter();
@@ -133,6 +135,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
         list.add("5000");
         adpter.setItems(list);
         adpter.selectStr = "100";
+        binding.tvAccount.setText("≈" + adpter.selectStr + " CNY");
 //        binding.activityMinePurseRechargeDetailTv.setText("≈" + adpter.selectStr+"CNY");
         recyclerView.setAdapter(adpter);
         adpter.notifyDataSetChanged();
@@ -142,6 +145,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
                 adpter.selectStr = adpter.getItem(i);
 //                binding.activityMinePurseRechargeDetailTv.setText("≈" + adpter.selectStr+"CNY");
                 adpter.notifyDataSetChanged();
+                binding.tvAccount.setText("≈" + adpter.selectStr + " CNY");
             }
         });
 

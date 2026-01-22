@@ -2,6 +2,7 @@ package com.turunsi.yaoxin.main.mine.purse.recharge;
 
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -24,6 +25,11 @@ public class Recharge_Adpter extends
         TextView tv = quickViewHolder.findView(R.id.activity_mine_purse_recharge_item_tv);
         tv.setText(orderListBean);
         tv.setSelected(selectStr.equals(orderListBean));
+        if (selectStr.equals(orderListBean)) {
+            tv.setTextColor(Color.parseColor("#ffffff"));
+        } else {
+            tv.setTextColor(Color.parseColor("#333333"));
+        }
 
     }
 

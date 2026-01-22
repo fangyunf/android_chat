@@ -3,9 +3,6 @@
 <!-- found in the LICENSE file. -->
 
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <item android:drawable="@drawable/bg_app_theme_color_rounded_10" android:state_selected="true" />
-
-    <item android:drawable="@drawable/bg_f2f2f2_rounded_4" android:state_selected="false" />
-
+    <item android:drawable="@drawable/bg_app_theme_color_rounded_4" android:state_selected="true" />
+    <item android:drawable="@drawable/bg_gray_re_line_10" android:state_selected="false" />
 </selector>

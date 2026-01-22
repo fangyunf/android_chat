@@ -16,16 +16,14 @@
             android:src="@drawable/chat_red_packet_open_result_top_bg" />
 
         <com.yaoxin.appbase.navbar.NavToolbar
-
             android:id="@+id/activity_fun_red_packet_result_detail_nav"
             style="@style/WhiteFontToolbar"
             android:background="@color/transparent"
-            app:back_icon="@mipmap/temp_ic_back_white"
+            app:back_icon="@mipmap/temp_ic_back"
             app:enable_under_divider="true"
             app:support_translucent_status_bar="false"
             app:title="领取详情"
-
-            app:title_text_color="@color/color_white"
+            app:title_text_color="@color/black"
             app:under_divider_color="@color/transparent" />
     </RelativeLayout>
 
@@ -76,15 +74,15 @@
             android:textSize="26sp" />
 
         <TextView
-            android:visibility="gone"
             android:id="@+id/activity_fun_red_packet_result_detail_red_packet_record_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="31dp"
-            android:text="红包记录"
             android:drawableRight="@mipmap/mine_index_right_arrow"
+            android:text="红包记录"
             android:textColor="#ff999999"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:visibility="gone" />
 
     </LinearLayout>
 

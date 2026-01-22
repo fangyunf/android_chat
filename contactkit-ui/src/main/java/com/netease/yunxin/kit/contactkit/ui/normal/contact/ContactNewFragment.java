@@ -50,6 +50,8 @@ import com.netease.yunxin.kit.contactkit.ui.normal.contact.adapter.GroupListAdap
 import com.netease.yunxin.kit.contactkit.ui.normal.contact.adapter.NewFriendListAdapter;
 import com.netease.yunxin.kit.contactkit.ui.normal.contact.adapter.SimpleFriendListAdapter;
 import com.netease.yunxin.kit.contactkit.ui.normal.groupList.MyGroupListActivity;
+import com.netease.yunxin.kit.conversationkit.ui.ConversationUIConstant;
+import com.netease.yunxin.kit.conversationkit.ui.fun.FunPopItemFactory;
 import com.netease.yunxin.kit.corekit.im.IMKitClient;
 import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
 import com.netease.yunxin.kit.corekit.route.XKitRouter;
@@ -483,11 +485,7 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
                     public void onClick(@NonNull BaseQuickAdapter<GroupInfoBean, ?> baseQuickAdapter, @NonNull View view, int i) {
                         GroupInfoBean friend = baseQuickAdapter.getItem(i);
                         if (friend != null) {
-                            XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_SETTING_PAGE)
-                                    .withParam(RouterConstant.CHAT_ID_KRY, friend.userId)
-                                    .withParam("type", "1")
-                                    .withContext(requireActivity())
-                                    .navigate();
+                            XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_SETTING_PAGE).withParam(RouterConstant.CHAT_ID_KRY, friend.userId).withParam("type", "1").withContext(requireActivity()).navigate();
                         }
                     }
                 });
@@ -572,10 +570,7 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
                             public void onClick(@NonNull BaseQuickAdapter<GroupInfoBean, ?> baseQuickAdapter, @NonNull View view, int i) {
                                 GroupInfoBean item = baseQuickAdapter.getItem(i);
                                 if (item != null && item.groupId != null) {
-                                    XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_TEAM_PAGE)
-                                            .withParam(RouterConstant.CHAT_ID_KRY, item.groupId)
-                                            .withContext(that)
-                                            .navigate();
+                                    XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_TEAM_PAGE).withParam(RouterConstant.CHAT_ID_KRY, item.groupId).withContext(that).navigate();
                                 }
                             }
                         });
@@ -620,7 +615,13 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
         } else if (v == binding.contactNewFragmentSearchLl) {
             XKitRouter.withKey("SearchNewActivity").withContext(requireContext()).navigate();
         } else if (v == binding.contactNewFragmentMoreIv) {
-            XKitRouter.withKey(PATH_FUN_ADD_FRIEND_PAGE).withContext(requireContext()).navigate();
+            // XKitRouter.withKey(PATH_FUN_ADD_FRIEND_PAGE).withContext(requireContext()).navigate();
+
+            Context context = getContext();
+            int memberLimit = ConversationUIConstant.MAX_TEAM_MEMBER;
+            ContentListPopView contentListPopView = new ContentListPopView.Builder(context).addItem(FunPopItemFactory.getCreateAdvancedTeamItem(context, memberLimit)).addItem(FunPopItemFactory.getDivideLineItem(context)).addItem(FunPopItemFactory.getAddFriendItem(context)).addItem(FunPopItemFactory.getDivideLineItem(context)).addItem(FunPopItemFactory.getScanItem(context)).enableShadow(false).backgroundRes(com.netease.yunxin.kit.conversationkit.ui.R.drawable.fun_conversation_view_pop_bg).build();
+            contentListPopView.showAsDropDown(v, (int) requireContext().getResources().getDimension(com.netease.yunxin.kit.conversationkit.ui.R.dimen.pop_margin_right), 0);
+
         }
     }
 
