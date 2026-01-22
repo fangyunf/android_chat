@@ -115,17 +115,21 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
         binding.contactNewFragmentMoreIv.setOnClickListener(this);
         binding.contactNewMoreIv.setOnClickListener(this);
         _initViews();
-        _requestData();
         return binding.getRoot();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        _requestData();
+    }
 
     @Override
     public void onPause() {
         super.onPause();
-        _requestData();
+        //_requestData();
     }
-    
+
     protected void _requestMemeber(int page) {
         ParamsBean registerBean = new ParamsBean();
         registerBean.page = page;
