@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="45dp"
-    >
+    android:orientation="horizontal">
+
     <TextView
         android:id="@+id/item_mine_fuhao_list_cell_tv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         android:gravity="center"
-        android:background="@drawable/bg_ede3cb_rounded_10"
         android:paddingHorizontal="5dp"
-
-        android:textColor="#ff000000"
-        android:textSize="14sp"
-        />
+        android:text="1111"
+        android:textColor="@color/color_black"
+        android:textSize="14sp" />
 </LinearLayout>

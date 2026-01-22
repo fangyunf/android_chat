@@ -5,7 +5,7 @@ import android.view.View;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-public class CommonGridSpacingItemDecoration extends RecyclerView.ItemDecoration{
+public class CommonGridSpacingItemDecoration extends RecyclerView.ItemDecoration {
 
     private int spanCount; //列数
     private int spacing; //间隔
@@ -22,5 +22,9 @@ public class CommonGridSpacingItemDecoration extends RecyclerView.ItemDecoration
                                RecyclerView.State state) {
         outRect.bottom = spacing;
         outRect.left = spacing;
+        //由于每行都只有3个，所以第一个都是3的倍数，把左边距设为0
+        if (parent.getChildLayoutPosition(view) % spanCount == 0) {
+            outRect.left = 0;
+        }
     }
 }
