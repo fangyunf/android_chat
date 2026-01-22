@@ -1,62 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/dimen_16_dp"
+    android:layout_marginBottom="@dimen/dimen_16_dp"
+    android:background="@drawable/bg_white_rounded_10"
     android:gravity="center_vertical"
-    android:background="@color/white"
+    android:orientation="horizontal"
     android:padding="@dimen/dimen_16_dp">
+
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/item_set_exchange_account_list_cell_head_iv"
-        android:layout_width="@dimen/dimen_54_dp"
-        android:layout_height="@dimen/dimen_54_dp"
-        app:riv_corner_radius="27dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:scaleType="centerCrop"
-        />
+        app:riv_corner_radius="27dp" />
+
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_marginLeft="12dp"
-        >
+        android:layout_weight="1"
+        android:orientation="vertical">
+
         <TextView
             android:id="@+id/item_set_exchange_account_list_cell_name_tv"
             android:layout_width="wrap_content"
             android:layout_height="25dp"
             android:text=""
             android:textColor="#ff000000"
-            android:textSize="18sp"
-            />
+            android:textSize="13sp" />
+
         <TextView
             android:id="@+id/item_set_exchange_account_list_cell_id_tv"
-            android:layout_marginTop="@dimen/dimen_7_dp"
             android:layout_width="wrap_content"
             android:layout_height="22dp"
             android:text="ID:87988656"
-            android:textColor="#ff999999"
-            android:textSize="16sp"
-            />
+            android:textColor="#0D1412"
+            android:textSize="13sp" />
 
     </LinearLayout>
+
     <TextView
         android:id="@+id/item_set_exchange_account_list_cell_current_tv"
         android:layout_width="wrap_content"
         android:layout_height="22dp"
         android:text="当前在线"
         android:textColor="@color/app_theme_color"
-        android:textSize="16sp"
-        />
+        android:textSize="16sp" />
+
     <TextView
-        android:visibility="gone"
         android:id="@+id/item_set_exchange_account_list_cell_delete_tv"
         android:layout_width="44dp"
         android:layout_height="26dp"
+        android:background="@color/app_theme_color"
+        android:gravity="center"
         android:text="删除"
         android:textColor="#ffffffff"
         android:textSize="14sp"
-        android:gravity="center"
-        android:background="@color/app_theme_color"
-        />
+        android:visibility="gone" />
 </LinearLayout>

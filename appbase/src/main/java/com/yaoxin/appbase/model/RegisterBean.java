@@ -10,7 +10,7 @@ public class RegisterBean {
 
     public String fafId;
     public String allDisturb;
-    public String caiDanId  ;
+    public String caiDanId;
     public String sound;
     public String check;
     public String sms;
@@ -20,7 +20,7 @@ public class RegisterBean {
     public String cardAdd;
     public String qrAdd;
     public String addState;
-    public String  addGroupState;
+    public String addGroupState;
     public String zfbNo;
     public String phone;
     public String zfbUrl;
@@ -74,6 +74,7 @@ public class RegisterBean {
     public int state;
     public String addFriendsState;
     public String shutupState;
+    public String smsPhone;
     public String nonCollectionState;
     public String grade;
 

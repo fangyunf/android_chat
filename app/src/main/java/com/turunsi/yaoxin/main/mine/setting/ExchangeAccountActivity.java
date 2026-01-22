@@ -121,7 +121,8 @@ public class ExchangeAccountActivity extends BaseActivity implements View.OnClic
         if (v == viewBinding.activityExchangeAccountNav.addCloseImageButton()) {
             finish();
         } else if (viewBinding.activityExchangeAccountTuichuTv == v) {
-            showLogin();
+            // showLogin();
+            ZhuXiaoConfrimActivity.start(ZhuXiaoConfrimActivity.class, this, null);
         }
     }
 
