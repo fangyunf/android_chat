@@ -9,6 +9,7 @@ import static com.yzq.zxinglibrary.common.Constant.CODED_CONTENT;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -117,6 +118,8 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
     private ConversationBaseFragment mConversationFragment;
     private ConversationBaseFragment mConversationFragment1;
     public static final int REQUEST_CODE_SCAN = 0x01;
+    private AlertDialog updateDialog; // 升级对话框
+    private ProgressDialog progressDialog; // 下载进度条对话框
 
     //皮肤变更事件
     EventNotify<SkinEvent> skinNotify = new EventNotify<SkinEvent>() {
@@ -172,7 +175,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
 
                 if (body.data != null) {
                     ParamsBean updateBean = new Gson().fromJson(body.data.toString(), ParamsBean.class);
-                    showUpdate(updateBean.downloadUrl, updateBean.upMsg);
+                    showUpdate(updateBean.type, updateBean.downloadUrl, updateBean.upMsg);
                 }
             }
 
@@ -183,55 +186,113 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         });
     }
 
-    private void showUpdate(String downLoadUrl, String updateMsg) {
+    private void showUpdate(String type, String downLoadUrl, String updateMsg) {
         if (downLoadUrl == null || downLoadUrl.isEmpty()) {
             return;
         }
 
-        //简单DialogFragment升级
-        AppDialogConfig config = new AppDialogConfig(this);
-        config.setTitle("应用升级").setConfirm("升级").setContent(updateMsg).setOnClickConfirm(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AppUpdater appUpdater = new AppUpdater.Builder(MainActivity.this).setUrl(downLoadUrl).build();
-                appUpdater.setHttpManager(OkHttpManager.getInstance()) // 使用OkHttp的实现进行下载
-                        .setUpdateCallback(new UpdateCallback() { // 更新回调
-                            @Override
-                            public void onDownloading(boolean isDownloading) {
-                                // 下载中：isDownloading为true时，表示已经在下载，即之前已经启动了下载；为false时，表示当前未开始下载，即将开始下载
-                            }
+        // 使用系统对话框升级
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("应用升级")
+                .setMessage(updateMsg)
+                .setCancelable(false) // 禁止返回键取消对话框
+                .setPositiveButton("升级", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // 显示下载进度条对话框
+                        showProgressDialog();
+                        AppUpdater appUpdater = new AppUpdater.Builder(MainActivity.this).setUrl(downLoadUrl).build();
+                        appUpdater.setHttpManager(OkHttpManager.getInstance()) // 使用OkHttp的实现进行下载
+                                .setUpdateCallback(new UpdateCallback() { // 更新回调
+                                    @Override
+                                    public void onDownloading(boolean isDownloading) {
+                                        // 下载中：isDownloading为true时，表示已经在下载，即之前已经启动了下载；为false时，表示当前未开始下载，即将开始下载
+                                    }
 
-                            @Override
-                            public void onStart(String url) {
-                                // 开始下载
-                            }
+                                    @Override
+                                    public void onStart(String url) {
+                                        // 开始下载
+                                        if (progressDialog != null && !progressDialog.isShowing()) {
+                                            progressDialog.show();
+                                        }
+                                    }
 
-                            @Override
-                            public void onProgress(long progress, long total, boolean isChanged) {
-                                // 下载进度更新：建议在isChanged为true时，才去更新界面的进度；因为实际的进度变化频率很高
-                            }
+                                    @Override
+                                    public void onProgress(long progress, long total, boolean isChanged) {
+                                        // 下载进度更新：建议在isChanged为true时，才去更新界面的进度；因为实际的进度变化频率很高
+                                        if (isChanged && progressDialog != null && progressDialog.isShowing()) {
+                                            int percent = (int) (progress * 100 / total);
+                                            progressDialog.setProgress(percent);
+                                        }
+                                    }
 
-                            @Override
-                            public void onFinish(File file) {
-                                // 下载完成
-                            }
+                                    @Override
+                                    public void onFinish(File file) {
+                                        // 下载完成
+                                    }
 
-                            @Override
-                            public void onError(Exception e) {
-                                // 下载失败
-                            }
+                                    @Override
+                                    public void onError(Exception e) {
+                                        // 下载失败
+                                    }
 
-                            @Override
-                            public void onCancel() {
-                                // 取消下载
-                            }
-                        }).start();
+                                    @Override
+                                    public void onCancel() {
+                                        // 取消下载
+                                    }
+                                }).start();
+                        dialog.dismiss();
+                    }
+                });
 
-                AppDialog.INSTANCE.dismissDialogFragment(getSupportFragmentManager());
-            }
-        });
-        AppDialog.INSTANCE.showDialogFragment(getSupportFragmentManager(), config);
+        if (!(type.equals("1"))) {
+            builder.setPositiveButton("取消", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            });
+        }
+        updateDialog = builder.create();
+        updateDialog.setCanceledOnTouchOutside(false); // 禁止点击外部取消对话框
+        updateDialog.show();
+    }
 
+    /**
+     * 显示下载进度条对话框
+     */
+    private void showProgressDialog() {
+        if (progressDialog == null) {
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setTitle("下载中");
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            progressDialog.setMax(100);
+            progressDialog.setProgress(0);
+            progressDialog.setCancelable(false); // 禁止返回键取消对话框
+            progressDialog.setCanceledOnTouchOutside(false); // 禁止点击外部取消对话框
+        }
+        if (!progressDialog.isShowing()) {
+            progressDialog.show();
+        }
+    }
+
+    /**
+     * 关闭下载进度条对话框
+     */
+    private void dismissProgressDialog() {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        // 如果升级对话框显示或下载进度对话框显示，禁止返回
+        if ((updateDialog != null && updateDialog.isShowing())
+                || (progressDialog != null && progressDialog.isShowing())) {
+            return;
+        }
+        super.onBackPressed();
     }
 
     private void initData() {
