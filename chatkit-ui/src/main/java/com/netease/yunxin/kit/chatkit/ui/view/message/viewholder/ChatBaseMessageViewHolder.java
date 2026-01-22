@@ -672,8 +672,8 @@ public abstract class ChatBaseMessageViewHolder extends CommonBaseMessageViewHol
                         // 自定义设置消息未读状态图标资源
                         baseViewBinding.ivStatus.setImageResource(messageStatusUIOption.unreadFlagIconRes);
                     } else {
-                        //baseViewBinding.ivStatus.setImageResource(R.drawable.ic_message_unread);
-                        baseViewBinding.ivStatus.setImageDrawable(new BitmapDrawable());
+                        baseViewBinding.ivStatus.setImageResource(R.drawable.ic_message_unread);
+//                        baseViewBinding.ivStatus.setImageDrawable(new BitmapDrawable());
                     }
                 }
             }
