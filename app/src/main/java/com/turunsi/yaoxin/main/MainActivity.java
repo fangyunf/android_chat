@@ -443,6 +443,11 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
 
                     if (conversationFragment == mConversationFragment) {
                         if ((singleChatUnreadCount) > 0) {
+                            if (groupChatUnreadCount > 99) {
+                                activityMainBinding.conversationDot.setText("99+");
+                            } else {
+                                activityMainBinding.conversationDot.setText(count + "");
+                            }
                             activityMainBinding.conversationDot.setVisibility(View.VISIBLE);
                         } else {
                             activityMainBinding.conversationDot.setVisibility(View.GONE);
@@ -450,6 +455,12 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
                     }
                     if (conversationFragment == mConversationFragment1) {
                         if (groupChatUnreadCount > 0) {
+                            if (groupChatUnreadCount > 99) {
+                                activityMainBinding.conversationDot1.setText("99+");
+                            } else {
+                                activityMainBinding.conversationDot1.setText(count + "");
+                            }
+
                             activityMainBinding.conversationDot1.setVisibility(View.VISIBLE);
                         } else {
                             activityMainBinding.conversationDot1.setVisibility(View.GONE);
@@ -465,9 +476,14 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         if (contactFragment != null) {
             contactFragment.setContactCallback(count -> {
                 if (count > 0) {
-                    activityMainBinding.conversationDot1.setVisibility(View.VISIBLE);
+                    if (count > 99) {
+                        activityMainBinding.contactDot.setText("99+");
+                    } else {
+                        activityMainBinding.contactDot.setText(count + "");
+                    }
+                    activityMainBinding.contactDot.setVisibility(View.VISIBLE);
                 } else {
-                    activityMainBinding.conversationDot1.setVisibility(View.GONE);
+                    activityMainBinding.contactDot.setVisibility(View.GONE);
                 }
             });
         }
