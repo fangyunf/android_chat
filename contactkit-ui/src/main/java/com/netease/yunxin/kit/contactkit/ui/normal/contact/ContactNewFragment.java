@@ -175,7 +175,7 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
     @Override
     protected void _requestData() {
 
-        _requestMemeber(1);
+        //_requestMemeber(1);
 
         HttpUtil.apiW().friends_applyListNum(new RegisterBean())
                 .enqueue(new CommonCallback<NetData>() {

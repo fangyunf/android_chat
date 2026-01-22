@@ -113,6 +113,8 @@ public class FunConversationFragment extends ConversationBaseFragment {
         }
         if (_type == 1) {
             viewBinding.funConversationFragmentTitleTv.setText("群聊");
+            viewBinding.layoutNote.setVisibility(View.GONE);
+            viewBinding.funConversationFragmentEt.setVisibility(View.GONE);
         } else if (_type == 3) {
             viewBinding.funConversationFragmentTitleTv.setText("消息");
         } else {
@@ -221,42 +223,6 @@ public class FunConversationFragment extends ConversationBaseFragment {
 
     void _requestData() {
 
-        HttpUtil.apiW().customer_notice()
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        GroupInfoBean groupInfoBean = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
-                        if (groupInfoBean != null && groupInfoBean.content != null) {
-
-                            String message = groupInfoBean.content;
-                            if (message != null && !message.isEmpty()) {
-                                viewBinding.marqueeView.startWithText(message);
-                                viewBinding.marqueeView.startWithText(message, com.sunfusheng.marqueeview.R.anim.anim_bottom_in, com.sunfusheng.marqueeview.R.anim.anim_top_out);
-                            } else {
-                                message = "";
-                                viewBinding.marqueeView.startWithText(message);
-                                viewBinding.marqueeView.startWithText(message, com.sunfusheng.marqueeview.R.anim.anim_bottom_in, com.sunfusheng.marqueeview.R.anim.anim_top_out);
-
-                            }
-                        } else {
-
-                            String message = "";
-                            viewBinding.marqueeView.startWithText(message);
-                            viewBinding.marqueeView.startWithText(message, com.sunfusheng.marqueeview.R.anim.anim_bottom_in, com.sunfusheng.marqueeview.R.anim.anim_top_out);
-
-                        }
-                    }
-
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
-
-                        String message = "";
-                        viewBinding.marqueeView.startWithText(message);
-                        viewBinding.marqueeView.startWithText(message, com.sunfusheng.marqueeview.R.anim.anim_bottom_in, com.sunfusheng.marqueeview.R.anim.anim_top_out);
-
-                    }
-                });
-
 
         if (_type == 1 || _type == 3) {
             HttpUtil.apiW().group_userGroups(new RegisterBean())
@@ -292,6 +258,43 @@ public class FunConversationFragment extends ConversationBaseFragment {
         }
 
         if (_type == 0 || _type == 3) {
+
+            HttpUtil.apiW().customer_notice()
+                    .enqueue(new CommonCallback<NetData>() {
+                        @Override
+                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                            GroupInfoBean groupInfoBean = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
+                            if (groupInfoBean != null && groupInfoBean.content != null) {
+
+                                String message = groupInfoBean.content;
+                                if (message != null && !message.isEmpty()) {
+                                    viewBinding.marqueeView.startWithText(message);
+                                    viewBinding.marqueeView.startWithText(message, com.sunfusheng.marqueeview.R.anim.anim_bottom_in, com.sunfusheng.marqueeview.R.anim.anim_top_out);
+                                } else {
+                                    message = "";
+                                    viewBinding.marqueeView.startWithText(message);
+                                    viewBinding.marqueeView.startWithText(message, com.sunfusheng.marqueeview.R.anim.anim_bottom_in, com.sunfusheng.marqueeview.R.anim.anim_top_out);
+
+                                }
+                            } else {
+
+                                String message = "";
+                                viewBinding.marqueeView.startWithText(message);
+                                viewBinding.marqueeView.startWithText(message, com.sunfusheng.marqueeview.R.anim.anim_bottom_in, com.sunfusheng.marqueeview.R.anim.anim_top_out);
+
+                            }
+                        }
+
+                        @Override
+                        public void Failure(Call<NetData> call, Throwable t) {
+
+                            String message = "";
+                            viewBinding.marqueeView.startWithText(message);
+                            viewBinding.marqueeView.startWithText(message, com.sunfusheng.marqueeview.R.anim.anim_bottom_in, com.sunfusheng.marqueeview.R.anim.anim_top_out);
+
+                        }
+                    });
+
             HttpUtil.apiW().customer_systemAppUser(new RegisterBean())
                     .enqueue(new CommonCallback<NetData>() {
                         @Override

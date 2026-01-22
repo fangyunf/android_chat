@@ -154,7 +154,9 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         initData();
         EventCenter.registerEventNotify(skinNotify);
         EventBus.getDefault().register(this);
-        _update();
+
+        //_update();
+
         NIMClient.toggleNotification(false);
 
 //        if (SPUtils.getInstance().getBoolean("isRegister")) {
@@ -329,7 +331,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         ALog.d(Constant.PROJECT_TAG, "MainActivity:initView");
         //    loadConfig();
         List<Fragment> fragments = new ArrayList<>();
-        changeStatusBarColor(R.color.fun_page_bg_color);
+        //changeStatusBarColor(R.color.fun_page_bg_color);
         mConversationFragment = FunConversationFragment.newInstance(0);
         mConversationFragment1 = FunConversationFragment.newInstance(1);
         mContactFragment = new ContactNewFragment();
@@ -346,7 +348,8 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         activityMainBinding.viewPager.setCurrentItem(START_INDEX, false);
         activityMainBinding.viewPager.setOffscreenPageLimit(fragments.size());
         mCurrentTab = activityMainBinding.conversationBtnShop;
-        changeStatusBarColor(R.color.color_white);
+        // changeStatusBarColor(R.color.color_white);
+        StatusBarUtils.setStatusBarLightMode(this, true, true);
         resetTabSkin();
     }
 
