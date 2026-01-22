@@ -409,4 +409,9 @@ public interface ServiceW {
 
     @POST("/bindCard/deleteZFB")
     Call<NetData> deleteZFB(@Body RegisterBean userBean);
+
+    @POST("/friends/friendListPage")
+    Call<NetData> friends_friendListPage(
+            @Body ParamsBean userBean
+    );
 }
