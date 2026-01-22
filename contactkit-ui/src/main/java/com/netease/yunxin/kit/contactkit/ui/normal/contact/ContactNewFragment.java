@@ -51,6 +51,7 @@ import com.netease.yunxin.kit.corekit.route.XKitRouter;
 import com.yaoxin.appbase.fragment.BaseFragment;
 import com.yaoxin.appbase.model.GroupInfoBean;
 import com.yaoxin.appbase.model.NetData;
+import com.yaoxin.appbase.model.ParamsBean;
 import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
@@ -124,47 +125,102 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
         super.onPause();
         _requestData();
     }
+    
+    protected void _requestMemeber(int page) {
+        ParamsBean registerBean = new ParamsBean();
+        registerBean.page = page;
+        HttpUtil.apiW().friends_friendListPage(registerBean)
+                .enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+
+                        if (page == 1) {
+                            mContactModels.clear();
+                        }
+                        Type type = new TypeToken<List<GroupInfoBean>>() {
+                        }.getType();
+                        List<GroupInfoBean> tempBeanList = new Gson().fromJson(body.data.toString(), type);
+                        for (GroupInfoBean tempBean :
+                                tempBeanList) {
+                            if (!tempBean.userId.equals(DataUtil.getKeFuId())) {
+                                mContactModels.add(tempBean);
+                            }
+
+                        }
+                        if (tempBeanList.size() == 100) {
+                            _requestMemeber(page + 1);
+                            return;
+                        }
+
+                        Collections.sort(mContactModels, new Comparator<GroupInfoBean>() {
+                            @Override
+                            public int compare(GroupInfoBean o1, GroupInfoBean o2) {
+                                // 获取name的首字母并忽略大小写比较
+                                String firstLetter = FirstLetterUtil.getFirstLetter(o1.name);
+                                String secondLetter = FirstLetterUtil.getFirstLetter(o2.name);
+                                return firstLetter.compareTo(secondLetter);
+                            }
+                        });
+                        DataUtil.setFriendInfoList(mContactModels);
+                        adapter.contacts = mContactModels;
+                        if (_selectIndex == 0) {
+                            adapter.setItems(mContactModels);
+                            binding.contactNewFragmentRv.setAdapter(adapter);
+                            adapter.notifyDataSetChanged();
+
+                        }
+                    }
+
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
+
+                    }
+                });
+    }
 
     @Override
     protected void _requestData() {
-        HttpUtil.apiW().friends_friendList(new RegisterBean()).enqueue(new CommonCallback<NetData>() {
-            @Override
-            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                Type type = new TypeToken<List<GroupInfoBean>>() {
-                }.getType();
-                mContactModels = new Gson().fromJson(body.data.toString(), type);
-                for (GroupInfoBean tempBean : mContactModels) {
-                    if (tempBean == null || tempBean.userId.equals(DataUtil.getKeFuId())) {
-                        mContactModels.remove(tempBean);
-                        break;
-                    }
+        _requestMemeber(1);
 
-                }
-                Collections.sort(mContactModels, new Comparator<GroupInfoBean>() {
-                    @Override
-                    public int compare(GroupInfoBean o1, GroupInfoBean o2) {
-                        // 获取name的首字母并忽略大小写比较
-                        String firstLetter = FirstLetterUtil.getFirstLetter(o1.name);
-                        String secondLetter = FirstLetterUtil.getFirstLetter(o2.name);
-                        return firstLetter.compareTo(secondLetter);
-                    }
-                });
-                DataUtil.setFriendInfoList(mContactModels);
-                adapter.contacts = mContactModels;
-                if (_selectIndex == 0) {
-                    adapter.setItems(mContactModels);
-                    binding.contactNewFragmentRv.setAdapter(adapter);
-                    adapter.notifyDataSetChanged();
-
-                }
-            }
-
-            @Override
-            public void Failure(Call<NetData> call, Throwable t) {
-
-            }
-        });
+//        HttpUtil.apiW().friends_friendList(new RegisterBean()).enqueue(new CommonCallback<NetData>() {
+//            @Override
+//            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+//
+//                Type type = new TypeToken<List<GroupInfoBean>>() {
+//                }.getType();
+//                mContactModels = new Gson().fromJson(body.data.toString(), type);
+//                for (GroupInfoBean tempBean : mContactModels) {
+//                    if (tempBean == null || tempBean.userId.equals(DataUtil.getKeFuId())) {
+//                        mContactModels.remove(tempBean);
+//                        break;
+//                    }
+//
+//                }
+//                Collections.sort(mContactModels, new Comparator<GroupInfoBean>() {
+//                    @Override
+//                    public int compare(GroupInfoBean o1, GroupInfoBean o2) {
+//                        // 获取name的首字母并忽略大小写比较
+//                        String firstLetter = FirstLetterUtil.getFirstLetter(o1.name);
+//                        String secondLetter = FirstLetterUtil.getFirstLetter(o2.name);
+//                        return firstLetter.compareTo(secondLetter);
+//                    }
+//                });
+//                DataUtil.setFriendInfoList(mContactModels);
+//                adapter.contacts = mContactModels;
+//                if (_selectIndex == 0) {
+//                    adapter.setItems(mContactModels);
+//                    binding.contactNewFragmentRv.setAdapter(adapter);
+//                    adapter.notifyDataSetChanged();
+//
+//                }
+//            }
+//
+//            @Override
+//            public void Failure(Call<NetData> call, Throwable t) {
+//
+//            }
+//        });
 
         HttpUtil.apiW().friends_applyListNum(new RegisterBean()).enqueue(new CommonCallback<NetData>() {
             @Override
@@ -384,9 +440,9 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
                     addItem(FunPopItemFactory.getScanItem(context)).
                     addItem(FunPopItemFactory.getCreateAdvancedTeamItem(context, memberLimit)).
 //                    addItem(FunPopItemFactory.getDivideLineItem(context)).
-                    addItem(FunPopItemFactory.getAddFriendItem(context)).
+        addItem(FunPopItemFactory.getAddFriendItem(context)).
 //                    addItem(FunPopItemFactory.getDivideLineItem(context)).
-                     enableShadow(false)
+        enableShadow(false)
                     .backgroundRes(com.netease.yunxin.kit.conversationkit.ui.R.drawable.fun_conversation_view_pop_bg).build();
             contentListPopView.showAsDropDown(v, (int) requireContext().getResources().getDimension(com.netease.yunxin.kit.conversationkit.ui.R.dimen.pop_margin_right), 0);
         }

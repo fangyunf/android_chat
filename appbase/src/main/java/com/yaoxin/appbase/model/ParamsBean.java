@@ -27,6 +27,8 @@ public class ParamsBean {
 
     public String configId;
     public String userId;
+    public int page;
+
     public ParamsBean() {
         deviceId = DeviceUtils.getDeviceId(AppProxy.getInstance().getContext());
         clientType = Constant.clientType;
