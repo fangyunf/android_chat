@@ -694,7 +694,7 @@ public abstract class ChatBaseMessageViewHolder extends CommonBaseMessageViewHol
                     // 自定义设置消息已读状态图标资源
                     baseViewBinding.ivStatus.setImageResource(messageStatusUIOption.readFlagIconRes);
                 } else {
-                    baseViewBinding.ivStatus.setImageResource(R.drawable.ic_message_read);
+                    baseViewBinding.ivStatus.setImageResource(R.drawable.ic_msg_red);
                 }
                 data.setHaveRead(true);
             } else {
@@ -702,7 +702,7 @@ public abstract class ChatBaseMessageViewHolder extends CommonBaseMessageViewHol
                     // 自定义设置消息未读状态图标资源
                     baseViewBinding.ivStatus.setImageResource(messageStatusUIOption.unreadFlagIconRes);
                 } else {
-                    baseViewBinding.ivStatus.setImageResource(R.drawable.ic_message_unread);
+                    baseViewBinding.ivStatus.setImageResource(R.drawable.ic_msg_unred);
                 }
             }
             //}
@@ -752,7 +752,7 @@ public abstract class ChatBaseMessageViewHolder extends CommonBaseMessageViewHol
                     baseViewBinding.readProcess.setVisibility(View.VISIBLE);
                 } else {
                     baseViewBinding.ivStatus.setVisibility(View.VISIBLE);
-                    baseViewBinding.ivStatus.setImageResource(R.drawable.ic_message_read);
+                    baseViewBinding.ivStatus.setImageResource(R.drawable.ic_msg_red);
                     baseViewBinding.readProcess.setVisibility(View.GONE);
                 }
             } else {

@@ -41,7 +41,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="联系人"
+                    android:text="通讯录"
                     android:textColor="#ff151515"
                     android:textSize="16sp" />
 

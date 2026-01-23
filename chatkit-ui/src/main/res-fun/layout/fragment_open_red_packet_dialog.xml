@@ -6,14 +6,14 @@
 
     <RelativeLayout
         android:layout_width="274dp"
-        android:layout_height="412dp">
+        android:layout_height="450dp">
 
         <ImageView
             android:id="@+id/fragment_open_red_packet_dialog_bg_iv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="fitXY"
-            android:src="@drawable/chat_red_packet_open_bg_cant_open" />
+            android:src="@drawable/chat_red_packet_open_bg_group_can_open" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -69,9 +69,17 @@
             android:layout_width="200dp"
             android:layout_height="@dimen/dimen_100_dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="145dp"
+            android:layout_marginTop="145dp" />
 
-            />
+        <RelativeLayout
+            android:id="@+id/fragment_open_red_packet_dialog_open_rl1"
+            android:layout_width="200dp"
+            android:layout_height="@dimen/dimen_100_dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="145dp"
+            android:layout_marginBottom="@dimen/dimen_40_dp" />
+
 
         <LinearLayout
             android:id="@+id/fragment_open_red_packet_dialog_detail_rl"
