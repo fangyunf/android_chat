@@ -22,6 +22,7 @@ public class RegisterBean {
     public String addGroupState;
     public String zfbNo;
     public String phone;
+    public String toPhone;
     public String zfbUrl;
     public String userUsdtId;
     public String zfb;

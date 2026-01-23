@@ -279,6 +279,18 @@ public interface ServiceW {
             @Body RegisterBean userBean
     );
 
+    //   创建副号
+    @POST("/subUser/createSubUser")
+    Call<NetData> subUser_createSubUser(
+            @Body RegisterBean userBean
+    );
+
+    //   查询副号列表
+    @POST("/subUser/queryList")
+    Call<NetData> subUser_queryList(
+            @Body RegisterBean userBean
+    );
+
     @POST("/meteor/buyMember")
     Call<NetData> meteor_buyMember(
             @Body RegisterBean userBean
