@@ -30,24 +30,19 @@ public class ChatRedPacketMessageViewHolder extends FunChatBaseMessageViewHolder
 
     protected FunChatMessageRedPacketViewHolderBinding viewBinding;
 
-    public ChatRedPacketMessageViewHolder(
-            @NonNull ChatBaseMessageViewHolderBinding parent, int viewType) {
+    public ChatRedPacketMessageViewHolder(@NonNull ChatBaseMessageViewHolderBinding parent, int viewType) {
         super(parent, viewType);
     }
 
     @Override
     protected void addViewToMessageContainer() {
-        viewBinding =
-                FunChatMessageRedPacketViewHolderBinding.inflate(
-                        LayoutInflater.from(parent.getContext()), getMessageContainer(), true);
+        viewBinding = FunChatMessageRedPacketViewHolderBinding.inflate(LayoutInflater.from(parent.getContext()), getMessageContainer(), true);
     }
 
     @Override
     public void bindData(ChatMessageBean message, ChatMessageBean lastMessage) {
         super.bindData(message, lastMessage);
-        if (message != null
-                && message.getMessageData() != null
-                && !message.getMessageData().getMessage().getAttachStr().isEmpty()) {
+        if (message != null && message.getMessageData() != null && !message.getMessageData().getMessage().getAttachStr().isEmpty()) {
             Map<String, Object> localExtension = message.getMessageData().getMessage().getLocalExtension();
             boolean hasDraw = false;
             if (localExtension != null && DataUtil.getUserid().equals(localExtension.get("userId"))) {
@@ -64,13 +59,13 @@ public class ChatRedPacketMessageViewHolder extends FunChatBaseMessageViewHolder
             viewBinding.funChatMessageRedPacketViewHolderBgIv.setImageResource((bean.type == 21) ? R.drawable.chat_redpacket_purple_bg_no_open : R.drawable.chat_red_packet_cell_bg_no_open);
             if (bean.type == 21) {
                 viewBinding.funChatMessageRedPacketViewHolderGreetingTv.setText(bean.result.toUserName);
-                viewBinding.funChatMessageRedPacketViewHolderTypeTv.setText("专属红包");
+                viewBinding.funChatMessageRedPacketViewHolderTypeTv.setText("专属红包" + "¥" + NumberUtil.formartMoney(bean.result.amount));
             } else if (bean.type == 22) {
                 viewBinding.funChatMessageRedPacketViewHolderGreetingTv.setText(bean.result.title);
-                viewBinding.funChatMessageRedPacketViewHolderTypeTv.setText("红包");
+                viewBinding.funChatMessageRedPacketViewHolderTypeTv.setText("个人红包" + "¥" + NumberUtil.formartMoney(bean.result.amount));
             } else {
                 viewBinding.funChatMessageRedPacketViewHolderGreetingTv.setText(bean.result.title);
-                viewBinding.funChatMessageRedPacketViewHolderTypeTv.setText("拼手气红包");
+                viewBinding.funChatMessageRedPacketViewHolderTypeTv.setText("拼手气" + "¥" + NumberUtil.formartMoney(bean.result.amount));
             }
             viewBinding.funChatMessageRedPacketViewHolderTimeTv.setText(TimeUtil.stampToDate(bean.result.createTime));
 //      if (bean.type == 21) {

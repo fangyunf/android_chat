@@ -45,7 +45,7 @@ import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.GlideUtil;
 import com.yaoxin.appbase.utils.NumberUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
-import com.yaoxin.appbase.view.actionsheet.ActionSheet;
+import com.netease.yunxin.kit.chatkit.ui.fun.dialog.RedPacketTypeSelectorDialog;
 import com.yaoxin.appbase.view.pwdkeyboard.Keyboard;
 import com.yaoxin.appbase.view.pwdkeyboard.PayEditText;
 
@@ -219,7 +219,7 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
     @Override
     protected void _initView() {
         binding.activityFunSendRedPacketNav.addCloseImageButton().setOnClickListener(this);
-//        binding.activityFunSendRedPacketPinChangeTypeLl.setOnClickListener(this);
+        binding.activityFunSendRedPacketTypeSelectorLl.setOnClickListener(this);
         binding.activityFunSendRedPacketSendTv.setOnClickListener(this);
         binding.activityFunSendRedPacketMoneyEt.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
         binding.activityFunSendRedPacketMoneyEt.setKeyListener(DigitsKeyListener.getInstance("0123456789."));
@@ -304,25 +304,41 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
     private void _updateUI() {
         //0： 个人 1：拼手气  2：专属
         if (type == 0) {
+            binding.activityFunSendRedPacketTypeSelectorLl.setVisibility(View.GONE);
             binding.activityFunSendRedPacketPinLl.setVisibility(View.GONE);
             binding.activityFunSendRedPacketMoneyTv.setText("金额");
+            binding.activityFunSendRedPacketMoneyTv.setVisibility(View.VISIBLE);
+            binding.activityFunSendRedPacketMoneyIconIv.setVisibility(View.GONE);
+            binding.activityFunSendRedPacketMoneyYuanTv.setVisibility(View.VISIBLE);
             binding.activityFunSendRedPacketGreetingLl.setVisibility(View.VISIBLE);
         } else if (type == 1) {
+            // 拼手气红包
+            binding.activityFunSendRedPacketTypeSelectorLl.setVisibility(View.VISIBLE);
+            binding.activityFunSendRedPacketTypeTv.setText("拼手气红包");
             binding.activityFunSendRedPacketPinLl.setVisibility(View.VISIBLE);
             binding.activityFunSendRedPacketToPeopleLl.setVisibility(View.GONE);
             binding.activityFunSendRedPacketGreetingLl.setVisibility(View.VISIBLE);
             binding.activityFunSendRedPacketCountLl.setVisibility(View.VISIBLE);
-//            binding.activityFunSendRedPacketPinChangeTypeTv.setText("拼手气红包");
+            binding.activityFunSendRedPacketMoneyTv.setVisibility(View.GONE);
+            binding.activityFunSendRedPacketMoneyIconIv.setVisibility(View.VISIBLE);
+            binding.activityFunSendRedPacketMoneyYuanTv.setVisibility(View.GONE);
         } else if (type == 2) {
+            // 专属红包
+            binding.activityFunSendRedPacketTypeSelectorLl.setVisibility(View.VISIBLE);
+            binding.activityFunSendRedPacketTypeTv.setText("专属红包");
             if (targetUserInfo != null) {
                 binding.activityFunSendRedPacketToPeopleNameTv.setText(targetUserInfo.getName());
                 GlideUtil.yh_loadImageRoundedCorner(this,binding.activityFunSendRedPacketToPeopleHeadIv,targetUserInfo.getAvatar(),15);
                 selectToUserId = targetUserInfo.getAccount();
+            } else {
+                binding.activityFunSendRedPacketToPeopleNameTv.setText("选择专属人");
             }
             binding.activityFunSendRedPacketToPeopleLl.setVisibility(View.VISIBLE);
             binding.activityFunSendRedPacketCountLl.setVisibility(View.GONE);
             binding.activityFunSendRedPacketGreetingLl.setVisibility(View.VISIBLE);
-//            binding.activityFunSendRedPacketPinChangeTypeTv.setText("专属红包");
+            binding.activityFunSendRedPacketMoneyTv.setVisibility(View.VISIBLE);
+            binding.activityFunSendRedPacketMoneyIconIv.setVisibility(View.GONE);
+            binding.activityFunSendRedPacketMoneyYuanTv.setVisibility(View.VISIBLE);
         }
     }
 
@@ -330,31 +346,31 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
     public void onClick(View v) {
         if (v == binding.activityFunSendRedPacketNav.addCloseImageButton()) {
             finish();
-        }
-//        else if (v == binding.activityFunSendRedPacketPinChangeTypeLl) {
-//            ActionSheet.createBuilder(this, getSupportFragmentManager())
-//                    .setCancelButtonTitle("取消")
-//                    .setOtherButtonTitles("拼手气红包", "专属红包")
-//                    .setCancelableOnTouchOutside(true)
-//                    .setListener(new ActionSheet.ActionSheetListener() {
-//                        @Override
-//                        public void onDismiss(ActionSheet actionSheet, boolean isCancel) {
-//
-//                        }
-//
-//                        @Override
-//                        public void onOtherButtonClick(ActionSheet actionSheet, int index) {
-//                            if (index == 0) {
-//                                type = 1;
-//                            } else if (index == 1) {
-//                                type = 2;
-//                            }
-//                            _updateUI();
-//
-//                        }
-//                    }).show();
-//        }
-        else if (v == binding.activityFunSendRedPacketSendTv) {
+        } else if (v == binding.activityFunSendRedPacketTypeSelectorLl) {
+            // 显示红包类型选择弹窗
+            RedPacketTypeSelectorDialog dialog = RedPacketTypeSelectorDialog.newInstance();
+            dialog.setOnTypeSelectedListener(new RedPacketTypeSelectorDialog.OnTypeSelectedListener() {
+                @Override
+                public void onLuckyRedPacketSelected() {
+                    // 手气红包（拼手气红包）
+                    type = 1;
+                    _updateUI();
+                }
+
+                @Override
+                public void onExclusiveRedPacketSelected() {
+                    // 专属红包
+                    type = 2;
+                    _updateUI();
+                }
+
+                @Override
+                public void onCancel() {
+                    // 取消操作，不做任何处理
+                }
+            });
+            dialog.show(getSupportFragmentManager(), "RedPacketTypeSelectorDialog");
+        } else if (v == binding.activityFunSendRedPacketSendTv) {
             String moneyStr = getTextStr(binding.activityFunSendRedPacketMoneyEt);
 
             if (moneyStr.isEmpty()) {

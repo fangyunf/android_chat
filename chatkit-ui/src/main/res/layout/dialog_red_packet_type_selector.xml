@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+    android:orientation="vertical">
+
+    <!-- 选项容器 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_red_packet_dialog_options"
+        android:orientation="vertical">
+
+        <!-- 手气红包 -->
+        <TextView
+            android:id="@+id/tv_lucky_red_packet"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:text="手气红包"
+            android:textColor="#333333"
+            android:textSize="16sp" />
+
+        <!-- 分隔线 -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#E0E0E0" />
+
+        <!-- 专属红包 -->
+        <TextView
+            android:id="@+id/tv_exclusive_red_packet"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:text="专属红包"
+            android:textColor="#333333"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <!-- 取消按钮和选项之间的间距 -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="#E0E0E0" />
+
+    <!-- 取消按钮 -->
+    <TextView
+        android:id="@+id/tv_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/color_white"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:text="取消"
+        android:textColor="#333333"
+        android:textSize="16sp" />
+
+</LinearLayout>

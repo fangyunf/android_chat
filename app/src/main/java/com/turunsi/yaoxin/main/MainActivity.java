@@ -195,9 +195,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
 
         // 使用系统对话框升级
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("应用升级")
-                .setMessage(updateMsg)
-                .setCancelable(false) // 禁止返回键取消对话框
+        builder.setTitle("应用升级").setMessage(updateMsg).setCancelable(false) // 禁止返回键取消对话框
                 .setPositiveButton("升级", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -290,8 +288,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
     @Override
     public void onBackPressed() {
         // 如果升级对话框显示或下载进度对话框显示，禁止返回
-        if ((updateDialog != null && updateDialog.isShowing())
-                || (progressDialog != null && progressDialog.isShowing())) {
+        if ((updateDialog != null && updateDialog.isShowing()) || (progressDialog != null && progressDialog.isShowing())) {
             return;
         }
         super.onBackPressed();
@@ -443,10 +440,10 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
 
                     if (conversationFragment == mConversationFragment) {
                         if ((singleChatUnreadCount) > 0) {
-                            if (groupChatUnreadCount > 99) {
+                            if (singleChatUnreadCount > 99) {
                                 activityMainBinding.conversationDot.setText("99+");
                             } else {
-                                activityMainBinding.conversationDot.setText(count + "");
+                                activityMainBinding.conversationDot.setText(singleChatUnreadCount + "");
                             }
                             activityMainBinding.conversationDot.setVisibility(View.VISIBLE);
                         } else {
@@ -458,7 +455,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
                             if (groupChatUnreadCount > 99) {
                                 activityMainBinding.conversationDot1.setText("99+");
                             } else {
-                                activityMainBinding.conversationDot1.setText(count + "");
+                                activityMainBinding.conversationDot1.setText(groupChatUnreadCount + "");
                             }
 
                             activityMainBinding.conversationDot1.setVisibility(View.VISIBLE);
@@ -652,16 +649,14 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         }
 
         if (!EasyPermissions.hasPermissions(this, storagePermission)) {
-            EasyPermissions.requestPermissions(this, "需要访问相册权限才能使用扫码功能",
-                    com.yaoxin.appbase.net.Constant.RC_PHOTO_PICKER_PERM, storagePermission);
+            EasyPermissions.requestPermissions(this, "需要访问相册权限才能使用扫码功能", com.yaoxin.appbase.net.Constant.RC_PHOTO_PICKER_PERM, storagePermission);
             return;
         }
 
         // 再检查相机权限
         String[] cameraPermission = {Manifest.permission.CAMERA};
         if (!EasyPermissions.hasPermissions(this, cameraPermission)) {
-            EasyPermissions.requestPermissions(this, "需要访问相机权限才能使用扫码功能",
-                    com.yaoxin.appbase.net.Constant.RC_PHOTO_CAMERA_PERM, cameraPermission);
+            EasyPermissions.requestPermissions(this, "需要访问相机权限才能使用扫码功能", com.yaoxin.appbase.net.Constant.RC_PHOTO_CAMERA_PERM, cameraPermission);
             return;
         }
 
@@ -699,23 +694,18 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
      * 显示权限被拒绝的对话框，引导用户到设置页面
      */
     private void showPermissionDeniedDialog() {
-        new AlertDialog.Builder(this)
-                .setTitle("权限被拒绝")
-                .setMessage("扫码功能需要相机和相册权限，请在设置中开启相关权限")
-                .setPositiveButton("去设置", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        openAppSettings();
-                        dialog.dismiss();
-                    }
-                })
-                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                })
-                .show();
+        new AlertDialog.Builder(this).setTitle("权限被拒绝").setMessage("扫码功能需要相机和相册权限，请在设置中开启相关权限").setPositiveButton("去设置", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                openAppSettings();
+                dialog.dismiss();
+            }
+        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        }).show();
     }
 
     /**

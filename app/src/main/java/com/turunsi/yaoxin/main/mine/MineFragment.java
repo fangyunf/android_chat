@@ -326,9 +326,10 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         if (v == binding.fragmentMineTzView) {
             startActivity(new Intent(getActivity(), SettingNotifyNewActivity.class));
         } else if (v == binding.fragmentMineZhushouView) {
-            XKitRouter.withKey(com.yaoxin.appbase.net.Constant.XiaoZhuShouActivityKey)
-                    .withContext(context)
-                    .navigate();
+            XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_P2P_PAGE).withParam(RouterConstant.CHAT_ID_KRY, DataUtil.getKeFuId()).withContext(getContext()).navigate();
+//            XKitRouter.withKey(com.yaoxin.appbase.net.Constant.XiaoZhuShouActivityKey)
+//                    .withContext(context)
+//                    .navigate();
         } else if (v == binding.fragmentMineErweimaIv) {
             if (getActivity() != null) {
                 AccountCodeDialogFragment.showV(getActivity().getSupportFragmentManager());
