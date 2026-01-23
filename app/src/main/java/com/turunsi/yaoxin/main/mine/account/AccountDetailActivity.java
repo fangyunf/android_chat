@@ -114,7 +114,6 @@ public class AccountDetailActivity extends BaseActivity implements View.OnClickL
     @Override
     public void onClick(View v) {
         if (v == viewBinding.activityMineAccountDetailModifyNameTv) {
-
             ModifyTextActivity.start(ModifyTextActivity.class, this, null);
         } else if (v == viewBinding.activityMineAccountDetailModifyHeadTv) {
             UploadUtil.openPhotoLibrary(this, Constant.REQUEST_CODE_CHOOSE);
@@ -130,7 +129,6 @@ public class AccountDetailActivity extends BaseActivity implements View.OnClickL
         if (requestCode == Constant.REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
             List<Uri> uris = Matisse.obtainResult(data);
             List<String> strings = Matisse.obtainPathResult(data);
-
             if (!strings.isEmpty()) {
                 uploadImage(strings.get(0), "");
             }
@@ -187,7 +185,6 @@ public class AccountDetailActivity extends BaseActivity implements View.OnClickL
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-
                         ToastUtils.toastMsg(body.msg);
                     }
 

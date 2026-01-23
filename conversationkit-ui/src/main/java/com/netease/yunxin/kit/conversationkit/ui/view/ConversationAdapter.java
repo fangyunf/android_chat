@@ -115,36 +115,49 @@ public class ConversationAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         ALog.d(LIB_TAG, TAG, "update, removeIndex:" + removeIndex);
         if (removeIndex > -1) {
             if (!conversationList.get(removeIndex).infoData.isStickTop()) {
-
-                conversationList.remove(removeIndex);
-                int insertIndex = searchComparatorIndex(data);
-                conversationList.add(insertIndex, data);
-                if (isShow) {
-                    notifyItemMoved(removeIndex, insertIndex);
-                    notifyItemChanged(insertIndex);
+                // 群聊页面（_type == 1）保持固定位置，不根据消息时间重新排序
+                if (_type == 1) {
+                    // 保持原有位置不变，只更新数据
+                    conversationList.set(removeIndex, data);
+                    if (isShow) {
+                        notifyItemChanged(removeIndex);
+                    }
+                } else {
+                    // 其他页面按时间排序
+                    conversationList.remove(removeIndex);
+                    int insertIndex = searchComparatorIndex(data);
+                    conversationList.add(insertIndex, data);
+                    if (isShow) {
+                        notifyItemMoved(removeIndex, insertIndex);
+                        notifyItemChanged(insertIndex);
+                    }
                 }
             } else {
-
+                // 置顶消息保持位置不变
                 conversationList.remove(removeIndex);
                 conversationList.add(removeIndex, data);
                 notifyItemChanged(removeIndex);
             }
         } else {
-            int insertIndex = searchComparatorIndex(data);
+            // 群聊页面（_type == 1）新增群时，添加到列表末尾，保持固定位置
             if (_type == 1 && data.viewType == 2) {
-                conversationList.add(insertIndex, data);
+                conversationList.add(data);
                 if (isShow) {
-                    notifyItemInserted(insertIndex);
+                    notifyItemInserted(conversationList.size() - 1);
                 }
-            } else if (_type == 0 && data.viewType == 1) {
-                conversationList.add(insertIndex, data);
-                if (isShow) {
-                    notifyItemInserted(insertIndex);
-                }
-            } else if (_type == 3) {
-                conversationList.add(insertIndex, data);
-                if (isShow) {
-                    notifyItemInserted(insertIndex);
+            } else {
+                // 其他页面按时间排序插入
+                int insertIndex = searchComparatorIndex(data);
+                if (_type == 0 && data.viewType == 1) {
+                    conversationList.add(insertIndex, data);
+                    if (isShow) {
+                        notifyItemInserted(insertIndex);
+                    }
+                } else if (_type == 3) {
+                    conversationList.add(insertIndex, data);
+                    if (isShow) {
+                        notifyItemInserted(insertIndex);
+                    }
                 }
             }
         }

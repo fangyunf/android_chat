@@ -52,7 +52,7 @@ public class ImageUtil {
         saveBitmapToGallery(context, bitmap);
     }
 
-    private static void saveBitmapToGallery(Context context, Bitmap bitmap) {
+    public static void saveBitmapToGallery(Context context, Bitmap bitmap) {
         // 获取外部存储路径
         String savedImageURL = null;
         String imageFileName = "JPEG_" + System.currentTimeMillis() + ".jpg";

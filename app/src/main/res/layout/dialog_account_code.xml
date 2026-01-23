@@ -30,9 +30,7 @@
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/dialog_account_code_head_iv"
                     android:layout_width="80dp"
-                    android:layout_height="@dimen/dimen_80_dp"
-
-                    />
+                    android:layout_height="@dimen/dimen_80_dp" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
