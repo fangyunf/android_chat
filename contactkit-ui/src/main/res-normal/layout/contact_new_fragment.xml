@@ -32,8 +32,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginHorizontal="10dp"
-                    android:src="@mipmap/conversation_list_index_notice_icon"
-                    android:visibility="invisible" />
+                    android:src="@mipmap/conversation_list_index_notice_icon" />
 
                 <TextView
                     android:id="@+id/fun_conversation_fragment_title_tv"

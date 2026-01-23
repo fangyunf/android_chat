@@ -33,6 +33,7 @@ import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.BarUtils;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.GlideUtil;
+import com.yaoxin.appbase.utils.ICallBack;
 import com.yaoxin.appbase.utils.NumberUtil;
 import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
@@ -66,6 +67,11 @@ public class FunRedPacketResultActivity extends BaseActivity implements View.OnC
         params.height = params.height + BarUtils.getStatusBarHeight();
         binding.activityFunRedPacketResultDetailNav.setLayoutParams(params);
         binding.activityFunRedPacketResultDetailNav.setPadding(0, BarUtils.getStatusBarHeight(), 0, 0);
+        binding.activityFunRedPacketResultDetailNav.setActionText("红包记录");
+
+        binding.activityFunRedPacketResultDetailNav.setActionClickListener(() -> {
+            FunRedPacketRecordListActivity.start(FunRedPacketRecordListActivity.class, this, null);
+        });
     }
 
     protected void _requestData1() {
@@ -91,7 +97,7 @@ public class FunRedPacketResultActivity extends BaseActivity implements View.OnC
                                     maxMoeny = Double.parseDouble(tempBean.amount);
                                     bestIndex = index;
                                 }
-                                index ++;
+                                index++;
                             }
                             redBean.vos.get(bestIndex).isBest = true;
                         }

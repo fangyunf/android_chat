@@ -33,6 +33,7 @@ import com.yaoxin.appbase.utils.AppProxy;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.GlideUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
+import com.yaoxin.appbase.view.LoadingDialog;
 
 import java.util.HashMap;
 
@@ -70,6 +71,7 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
             updateUI();
             return;
         }
+        //LoadingDialog.showDialog(getChildFragmentManager(), "请求中");
         RegisterBean bean = new RegisterBean();
         bean.redpacketId = redPacketId;
         HttpUtil.apiW().red_redpacketDetail(bean)
@@ -78,10 +80,12 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                         redBean = new Gson().fromJson(body.data.toString(), CustomMsgBean.class);
                         updateUI();
+                        LoadingDialog.dismissDialog();
                     }
 
                     @Override
                     public void Failure(Call<NetData> call, Throwable t) {
+                        // LoadingDialog.dismissDialog();
                     }
                 });
     }
@@ -89,7 +93,6 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
     private void updateUI() {
         binding.fragmentOpenRedPacketDialogOpenRl.setVisibility(View.GONE);
         binding.fragmentOpenRedPacketDialogOpenRl1.setVisibility(View.GONE);
-
         if (redBean != null) {
             GlideUtil.yh_loadImageRoundedCorner(getContext(), binding.fragmentOpenRedPacketDialogHeadIv, redBean.sendAvatar, 24);
             binding.fragmentOpenRedPacketDialogNameTv.setText(redBean.sendName);

@@ -24,7 +24,6 @@
             app:enable_under_divider="true"
             app:support_translucent_status_bar="false"
             app:title="领取详情"
-
             app:title_text_color="@color/color_white"
             app:under_divider_color="@color/transparent" />
     </RelativeLayout>
@@ -43,8 +42,8 @@
 
             <ImageView
                 android:id="@+id/activity_fun_red_packet_result_detail_sender_head_iv"
-                android:layout_width="@dimen/dimen_35_dp"
-                android:layout_height="@dimen/dimen_35_dp" />
+                android:layout_width="@dimen/dimen_20_dp"
+                android:layout_height="@dimen/dimen_20_dp" />
 
             <TextView
                 android:id="@+id/activity_fun_red_packet_result_detail_sender_tv"
@@ -70,11 +69,11 @@
         <TextView
             android:id="@+id/activity_fun_red_packet_result_detail_money_tv"
             android:layout_width="wrap_content"
-            android:layout_height="37dp"
-            android:layout_marginBottom="31dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
             android:text=""
-            android:textColor="@color/app_theme_color"
-            android:textSize="26sp" />
+            android:textColor="#EB5644"
+            android:textSize="30sp" />
     </LinearLayout>
 
     <LinearLayout

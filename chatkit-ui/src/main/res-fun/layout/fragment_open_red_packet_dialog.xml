@@ -13,7 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="fitXY"
-            android:src="@drawable/chat_red_packet_open_bg_group_can_open" />
+            android:src="@drawable/chat_red_packet_open_bg_cant_open" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -43,7 +43,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="22dp"
                     android:layout_marginLeft="8dp"
-                    android:text="西瓜虫"
+                    android:text=""
                     android:textColor="#FFEEAB"
                     android:textSize="16sp" />
 
@@ -61,7 +61,7 @@
                 android:layout_height="30dp"
                 android:text="手慢啦，红包已抢完"
                 android:textColor="#FFEEAB"
-                android:textSize="22sp" />
+                android:textSize="20sp" />
         </LinearLayout>
 
         <RelativeLayout
