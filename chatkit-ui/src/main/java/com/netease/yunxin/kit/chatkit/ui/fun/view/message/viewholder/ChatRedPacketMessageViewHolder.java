@@ -5,8 +5,10 @@
 package com.netease.yunxin.kit.chatkit.ui.fun.view.message.viewholder;
 
 import android.text.TextUtils;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 
@@ -82,8 +84,36 @@ public class ChatRedPacketMessageViewHolder extends FunChatBaseMessageViewHolder
 //      } else {
 //        viewBinding.funChatMessageRedPacketViewHolderMoneyTv.setText("");
 //      }
+        }
+    }
 
+    @Override
+    protected void onLayoutConfig(ChatMessageBean messageBean) {
+        super.onLayoutConfig(messageBean);
+        // 为红包消息设置宽度限制，防止在小屏幕手机上被裁剪
+        if (viewBinding != null) {
+            View rootView = viewBinding.getRoot();
+            // 红包的理想宽度是 216dp
+            int idealRedPacketWidth = (int) TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_DIP, 230,
+                    parent.getContext().getResources().getDisplayMetrics()
+            );
 
+            // 获取 messageContainer 的实际可用宽度
+            int availableWidth = baseViewBinding.messageContainer.getWidth();
+            // 如果 messageContainer 的宽度为 0，说明还没有布局完成，尝试获取测量宽度
+            if (availableWidth <= 0) {
+                availableWidth = baseViewBinding.messageContainer.getMeasuredWidth();
+            }
+            // 如果可用宽度小于红包理想宽度，动态调整红包宽度以适应可用空间
+            if (availableWidth > 0 && availableWidth < idealRedPacketWidth) {
+                // 调整红包的宽度以适应可用空间，防止被裁剪
+                ViewGroup.LayoutParams redPacketLayoutParams = rootView.getLayoutParams();
+                if (redPacketLayoutParams != null) {
+                    redPacketLayoutParams.width = availableWidth;
+                    rootView.setLayoutParams(redPacketLayoutParams);
+                }
+            }
         }
     }
 
