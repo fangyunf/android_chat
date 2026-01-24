@@ -74,9 +74,9 @@ public class ConversationCustom {
                                 if (bean != null) {
                                     // 根据类型返回对应的文本
                                     if (bean.type == 21) {
-                                        return "[专属红包]";
+                                        return "[红包]";
                                     } else if (bean.type == 22) {
-                                        return "[个人红包]";
+                                        return "[红包]";
                                     } else if (bean.type == 23) {
                                         return "[红包]";
                                     } else if (bean.type == 28) {
