@@ -123,7 +123,8 @@ public class BuyFeatureActivity extends BaseActivity implements View.OnClickList
                     // phone: 副号手机号前8位（用户输入5位，加上"1"是6位，再补2位到8位）
                     registerBean.phone = phone; // 确保是8位
                     // toPhone: 主号手机号
-                    registerBean.toPhone = DataUtil.getUserInfo().phoneNo;
+                    registerBean.userId = DataUtil.getUserInfo().userId;
+                    //registerBean.toPhone = DataUtil.getUserInfo().phoneNo;
                     registerBean.password = password;
                     //registerBean.smsPhone = smsPhone;
                     LoadingDialog.showDialog(getSupportFragmentManager(), "购买中..");

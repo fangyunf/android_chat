@@ -32,7 +32,7 @@ public class MyFuHaoListAdapter extends BaseQuickAdapter<SubUserBean, QuickViewH
 
         // ID
         TextView idTv = quickViewHolder.getView(R.id.item_mine_fuhao_list_cell_id_tv);
-        idTv.setText(subUserBean.subId != null ? subUserBean.subId : "");
+        idTv.setText(subUserBean.phone);
 
         // 复制按钮
         TextView copyTv = quickViewHolder.getView(R.id.item_mine_fuhao_list_cell_copy_tv);
@@ -41,7 +41,7 @@ public class MyFuHaoListAdapter extends BaseQuickAdapter<SubUserBean, QuickViewH
             if (subUserBean.subId != null && !subUserBean.subId.isEmpty()) {
                 ClipboardManager clipboard = (ClipboardManager) quickViewHolder.itemView.getContext()
                         .getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("副号ID", subUserBean.subId);
+                ClipData clip = ClipData.newPlainText("副号电话", subUserBean.phone);
                 clipboard.setPrimaryClip(clip);
                 ToastUtils.toastMsg("已复制");
             }
