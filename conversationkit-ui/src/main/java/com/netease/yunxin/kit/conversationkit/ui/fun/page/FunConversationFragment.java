@@ -84,8 +84,7 @@ public class FunConversationFragment extends ConversationBaseFragment {
     private FunConversationFragmentBinding viewBinding;
 
     private boolean _needRefresh;
-
-
+    
     public FunConversationFragment() {
     }
 

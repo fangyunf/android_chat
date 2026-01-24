@@ -108,7 +108,8 @@ public class ChatTipsMessageViewHolder extends FunChatBaseMessageViewHolder {
                     }
                     //屏蔽领取消息
                     if (!TextUtils.isEmpty(msgBean.sendUserId) && !TextUtils.isEmpty(msgBean.receiveUserId)) {
-                        baseViewBinding.baseRoot.setVisibility(View.GONE);
+                        // baseViewBinding.baseRoot.setVisibility(View.GONE);
+                        textBinding.messageTipText.setText("");
                         return;
                     }
                     String tempContent = msgBean.receiveUserName + " 领取了 " + msgBean.sendUserName + " 的红包";
@@ -123,7 +124,7 @@ public class ChatTipsMessageViewHolder extends FunChatBaseMessageViewHolder {
                     }
                     textBinding.messageTipText.setText(tempContent);
                 } catch (Exception e) {
-                    baseViewBinding.baseRoot.setVisibility(View.GONE);
+                    textBinding.messageTipText.setText("");
                 }
             } else {
                 textBinding.messageTipText.setText(content);

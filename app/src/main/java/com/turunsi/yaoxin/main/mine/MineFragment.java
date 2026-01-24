@@ -482,7 +482,30 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
             ToastUtils.toastMsg("复制成功");
         }
         if (v == binding.fragmentMineFxyyView) {
-            DownLoadActivity.start(DownLoadActivity.class, getContext(), null);
+            //DownLoadActivity.start(DownLoadActivity.class, getContext(), null);
+            HttpUtil.apiW().customer_about(new RegisterBean())
+                    .enqueue(new CommonCallback<NetData>() {
+                        @Override
+                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                            DownLoadBean downLoadBean = new Gson().fromJson(body.data.toString(), DownLoadBean.class);
+                            for (DownLoadBean tempBean : downLoadBean.linkUrl) {
+                                if (tempBean.appType.equals("ANDROID")) {
+                                    // 获取剪切板管理器
+                                    ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+                                    // 创建ClipData对象并将文本复制到剪切板
+                                    ClipData clip = ClipData.newPlainText("label", tempBean.downloadUrl);
+                                    clipboard.setPrimaryClip(clip);
+                                    // 提示用户内容已复制
+                                    ToastUtils.toastMsg("已复制到剪切板");
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void Failure(Call<NetData> call, Throwable t) {
+
+                        }
+                    });
         }
         if (v == binding.fragmentMineYysjView)
             AppUpdateActivity.start(AppUpdateActivity.class, getContext(), null);
