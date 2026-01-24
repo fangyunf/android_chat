@@ -1,5 +1,6 @@
 package com.turunsi.yaoxin.main.mine.fuhao;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -21,11 +22,9 @@ import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.pswkeyboard.OnPasswordInputFinish;
 import com.yaoxin.appbase.pswkeyboard.widget.PopEnterPassword;
 import com.yaoxin.appbase.utils.DataUtil;
-import com.yaoxin.appbase.utils.NumberUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -34,14 +33,12 @@ public class BuyGroupFeatureActivity extends BaseActivity implements View.OnClic
     ActivityBuyGroupFeatureBinding binding;
 
     GroupBuyListAdapter adapter = new GroupBuyListAdapter();
-    int _type = 0;
     String _groupId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        _type = getIntent().getIntExtra("type", 0);
         _groupId = getIntent().getStringExtra("groupId");
         binding = ActivityBuyGroupFeatureBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -78,38 +75,11 @@ public class BuyGroupFeatureActivity extends BaseActivity implements View.OnClic
 
 
     void _updateUI() {
-
-//        if (_type == 0) {
-//            binding.activityBuyFeatureNav.getTitleView().setText("购买副号");
-//            binding.activityBuyFeatureMoneyTv.setText("￥68");
-//            binding.activityBuyFeatureDetailTv.setText("购买即得20个副号");
-//            binding.activityBuyFeatureShuomingTv.setVisibility(View.GONE);
-//            binding.activityBuyFeatureIv.setImageResource(R.mipmap.buy_feature_fuhao);
-//        }
-//        if (_type == 1) {
-//            binding.activityBuyFeatureBottomLl.setVisibility(View.VISIBLE);
-//            binding.activityBuyFeatureIvRl.setVisibility(View.VISIBLE);
-//            binding.activityBuyFeatureNav.getTitleView().setText("升级群组");
-//            binding.activityBuyFeatureMoneyTv.setText("￥88");
-//            binding.activityBuyFeatureDetailTv.setText("购买即升级当前群组为1000人群");
-//            binding.activityBuyFeatureShuomingTv.setVisibility(View.VISIBLE);
-//            binding.activityBuyFeatureIv.setImageResource(R.mipmap.buy_feature_group);
-//            binding.activityBuyFeatureUpdateInfoTv.setVisibility(View.GONE);
-//        }
-        if (_type == 2) {
-            binding.activityBuyGroupFeatureInfoTv.setVisibility(View.VISIBLE);
-            binding.activityBuyFeatureBottomLl.setVisibility(View.GONE);
-            binding.activityBuyGroupFeatureRv.setVisibility(View.GONE);
-            binding.activityBuyGroupFeatureNav.getTitleView().setText("升级规则");
-        } else {
-            binding.activityBuyFeatureBottomLl.setVisibility(View.VISIBLE);
-            binding.activityBuyGroupFeatureRv.setVisibility(View.VISIBLE);
-            binding.activityBuyGroupFeatureNav.getTitleView().setText("升级群组");
-            binding.activityBuyGroupFeatureQsjRuleTv.setVisibility(View.VISIBLE);
-            binding.activityBuyGroupFeatureInfoTv.setVisibility(View.GONE);
-            // 调整RecyclerView的padding，为底部规则链接留出空间
-            binding.activityBuyGroupFeatureRv.setPadding(0, 0, 0, 80);
-        }
+        binding.activityBuyFeatureBottomLl.setVisibility(View.VISIBLE);
+        binding.activityBuyGroupFeatureRv.setVisibility(View.VISIBLE);
+        binding.activityBuyGroupFeatureNav.getTitleView().setText("升级群组");
+        binding.activityBuyGroupFeatureQsjRuleTv.setVisibility(View.VISIBLE);
+        binding.activityBuyGroupFeatureRv.setPadding(0, 0, 0, 80);
     }
 
     /**
@@ -139,15 +109,9 @@ public class BuyGroupFeatureActivity extends BaseActivity implements View.OnClic
     @Override
     public void onClick(View v) {
         if (v == binding.activityBuyGroupFeatureNav.addCloseImageButton()) {
-            if (_type == 2) {
-                _type = 1;
-                _updateUI();
-            } else {
-                finish();
-            }
+            finish();
         } else if (v == binding.activityBuyGroupFeatureQsjRuleTv) {
-            _type = 2;
-            _updateUI();
+            startActivity(new Intent(this, GroupUpgradeRuleActivity.class));
         }
     }
 

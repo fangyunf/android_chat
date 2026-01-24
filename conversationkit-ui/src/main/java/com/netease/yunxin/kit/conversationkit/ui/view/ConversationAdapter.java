@@ -159,18 +159,27 @@ public class ConversationAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 layoutManager.scrollToPosition(position);
             }
         } else {
-            int insertIndex = searchComparatorIndex(data);
+            // 新群（不在列表中的群）
+            int insertIndex;
             if (_type == 1 && data.viewType == 2) {
+                // 群列表中的新群：如果置顶则插入到置顶区域，否则添加到列表末尾
+                if (data.infoData.isStickTop()) {
+                    insertIndex = searchComparatorIndex(data); // 置顶时按排序插入置顶区域
+                } else {
+                    insertIndex = conversationList.size(); // 非置顶的新群直接添加到末尾
+                }
                 conversationList.add(insertIndex, data);
                 if (isShow) {
                     notifyItemInserted(insertIndex);
                 }
             } else if (_type == 0 && data.viewType == 1) {
+                insertIndex = searchComparatorIndex(data);
                 conversationList.add(insertIndex, data);
                 if (isShow) {
                     notifyItemInserted(insertIndex);
                 }
             } else if (_type == 3) {
+                insertIndex = searchComparatorIndex(data);
                 conversationList.add(insertIndex, data);
                 if (isShow) {
                     notifyItemInserted(insertIndex);

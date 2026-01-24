@@ -221,6 +221,7 @@
         <activity android:name=".eggs.EggListIndexActivity" />
         <activity android:name=".eggs.GroupListActivity" />
         <activity android:name=".main.mine.fuhao.BuyGroupFeatureActivity" />
+        <activity android:name=".main.mine.fuhao.GroupUpgradeRuleActivity" />
         <activity android:name=".main.mine.setting.Mine_Account_Anquan_Activity" />
         <activity android:name=".login.OtherPlaceLoginActivity" />
 
