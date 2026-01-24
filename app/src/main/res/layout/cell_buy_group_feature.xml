@@ -16,21 +16,39 @@
         android:visibility="gone" />
 
     <RelativeLayout
-        android:layout_width="322dp"
+        android:layout_width="match_parent"
         android:layout_height="160dp"
-        android:layout_marginLeft="15dp">
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp">
 
         <ImageView
             android:id="@+id/cell_buy_group_feature_bg_iv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/buy_feature_group" />
+
+        <!-- 永久升级标签 -->
+        <TextView
+            android:id="@+id/cell_buy_group_feature_permanent_label_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/buy_feature_group" />
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="4dp"
+            android:text="永久升级"
+            android:textColor="#FFD700"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="40dp"
-            android:layout_marginTop="57dp"
             android:orientation="vertical">
 
             <TextView
@@ -39,7 +57,8 @@
                 android:layout_height="wrap_content"
                 android:text=""
                 android:textColor="#ffffffff"
-                android:textSize="18sp" />
+                android:textSize="24sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/cell_buy_group_feature_detail_tv"
@@ -48,8 +67,24 @@
                 android:layout_marginTop="10dp"
                 android:text=""
                 android:textColor="#ffffffff"
-                android:textSize="12sp" />
+                android:textSize="14sp" />
         </LinearLayout>
+
+        <!-- 立即购买按钮 -->
+        <TextView
+            android:id="@+id/cell_buy_group_feature_buy_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="@dimen/dimen_10_dp"
+            android:background="@drawable/fun_bg_app_theme_color_rounded_26"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="5dp"
+            android:text="立即购买"
+            android:textColor="#ffffffff"
+            android:textSize="14sp" />
     </RelativeLayout>
 
 </LinearLayout>

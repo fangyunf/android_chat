@@ -9,10 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.chad.library.adapter4.BaseQuickAdapter;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.turunsi.yaoxin.R;
-import com.turunsi.yaoxin.databinding.ActivityBuyFeatureBinding;
 import com.turunsi.yaoxin.databinding.ActivityBuyGroupFeatureBinding;
 import com.turunsi.yaoxin.main.mine.fuhao.adapter.GroupBuyListAdapter;
 import com.yaoxin.appbase.activity.BaseActivity;
@@ -23,10 +20,10 @@ import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.pswkeyboard.OnPasswordInputFinish;
 import com.yaoxin.appbase.pswkeyboard.widget.PopEnterPassword;
+import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.NumberUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,21 +47,32 @@ public class BuyGroupFeatureActivity extends BaseActivity implements View.OnClic
         setContentView(binding.getRoot());
         binding.activityBuyGroupFeatureNav.addCloseImageButton().setOnClickListener(this);
         binding.activityBuyGroupFeatureQsjRuleTv.setOnClickListener(this);
-        binding.activityBuyGroupFeatureBuyTv.setOnClickListener(this);
+        // 移除底部购买按钮的点击事件，改为每个卡片独立购买
 
         binding.activityBuyGroupFeatureRv.setLayoutManager(new LinearLayoutManager(this));
         binding.activityBuyGroupFeatureRv.setAdapter(adapter);
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener<GroupInfoBean>() {
             @Override
             public void onClick(@NonNull BaseQuickAdapter<GroupInfoBean, ?> baseQuickAdapter, @NonNull View view, int i) {
-//                for (GroupInfoBean tempBean:
-//                     baseQuickAdapter.getItems()) {
-//                    tempBean.isSelected = false;
-//                }
-//                baseQuickAdapter.getItem(i).isSelected = true;
-//                adapter.notifyDataSetChanged();
+                // 点击卡片时购买
+                GroupInfoBean bean = baseQuickAdapter.getItem(i);
+                if (bean != null) {
+                    _buyGroupGrade(bean);
+                }
             }
         });
+
+        // 为每个item的"立即购买"按钮设置点击事件
+        adapter.addOnItemChildClickListener(R.id.cell_buy_group_feature_buy_btn, new BaseQuickAdapter.OnItemChildClickListener<GroupInfoBean>() {
+            @Override
+            public void onItemClick(@NonNull BaseQuickAdapter<GroupInfoBean, ?> baseQuickAdapter, @NonNull View view, int i) {
+                GroupInfoBean bean = baseQuickAdapter.getItem(i);
+                if (bean != null) {
+                    _buyGroupGrade(bean);
+                }
+            }
+        });
+        _initFixedData();
         _updateUI();
     }
 
@@ -99,35 +107,33 @@ public class BuyGroupFeatureActivity extends BaseActivity implements View.OnClic
             binding.activityBuyGroupFeatureNav.getTitleView().setText("升级群组");
             binding.activityBuyGroupFeatureQsjRuleTv.setVisibility(View.VISIBLE);
             binding.activityBuyGroupFeatureInfoTv.setVisibility(View.GONE);
+            // 调整RecyclerView的padding，为底部规则链接留出空间
+            binding.activityBuyGroupFeatureRv.setPadding(0, 0, 0, 80);
         }
     }
 
-    @Override
-    protected void _requestData() {
-        HttpUtil.apiW().group_groupGrade()
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        Type type = new TypeToken<List<GroupInfoBean>>() {
-                        }.getType();
-                        List<GroupInfoBean> tempList = new Gson().fromJson(body.data.toString(), type);
-//                        if (!tempList.isEmpty()) {
-//                            tempList.get(0).isSelected = true;
-//                        }
-                        ArrayList<GroupInfoBean> tempArr = new ArrayList<>();
-                        if (tempList.size() > 1) {
-                            tempList.get(1).isSelected = true;
-                            tempArr.add(tempList.get(1));
-                            adapter.setItems(tempArr);
-                            adapter.notifyDataSetChanged();
-                        }
-                    }
+    /**
+     * 初始化固定数据：两个升级选项
+     */
+    void _initFixedData() {
+        ArrayList<GroupInfoBean> dataList = new ArrayList<>();
 
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
+        // 选项1：1000人群，¥200，grade=1
+        GroupInfoBean option1 = new GroupInfoBean();
+        option1.grade = 1;
+        option1.price = 200;
+        option1.groupMemberNum = 1000;
+        dataList.add(option1);
 
-                    }
-                });
+        // 选项2：1000人以上，¥500，grade=2
+        GroupInfoBean option2 = new GroupInfoBean();
+        option2.grade = 2;
+        option2.price = 500;
+        option2.groupMemberNum = -1; // -1 表示1000人以上/不限制人数
+        dataList.add(option2);
+
+        adapter.setItems(dataList);
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -142,48 +148,50 @@ public class BuyGroupFeatureActivity extends BaseActivity implements View.OnClic
         } else if (v == binding.activityBuyGroupFeatureQsjRuleTv) {
             _type = 2;
             _updateUI();
-        } else if (v == binding.activityBuyGroupFeatureBuyTv) {
-            int grade = -1;
-            String moneyStr = "";
-            for (GroupInfoBean tempBean : adapter.getItems()) {
-                if (tempBean.isSelected) {
-                    grade = tempBean.grade;
-                    moneyStr = NumberUtil.formartMoney(tempBean.price + "");
-                }
-
-            }
-//            if (grade == -1) {
-//                ToastUtils.toastMsg("请选择升级类型");
-//                return;
-//            }
-            int finalGrade = grade;
-            PopEnterPassword popEnterPassword = new PopEnterPassword(this, new OnPasswordInputFinish() {
-                @Override
-                public void inputFinish(String password) {
-                    RegisterBean registerBean = new RegisterBean();
-                    registerBean.grade = finalGrade + "";
-                    registerBean.groupId = _groupId;
-                    registerBean.password = password;
-                    HttpUtil.apiW().group_buyGroupGrade(registerBean)
-                            .enqueue(new CommonCallback<NetData>() {
-                                @Override
-                                public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                                    ToastUtils.toastMsg("购买成功");
-                                }
-
-                                @Override
-                                public void Failure(Call<NetData> call, Throwable t) {
-
-                                }
-                            });
-                }
-            }, moneyStr);
-            // 显示窗口
-            popEnterPassword.showAtLocation(binding.activityBuyGroupFeatureRootRl,
-                    Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); // 设置layout在PopupWindow中显示的位置
-
-
         }
+    }
+
+    /**
+     * 购买群升级
+     *
+     * @param bean 选中的升级选项
+     */
+    void _buyGroupGrade(GroupInfoBean bean) {
+        if (bean == null) {
+            return;
+        }
+
+        // 价格直接显示，不除以100（因为价格已经是元为单位）
+        String moneyStr = bean.price + "";
+        int finalGrade = bean.grade;
+
+        PopEnterPassword popEnterPassword = new PopEnterPassword(this, new OnPasswordInputFinish() {
+            @Override
+            public void inputFinish(String password) {
+                RegisterBean registerBean = new RegisterBean();
+                registerBean.grade = finalGrade + "";
+                registerBean.groupId = _groupId;
+                registerBean.userId = DataUtil.getUserid(); // 当前登录人的ID
+                registerBean.password = password; // 支付密码
+
+                HttpUtil.apiW().group_buyGroupGrade(registerBean)
+                        .enqueue(new CommonCallback<NetData>() {
+                            @Override
+                            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                                ToastUtils.toastMsg("购买成功");
+                                finish();
+                            }
+
+                            @Override
+                            public void Failure(Call<NetData> call, Throwable t) {
+                                ToastUtils.toastMsg("购买失败，请重试");
+                            }
+                        });
+            }
+        }, moneyStr);
+        // 显示窗口
+        popEnterPassword.showAtLocation(binding.activityBuyGroupFeatureRootRl,
+                Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
     }
 
 }
