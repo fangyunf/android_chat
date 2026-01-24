@@ -6,6 +6,7 @@ package com.netease.yunxin.kit.chatkit.ui.fun.view.message.viewholder;
 
 import static com.netease.yunxin.kit.corekit.im.utils.RouterConstant.KEY_TEAM_CREATED_TIP;
 
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -117,8 +118,8 @@ public class ChatTipsMessageViewHolder extends FunChatBaseMessageViewHolder {
                         return;
                     }
                     // 屏蔽抢包记录：如果是抢包记录消息，隐藏它
-                    if (msgBean.sendUserId != null && msgBean.receiveUserId != null) {
-                        baseViewBinding.baseRoot.setVisibility(View.GONE);
+                    if (!TextUtils.isEmpty(msgBean.sendUserId) && !TextUtils.isEmpty(msgBean.receiveUserId)) {
+                        textBinding.messageTipText.setText("");
                         return;
                     }
                     String tempContent = msgBean.receiveUserName + " 领取了 " + msgBean.sendUserName + " 的红包";
@@ -130,7 +131,7 @@ public class ChatTipsMessageViewHolder extends FunChatBaseMessageViewHolder {
                     }
                     textBinding.messageTipText.setText(tempContent);
                 } catch (Exception e) {
-
+                    textBinding.messageTipText.setText("");
                 }
             } else {
                 textBinding.messageTipText.setText(content);
