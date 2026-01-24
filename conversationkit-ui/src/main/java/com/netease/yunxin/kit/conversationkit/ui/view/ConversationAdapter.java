@@ -45,14 +45,13 @@ import java.util.Map;
 public class ConversationAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     private final String TAG = "ConversationAdapter";
-    private IConversationFactory viewHolderFactory = new DefaultViewHolderFactory();
     private final List<ConversationBean> conversationList = new ArrayList<>();
+    private final LinearLayoutManager layoutManager;
+    public int _type;
+    private IConversationFactory viewHolderFactory = new DefaultViewHolderFactory();
     private Comparator<ConversationInfo> dataComparator;
     private ViewHolderClickListener clickListener;
     private boolean isShow = true;
-    private final LinearLayoutManager layoutManager;
-
-    public int _type;
 
     public ConversationAdapter(LinearLayoutManager layoutManager) {
         this.layoutManager = layoutManager;
@@ -98,12 +97,24 @@ public class ConversationAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     public void update(List<ConversationBean> data) {
         for (int i = 0; data != null && i < data.size(); i++) {
-            update(data.get(i));
+            update(data.get(i), false);
         }
     }
 
+    /**
+     * @param fromStickOperation true：来自置顶/取消置顶（stickLiveData），置顶优先，始终重算位置；
+     *                           false：来自会话更新（changeLiveData），群列表群聊可保持固定位置。
+     */
+    public void update(ConversationBean data, boolean fromStickOperation) {
+        updateInternal(data, fromStickOperation);
+    }
+
     public void update(ConversationBean data) {
-        ALog.d(LIB_TAG, TAG, "update" + data.infoData.getContactId());
+        updateInternal(data, false);
+    }
+
+    private void updateInternal(ConversationBean data, boolean fromStickOperation) {
+        ALog.d(LIB_TAG, TAG, "update" + data.infoData.getContactId() + ", fromStickOp:" + fromStickOperation);
         int position = layoutManager.findFirstVisibleItemPosition();
         int removeIndex = -1;
         for (int j = 0; j < conversationList.size(); j++) {
@@ -114,54 +125,59 @@ public class ConversationAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         }
         ALog.d(LIB_TAG, TAG, "update, removeIndex:" + removeIndex);
         if (removeIndex > -1) {
-            if (!conversationList.get(removeIndex).infoData.isStickTop()) {
-                // 群聊页面（_type == 1）保持固定位置，不根据消息时间重新排序
-                if (_type == 1) {
-                    // 保持原有位置不变，只更新数据
-                    conversationList.set(removeIndex, data);
-                    if (isShow) {
-                        notifyItemChanged(removeIndex);
-                    }
+            boolean wasStickTop = conversationList.get(removeIndex).infoData.isStickTop();
+            boolean isNowStickTop = data.infoData.isStickTop();
+            boolean isStickTopChanged = (wasStickTop != isNowStickTop);
+            conversationList.remove(removeIndex);
+
+            int insertIndex;
+            if (fromStickOperation) {
+                // 置顶优先：来自置顶/取消置顶，始终按排序重算位置
+                insertIndex = searchComparatorIndex(data);
+            } else if (_type == 1 && data.viewType == 2 && !isStickTopChanged) {
+                // 群固定：群列表中的群聊，且置顶未变，保持原位置
+                insertIndex = removeIndex;
+            } else {
+                insertIndex = searchComparatorIndex(data);
+            }
+
+            conversationList.add(insertIndex, data);
+            ALog.d(LIB_TAG, TAG, "update, removeIndex:" + removeIndex + ", insertIndex:" + insertIndex + ", wasStickTop:" + wasStickTop + ", isNowStickTop:" + isNowStickTop + ", isShow:" + isShow);
+            if (isShow) {
+                if (removeIndex != insertIndex) {
+                    notifyItemRemoved(removeIndex);
+                    notifyItemInserted(insertIndex);
                 } else {
-                    // 其他页面按时间排序
-                    conversationList.remove(removeIndex);
-                    int insertIndex = searchComparatorIndex(data);
-                    conversationList.add(insertIndex, data);
-                    if (isShow) {
-                        notifyItemMoved(removeIndex, insertIndex);
-                        notifyItemChanged(insertIndex);
-                    }
+                    notifyItemChanged(insertIndex);
+                }
+                if (!wasStickTop && isNowStickTop && insertIndex == 0) {
+                    layoutManager.scrollToPosition(0);
+                } else {
+                    layoutManager.scrollToPosition(position);
                 }
             } else {
-                // 置顶消息保持位置不变
-                conversationList.remove(removeIndex);
-                conversationList.add(removeIndex, data);
-                notifyItemChanged(removeIndex);
+                layoutManager.scrollToPosition(position);
             }
         } else {
-            // 群聊页面（_type == 1）新增群时，添加到列表末尾，保持固定位置
+            int insertIndex = searchComparatorIndex(data);
             if (_type == 1 && data.viewType == 2) {
-                conversationList.add(data);
+                conversationList.add(insertIndex, data);
                 if (isShow) {
-                    notifyItemInserted(conversationList.size() - 1);
+                    notifyItemInserted(insertIndex);
                 }
-            } else {
-                // 其他页面按时间排序插入
-                int insertIndex = searchComparatorIndex(data);
-                if (_type == 0 && data.viewType == 1) {
-                    conversationList.add(insertIndex, data);
-                    if (isShow) {
-                        notifyItemInserted(insertIndex);
-                    }
-                } else if (_type == 3) {
-                    conversationList.add(insertIndex, data);
-                    if (isShow) {
-                        notifyItemInserted(insertIndex);
-                    }
+            } else if (_type == 0 && data.viewType == 1) {
+                conversationList.add(insertIndex, data);
+                if (isShow) {
+                    notifyItemInserted(insertIndex);
+                }
+            } else if (_type == 3) {
+                conversationList.add(insertIndex, data);
+                if (isShow) {
+                    notifyItemInserted(insertIndex);
                 }
             }
+            layoutManager.scrollToPosition(position);
         }
-        layoutManager.scrollToPosition(position);
     }
 
     public void updateUserInfo(List<UserInfo> data) {
@@ -199,9 +215,7 @@ public class ConversationAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         if (accountMap != null) {
             for (int i = 0; i < conversationList.size(); i++) {
                 ConversationInfo info = conversationList.get(i).infoData;
-                if (info != null
-                        && info.getTeamInfo() != null
-                        && accountMap.containsKey(info.getTeamInfo().getId())) {
+                if (info != null && info.getTeamInfo() != null && accountMap.containsKey(info.getTeamInfo().getId())) {
                     Team team = accountMap.get(info.getTeamInfo().getId());
                     info.setTeamInfo(team);
                     if (team != null && team.getMessageNotifyType() != null) {
@@ -236,8 +250,7 @@ public class ConversationAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             return 0;
         }
         for (int i = 0; i < conversationList.size(); i++) {
-            if (dataComparator != null
-                    && dataComparator.compare(data.infoData, conversationList.get(i).infoData) < 1) {
+            if (dataComparator != null && dataComparator.compare(data.infoData, conversationList.get(i).infoData) < 1) {
                 index = i;
                 break;
             }
@@ -317,10 +330,19 @@ public class ConversationAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         if (index > -1) {
             conversationList.get(index).infoData.setStickTop(true);
             ConversationBean data = conversationList.remove(index);
-            conversationList.add(0, data);
+            // 其他页面使用 searchComparatorIndex 找到正确的插入位置（会在置顶区域按时间排序）
+            int insertIndex = searchComparatorIndex(data);
+            conversationList.add(insertIndex, data);
+            ALog.d(LIB_TAG, TAG, "addStickTop, id:" + id + ", index:" + index + ", insertIndex:" + insertIndex + ", isShow:" + isShow);
             if (isShow) {
-                notifyItemMoved(index, 0);
-                notifyItemChanged(0);
+                if (index != insertIndex) {
+                    // 使用 notifyItemRemoved + notifyItemInserted 确保 UI 正确刷新
+                    notifyItemRemoved(index);
+                    notifyItemInserted(insertIndex);
+                } else {
+                    // 位置没变，只刷新数据
+                    notifyItemChanged(insertIndex);
+                }
             }
         }
     }

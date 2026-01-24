@@ -354,7 +354,7 @@ public abstract class ConversationBaseFragment extends BaseFragment implements I
                 result -> {
                     if (result.getLoadStatus() == LoadStatus.Success && conversationView != null) {
                         ALog.d(LIB_TAG, TAG, "StickLiveData, Success");
-                        conversationView.update(result.getData());
+                        conversationView.update(result.getData(), true);
                     }
                     doCallback();
                 };

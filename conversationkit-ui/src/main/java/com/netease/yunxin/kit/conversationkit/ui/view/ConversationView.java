@@ -141,6 +141,16 @@ public class ConversationView extends FrameLayout {
         }
     }
 
+    /**
+     * @param fromStickOperation true：来自置顶/取消置顶，置顶优先；false：来自会话更新，可应用群固定。
+     */
+    public void update(ConversationBean data, boolean fromStickOperation) {
+        if (adapter != null) {
+            ALog.d(LIB_TAG, TAG, "update ConversationBean, fromStickOp:" + fromStickOperation);
+            adapter.update(data, fromStickOperation);
+        }
+    }
+
     public void updateUserInfo(List<UserInfo> data) {
         if (adapter != null) {
             adapter.updateUserInfo(data);
