@@ -154,9 +154,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         initData();
         EventCenter.registerEventNotify(skinNotify);
         EventBus.getDefault().register(this);
-
-        //_update();
-
+        _update();
         NIMClient.toggleNotification(false);
 
 //        if (SPUtils.getInstance().getBoolean("isRegister")) {
