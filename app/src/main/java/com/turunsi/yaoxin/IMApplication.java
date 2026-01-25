@@ -97,9 +97,18 @@ public class IMApplication extends MultiDexApplication {
     private static final String TAG = "IMApplication";
     private static boolean coldStart = false;
     private static int foregroundActCount = 0;
+    private final List<Activity> activities = new ArrayList<>();
+    Vibrator vibrator;
     private Activity currentActivity;
     private MediaPlayer mediaPlayer;
-    Vibrator vibrator;
+
+    public static void setColdStart(boolean value) {
+        coldStart = value;
+    }
+
+    public static int getForegroundActCount() {
+        return foregroundActCount;
+    }
 
     @Override
     public void onCreate() {
@@ -132,7 +141,7 @@ public class IMApplication extends MultiDexApplication {
             VibrationEffect vibrationEffect = null;
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                 vibrationEffect = VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE);
-                vibrator.vibrate(vibrationEffect);
+               // vibrator.vibrate(vibrationEffect);
             }
 
             // 开始震动
@@ -303,7 +312,6 @@ public class IMApplication extends MultiDexApplication {
                                         public void onSuccess(@Nullable TeamWithCurrentMember param) {
                                             boolean isMute = param.getTeam().getMessageNotifyType() == TeamMessageNotifyTypeEnum.Mute;
                                             if (!isMute) {
-
                                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                                                     vibrator.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE));
                                                 } else {
@@ -331,8 +339,6 @@ public class IMApplication extends MultiDexApplication {
             CrashReport.initCrashReport(getApplicationContext(), "119f26942a", false);
         }
     }
-
-    private final List<Activity> activities = new ArrayList<>();
 
     //用于系统杀死应用之后，系统恢复应用，可能存在没有登录的异常
     //此处如果在没有登录的情况下，其他页面打开的时候进行finish();除了MainActivity
@@ -396,18 +402,10 @@ public class IMApplication extends MultiDexApplication {
         }
     }
 
-    public static void setColdStart(boolean value) {
-        coldStart = value;
-    }
-
     @Override
     public void onTerminate() {
         super.onTerminate();
         foregroundActCount = 0;
-    }
-
-    public static int getForegroundActCount() {
-        return foregroundActCount;
     }
 
     public Activity getCurrentActivity() {

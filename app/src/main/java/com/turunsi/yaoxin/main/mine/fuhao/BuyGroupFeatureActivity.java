@@ -90,14 +90,14 @@ public class BuyGroupFeatureActivity extends BaseActivity implements View.OnClic
 
         // 选项1：1000人群，¥200，grade=1
         GroupInfoBean option1 = new GroupInfoBean();
-        option1.grade = 1;
+        option1.grade = 2;
         option1.price = 200;
         option1.groupMemberNum = 1000;
         dataList.add(option1);
 
         // 选项2：1000人以上，¥500，grade=2
         GroupInfoBean option2 = new GroupInfoBean();
-        option2.grade = 2;
+        option2.grade = 3;
         option2.price = 500;
         option2.groupMemberNum = -1; // -1 表示1000人以上/不限制人数
         dataList.add(option2);

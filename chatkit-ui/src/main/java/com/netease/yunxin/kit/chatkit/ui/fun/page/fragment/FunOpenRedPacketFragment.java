@@ -206,7 +206,6 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
                         .enqueue(new CommonCallback<NetData>() {
                             @Override
                             public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-
                                 gotoRedPacketDetail(true);
                                 sendTipMsg(true);
                             }
@@ -233,17 +232,17 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
     }
 
     void sendTipMsg(boolean isGroup) {
-        IMMessage msg = MessageBuilder.createTipMessage(groupId, isGroup ? SessionTypeEnum.Team : SessionTypeEnum.P2P);
-        CustomMsgBean msgBean = new CustomMsgBean();
-        msgBean.receiveUserId = DataUtil.getUserid();
-        msgBean.receiveUserName = DataUtil.getUserInfo().username;
-        msgBean.sendUserId = sendBean.result.fromUserId;
-        msgBean.sendUserName = sendBean.result.sendName;
-        msg.setContent(new Gson().toJson(msgBean));
-        CustomMessageConfig messageConfig = new CustomMessageConfig();
-        messageConfig.enableUnreadCount = false;
-        msg.setConfig(messageConfig);
-        ChatRepo.sendMessage(msg, null);
+//        IMMessage msg = MessageBuilder.createTipMessage(groupId, isGroup ? SessionTypeEnum.Team : SessionTypeEnum.P2P);
+//        CustomMsgBean msgBean = new CustomMsgBean();
+//        msgBean.receiveUserId = DataUtil.getUserid();
+//        msgBean.receiveUserName = DataUtil.getUserInfo().username;
+//        msgBean.sendUserId = sendBean.result.fromUserId;
+//        msgBean.sendUserName = sendBean.result.sendName;
+//        msg.setContent(new Gson().toJson(msgBean));
+//        CustomMessageConfig messageConfig = new CustomMessageConfig();
+//        messageConfig.enableUnreadCount = false;
+//        msg.setConfig(messageConfig);
+//        ChatRepo.sendMessage(msg, null);
         updateMessage();
     }
 
