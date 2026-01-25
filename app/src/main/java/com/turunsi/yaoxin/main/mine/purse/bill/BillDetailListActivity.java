@@ -76,9 +76,12 @@ public class BillDetailListActivity extends BaseActivity implements View.OnClick
         binding.activityMineBankBillDetailListRv.setAdapter(adapter);
         binding.activityMineBankBillDetailListDateTv.setText(selectedMonth);
 
-        String[] strs = {"全部", "发送群红包", "领取群红包", "发送专属红包", "领取专属红包", "发送个人红包", "领取个人红包", "充值", "提现", "红包退回", "提现驳回", "抽奖", "买靓号", "买副号", "购买菜单", "买靓号", "获得彩蛋", "群升级", "转帐"};
-        int[] types = {-1, 23, 26, 21, 24, 22, 25, 0, 1, 27, 5, 80, 78, 91, 92, 93, 100, 141, 28};
-        String[] imageNames = {"", "icn_send_red_packet", "icn_re_red_packet", "icn_send_red_packet", "icn_re_red_packet", "icn_send_red_packet", "icn_re_red_packet", "icn_detail_pay", "icn_detail_pay", "icn_detail_pay", "icn_detail_pay", "icn_detail_pay", "icn_detail_pay", "icn_detail_pay", "icn_detail_pay", "icn_detail_pay", "icn_detail_pay", "icn_detail_pay", "icn_send_red_packet"};
+//        String[] strs = {"全部", "发送群红包", "领取群红包", "发送专属红包", "领取专属红包", "发送个人红包", "领取个人红包", "充值", "提现", "红包退回", "提现驳回", "抽奖", "买靓号", "买副号", "购买菜单", "买靓号", "获得彩蛋", "群升级", "转帐"};
+//        int[] types = {-1, 23, 26, 21, 24, 22, 25, 0, 1, 27, 5, 80, 78, 91, 92, 93, 100, 141, 28};
+        String[] imageNames = {"", "icn_send_red_packet", "icn_re_red_packet", "icn_send_red_packet", "icn_re_red_packet", "icn_send_red_packet", "icn_re_red_packet", "icn_detail_pay", "icn_detail_pay", "icn_detail_pay", "icn_detail_pay", "icn_detail_pay", "icn_detail_pay", "icn_send_red_packet"};
+
+        String[] strs = {"全部", "发送群红包", "领取群红包", "发送专属红包", "领取专属红包", "发送个人红包", "领取个人红包", "充值", "提现", "红包退回", "提现驳回", "买副号", "群升级", "转帐"};
+        int[] types = {-1, 23, 26, 21, 24, 22, 25, 0, 1, 27, 5, 91, 141, 28};
 
 //        for (int i = 0; i < strs.length; i++) {
 //            BillDetailBean bean = new BillDetailBean();
