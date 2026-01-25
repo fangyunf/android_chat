@@ -28,6 +28,7 @@ import com.yaoxin.appbase.utils.DialogAlertUtil;
 import com.yaoxin.appbase.utils.NumberUtil;
 import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
+import com.yaoxin.appbase.view.LoadingDialog;
 import com.yaoxin.appbase.view.pwdkeyboard.Keyboard;
 import com.yaoxin.appbase.view.pwdkeyboard.PayEditText;
 
@@ -143,35 +144,34 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
         bean.amount = NumberUtil.formartUploadMoney(inputMoney);
         bean.type = 2;
         if (payType.equals("alipay")) {
-
             bean.zfbNo = aliPayBean.phone;
             bean.name = aliPayBean.name;
             bean.zfbUrl = aliPayBean.usdt;
             bean.userUsdtId = aliPayBean.id + "";
         } else if (payType.equals("wxpay")) {
-
             bean.zfbNo = wxPayBean.phone;
             bean.name = wxPayBean.name;
             bean.zfbUrl = wxPayBean.usdt;
             bean.userUsdtId = wxPayBean.id + "";
         } else if (payType.equals("yhkpay")) {
-
             bean.zfbNo = yhkPayBean.phone;
             bean.name = yhkPayBean.name;
             bean.zfbUrl = yhkPayBean.usdt;
             bean.userUsdtId = yhkPayBean.id + "";
         }
+        LoadingDialog.showDialog(getSupportFragmentManager(), "请稍等...");
         HttpUtil.apiW().withdraw_withdrawDeposit(bean)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                        LoadingDialog.dismissDialog();
                         ToastUtils.toastMsg("提现成功");
                         finish();
                     }
 
                     @Override
                     public void Failure(Call<NetData> call, Throwable t) {
-
+                        LoadingDialog.dismissDialog();
                     }
                 });
     }
@@ -290,9 +290,8 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
                     public void Failure(Call<NetData> call, Throwable t) {
                         synchronized (lock) {
                             completedRequests++;
-
                             // 即使失败也要检查是否所有请求都完成了
-                            if (completedRequests == 3) {
+                            if (completedRequests == 2) {
                                 handleAllRequestsCompleted();
                             }
                         }
@@ -387,8 +386,8 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
         } else if (v == binding.activityMinePurseTixianAllTixianTv) {
             binding.activityMinePurseTixianMoneyEt.setText(accountMoeny);
         } else if (v == binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgLl || v == binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt) {
-
-            DialogAlertUtil.showSheetView(this, getSupportFragmentManager(), new String[]{"支付宝", "微信", "银行卡"}, new DialogAlertUtil.DialogAlertUtilCallBack() {
+//, "银行卡"
+            DialogAlertUtil.showSheetView(this, getSupportFragmentManager(), new String[]{"支付宝", "微信"}, new DialogAlertUtil.DialogAlertUtilCallBack() {
                 @Override
                 public void clickType(int type) {
                     if (type == 1) {
