@@ -25,11 +25,14 @@ import com.turunsi.yaoxin.main.mine.fuhao.adapter.MyFuHaoListAdapter;
 import com.turunsi.yaoxin.main.mine.setting.adapter.ExchangeAccountAdapter;
 import com.yaoxin.appbase.activity.BaseActivity;
 import com.yaoxin.appbase.model.NetData;
+import com.yaoxin.appbase.model.RegisterBean;
+import com.yaoxin.appbase.model.SubUserBean;
 import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.DialogAlertUtil;
+import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
 import com.yaoxin.appbase.view.CommonGridSpacingItemDecoration;
 
@@ -50,20 +53,20 @@ public class MyFuHaoListActivity extends BaseActivity implements View.OnClickLis
 
     MyFuHaoListAdapter adapter = new MyFuHaoListAdapter();
 
-    ArrayList<UserBean> userBeanList = new ArrayList<>();
+    ArrayList<SubUserBean> subUserList = new ArrayList<>();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMineMyFuhaoListBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        StatusBarUtils.transtStatusBar(this, binding.activityMineMyFuhaoListNav);
         binding.activityMineMyFuhaoListNav.addCloseImageButton().setOnClickListener(this);
-        binding.activityMineMyFuhaoListBuyIv.setOnClickListener(this);
+        binding.activityMineMyFuhaoListBuyTv.setOnClickListener(this);
         binding.activityMineMyFuhaoListSelfPhoneTv.setText(DataUtil.getUserInfo().phoneNo);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
-        binding.activityMineMyFuhaoListRv.setLayoutManager(gridLayoutManager);
-        CommonGridSpacingItemDecoration gridSpacingItemDecoration =
-                new CommonGridSpacingItemDecoration(2, SizeUtils.dp2px(10), false);
-        binding.activityMineMyFuhaoListRv.addItemDecoration(gridSpacingItemDecoration);
+        // 改为垂直列表布局，匹配图1设计
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        binding.activityMineMyFuhaoListRv.setLayoutManager(linearLayoutManager);
         binding.activityMineMyFuhaoListRv.setAdapter(adapter);
 
 //        for (int i = 0; i < 20; i++) {
@@ -72,9 +75,10 @@ public class MyFuHaoListActivity extends BaseActivity implements View.OnClickLis
 //            userBeanList.add(bean);
 //        }
 
-        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener<UserBean>() {
+        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener<SubUserBean>() {
             @Override
-            public void onClick(@NonNull BaseQuickAdapter<UserBean, ?> baseQuickAdapter, @NonNull View view, int i) {
+            public void onClick(@NonNull BaseQuickAdapter<SubUserBean, ?> baseQuickAdapter, @NonNull View view, int i) {
+                // 点击复制按钮的逻辑在适配器中处理
             }
         });
         EventBus.getDefault().register(this);
@@ -97,17 +101,17 @@ public class MyFuHaoListActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected void _requestData() {
-//[{"id":1,"userId":"1814288308478554112","phoneFix":"111111000","createTime":1721485400000,"amount":6800}]
-        HttpUtil.apiW().home_wdfh()
+        RegisterBean registerBean = new RegisterBean();
+        registerBean.userId = DataUtil.getUserInfo().userId;
+        HttpUtil.apiW().subUser_queryList(registerBean)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-
-                        Type type = new TypeToken<List<UserBean>>() {}.getType();
-                        userBeanList = new Gson().fromJson(body.data.toString(), type);
-                        adapter.setItems(userBeanList);
+                        Type type = new TypeToken<List<SubUserBean>>() {
+                        }.getType();
+                        subUserList = new Gson().fromJson(body.data.toString(), type);
+                        adapter.setItems(subUserList);
                         adapter.notifyDataSetChanged();
-
                     }
 
                     @Override
@@ -124,10 +128,10 @@ public class MyFuHaoListActivity extends BaseActivity implements View.OnClickLis
 //            map.put("type","0");
 //            BuyFeatureActivity.start(BuyFeatureActivity.class,this,map);
             finish();
-        } else if (v == binding.activityMineMyFuhaoListBuyIv) {
+        } else if (v == binding.activityMineMyFuhaoListBuyTv) {
             HashMap map = new HashMap();
-            map.put("type","1");
-            BuyFeatureActivity.start(BuyFeatureActivity.class,this,map);
+            map.put("type", "1");
+            BuyFeatureActivity.start(BuyFeatureActivity.class, this, map);
         }
     }
 
