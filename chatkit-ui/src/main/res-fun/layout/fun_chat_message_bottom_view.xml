@@ -250,7 +250,7 @@
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/actionsPanelVp"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_188_dp"
+            android:layout_height="@dimen/dimen_110_dp"
             android:paddingTop="@dimen/dimen_10_dp"
             android:visibility="gone" />
     </FrameLayout>
