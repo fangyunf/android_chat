@@ -1,6 +1,8 @@
 package com.turunsi.yaoxin.main.mine.fuhao;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 
@@ -11,10 +13,13 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import com.chad.library.adapter4.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.netease.yunxin.kit.common.ui.dialog.ChoiceListener;
+import com.netease.yunxin.kit.common.ui.dialog.CommonChoiceDialog;
 import com.netease.yunxin.kit.common.utils.SizeUtils;
 import com.turunsi.yaoxin.R;
 import com.turunsi.yaoxin.databinding.ActivityBuyFeatureBinding;
 import com.turunsi.yaoxin.databinding.ActivityMineMyFuhaoListBinding;
+import com.turunsi.yaoxin.main.mine.account.AccountAnQuanManagerActivity;
 import com.turunsi.yaoxin.main.mine.fuhao.adapter.GroupBuyListAdapter;
 import com.turunsi.yaoxin.main.mine.fuhao.adapter.MyFuHaoListAdapter;
 import com.yaoxin.appbase.activity.BaseActivity;
@@ -105,50 +110,75 @@ public class BuyFeatureActivity extends BaseActivity implements View.OnClickList
             finish();
         } else if (v == binding.activityBuyFeatureConfrimTv || v == binding.activityBuyFeatureBuyTv) {
             String phone = getTextStr(binding.activityBuyFeatureEt);
-            if (phone.length() != 5) {
+            if (phone == null || phone.length() != 5) {
                 ToastUtils.toastMsg("请输入5位");
                 return;
             }
-            String smsPhone = binding.etPhone.getText().toString();
-            if (smsPhone.length() != 11) {
-                ToastUtils.toastMsg("请输入正确的手机号");
-                return;
-            }
-            PopEnterPassword popEnterPassword = new PopEnterPassword(this, new OnPasswordInputFinish() {
-                @Override
-                public void inputFinish(String password) {
-                    RegisterBean registerBean = new RegisterBean();
-                    registerBean.phone = "1" + phone + "000";
-                    registerBean.password = password;
-                    registerBean.smsPhone = smsPhone;
-                    LoadingDialog.showDialog(getSupportFragmentManager(), "购买中..");
-                    HttpUtil.apiW().home_gmfh(registerBean)
-                            .enqueue(new CommonCallback<NetData>() {
-                                @Override
-                                public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-
-                                    ToastUtils.toastMsg("购买成功");
-                                    EventBus.getDefault().post(new BaseEvent("reload_fuhao"));
-                                    finish();
-                                }
-
-                                @Override
-                                public void Failure(Call<NetData> call, Throwable t) {
-
-                                }
-
-                                @Override
-                                public void end() {
-                                    super.end();
-                                    LoadingDialog.dismissDialog();
-                                }
-                            });
+            String smsPhone = binding.etPhone.getText() != null ? binding.etPhone.getText().toString().trim() : "";
+            if (!TextUtils.isEmpty(smsPhone)) {
+                if (smsPhone.length() != 11) {
+                    ToastUtils.toastMsg("请输入正确的手机号");
+                    return;
                 }
-            }, "100");
-            // 显示窗口
-            popEnterPassword.showAtLocation(binding.activityBuyFeatureRootRl,
-                    Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); // 设置layout在PopupWindow中显示的位置
+                // 已输入验证码手机号：直接走购买流程
+                doPurchase(phone, smsPhone);
+            } else {
+                // 未输入验证码手机号：弹窗提示，取消去设置 / 继续购买
+                CommonChoiceDialog dialog = new CommonChoiceDialog();
+                dialog.setTitleStr("提示")
+                        .setContentStr("建议为了账户安全,尽量设置接收验证码手机号，如果需要设置，请点击取消去设置")
+                        .setNegativeStr("取消")
+                        .setPositiveStr("继续购买")
+                        .setConfirmListener(new ChoiceListener() {
+                            @Override
+                            public void onPositive() {
+                                doPurchase(phone, "");
+                            }
+
+                            @Override
+                            public void onNegative() {
+                                //startActivity(new Intent(BuyFeatureActivity.this, AccountAnQuanManagerActivity.class));
+                            }
+                        })
+                        .show(getSupportFragmentManager());
+            }
         }
+    }
+
+    private void doPurchase(String phone, String smsPhone) {
+        PopEnterPassword popEnterPassword = new PopEnterPassword(this, new OnPasswordInputFinish() {
+            @Override
+            public void inputFinish(String password) {
+                RegisterBean registerBean = new RegisterBean();
+                registerBean.phone = "1" + phone + "000";
+                registerBean.password = password;
+                if (!TextUtils.isEmpty(smsPhone)) {
+                    registerBean.smsPhone = smsPhone;
+                }
+                LoadingDialog.showDialog(getSupportFragmentManager(), "购买中..");
+                HttpUtil.apiW().home_gmfh(registerBean)
+                        .enqueue(new CommonCallback<NetData>() {
+                            @Override
+                            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                                ToastUtils.toastMsg("购买成功");
+                                EventBus.getDefault().post(new BaseEvent("reload_fuhao"));
+                                finish();
+                            }
+
+                            @Override
+                            public void Failure(Call<NetData> call, Throwable t) {
+                            }
+
+                            @Override
+                            public void end() {
+                                super.end();
+                                LoadingDialog.dismissDialog();
+                            }
+                        });
+            }
+        }, "100");
+        popEnterPassword.showAtLocation(binding.activityBuyFeatureRootRl,
+                Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
     }
 
 }
