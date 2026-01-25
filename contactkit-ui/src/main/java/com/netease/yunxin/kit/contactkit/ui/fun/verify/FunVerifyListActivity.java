@@ -54,79 +54,84 @@ public class FunVerifyListActivity extends BaseActivity implements View.OnClickL
     FunVerifyFriendListActivityBinding binding;
     FunVerifyFriendListAdapter adapter = new FunVerifyFriendListAdapter();
     int type = 0;
-  @Override
-  protected void onCreate(@Nullable Bundle savedInstanceState) {
-      String type1 = getIntent().getStringExtra("type");
-      if (type1 != null) {
-          type = Integer.parseInt(type1);
-          adapter.business_type = type;
-      }
-      super.onCreate(savedInstanceState);
-      binding = FunVerifyFriendListActivityBinding.inflate(getLayoutInflater());
-      setContentView(binding.getRoot());
-      binding.funVerifyFriendListActivityNav.addCloseImageButton().setOnClickListener(this);
 
-      binding.funVerifyFriendListActivityRv.setLayoutManager(new LinearLayoutManager(this));
-      binding.funVerifyFriendListActivityRv.setAdapter(adapter);
-      Activity that = this;
-      adapter.addOnItemChildClickListener(R.id.fun_verify_friend_list_cell_opt_rl, new BaseQuickAdapter.OnItemChildClickListener<UserBean>() {
-          @Override
-          public void onItemClick(@NonNull BaseQuickAdapter<UserBean, ?> baseQuickAdapter, @NonNull View view, int i) {
-              UserBean bean = baseQuickAdapter.getItem(i);
-              bean.page_type = type == 1 ? 101 : 100;
-              HashMap map = new HashMap();
-              map.put("user",new Gson().toJson(bean));
-              FunAddFriendVerifyActivity.start(FunAddFriendVerifyActivity.class,that,map);
-          }
-      });
-  }
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        String type1 = getIntent().getStringExtra("type");
+        if (type1 != null) {
+            type = Integer.parseInt(type1);
+            adapter.business_type = type;
+        }
+        super.onCreate(savedInstanceState);
+        binding = FunVerifyFriendListActivityBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        binding.funVerifyFriendListActivityNav.addCloseImageButton().setOnClickListener(this);
+
+        binding.funVerifyFriendListActivityRv.setLayoutManager(new LinearLayoutManager(this));
+        binding.funVerifyFriendListActivityRv.setAdapter(adapter);
+        Activity that = this;
+        adapter.addOnItemChildClickListener(R.id.fun_verify_friend_list_cell_opt_rl, new BaseQuickAdapter.OnItemChildClickListener<UserBean>() {
+            @Override
+            public void onItemClick(@NonNull BaseQuickAdapter<UserBean, ?> baseQuickAdapter, @NonNull View view, int i) {
+                UserBean bean = baseQuickAdapter.getItem(i);
+                bean.page_type = type == 1 ? 101 : 100;
+                HashMap map = new HashMap();
+                map.put("user", new Gson().toJson(bean));
+                FunAddFriendVerifyActivity.start(FunAddFriendVerifyActivity.class, that, map);
+            }
+        });
+    }
 
     @Override
     protected void _requestData() {
-      if (type == 1) {
 
-          RegisterBean bean = new RegisterBean();
-          HttpUtil.apiW().group_applyGroups(bean)
-                  .enqueue(new CommonCallback<NetData>() {
-                      @Override
-                      public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                          NetData listData = new Gson().fromJson(body.data.toString(),NetData.class);
-                          Gson gson = new Gson();
-                          List<UserBean> verifyList =
-                                  gson.fromJson(new Gson().toJson(listData.data), new TypeToken<List<UserBean>>() {
-                                  }.getType());
-                          adapter.setItems(verifyList);
-                          adapter.notifyDataSetChanged();
-                      }
+    }
 
-                      @Override
-                      public void Failure(Call<NetData> call, Throwable t) {
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (type == 1) {
+            RegisterBean bean = new RegisterBean();
+            HttpUtil.apiW().group_applyGroups(bean)
+                    .enqueue(new CommonCallback<NetData>() {
+                        @Override
+                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                            NetData listData = new Gson().fromJson(body.data.toString(), NetData.class);
+                            Gson gson = new Gson();
+                            List<UserBean> verifyList =
+                                    gson.fromJson(new Gson().toJson(listData.data), new TypeToken<List<UserBean>>() {
+                                    }.getType());
+                            adapter.setItems(verifyList);
+                            adapter.notifyDataSetChanged();
+                        }
 
-                      }
-                  });
-      } else {
+                        @Override
+                        public void Failure(Call<NetData> call, Throwable t) {
 
-          RegisterBean bean = new RegisterBean();
-          bean.pageNo = "0";
-          HttpUtil.apiW().friends_applyList(bean)
-                  .enqueue(new CommonCallback<NetData>() {
-                      @Override
-                      public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                          NetData listData = new Gson().fromJson(body.data.toString(),NetData.class);
-                          Gson gson = new Gson();
-                          List<UserBean> verifyList =
-                                  gson.fromJson(new Gson().toJson(listData.data), new TypeToken<List<UserBean>>() {
-                                  }.getType());
-                          adapter.setItems(verifyList);
-                          adapter.notifyDataSetChanged();
-                      }
+                        }
+                    });
+        } else {
+            RegisterBean bean = new RegisterBean();
+            bean.pageNo = "0";
+            HttpUtil.apiW().friends_applyList(bean)
+                    .enqueue(new CommonCallback<NetData>() {
+                        @Override
+                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                            NetData listData = new Gson().fromJson(body.data.toString(), NetData.class);
+                            Gson gson = new Gson();
+                            List<UserBean> verifyList =
+                                    gson.fromJson(new Gson().toJson(listData.data), new TypeToken<List<UserBean>>() {
+                                    }.getType());
+                            adapter.setItems(verifyList);
+                            adapter.notifyDataSetChanged();
+                        }
 
-                      @Override
-                      public void Failure(Call<NetData> call, Throwable t) {
+                        @Override
+                        public void Failure(Call<NetData> call, Throwable t) {
 
-                      }
-                  });
-      }
+                        }
+                    });
+        }
     }
 
     @Override
