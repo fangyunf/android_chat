@@ -142,7 +142,7 @@ public class MainActivity extends BaseActivity {
         EventCenter.registerEventNotify(skinNotify);
 
         EventBus.getDefault().register(this);
-        _update();
+        // _update();
         NIMClient.toggleNotification(false);
 
 //        if (SPUtils.getInstance().getBoolean("isRegister")) {
@@ -332,14 +332,14 @@ public class MainActivity extends BaseActivity {
 
                                 }
                             }
-                          if (conversationFragment == mConversationFragment1) {
-                            if (groupChatUnreadCount > 0) {
-                              activityMainBinding.conversationDot1.setVisibility(View.VISIBLE);
-                            } else {
-                              activityMainBinding.conversationDot1.setVisibility(View.GONE);
+                            if (conversationFragment == mConversationFragment1) {
+                                if (groupChatUnreadCount > 0) {
+                                    activityMainBinding.conversationDot1.setVisibility(View.VISIBLE);
+                                } else {
+                                    activityMainBinding.conversationDot1.setVisibility(View.GONE);
 
+                                }
                             }
-                          }
                         }
                     });
         }
