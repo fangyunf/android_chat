@@ -107,13 +107,11 @@ public class FunAddFriendVerifyActivity extends BaseActivity implements View.OnC
         } else if (v == binding.funAddFriendVerifyActivityRefuseRl) {
             optAddFriend(false);
         } else if (v == binding.funAddFriendVerifyActivityAggreRl) {
-
             optAddFriend(true);
         }
     }
     private void optAddFriend(boolean isAgree) {
         if (userBean.page_type == 101) {
-
             //1 同意,2 拒绝
             RegisterBean bean = new RegisterBean();
             bean.id = userBean.id;
@@ -132,7 +130,6 @@ public class FunAddFriendVerifyActivity extends BaseActivity implements View.OnC
                         }
                     });
         } else {
-
             //1 同意,2 拒绝
             RegisterBean bean = new RegisterBean();
             bean.id = userBean.id;

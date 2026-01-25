@@ -4,11 +4,8 @@
 
 package com.netease.yunxin.kit.contactkit.ui.fun.verify;
 
-import android.app.Activity;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,33 +14,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.chad.library.adapter4.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
-import com.netease.yunxin.kit.contactkit.ui.ILoadListener;
 import com.netease.yunxin.kit.contactkit.ui.R;
-import com.netease.yunxin.kit.contactkit.ui.databinding.BaseListActivityLayoutBinding;
-import com.netease.yunxin.kit.contactkit.ui.databinding.FunAddFriendVerifyActivityBinding;
 import com.netease.yunxin.kit.contactkit.ui.databinding.FunVerifyFriendListActivityBinding;
 import com.netease.yunxin.kit.contactkit.ui.fun.addfriend.FunAddFriendVerifyActivity;
 import com.netease.yunxin.kit.contactkit.ui.fun.verify.adapter.FunVerifyFriendListAdapter;
-import com.netease.yunxin.kit.contactkit.ui.fun.view.FunContactViewHolderFactory;
-import com.netease.yunxin.kit.contactkit.ui.fun.view.viewholder.FunVerifyInfoViewHolder;
-import com.netease.yunxin.kit.contactkit.ui.model.ContactVerifyInfoBean;
-import com.netease.yunxin.kit.contactkit.ui.model.IViewTypeConstant;
-import com.netease.yunxin.kit.contactkit.ui.verify.BaseVerifyListActivity;
-import com.netease.yunxin.kit.contactkit.ui.view.viewholder.BaseContactViewHolder;
-import com.netease.yunxin.kit.corekit.im.model.SystemMessageInfoStatus;
-import com.netease.yunxin.kit.corekit.im.model.SystemMessageInfoType;
-import com.netease.yunxin.kit.corekit.im.provider.FetchCallback;
-import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
-import com.netease.yunxin.kit.corekit.route.XKitRouter;
 import com.yaoxin.appbase.activity.BaseActivity;
 import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
+import com.yaoxin.appbase.utils.ToastUtils;
 
-import java.util.HashMap;
 import java.util.List;
 
 import retrofit2.Call;
@@ -69,17 +51,63 @@ public class FunVerifyListActivity extends BaseActivity implements View.OnClickL
 
         binding.funVerifyFriendListActivityRv.setLayoutManager(new LinearLayoutManager(this));
         binding.funVerifyFriendListActivityRv.setAdapter(adapter);
-        Activity that = this;
-        adapter.addOnItemChildClickListener(R.id.fun_verify_friend_list_cell_opt_rl, new BaseQuickAdapter.OnItemChildClickListener<UserBean>() {
+
+        BaseQuickAdapter.OnItemChildClickListener<UserBean> agreeRefuseListener = new BaseQuickAdapter.OnItemChildClickListener<UserBean>() {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<UserBean, ?> baseQuickAdapter, @NonNull View view, int i) {
+//                UserBean bean = baseQuickAdapter.getItem(i);
+//                bean.page_type = type == 1 ? 101 : 100;
+//                HashMap map = new HashMap();
+//                map.put("user", new Gson().toJson(bean));
+//                FunAddFriendVerifyActivity.start(FunAddFriendVerifyActivity.class, that, map);
                 UserBean bean = baseQuickAdapter.getItem(i);
-                bean.page_type = type == 1 ? 101 : 100;
-                HashMap map = new HashMap();
-                map.put("user", new Gson().toJson(bean));
-                FunAddFriendVerifyActivity.start(FunAddFriendVerifyActivity.class, that, map);
+                int id = view.getId();
+                if (id == R.id.fun_verify_friend_list_cell_agree_tv) {
+                    optVerify(bean, true, baseQuickAdapter, i);
+                } else if (id == R.id.fun_verify_friend_list_cell_refuse_tv) {
+                    optVerify(bean, false, baseQuickAdapter, i);
+                }
             }
-        });
+        };
+        adapter.addOnItemChildClickListener(R.id.fun_verify_friend_list_cell_agree_tv, agreeRefuseListener);
+        adapter.addOnItemChildClickListener(R.id.fun_verify_friend_list_cell_refuse_tv, agreeRefuseListener);
+    }
+
+    private void optVerify(UserBean bean, boolean isAgree, BaseQuickAdapter<UserBean, ?> adapter, int position) {
+        RegisterBean req = new RegisterBean();
+        req.id = bean.id;
+        req.type = isAgree ? 1 : 2;
+        if (type == 1) {
+            HttpUtil.apiW().group_groupConsentOrRefuse(req)
+                    .enqueue(new CommonCallback<NetData>() {
+                        @Override
+                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                            ToastUtils.toastMsg(body != null && body.msg != null ? body.msg : (isAgree ? "已同意" : "已拒绝"));
+                            adapter.getItems().remove(position);
+                            adapter.notifyItemRemoved(position);
+                        }
+
+                        @Override
+                        public void Failure(Call<NetData> call, Throwable t) {
+                            ToastUtils.toastMsg("操作失败");
+                        }
+                    });
+        } else {
+            HttpUtil.apiW().friends_appFriendApplyEd(req)
+                    .enqueue(new CommonCallback<NetData>() {
+                        @Override
+                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                            ToastUtils.toastMsg(body != null && body.msg != null ? body.msg : (isAgree ? "已同意" : "已拒绝"));
+                            adapter.getItems().remove(position);
+                            adapter.notifyItemRemoved(position);
+                        }
+
+                        @Override
+                        public void Failure(Call<NetData> call, Throwable t) {
+                            ToastUtils.toastMsg("操作失败");
+                        }
+                    });
+        }
     }
 
     @Override
