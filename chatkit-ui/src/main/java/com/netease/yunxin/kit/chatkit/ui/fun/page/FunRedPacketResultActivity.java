@@ -147,6 +147,7 @@ public class FunRedPacketResultActivity extends BaseActivity implements View.OnC
                 }
             }
             if (!hasme) {
+                binding.activityFunRedPacketResultDetailMoneyTv.setVisibility(View.GONE);
                 binding.activityFunRedPacketResultDetailMoneyTv.setText("手慢了，已抢完");
             }
         }

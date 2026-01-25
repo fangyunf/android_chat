@@ -248,7 +248,7 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
 
     void gotoRedPacketDetail(boolean needToast) {
         if (needToast) {
-            ToastUtils.toastMsg("领取成功");
+            //ToastUtils.toastMsg("领取成功");
         }
         HashMap map = new HashMap();
         map.put("redpacketId", redPacketId);

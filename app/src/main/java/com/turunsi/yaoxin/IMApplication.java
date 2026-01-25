@@ -141,7 +141,7 @@ public class IMApplication extends MultiDexApplication {
             VibrationEffect vibrationEffect = null;
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                 vibrationEffect = VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE);
-               // vibrator.vibrate(vibrationEffect);
+                // vibrator.vibrate(vibrationEffect);
             }
 
             // 开始震动
@@ -229,27 +229,19 @@ public class IMApplication extends MultiDexApplication {
                         }
                     }
 
+                    // 领取红包等 tip：直接过滤掉，不进入聊天列表，避免隐藏后仍占高度
                     if (message.getContent() != null && message.getContent().startsWith("{")) {
                         try {
                             CustomMsgBean msgBean = new Gson().fromJson(message.getContent(), CustomMsgBean.class);
-
-                            if (msgBean.sendUserId != null && msgBean.sendUserName != null && msgBean.receiveUserName != null && msgBean.receiveUserId != null) {
-                                {
-                                    if (msgBean.sendUserId.equals(DataUtil.getUserid()) || msgBean.receiveUserId.equals(DataUtil.getUserid())) {
-                                        return false;
-                                    }
-                                    return true;
-
-                                }
+                            if (msgBean.sendUserId != null && msgBean.sendUserName != null
+                                    && msgBean.receiveUserName != null && msgBean.receiveUserId != null) {
+                                return true; // 屏蔽领取消息，全部过滤
                             }
-
                         } catch (Exception e) {
-
+                            // ignore
                         }
-//                        if (message.getContent().contains("receiveUserId") && message.getContent().contains("receiveUserName")) {
-//                            return true;
-//                        }
                     }
+
                     String ringSoud = DataUtil.getStringValue("ring_soud");
                     String shakeSoud = DataUtil.getStringValue("shake_soud");
                     if ("1".equals(ringSoud)) {

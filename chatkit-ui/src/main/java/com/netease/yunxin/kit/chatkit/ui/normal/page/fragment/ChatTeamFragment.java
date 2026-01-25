@@ -94,7 +94,12 @@ public class ChatTeamFragment extends NormalChatFragment {
 
   private void refreshView() {
     if (teamInfo != null) {
-      chatView.getTitleBar().setTitle(teamInfo.getName());
+      String title = teamInfo.getName();
+      int memberCount = teamInfo.getMemberCount();
+      if (memberCount > 0) {
+        title = title + "(" + memberCount + ")";
+      }
+      chatView.getTitleBar().setTitle(title);
       chatView.updateInputHintInfo(teamInfo.getName());
       chatView.getMessageListView().updateTeamInfo(teamInfo);
     }

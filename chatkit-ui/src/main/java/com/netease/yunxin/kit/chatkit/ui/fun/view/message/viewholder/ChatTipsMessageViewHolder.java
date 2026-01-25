@@ -106,10 +106,15 @@ public class ChatTipsMessageViewHolder extends FunChatBaseMessageViewHolder {
                     if (msgBean.sendUserId == null || msgBean.receiveUserId == null) {
                         return;
                     }
-                    //屏蔽领取消息
+                    //屏蔽领取消息：设置高度为0，不占空间
                     if (!TextUtils.isEmpty(msgBean.sendUserId) && !TextUtils.isEmpty(msgBean.receiveUserId)) {
-                        // baseViewBinding.baseRoot.setVisibility(View.GONE);
                         textBinding.messageTipText.setText("");
+                        // 设置根视图高度为0
+//                        ViewGroup.LayoutParams rootParams = baseViewBinding.baseRoot.getLayoutParams();
+//                        if (rootParams != null) {
+//                            rootParams.height = 0;
+//                            baseViewBinding.baseRoot.setLayoutParams(rootParams);
+//                        }
                         return;
                     }
                     String tempContent = msgBean.receiveUserName + " 领取了 " + msgBean.sendUserName + " 的红包";
@@ -130,7 +135,13 @@ public class ChatTipsMessageViewHolder extends FunChatBaseMessageViewHolder {
                 textBinding.messageTipText.setText(content);
             }
         } else {
-            baseViewBinding.baseRoot.setVisibility(View.GONE);
+            // content为空时，设置高度为0，不占空间
+            ViewGroup.LayoutParams rootParams = baseViewBinding.baseRoot.getLayoutParams();
+//            if (rootParams != null) {
+//                rootParams.height = 0;
+//                baseViewBinding.baseRoot.setLayoutParams(rootParams);
+//            }
+//            baseViewBinding.baseRoot.setVisibility(View.GONE);
         }
     }
 }
