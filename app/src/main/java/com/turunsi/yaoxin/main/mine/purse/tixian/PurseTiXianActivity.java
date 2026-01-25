@@ -238,10 +238,10 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
         wechatBean.type = 1;
         makeRequest(wechatBean, "wechat");
 
-        // 发起银行卡请求
-        RegisterBean bankBean = new RegisterBean();
-        bankBean.type = 3;
-        makeRequest(bankBean, "bank");
+//        // 发起银行卡请求
+//        RegisterBean bankBean = new RegisterBean();
+//        bankBean.type = 3;
+//        makeRequest(bankBean, "bank");
     }
 
     private void makeRequest(RegisterBean bean, String requestType) {
@@ -258,7 +258,6 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
                             switch (requestType) {
                                 case "alipay":
                                     if (!tempList.isEmpty()) {
-
                                         aliPayBean = tempList.get(0);
                                     }
                                     break;
@@ -277,7 +276,7 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
                             completedRequests++;
 
                             // 检查是否所有请求都完成了
-                            if (completedRequests == 3) {
+                            if (completedRequests == 2) {
                                 handleAllRequestsCompleted();
                             }
                         }
