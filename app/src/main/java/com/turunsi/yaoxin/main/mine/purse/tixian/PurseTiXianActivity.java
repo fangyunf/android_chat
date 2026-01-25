@@ -153,7 +153,7 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
             bean.zfbNo = wxPayBean.phone;
             bean.name = wxPayBean.name;
             bean.zfbUrl = wxPayBean.usdt;
-            bean.userUsdtId = wxPayBean.id +"";
+            bean.userUsdtId = wxPayBean.id + "";
         } else if (payType.equals("yhkpay")) {
 
             bean.zfbNo = yhkPayBean.phone;
@@ -249,32 +249,36 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        Type type = new TypeToken<List<UserBean>>() {
-                        }.getType();
-                        List<UserBean> tempList = new Gson().fromJson(body.data.toString(), type);
+//                        Type type = new TypeToken<List<UserBean>>() {
+//                        }.getType();
+//                        List<UserBean> tempList = new Gson().fromJson(body.data.toString(), type);
+
+                        UserBean tempUser = new Gson().fromJson(body.data.toString(), UserBean.class);
 
                         synchronized (lock) {
                             // 根据请求类型保存数据
                             switch (requestType) {
                                 case "alipay":
-                                    if (!tempList.isEmpty()) {
-                                        aliPayBean = tempList.get(0);
-                                    }
+                                    aliPayBean = tempUser;
+//                                    if (!tempList.isEmpty()) {
+//                                        aliPayBean = tempList.get(0);
+//                                    }
                                     break;
                                 case "wechat":
-                                    if (!tempList.isEmpty()) {
-                                        wxPayBean = tempList.get(0);
-                                    }
+                                    wxPayBean = tempUser;
+//                                    if (!tempList.isEmpty()) {
+//                                        wxPayBean = tempList.get(0);
+//                                    }
                                     break;
                                 case "bank":
-                                    if (!tempList.isEmpty()) {
-                                        yhkPayBean = tempList.get(0);
-                                    }
+                                    yhkPayBean = tempUser;
+//                                    if (!tempList.isEmpty()) {
+//                                        yhkPayBean = tempList.get(0);
+//                                    }
                                     break;
                             }
 
                             completedRequests++;
-
                             // 检查是否所有请求都完成了
                             if (completedRequests == 2) {
                                 handleAllRequestsCompleted();
