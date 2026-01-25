@@ -9,19 +9,18 @@ public class RequestParamsBean {
     public String id;
     public String payChannel;
     public String zfb;
+    public String certNo;
+    public String usdt;
+    public String name;
+    public String configId;
+    public String payWay;
+    public String userId;
     public int amount;
     public int summary;
     private String phone1;
-
-    public String certNo;
-    public String usdt;
-    private String name;
     public String type;
     private String deviceId;
     private String clientType;
-
-
-
     public RequestParamsBean(String phone1,String name1, String type1) {
         deviceId = DeviceUtils.getDeviceId(AppProxy.getInstance().getContext());
         clientType = Constant.clientType;

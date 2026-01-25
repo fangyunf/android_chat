@@ -26,6 +26,7 @@ import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.DialogAlertUtil;
 import com.yaoxin.appbase.utils.NumberUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
+import com.yaoxin.appbase.view.LoadingDialog;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -34,6 +35,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
     ActivityMinePurseRechargeBinding binding;
     String payType = "alipay";
     int _type = 0;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +47,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
         }
         _initCell();
     }
+
     private void _initCell() {
 //        binding.activityMinePurseRechargeRechargeMoney.viewTitleTfWithoutBgEt.setBackgroundColor(getResources().getColor(R.color.color_white));
         if (_type == 1) {
@@ -117,7 +120,6 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
         binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt.setOnClickListener(this);
 
 
-
         binding.activityMinePurseRechargeRechargeRl.setOnClickListener(this);
         binding.activityMinePurseRechargeMoney100.setOnClickListener(this);
         binding.activityMinePurseRechargeMoney300.setOnClickListener(this);
@@ -127,13 +129,14 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
         binding.activityMinePurseRechargeMoney5000.setOnClickListener(this);
 
     }
+
     @Override
     protected void _requestData() {
         HttpUtil.apiW().home_balance()
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        UserBean bean = new Gson().fromJson(body.data.toString(),UserBean.class);
+                        UserBean bean = new Gson().fromJson(body.data.toString(), UserBean.class);
 //                        binding.activityMinePurseRechargeAccountTv.setText("¥"+NumberUtil.formartMoney(bean.balance));
                     }
 
@@ -143,6 +146,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
                     }
                 });
     }
+
     @Override
     public void onClick(View v) {
         if (v == binding.activityMinePurseRechargeNav.addCloseImageButton()) {
@@ -186,12 +190,12 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
         }
 
     }
+
     void rechargeMoney(String inputMoney) {
         //RequestParamsBean registerBean = new RequestParamsBean();
-       // registerBean.amount = NumberUtil.formartUploadMoney(inputMoney);
-
-
-
+        // registerBean.amount = NumberUtil.formartUploadMoney(inputMoney);
+        
+        LoadingDialog.showDialog(getSupportFragmentManager(), "请稍等...");
         RequestParamsBean registerBean = new RequestParamsBean();
         registerBean.amount = NumberUtil.formartUploadMoney(inputMoney);
         registerBean.name = "12";
@@ -206,14 +210,14 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
                         UserBean userBean = new Gson().fromJson(body.data.toString(), UserBean.class);
 //                        RechargeScanFragment.showV(getSupportFragmentManager(),payType.equals("wxpay")?"请使用微信扫码":"请使用支付宝扫码",userBean.payUrl);
                         startAlipayPayment(userBean.url);
+                        LoadingDialog.dismissDialog();
                     }
 
                     @Override
                     public void Failure(Call<NetData> call, Throwable t) {
-
+                        LoadingDialog.dismissDialog();
                     }
                 });
-
 
 
 //        registerBean.payChannel = payType;
@@ -251,8 +255,9 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
 //                    });
 //        }
     }
+
     private void startAlipayPayment(String url) {
-        if ( url != null) {
+        if (url != null) {
             try {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 // 设置URL，替换为你想打开的网页地址
