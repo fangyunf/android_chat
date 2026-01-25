@@ -70,7 +70,7 @@ public class ChatRedPacketMessageViewHolder extends FunChatBaseMessageViewHolder
                 viewBinding.funChatMessageRedPacketViewHolderGreetingTv.setText(bean.result.title);
                 viewBinding.funChatMessageRedPacketViewHolderTypeTv.setText("拼手气" + "¥" + NumberUtil.formartMoney(bean.result.amount));
             }
-            viewBinding.funChatMessageRedPacketViewHolderTimeTv.setText(TimeUtil.stampToDate(bean.result.createTime));
+            viewBinding.funChatMessageRedPacketViewHolderTimeTv.setText(TimeUtil.stampToTime(bean.result.createTime));
 //      if (bean.type == 21) {
             viewBinding.funChatMessageRedPacketViewHolderMoneyTv.setText("¥" + NumberUtil.formartMoney(bean.result.amount));
 //      } else {
