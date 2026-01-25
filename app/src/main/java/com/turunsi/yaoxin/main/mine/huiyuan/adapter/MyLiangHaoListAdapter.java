@@ -18,13 +18,13 @@ public class MyLiangHaoListAdapter extends BaseQuickAdapter<Integer, QuickViewHo
     public Integer selectNumber = 0;
     @Override
     protected void onBindViewHolder(@NonNull QuickViewHolder quickViewHolder, int i, @Nullable Integer orderListBean) {
-        TextView phoneTv = quickViewHolder.getView(R.id.item_mine_fuhao_list_cell_tv);
-        phoneTv.setTextSize(18);
-        phoneTv.setTextColor(getContext().getResources().getColor(R.color.color_white));
-        phoneTv.setText(orderListBean + "");
-
-        phoneTv.setTextColor(getContext().getResources().getColor(selectNumber != orderListBean ? R.color.color_white : R.color.color_FF8A0B));
-        phoneTv.setBackground(getContext().getResources().getDrawable(R.drawable.trans_bg_rounded_stroke));
+//        TextView phoneTv = quickViewHolder.getView(R.id.item_mine_fuhao_list_cell_tv);
+//        phoneTv.setTextSize(18);
+//        phoneTv.setTextColor(getContext().getResources().getColor(R.color.color_white));
+//        phoneTv.setText(orderListBean + "");
+//
+//        phoneTv.setTextColor(getContext().getResources().getColor(selectNumber != orderListBean ? R.color.color_white : R.color.color_FF8A0B));
+//        phoneTv.setBackground(getContext().getResources().getDrawable(R.drawable.trans_bg_rounded_stroke));
     }
 
     @NonNull
