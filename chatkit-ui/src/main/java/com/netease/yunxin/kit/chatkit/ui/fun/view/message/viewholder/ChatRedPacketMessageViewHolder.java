@@ -65,7 +65,7 @@ public class ChatRedPacketMessageViewHolder extends FunChatBaseMessageViewHolder
                 viewBinding.funChatMessageRedPacketViewHolderTypeTv.setText("专属红包" + "¥" + NumberUtil.formartMoney(bean.result.amount));
             } else if (bean.type == 22) {
                 viewBinding.funChatMessageRedPacketViewHolderGreetingTv.setText(bean.result.title);
-                viewBinding.funChatMessageRedPacketViewHolderTypeTv.setText("个人红包" + "¥" + NumberUtil.formartMoney(bean.result.amount));
+                viewBinding.funChatMessageRedPacketViewHolderTypeTv.setText("红包" + "¥" + NumberUtil.formartMoney(bean.result.amount));
             } else {
                 viewBinding.funChatMessageRedPacketViewHolderGreetingTv.setText(bean.result.title);
                 viewBinding.funChatMessageRedPacketViewHolderTypeTv.setText("拼手气" + "¥" + NumberUtil.formartMoney(bean.result.amount));
