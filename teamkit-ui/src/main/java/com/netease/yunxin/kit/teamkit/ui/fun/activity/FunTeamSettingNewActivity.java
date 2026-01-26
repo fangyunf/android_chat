@@ -338,17 +338,21 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
         binding.tvName.setText(groupInfoBean.name + "(" + groupInfoBean.userInfos.size() + "人)");
 
         ArrayList<GroupInfoBean> maxList = new ArrayList<>();
-        if (groupInfoBean.userInfos.size() > 3) {
-            for (int i = 0; i < 3; i++) {
+        if (groupInfoBean.userInfos.size() > 2) {
+            for (int i = 0; i < 2; i++) {
                 maxList.add(groupInfoBean.userInfos.get(i));
             }
         } else {
             maxList.addAll(groupInfoBean.userInfos);
 
         }
-        binding.funTeamSettingNewActivityIdTv.setText("ID: " + groupInfoBean.groupId);
-        adapter = new TeamSettingUserInfoAdapter((groupInfoBean.rankState == 1 || groupInfoBean.rankState == 2), maxList);
+        //binding.funTeamSettingNewActivityIdTv.setText("ID: " + groupInfoBean.groupId);
 
+        if (maxList.size() > 0) {
+            binding.funTeamSettingNewActivityIdTv.setText("创始人:" + maxList.get(0).name);
+        }
+        
+        adapter = new TeamSettingUserInfoAdapter((groupInfoBean.rankState == 1 || groupInfoBean.rankState == 2), maxList);
         binding.funTeamSettingNewActivityMemberRv.setAdapter(adapter);
         Context that = this;
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener<GroupInfoBean>() {

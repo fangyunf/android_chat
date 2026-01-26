@@ -91,11 +91,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="20dp"
                                 android:layout_marginTop="11dp"
-                                android:background="@drawable/bg_black_alpha_20_rounded_10"
-
                                 android:paddingHorizontal="10dp"
                                 android:text="ID:87988656"
-                                android:textColor="@color/color_white"
+                                android:textColor="@color/black"
 
                                 android:textSize="14sp" />
                         </LinearLayout>
@@ -131,22 +129,22 @@
                         android:id="@+id/fun_team_setting_new_activity_see_all_member_ll"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
+                        android:layout_gravity="center"
                         android:layout_marginTop="@dimen/dimen_12_dp"
                         android:gravity="center_vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
-                            android:layout_height="20dp"
+                            android:layout_height="wrap_content"
                             android:text="查看更多群成员"
                             android:textColor="#ff666666"
                             android:textSize="14sp" />
 
                         <ImageView
-                            android:layout_width="6dp"
-                            android:layout_height="@dimen/dimen_12_dp"
+                            android:layout_width="12dp"
+                            android:layout_height="wrap_content"
                             android:layout_marginLeft="6dp"
-                            android:src="@drawable/ic_right_arrow" />
+                            android:src="@drawable/team_setting_cell_right_arrow" />
                     </LinearLayout>
                 </LinearLayout>
 
