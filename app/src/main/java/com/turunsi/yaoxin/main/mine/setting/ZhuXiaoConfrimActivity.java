@@ -66,6 +66,26 @@ public class ZhuXiaoConfrimActivity extends BaseActivity implements View.OnClick
         // 设置标题，显示账号
         UserBean userInfo = DataUtil.getUserInfo();
         viewBinding.tvTitle.setText("申请注销" + userInfo.phoneNo + "的账号");
+
+
+        viewBinding.activityMineZhuxiaoConfirmGetCode.viewTitleTfWithoutBgTv.setText("验证码");
+
+        viewBinding.activityMineZhuxiaoConfirmGetCode.btnCaptcha.setVisibility(View.VISIBLE);
+
+        CountDownView mCountDownView = viewBinding.activityMineZhuxiaoConfirmGetCode.btnCaptcha;
+        mCountDownView.needVerify = false;
+        mCountDownView.setCountDownTime(60);
+        mCountDownView.setCaptchaListener(new LoginLoader.CaptchaListener() {
+            @Override
+            public void onPre() {
+                String phone = DataUtil.getUserInfo().phoneNo;
+                CommonNetUtil.getPhoneCode(phone);
+            }
+
+            @Override
+            public void onComplete(String phoneOrEmail) {
+            }
+        });
     }
 
     @Override
@@ -79,40 +99,40 @@ public class ZhuXiaoConfrimActivity extends BaseActivity implements View.OnClick
 //         map.put("type","100");
 //         PursePwdManagerSetActivity.start(PursePwdManagerSetActivity.class,this,map);
 
-//         String code = getTextStr(viewBinding.activityMineZhuxiaoConfirmGetCode.viewTitleTfWithoutBgEt);
-//         if (code.length() != 6) {
-//             ToastUtils.toastMsg("验证码错误");
-//             return;
-//         }
-//         RegisterBean bean = new RegisterBean();
-//         bean.sms = code;
-//         HttpUtil.apiW().home_logout1(bean)
-//                 .enqueue(new CommonCallback<NetData>() {
-//                     @Override
-//                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-//                         ToastUtils.toastMsg("注销成功");
-//                         showLogin();
-//                     }
+         String code = getTextStr(viewBinding.activityMineZhuxiaoConfirmGetCode.viewTitleTfWithoutBgEt);
+         if (code.length() != 6) {
+             ToastUtils.toastMsg("验证码错误");
+             return;
+         }
+         RegisterBean bean = new RegisterBean();
+         bean.sms = code;
+         HttpUtil.apiW().home_logout1(bean)
+                 .enqueue(new CommonCallback<NetData>() {
+                     @Override
+                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                         ToastUtils.toastMsg("注销成功");
+                         showLogin();
+                     }
+
+                     @Override
+                     public void Failure(Call<NetData> call, Throwable t) {
+
+                     }
+                 });
+
+//            HttpUtil.apiW().home_logout()
+//                    .enqueue(new CommonCallback<NetData>() {
+//                        @Override
+//                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+//                            ToastUtils.toastMsg("注销成功");
+//                            showLogin();
+//                        }
 //
-//                     @Override
-//                     public void Failure(Call<NetData> call, Throwable t) {
+//                        @Override
+//                        public void Failure(Call<NetData> call, Throwable t) {
 //
-//                     }
-//                 });
-
-            HttpUtil.apiW().home_logout()
-                    .enqueue(new CommonCallback<NetData>() {
-                        @Override
-                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                            ToastUtils.toastMsg("注销成功");
-                            showLogin();
-                        }
-
-                        @Override
-                        public void Failure(Call<NetData> call, Throwable t) {
-
-                        }
-                    });
+//                        }
+//                    });
         }
     }
 
