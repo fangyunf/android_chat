@@ -26,7 +26,7 @@
         android:layout_height="@dimen/dimen_40_dp"
         android:paddingHorizontal="@dimen/dimen_14_dp"
         android:textSize="15sp"
-        android:hint="搜索"
+        android:hint="搜索您要查找的账号或ID"
         android:textColorHint="@color/color_999999"
         android:textColor="@color/black"
         android:background="@color/color_F2F2F2"

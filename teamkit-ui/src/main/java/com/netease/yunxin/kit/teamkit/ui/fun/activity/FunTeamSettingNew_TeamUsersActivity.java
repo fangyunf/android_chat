@@ -39,6 +39,7 @@ import com.netease.yunxin.kit.teamkit.ui.databinding.FunTeamSettingNewActivityBi
 import com.netease.yunxin.kit.teamkit.ui.databinding.FunTeamSettingNewTeamUsersActivityBinding;
 import com.netease.yunxin.kit.teamkit.ui.fun.activity.adapter.TeamSettingUserInfoAdapter;
 import com.netease.yunxin.kit.teamkit.ui.fun.activity.adapter.TeamSettingUserListAdapter;
+import com.netease.yunxin.kit.teamkit.ui.fun.activity.adapter.TeamSettingUserVerticalAdapter;
 import com.netease.yunxin.kit.teamkit.ui.utils.ColorUtils;
 import com.yaoxin.appbase.activity.BaseActivity;
 import com.yaoxin.appbase.model.GroupInfoBean;
@@ -70,7 +71,11 @@ public class FunTeamSettingNew_TeamUsersActivity extends BaseActivity implements
     FunTeamSettingNewTeamUsersActivityBinding binding;
     String groupId;
     String opt_type;
-    TeamSettingUserListAdapter adapter = new TeamSettingUserListAdapter();
+    // 原来的 adapter（已注释）
+    // TeamSettingUserListAdapter adapter = new TeamSettingUserListAdapter();
+    // 新的垂直布局 adapter
+    TeamSettingUserVerticalAdapter adapter = new TeamSettingUserVerticalAdapter();
+    ArrayList<GroupInfoBean> dataList = new ArrayList<>();
     GroupInfoBean selfBean;
     ArraySet selectSet = new ArraySet<>();
     ArraySet unSelectSet = new ArraySet<>();
@@ -130,9 +135,7 @@ public class FunTeamSettingNew_TeamUsersActivity extends BaseActivity implements
                     adapter.notifyDataSetChanged();
                 } else {
                     ArrayList<GroupInfoBean> tempArr = new ArrayList<>();
-                    for (Object tempObj :
-                            dataList) {
-                        GroupInfoBean temp = (GroupInfoBean) tempObj;
+                    for (GroupInfoBean temp : dataList) {
                         if (temp.name.contains(string)) {
                             tempArr.add(temp);
                         }
@@ -142,11 +145,17 @@ public class FunTeamSettingNew_TeamUsersActivity extends BaseActivity implements
                 }
             }
         });
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 6);
-        binding.funTeamSettingNewTeamUsersActivityRv.setLayoutManager(gridLayoutManager);
-        CommonGridSpacingItemDecoration gridSpacingItemDecoration =
-                new CommonGridSpacingItemDecoration(6, SizeUtils.dp2px(10), false);
-        binding.funTeamSettingNewTeamUsersActivityRv.addItemDecoration(gridSpacingItemDecoration);
+        
+        // 原来的 GridLayoutManager（已注释，改为垂直布局）
+        // GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 6);
+        // binding.funTeamSettingNewTeamUsersActivityRv.setLayoutManager(gridLayoutManager);
+        // CommonGridSpacingItemDecoration gridSpacingItemDecoration =
+        //         new CommonGridSpacingItemDecoration(6, SizeUtils.dp2px(10), false);
+        // binding.funTeamSettingNewTeamUsersActivityRv.addItemDecoration(gridSpacingItemDecoration);
+        
+        // 新的垂直布局 LinearLayoutManager
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        binding.funTeamSettingNewTeamUsersActivityRv.setLayoutManager(linearLayoutManager);
         binding.funTeamSettingNewTeamUsersActivityRv.setAdapter(adapter);
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener<GroupInfoBean>() {
             @Override
@@ -161,8 +170,7 @@ public class FunTeamSettingNew_TeamUsersActivity extends BaseActivity implements
 //                    }
                 }
                 if ("1".equals(opt_type)) {
-                    for (Object tempBean:dataList) {
-                        GroupInfoBean bean = (GroupInfoBean)tempBean;
+                    for (GroupInfoBean bean : dataList) {
                         bean.rankState = 0;
                     }
                     baseQuickAdapter.getItem(i).rankState = 1;
@@ -223,10 +231,9 @@ public class FunTeamSettingNew_TeamUsersActivity extends BaseActivity implements
                                 }
                             }
                         } else {
-                            for (Object tempBean : dataList) {
-                                GroupInfoBean tempBean1 = (GroupInfoBean) tempBean;
-                                if (tempBean1.userId.equals(DataUtil.getUserid())) {
-                                    selfBean = tempBean1;
+                            for (GroupInfoBean tempBean : dataList) {
+                                if (tempBean.userId.equals(DataUtil.getUserid())) {
+                                    selfBean = tempBean;
                                     break;
                                 }
                             }
@@ -256,8 +263,7 @@ adapter.notifyDataSetChanged();
         } else if (view == binding.funTeamSettingNewTeamUsersActivityConfirmTv) {
             ArrayList<String> list = new ArrayList<>();
             Intent intent = new Intent();
-            for (Object temObj : dataList) {
-                GroupInfoBean tempBean = (GroupInfoBean)temObj;
+            for (GroupInfoBean tempBean : dataList) {
                 if ("1".equals(opt_type) && tempBean.rankState == 1) {
                     list.add(tempBean.userId);
                 }

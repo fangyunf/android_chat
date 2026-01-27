@@ -107,6 +107,14 @@
                 android:textColor="@color/color_333333"
                 android:textSize="14sp"
                 android:textStyle="bold" />
+
+            <include
+                android:id="@+id/activity_mine_zhuxiao_confirm_get_code"
+                layout="@layout/view_top_title_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/dimen_10_dp"
+                android:visibility="gone" />
         </LinearLayout>
     </ScrollView>
 

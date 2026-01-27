@@ -106,7 +106,7 @@
                         android:layout_height="80dp"
                         android:layout_marginLeft="15dp"
                         android:scaleType="centerCrop"
-                        app:riv_corner_radius="40dp" />
+                        app:riv_corner_radius="6dp" />
                 </RelativeLayout>
 
 

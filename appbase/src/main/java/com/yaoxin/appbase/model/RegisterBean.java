@@ -77,6 +77,7 @@ public class RegisterBean {
     public String nonCollectionState;
     public String grade;
     public String endId;
+    public String sms;
 
     public RegisterBean(String param) {
         this.param = param;

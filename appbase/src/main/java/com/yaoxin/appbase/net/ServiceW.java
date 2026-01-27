@@ -140,6 +140,11 @@ public interface ServiceW {
     @POST("/home/logout")
     Call<NetData> home_logout();
 
+    @POST("/home/logout")
+    Call<NetData> home_logout1(
+            @Body RegisterBean userBean
+    );
+
     @POST("/red/recivePersonRedpacket")
     Call<NetData> red_recivePersonRedpacket(
             @Body RegisterBean userBean
