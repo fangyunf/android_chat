@@ -4,16 +4,16 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.turunsi.sixin",
+  "applicationId": "com.turunsi.youyou",
   "variantName": "release",
   "elements": [
     {
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 1,
-      "versionName": "1.0.20",
-      "outputFile": "yufeng_release_v1.0.20.apk"
+      "versionCode": 2,
+      "versionName": "1.0.1",
+      "outputFile": "youyou_release_v1.0.1.apk"
     }
   ],
   "elementType": "File"
