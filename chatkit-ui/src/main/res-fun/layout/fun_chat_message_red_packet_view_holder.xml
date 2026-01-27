@@ -64,7 +64,7 @@
         android:layout_marginBottom="@dimen/dimen_5_dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingLeft="9dp">
+        android:paddingHorizontal="@dimen/dimen_9_dp">
 
         <TextView
             android:id="@+id/fun_chat_message_red_packet_view_holder_type_tv"
