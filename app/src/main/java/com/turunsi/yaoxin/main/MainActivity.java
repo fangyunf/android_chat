@@ -200,9 +200,16 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
                 // 关闭更新提示对话框
                 isUpdateDialogShowing = false;
                 dialog.dismiss();
-
                 // 开始下载并显示进度对话框
-                startDownload(downLoadUrl);
+                try {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    // 设置URL，替换为你想打开的网页地址
+                    intent.setData(Uri.parse(downLoadUrl));
+                    // 启动Intent，跳转到浏览器
+                    startActivity(intent);
+                } catch (Exception e) {
+                }
+                //startDownload(downLoadUrl);
             }
         });
 
