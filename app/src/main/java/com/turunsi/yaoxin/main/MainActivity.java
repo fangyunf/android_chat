@@ -326,7 +326,8 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         activityMainBinding.viewPager.setCurrentItem(START_INDEX, false);
         activityMainBinding.viewPager.setOffscreenPageLimit(fragments.size());
         mCurrentTab = activityMainBinding.conversationBtnShop;
-        changeStatusBarColor(R.color.color_white);
+        //changeStatusBarColor(R.color.color_white);
+        StatusBarUtils.setStatusBarLightMode(this, true, true);
         resetTabSkin();
     }
 

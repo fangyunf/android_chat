@@ -117,11 +117,16 @@ public class ChatTipsMessageViewHolder extends FunChatBaseMessageViewHolder {
                     if (msgBean.sendUserId == null || msgBean.receiveUserId == null) {
                         return;
                     }
-                    // 屏蔽抢包记录：如果是抢包记录消息，隐藏它
-                    if (!TextUtils.isEmpty(msgBean.sendUserId) && !TextUtils.isEmpty(msgBean.receiveUserId)) {
-                        textBinding.messageTipText.setText("");
-                        return;
-                    }
+//                    // 屏蔽抢包记录：如果是抢包记录消息，隐藏它
+//                    if (!TextUtils.isEmpty(msgBean.sendUserId) && !TextUtils.isEmpty(msgBean.receiveUserId)) {
+//                        textBinding.messageTipText.setText("");
+////                        ViewGroup.LayoutParams rootParams = baseViewBinding.baseRoot.getLayoutParams();
+////                        if (rootParams != null) {
+////                            rootParams.height = 0;
+////                            baseViewBinding.baseRoot.setLayoutParams(rootParams);
+////                        }
+//                        return;
+//                    }
                     String tempContent = msgBean.receiveUserName + " 领取了 " + msgBean.sendUserName + " 的红包";
                     if (msgBean.sendUserId.equals(DataUtil.getUserid())) {
                         tempContent = msgBean.receiveUserName + " 领取了 你 的红包";
@@ -130,8 +135,18 @@ public class ChatTipsMessageViewHolder extends FunChatBaseMessageViewHolder {
                         tempContent = "你 领取了 " + msgBean.sendUserName + " 的红包";
                     }
                     textBinding.messageTipText.setText(tempContent);
+                    ViewGroup.LayoutParams rootParams = baseViewBinding.baseRoot.getLayoutParams();
+                    if (rootParams != null) {
+                        rootParams.height = 0;
+                        baseViewBinding.baseRoot.setLayoutParams(rootParams);
+                    }
                 } catch (Exception e) {
                     textBinding.messageTipText.setText("");
+                    ViewGroup.LayoutParams rootParams = baseViewBinding.baseRoot.getLayoutParams();
+                    if (rootParams != null) {
+                        rootParams.height = 0;
+                        baseViewBinding.baseRoot.setLayoutParams(rootParams);
+                    }
                 }
             } else {
                 textBinding.messageTipText.setText(content);

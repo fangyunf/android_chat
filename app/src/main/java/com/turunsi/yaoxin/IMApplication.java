@@ -227,19 +227,6 @@ public class IMApplication extends MultiDexApplication {
                         }
                     }
 
-                    // 领取红包等 tip：直接过滤掉，不进入聊天列表，避免隐藏后仍占高度
-                    if (message.getContent() != null && message.getContent().startsWith("{")) {
-                        try {
-                            CustomMsgBean msgBean = new Gson().fromJson(message.getContent(), CustomMsgBean.class);
-                            if (msgBean.sendUserId != null && msgBean.sendUserName != null
-                                    && msgBean.receiveUserName != null && msgBean.receiveUserId != null) {
-                                return true; // 屏蔽领取消息，全部过滤
-                            }
-                        } catch (Exception e) {
-                            // ignore
-                        }
-                    }
-
                     String ringSoud = DataUtil.getStringValue("ring_soud");
                     String shakeSoud = DataUtil.getStringValue("shake_soud");
                     if ("1".equals(ringSoud)) {

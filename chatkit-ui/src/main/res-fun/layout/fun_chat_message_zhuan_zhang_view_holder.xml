@@ -22,10 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingRight="@dimen/dimen_7_dp"
-
-
-        >
+        android:paddingRight="@dimen/dimen_7_dp">
 
         <TextView
             android:id="@+id/fun_chat_message_red_packet_view_holder_greeting_tv"
@@ -47,31 +44,36 @@
             android:textColor="@color/color_white"
             android:textSize="16sp" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="@dimen/dimen_5_dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="9dp">
+
+        <TextView
+            android:id="@+id/fun_chat_message_red_packet_view_holder_time_tv"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingLeft="9dp">
+            android:text="2023-11-08 19:20:30"
+            android:textColor="@color/color_white"
+            android:textSize="10sp" />
 
-            <TextView
-                android:id="@+id/fun_chat_message_red_packet_view_holder_time_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="2023-11-08 19:20:30"
-                android:textColor="@color/color_white"
-                android:textSize="10sp" />
-
-            <TextView
-                android:id="@+id/fun_chat_message_red_packet_view_holder_money_tv"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="right"
-                android:text="0.00"
-                android:textColor="@color/color_white"
-                android:textSize="11sp" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/fun_chat_message_red_packet_view_holder_money_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text="0.00"
+            android:textColor="@color/color_white"
+            android:textSize="11sp"
+            android:visibility="gone" />
     </LinearLayout>
 </RelativeLayout>

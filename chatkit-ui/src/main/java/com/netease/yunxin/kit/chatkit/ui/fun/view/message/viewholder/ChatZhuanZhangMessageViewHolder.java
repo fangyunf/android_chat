@@ -58,6 +58,7 @@ public class ChatZhuanZhangMessageViewHolder extends FunChatBaseMessageViewHolde
             } else {
                 viewBinding.funChatMessageRedPacketViewHolderGreetingTv.setText("你发起了一笔转账");
             }
+            viewBinding.funChatMessageRedPacketViewHolderTypeTv.setText("转账 " + "¥" + NumberUtil.formartMoney(bean.result.amount));
             viewBinding.funChatMessageRedPacketViewHolderTimeTv.setText(TimeUtil.stampToDate(bean.result.createTime));
 //      if (bean.type == 21) {
             viewBinding.funChatMessageRedPacketViewHolderMoneyTv.setText("¥" + NumberUtil.formartMoney(bean.result.amount));
