@@ -211,7 +211,7 @@ public class MainActivity extends BaseActivity {
         //    loadConfig();
         List<Fragment> fragments = new ArrayList<>();
 
-        changeStatusBarColor(R.color.fun_page_bg_color);
+        //changeStatusBarColor(R.color.fun_page_bg_color);
         mConversationFragment = new FunConversationFragment(0);
 //        AppProxy.getInstance().showType = 1;
         mConversationFragment1 = new FunConversationFragment(1);
@@ -231,7 +231,8 @@ public class MainActivity extends BaseActivity {
         activityMainBinding.viewPager.setCurrentItem(START_INDEX, false);
         activityMainBinding.viewPager.setOffscreenPageLimit(fragments.size());
         mCurrentTab = activityMainBinding.conversationBtnGroup;
-        changeStatusBarColor(R.color.color_white);
+        // changeStatusBarColor(R.color.color_white);
+        StatusBarUtils.setStatusBarLightMode(this, true, true);
         resetTabSkin();
     }
 

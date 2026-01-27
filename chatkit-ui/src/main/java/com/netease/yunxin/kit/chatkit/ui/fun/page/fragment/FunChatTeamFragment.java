@@ -151,7 +151,7 @@ public class FunChatTeamFragment extends FunChatFragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        _requestCaiData(); // Call your method here
+                        //  _requestCaiData(); // Call your method here
                     }
                 });
             }
