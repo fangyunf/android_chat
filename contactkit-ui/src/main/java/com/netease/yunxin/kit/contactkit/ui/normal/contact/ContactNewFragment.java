@@ -111,7 +111,7 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
         binding.contactNewFragmentSearchLl.setOnClickListener(this);
         binding.contactNewFragmentMoreIv.setOnClickListener(this);
         _initViews();
-        _requestData();
+        // _requestData();
         return binding.getRoot();
     }
 
@@ -119,6 +119,12 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
     @Override
     public void onPause() {
         super.onPause();
+        _requestData();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         _requestData();
     }
 

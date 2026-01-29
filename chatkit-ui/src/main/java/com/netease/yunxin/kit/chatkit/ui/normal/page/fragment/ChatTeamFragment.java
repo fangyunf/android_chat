@@ -101,7 +101,9 @@ public class ChatTeamFragment extends NormalChatFragment {
     if (currentMember != null && teamInfo != null) {
       if (currentMember.getType() != TeamMemberType.Owner
           && currentMember.getType() != TeamMemberType.Manager) {
-        chatView.setInputMute(teamInfo.isAllMute());
+        // 全部禁言 或 单人禁言（当前成员被禁言）都要禁言输入
+        boolean mute = teamInfo.isAllMute() || currentMember.isMute();
+        chatView.setInputMute(mute);
       } else {
         chatView.setInputMute(false);
       }
