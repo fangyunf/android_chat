@@ -11,6 +11,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.multidex.MultiDexApplication;
@@ -108,6 +109,8 @@ public class IMApplication extends MultiDexApplication {
                 .setIsDebug(BuildConfig.DEBUG)
                 .setVersionName(BuildConfig.VERSION_NAME);
         initThirdPart();
+
+        CrashReport.initCrashReport(getApplicationContext(), "8d6126dab6", false);
     }
 
     private void initThirdPart() {
@@ -215,8 +218,6 @@ public class IMApplication extends MultiDexApplication {
                     return false; // 不过滤
                 }
             });
-
-            CrashReport.initCrashReport(getApplicationContext(), "4af2c8d514", false);
         }
     }
 
