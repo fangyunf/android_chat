@@ -25,18 +25,20 @@ public class RedPacketResultDetailAdapter extends BaseQuickAdapter<CustomMsgBean
     protected void onBindViewHolder(@NonNull QuickViewHolder quickViewHolder, int i, @Nullable CustomMsgBean bean) {
 
         String remark = "";
-        for (GroupInfoBean groupInfoBean : DataUtil.getFriendInfoList()) {
-            if (groupInfoBean.userId.equals(bean.userId)) {
-                if (groupInfoBean.remark != null && !groupInfoBean.remark.isEmpty()) {
-                    remark = "("  +groupInfoBean.remark + ")";
+        try {
+            for (GroupInfoBean groupInfoBean : DataUtil.getFriendInfoList()) {
+                if (groupInfoBean.userId.equals(bean.userId)) {
+                    if (groupInfoBean.remark != null && !groupInfoBean.remark.isEmpty()) {
+                        remark = "(" + groupInfoBean.remark + ")";
+                    }
+                    break;
                 }
-                break;
             }
+        } catch (Exception e) {
+            remark = "";
         }
-        quickViewHolder.setText(R.id.item_fun_red_packet_result_detail_username_tv,bean.name+remark)
-                .setText(R.id.item_fun_red_packet_result_detail_time_tv, TimeUtil.stampToDate(bean.reciveTime))
-                .setText(R.id.item_fun_red_packet_result_detail_money_tv, NumberUtil.formartMoney(bean.amount) + "元");
-        GlideUtil.yh_loadImageRoundedCorner(getContext(),quickViewHolder.getView(R.id.item_fun_red_packet_result_detail_head_iv),bean.avatar,20);
+        quickViewHolder.setText(R.id.item_fun_red_packet_result_detail_username_tv, bean.name + remark).setText(R.id.item_fun_red_packet_result_detail_time_tv, TimeUtil.stampToDate(bean.reciveTime)).setText(R.id.item_fun_red_packet_result_detail_money_tv, NumberUtil.formartMoney(bean.amount) + "元");
+        GlideUtil.yh_loadImageRoundedCorner(getContext(), quickViewHolder.getView(R.id.item_fun_red_packet_result_detail_head_iv), bean.avatar, 20);
         LinearLayout bestLl = quickViewHolder.getView(R.id.item_fun_red_packet_result_detail_best_win_ll);
         bestLl.setVisibility(bean.isBest ? View.VISIBLE : View.GONE);
     }
@@ -44,7 +46,7 @@ public class RedPacketResultDetailAdapter extends BaseQuickAdapter<CustomMsgBean
     @NonNull
     @Override
     protected QuickViewHolder onCreateViewHolder(@NonNull Context context, @NonNull ViewGroup viewGroup, int i) {
-        return new QuickViewHolder(R.layout.item_fun_red_packet_result_detail,viewGroup);
+        return new QuickViewHolder(R.layout.item_fun_red_packet_result_detail, viewGroup);
     }
 }
 
