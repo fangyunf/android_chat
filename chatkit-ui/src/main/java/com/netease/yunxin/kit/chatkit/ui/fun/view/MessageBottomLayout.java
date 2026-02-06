@@ -13,6 +13,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -181,6 +182,8 @@ public class MessageBottomLayout extends FrameLayout
                             int end = mBinding.inputEt.getSelectionEnd();
                             start = Math.max(start, 0);
                             mEditable.replace(start, end, key);
+                            // 插入表情后把光标移到表情后面，避免位置错乱
+                            mBinding.inputEt.setSelection(start + key.length());
                         }
                     }
 
@@ -360,6 +363,9 @@ public class MessageBottomLayout extends FrameLayout
                                 }
                             }
                         });
+        // 彻底取消 inputEt 字数限制：清空所有 InputFilter（含 LengthFilter）
+        mBinding.inputEt.setFilters(new InputFilter[0]);
+
         // input view
         mBinding.inputEt.addTextChangedListener(msgInputTextWatcher);
 
@@ -370,6 +376,7 @@ public class MessageBottomLayout extends FrameLayout
                     }
                     return false;
                 });
+        // 多行输入时键盘 Enter 为换行，发送依赖右侧发送按钮；单行时部分键盘仍有发送键
         mBinding.inputEt.setOnEditorActionListener(
                 (v, actionId, event) -> {
                     if (actionId == EditorInfo.IME_ACTION_SEND) {
@@ -377,6 +384,8 @@ public class MessageBottomLayout extends FrameLayout
                     }
                     return true;
                 });
+        // 发送按钮：有内容时显示，点击发送（微信同款）
+        mBinding.inputSendBtn.setOnClickListener(v -> sendText(replyMessage));
         mBinding.chatRichEt.setOnEditorActionListener(
                 (v, actionId, event) -> {
                     if (actionId == EditorInfo.IME_ACTION_SEND) {
@@ -437,6 +446,7 @@ public class MessageBottomLayout extends FrameLayout
                     if (mProxy != null) {
                         mProxy.onTypeStateChange(!TextUtils.isEmpty(s));
                     }
+                    updateSendButtonVisibility(s);
                 }
 
                 @Override
@@ -458,8 +468,19 @@ public class MessageBottomLayout extends FrameLayout
                     if (TextUtils.isEmpty(s.toString())) {
                         mBinding.inputEt.setHint(mEdieNormalHint);
                     }
+                    updateSendButtonVisibility(s);
                 }
             };
+
+    private void updateSendButtonVisibility(CharSequence text) {
+        if (mBinding.inputSendBtn == null) {
+            return;
+        }
+        boolean hasText = !TextUtils.isEmpty(text) && text.toString().trim().length() > 0;
+        mBinding.inputSendBtn.setVisibility(hasText ? VISIBLE : GONE);
+        mBinding.inputSendBtn.setEnabled(hasText && !mMute);
+        mBinding.inputSendBtn.setClickable(hasText && !mMute);
+    }
 
     public void clearInputEditTextChange() {
         mBinding.inputEt.removeTextChangedListener(msgInputTextWatcher);
@@ -798,6 +819,7 @@ public class MessageBottomLayout extends FrameLayout
             mBinding.inputAudioRb.setAlpha(mute ? 0.5f : 1f);
             mBinding.inputEmojiRb.setEnabled(!mute);
             mBinding.inputEmojiRb.setAlpha(mute ? 0.5f : 1f);
+            updateSendButtonVisibility(mBinding.inputEt.getText());
 //      mBinding.inputMoreRb.setEnabled(!mute);
 //      mBinding.inputMoreRb.setAlpha(mute ? 0.5f : 1f);
         }

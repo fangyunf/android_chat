@@ -10,6 +10,7 @@
     <color name="fun_chat_input_reply_bg_color">#e1e1e1</color>
     <color name="fun_chat_input_reply_text_color">#666666</color>
     <color name="fun_chat_input_send_audio_color">#222222</color>
+    <color name="fun_chat_input_send_btn_color">#58BE6B</color>
     <color name="fun_chat_input_audio_record_bg_color">#D9D9D9</color>
     <color name="fun_chat_input_audio_record_cancel_bg_color">#222222</color>
     <color name="fun_chat_input_audio_record_tips_color">#aaaaaa</color>

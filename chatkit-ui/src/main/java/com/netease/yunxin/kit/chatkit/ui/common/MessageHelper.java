@@ -454,7 +454,8 @@ public class MessageHelper {
       String emot = spannableString.subSequence(from, to).toString();
       Drawable d = getEmotDrawable(context, emot, SMALL_SCALE);
       if (d != null) {
-        ImageSpan span = new ImageSpan(d, ImageSpan.ALIGN_CENTER);
+        // ALIGN_BASELINE 使表情与文字基线对齐，多行输入框里位置更准确
+        ImageSpan span = new ImageSpan(d, ImageSpan.ALIGN_BASELINE);
         spannableString.setSpan(span, from, to, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         result = true;
       }
@@ -473,7 +474,8 @@ public class MessageHelper {
       String emot = editable.subSequence(from, to).toString();
       Drawable d = getEmotDrawable(context, emot, SMALL_SCALE);
       if (d != null) {
-        ImageSpan span = new ImageSpan(d, ImageSpan.ALIGN_CENTER);
+        // ALIGN_BASELINE 使表情与文字基线对齐，多行输入框里位置更准确
+        ImageSpan span = new ImageSpan(d, ImageSpan.ALIGN_BASELINE);
         editable.setSpan(span, from, to, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
       }
     }

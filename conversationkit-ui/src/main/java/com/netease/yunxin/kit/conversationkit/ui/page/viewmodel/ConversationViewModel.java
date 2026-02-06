@@ -308,12 +308,18 @@ public class ConversationViewModel extends BaseViewModel {
                         ALog.d(LIB_TAG, TAG, "queryConversation,onFailed" + code);
                         ToastX.showShortToast(String.valueOf(code));
                         hasStart = false;
+                        FetchResult<List<ConversationBean>> result = new FetchResult<>(LoadStatus.Error);
+                        result.setData(null);
+                        queryLiveData.postValue(result);
                     }
 
                     @Override
                     public void onException(@Nullable Throwable exception) {
                         ALog.d(LIB_TAG, TAG, "queryConversation,onException");
                         hasStart = false;
+                        FetchResult<List<ConversationBean>> result = new FetchResult<>(LoadStatus.Error);
+                        result.setData(null);
+                        queryLiveData.postValue(result);
                     }
                 });
     }

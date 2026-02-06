@@ -136,6 +136,11 @@ public abstract class ConversationBaseFragment extends BaseFragment implements I
                         result -> {
                             if (conversationView != null) {
 //                conversationView._type = _type;
+                                // Error 时仅结束刷新，不更新列表
+                                if (result.getLoadStatus() == LoadStatus.Error) {
+                                    finishLoadData();
+                                    return;
+                                }
                                 conversationList = result.getData();
 
                                 ArrayList<ConversationBean> tempList = new ArrayList<>();

@@ -23,16 +23,16 @@
     <LinearLayout
         android:id="@+id/inputBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dimen_10_dp"
-        android:gravity="center_horizontal"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@+id/view">
 
         <FrameLayout
             android:id="@+id/inputLeftLayout"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dimen_10_dp"
             android:layout_marginEnd="@dimen/dimen_10_dp"
             android:layout_marginBottom="@dimen/dimen_4_dp">
@@ -85,7 +85,6 @@
                         android:hint="@string/chat_message_rich_title_hint"
                         android:imeOptions="actionSend"
                         android:inputType="text"
-                        android:maxLength="20"
                         android:paddingStart="@dimen/dimen_12_dp"
                         android:singleLine="true"
                         android:textColorHint="@color/color_b3b7bc"
@@ -98,17 +97,22 @@
                     <EditText
                         android:id="@+id/inputEt"
                         android:layout_width="match_parent"
-                        android:layout_height="44dp"
+                        android:layout_height="wrap_content"
                         android:background="@drawable/bg_gray_rounded_25"
                         android:ellipsize="end"
+                        android:gravity="top|start"
                         android:hint="@string/fun_chat_input_hint_tips"
-                        android:imeOptions="actionSend"
-                        android:inputType="text"
+                        android:imeOptions="actionNone"
+                        android:inputType="textMultiLine"
                         android:maxLength="2000"
+                        android:maxLines="5"
+                        android:minHeight="44dp"
+                        android:minLines="1"
                         android:paddingStart="@dimen/dimen_12_dp"
-                        android:singleLine="true"
+                        android:paddingTop="12dp"
+                        android:paddingEnd="@dimen/dimen_12_dp"
+                        android:paddingBottom="12dp"
                         android:textColorHint="#1F3C51"
-                        android:textCursorDrawable="@null"
                         android:textSize="@dimen/text_size_16"
                         tools:ignore="LabelFor" />
                 </LinearLayout>
@@ -197,44 +201,67 @@
         <FrameLayout
             android:id="@+id/inputRightLayout"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dimen_10_dp"
             android:layout_marginEnd="@dimen/dimen_10_dp"
             android:layout_marginBottom="@dimen/dimen_4_dp">
 
-            <RelativeLayout
-                android:layout_width="@dimen/dimen_32_dp"
-                android:layout_height="44dp">
-
-                <RadioButton
-                    android:id="@+id/inputEmojiRb"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_centerInParent="true"
-                    android:layout_gravity="bottom"
-                    android:background="@drawable/chat_fragment_toolbar_emoji"
-                    android:button="@null"
-                    android:checked="false"
-                    android:clickable="false" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="@dimen/dimen_32_dp"
-                android:layout_height="44dp"
-                android:layout_marginStart="@dimen/dimen_46_dp">
-
-                <RadioButton
-                    android:id="@+id/inputMoreRb"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_centerInParent="true"
-                    android:background="@drawable/chat_fragment_toolbar_show_more"
-                    android:button="@null"
-                    android:checked="false"
-                    android:clickable="false" />
-            </RelativeLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
 
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="44dp">
+
+                    <RadioButton
+                        android:id="@+id/inputEmojiRb"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_centerInParent="true"
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/chat_fragment_toolbar_emoji"
+                        android:button="@null"
+                        android:checked="false"
+                        android:clickable="false" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="44dp"
+                    android:layout_marginLeft="@dimen/dimen_14_dp">
+
+                    <RadioButton
+                        android:id="@+id/inputMoreRb"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/chat_fragment_toolbar_show_more"
+                        android:button="@null"
+                        android:checked="false"
+                        android:clickable="false" />
+
+                    <!-- 发送按钮在右侧区域最左边，和微信一致 -->
+                    <TextView
+                        android:id="@+id/inputSendBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_marginEnd="@dimen/dimen_8_dp"
+                        android:background="@drawable/bg_app_theme_color_rounded_10"
+                        android:paddingHorizontal="@dimen/dimen_12_dp"
+                        android:paddingVertical="@dimen/dimen_6_dp"
+                        android:text="@string/chat_message_send"
+                        android:textColor="@color/color_white"
+                        android:textSize="@dimen/text_size_16"
+                        android:textStyle="bold"
+                        android:visibility="gone" />
+
+                </RelativeLayout>
+            </LinearLayout>
         </FrameLayout>
     </LinearLayout>
 

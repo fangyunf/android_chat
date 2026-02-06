@@ -576,14 +576,18 @@ public class FunConversationFragment extends ConversationBaseFragment {
         });
 
         // 消息(_type==3)、群聊(_type==1) 支持下拉刷新
-        viewBinding.refreshLayout.setEnableRefresh(true);
-        viewBinding.refreshLayout.setOnRefreshListener(refreshLayout -> {
-            if (viewModel != null) {
-                viewModel.fetchConversation();
-            } else {
-                refreshLayout.finishRefresh();
-            }
-        });
+        if (_type == 1 || _type == 3) {
+            viewBinding.refreshLayout.setEnableRefresh(true);
+            viewBinding.refreshLayout.setOnRefreshListener(refreshLayout -> {
+                if (viewModel != null) {
+                    viewModel.fetchConversation();
+                } else {
+                    refreshLayout.finishRefresh();
+                }
+            });
+        } else {
+            viewBinding.refreshLayout.setEnableRefresh(false);
+        }
     }
 
     void doOptWithIndex(int index) {
