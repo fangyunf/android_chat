@@ -11,11 +11,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import com.netease.yunxin.kit.chatkit.ui.ChatKitUIConstant;
 import com.netease.yunxin.kit.chatkit.ui.R;
 import com.netease.yunxin.kit.chatkit.ui.databinding.ChatBaseMessageViewHolderBinding;
 import com.netease.yunxin.kit.chatkit.ui.databinding.NormalChatMessageTipViewHolderBinding;
 import com.netease.yunxin.kit.chatkit.ui.model.ChatMessageBean;
 import com.netease.yunxin.kit.corekit.im.IMKitClient;
+import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
+import com.netease.yunxin.kit.corekit.route.XKitRouter;
 import java.util.Map;
 
 /** view holder for Text message */
@@ -88,6 +91,20 @@ public class ChatTipsMessageViewHolder extends NormalChatBaseMessageViewHolder {
           IMKitClient.getApplicationContext().getResources().getColor(R.color.color_999999));
       textBinding.messageTipText.setTextSize(12);
       textBinding.messageTipText.setText(content);
+      // 非好友 tip：点击跳转添加好友页
+      Map<String, Object> localExt = message.getMessageData().getMessage().getLocalExtension();
+      if (localExt != null && Boolean.TRUE.equals(localExt.get(ChatKitUIConstant.KEY_ADD_FRIEND_TIP))) {
+        baseViewBinding.baseRoot.setClickable(true);
+        baseViewBinding.baseRoot.setOnClickListener(
+            v ->
+                XKitRouter.withKey(com.yaoxin.appbase.net.Constant.FunAddFriendVerifyActivityKey)
+                    .withContext(v.getContext())
+                    .withParam(RouterConstant.KEY_ACCOUNT_ID_KEY, message.getMessageData().getMessage().getSessionId())
+                    .navigate());
+      } else {
+        baseViewBinding.baseRoot.setClickable(false);
+        baseViewBinding.baseRoot.setOnClickListener(null);
+      }
     } else {
       baseViewBinding.baseRoot.setVisibility(View.GONE);
     }

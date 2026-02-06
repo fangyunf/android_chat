@@ -203,6 +203,7 @@
     <string name="chat_message_multi_delete_limit_tips">批量删除限制100条消息</string>
     <string name="chat_message_download_tips">正在下载中...</string>
     <string name="chat_message_send_message_when_in_black">"%s把你拉黑，发送消息失败"</string>
+    <string name="chat_message_not_friend_tip">你不是对方的好友，请先添加为好友</string>
 
     <!-- location -->
     <string name="chat_location_mine">定位</string>

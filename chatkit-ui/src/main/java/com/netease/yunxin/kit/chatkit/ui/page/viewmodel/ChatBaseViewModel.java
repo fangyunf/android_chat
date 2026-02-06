@@ -108,6 +108,8 @@ import retrofit2.Response;
 public abstract class ChatBaseViewModel extends BaseViewModel {
   public static final String TAG = "ChatViewModel";
   private static final int RES_IN_BLACK_LIST = 7101;
+  /** 非好友，发送失败时插入「请先添加为好友」tip */
+  private static final int RES_NOT_FRIEND = 7102;
   // 拉取历史消息
   private final MutableLiveData<FetchResult<List<ChatMessageBean>>> messageLiveData =
       new MutableLiveData<>();
@@ -906,6 +908,9 @@ public abstract class ChatBaseViewModel extends BaseViewModel {
             public void onFailed(int code) {
               if (code == RES_IN_BLACK_LIST) {
                 MessageHelper.saveLocalBlackTipMessageAndNotify(message);
+              } else if (code == RES_NOT_FRIEND
+                  && message.getSessionType() == SessionTypeEnum.P2P) {
+                MessageHelper.saveLocalNotFriendTipMessageAndNotify(message);
               }
             }
           });

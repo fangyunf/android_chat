@@ -621,6 +621,29 @@ public class MessageHelper {
     ALog.d(LIB_TAG, TAG, "saveLocalBlackTipMessage:" + tipMsg.getTime());
   }
 
+  /**
+   * 非好友发送失败时插入本地 tip：提示先添加好友，点击可跳转添加好友页。
+   * 仅用于 P2P 单聊。
+   */
+  public static void saveLocalNotFriendTipMessageAndNotify(IMMessage message) {
+    IMMessage tipMsg =
+        MessageBuilder.createTipMessage(message.getSessionId(), message.getSessionType());
+    tipMsg.setStatus(MsgStatusEnum.success);
+    tipMsg.setDirect(message.getDirect());
+    tipMsg.setFromAccount(message.getFromAccount());
+    String content =
+        IMKitClient.getApplicationContext().getString(R.string.chat_message_not_friend_tip);
+    tipMsg.setContent(content);
+    Map<String, Object> ext = new HashMap<>();
+    ext.put(ChatKitUIConstant.KEY_ADD_FRIEND_TIP, true);
+    tipMsg.setLocalExtension(ext);
+    CustomMessageConfig config = new CustomMessageConfig();
+    config.enableUnreadCount = false;
+    tipMsg.setConfig(config);
+    ChatRepo.saveLocalMessageExt(tipMsg, tipMsg.getTime(), true);
+    ALog.d(LIB_TAG, TAG, "saveLocalNotFriendTipMessage:" + tipMsg.getTime());
+  }
+
   // 创建合并转发消息体内容
   public static String createMultiForwardMsg(List<IMMessageInfo> msgList) {
     if (msgList == null || msgList.isEmpty()) {

@@ -55,6 +55,11 @@ public class FunAddFriendActivity extends BaseAddFriendActivity {
     etAddFriendAccount = viewBinding.etAddFriendAccount;
     ivFriendClear = viewBinding.ivFriendClear;
     addFriendEmptyLayout = viewBinding.addFriendEmptyLayout;
+    // 从聊天「非好友」tip 跳转时预填对方账号
+    String accountId = getIntent().getStringExtra(RouterConstant.KEY_ACCOUNT_ID_KEY);
+    if (!TextUtils.isEmpty(accountId)) {
+      etAddFriendAccount.setText(accountId);
+    }
     viewBinding.funAddFriendActivityNav.addCloseImageButton().setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {

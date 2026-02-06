@@ -63,4 +63,7 @@ public class ChatKitUIConstant {
   public static final String TYPE_EXTENSION_ALLOW_ALL = "all";
   // 群自定义配置参数，用于是否群中管理员可以@所有人，只允许管理员@所有人
   public static final String TYPE_EXTENSION_ALLOW_MANAGER = "manager";
+
+  /** 非好友提示 tip 的 localExtension 标记，用于点击跳转添加好友 */
+  public static final String KEY_ADD_FRIEND_TIP = "chat_add_friend_tip";
 }
