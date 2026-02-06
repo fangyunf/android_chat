@@ -24,11 +24,47 @@ public class XiaoZhuShouListAdapter extends BaseQuickAdapter<GroupInfoBean, Quic
 
     @Override
     protected void onBindViewHolder(@NonNull QuickViewHolder quickViewHolder, int position, @Nullable GroupInfoBean infoBean) {
-        quickViewHolder.setText(R.id.item_xiaozhushou_list_title_tv,titleText(infoBean.state))
+        int state = infoBean.state;
+        quickViewHolder.setText(R.id.item_xiaozhushou_list_title_tv, titleText(state))
                 .setText(R.id.item_xiaozhushou_list_money_tv, "¥ " + NumberUtil.formartMoney(infoBean.money))
                 .setText(R.id.item_xiaozhushou_list_time_tv, TimeUtil.stampToDate(infoBean.createTime))
-                .setText(R.id.item_xiaozhushou_list_tyle1_detail_tv, infoBean.payTerm)
-                .setText(R.id.item_xiaozhushou_list_tyle2_detail_tv, infoBean.payMsg);
+                .setText(R.id.item_xiaozhushou_list_tyle1_detail_tv, infoBean.payTerm != null ? infoBean.payTerm : "");
+
+        // 按类型设置左侧「金额」和右侧各行标签，与设计一致
+        quickViewHolder.setText(R.id.item_xiaozhushou_list_money_title_tv, moneyTitleLabel(state))
+                .setText(R.id.item_xiaozhushou_list_tyle1_title_tv, tyle1Label(state))
+                .setText(R.id.item_xiaozhushou_list_tyle3_title_tv, timeLabel(state));
+
+        // 仅「红包退回」(state=106) 显示原因行，其他情况隐藏
+        View reasonLayout = quickViewHolder.getView(R.id.item_xiaozhushou_list_reason_ll);
+        if (state == 106) {
+            reasonLayout.setVisibility(View.VISIBLE);
+            quickViewHolder.setText(R.id.item_xiaozhushou_list_tyle2_title_tv, "退回原因")
+                    .setText(R.id.item_xiaozhushou_list_tyle2_detail_tv, infoBean.payMsg != null ? infoBean.payMsg : "");
+        } else {
+            reasonLayout.setVisibility(View.GONE);
+        }
+    }
+
+    private String moneyTitleLabel(int state) {
+        if (state == 102) return "充值金额";
+        if (state == 103 || state == 104 || state == 105) return "提现金额";
+        if (state == 106) return "退回金额";
+        return "金额";
+    }
+
+    private String tyle1Label(int state) {
+        if (state == 102) return "到账方式";
+        if (state == 103 || state == 104 || state == 105) return "到账方式";
+        if (state == 106) return "退回方式";
+        return "收款方式";
+    }
+
+    private String timeLabel(int state) {
+        if (state == 102) return "充值时间";
+        if (state == 103 || state == 104 || state == 105) return "提现时间";
+        if (state == 106) return "退回时间";
+        return "申请时间";
     }
 
     String titleText(int type) {
@@ -58,6 +94,7 @@ public class XiaoZhuShouListAdapter extends BaseQuickAdapter<GroupInfoBean, Quic
         }
         return result;
     }
+
     @NonNull
     @Override
     protected QuickViewHolder onCreateViewHolder(@NonNull Context context, @NonNull ViewGroup viewGroup, int i) {
