@@ -76,6 +76,12 @@ public interface ServiceW {
             @Body RegisterBean userBean
     );
 
+    /** 查询3天前的好友申请，入参出参与 applyList 一致 */
+    @POST("/friends/applyListTwo")
+    Call<NetData> friends_applyListTwo(
+            @Body RegisterBean userBean
+    );
+
     //  好友列表
     @POST("/friends/friendListPage")
     Call<NetData> friends_friendListPage(

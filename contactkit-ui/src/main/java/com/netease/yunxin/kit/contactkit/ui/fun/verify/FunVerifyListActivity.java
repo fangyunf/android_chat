@@ -5,10 +5,12 @@
 package com.netease.yunxin.kit.contactkit.ui.fun.verify;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -42,6 +44,7 @@ import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
+import com.yaoxin.appbase.utils.ICallBack;
 
 import java.util.HashMap;
 import java.util.List;
@@ -54,6 +57,10 @@ public class FunVerifyListActivity extends BaseActivity implements View.OnClickL
     FunVerifyFriendListActivityBinding binding;
     FunVerifyFriendListAdapter adapter = new FunVerifyFriendListAdapter();
     int type = 0;
+    /**
+     * 是否查看「已过期」列表（3天前的好友申请）
+     */
+    boolean showExpired = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -62,10 +69,29 @@ public class FunVerifyListActivity extends BaseActivity implements View.OnClickL
             type = Integer.parseInt(type1);
             adapter.business_type = type;
         }
+        showExpired = getIntent().getBooleanExtra("expired", false);
         super.onCreate(savedInstanceState);
         binding = FunVerifyFriendListActivityBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         binding.funVerifyFriendListActivityNav.addCloseImageButton().setOnClickListener(this);
+
+        // 仅「验证消息」且非已过期页时，标题右边显示「已过期」，点击跳转本页的已过期列表
+        if (type == 0 && !showExpired) {
+            TextView actionTv = binding.funVerifyFriendListActivityNav.setActionText("已过期");
+            actionTv.setTextColor(getResources().getColor(android.R.color.black));
+            binding.funVerifyFriendListActivityNav.setActionClickListener(new ICallBack() {
+                @Override
+                public void callBack() {
+                    Intent intent = new Intent(FunVerifyListActivity.this, FunVerifyListActivity.class);
+                    intent.putExtra("type", String.valueOf(type));
+                    intent.putExtra("expired", true);
+                    startActivity(intent);
+                }
+            });
+        }
+        if (showExpired) {
+            binding.funVerifyFriendListActivityNav.setTitle("过期的请求");
+        }
 
         binding.funVerifyFriendListActivityRv.setLayoutManager(new LinearLayoutManager(this));
         binding.funVerifyFriendListActivityRv.setAdapter(adapter);
@@ -107,7 +133,8 @@ public class FunVerifyListActivity extends BaseActivity implements View.OnClickL
                     });
         } else {
             bean.pageNo = "0";
-            HttpUtil.apiW().friends_applyList(bean)
+            // 已过期页使用 applyListTwo 查询3天前的好友申请，入参出参与 applyList 一致
+            (showExpired ? HttpUtil.apiW().friends_applyListTwo(bean) : HttpUtil.apiW().friends_applyList(bean))
                     .enqueue(new CommonCallback<NetData>() {
                         @Override
                         public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
