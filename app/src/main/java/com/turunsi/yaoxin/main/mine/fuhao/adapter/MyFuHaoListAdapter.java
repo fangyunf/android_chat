@@ -23,7 +23,7 @@ public class MyFuHaoListAdapter extends BaseQuickAdapter<SubUserBean, QuickViewH
     @Override
     protected void onBindViewHolder(@NonNull QuickViewHolder quickViewHolder, int i, @Nullable SubUserBean subUserBean) {
         // 头像
-        RoundedImageView avatarIv = quickViewHolder.getView(R.id.item_mine_m_fuhao_list_cell);
+        RoundedImageView avatarIv = quickViewHolder.getView(R.id.item_mine_fuhao_list_cell_avatar_iv);
         GlideUtil.yh_loadImageRoundedCorner(quickViewHolder.itemView.getContext(), avatarIv, subUserBean.avatar, 2);
 
         // 名称
@@ -51,7 +51,7 @@ public class MyFuHaoListAdapter extends BaseQuickAdapter<SubUserBean, QuickViewH
     @NonNull
     @Override
     protected QuickViewHolder onCreateViewHolder(@NonNull Context context, @NonNull ViewGroup viewGroup, int i) {
-        return new QuickViewHolder(R.layout.item_mine_fuhao_list_cell, viewGroup);
+        return new QuickViewHolder(R.layout.item_mine_m_fuhao_list_cell, viewGroup);
     }
 }
 
