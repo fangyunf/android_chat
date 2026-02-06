@@ -133,7 +133,7 @@ public class FunConversationFragment extends ConversationBaseFragment {
             @Override
             public void run() {
                 // 这里写你想延时执行的代码
-                Objects.requireNonNull(getActivity()).runOnUiThread(() -> requestMsg());
+                requireActivity().runOnUiThread(() -> requestMsg());
             }
         }, 1500);
         EventBus.getDefault().register(this);
@@ -575,19 +575,14 @@ public class FunConversationFragment extends ConversationBaseFragment {
             }
         });
 
-        // 消息(_type==3)、群聊(_type==1) 支持下拉刷新
-        if (_type == 1 || _type == 3) {
-            viewBinding.refreshLayout.setEnableRefresh(true);
-            viewBinding.refreshLayout.setOnRefreshListener(refreshLayout -> {
-                if (viewModel != null) {
-                    viewModel.fetchConversation();
-                } else {
-                    refreshLayout.finishRefresh();
-                }
-            });
-        } else {
-            viewBinding.refreshLayout.setEnableRefresh(false);
-        }
+        viewBinding.refreshLayout.setEnableRefresh(true);
+        viewBinding.refreshLayout.setOnRefreshListener(refreshLayout -> {
+            if (viewModel != null) {
+                viewModel.fetchConversation();
+            } else {
+                refreshLayout.finishRefresh();
+            }
+        });
     }
 
     void doOptWithIndex(int index) {
