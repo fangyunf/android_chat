@@ -45,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="@dimen/dimen_10_dp"
-                android:text="靓号专区"
+                android:text="靓号兑换"
                 android:textColor="#149AFF"
                 android:textSize="16sp" />
 
