@@ -97,8 +97,7 @@ public class MyFuHaoListActivity extends BaseActivity implements View.OnClickLis
         super.onDestroy();
         EventBus.getDefault().unregister(this);
     }
-
-
+    
     @Override
     protected void _requestData() {
         RegisterBean registerBean = new RegisterBean();

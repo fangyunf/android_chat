@@ -544,5 +544,11 @@ public interface ServiceW {
     Call<NetData> pay_gsPay(
             @Body RequestParamsBean userBean
     );
+    
+    //   查询副号列表
+    @POST("/subUser/queryList")
+    Call<NetData> subUser_queryList(
+            @Body RegisterBean userBean
+    );
 
 }
