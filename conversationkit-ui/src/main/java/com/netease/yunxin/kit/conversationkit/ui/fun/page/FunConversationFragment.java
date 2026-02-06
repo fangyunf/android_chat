@@ -74,6 +74,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -128,18 +129,11 @@ public class FunConversationFragment extends ConversationBaseFragment {
         ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) viewBinding.funConversationFragmentTopLl.getLayoutParams();
         layoutParams.topMargin = BarUtils.getStatusBarHeight() + SizeUtils.dp2px(20);
         viewBinding.funConversationFragmentTopLl.setLayoutParams(layoutParams);
-
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
                 // 这里写你想延时执行的代码
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        requestMsg();
-                    }
-                });
+                Objects.requireNonNull(getActivity()).runOnUiThread(() -> requestMsg());
             }
         }, 1500);
         EventBus.getDefault().register(this);
@@ -211,6 +205,9 @@ public class FunConversationFragment extends ConversationBaseFragment {
 
     @Override
     protected void finishLoadData() {
+        if (viewBinding != null) {
+            viewBinding.refreshLayout.finishRefresh();
+        }
         super.finishLoadData();
         _requestData();
     }
@@ -575,6 +572,16 @@ public class FunConversationFragment extends ConversationBaseFragment {
                                 .build();
                 contentListPopView.showAsDropDown(
                         v, (int) requireContext().getResources().getDimension(R.dimen.pop_margin_right), 0);
+            }
+        });
+
+        // 消息(_type==3)、群聊(_type==1) 支持下拉刷新
+        viewBinding.refreshLayout.setEnableRefresh(true);
+        viewBinding.refreshLayout.setOnRefreshListener(refreshLayout -> {
+            if (viewModel != null) {
+                viewModel.fetchConversation();
+            } else {
+                refreshLayout.finishRefresh();
             }
         });
     }

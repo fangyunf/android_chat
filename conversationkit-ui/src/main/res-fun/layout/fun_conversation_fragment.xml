@@ -177,39 +177,47 @@
                 android:visibility="gone"
                 app:drawableStartCompat="@drawable/ic_error" />
 
-            <FrameLayout
+            <com.scwang.smart.refresh.layout.SmartRefreshLayout
+                android:id="@+id/refreshLayout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                app:srlEnableLoadMore="false"
+                app:srlEnableRefresh="true">
 
-                <com.netease.yunxin.kit.conversationkit.ui.view.ConversationView
-                    android:id="@+id/conversationView"
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/color_white" />
+                    android:layout_height="match_parent">
 
-                <LinearLayout
-                    android:id="@+id/emptyLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dimen_188_dp"
-                    android:layout_marginTop="@dimen/dimen_150_dp"
-                    android:orientation="vertical"
-                    android:visibility="gone">
+                    <com.netease.yunxin.kit.conversationkit.ui.view.ConversationView
+                        android:id="@+id/conversationView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/color_white" />
 
-                    <ImageView
-                        android:layout_width="@dimen/dimen_118_dp"
-                        android:layout_height="@dimen/dimen_96_dp"
-                        android:layout_gravity="center_horizontal"
-                        android:src="@drawable/fun_ic_conversation_empty" />
+                    <LinearLayout
+                        android:id="@+id/emptyLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dimen_188_dp"
+                        android:layout_marginTop="@dimen/dimen_150_dp"
+                        android:orientation="vertical"
+                        android:visibility="gone">
 
-                    <TextView
-                        android:id="@+id/empty_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:text="@string/conversation_empty_tip" />
+                        <ImageView
+                            android:layout_width="@dimen/dimen_118_dp"
+                            android:layout_height="@dimen/dimen_96_dp"
+                            android:layout_gravity="center_horizontal"
+                            android:src="@drawable/fun_ic_conversation_empty" />
 
-                </LinearLayout>
-            </FrameLayout>
+                        <TextView
+                            android:id="@+id/empty_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:text="@string/conversation_empty_tip" />
+
+                    </LinearLayout>
+                </FrameLayout>
+            </com.scwang.smart.refresh.layout.SmartRefreshLayout>
         </LinearLayout>
 
         <FrameLayout
