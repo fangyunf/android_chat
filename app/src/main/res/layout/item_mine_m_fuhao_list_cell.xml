@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="12dp">
+
+        <!-- 头像 -->
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/item_mine_fuhao_list_cell_avatar_iv"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="12dp"
+            app:riv_corner_radius="6dp" />
+
+        <!-- 名称和ID -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/item_mine_fuhao_list_cell_name_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="123123"
+                android:textColor="#ff000000"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/item_mine_fuhao_list_cell_id_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="123123"
+                android:textColor="#666666"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <!-- 复制按钮 -->
+        <TextView
+            android:id="@+id/item_mine_fuhao_list_cell_copy_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#ffeeeeee"
+            android:paddingHorizontal="15dp"
+            android:paddingVertical="4dp"
+            android:text="复制"
+            android:textColor="@color/color_58be6b"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#c8c8c8" />
+
+</LinearLayout>
