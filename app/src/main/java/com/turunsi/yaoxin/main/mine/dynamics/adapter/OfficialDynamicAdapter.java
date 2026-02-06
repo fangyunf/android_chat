@@ -22,18 +22,18 @@ public class OfficialDynamicAdapter extends BaseQuickAdapter<GroupInfoBean, Quic
         if (item == null) {
             return;
         }
-        
+
         TextView titleTv = holder.getView(R.id.item_official_dynamic_title_tv);
         TextView contentTv = holder.getView(R.id.item_official_dynamic_content_tv);
         TextView tagTv = holder.getView(R.id.item_official_dynamic_tag_tv);
         TextView timeTv = holder.getView(R.id.item_official_dynamic_time_tv);
         ImageView logoIv = holder.getView(R.id.item_official_dynamic_logo_iv);
-        
-        titleTv.setText("三样官方动态");
+
+        titleTv.setText("三羊官方动态");
         contentTv.setText(item.content != null ? item.content : item.name);
-        tagTv.setText("三样官方动态");
+        tagTv.setText("三羊官方动态");
         timeTv.setText(TimeUtil.stampToDate(item.createTime));
-        
+
         // 加载 logo（如果有 avatar 字段）
         if (item.avatar != null && !item.avatar.isEmpty()) {
             GlideUtil.yh_loadImageRoundedCorner(getContext(), logoIv, item.avatar, 4);
