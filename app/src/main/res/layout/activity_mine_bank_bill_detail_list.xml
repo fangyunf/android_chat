@@ -30,8 +30,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="@dimen/dimen_16_dp">
-
+            android:paddingHorizontal="@dimen/dimen_16_dp"
+            android:visibility="gone">
 
             <LinearLayout
                 android:id="@+id/activity_mine_bank_bill_detail_list_shaixuan_ll"
@@ -47,7 +47,7 @@
                     android:background="@drawable/bg_white_rounded_10"
                     android:gravity="center"
                     android:paddingHorizontal="15dp"
-                    android:text="全部账单"
+                    android:text="零钱明细"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
             </LinearLayout>

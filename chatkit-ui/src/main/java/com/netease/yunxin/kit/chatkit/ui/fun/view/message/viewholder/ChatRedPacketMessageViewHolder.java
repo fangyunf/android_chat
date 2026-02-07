@@ -48,10 +48,12 @@ public class ChatRedPacketMessageViewHolder extends FunChatBaseMessageViewHolder
         if (message != null && message.getMessageData() != null && !message.getMessageData().getMessage().getAttachStr().isEmpty()) {
             Map<String, Object> localExtension = message.getMessageData().getMessage().getLocalExtension();
             boolean hasDraw = false;
-            if (localExtension != null && DataUtil.getUserid().equals(localExtension.get("userId"))) {
+//            if (localExtension != null && DataUtil.getUserid().equals(localExtension.get("userId"))) {
+//                hasDraw = true;
+//            }
+            if (localExtension != null && (localExtension.get("hasDragDown") != null && (int) (localExtension.get("hasDragDown")) == 1)) {
                 hasDraw = true;
             }
-
             CustomMsgBean bean = new Gson().fromJson(message.getMessageData().getMessage().getAttachStr(), CustomMsgBean.class);
             bean.result = new Gson().fromJson(bean.data, CustomMsgBean.class);
             if (hasDraw) {

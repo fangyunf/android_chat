@@ -25,15 +25,20 @@ public class RedPacketResultDetailAdapter extends BaseQuickAdapter<CustomMsgBean
     @Override
     protected void onBindViewHolder(@NonNull QuickViewHolder quickViewHolder, int i, @Nullable CustomMsgBean bean) {
 
+
         String remark = "";
-        for (GroupInfoBean groupInfoBean : DataUtil.getFriendInfoList()) {
-            if (groupInfoBean.userId.equals(bean.userId)) {
-                if (!TextUtils.isEmpty(groupInfoBean.remark)) {
-                    remark = "(" + groupInfoBean.remark + ")";
+        try {
+            for (GroupInfoBean groupInfoBean : DataUtil.getFriendInfoList()) {
+                if (groupInfoBean.userId.equals(bean.userId)) {
+                    if (!TextUtils.isEmpty(groupInfoBean.remark)) {
+                        remark = "(" + groupInfoBean.remark + ")";
+                    }
+                    break;
                 }
-                break;
             }
+        } catch (Exception e) {
         }
+
         quickViewHolder.setText(R.id.item_fun_red_packet_result_detail_username_tv, bean.name + remark)
                 .setText(R.id.item_fun_red_packet_result_detail_time_tv, TimeUtil.stampToDate(bean.reciveTime))
                 .setText(R.id.item_fun_red_packet_result_detail_money_tv, NumberUtil.formartMoney(bean.amount) + "元");

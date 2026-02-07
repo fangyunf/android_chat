@@ -74,20 +74,19 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
         //LoadingDialog.showDialog(getChildFragmentManager(), "请求中");
         RegisterBean bean = new RegisterBean();
         bean.redpacketId = redPacketId;
-        HttpUtil.apiW().red_redpacketDetail(bean)
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        redBean = new Gson().fromJson(body.data.toString(), CustomMsgBean.class);
-                        updateUI();
-                        LoadingDialog.dismissDialog();
-                    }
+        HttpUtil.apiW().red_redpacketDetail(bean).enqueue(new CommonCallback<NetData>() {
+            @Override
+            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                redBean = new Gson().fromJson(body.data.toString(), CustomMsgBean.class);
+                updateUI();
+                LoadingDialog.dismissDialog();
+            }
 
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
-                        // LoadingDialog.dismissDialog();
-                    }
-                });
+            @Override
+            public void Failure(Call<NetData> call, Throwable t) {
+                // LoadingDialog.dismissDialog();
+            }
+        });
     }
 
     private void updateUI() {
@@ -167,54 +166,52 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
     @Override
     public void onClick(View v) {
         if (v == binding.fragmentOpenRedPacketDialogDetailRl) {
+            sendTipMsg(true);
             gotoRedPacketDetail(false);
         } else if (v == binding.fragmentOpenRedPacketDialogOpenRl || v == binding.fragmentOpenRedPacketDialogOpenRl1) {
             RegisterBean bean = new RegisterBean();
             bean.redpacketId = redPacketId;
             if (sendBean.type == 21) {
-                HttpUtil.apiW().red_reciveExclusiveRedpacket(bean)
-                        .enqueue(new CommonCallback<NetData>() {
-                            @Override
-                            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                                gotoRedPacketDetail(true);
-                                sendTipMsg(true);
-                            }
+                HttpUtil.apiW().red_reciveExclusiveRedpacket(bean).enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                        gotoRedPacketDetail(true);
+                        sendTipMsg(true);
+                    }
 
-                            @Override
-                            public void Failure(Call<NetData> call, Throwable t) {
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
 
-                            }
-                        });
+                    }
+                });
             } else if (sendBean.type == 22) {
                 //type == 22 个人
-                HttpUtil.apiW().red_recivePersonRedpacket(bean)
-                        .enqueue(new CommonCallback<NetData>() {
-                            @Override
-                            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                                gotoRedPacketDetail(true);
-                                sendTipMsg(false);
-                            }
+                HttpUtil.apiW().red_recivePersonRedpacket(bean).enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                        gotoRedPacketDetail(true);
+                        sendTipMsg(false);
+                    }
 
-                            @Override
-                            public void Failure(Call<NetData> call, Throwable t) {
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
 
-                            }
-                        });
+                    }
+                });
             } else if (sendBean.type == 23) {
                 //type == 23 群
-                HttpUtil.apiW().red_grab(bean)
-                        .enqueue(new CommonCallback<NetData>() {
-                            @Override
-                            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                                gotoRedPacketDetail(true);
-                                sendTipMsg(true);
-                            }
+                HttpUtil.apiW().red_grab(bean).enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                        gotoRedPacketDetail(true);
+                        sendTipMsg(true);
+                    }
 
-                            @Override
-                            public void Failure(Call<NetData> call, Throwable t) {
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
 
-                            }
-                        });
+                    }
+                });
             }
         }
     }

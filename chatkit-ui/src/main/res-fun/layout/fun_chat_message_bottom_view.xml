@@ -94,7 +94,7 @@
                         android:layout_height="44dp"
                         android:background="#f4f4f4"
                         android:ellipsize="end"
-                        android:hint="@string/fun_chat_input_hint_tips"
+                        android:hint="输入信息"
                         android:imeOptions="actionSend"
                         android:inputType="text"
                         android:maxLength="2000"
