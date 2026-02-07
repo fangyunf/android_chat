@@ -24,26 +24,25 @@
             app:under_divider_color="@color/transparent" />
 
         <TextView
-            android:visibility="gone"
             android:id="@+id/activity_buy_group_feature_info_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="15dp"
             android:background="@drawable/bg_f2f2f2_rounded_10"
             android:padding="15dp"
-            android:text="规则说明:\n
-一个群主只能建立5个群，每个群只能拉 500个人，如若想再拉人，须够买会员才能增加群成员和群的数量
-\n升级1000人数88元
-\n升级人数永久生效，如解散群将失效;
-"
+            android:text="规则说明：\n
+\n每个群只能拉500个人，如若想再拉人，须购买升级才能增加群成员
+\n升级3000人数200元
+\n升级人数永久生效，如解散群将失效；"
             android:textColor="#ff000000"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:visibility="gone" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:paddingBottom="150dp"
             android:id="@+id/activity_buy_group_feature_rv"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:paddingBottom="150dp" />
 
     </LinearLayout>
 
