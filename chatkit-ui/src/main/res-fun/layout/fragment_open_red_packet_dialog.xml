@@ -56,6 +56,15 @@
             </LinearLayout>
 
             <TextView
+                android:visibility="gone"
+                android:id="@+id/fragment_open_red_packet_remark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dimen_10_dp"
+                android:textColor="#FFEEAB"
+                android:textSize="14sp" />
+
+            <TextView
                 android:id="@+id/fragment_open_red_packet_dialog_greeting_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"

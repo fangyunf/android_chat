@@ -3,6 +3,7 @@ package com.netease.yunxin.kit.chatkit.ui.fun.page.fragment;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -92,10 +93,16 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
     private void updateUI() {
         binding.fragmentOpenRedPacketDialogOpenRl.setVisibility(View.GONE);
         binding.fragmentOpenRedPacketDialogOpenRl1.setVisibility(View.GONE);
+        binding.fragmentOpenRedPacketRemark.setVisibility(View.GONE);
         if (redBean != null) {
             GlideUtil.yh_loadImageRoundedCorner(getContext(), binding.fragmentOpenRedPacketDialogHeadIv, redBean.sendAvatar, 24);
             binding.fragmentOpenRedPacketDialogNameTv.setText(redBean.sendName);
             binding.fragmentOpenRedPacketDialogGreetingTv.setText(redBean.title);
+
+            if (!TextUtils.isEmpty(redBean.toUserName)) {
+                binding.fragmentOpenRedPacketRemark.setVisibility(View.VISIBLE);
+                binding.fragmentOpenRedPacketRemark.setText(redBean.toUserName);
+            }
         }
         if (type == 1) {
             //可领取
