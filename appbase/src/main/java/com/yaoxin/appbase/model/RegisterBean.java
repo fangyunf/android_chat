@@ -68,7 +68,7 @@ public class RegisterBean {
     public String groupHead;
     public List members;
     public int type;
-    public int id;
+    public long id;
     public int moudleType;
     public String inviteState;
     public int state;

@@ -49,6 +49,7 @@ import com.netease.yunxin.kit.chatkit.model.IMMessageInfo;
 import com.netease.yunxin.kit.chatkit.model.MessageDynamicallyResult;
 import com.netease.yunxin.kit.chatkit.repo.ChatObserverRepo;
 import com.netease.yunxin.kit.chatkit.repo.ChatRepo;
+import com.netease.yunxin.kit.chatkit.repo.ContactRepo;
 import com.netease.yunxin.kit.chatkit.repo.ContactObserverRepo;
 import com.netease.yunxin.kit.chatkit.ui.ChatKitUIConstant;
 import com.netease.yunxin.kit.chatkit.ui.R;
@@ -108,8 +109,6 @@ import retrofit2.Response;
 public abstract class ChatBaseViewModel extends BaseViewModel {
   public static final String TAG = "ChatViewModel";
   private static final int RES_IN_BLACK_LIST = 7101;
-  /** 非好友，发送失败时插入「请先添加为好友」tip */
-  private static final int RES_NOT_FRIEND = 7102;
   // 拉取历史消息
   private final MutableLiveData<FetchResult<List<ChatMessageBean>>> messageLiveData =
       new MutableLiveData<>();
@@ -894,27 +893,51 @@ public abstract class ChatBaseViewModel extends BaseViewModel {
   }
 
   public void sendMessage(IMMessage message, boolean resend, boolean needSendMessage) {
-    if (message != null) {
-      ALog.d(LIB_TAG, TAG, "sendMessage:" + message.getUuid() + "needACK:" + needACK);
-      if (needACK && showRead) {
-        message.setMsgAck();
-      }
-      ChatRepo.sendMessage(
-          message,
-          resend,
-          new FetchCallbackImpl<Void>() {
-
-            @Override
-            public void onFailed(int code) {
-              if (code == RES_IN_BLACK_LIST) {
-                MessageHelper.saveLocalBlackTipMessageAndNotify(message);
-              } else if (code == RES_NOT_FRIEND
-                  && message.getSessionType() == SessionTypeEnum.P2P) {
-                MessageHelper.saveLocalNotFriendTipMessageAndNotify(message);
-              }
-            }
-          });
+    if (message == null) {
+      return;
     }
+    ALog.d(LIB_TAG, TAG, "sendMessage:" + message.getUuid() + "needACK:" + needACK);
+    // 单聊由应用侧判断是否好友：非好友则不发云信，直接展示失败 + 插入 tip；客服会话不校验好友，正常发送
+    String kefuId = DataUtil.getKeFuId();
+    boolean isKefuSession = !TextUtils.isEmpty(kefuId) && TextUtils.equals(message.getSessionId(), kefuId);
+    if (message.getSessionType() == SessionTypeEnum.P2P && !isKefuSession && !ContactRepo.isFriend(message.getSessionId())) {
+      message.setStatus(MsgStatusEnum.fail);
+      sendMessageFetchResult.setLoadStatus(LoadStatus.Finish);
+      sendMessageFetchResult.setTypeIndex(-1);
+      if (resend) {
+        // 重发：只更新当前条为失败状态，不重复入库、不重复插 tip
+        sendMessageFetchResult.setType(FetchResult.FetchType.Update);
+        sendMessageFetchResult.setData(new ChatMessageBean(new IMMessageInfo(message)));
+        sendMessageLiveData.setValue(sendMessageFetchResult);
+      } else {
+        // 首次发送：入库失败消息 + 插入 tip，并通知列表追加两条
+        ChatRepo.saveLocalMessageExt(message, message.getTime(), true);
+        IMMessage tipMsg = MessageHelper.saveLocalNotFriendTipMessageAndNotify(message);
+        sendMessageFetchResult.setType(FetchResult.FetchType.Add);
+        sendMessageFetchResult.setData(new ChatMessageBean(new IMMessageInfo(message)));
+        sendMessageLiveData.setValue(sendMessageFetchResult);
+        if (tipMsg != null) {
+          sendMessageFetchResult.setData(new ChatMessageBean(new IMMessageInfo(tipMsg)));
+          sendMessageLiveData.setValue(sendMessageFetchResult);
+        }
+      }
+      return;
+    }
+    if (needACK && showRead) {
+      message.setMsgAck();
+    }
+    ChatRepo.sendMessage(
+        message,
+        resend,
+        new FetchCallbackImpl<Void>() {
+
+          @Override
+          public void onFailed(int code) {
+            if (code == RES_IN_BLACK_LIST) {
+              MessageHelper.saveLocalBlackTipMessageAndNotify(message);
+            }
+          }
+        });
   }
 
   public void sendMessage(IMMessage message) {

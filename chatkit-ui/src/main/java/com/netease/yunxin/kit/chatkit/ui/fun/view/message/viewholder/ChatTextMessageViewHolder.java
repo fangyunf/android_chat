@@ -10,13 +10,13 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 
+import com.netease.nimlib.sdk.msg.constant.MsgDirectionEnum;
 import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 import com.netease.yunxin.kit.chatkit.ui.R;
 import com.netease.yunxin.kit.chatkit.ui.common.MessageHelper;
 import com.netease.yunxin.kit.chatkit.ui.databinding.ChatBaseMessageViewHolderBinding;
 import com.netease.yunxin.kit.chatkit.ui.databinding.FunChatMessageTextViewHolderBinding;
 import com.netease.yunxin.kit.chatkit.ui.model.ChatMessageBean;
-import com.yaoxin.appbase.utils.DataUtil;
 
 /**
  * view holder for Text message
@@ -43,7 +43,8 @@ public class ChatTextMessageViewHolder extends FunChatBaseMessageViewHolder {
         if (properties.getMessageTextColor() != null) {
             textBinding.messageText.setTextColor(properties.getMessageTextColor());
         } else {
-            if (message.getMessageData().getFromUser() != null && message.getMessageData().getFromUser().getAccount().equals(DataUtil.getUserid())) {
+            // 用发送方向判断「我的消息」，避免 fromUser 未加载时先黑后白
+            if (message.getMessageData().getMessage().getDirect() == MsgDirectionEnum.Out) {
                 textBinding.messageText.setTextColor(parent.getContext().getResources().getColor(com.yaoxin.appbase.R.color.color_white));
             } else {
                 textBinding.messageText.setTextColor(parent.getContext().getResources().getColor(R.color.color_333333));

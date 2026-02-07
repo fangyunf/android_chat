@@ -6,19 +6,26 @@ package com.netease.yunxin.kit.chatkit.ui.normal.view.message.viewholder;
 
 import static com.netease.yunxin.kit.corekit.im.utils.RouterConstant.KEY_TEAM_CREATED_TIP;
 
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import com.google.gson.Gson;
 import com.netease.yunxin.kit.chatkit.ui.ChatKitUIConstant;
 import com.netease.yunxin.kit.chatkit.ui.R;
 import com.netease.yunxin.kit.chatkit.ui.databinding.ChatBaseMessageViewHolderBinding;
 import com.netease.yunxin.kit.chatkit.ui.databinding.NormalChatMessageTipViewHolderBinding;
 import com.netease.yunxin.kit.chatkit.ui.model.ChatMessageBean;
+import com.netease.yunxin.kit.chatkit.ui.common.MessageHelper;
 import com.netease.yunxin.kit.corekit.im.IMKitClient;
-import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
+import com.netease.yunxin.kit.corekit.im.model.UserInfo;
 import com.netease.yunxin.kit.corekit.route.XKitRouter;
+import com.yaoxin.appbase.model.UserBean;
 import java.util.Map;
 
 /** view holder for Text message */
@@ -90,18 +97,43 @@ public class ChatTipsMessageViewHolder extends NormalChatBaseMessageViewHolder {
       textBinding.messageTipText.setTextColor(
           IMKitClient.getApplicationContext().getResources().getColor(R.color.color_999999));
       textBinding.messageTipText.setTextSize(12);
-      textBinding.messageTipText.setText(content);
-      // 非好友 tip：点击跳转添加好友页
+      // 非好友 tip：仅「添加」文字可点击，跳转添加好友详情页
       Map<String, Object> localExt = message.getMessageData().getMessage().getLocalExtension();
       if (localExt != null && Boolean.TRUE.equals(localExt.get(ChatKitUIConstant.KEY_ADD_FRIEND_TIP))) {
-        baseViewBinding.baseRoot.setClickable(true);
-        baseViewBinding.baseRoot.setOnClickListener(
-            v ->
-                XKitRouter.withKey(com.yaoxin.appbase.net.Constant.FunAddFriendVerifyActivityKey)
-                    .withContext(v.getContext())
-                    .withParam(RouterConstant.KEY_ACCOUNT_ID_KEY, message.getMessageData().getMessage().getSessionId())
-                    .navigate());
+        String addFriendClickText = "添加";
+        int start = content.indexOf(addFriendClickText);
+        if (start >= 0) {
+          SpannableString spannable = new SpannableString(content);
+          final String sessionId = message.getMessageData().getMessage().getSessionId();
+          ClickableSpan clickableSpan =
+              new ClickableSpan() {
+                @Override
+                public void onClick(@NonNull View widget) {
+                  String account = sessionId;
+                  UserInfo userInfo = MessageHelper.getChatMessageUserInfo(account);
+                  UserBean userBean = new UserBean();
+                  userBean.userId = account;
+                  userBean.memberCode = account;
+                  userBean.name = userInfo != null && userInfo.getName() != null ? userInfo.getName() : account;
+                  userBean.avatar = userInfo != null && userInfo.getAvatar() != null ? userInfo.getAvatar() : "";
+                  String userJson = new Gson().toJson(userBean);
+                  XKitRouter.withKey(com.yaoxin.appbase.net.Constant.FunAddFriendVerifyActivityKey)
+                      .withContext(widget.getContext())
+                      .withParam("user", userJson)
+                      .navigate();
+                }
+              };
+          spannable.setSpan(
+              clickableSpan, start, start + addFriendClickText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+          textBinding.messageTipText.setMovementMethod(LinkMovementMethod.getInstance());
+          textBinding.messageTipText.setText(spannable);
+        } else {
+          textBinding.messageTipText.setText(content);
+        }
+        baseViewBinding.baseRoot.setClickable(false);
+        baseViewBinding.baseRoot.setOnClickListener(null);
       } else {
+        textBinding.messageTipText.setText(content);
         baseViewBinding.baseRoot.setClickable(false);
         baseViewBinding.baseRoot.setOnClickListener(null);
       }

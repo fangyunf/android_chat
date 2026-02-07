@@ -5,7 +5,8 @@ import java.util.List;
 public class UserBean {
     /**
      *
-     * */
+     *
+     */
     public String userName;
     public String phoneFix;
     public String inviteName;
@@ -16,13 +17,13 @@ public class UserBean {
     public String userAvatar;
     public String userMemberCode;
     public String groupName;
-//    public String applyState;
+    //    public String applyState;
 //    public String id;
     public String name;
     public String zfb;
     public String phone;
     public String url;
-//    为1是会员    0或者空为非会员
+    //    为1是会员    0或者空为非会员
     public String hy;
     public String qrCode;
     public String payUrl;
@@ -44,7 +45,7 @@ public class UserBean {
     public String applyState;
     public String leaveMessage;
     public String applyUserId;
-    public int id;
+    public long id;
     public int page_type;
     public int grade;
 

@@ -577,11 +577,13 @@ public abstract class ChatBaseMessageViewHolder extends CommonBaseMessageViewHol
             } else {
                 baseViewBinding.tvTime.setText(TimeFormatUtils.formatMillisecond(itemView.getContext(), createTime));
             }
-            // 自定义设置时间文本颜色
+            // 自定义设置时间文本颜色，未配置时默认白色避免时间 tip 显示为黑色
             if (commonUIOption.timeColor != null) {
                 baseViewBinding.tvTime.setTextColor(commonUIOption.timeColor);
             } else if (properties.getTimeTextColor() != null) {
                 baseViewBinding.tvTime.setTextColor(properties.getTimeTextColor());
+            } else {
+                baseViewBinding.tvTime.setTextColor(ContextCompat.getColor(itemView.getContext(), R.color.color_222222));
             }
             // 自定义设置时间文本大小
             if (commonUIOption.timeSize != null) {
@@ -652,6 +654,12 @@ public abstract class ChatBaseMessageViewHolder extends CommonBaseMessageViewHol
         } else if (data.getMessageData().getMessage().getSessionType() == SessionTypeEnum.P2P) { // p2p 消息发送成功状态
             baseViewBinding.messageSending.setVisibility(View.GONE);
             baseViewBinding.readProcess.setVisibility(View.GONE);
+            // 客服会话不展示已读/未读状态
+            String kefuId = DataUtil.getKeFuId();
+            if (!TextUtils.isEmpty(kefuId) && TextUtils.equals(data.getMessageData().getMessage().getSessionId(), kefuId)) {
+                baseViewBinding.ivStatus.setVisibility(View.GONE);
+                return;
+            }
             // 若消息不需要展示消息已读状态 或者 MessageProperties#getShowP2pMessageStatus 返回 false
             // 控制不展示点对点消息发送成功后的已读状态，则不进行点对点会话中消息已读状态展示，否则展示
 //            if (!properties.getShowP2pMessageStatus() || !data.getMessageData().getMessage().needMsgAck() || !ChatConfigManager.showReadStatus) {
