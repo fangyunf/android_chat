@@ -98,10 +98,9 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
             GlideUtil.yh_loadImageRoundedCorner(getContext(), binding.fragmentOpenRedPacketDialogHeadIv, redBean.sendAvatar, 24);
             binding.fragmentOpenRedPacketDialogNameTv.setText(redBean.sendName);
             binding.fragmentOpenRedPacketDialogGreetingTv.setText(redBean.title);
-
-            if (!TextUtils.isEmpty(redBean.toUserName)) {
+            if (!TextUtils.isEmpty(redBean.title) && (type == 2 || type == 3)) {
                 binding.fragmentOpenRedPacketRemark.setVisibility(View.VISIBLE);
-                binding.fragmentOpenRedPacketRemark.setText(redBean.toUserName);
+                binding.fragmentOpenRedPacketRemark.setText(redBean.title);
             }
         }
         if (type == 1) {
@@ -134,6 +133,11 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
             } else {
                 binding.fragmentOpenRedPacketDialogBgIv.setImageResource(R.drawable.chat_red_packet_open_bg_cant_open);
             }
+
+            if (sendBean != null && !TextUtils.isEmpty(sendBean.result.title)) {
+                binding.fragmentOpenRedPacketRemark.setVisibility(View.VISIBLE);
+                binding.fragmentOpenRedPacketRemark.setText(sendBean.result.title);
+            }
         }
         if (type == 3) {
             //红包已退款，当前用户未领取
@@ -147,6 +151,11 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
                 binding.fragmentOpenRedPacketDialogBgIv.setImageResource(R.drawable.chat_red_packet_open_bg_group_cant_open);
             } else {
                 binding.fragmentOpenRedPacketDialogBgIv.setImageResource(R.drawable.chat_red_packet_open_bg_cant_open);
+            }
+
+            if (sendBean != null && !TextUtils.isEmpty(sendBean.result.title)) {
+                binding.fragmentOpenRedPacketRemark.setVisibility(View.VISIBLE);
+                binding.fragmentOpenRedPacketRemark.setText(sendBean.result.title);
             }
         }
     }
