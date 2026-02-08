@@ -3,6 +3,7 @@ package com.netease.yunxin.kit.contactkit.ui.search;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 
@@ -43,7 +44,7 @@ public class SearchNewActivity extends BaseActivity implements View.OnClickListe
             public void onClick(@NonNull BaseQuickAdapter<GroupInfoBean, ?> baseQuickAdapter, @NonNull View view, int i) {
                 if (baseQuickAdapter.getItemViewType(i) == Constant.RECYCLE_VIEW_ITEM) {
                     XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_SETTING_PAGE)
-                            .withParam(RouterConstant.CHAT_ID_KRY, baseQuickAdapter.getItem(i ).userId)
+                            .withParam(RouterConstant.CHAT_ID_KRY, baseQuickAdapter.getItem(i).userId)
                             .withParam("type", "1")
                             .withContext(that)
                             .navigate();
@@ -74,7 +75,7 @@ public class SearchNewActivity extends BaseActivity implements View.OnClickListe
                     ArrayList<GroupInfoBean> tempArr = new ArrayList<>();
                     for (GroupInfoBean temp :
                             DataUtil.getFriendInfoList()) {
-                        if (temp.remark != null && !temp.remark.isEmpty()) {
+                        if (!TextUtils.isEmpty(temp.remark)) {
                             if (temp.remark.contains(string)) {
                                 tempArr.add(temp);
                             }
