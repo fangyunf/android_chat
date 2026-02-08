@@ -19,8 +19,8 @@ public class Constant {
 //    public static final String ENCODE_KEY = "wesecretpaddingg";
 //    public static final String MSG_ENCODE_KEY = "wallstreetimchat";
 
-    public static final String BASE_URL = "http://tirsome.zhblock.com/";
-    public static final String BASE_URL_H5 = "http://tirsome.zhblock.com";
+    public static final String BASE_URL = "http://yyds.chatyouyuan.com/";
+    public static final String BASE_URL_H5 = "http://yyds.chatyouyuan.com";
     public static final String ENCODE_KEY = "B7cLd9gFqZpX4hVy";
     public static final String MSG_ENCODE_KEY = "B7cLd9gFqZpX4hVy";
 
