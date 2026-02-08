@@ -1,6 +1,7 @@
 package com.netease.yunxin.kit.chatkit.ui.fun.page.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -28,7 +29,7 @@ public class RedPacketResultDetailAdapter extends BaseQuickAdapter<CustomMsgBean
         try {
             for (GroupInfoBean groupInfoBean : DataUtil.getFriendInfoList()) {
                 if (groupInfoBean.userId.equals(bean.userId)) {
-                    if (groupInfoBean.remark != null && !groupInfoBean.remark.isEmpty()) {
+                    if (!TextUtils.isEmpty(groupInfoBean.remark)) {
                         remark = "(" + groupInfoBean.remark + ")";
                     }
                     break;
