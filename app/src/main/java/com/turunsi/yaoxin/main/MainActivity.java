@@ -231,8 +231,8 @@ public class MainActivity extends BaseActivity {
         activityMainBinding.viewPager.setCurrentItem(START_INDEX, false);
         activityMainBinding.viewPager.setOffscreenPageLimit(fragments.size());
         mCurrentTab = activityMainBinding.conversationBtnGroup;
-        changeStatusBarColor(R.color.color_white);
         resetTabSkin();
+        StatusBarUtils.setStatusBarLightMode(this, true, true);
     }
 
     @Override
@@ -332,14 +332,14 @@ public class MainActivity extends BaseActivity {
 
                                 }
                             }
-                          if (conversationFragment == mConversationFragment1) {
-                            if (groupChatUnreadCount > 0) {
-                              activityMainBinding.conversationDot1.setVisibility(View.VISIBLE);
-                            } else {
-                              activityMainBinding.conversationDot1.setVisibility(View.GONE);
+                            if (conversationFragment == mConversationFragment1) {
+                                if (groupChatUnreadCount > 0) {
+                                    activityMainBinding.conversationDot1.setVisibility(View.VISIBLE);
+                                } else {
+                                    activityMainBinding.conversationDot1.setVisibility(View.GONE);
 
+                                }
                             }
-                          }
                         }
                     });
         }
