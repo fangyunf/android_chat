@@ -347,8 +347,11 @@ public class MatisseActivity extends AppCompatActivity implements
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         mAlbumCollection.setStateCurrentSelection(position);
-        mAlbumsAdapter.getCursor().moveToPosition(position);
-        Album album = Album.valueOf(mAlbumsAdapter.getCursor());
+        Cursor cursor = mAlbumsAdapter.getCursor();
+        if (cursor == null || cursor.isClosed() || !cursor.moveToPosition(position)) {
+            return;
+        }
+        Album album = Album.valueOf(cursor);
         if (album.isAll() && SelectionSpec.getInstance().capture) {
             album.addCaptureCount();
         }
