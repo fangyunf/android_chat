@@ -281,14 +281,14 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
     protected void _initViews() {
         RecyclerView mRecyclerView = binding.contactNewFragmentRv;
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        final PinnedHeaderDecoration decoration = new PinnedHeaderDecoration();
-        decoration.registerTypePinnedHeader(1, new PinnedHeaderDecoration.PinnedHeaderCreator() {
-            @Override
-            public boolean create(RecyclerView parent, int adapterPosition) {
-                return true;
-            }
-        });
-        mRecyclerView.addItemDecoration(decoration);
+//        final PinnedHeaderDecoration decoration = new PinnedHeaderDecoration();
+//        decoration.registerTypePinnedHeader(1, new PinnedHeaderDecoration.PinnedHeaderCreator() {
+//            @Override
+//            public boolean create(RecyclerView parent, int adapterPosition) {
+//                return true;
+//            }
+//        });
+//        mRecyclerView.addItemDecoration(decoration);
         mRecyclerView.setAdapter(adapter);
 
         Activity that = getActivity();
