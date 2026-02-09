@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.animation.ObjectAnimator;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -157,13 +158,18 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
                         Type type = new TypeToken<List<GroupInfoBean>>() {
                         }.getType();
                         mContactModels = new Gson().fromJson(body.data.toString(), type);
+                        if (mContactModels != null) {
+                            mContactModels.removeAll(Collections.singleton(null));
+                        }
+                        
                         for (GroupInfoBean tempBean :
                                 mContactModels) {
-                            if (tempBean.userId.equals(DataUtil.getKeFuId())) {
-                                mContactModels.remove(tempBean);
-                                break;
+                            if (tempBean != null && !TextUtils.isEmpty(tempBean.userId) && !TextUtils.isEmpty(DataUtil.getKeFuId())) {
+                                if (tempBean.userId.equals(DataUtil.getKeFuId())) {
+                                    mContactModels.remove(tempBean);
+                                    break;
+                                }
                             }
-
                         }
                         Collections.sort(mContactModels, new Comparator<GroupInfoBean>() {
                             @Override
