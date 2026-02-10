@@ -47,6 +47,7 @@ public class BuyFeatureActivity extends BaseActivity implements View.OnClickList
     ArrayList<UserBean> userBeanList = new ArrayList<>();
 
     int _type = 0;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,11 +60,10 @@ public class BuyFeatureActivity extends BaseActivity implements View.OnClickList
     }
 
 
-
     void _updateUI() {
         binding.activityBuyFeatureNav.getTitleView().setText("购买副号");
         binding.activityBuyFeatureMoneyTv.setText("￥68");
-        binding.activityBuyFeatureDetailTv.setText("购买即得20个副号");
+        binding.activityBuyFeatureDetailTv.setText("购买即得15个副号");
 
 //        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
 //        binding.activityBuyFeatureRv.setLayoutManager(gridLayoutManager);
@@ -80,6 +80,7 @@ public class BuyFeatureActivity extends BaseActivity implements View.OnClickList
 //
 //        adapter.setItems(userBeanList);
     }
+
     @Override
     protected void _requestData() {
 //        HttpUtil.apiW().group_groupGrade()
@@ -102,45 +103,54 @@ public class BuyFeatureActivity extends BaseActivity implements View.OnClickList
     public void onClick(View v) {
         if (v == binding.activityBuyFeatureNav.addCloseImageButton()) {
             finish();
-        } else if (v == binding.activityBuyFeatureConfrimTv) {
+        } else if (v == binding.activityBuyFeatureConfrimTv || v == binding.activityBuyFeatureBuyTv) {
             String phone = getTextStr(binding.activityBuyFeatureEt);
-            if (phone.length() != 5) {
-                ToastUtils.toastMsg("请输入5位");
+            if (phone.length() != 8) {
+                ToastUtils.toastMsg("请输入8位");
                 return;
             }
+
+//            String smsPhone = binding.etPhone.getText().toString();
+//            if (smsPhone.length() != 6) {
+//                ToastUtils.toastMsg("请输入6位的自定义验证码");
+//                return;
+//            }
+
             PopEnterPassword popEnterPassword = new PopEnterPassword(this, new OnPasswordInputFinish() {
                 @Override
                 public void inputFinish(String password) {
                     RegisterBean registerBean = new RegisterBean();
-                    registerBean.phone = "1"+ phone+"000";
+                    // phone: 副号手机号前8位（用户输入5位，加上"1"是6位，再补2位到8位）
+                    registerBean.phone = phone; // 确保是8位
+                    // toPhone: 主号手机号
+                    registerBean.userId = DataUtil.getUserInfo().userId;
+                    //registerBean.toPhone = DataUtil.getUserInfo().phoneNo;
                     registerBean.password = password;
-                    LoadingDialog.showDialog(getSupportFragmentManager(),"购买中..");
-                    HttpUtil.apiW().home_gmfh(registerBean)
-                            .enqueue(new CommonCallback<NetData>() {
-                                @Override
-                                public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                    //registerBean.smsPhone = smsPhone;
+                    LoadingDialog.showDialog(getSupportFragmentManager(), "购买中..");
+                    HttpUtil.apiW().subUser_createSubUser(registerBean).enqueue(new CommonCallback<NetData>() {
+                        @Override
+                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                            ToastUtils.toastMsg("购买成功");
+                            EventBus.getDefault().post(new BaseEvent("reload_fuhao"));
+                            finish();
+                        }
 
-                                    ToastUtils.toastMsg("购买成功");
-                                    EventBus.getDefault().post(new BaseEvent("reload_fuhao"));
-                                    finish();
-                                }
+                        @Override
+                        public void Failure(Call<NetData> call, Throwable t) {
 
-                                @Override
-                                public void Failure(Call<NetData> call, Throwable t) {
+                        }
 
-                                }
-
-                                @Override
-                                public void end() {
-                                    super.end();
-                                    LoadingDialog.dismissDialog();
-                                }
-                            });
+                        @Override
+                        public void end() {
+                            super.end();
+                            LoadingDialog.dismissDialog();
+                        }
+                    });
                 }
-            },"68");
+            }, "68");
             // 显示窗口
-            popEnterPassword.showAtLocation(binding.activityBuyFeatureRootRl,
-                    Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); // 设置layout在PopupWindow中显示的位置
+            popEnterPassword.showAtLocation(binding.activityBuyFeatureRootRl, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); // 设置layout在PopupWindow中显示的位置
         }
     }
 
