@@ -129,9 +129,7 @@ public class IMApplication extends MultiDexApplication {
         XKitRouter.registerRouter(com.yaoxin.appbase.net.Constant.BaseWebViewActivityKey, BaseWebViewActivity.class);
         XKitRouter.registerRouter(com.yaoxin.appbase.net.Constant.XiaoZhuShouActivityKey, XiaoZhuShouActivity.class);
         XKitRouter.registerRouter("BuyGroupFeatureActivity", BuyGroupFeatureActivity.class);
-        AppProxy.getInstance().init(this)
-                .setIsDebug(BuildConfig.DEBUG)
-                .setVersionName(BuildConfig.VERSION_NAME);
+        AppProxy.getInstance().init(this).setIsDebug(BuildConfig.DEBUG).setVersionName(BuildConfig.VERSION_NAME);
         initThirdPart();
         mediaPlayer = MediaPlayer.create(this, R.raw.msg);
         vibrator = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
@@ -143,9 +141,9 @@ public class IMApplication extends MultiDexApplication {
                 vibrationEffect = VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE);
                 // vibrator.vibrate(vibrationEffect);
             }
-
             // 开始震动
         }
+        CrashReport.initCrashReport(getApplicationContext(), "f2e6ec25a3", false);
     }
 
     private void initThirdPart() {
@@ -192,23 +190,22 @@ public class IMApplication extends MultiDexApplication {
             IMKitClient.toggleNotification(SettingRepo.isPushNotify());
             IMKitClient.registerMixPushMessageHandler(new PushMessageHandler());
             // 在 Application启动时注册，保证漫游、离线消息也能够回调此过滤器进行过滤。注意，过滤器的实现不要有耗时操作。
-            NIMClient.getService(MsgServiceObserve.class)
-                    .observeCustomNotification(new Observer<CustomNotification>() {
-                        @Override
-                        public void onEvent(CustomNotification notification) {
-                            // 处理接收到的自定义系统通知
-                            String content = notification.getContent();
-                            if (content != null) {
-                                CustomMsgBean msgBean = new Gson().fromJson(content, CustomMsgBean.class);
-                                if (msgBean.type == 525) {
-                                    BaseEvent baseEvent = new BaseEvent("egg_open_notice");
-                                    baseEvent.customMsgBean = msgBean;
-                                    EventBus.getDefault().post(baseEvent);
-                                }
-                            }
-                            // 根据需要处理通知内容
+            NIMClient.getService(MsgServiceObserve.class).observeCustomNotification(new Observer<CustomNotification>() {
+                @Override
+                public void onEvent(CustomNotification notification) {
+                    // 处理接收到的自定义系统通知
+                    String content = notification.getContent();
+                    if (content != null) {
+                        CustomMsgBean msgBean = new Gson().fromJson(content, CustomMsgBean.class);
+                        if (msgBean.type == 525) {
+                            BaseEvent baseEvent = new BaseEvent("egg_open_notice");
+                            baseEvent.customMsgBean = msgBean;
+                            EventBus.getDefault().post(baseEvent);
                         }
-                    }, true);
+                    }
+                    // 根据需要处理通知内容
+                }
+            }, true);
             NIMClient.getService(MsgService.class).registerIMMessageFilter(new IMMessageFilter() {
                 @Override
                 public boolean shouldIgnore(IMMessage message) {
@@ -257,26 +254,23 @@ public class IMApplication extends MultiDexApplication {
                                 mediaPlayer.start();
                             }
                         } else if (sessionType == SessionTypeEnum.Team) { // 群聊会话
-                            TeamRepo.queryTeamWithMember(
-                                    sessionId,
-                                    Objects.requireNonNull(IMKitClient.account()),
-                                    new FetchCallback<TeamWithCurrentMember>() {
-                                        @Override
-                                        public void onSuccess(@Nullable TeamWithCurrentMember param) {
-                                            boolean isMute = param.getTeam().getMessageNotifyType() == TeamMessageNotifyTypeEnum.Mute;
-                                            if (!isMute) {
-                                                mediaPlayer.start();
-                                            }
-                                        }
+                            TeamRepo.queryTeamWithMember(sessionId, Objects.requireNonNull(IMKitClient.account()), new FetchCallback<TeamWithCurrentMember>() {
+                                @Override
+                                public void onSuccess(@Nullable TeamWithCurrentMember param) {
+                                    boolean isMute = param.getTeam().getMessageNotifyType() == TeamMessageNotifyTypeEnum.Mute;
+                                    if (!isMute) {
+                                        mediaPlayer.start();
+                                    }
+                                }
 
-                                        @Override
-                                        public void onFailed(int code) {
-                                        }
+                                @Override
+                                public void onFailed(int code) {
+                                }
 
-                                        @Override
-                                        public void onException(@Nullable Throwable exception) {
-                                        }
-                                    });
+                                @Override
+                                public void onException(@Nullable Throwable exception) {
+                                }
+                            });
                         }
                     }
                     if ("1".equals(shakeSoud)) {
@@ -296,30 +290,27 @@ public class IMApplication extends MultiDexApplication {
                                 }
                             }
                         } else if (sessionType == SessionTypeEnum.Team) { // 群聊会话
-                            TeamRepo.queryTeamWithMember(
-                                    sessionId,
-                                    Objects.requireNonNull(IMKitClient.account()),
-                                    new FetchCallback<TeamWithCurrentMember>() {
-                                        @Override
-                                        public void onSuccess(@Nullable TeamWithCurrentMember param) {
-                                            boolean isMute = param.getTeam().getMessageNotifyType() == TeamMessageNotifyTypeEnum.Mute;
-                                            if (!isMute) {
-                                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                                    vibrator.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE));
-                                                } else {
-                                                    vibrator.vibrate(500); // 简单震动
-                                                }
-                                            }
+                            TeamRepo.queryTeamWithMember(sessionId, Objects.requireNonNull(IMKitClient.account()), new FetchCallback<TeamWithCurrentMember>() {
+                                @Override
+                                public void onSuccess(@Nullable TeamWithCurrentMember param) {
+                                    boolean isMute = param.getTeam().getMessageNotifyType() == TeamMessageNotifyTypeEnum.Mute;
+                                    if (!isMute) {
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                            vibrator.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE));
+                                        } else {
+                                            vibrator.vibrate(500); // 简单震动
                                         }
+                                    }
+                                }
 
-                                        @Override
-                                        public void onFailed(int code) {
-                                        }
+                                @Override
+                                public void onFailed(int code) {
+                                }
 
-                                        @Override
-                                        public void onException(@Nullable Throwable exception) {
-                                        }
-                                    });
+                                @Override
+                                public void onException(@Nullable Throwable exception) {
+                                }
+                            });
                         }
 
 
@@ -327,8 +318,6 @@ public class IMApplication extends MultiDexApplication {
                     return false; // 不过滤
                 }
             });
-
-            CrashReport.initCrashReport(getApplicationContext(), "119f26942a", false);
         }
     }
 
@@ -336,54 +325,51 @@ public class IMApplication extends MultiDexApplication {
     //此处如果在没有登录的情况下，其他页面打开的时候进行finish();除了MainActivity
     //MainActivity启动进行登录检测，如果没有登录进行登录操作
     private void registerActivityLifeCycle() {
-        registerActivityLifecycleCallbacks(
-                new ActivityLifecycleCallbacks() {
-                    @Override
-                    public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-                        if (TextUtils.isEmpty(IMKitClient.account())
-                                && !(activity instanceof MainActivity || activity instanceof SplashActivity || activity instanceof LoginActivity || activity instanceof RegisterActivity || activity instanceof ForgetPwdActivity || activity instanceof WelcomeActivity || activity instanceof RealNameSetActivity || activity instanceof BaseWebViewActivity || activity instanceof OtherPlaceLoginActivity)
-                                && !coldStart) {
-                            activity.finish();
-                        } else {
-                            activities.add(activity);
-                        }
-                    }
+        registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
+            @Override
+            public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+                if (TextUtils.isEmpty(IMKitClient.account()) && !(activity instanceof MainActivity || activity instanceof SplashActivity || activity instanceof LoginActivity || activity instanceof RegisterActivity || activity instanceof ForgetPwdActivity || activity instanceof WelcomeActivity || activity instanceof RealNameSetActivity || activity instanceof BaseWebViewActivity || activity instanceof OtherPlaceLoginActivity) && !coldStart) {
+                    activity.finish();
+                } else {
+                    activities.add(activity);
+                }
+            }
 
-                    @Override
-                    public void onActivityStarted(Activity activity) {
-                        foregroundActCount++;
-                        currentActivity = activity;
-                    }
+            @Override
+            public void onActivityStarted(Activity activity) {
+                foregroundActCount++;
+                currentActivity = activity;
+            }
 
-                    @Override
-                    public void onActivityResumed(Activity activity) {
-                        currentActivity = activity;
-                    }
+            @Override
+            public void onActivityResumed(Activity activity) {
+                currentActivity = activity;
+            }
 
-                    @Override
-                    public void onActivityPaused(Activity activity) {
-                    }
+            @Override
+            public void onActivityPaused(Activity activity) {
+            }
 
-                    @Override
-                    public void onActivityStopped(Activity activity) {
-                        if (currentActivity == activity) {
-                            currentActivity = null;
-                        }
-                        foregroundActCount--;
-                    }
+            @Override
+            public void onActivityStopped(Activity activity) {
+                if (currentActivity == activity) {
+                    currentActivity = null;
+                }
+                foregroundActCount--;
+            }
 
-                    @Override
-                    public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
-                    }
+            @Override
+            public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+            }
 
-                    @Override
-                    public void onActivityDestroyed(Activity activity) {
-                        if (activities.isEmpty()) {
-                            return;
-                        }
-                        activities.remove(activity);
-                    }
-                });
+            @Override
+            public void onActivityDestroyed(Activity activity) {
+                if (activities.isEmpty()) {
+                    return;
+                }
+                activities.remove(activity);
+            }
+        });
     }
 
     public void clearActivity(Activity exclude) {
