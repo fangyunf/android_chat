@@ -114,7 +114,7 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
         EventCenter.registerEventNotify(closeEventNotify);
         changeStatusBarColor(R.color.color_white);
         binding = FunChatSettingActivityBinding.inflate(getLayoutInflater());
-        StatusBarUtils.transtStatusBar(this,binding.funChatSettingActivityNav);
+        StatusBarUtils.transtStatusBar(this, binding.funChatSettingActivityNav);
         viewModel = new ViewModelProvider(this).get(ChatSettingViewModel.class);
         setContentView(binding.getRoot());
         binding.funChatSettingActivityNav.addCloseImageButton().setOnClickListener(this);
@@ -133,16 +133,15 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
     void _reuestInfo() {
         RegisterBean bean = new RegisterBean();
         bean.userId = accId;
-        LoadingDialog.showDialog(getSupportFragmentManager(),"加载中...");
+        LoadingDialog.showDialog(getSupportFragmentManager(), "加载中...");
         HttpUtil.apiW().friends_searchByUserIdF(bean)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        userBean = new Gson().fromJson(body.data.toString(),UserBean.class);
-                        binding.funChatSettingActivityId.setText("ID: "+ userBean.memberCode);
+                        userBean = new Gson().fromJson(body.data.toString(), UserBean.class);
+                        binding.funChatSettingActivityId.setText("ID: " + userBean.memberCode);
                         binding.nameTv.setText(userBean.name);
-                        if (userBean.remark != null && !userBean.remark.isEmpty())
-                        {
+                        if (!TextUtils.isEmpty(userBean.remark)) {
                             binding.funChatSettingActivityMemo.rightTv.setText(userBean.remark);
                             binding.funChatSettingActivityMemo.rightTv.setVisibility(View.VISIBLE);
                         }
@@ -156,6 +155,7 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
                     public void Failure(Call<NetData> call, Throwable t) {
 
                     }
+
                     @Override
                     public void end() {
                         super.end();
@@ -163,6 +163,7 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
                     }
                 });
     }
+
     private void initRequest() {
 
         viewModel1 = new ViewModelProvider(this).get(UserInfoViewModel.class);
@@ -270,13 +271,13 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
                         if (type == 1) {
 
 
-                            NIMClient.getService(MsgService.class).clearChattingHistory(userBean.userId,SessionTypeEnum.P2P);
-                            NIMClient.getService(MsgService.class).clearServerHistory(userBean.userId,SessionTypeEnum.P2P);
+                            NIMClient.getService(MsgService.class).clearChattingHistory(userBean.userId, SessionTypeEnum.P2P);
+                            NIMClient.getService(MsgService.class).clearServerHistory(userBean.userId, SessionTypeEnum.P2P);
 
                             EventBus.getDefault().post(new BaseEvent("clearP2PMessageList"));
                         }
                     }
-                },getSupportFragmentManager());
+                }, getSupportFragmentManager());
             }
         });
 
@@ -387,13 +388,14 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
                             .withContext(FunChatSettingActivity.this)
                             .navigate();
                     finish();
-                } else  {
+                } else {
                     finish();
                 }
             }
         });
 
     }
+
     private void registerResult() {
         commentLauncher =
                 registerForActivityResult(
