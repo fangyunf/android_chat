@@ -19,6 +19,7 @@ package com.zhihu.matisse.internal.model;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
@@ -29,14 +30,20 @@ import com.zhihu.matisse.internal.entity.Album;
 import com.zhihu.matisse.internal.loader.AlbumMediaLoader;
 
 import java.lang.ref.WeakReference;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class AlbumMediaCollection implements LoaderManager.LoaderCallbacks<Cursor> {
-    private static final int LOADER_ID = 2;
+    private static final int LOADER_ID_BASE = 2;
+    private static final AtomicInteger sNextLoaderId = new AtomicInteger(LOADER_ID_BASE);
     private static final String ARGS_ALBUM = "args_album";
     private static final String ARGS_ENABLE_CAPTURE = "args_enable_capture";
     private WeakReference<Context> mContext;
     private LoaderManager mLoaderManager;
     private AlbumMediaCallbacks mCallbacks;
+    /**
+     * Unique loader id for this collection so switching albums doesn't reuse a destroyed fragment's loader
+     */
+    private int mLoaderId = -1;
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
@@ -81,8 +88,9 @@ public class AlbumMediaCollection implements LoaderManager.LoaderCallbacks<Curso
     }
 
     public void onDestroy() {
-        if (mLoaderManager != null) {
-            mLoaderManager.destroyLoader(LOADER_ID);
+        if (mLoaderManager != null && mLoaderId >= 0) {
+            mLoaderManager.destroyLoader(mLoaderId);
+            mLoaderId = -1;
         }
         mCallbacks = null;
     }
@@ -92,10 +100,21 @@ public class AlbumMediaCollection implements LoaderManager.LoaderCallbacks<Curso
     }
 
     public void load(@Nullable Album target, boolean enableCapture) {
+        if (target == null) {
+            return;
+        }
         Bundle args = new Bundle();
         args.putParcelable(ARGS_ALBUM, target);
         args.putBoolean(ARGS_ENABLE_CAPTURE, enableCapture);
-        mLoaderManager.initLoader(LOADER_ID, args, this);
+        // Use a unique loader id per fragment so switching albums always gets a fresh loader
+        // and correct callback; reusing LOADER_ID=2 could deliver to wrong/destroyed fragment
+        if (mLoaderId < 0) {
+            mLoaderId = sNextLoaderId.getAndIncrement();
+            if (sNextLoaderId.get() > 100000) {
+                sNextLoaderId.set(LOADER_ID_BASE);
+            }
+        }
+        mLoaderManager.restartLoader(mLoaderId, args, this);
     }
 
     public interface AlbumMediaCallbacks {
