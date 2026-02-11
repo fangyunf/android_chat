@@ -12,6 +12,8 @@ import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.text.TextUtils;
@@ -69,6 +71,7 @@ import com.turunsi.yaoxin.push.PushMessageHandler;
 import com.turunsi.yaoxin.register.ForgetPwdActivity;
 import com.turunsi.yaoxin.register.RegisterActivity;
 import com.turunsi.yaoxin.splash.SplashActivity;
+import com.turunsi.yaoxin.utils.ChatHistoryCleaner;
 import com.turunsi.yaoxin.utils.Constant;
 import com.turunsi.yaoxin.utils.DataUtils;
 import com.turunsi.yaoxin.welcome.WelcomeActivity;
@@ -183,6 +186,9 @@ public class IMApplication extends MultiDexApplication {
             }
             IMKitClient.toggleNotification(SettingRepo.isPushNotify());
             IMKitClient.registerMixPushMessageHandler(new PushMessageHandler());
+            // 每次打开 app 检查并清除 7 天前的本地聊天记录（延迟执行以便登录态恢复后再清理）
+            new Handler(Looper.getMainLooper()).postDelayed(
+                    ChatHistoryCleaner::clearOldHistoryIfNeeded, 2000);
             // 在 Application启动时注册，保证漫游、离线消息也能够回调此过滤器进行过滤。注意，过滤器的实现不要有耗时操作。
             NIMClient.getService(MsgServiceObserve.class)
                     .observeCustomNotification(new Observer<CustomNotification>() {
