@@ -141,7 +141,7 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
                         userBean = new Gson().fromJson(body.data.toString(), UserBean.class);
                         binding.funChatSettingActivityId.setText("ID: " + userBean.memberCode);
                         binding.nameTv.setText(userBean.name);
-                        if (userBean.remark != null && !userBean.remark.isEmpty()) {
+                        if (!TextUtils.isEmpty(userBean.remark)) {
                             binding.funChatSettingActivityMemo.rightTv.setText(userBean.remark);
                             binding.funChatSettingActivityMemo.rightTv.setVisibility(View.VISIBLE);
                         }
