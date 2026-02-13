@@ -8,6 +8,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.Toast;
 
@@ -167,13 +169,13 @@ public class ExchangeAccountActivity extends BaseActivity implements View.OnClic
                                     .clearActivity(ExchangeAccountActivity.this);
                         }
                         DataUtil.deleteData();
-//                        startActivity(new Intent(ExchangeAccountActivity.this, LoginActivity.class));
-//                        finish();
-
-                        DataUtil.putUserInfo(userBean);
-                        DataUtil.putToken(userBean.token);
-                        DataUtil.addLoginUserInfoList(userBean);
-                        IMUtil.loginIM(that,userBean.userId,userBean.imToken);
+                        // 延迟再登录新账号，避免 SDK 未完全清理旧连接/观察者导致新账号收不到消息
+                        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                            DataUtil.putUserInfo(userBean);
+                            DataUtil.putToken(userBean.token);
+                            DataUtil.addLoginUserInfoList(userBean);
+                            IMUtil.loginIM(that, userBean.userId, userBean.imToken);
+                        }, 450);
                     }
                 });
     }
