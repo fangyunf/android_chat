@@ -98,6 +98,7 @@ import com.netease.yunxin.kit.common.utils.storage.StorageType;
 import com.netease.yunxin.kit.common.utils.storage.StorageUtil;
 import com.netease.yunxin.kit.corekit.im.IMKitClient;
 import com.netease.yunxin.kit.corekit.im.model.UserInfo;
+import com.netease.yunxin.kit.corekit.im.repo.SettingRepo;
 import com.netease.yunxin.kit.corekit.im.provider.FetchCallback;
 import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
 import com.netease.yunxin.kit.corekit.route.XKitRouter;
@@ -1107,21 +1108,36 @@ public abstract class ChatBaseFragment extends BaseFragment {
                 }
             }
         } else if (messageInfo.getMessage().getMsgType() == MsgTypeEnum.audio) {
-            ChatMessageListView messageListView = chatView.getMessageListView();
-            if (messageListView == null) {
-                return;
-            }
-            int position = messageListView.searchMessagePosition(messageInfo.getMessage().getUuid());
-            ChatMessageAdapter adapter = messageListView.getMessageAdapter();
-            if (adapter == null || position < 0) {
-                return;
-            }
-            adapter.notifyItemChanged(position, PAYLOAD_REFRESH_AUDIO_ANIM);
+            triggerPlayAudioMessageByInfo(messageInfo);
         } else {
             if (isReply) {
                 chatView.getMessageListView().scrollToMessage(messageInfo.getMessage().getUuid());
             }
         }
+    }
+
+    /** 触发语音消息播放（长按菜单选听筒/扬声器后调用，或点击语音时复用） */
+    private void triggerPlayAudioMessage(ChatMessageBean messageBean) {
+        if (messageBean == null || messageBean.getMessageData() == null) {
+            return;
+        }
+        triggerPlayAudioMessageByInfo(messageBean.getMessageData());
+    }
+
+    private void triggerPlayAudioMessageByInfo(IMMessageInfo messageInfo) {
+        if (messageInfo == null || messageInfo.getMessage().getMsgType() != MsgTypeEnum.audio) {
+            return;
+        }
+        ChatMessageListView messageListView = chatView.getMessageListView();
+        if (messageListView == null) {
+            return;
+        }
+        int position = messageListView.searchMessagePosition(messageInfo.getMessage().getUuid());
+        ChatMessageAdapter adapter = messageListView.getMessageAdapter();
+        if (adapter == null || position < 0) {
+            return;
+        }
+        adapter.notifyItemChanged(position, PAYLOAD_REFRESH_AUDIO_ANIM);
     }
 
     protected void loadReplyView(IMMessageInfo messageInfo, boolean addAit) {
@@ -1268,6 +1284,16 @@ public abstract class ChatBaseFragment extends BaseFragment {
 
                 @Override
                 public boolean onCustom(View view, ChatMessageBean messageInfo, String action) {
+                    if (ActionConstants.POP_ACTION_PLAY_AUDIO_EARPIECE.equals(action)) {
+                        SettingRepo.setHandsetMode(true);
+                        triggerPlayAudioMessage(messageInfo);
+                        return true;
+                    }
+                    if (ActionConstants.POP_ACTION_PLAY_AUDIO_SPEAKER.equals(action)) {
+                        SettingRepo.setHandsetMode(false);
+                        triggerPlayAudioMessage(messageInfo);
+                        return true;
+                    }
                     return chatConfig != null
                             && chatConfig.popMenuClickListener != null
                             && chatConfig.popMenuClickListener.onCustom(view, messageInfo, action);

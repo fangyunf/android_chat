@@ -179,8 +179,13 @@ public abstract class ConversationBaseFragment extends BaseFragment implements I
                                     }
                                 }
                             }
+                            onConversationQueryResult(result);
                             doCallback();
                         });
+    }
+
+    /** Called when conversation query result is received; subclasses may override e.g. to finish pull-refresh. */
+    protected void onConversationQueryResult(FetchResult<List<ConversationBean>> result) {
     }
 
     public void bindView() {

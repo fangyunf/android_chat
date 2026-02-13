@@ -59,6 +59,10 @@ public class ActionConstants {
   public static final String POP_ACTION_DELETE = "POP_ACTION_DELETE";
   //消息长按菜单-转发
   public static final String POP_ACTION_TRANSMIT = "POP_ACTION_TRANSMIT";
+  //语音消息长按-听筒播放
+  public static final String POP_ACTION_PLAY_AUDIO_EARPIECE = "POP_ACTION_PLAY_AUDIO_EARPIECE";
+  //语音消息长按-扬声器播放
+  public static final String POP_ACTION_PLAY_AUDIO_SPEAKER = "POP_ACTION_PLAY_AUDIO_SPEAKER";
 
   //消息列表payload
   public static final String PAYLOAD_STATUS = "messageStatus";

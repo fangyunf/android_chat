@@ -48,6 +48,8 @@ import com.netease.yunxin.kit.conversationkit.ui.fun.FunViewHolderFactory;
 import com.netease.yunxin.kit.conversationkit.ui.fun.page.Bean.ConversationCustomInfoBean;
 import com.netease.yunxin.kit.conversationkit.ui.model.ConversationBean;
 import com.netease.yunxin.kit.conversationkit.ui.page.ConversationBaseFragment;
+import com.netease.yunxin.kit.common.ui.viewmodel.FetchResult;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.netease.yunxin.kit.corekit.im.IMKitClient;
 import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
 import com.netease.yunxin.kit.corekit.route.XKitRouter;
@@ -222,6 +224,14 @@ public class FunConversationFragment extends ConversationBaseFragment {
     protected void finishLoadData() {
         super.finishLoadData();
         _requestData();
+    }
+
+    @Override
+    protected void onConversationQueryResult(FetchResult<List<ConversationBean>> result) {
+        super.onConversationQueryResult(result);
+        if (viewBinding != null && viewBinding.refreshLayout != null) {
+            viewBinding.refreshLayout.finishRefresh();
+        }
     }
 
     void _requestData() {
@@ -499,6 +509,14 @@ public class FunConversationFragment extends ConversationBaseFragment {
         loadUIConfig();
         _initTopStatus(0);
         conversationView.setData(conversationList);
+        viewBinding.refreshLayout.setEnableLoadMore(false);
+        viewBinding.refreshLayout.setOnRefreshListener(refreshLayout -> {
+            if (viewModel != null) {
+                viewModel.fetchConversation();
+            } else {
+                refreshLayout.finishRefresh();
+            }
+        });
         viewBinding.funConversationFragmentSearchIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -95,6 +95,15 @@ public class ChatPopActionFactory {
 //        actions.add(getMultiSelectAction(message));
                 return actions;
             }
+            if (message.getViewType() == MsgTypeEnum.audio.getValue()) {
+                actions.add(getPlayAudioEarpieceAction(message));
+                actions.add(getPlayAudioSpeakerAction(message));
+                actions.add(getDeleteAction(message));
+                if (message.getMessageData().getMessage().getDirect() == MsgDirectionEnum.Out) {
+                    actions.add(getRecallAction(message));
+                }
+                return actions;
+            }
             // 基础消息类型都在MsgTypeEnum中定义,自定义消息类型都是MsgTypeEnum.custom，
             // 自定义消息，根据自定义消息的Type区分IMUIKIt内置从101开始，客户定义从1000开始
             if (message.getViewType() == MsgTypeEnum.text.getValue()
@@ -233,6 +242,30 @@ public class ChatPopActionFactory {
                     }
                     if (actionListener != null) {
                         actionListener.get().onForward(messageInfo);
+                    }
+                });
+    }
+
+    private ChatPopMenuAction getPlayAudioEarpieceAction(ChatMessageBean message) {
+        return new ChatPopMenuAction(
+                ActionConstants.POP_ACTION_PLAY_AUDIO_EARPIECE,
+                R.string.chat_message_action_play_earpiece,
+                R.drawable.ic_message_play_earpiece,
+                (view, messageInfo) -> {
+                    if (actionListener != null && actionListener.get() != null) {
+                        actionListener.get().onCustom(view, messageInfo, ActionConstants.POP_ACTION_PLAY_AUDIO_EARPIECE);
+                    }
+                });
+    }
+
+    private ChatPopMenuAction getPlayAudioSpeakerAction(ChatMessageBean message) {
+        return new ChatPopMenuAction(
+                ActionConstants.POP_ACTION_PLAY_AUDIO_SPEAKER,
+                R.string.chat_message_action_play_speaker,
+                R.drawable.ic_message_play_speaker,
+                (view, messageInfo) -> {
+                    if (actionListener != null && actionListener.get() != null) {
+                        actionListener.get().onCustom(view, messageInfo, ActionConstants.POP_ACTION_PLAY_AUDIO_SPEAKER);
                     }
                 });
     }

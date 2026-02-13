@@ -188,6 +188,9 @@ public class IMApplication extends MultiDexApplication {
                 e.printStackTrace();
             }
             IMKitClient.toggleNotification(SettingRepo.isPushNotify());
+            // 语音播放默认扬声器（仅首次生效，不覆盖用户后续在设置中的选择）
+            SettingRepo.setHandsetMode(false);
+
             IMKitClient.registerMixPushMessageHandler(new PushMessageHandler());
             // 在 Application启动时注册，保证漫游、离线消息也能够回调此过滤器进行过滤。注意，过滤器的实现不要有耗时操作。
             NIMClient.getService(MsgServiceObserve.class).observeCustomNotification(new Observer<CustomNotification>() {
