@@ -99,7 +99,7 @@ public class FunChatTeamFragment extends FunChatFragment {
     private boolean showDeleteDialog = false;
     Observer<FetchResult<List<IMTeamMessageReceiptInfo>>> teamReceiptObserver;
     private String qunzhuId = "";
-
+    private List<String> adminIds = new ArrayList<>();
     private Timer timer;
     private TimerTask timerTask;
 
@@ -186,10 +186,8 @@ public class FunChatTeamFragment extends FunChatFragment {
 
                     }
                 });
-
-
+        _requestData111();
     }
-
 
     protected void _requestData111() {
         RegisterBean bean = new RegisterBean();
@@ -200,7 +198,6 @@ public class FunChatTeamFragment extends FunChatFragment {
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-
                         Type type = new TypeToken<List<GroupInfoBean>>() {
                         }.getType();
                         List<GroupInfoBean> tempList = new Gson().fromJson(body.data.toString(), type);
