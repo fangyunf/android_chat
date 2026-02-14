@@ -24,6 +24,7 @@ import com.yaoxin.appbase.activity.BaseActivity;
 import com.yaoxin.appbase.model.CustomMsgBean;
 import com.yaoxin.appbase.model.GroupInfoBean;
 import com.yaoxin.appbase.model.NetData;
+import com.yaoxin.appbase.model.ParamsBean;
 import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
@@ -250,23 +251,32 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
     }
 
     protected void _requestData1() {
-        RegisterBean bean = new RegisterBean();
-        HttpUtil.apiW().friends_friendList(bean)
+        _requestFriendListPageForIsFriend(1, new ArrayList<>());
+    }
+
+    private void _requestFriendListPageForIsFriend(int page, List<GroupInfoBean> accumulated) {
+        ParamsBean bean = new ParamsBean();
+        bean.page = page;
+        HttpUtil.apiW().friends_friendListPage(bean)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                         Type userListType = new TypeToken<List<GroupInfoBean>>() {
                         }.getType();
                         List<GroupInfoBean> userList = new Gson().fromJson(body.data.toString(), userListType);
-                        for (GroupInfoBean tempBean :
-                                userList) {
+                        if (userList != null) {
+                            accumulated.addAll(userList);
+                        }
+                        if (userList != null && userList.size() == 100) {
+                            _requestFriendListPageForIsFriend(page + 1, accumulated);
+                            return;
+                        }
+                        for (GroupInfoBean tempBean : accumulated) {
                             if (tempBean.userId.equals(groupInfoBean.userId)) {
                                 isFriend = true;
                                 friendBean = tempBean;
-//                                binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowLl.setVisibility(View.VISIBLE);
                                 binding.funTeamUserInfoDetailBottomTv.setText("发消息");
                                 binding.funTeamUserInfoDetailBottomTv.setVisibility(View.VISIBLE);
-
                                 break;
                             }
                         }
@@ -284,33 +294,25 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
                                     .enqueue(new CommonCallback<NetData>() {
                                         @Override
                                         public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-
                                             GroupInfoBean tempBean = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
-
                                             if (tempBean.addFriendsState == 1) {
                                                 if (!isFriend) {
                                                     binding.funTeamUserInfoDetailBottomTv.setVisibility(View.VISIBLE);
                                                 }
-
                                             }
                                         }
 
                                         @Override
                                         public void Failure(Call<NetData> call, Throwable t) {
-
                                         }
                                     });
                         }
-
                     }
 
                     @Override
                     public void Failure(Call<NetData> call, Throwable t) {
-
                     }
                 });
-
-
     }
 
     @Override
