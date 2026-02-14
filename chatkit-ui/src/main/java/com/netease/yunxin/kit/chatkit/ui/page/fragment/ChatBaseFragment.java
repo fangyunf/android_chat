@@ -1986,6 +1986,25 @@ public abstract class ChatBaseFragment extends BaseFragment {
     }
 
     /**
+     * 检查当前用户是否为群主或管理员
+     */
+    private boolean isCurrentUserManager(String groupId) {
+        String currentUserId = DataUtil.getUserid();
+
+        // 检查是否为群主
+        if (DataUtil.qunzhuId != null && DataUtil.qunzhuId.equals(currentUserId)) {
+            return true;
+        }
+
+        // 检查是否为管理员
+        if (DataUtil.adminIds != null && DataUtil.adminIds.contains(currentUserId)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * 调用禁止抢包API
      */
     private void callForbidRedPacketAPI(String userId, String groupId) {
