@@ -449,7 +449,7 @@ public abstract class ChatBaseFragment extends BaseFragment {
                                     }
                                 }
                                 tempName = name;
-                                
+
                                 // 根据当前用户权限动态生成功能选项
                                 String[] popData = generatePopWindowData(sessionID);
                                 DialogAlertUtil.showPopWindow(getActivity(), view, popData, new DialogAlertUtil.PopWindowCallBack() {

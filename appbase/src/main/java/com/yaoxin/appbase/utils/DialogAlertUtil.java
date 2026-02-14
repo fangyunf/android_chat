@@ -30,6 +30,13 @@ public class DialogAlertUtil {
     public interface InputAlertCallBack {
         public void inputText(String text);
     }
+
+    public interface PopWindowCallBack {
+        void onItemClick(int position, String itemText);
+
+        void onDismiss();
+    }
+
     public static void showAlert(String content, DialogAlertUtilCallBack callBack, FragmentManager fragmentManager) {
         CommonChoiceDialog dialog = new CommonChoiceDialog();
         dialog
@@ -57,7 +64,7 @@ public class DialogAlertUtil {
         void clickType(int type);
     }
 
-    public  static void showSheetView(Context context, FragmentManager fragmentManager,String[] titles, DialogAlertUtilCallBack callBack) {
+    public static void showSheetView(Context context, FragmentManager fragmentManager, String[] titles, DialogAlertUtilCallBack callBack) {
         ActionSheet.createBuilder(context, fragmentManager)
                 .setCancelButtonTitle("取消")
                 .setOtherButtonTitles(titles)
@@ -76,11 +83,11 @@ public class DialogAlertUtil {
                 }).show();
     }
 
-    public static void showInputAlert(Context context,String title,String message, InputAlertCallBack callBack) {
+    public static void showInputAlert(Context context, String title, String message, InputAlertCallBack callBack) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle(title == null ? "温馨提示":title);
-        builder.setMessage(message == null ? "":message);
+        builder.setTitle(title == null ? "温馨提示" : title);
+        builder.setMessage(message == null ? "" : message);
 
         final EditText input = new EditText(context);
         builder.setView(input);
