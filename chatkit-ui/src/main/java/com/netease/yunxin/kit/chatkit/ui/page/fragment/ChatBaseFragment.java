@@ -111,6 +111,7 @@ import com.yaoxin.appbase.net.Constant;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.BaseEvent;
 import com.yaoxin.appbase.utils.CommonCallBack;
+import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.DialogAlertUtil;
 import com.yaoxin.appbase.utils.ImageUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
@@ -1973,6 +1974,64 @@ public abstract class ChatBaseFragment extends BaseFragment {
                 },
                 getActivity().getSupportFragmentManager()
         );
+    }
+
+
+    /**
+     * 检查当前用户是否为群主
+     */
+    private boolean isCurrentUserOwner(String groupId) {
+        String currentUserId = DataUtil.getUserid();
+        return DataUtil.qunzhuId != null && DataUtil.qunzhuId.equals(currentUserId);
+    }
+
+    /**
+     * 调用禁止抢包API
+     */
+    private void callForbidRedPacketAPI(String userId, String groupId) {
+        RegisterBean bean = new RegisterBean();
+        bean.groupId = groupId;
+        ArrayList<String> members = new ArrayList<>();
+        members.add(userId);
+        bean.members = members;
+        bean.state = 1; // 1表示禁止抢包
+
+        HttpUtil.apiW().groupMember_invitationGroupBanOnLooting(bean)
+                .enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                        ToastUtils.toastMsg("设置成功");
+                    }
+
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
+                        ToastUtils.toastMsg("设置失败，请重试");
+                    }
+                });
+    }
+
+    /**
+     * 调用踢除成员API
+     */
+    private void callKickMemberAPI(String userId, String groupId) {
+        RegisterBean bean = new RegisterBean();
+        bean.groupId = groupId;
+        ArrayList<String> members = new ArrayList<>();
+        members.add(userId);
+        bean.members = members;
+
+        HttpUtil.apiW().group_outGroup(bean)
+                .enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                        ToastUtils.toastMsg("踢除成功");
+                    }
+
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
+                        ToastUtils.toastMsg("踢除失败，请重试");
+                    }
+                });
     }
 
 
