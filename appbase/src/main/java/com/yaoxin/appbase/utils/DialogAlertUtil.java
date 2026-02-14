@@ -5,7 +5,12 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.drawable.ColorDrawable;
+import android.view.Gravity;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.PopupWindow;
 
 import androidx.fragment.app.FragmentManager;
 
@@ -98,5 +103,49 @@ public class DialogAlertUtil {
 
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+
+    public static void showPopWindow(Context context, View anchorView, String[] data, PopWindowCallBack callback, int xOffset, int yOffset) {
+        if (context == null || anchorView == null || data == null || data.length == 0) {
+            return;
+        }
+
+        // 创建PopWindow
+        PopupWindow popupWindow = new PopupWindow(context);
+
+        // 创建内容视图先，测量宽度
+        View contentView = createPopWindowContentView(context, data, callback, popupWindow);
+
+        // 设置PopWindow的固定宽度，避免宽度问题
+        int popWidth = (int) (200 * context.getResources().getDisplayMetrics().density);
+        popupWindow.setWidth(popWidth);
+        popupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        // 设置背景，避免点击外部无法关闭
+        popupWindow.setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
+        // 设置外部可点击关闭
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setFocusable(true);
+
+        // 设置内容视图
+        popupWindow.setContentView(contentView);
+
+        // 获取锚点视图在屏幕上的绝对位置，避免位置跟随变化
+        int[] location = new int[2];
+        anchorView.getLocationInWindow(location);
+        int absoluteX = location[0] + xOffset;
+        int absoluteY = location[1] + anchorView.getHeight() + yOffset;
+
+        // 使用绝对位置显示PopWindow，避免位置跟随view变化
+        popupWindow.showAtLocation(anchorView, Gravity.NO_GRAVITY, absoluteX, absoluteY);
+
+        // 设置消失监听
+        popupWindow.setOnDismissListener(() -> {
+            if (callback != null) {
+                callback.onDismiss();
+            }
+        });
     }
 }
