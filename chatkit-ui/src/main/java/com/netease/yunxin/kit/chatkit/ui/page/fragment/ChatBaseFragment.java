@@ -19,13 +19,10 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Pair;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.PopupWindow;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
@@ -150,46 +147,183 @@ public abstract class ChatBaseFragment extends BaseFragment {
     private static final int REQUEST_READ_EXTERNAL_STORAGE_PERMISSION_ALBUM = 3;
     private static final int REQUEST_READ_EXTERNAL_STORAGE_PERMISSION_FILE = 4;
     private static final int AUDIO_MESSAGE_MIN_LENGTH = 1000;
-
-    private int currentRequest = 0;
-
+    public IChatView chatView;
+    public View rootView;
+    public String forwardAction;
     protected ChatBaseViewModel viewModel;
     protected AitManager aitManager;
-
     protected SessionTypeEnum sessionType = SessionTypeEnum.P2P;
+    private final IMessageLoadHandler loadHandler =
+            new IMessageLoadHandler() {
+                @Override
+                public void loadMoreForward(ChatMessageBean messageBean) {
+                    viewModel.fetchMoreMessage(
+                            messageBean.getMessageData().getMessage(), GetMessageDirectionEnum.FORWARD);
+                }
 
+                @Override
+                public void loadMoreBackground(ChatMessageBean messageBean) {
+                    viewModel.fetchMoreMessage(
+                            messageBean.getMessageData().getMessage(), GetMessageDirectionEnum.BACKWARD);
+                }
+
+                @Override
+                public void onVisibleItemChange(List<ChatMessageBean> messages) {
+                    if (sessionType == SessionTypeEnum.Team && viewModel instanceof ChatTeamViewModel) {
+                        ((ChatTeamViewModel) viewModel).refreshTeamMessageReceipt(messages);
+                    }
+                }
+            };
+    private final NetworkUtils.NetworkStateListener networkStateListener =
+            new NetworkUtils.NetworkStateListener() {
+
+                @Override
+                public void onConnected(NetworkUtils.NetworkType networkType) {
+                    ALog.d(LIB_TAG, LOG_TAG, "onNewIntent");
+                    chatView.setNetWorkState(true);
+                    refreshTeamMessageReceiptForNetBroken();
+                }
+
+                @Override
+                public void onDisconnected() {
+                    chatView.setNetWorkState(false);
+                }
+            };
     protected String sessionID;
-
     protected Handler mHandler;
-
     protected ChatMessageBean forwardMessage;
-
     protected ActivityResultLauncher<String> pickMediaLauncher;
     protected ActivityResultLauncher<String[]> pickFileLauncher;
-    private String captureTempImagePath = "";
     protected ActivityResultLauncher<Uri> takePictureLauncher;
-    private String captureTempVideoPath = "";
     protected ActivityResultLauncher<Intent> captureVideoLauncher;
-
     protected ActivityResultLauncher<Intent> forwardP2PLauncher;
-
     protected ActivityResultLauncher<Intent> forwardTeamLauncher;
-
     protected ActivityResultLauncher<String[]> permissionLauncher;
-
     protected ActivityResultLauncher<Intent> locationLauncher;
     protected ActivityResultLauncher<Intent> collectionLauncher;
+    protected ChatPopMenu popMenu;
+    protected IChatViewCustom chatViewCustom;
+    protected ChatUIConfig chatConfig;
+    private final IChatPopMenuClickListener actionListener =
+            new IChatPopMenuClickListener() {
+                @Override
+                public boolean onCopy(ChatMessageBean messageBean) {
+                    if (chatConfig != null
+                            && chatConfig.popMenuClickListener != null
+                            && chatConfig.popMenuClickListener.onCopy(messageBean)) {
+                        return true;
+                    }
+                    MessageHelper.copyTextMessage(messageBean.getMessageData(), true);
+                    return true;
+                }
 
+                @Override
+                public boolean onReply(ChatMessageBean messageBean) {
+                    if (chatConfig != null
+                            && chatConfig.popMenuClickListener != null
+                            && chatConfig.popMenuClickListener.onReply(messageBean)) {
+                        return true;
+                    }
+                    loadReplyView(messageBean.getMessageData(), true);
+                    return true;
+                }
+
+                @Override
+                public boolean onForward(ChatMessageBean messageBean) {
+                    if (chatConfig != null
+                            && chatConfig.popMenuClickListener != null
+                            && chatConfig.popMenuClickListener.onForward(messageBean)) {
+                        return true;
+                    }
+                    forwardMessage = messageBean;
+                    onStartForward(ActionConstants.POP_ACTION_TRANSMIT);
+                    return true;
+                }
+
+                @Override
+                public boolean onSignal(ChatMessageBean messageBean, boolean cancel) {
+                    if (chatConfig != null
+                            && chatConfig.popMenuClickListener != null
+                            && chatConfig.popMenuClickListener.onSignal(messageBean, cancel)) {
+                        return true;
+                    }
+                    if (cancel) {
+                        viewModel.removeMsgPin(messageBean.getMessageData());
+                    } else {
+                        viewModel.addMessagePin(messageBean.getMessageData(), "");
+                    }
+                    return true;
+                }
+
+                @Override
+                public boolean onMultiSelected(ChatMessageBean messageBean) {
+                    if (chatConfig != null
+                            && chatConfig.popMenuClickListener != null
+                            && chatConfig.popMenuClickListener.onMultiSelected(messageBean)) {
+                        return true;
+                    }
+                    chatView.showMultiSelect(true);
+                    ChatMsgCache.addMessage(messageBean);
+                    chatView.getMessageListView().setMultiSelect(true);
+                    checkMultiSelectView();
+                    return true;
+                }
+
+                @Override
+                public boolean onCollection(ChatMessageBean messageBean) {
+                    if (chatConfig != null
+                            && chatConfig.popMenuClickListener != null
+                            && chatConfig.popMenuClickListener.onCollection(messageBean)) {
+                        return true;
+                    }
+                    viewModel.addMsgCollection(messageBean.getMessageData());
+                    return true;
+                }
+
+                @Override
+                public boolean onDelete(ChatMessageBean message) {
+                    if (chatConfig != null
+                            && chatConfig.popMenuClickListener != null
+                            && chatConfig.popMenuClickListener.onDelete(message)) {
+                        return true;
+                    }
+                    showDeleteConfirmDialog(Collections.singletonList(message));
+                    return true;
+                }
+
+                @Override
+                public boolean onRecall(ChatMessageBean messageBean) {
+                    if (chatConfig != null
+                            && chatConfig.popMenuClickListener != null
+                            && chatConfig.popMenuClickListener.onRecall(messageBean)) {
+                        return true;
+                    }
+                    showRevokeConfirmDialog(messageBean);
+                    return true;
+                }
+
+                @Override
+                public boolean onCustom(View view, ChatMessageBean messageInfo, String action) {
+                    if (ActionConstants.POP_ACTION_PLAY_AUDIO_EARPIECE.equals(action)) {
+                        SettingRepo.setHandsetMode(true);
+                        triggerPlayAudioMessage(messageInfo);
+                        return true;
+                    }
+                    if (ActionConstants.POP_ACTION_PLAY_AUDIO_SPEAKER.equals(action)) {
+                        SettingRepo.setHandsetMode(false);
+                        triggerPlayAudioMessage(messageInfo);
+                        return true;
+                    }
+                    return chatConfig != null
+                            && chatConfig.popMenuClickListener != null
+                            && chatConfig.popMenuClickListener.onCustom(view, messageInfo, action);
+                }
+            };
+    protected IMessageItemClickListener delegateListener;
+    private int currentRequest = 0;
+    private String captureTempImagePath = "";
+    private String captureTempVideoPath = "";
     private Observer<FetchResult<List<ChatMessageBean>>> messageLiveDataObserver;
-    private Observer<FetchResult<List<ChatMessageBean>>> messageRecLiveDataObserver;
-    private Observer<FetchResult<ChatMessageBean>> sendLiveDataObserver;
-    private Observer<FetchResult<ChatMessageBean>> revokeLiveDataObserver;
-    private Observer<FetchResult<AttachmentProgress>> attachLiveDataObserver;
-    private Observer<FetchResult<List<String>>> userInfoLiveDataObserver;
-    private Observer<FetchResult<Map<String, MsgPinOption>>> msgPinLiveDataObserver;
-    private Observer<Pair<String, MsgPinOption>> addPinLiveDataObserver;
-    private Observer<String> removePinLiveDataObserver;
-    private Observer<FetchResult<List<ChatMessageBean>>> deleteLiveDataObserver;
     private final com.netease.nimlib.sdk.Observer<StatusCode> loginObserver =
             statusCode -> {
                 if (statusCode == StatusCode.LOGINED) {
@@ -201,22 +335,254 @@ public abstract class ChatBaseFragment extends BaseFragment {
                     initToFetchData();
                 }
             };
-
-    protected ChatPopMenu popMenu;
-
-    protected IChatViewCustom chatViewCustom;
-
-    protected ChatUIConfig chatConfig;
-
-    protected IMessageItemClickListener delegateListener;
-
-    public IChatView chatView;
-
-    public View rootView;
-
-    public String forwardAction;
-
+    private Observer<FetchResult<List<ChatMessageBean>>> messageRecLiveDataObserver;
+    private Observer<FetchResult<ChatMessageBean>> sendLiveDataObserver;
+    private Observer<FetchResult<ChatMessageBean>> revokeLiveDataObserver;
+    private Observer<FetchResult<AttachmentProgress>> attachLiveDataObserver;
+    private Observer<FetchResult<List<String>>> userInfoLiveDataObserver;
+    private Observer<FetchResult<Map<String, MsgPinOption>>> msgPinLiveDataObserver;
+    private Observer<Pair<String, MsgPinOption>> addPinLiveDataObserver;
+    private Observer<String> removePinLiveDataObserver;
+    private Observer<FetchResult<List<ChatMessageBean>>> deleteLiveDataObserver;
     private String tempName;
+    private final IMessageItemClickListener itemClickListener =
+            new IMessageItemClickListener() {
+                @Override
+                public boolean onMessageLongClick(View view, int position, ChatMessageBean messageBean) {
+                    if (delegateListener == null
+                            || !delegateListener.onMessageLongClick(view, position, messageBean)) {
+                        if (messageBean.isRevoked()) {
+                            return false;
+                        }
+                        // show pop menu
+                        if (popMenu == null) {
+                            popMenu = new ChatPopMenu();
+                        }
+                        if (popMenu.isShowing()) {
+                            return true;
+                        }
+                        int[] location = new int[2];
+                        chatView.getMessageListView().getLocationOnScreen(location);
+                        popMenu.show(view, messageBean, location[1]);
+                    }
+                    return true;
+                }
+
+                @Override
+                public boolean onMessageClick(View view, int position, ChatMessageBean messageBean) {
+                    if (delegateListener == null
+                            || !delegateListener.onMessageClick(view, position, messageBean)) {
+                        clickMessage(messageBean.getMessageData(), false);
+                    }
+                    return true;
+                }
+
+                @Override
+                public boolean onMessageSelect(
+                        View view, int position, ChatMessageBean messageInfo, boolean selected) {
+                    if (selected) {
+                        ChatMsgCache.addMessage(messageInfo);
+                    } else {
+                        ChatMsgCache.removeMessage(messageInfo.getMessageData().getMessage().getUuid());
+                    }
+                    checkMultiSelectView();
+                    return true;
+                }
+
+                @Override
+                public boolean onUserIconClick(View view, int position, ChatMessageBean messageBean) {
+                    if (delegateListener == null
+                            || !delegateListener.onUserIconClick(view, position, messageBean)) {
+                        if (sessionType == SessionTypeEnum.Team) {
+                            XKitRouter.withKey(Constant.FunTeamUserInfoDetailActivityKey)
+                                    .withParam("groupId", sessionID)
+                                    .withParam("userId", messageBean.getMessageData().getFromUser().getAccount())
+                                    .withContext(view.getContext())
+                                    .navigate();
+
+                            return true;
+                        }
+                        XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_SETTING_PAGE)
+                                .withParam(RouterConstant.CHAT_ID_KRY, sessionID)
+                                .withContext(view.getContext())
+                                .navigate();
+//            XKitRouter.withKey(getUserInfoRoutePath())
+//                .withContext(view.getContext())
+//                .withParam(
+//                    RouterConstant.KEY_ACCOUNT_ID_KEY,
+//                    messageBean.getMessageData().getMessage().getFromAccount())
+//                .navigate();
+                    }
+                    return true;
+                }
+
+                @Override
+                public boolean onSelfIconClick(View view, int position, ChatMessageBean messageBean) {
+                    if (delegateListener == null
+                            || !delegateListener.onSelfIconClick(view, position, messageBean)) {
+                        XKitRouter.withKey(Constant.AccountDetailActivityKey)
+                                .withContext(view.getContext())
+                                .navigate();
+                    }
+                    return true;
+                }
+
+                @Override
+                public boolean onUserIconLongClick(View view, int position, ChatMessageBean messageBean) {
+                    if (delegateListener == null
+                            || !delegateListener.onUserIconLongClick(view, position, messageBean)) {
+                        if (aitManager != null && sessionType == SessionTypeEnum.Team) {
+                            String account = messageBean.getMessageData().getMessage().getFromAccount();
+                            UserInfo userInfo = messageBean.getMessageData().getFromUser();
+                            if (!TextUtils.equals(account, IMKitClient.account())) {
+                                if (userInfo == null) {
+                                    userInfo = new UserInfo(account, account, null);
+                                }
+                                String name = MessageHelper.getTeamAitName(aitManager.getTid(), userInfo);
+                                if (TextUtils.isEmpty(name)) {
+                                    if (messageBean.getMessageData().getFromUser() != null) {
+                                        name = messageBean.getMessageData().getFromUser().getName();
+                                    } else {
+                                        name = account;
+                                    }
+                                }
+                                tempName = name;
+                                DialogAlertUtil.showSheetView(getActivity(), getActivity().getSupportFragmentManager(), new String[]{"@此人", "专属红包"}, new DialogAlertUtil.DialogAlertUtilCallBack() {
+                                    @Override
+                                    public void clickType(int type) {
+                                        if (type == 1) {
+                                            aitManager.insertReplyAit(account, tempName);
+                                        } else if (type == 2) {
+
+                                            HashMap map = new HashMap();
+                                            map.put("sessionId", sessionID);
+                                            map.put("sessionType", "2");
+                                            map.put("userInfo", new Gson().toJson(messageBean.getMessageData().getFromUser()));
+                                            FunSendRedPacketActivity.start(FunSendRedPacketActivity.class, getContext(), map);
+                                        } else if (type == 3) {
+                                            ArrayList list = new ArrayList<>();
+                                            list.add(messageBean.getMessageData().getFromUser().getAccount());
+                                            RegisterBean registerBean = new RegisterBean();
+                                            registerBean.groupId = sessionID;
+                                            registerBean.members = list;
+                                            HttpUtil.apiW().group_outGroup(registerBean)
+                                                    .enqueue(new CommonCallback<NetData>() {
+                                                        @Override
+                                                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                                                            ToastUtils.toastMsg(body.msg);
+                                                        }
+
+                                                        @Override
+                                                        public void Failure(Call<NetData> call, Throwable t) {
+
+                                                        }
+                                                    });
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    }
+                    return true;
+                }
+
+                @Override
+                public boolean onSelfIconLongClick(View view, int position, ChatMessageBean messageInfo) {
+                    return (delegateListener != null
+                            && delegateListener.onSelfIconLongClick(view, position, messageInfo));
+                }
+
+                @Override
+                public boolean onReEditRevokeMessage(View view, int position, ChatMessageBean messageBean) {
+                    // only support text message
+                    if (delegateListener == null
+                            || !delegateListener.onReEditRevokeMessage(view, position, messageBean)) {
+                        if (messageBean != null && MessageHelper.revokeMsgIsEdit(messageBean)) {
+                            Map<String, String> richMap =
+                                    MessageHelper.getRichMessageRevokeContent(messageBean.getMessageData());
+                            if (MessageHelper.isRichText(messageBean.getMessageData())) {
+                                RichTextAttachment attachment =
+                                        (RichTextAttachment) messageBean.getMessageData().getMessage().getAttachment();
+                                chatView.setReEditRichMessage(attachment.title, attachment.body);
+
+                            } else if (richMap != null) {
+                                String title = richMap.get(ChatKitUIConstant.KEY_RICH_TEXT_TITLE);
+                                String body = richMap.get(ChatKitUIConstant.KEY_RICH_TEXT_BODY);
+                                chatView.setReEditRichMessage(title, body);
+                            } else {
+                                String revokeContent =
+                                        MessageHelper.getMessageRevokeContent(messageBean.getMessageData());
+                                if (TextUtils.isEmpty(revokeContent)) {
+                                    revokeContent = messageBean.getMessageData().getMessage().getContent();
+                                }
+                                chatView.setReeditMessage(revokeContent);
+                            }
+                            if (messageBean.hasReply()) {
+                                loadReplyInfo(messageBean.getReplyUUid(), false);
+                            }
+                            AitContactsModel aitModel =
+                                    MessageHelper.getAitBlock(messageBean.getMessageData().getMessage());
+                            if (aitModel != null) {
+                                aitManager.reset();
+                                aitManager.setAitContactsModel(aitModel);
+                            }
+
+                        } else {
+                            Toast.makeText(
+                                            ChatBaseFragment.this.getContext(),
+                                            R.string.chat_message_revoke_eidt_error,
+                                            Toast.LENGTH_SHORT)
+                                    .show();
+                            chatView
+                                    .getMessageListView()
+                                    .updateMessage(messageBean, ActionConstants.PAYLOAD_REVOKE_STATUS);
+                        }
+                    }
+                    return true;
+                }
+
+                @Override
+                public boolean onReplyMessageClick(View view, int position, IMMessageInfo messageInfo) {
+                    // scroll to the message position
+                    if (delegateListener == null
+                            || !delegateListener.onReplyMessageClick(view, position, messageInfo)) {
+                        if (messageInfo != null
+                                && (messageInfo.getMessage().getMsgType() == MsgTypeEnum.text
+                                || MessageHelper.isRichText(messageInfo))) {
+                            WatchTextMessageDialog.launchDialog(
+                                    getParentFragmentManager(),
+                                    "",
+                                    messageInfo,
+                                    getReplayMessageClickPreviewDialogBgRes());
+                        } else {
+                            clickMessage(messageInfo, true);
+                        }
+                    }
+                    return true;
+                }
+
+                @Override
+                public boolean onSendFailBtnClick(View view, int position, ChatMessageBean messageBean) {
+                    if (delegateListener == null
+                            || !delegateListener.onSendFailBtnClick(view, position, messageBean)) {
+                        messageBean.getMessageData().getMessage().setStatus(MsgStatusEnum.sending);
+                        viewModel.sendMessage(messageBean.getMessageData().getMessage(), true, true);
+                    }
+                    return true;
+                }
+
+                @Override
+                public boolean onTextSelected(View view, int position, ChatMessageBean messageInfo) {
+                    return (delegateListener != null
+                            && delegateListener.onTextSelected(view, position, messageInfo));
+                }
+
+                @Override
+                public boolean onCustomClick(View view, int position, ChatMessageBean messageInfo) {
+                    return (delegateListener != null
+                            && delegateListener.onCustomClick(view, position, messageInfo));
+                }
+            };
 
     @Nullable
     @Override
@@ -389,25 +755,23 @@ public abstract class ChatBaseFragment extends BaseFragment {
         }
     }
 
-    protected void checkMultiSelectView() {
-        if (ChatMsgCache.getMessageList().size() > 0) {
-            chatView.setMultiSelectEnable(true);
-        } else {
-            chatView.setMultiSelectEnable(false);
-        }
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        InputMethodManager imm =
-                (InputMethodManager) requireContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(rootView.getWindowToken(), 0);
-        ChatMessageAudioControl.getInstance().stopAudio();
-    }
-
     private final IMessageProxy messageProxy =
             new IMessageProxy() {
+                ActivityResultLauncher<Intent> custoumLauncher =
+                        registerForActivityResult(
+                                new ActivityResultContracts.StartActivityForResult(),
+                                result -> {
+                                    if (result.getResultCode() != Activity.RESULT_OK) {
+                                        return;
+                                    }
+                                    Intent data = result.getData();
+                                    if (data != null) {
+                                        String userInfo = data.getStringExtra("userInfo");
+                                        GroupInfoBean groupInfoBean = new Gson().fromJson(userInfo, GroupInfoBean.class);
+                                        sendMsg(groupInfoBean);
+                                    }
+                                });
+
                 @Override
                 public boolean sendTextMessage(String msg, ChatMessageBean replyMsg) {
                     List<String> pushList = null;
@@ -633,21 +997,6 @@ public abstract class ChatBaseFragment extends BaseFragment {
 //          sendMsg();
                 }
 
-                ActivityResultLauncher<Intent> custoumLauncher =
-                        registerForActivityResult(
-                                new ActivityResultContracts.StartActivityForResult(),
-                                result -> {
-                                    if (result.getResultCode() != Activity.RESULT_OK) {
-                                        return;
-                                    }
-                                    Intent data = result.getData();
-                                    if (data != null) {
-                                        String userInfo = data.getStringExtra("userInfo");
-                                        GroupInfoBean groupInfoBean = new Gson().fromJson(userInfo, GroupInfoBean.class);
-                                        sendMsg(groupInfoBean);
-                                    }
-                                });
-
                 void sendMsg(GroupInfoBean infoBean) {
                     MingPianAttachment attachment = new MingPianAttachment();
                     attachment.avatar = infoBean.avatar;
@@ -726,6 +1075,23 @@ public abstract class ChatBaseFragment extends BaseFragment {
                 }
             };
 
+    protected void checkMultiSelectView() {
+        if (ChatMsgCache.getMessageList().size() > 0) {
+            chatView.setMultiSelectEnable(true);
+        } else {
+            chatView.setMultiSelectEnable(false);
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        InputMethodManager imm =
+                (InputMethodManager) requireContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(rootView.getWindowToken(), 0);
+        ChatMessageAudioControl.getInstance().stopAudio();
+    }
+
     private void requestCameraPermission(String permission, int request) {
         currentRequest = request;
         permissionLauncher.launch(new String[]{permission});
@@ -798,311 +1164,6 @@ public abstract class ChatBaseFragment extends BaseFragment {
                 ChatMessageAudioControl.getInstance().getPlayingAudio())) {
             ChatMessageAudioControl.getInstance().stopAudio();
         }
-    }
-
-    private final IMessageItemClickListener itemClickListener =
-            new IMessageItemClickListener() {
-                @Override
-                public boolean onMessageLongClick(View view, int position, ChatMessageBean messageBean) {
-                    if (delegateListener == null
-                            || !delegateListener.onMessageLongClick(view, position, messageBean)) {
-                        if (messageBean.isRevoked()) {
-                            return false;
-                        }
-                        // show pop menu
-                        if (popMenu == null) {
-                            popMenu = new ChatPopMenu();
-                        }
-                        if (popMenu.isShowing()) {
-                            return true;
-                        }
-                        int[] location = new int[2];
-                        chatView.getMessageListView().getLocationOnScreen(location);
-                        popMenu.show(view, messageBean, location[1]);
-                    }
-                    return true;
-                }
-
-                @Override
-                public boolean onMessageClick(View view, int position, ChatMessageBean messageBean) {
-                    if (delegateListener == null
-                            || !delegateListener.onMessageClick(view, position, messageBean)) {
-                        clickMessage(messageBean.getMessageData(), false);
-                    }
-                    return true;
-                }
-
-                @Override
-                public boolean onMessageSelect(
-                        View view, int position, ChatMessageBean messageInfo, boolean selected) {
-                    if (selected) {
-                        ChatMsgCache.addMessage(messageInfo);
-                    } else {
-                        ChatMsgCache.removeMessage(messageInfo.getMessageData().getMessage().getUuid());
-                    }
-                    checkMultiSelectView();
-                    return true;
-                }
-
-                @Override
-                public boolean onUserIconClick(View view, int position, ChatMessageBean messageBean) {
-                    if (delegateListener == null
-                            || !delegateListener.onUserIconClick(view, position, messageBean)) {
-                        if (sessionType == SessionTypeEnum.Team) {
-                            XKitRouter.withKey(Constant.FunTeamUserInfoDetailActivityKey)
-                                    .withParam("groupId", sessionID)
-                                    .withParam("userId", messageBean.getMessageData().getFromUser().getAccount())
-                                    .withContext(view.getContext())
-                                    .navigate();
-
-                            return true;
-                        }
-                        XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_SETTING_PAGE)
-                                .withParam(RouterConstant.CHAT_ID_KRY, sessionID)
-                                .withContext(view.getContext())
-                                .navigate();
-//            XKitRouter.withKey(getUserInfoRoutePath())
-//                .withContext(view.getContext())
-//                .withParam(
-//                    RouterConstant.KEY_ACCOUNT_ID_KEY,
-//                    messageBean.getMessageData().getMessage().getFromAccount())
-//                .navigate();
-                    }
-                    return true;
-                }
-
-                @Override
-                public boolean onSelfIconClick(View view, int position, ChatMessageBean messageBean) {
-                    if (delegateListener == null
-                            || !delegateListener.onSelfIconClick(view, position, messageBean)) {
-                        XKitRouter.withKey(Constant.AccountDetailActivityKey)
-                                .withContext(view.getContext())
-                                .navigate();
-                    }
-                    return true;
-                }
-
-                @Override
-                public boolean onUserIconLongClick(View view, int position, ChatMessageBean messageBean) {
-                    if (delegateListener == null
-                            || !delegateListener.onUserIconLongClick(view, position, messageBean)) {
-                        if (aitManager != null && sessionType == SessionTypeEnum.Team) {
-                            String account = messageBean.getMessageData().getMessage().getFromAccount();
-                            UserInfo userInfo = messageBean.getMessageData().getFromUser();
-                            if (!TextUtils.equals(account, IMKitClient.account())) {
-                                if (userInfo == null) {
-                                    userInfo = new UserInfo(account, account, null);
-                                }
-                                String name = MessageHelper.getTeamAitName(aitManager.getTid(), userInfo);
-                                if (TextUtils.isEmpty(name)) {
-                                    if (messageBean.getMessageData().getFromUser() != null) {
-                                        name = messageBean.getMessageData().getFromUser().getName();
-                                    } else {
-                                        name = account;
-                                    }
-                                }
-                                tempName = name;
-                                showGroupAvatarLongPressPopup(view, account, tempName, messageBean);
-                            }
-                        }
-                    }
-                    return true;
-                }
-
-                @Override
-                public boolean onSelfIconLongClick(View view, int position, ChatMessageBean messageInfo) {
-                    return (delegateListener != null
-                            && delegateListener.onSelfIconLongClick(view, position, messageInfo));
-                }
-
-                @Override
-                public boolean onReEditRevokeMessage(View view, int position, ChatMessageBean messageBean) {
-                    // only support text message
-                    if (delegateListener == null
-                            || !delegateListener.onReEditRevokeMessage(view, position, messageBean)) {
-                        if (messageBean != null && MessageHelper.revokeMsgIsEdit(messageBean)) {
-                            Map<String, String> richMap =
-                                    MessageHelper.getRichMessageRevokeContent(messageBean.getMessageData());
-                            if (MessageHelper.isRichText(messageBean.getMessageData())) {
-                                RichTextAttachment attachment =
-                                        (RichTextAttachment) messageBean.getMessageData().getMessage().getAttachment();
-                                chatView.setReEditRichMessage(attachment.title, attachment.body);
-
-                            } else if (richMap != null) {
-                                String title = richMap.get(ChatKitUIConstant.KEY_RICH_TEXT_TITLE);
-                                String body = richMap.get(ChatKitUIConstant.KEY_RICH_TEXT_BODY);
-                                chatView.setReEditRichMessage(title, body);
-                            } else {
-                                String revokeContent =
-                                        MessageHelper.getMessageRevokeContent(messageBean.getMessageData());
-                                if (TextUtils.isEmpty(revokeContent)) {
-                                    revokeContent = messageBean.getMessageData().getMessage().getContent();
-                                }
-                                chatView.setReeditMessage(revokeContent);
-                            }
-                            if (messageBean.hasReply()) {
-                                loadReplyInfo(messageBean.getReplyUUid(), false);
-                            }
-                            AitContactsModel aitModel =
-                                    MessageHelper.getAitBlock(messageBean.getMessageData().getMessage());
-                            if (aitModel != null) {
-                                aitManager.reset();
-                                aitManager.setAitContactsModel(aitModel);
-                            }
-
-                        } else {
-                            Toast.makeText(
-                                            ChatBaseFragment.this.getContext(),
-                                            R.string.chat_message_revoke_eidt_error,
-                                            Toast.LENGTH_SHORT)
-                                    .show();
-                            chatView
-                                    .getMessageListView()
-                                    .updateMessage(messageBean, ActionConstants.PAYLOAD_REVOKE_STATUS);
-                        }
-                    }
-                    return true;
-                }
-
-                @Override
-                public boolean onReplyMessageClick(View view, int position, IMMessageInfo messageInfo) {
-                    // scroll to the message position
-                    if (delegateListener == null
-                            || !delegateListener.onReplyMessageClick(view, position, messageInfo)) {
-                        if (messageInfo != null
-                                && (messageInfo.getMessage().getMsgType() == MsgTypeEnum.text
-                                || MessageHelper.isRichText(messageInfo))) {
-                            WatchTextMessageDialog.launchDialog(
-                                    getParentFragmentManager(),
-                                    "",
-                                    messageInfo,
-                                    getReplayMessageClickPreviewDialogBgRes());
-                        } else {
-                            clickMessage(messageInfo, true);
-                        }
-                    }
-                    return true;
-                }
-
-                @Override
-                public boolean onSendFailBtnClick(View view, int position, ChatMessageBean messageBean) {
-                    if (delegateListener == null
-                            || !delegateListener.onSendFailBtnClick(view, position, messageBean)) {
-                        messageBean.getMessageData().getMessage().setStatus(MsgStatusEnum.sending);
-                        viewModel.sendMessage(messageBean.getMessageData().getMessage(), true, true);
-                    }
-                    return true;
-                }
-
-                @Override
-                public boolean onTextSelected(View view, int position, ChatMessageBean messageInfo) {
-                    return (delegateListener != null
-                            && delegateListener.onTextSelected(view, position, messageInfo));
-                }
-
-                @Override
-                public boolean onCustomClick(View view, int position, ChatMessageBean messageInfo) {
-                    return (delegateListener != null
-                            && delegateListener.onCustomClick(view, position, messageInfo));
-                }
-            };
-
-    /**
-     * 群聊内长按他人头像：先拉群首页判断是否群主/群管理，再拉该成员信息得到 forbidState，用 PopupWindow 展示 @此人、专属红包、禁抢/取消禁抢（仅群主/群管理显示，文案按当前是否已禁抢显示「禁抢」或「取消禁抢」）。
-     */
-    private void showGroupAvatarLongPressPopup(View anchor, String account, String name, ChatMessageBean messageBean) {
-        HttpUtil.apiW().group_groupHomeInfo(sessionID).enqueue(new CommonCallback<NetData>() {
-            @Override
-            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                GroupInfoBean groupInfo = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
-                int myRankState = groupInfo.rankState;
-                if (myRankState != 1 && myRankState != 2) {
-                    showGroupAvatarPopupWithBanState(anchor, account, name, messageBean, false, -1);
-                    return;
-                }
-                RegisterBean memberBean = new RegisterBean();
-                memberBean.groupId = sessionID;
-                memberBean.userId = account;
-                HttpUtil.apiW().groupMember_groupMemberInfo(memberBean).enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call2, Response<NetData> response2, NetData body2) {
-                        GroupInfoBean memberInfo = new Gson().fromJson(body2.data.toString(), GroupInfoBean.class);
-                        int forbidState = memberInfo.forbidState;
-                        if (getContext() == null) return;
-                        showGroupAvatarPopupWithBanState(anchor, account, name, messageBean, true, forbidState);
-                    }
-
-                    @Override
-                    public void Failure(Call<NetData> call2, Throwable t) {
-                        if (getContext() == null) return;
-                        showGroupAvatarPopupWithBanState(anchor, account, name, messageBean, true, 0);
-                    }
-                });
-            }
-
-            @Override
-            public void Failure(Call<NetData> call, Throwable t) {
-                if (getContext() == null) return;
-                showGroupAvatarPopupWithBanState(anchor, account, name, messageBean, false, -1);
-            }
-        });
-    }
-
-    private void showGroupAvatarPopupWithBanState(View anchor, String account, String name, ChatMessageBean messageBean, boolean showBanGrab, int forbidState) {
-        Context ctx = getContext();
-        if (ctx == null) return;
-        View content = LayoutInflater.from(ctx).inflate(R.layout.chat_group_avatar_popup_menu, null);
-        View banGrabDivider = content.findViewById(R.id.group_avatar_popup_ban_grab_divider);
-        TextView banGrabBtn = content.findViewById(R.id.group_avatar_popup_ban_grab);
-        if (showBanGrab) {
-            banGrabDivider.setVisibility(View.VISIBLE);
-            banGrabBtn.setVisibility(View.VISIBLE);
-            banGrabBtn.setText(forbidState == 1 ? R.string.chat_group_avatar_popup_unban_grab : R.string.chat_group_avatar_popup_ban_grab);
-        } else {
-            banGrabDivider.setVisibility(View.GONE);
-            banGrabBtn.setVisibility(View.GONE);
-        }
-
-        PopupWindow popup = new PopupWindow(content, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
-        popup.setTouchable(true);
-        popup.setOutsideTouchable(true);
-        popup.setBackgroundDrawable(null);
-
-        content.findViewById(R.id.group_avatar_popup_ait).setOnClickListener(v -> {
-            popup.dismiss();
-            if (aitManager != null) aitManager.insertReplyAit(account, name);
-        });
-        content.findViewById(R.id.group_avatar_popup_red_packet).setOnClickListener(v -> {
-            popup.dismiss();
-            HashMap<String, Object> map = new HashMap<>();
-            map.put("sessionId", sessionID);
-            map.put("sessionType", "2");
-            map.put("userInfo", new Gson().toJson(messageBean.getMessageData().getFromUser()));
-            FunSendRedPacketActivity.start(FunSendRedPacketActivity.class, getContext(), map);
-        });
-        banGrabBtn.setOnClickListener(v -> {
-            popup.dismiss();
-            int targetState = (forbidState == 1) ? 0 : 1;
-            RegisterBean bean = new RegisterBean();
-            bean.groupId = sessionID;
-            ArrayList<String> list = new ArrayList<>();
-            list.add(account);
-            bean.members = list;
-            bean.state = targetState;
-            HttpUtil.apiW().groupMember_invitationGroupBanOnLooting(bean).enqueue(new CommonCallback<NetData>() {
-                @Override
-                public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                    ToastUtils.toastMsg(body != null && body.msg != null ? body.msg : getString(R.string.chat_server_request_success));
-                }
-
-                @Override
-                public void Failure(Call<NetData> call, Throwable t) {
-                    ToastUtils.toastMsg(getString(R.string.chat_server_request_fail));
-                }
-            });
-        });
-
-        popup.showAsDropDown(anchor, 0, 0, Gravity.START);
     }
 
     protected void loadReplyInfo(String uuid, boolean addAit) {
@@ -1232,144 +1293,6 @@ public abstract class ChatBaseFragment extends BaseFragment {
         }
         chatView.setReplyMessage(new ChatMessageBean(messageInfo));
     }
-
-    private final IMessageLoadHandler loadHandler =
-            new IMessageLoadHandler() {
-                @Override
-                public void loadMoreForward(ChatMessageBean messageBean) {
-                    viewModel.fetchMoreMessage(
-                            messageBean.getMessageData().getMessage(), GetMessageDirectionEnum.FORWARD);
-                }
-
-                @Override
-                public void loadMoreBackground(ChatMessageBean messageBean) {
-                    viewModel.fetchMoreMessage(
-                            messageBean.getMessageData().getMessage(), GetMessageDirectionEnum.BACKWARD);
-                }
-
-                @Override
-                public void onVisibleItemChange(List<ChatMessageBean> messages) {
-                    if (sessionType == SessionTypeEnum.Team && viewModel instanceof ChatTeamViewModel) {
-                        ((ChatTeamViewModel) viewModel).refreshTeamMessageReceipt(messages);
-                    }
-                }
-            };
-
-    private final IChatPopMenuClickListener actionListener =
-            new IChatPopMenuClickListener() {
-                @Override
-                public boolean onCopy(ChatMessageBean messageBean) {
-                    if (chatConfig != null
-                            && chatConfig.popMenuClickListener != null
-                            && chatConfig.popMenuClickListener.onCopy(messageBean)) {
-                        return true;
-                    }
-                    MessageHelper.copyTextMessage(messageBean.getMessageData(), true);
-                    return true;
-                }
-
-                @Override
-                public boolean onReply(ChatMessageBean messageBean) {
-                    if (chatConfig != null
-                            && chatConfig.popMenuClickListener != null
-                            && chatConfig.popMenuClickListener.onReply(messageBean)) {
-                        return true;
-                    }
-                    loadReplyView(messageBean.getMessageData(), true);
-                    return true;
-                }
-
-                @Override
-                public boolean onForward(ChatMessageBean messageBean) {
-                    if (chatConfig != null
-                            && chatConfig.popMenuClickListener != null
-                            && chatConfig.popMenuClickListener.onForward(messageBean)) {
-                        return true;
-                    }
-                    forwardMessage = messageBean;
-                    onStartForward(ActionConstants.POP_ACTION_TRANSMIT);
-                    return true;
-                }
-
-                @Override
-                public boolean onSignal(ChatMessageBean messageBean, boolean cancel) {
-                    if (chatConfig != null
-                            && chatConfig.popMenuClickListener != null
-                            && chatConfig.popMenuClickListener.onSignal(messageBean, cancel)) {
-                        return true;
-                    }
-                    if (cancel) {
-                        viewModel.removeMsgPin(messageBean.getMessageData());
-                    } else {
-                        viewModel.addMessagePin(messageBean.getMessageData(), "");
-                    }
-                    return true;
-                }
-
-                @Override
-                public boolean onMultiSelected(ChatMessageBean messageBean) {
-                    if (chatConfig != null
-                            && chatConfig.popMenuClickListener != null
-                            && chatConfig.popMenuClickListener.onMultiSelected(messageBean)) {
-                        return true;
-                    }
-                    chatView.showMultiSelect(true);
-                    ChatMsgCache.addMessage(messageBean);
-                    chatView.getMessageListView().setMultiSelect(true);
-                    checkMultiSelectView();
-                    return true;
-                }
-
-                @Override
-                public boolean onCollection(ChatMessageBean messageBean) {
-                    if (chatConfig != null
-                            && chatConfig.popMenuClickListener != null
-                            && chatConfig.popMenuClickListener.onCollection(messageBean)) {
-                        return true;
-                    }
-                    viewModel.addMsgCollection(messageBean.getMessageData());
-                    return true;
-                }
-
-                @Override
-                public boolean onDelete(ChatMessageBean message) {
-                    if (chatConfig != null
-                            && chatConfig.popMenuClickListener != null
-                            && chatConfig.popMenuClickListener.onDelete(message)) {
-                        return true;
-                    }
-                    showDeleteConfirmDialog(Collections.singletonList(message));
-                    return true;
-                }
-
-                @Override
-                public boolean onRecall(ChatMessageBean messageBean) {
-                    if (chatConfig != null
-                            && chatConfig.popMenuClickListener != null
-                            && chatConfig.popMenuClickListener.onRecall(messageBean)) {
-                        return true;
-                    }
-                    showRevokeConfirmDialog(messageBean);
-                    return true;
-                }
-
-                @Override
-                public boolean onCustom(View view, ChatMessageBean messageInfo, String action) {
-                    if (ActionConstants.POP_ACTION_PLAY_AUDIO_EARPIECE.equals(action)) {
-                        SettingRepo.setHandsetMode(true);
-                        triggerPlayAudioMessage(messageInfo);
-                        return true;
-                    }
-                    if (ActionConstants.POP_ACTION_PLAY_AUDIO_SPEAKER.equals(action)) {
-                        SettingRepo.setHandsetMode(false);
-                        triggerPlayAudioMessage(messageInfo);
-                        return true;
-                    }
-                    return chatConfig != null
-                            && chatConfig.popMenuClickListener != null
-                            && chatConfig.popMenuClickListener.onCustom(view, messageInfo, action);
-                }
-            };
 
     protected void onStartForward(String action) {
         forwardAction = action;
@@ -1899,22 +1822,6 @@ public abstract class ChatBaseFragment extends BaseFragment {
         return true;
     }
 
-    private final NetworkUtils.NetworkStateListener networkStateListener =
-            new NetworkUtils.NetworkStateListener() {
-
-                @Override
-                public void onConnected(NetworkUtils.NetworkType networkType) {
-                    ALog.d(LIB_TAG, LOG_TAG, "onNewIntent");
-                    chatView.setNetWorkState(true);
-                    refreshTeamMessageReceiptForNetBroken();
-                }
-
-                @Override
-                public void onDisconnected() {
-                    chatView.setNetWorkState(false);
-                }
-            };
-
     private void refreshTeamMessageReceiptForNetBroken() {
         if (sessionType != SessionTypeEnum.Team || !(viewModel instanceof ChatTeamViewModel)) {
             return;
@@ -1994,4 +1901,79 @@ public abstract class ChatBaseFragment extends BaseFragment {
 
     public void updateCurrentUserInfo() {
     }
+
+
+    /**
+     * 根据当前用户权限生成PopWindow的功能选项
+     */
+    private String[] generatePopWindowData(String groupId) {
+        // 检查当前用户权限
+        boolean isOwner = isCurrentUserOwner(groupId);
+        boolean isManager = isCurrentUserManager(groupId);
+
+        if (isOwner) {
+            // 群主：显示所有功能
+            return new String[]{"@此人", "专属红包", "禁止抢包", "踢除此人"};
+        } else if (isManager) {
+            // 管理员：显示部分功能（不能踢人）
+            return new String[]{"@此人", "专属红包", "禁止抢包"};
+        } else {
+            // 普通成员：只显示基本功能
+            return new String[]{"@此人", "专属红包"};
+        }
+    }
+
+    /**
+     * 处理禁止抢包功能
+     */
+    private void handleForbidRedPacket(String userId, String userName, String groupId) {
+        // 检查当前用户权限（群主或管理员）
+        if (!isCurrentUserManager(groupId)) {
+            ToastUtils.toastMsg("只有群主和管理员才能禁止成员抢包");
+            return;
+        }
+
+        // 显示确认对话框
+        DialogAlertUtil.showAlert(
+                "确定要禁止 " + userName + " 在该群抢红包吗？",
+                new DialogAlertUtil.DialogAlertUtilCallBack() {
+                    @Override
+                    public void clickType(int type) {
+                        if (type == 1) {
+                            // 调用禁止抢包接口
+                            callForbidRedPacketAPI(userId, groupId);
+                        }
+                    }
+                },
+                getActivity().getSupportFragmentManager()
+        );
+    }
+
+    /**
+     * 处理踢除成员功能
+     */
+    private void handleKickMember(String userId, String userName, String groupId) {
+        // 检查当前用户权限（只有群主能踢人）
+        if (!isCurrentUserOwner(groupId)) {
+            ToastUtils.toastMsg("只有群主才能踢除群成员");
+            return;
+        }
+
+        // 显示确认对话框
+        DialogAlertUtil.showAlert(
+                "确定要将 " + userName + " 踢出该群吗？",
+                new DialogAlertUtil.DialogAlertUtilCallBack() {
+                    @Override
+                    public void clickType(int type) {
+                        if (type == 1) {
+                            // 调用踢除成员接口
+                            callKickMemberAPI(userId, groupId);
+                        }
+                    }
+                },
+                getActivity().getSupportFragmentManager()
+        );
+    }
+
+
 }

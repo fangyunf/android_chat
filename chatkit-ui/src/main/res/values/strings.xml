@@ -96,12 +96,6 @@
     <string name="chat_message_action_play_earpiece">听筒</string>
     <string name="chat_message_action_play_speaker">扬声器</string>
 
-    <string name="chat_group_avatar_popup_ait">@此人</string>
-    <string name="chat_group_avatar_popup_red_packet">专属红包</string>
-    <string name="chat_group_avatar_popup_ban_unban_grab">禁抢/取消禁抢</string>
-    <string name="chat_group_avatar_popup_ban_grab">禁抢</string>
-    <string name="chat_group_avatar_popup_unban_grab">取消禁抢</string>
-
     <string name="chat_message_action_revoke_this_message">撤回此消息</string>
     <string name="chat_message_action_delete_this_message">删除此消息</string>
     <string name="chat_message_removed_tip">该消息已撤回或删除</string>
