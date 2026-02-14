@@ -19,10 +19,13 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Pair;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
@@ -899,39 +902,7 @@ public abstract class ChatBaseFragment extends BaseFragment {
                                     }
                                 }
                                 tempName = name;
-                                DialogAlertUtil.showSheetView(getActivity(), getActivity().getSupportFragmentManager(), new String[]{"@此人", "专属红包"}, new DialogAlertUtil.DialogAlertUtilCallBack() {
-                                    @Override
-                                    public void clickType(int type) {
-                                        if (type == 1) {
-                                            aitManager.insertReplyAit(account, tempName);
-                                        } else if (type == 2) {
-
-                                            HashMap map = new HashMap();
-                                            map.put("sessionId", sessionID);
-                                            map.put("sessionType", "2");
-                                            map.put("userInfo", new Gson().toJson(messageBean.getMessageData().getFromUser()));
-                                            FunSendRedPacketActivity.start(FunSendRedPacketActivity.class, getContext(), map);
-                                        } else if (type == 3) {
-                                            ArrayList list = new ArrayList<>();
-                                            list.add(messageBean.getMessageData().getFromUser().getAccount());
-                                            RegisterBean registerBean = new RegisterBean();
-                                            registerBean.groupId = sessionID;
-                                            registerBean.members = list;
-                                            HttpUtil.apiW().group_outGroup(registerBean)
-                                                    .enqueue(new CommonCallback<NetData>() {
-                                                        @Override
-                                                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                                                            ToastUtils.toastMsg(body.msg);
-                                                        }
-
-                                                        @Override
-                                                        public void Failure(Call<NetData> call, Throwable t) {
-
-                                                        }
-                                                    });
-                                        }
-                                    }
-                                });
+                                showGroupAvatarLongPressPopup(view, account, tempName, messageBean);
                             }
                         }
                     }
@@ -1036,6 +1007,104 @@ public abstract class ChatBaseFragment extends BaseFragment {
                 }
             };
 
+    /**
+     * 群聊内长按他人头像：先拉群首页判断是否群主/群管理，再拉该成员信息得到 forbidState，用 PopupWindow 展示 @此人、专属红包、禁抢/取消禁抢（仅群主/群管理显示，文案按当前是否已禁抢显示「禁抢」或「取消禁抢」）。
+     */
+    private void showGroupAvatarLongPressPopup(View anchor, String account, String name, ChatMessageBean messageBean) {
+        HttpUtil.apiW().group_groupHomeInfo(sessionID).enqueue(new CommonCallback<NetData>() {
+            @Override
+            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                GroupInfoBean groupInfo = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
+                int myRankState = groupInfo.rankState;
+                if (myRankState != 1 && myRankState != 2) {
+                    showGroupAvatarPopupWithBanState(anchor, account, name, messageBean, false, -1);
+                    return;
+                }
+                RegisterBean memberBean = new RegisterBean();
+                memberBean.groupId = sessionID;
+                memberBean.userId = account;
+                HttpUtil.apiW().groupMember_groupMemberInfo(memberBean).enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call2, Response<NetData> response2, NetData body2) {
+                        GroupInfoBean memberInfo = new Gson().fromJson(body2.data.toString(), GroupInfoBean.class);
+                        int forbidState = memberInfo.forbidState;
+                        if (getContext() == null) return;
+                        showGroupAvatarPopupWithBanState(anchor, account, name, messageBean, true, forbidState);
+                    }
+
+                    @Override
+                    public void Failure(Call<NetData> call2, Throwable t) {
+                        if (getContext() == null) return;
+                        showGroupAvatarPopupWithBanState(anchor, account, name, messageBean, true, 0);
+                    }
+                });
+            }
+
+            @Override
+            public void Failure(Call<NetData> call, Throwable t) {
+                if (getContext() == null) return;
+                showGroupAvatarPopupWithBanState(anchor, account, name, messageBean, false, -1);
+            }
+        });
+    }
+
+    private void showGroupAvatarPopupWithBanState(View anchor, String account, String name, ChatMessageBean messageBean, boolean showBanGrab, int forbidState) {
+        Context ctx = getContext();
+        if (ctx == null) return;
+        View content = LayoutInflater.from(ctx).inflate(R.layout.chat_group_avatar_popup_menu, null);
+        View banGrabDivider = content.findViewById(R.id.group_avatar_popup_ban_grab_divider);
+        TextView banGrabBtn = content.findViewById(R.id.group_avatar_popup_ban_grab);
+        if (showBanGrab) {
+            banGrabDivider.setVisibility(View.VISIBLE);
+            banGrabBtn.setVisibility(View.VISIBLE);
+            banGrabBtn.setText(forbidState == 1 ? R.string.chat_group_avatar_popup_unban_grab : R.string.chat_group_avatar_popup_ban_grab);
+        } else {
+            banGrabDivider.setVisibility(View.GONE);
+            banGrabBtn.setVisibility(View.GONE);
+        }
+
+        PopupWindow popup = new PopupWindow(content, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        popup.setTouchable(true);
+        popup.setOutsideTouchable(true);
+        popup.setBackgroundDrawable(null);
+
+        content.findViewById(R.id.group_avatar_popup_ait).setOnClickListener(v -> {
+            popup.dismiss();
+            if (aitManager != null) aitManager.insertReplyAit(account, name);
+        });
+        content.findViewById(R.id.group_avatar_popup_red_packet).setOnClickListener(v -> {
+            popup.dismiss();
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("sessionId", sessionID);
+            map.put("sessionType", "2");
+            map.put("userInfo", new Gson().toJson(messageBean.getMessageData().getFromUser()));
+            FunSendRedPacketActivity.start(FunSendRedPacketActivity.class, getContext(), map);
+        });
+        banGrabBtn.setOnClickListener(v -> {
+            popup.dismiss();
+            int targetState = (forbidState == 1) ? 0 : 1;
+            RegisterBean bean = new RegisterBean();
+            bean.groupId = sessionID;
+            ArrayList<String> list = new ArrayList<>();
+            list.add(account);
+            bean.members = list;
+            bean.state = targetState;
+            HttpUtil.apiW().groupMember_invitationGroupBanOnLooting(bean).enqueue(new CommonCallback<NetData>() {
+                @Override
+                public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                    ToastUtils.toastMsg(body != null && body.msg != null ? body.msg : getString(R.string.chat_server_request_success));
+                }
+
+                @Override
+                public void Failure(Call<NetData> call, Throwable t) {
+                    ToastUtils.toastMsg(getString(R.string.chat_server_request_fail));
+                }
+            });
+        });
+
+        popup.showAsDropDown(anchor, 0, 0, Gravity.START);
+    }
+
     protected void loadReplyInfo(String uuid, boolean addAit) {
         if (TextUtils.isEmpty(uuid)) {
             return;
@@ -1116,7 +1185,9 @@ public abstract class ChatBaseFragment extends BaseFragment {
         }
     }
 
-    /** 触发语音消息播放（长按菜单选听筒/扬声器后调用，或点击语音时复用） */
+    /**
+     * 触发语音消息播放（长按菜单选听筒/扬声器后调用，或点击语音时复用）
+     */
     private void triggerPlayAudioMessage(ChatMessageBean messageBean) {
         if (messageBean == null || messageBean.getMessageData() == null) {
             return;

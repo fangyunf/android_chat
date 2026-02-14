@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 群聊长按用户头像弹出的 PopupWindow 菜单：@此人、专属红包、禁抢/取消禁抢(同一按钮) -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_chat_pop_menu"
+    android:minWidth="120dp"
+    android:orientation="vertical"
+    android:paddingVertical="@dimen/dimen_8_dp">
+
+    <TextView
+        android:id="@+id/group_avatar_popup_ait"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/dimen_16_dp"
+        android:paddingVertical="@dimen/dimen_12_dp"
+        android:text="@string/chat_group_avatar_popup_ait"
+        android:textColor="@color/color_333333"
+        android:textSize="14sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_0c000050" />
+
+    <TextView
+        android:id="@+id/group_avatar_popup_red_packet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/dimen_16_dp"
+        android:paddingVertical="@dimen/dimen_12_dp"
+        android:text="@string/chat_group_avatar_popup_red_packet"
+        android:textColor="@color/color_333333"
+        android:textSize="14sp" />
+
+    <View
+        android:id="@+id/group_avatar_popup_ban_grab_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_0c000050" />
+
+    <!-- 禁抢/取消禁抢：仅群主/群管理可见，同一按钮点击后切换 -->
+    <TextView
+        android:id="@+id/group_avatar_popup_ban_grab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/dimen_16_dp"
+        android:paddingVertical="@dimen/dimen_12_dp"
+        android:text="@string/chat_group_avatar_popup_ban_unban_grab"
+        android:textColor="@color/color_333333"
+        android:textSize="14sp" />
+</LinearLayout>
