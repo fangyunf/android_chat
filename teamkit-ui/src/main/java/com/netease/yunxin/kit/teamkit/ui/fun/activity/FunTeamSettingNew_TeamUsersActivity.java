@@ -77,6 +77,7 @@ public class FunTeamSettingNew_TeamUsersActivity extends BaseActivity implements
 
     ArrayList selectArray = new ArrayList<>();
     ArrayList unSelectArray = new ArrayList<>();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
 
@@ -153,16 +154,16 @@ public class FunTeamSettingNew_TeamUsersActivity extends BaseActivity implements
             public void onClick(@NonNull BaseQuickAdapter<GroupInfoBean, ?> baseQuickAdapter, @NonNull View view, int i) {
                 if (opt_type == null) {
 //                    if (selfBean.rankState == 1 || selfBean.rankState == 2) {
-                        XKitRouter.withKey(Constant.FunTeamUserInfoDetailActivityKey)
-                                .withParam("groupId",groupId)
-                                .withParam("userId",baseQuickAdapter.getItem(i).userId)
-                                .withContext(view.getContext())
-                                .navigate();
+                    XKitRouter.withKey(Constant.FunTeamUserInfoDetailActivityKey)
+                            .withParam("groupId", groupId)
+                            .withParam("userId", baseQuickAdapter.getItem(i).userId)
+                            .withContext(view.getContext())
+                            .navigate();
 //                    }
                 }
                 if ("1".equals(opt_type)) {
-                    for (Object tempBean:dataList) {
-                        GroupInfoBean bean = (GroupInfoBean)tempBean;
+                    for (Object tempBean : dataList) {
+                        GroupInfoBean bean = (GroupInfoBean) tempBean;
                         bean.rankState = 0;
                     }
                     baseQuickAdapter.getItem(i).rankState = 1;
@@ -181,7 +182,7 @@ public class FunTeamSettingNew_TeamUsersActivity extends BaseActivity implements
                             unSelectArray.remove(item.userId);
                         }
                     }
-                    baseQuickAdapter.getItem(i).rankState = baseQuickAdapter.getItem(i).rankState == 2? 3 : 2;
+                    baseQuickAdapter.getItem(i).rankState = baseQuickAdapter.getItem(i).rankState == 2 ? 3 : 2;
                     adapter.notifyDataSetChanged();
                 }
             }
@@ -192,13 +193,14 @@ public class FunTeamSettingNew_TeamUsersActivity extends BaseActivity implements
         RegisterBean bean = new RegisterBean();
         bean.groupId = groupId;
         bean.page = page + "";
-        bean.pageNo ="100";
+        bean.pageNo = "100";
         HttpUtil.apiW().group_groupUserListPost(bean)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                        Type type = new TypeToken<List<GroupInfoBean>>(){}.getType();
+                        Type type = new TypeToken<List<GroupInfoBean>>() {
+                        }.getType();
                         List<GroupInfoBean> tempList = new Gson().fromJson(body.data.toString(), type);
                         if (!tempList.isEmpty()) {
                             dataList.addAll(tempList);
@@ -217,7 +219,7 @@ public class FunTeamSettingNew_TeamUsersActivity extends BaseActivity implements
                                     }
                                 }
                                 if ("2".equals(opt_type)) {
-                                    if ( tempBean.rankState == 1) {
+                                    if (tempBean.rankState == 1) {
                                         dataList.remove(i);
                                     }
                                 }
@@ -243,10 +245,8 @@ public class FunTeamSettingNew_TeamUsersActivity extends BaseActivity implements
     }
 
     void updateUI() {
-
         adapter.setItems(dataList);
-adapter.notifyDataSetChanged();
-
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -257,7 +257,7 @@ adapter.notifyDataSetChanged();
             ArrayList<String> list = new ArrayList<>();
             Intent intent = new Intent();
             for (Object temObj : dataList) {
-                GroupInfoBean tempBean = (GroupInfoBean)temObj;
+                GroupInfoBean tempBean = (GroupInfoBean) temObj;
                 if ("1".equals(opt_type) && tempBean.rankState == 1) {
                     list.add(tempBean.userId);
                 }
@@ -268,13 +268,13 @@ adapter.notifyDataSetChanged();
 
             if ("2".equals(opt_type)) {
 
-                intent.putExtra("userIds",selectArray);
-                intent.putExtra("un_userIds",unSelectArray);
+                intent.putExtra("userIds", selectArray);
+                intent.putExtra("un_userIds", unSelectArray);
             } else {
-                intent.putExtra("userIds",list);
+                intent.putExtra("userIds", list);
             }
-            intent.putExtra("opt_type",opt_type);
-            setResult(RESULT_OK,intent);
+            intent.putExtra("opt_type", opt_type);
+            setResult(RESULT_OK, intent);
             EventBus.getDefault().post(new BaseEvent("reloadTeamSettingData"));
             finish();
 
