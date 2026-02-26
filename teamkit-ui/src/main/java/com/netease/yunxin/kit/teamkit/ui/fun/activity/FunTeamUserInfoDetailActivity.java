@@ -49,6 +49,7 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
     int rankState;
     int addFriendsState;
     boolean isFriend = false;
+    boolean isGuanli = false;
     GroupInfoBean friendBean;
     ArrayList<GroupInfoBean> members = new ArrayList<>();
 
@@ -92,14 +93,11 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
         GlideUtil.yh_loadImageRoundedCorner(this, binding.funTeamUserInfoDetailHeadIv, groupInfoBean.avatar, 30);
         binding.funTeamUserInfoDetailAccountTv.setText(groupInfoBean.memberCode);
         if (groupInfoBean.grade > 0) {
-
-
             binding.funTeamUserInfoDetailGradeIv.setVisibility(View.VISIBLE);
             binding.ivGradeBg.setVisibility(View.VISIBLE);
             binding.funTeamUserInfoDetailGradeIv.setImageDrawable(ResourceHelper.getGradeDrawable(this, groupInfoBean.grade));
             binding.funTeamUserInfoDetailNameTv.setTextColor(ResourceHelper.getGradeColor(this, groupInfoBean.grade));
             binding.ivGradeBg.setImageDrawable(ResourceHelper.getGradeBackground(this, groupInfoBean.grade));
-
 //            binding.funTeamUserInfoDetailGradeIv.setVisibility(View.VISIBLE);
 //            String imageName = "mine_grade_level_" + groupInfoBean.grade;
 //            Resources resources = getResources();
@@ -153,21 +151,19 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
     }
 
     void requestDataWith(String groupId, String userId) {
-        HttpUtil.apiW().group_groupHomeInfo(groupId)
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        GroupInfoBean tempGroupInfoBean = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
-                        rankState = tempGroupInfoBean.rankState;
-                        _requestPeople(1, userId);
+        HttpUtil.apiW().group_groupHomeInfo(groupId).enqueue(new CommonCallback<NetData>() {
+            @Override
+            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                GroupInfoBean tempGroupInfoBean = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
+                rankState = tempGroupInfoBean.rankState;
+                _requestPeople(1, userId);
+            }
 
-                    }
+            @Override
+            public void Failure(Call<NetData> call, Throwable t) {
 
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
-
-                    }
-                });
+            }
+        });
 
     }
 
@@ -176,104 +172,104 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
         bean.groupId = groupId;
         bean.page = page + "";
         bean.pageNo = "100";
-        HttpUtil.apiW().group_groupUserListPost(bean)
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+        HttpUtil.apiW().group_groupUserListPost(bean).enqueue(new CommonCallback<NetData>() {
+            @Override
+            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                        Type type = new TypeToken<List<GroupInfoBean>>() {
-                        }.getType();
-                        List<GroupInfoBean> tempList = new Gson().fromJson(body.data.toString(), type);
+                Type type = new TypeToken<List<GroupInfoBean>>() {
+                }.getType();
+                List<GroupInfoBean> tempList = new Gson().fromJson(body.data.toString(), type);
 
-                        members.addAll(tempList);
-                        if (!tempList.isEmpty()) {
-                            if (tempList.size() == 100) {
-                                _requestPeople((page + 1), userId);
-                                return;
-                            }
-
-                        }
-                        for (GroupInfoBean temp :
-                                members) {
-                            if (temp.userId.equals(userId)) {
-                                groupInfoBean = temp;
-                                break;
-                            }
-                        }
-                        if (groupInfoBean != null) {
-                            updateUI();
-                            _requestData1();
-                        }
-
+                members.addAll(tempList);
+                if (!tempList.isEmpty()) {
+                    if (tempList.size() == 100) {
+                        _requestPeople((page + 1), userId);
+                        return;
                     }
 
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
-
+                }
+                for (GroupInfoBean temp : members) {
+                    if (temp.userId.equals(userId)) {
+                        groupInfoBean = temp;
+                        if (temp.rankState == 1 || temp.rankState == 2) {
+                            isGuanli = true;
+                        }
+                        break;
                     }
-                });
+                }
+
+                if (groupInfoBean != null) {
+                    updateUI();
+                    _requestData1();
+                }
+
+            }
+
+            @Override
+            public void Failure(Call<NetData> call, Throwable t) {
+
+            }
+        });
     }
 
     protected void _requestData1() {
         RegisterBean bean = new RegisterBean();
-        HttpUtil.apiW().friends_friendList(bean)
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        Type userListType = new TypeToken<List<GroupInfoBean>>() {
-                        }.getType();
-                        List<GroupInfoBean> userList = new Gson().fromJson(body.data.toString(), userListType);
-                        for (GroupInfoBean tempBean :
-                                userList) {
-                            if (tempBean.userId.equals(groupInfoBean.userId)) {
-                                isFriend = true;
-                                friendBean = tempBean;
+        HttpUtil.apiW().friends_friendList(bean).enqueue(new CommonCallback<NetData>() {
+            @Override
+            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                Type userListType = new TypeToken<List<GroupInfoBean>>() {
+                }.getType();
+                List<GroupInfoBean> userList = new Gson().fromJson(body.data.toString(), userListType);
+                for (GroupInfoBean tempBean : userList) {
+                    if (tempBean.userId.equals(groupInfoBean.userId)) {
+                        isFriend = true;
+                        friendBean = tempBean;
 //                                binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowLl.setVisibility(View.VISIBLE);
-                                binding.funTeamUserInfoDetailBottomTv.setText("发消息");
-                                binding.funTeamUserInfoDetailBottomTv.setVisibility(View.VISIBLE);
+                        binding.funTeamUserInfoDetailBottomTv.setText("发消息");
+                        binding.funTeamUserInfoDetailBottomTv.setVisibility(View.VISIBLE);
 
-                                break;
-                            }
+                        break;
+                    }
+                }
+                if (rankState == 1 || rankState == 2) {
+                    if (isFriend) {
+                        binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowRightTv.setVisibility(View.VISIBLE);
+                        if (friendBean != null) {
+                            binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowRightTv.setText(friendBean.remark);
                         }
-                        if (rankState == 1 || rankState == 2) {
-                            if (isFriend) {
-                                binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowRightTv.setVisibility(View.VISIBLE);
-                                if (friendBean != null) {
-                                    binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowRightTv.setText(friendBean.remark);
+                        binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowLl.setVisibility(View.VISIBLE);
+                    }
+                    binding.funTeamUserInfoDetailBottomTv.setVisibility(View.VISIBLE);
+                } else {
+                    HttpUtil.apiW().group_groupManage(groupId).enqueue(new CommonCallback<NetData>() {
+                        @Override
+                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                            GroupInfoBean tempBean = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
+                            if (tempBean.addFriendsState == 1) {
+                                if (!isFriend) {
+                                    binding.funTeamUserInfoDetailBottomTv.setVisibility(View.VISIBLE);
                                 }
-                                binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowLl.setVisibility(View.VISIBLE);
+                            } else {
+                                if (!isFriend && isGuanli) {
+                                    binding.funTeamUserInfoDetailBottomTv.setVisibility(View.VISIBLE);
+                                }
                             }
-                            binding.funTeamUserInfoDetailBottomTv.setVisibility(View.VISIBLE);
-                        } else {
-                            HttpUtil.apiW().group_groupManage(groupId)
-                                    .enqueue(new CommonCallback<NetData>() {
-                                        @Override
-                                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-
-                                            GroupInfoBean tempBean = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
-
-                                            if (tempBean.addFriendsState == 1) {
-                                                if (!isFriend) {
-                                                    binding.funTeamUserInfoDetailBottomTv.setVisibility(View.VISIBLE);
-                                                }
-
-                                            }
-                                        }
-
-                                        @Override
-                                        public void Failure(Call<NetData> call, Throwable t) {
-
-                                        }
-                                    });
                         }
 
-                    }
+                        @Override
+                        public void Failure(Call<NetData> call, Throwable t) {
 
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
+                        }
+                    });
+                }
 
-                    }
-                });
+            }
+
+            @Override
+            public void Failure(Call<NetData> call, Throwable t) {
+
+            }
+        });
 
 
     }
@@ -284,17 +280,11 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
             finish();
         } else if (v == binding.funTeamUserInfoDetailBottomTv) {
             if (isFriend) {
-                XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_P2P_PAGE)
-                        .withParam(RouterConstant.CHAT_ID_KRY, groupInfoBean.userId)
-                        .withContext(FunTeamUserInfoDetailActivity.this)
-                        .navigate();
+                XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_P2P_PAGE).withParam(RouterConstant.CHAT_ID_KRY, groupInfoBean.userId).withContext(FunTeamUserInfoDetailActivity.this).navigate();
                 finish();
             } else {
 
-                XKitRouter.withKey(Constant.FunAddFriendVerifyActivityKey)
-                        .withParam("user", new Gson().toJson(groupInfoBean))
-                        .withContext(FunTeamUserInfoDetailActivity.this)
-                        .navigate();
+                XKitRouter.withKey(Constant.FunAddFriendVerifyActivityKey).withParam("user", new Gson().toJson(groupInfoBean)).withContext(FunTeamUserInfoDetailActivity.this).navigate();
 //                UserBean bean = baseQuickAdapter.getItem(i);
 //                bean.page_type = 100;
 //                HashMap map = new HashMap();
@@ -311,19 +301,18 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
             list.add(groupInfoBean.userId);
             bean.members = list;
             bean.state = targetState;
-            HttpUtil.apiW().groupMember_invitationGroupBanOnLooting(bean)
-                    .enqueue(new CommonCallback<NetData>() {
-                        @Override
-                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                            ToastUtils.toastMsg("设置成功");
-                            binding.funTeamUserInfoDetailJinzhi.viewTitleArrowRightTvSwitch.setSelected(targetState == 1);
-                        }
+            HttpUtil.apiW().groupMember_invitationGroupBanOnLooting(bean).enqueue(new CommonCallback<NetData>() {
+                @Override
+                public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                    ToastUtils.toastMsg("设置成功");
+                    binding.funTeamUserInfoDetailJinzhi.viewTitleArrowRightTvSwitch.setSelected(targetState == 1);
+                }
 
-                        @Override
-                        public void Failure(Call<NetData> call, Throwable t) {
+                @Override
+                public void Failure(Call<NetData> call, Throwable t) {
 
-                        }
-                    });
+                }
+            });
         } else if (v == binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowLl) {
 
             Intent intent = new Intent(this, ModifyInfoActivity.class);
@@ -341,19 +330,18 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
             RegisterBean registerBean = new RegisterBean();
             registerBean.userId = groupInfoBean.userId;
             registerBean.groupId = groupId;
-            HttpUtil.apiW().group_addDeleteBlack(registerBean)
-                    .enqueue(new CommonCallback<NetData>() {
-                        @Override
-                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                            ToastUtils.toastMsg("拉黑成功");
-                            tichuuser(false);
-                        }
+            HttpUtil.apiW().group_addDeleteBlack(registerBean).enqueue(new CommonCallback<NetData>() {
+                @Override
+                public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                    ToastUtils.toastMsg("拉黑成功");
+                    tichuuser(false);
+                }
 
-                        @Override
-                        public void Failure(Call<NetData> call, Throwable t) {
+                @Override
+                public void Failure(Call<NetData> call, Throwable t) {
 
-                        }
-                    });
+                }
+            });
         }
     }
 
@@ -363,23 +351,22 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
         ArrayList ids = new ArrayList<>();
         ids.add(groupInfoBean.userId);
         registerBean.members = ids;
-        HttpUtil.apiW().group_outGroup(registerBean)
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        if (needToast) {
+        HttpUtil.apiW().group_outGroup(registerBean).enqueue(new CommonCallback<NetData>() {
+            @Override
+            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                if (needToast) {
 
-                            ToastUtils.toastMsg(body.msg);
-                        }
-                        EventBus.getDefault().post(new BaseEvent("reloadTeamSettingData"));
-                        finish();
-                    }
+                    ToastUtils.toastMsg(body.msg);
+                }
+                EventBus.getDefault().post(new BaseEvent("reloadTeamSettingData"));
+                finish();
+            }
 
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
+            @Override
+            public void Failure(Call<NetData> call, Throwable t) {
 
-                    }
-                });
+            }
+        });
     }
 
     @Override
@@ -389,22 +376,21 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
         RegisterBean bean = new RegisterBean();
         bean.memberCode = groupInfoBean.memberCode;
         bean.alias = result;
-        HttpUtil.apiW().friends_updateRemark(bean)
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        ToastUtils.toastMsg(body.msg);
-                        binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowRightTv.setVisibility(View.VISIBLE);
-                        if (friendBean != null) {
-                            friendBean.remark = result;
-                            binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowRightTv.setText(result);
-                        }
-                    }
+        HttpUtil.apiW().friends_updateRemark(bean).enqueue(new CommonCallback<NetData>() {
+            @Override
+            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                ToastUtils.toastMsg(body.msg);
+                binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowRightTv.setVisibility(View.VISIBLE);
+                if (friendBean != null) {
+                    friendBean.remark = result;
+                    binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowRightTv.setText(result);
+                }
+            }
 
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
+            @Override
+            public void Failure(Call<NetData> call, Throwable t) {
 
-                    }
-                });
+            }
+        });
     }
 }
