@@ -998,8 +998,7 @@ public abstract class ChatBaseViewModel extends BaseViewModel {
                                                 msgBean.result = new Gson().fromJson(msgBean.data, CustomMsgBean.class);
                                                 // 专属红包改为所有人可见，注释掉过滤逻辑
                                                 if (msgBean.type == 21) {
-//                                                    || msgBean.result.adminIds.contains(DataUtil.getUserid())
-                                                    if (DataUtil.getUserid().equals(msgBean.result.toUserId) || DataUtil.getUserid().equals(msgBean.result.fromUserId) ) {
+                                                    if (DataUtil.getUserid().equals(msgBean.result.toUserId) || DataUtil.getUserid().equals(msgBean.result.fromUserId) || msgBean.result.adminIds.contains(DataUtil.getUserid())) {
                                                     } else {
                                                         iterator.remove();
                                                     }
@@ -1140,8 +1139,7 @@ public abstract class ChatBaseViewModel extends BaseViewModel {
                                             msgBean.result = new Gson().fromJson(msgBean.data, CustomMsgBean.class);
                                             // 专属红包改为所有人可见，注释掉过滤逻辑
                                             if (msgBean.type == 21) {
-//                                                || msgBean.result.adminIds.contains(DataUtil.getUserid())
-                                                if (DataUtil.getUserid().equals(msgBean.result.toUserId) || DataUtil.getUserid().equals(msgBean.result.fromUserId) ) {
+                                                if (DataUtil.getUserid().equals(msgBean.result.toUserId) || DataUtil.getUserid().equals(msgBean.result.fromUserId) || msgBean.result.adminIds.contains(DataUtil.getUserid())) {
                                                 } else {
                                                     iterator.remove();
                                                 }
@@ -1285,7 +1283,7 @@ public abstract class ChatBaseViewModel extends BaseViewModel {
         replyMessage(textMsg, message, false);
     }
 
-    // ********************Message Pin********************
+// ********************Message Pin********************
 
     private final MutableLiveData<Pair<String, MsgPinOption>> addPinMessageLiveData =
             new MutableLiveData<>();
