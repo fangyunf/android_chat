@@ -4,8 +4,9 @@
 
 package com.turunsi.yaoxin.main.mine.account;
 
-import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -33,60 +34,76 @@ import retrofit2.Response;
 
 public class ModifyTextActivity extends BaseActivity implements View.OnClickListener {
 
-  ActivityMineAccountModifyBinding binding;
+    ActivityMineAccountModifyBinding binding;
 
-  @Override
-  protected void onCreate(@Nullable Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    binding = ActivityMineAccountModifyBinding.inflate(getLayoutInflater());
-    setContentView(binding.getRoot());
-    binding.activityMineAccountModifyNav.addCloseImageButton().setOnClickListener(this);
-    binding.activityMineAccountModifyRl.setOnClickListener(this);
-  }
-
-  @Override
-  public void onClick(View v) {
-    if (v == binding.activityMineAccountModifyNav.addCloseImageButton()) {
-      finish();
-    } else if (v == binding.activityMineAccountModifyRl) {
-      String textStr = binding.activityMineAccountModifyEt.getText();
-      if (textStr == null || textStr.isEmpty()) {
-        ToastUtils.toastMsg("请输入用户名");
-        return;
-      }
-      updatePersonInfo("",textStr);
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        binding = ActivityMineAccountModifyBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        binding.activityMineAccountModifyNav.addCloseImageButton().setOnClickListener(this);
+        binding.activityMineAccountModifyRl.setOnClickListener(this);
+        // 输入时仅允许中文、字母、数字，禁止特殊字符\
+        binding.activityMineAccountModifyEt.setFilter(new InputFilter[]{new InputFilter() {
+            @Override
+            public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+                StringBuilder sb = new StringBuilder();
+                for (int i = start; i < end; i++) {
+                    char c = source.charAt(i);
+                    if (Character.isLetterOrDigit(c) || (c >= 0x4e00 && c <= 0x9fa5)) {
+                        sb.append(c);
+                    }
+                }
+                if (sb.length() == end - start) return null;
+                if (sb.length() == 0) return "";
+                return sb;
+            }
+        }});
     }
-  }
 
-
-  void updatePersonInfo(String headUrl,String name) {
-    RegisterBean bean = new RegisterBean();
-    if (!headUrl.isEmpty()) {
-      bean.avatar = headUrl;
+    @Override
+    public void onClick(View v) {
+        if (v == binding.activityMineAccountModifyNav.addCloseImageButton()) {
+            finish();
+        } else if (v == binding.activityMineAccountModifyRl) {
+            String textStr = binding.activityMineAccountModifyEt.getText();
+            if (textStr == null || textStr.isEmpty()) {
+                ToastUtils.toastMsg("请输入用户名");
+                return;
+            }
+            updatePersonInfo("", textStr);
+        }
     }
-    if (!name.isEmpty()) {
-      bean.name = name;
+
+
+    void updatePersonInfo(String headUrl, String name) {
+        RegisterBean bean = new RegisterBean();
+        if (!headUrl.isEmpty()) {
+            bean.avatar = headUrl;
+        }
+        if (!name.isEmpty()) {
+            bean.name = name;
+        }
+        HttpUtil.apiW().home_changeInfo(bean)
+                .enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                        ToastUtils.toastMsg(body.msg);
+                        UserBean userInfo = DataUtil.getUserInfo();
+                        userInfo.username = name;
+                        DataUtil.putUserInfo(userInfo);
+                        DataUtil.updateLoginUserInfoList(userInfo);
+                        BaseEvent refreshUserInfo = new BaseEvent("refreshUserInfo");
+                        refreshUserInfo.setText(name);
+                        EventBus.getDefault().post(refreshUserInfo);
+                        finish();
+                    }
+
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
+
+                    }
+                });
     }
-    HttpUtil.apiW().home_changeInfo(bean)
-            .enqueue(new CommonCallback<NetData>() {
-              @Override
-              public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                ToastUtils.toastMsg(body.msg);
-                UserBean userInfo = DataUtil.getUserInfo();
-                userInfo.username = name;
-                DataUtil.putUserInfo(userInfo);
-                DataUtil.updateLoginUserInfoList(userInfo);
-                BaseEvent refreshUserInfo = new BaseEvent("refreshUserInfo");
-                refreshUserInfo.setText(name);
-                EventBus.getDefault().post(refreshUserInfo);
-                finish();
-              }
-
-              @Override
-              public void Failure(Call<NetData> call, Throwable t) {
-
-              }
-            });
-  }
 
 }

@@ -23,6 +23,7 @@
     <string name="user_info_avatar">头像</string>
     <string name="user_info_account">账号</string>
     <string name="user_info_nickname">昵称</string>
+    <string name="modify_username_hint">仅支持中文、字母、数字</string>
     <string name="user_info_sexual">性别</string>
     <string name="user_info_birthday">生日</string>
     <string name="user_info_phone">手机</string>
