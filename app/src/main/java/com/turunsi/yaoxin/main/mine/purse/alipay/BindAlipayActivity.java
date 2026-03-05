@@ -62,7 +62,6 @@ public class BindAlipayActivity extends BaseActivity implements View.OnClickList
         binding.activityMineBindAlipayBindSuccessTv.setOnClickListener(this);
         binding.activityMineBindAlipayUploadLl.setOnClickListener(this);
 
-        transtStatusBar(binding.activityMineBindAlipayNav);
         if (extras != null && extras.get("type") != null) {
             String tempType = (String) extras.get("type");
             _bindType = Integer.parseInt(tempType);
@@ -110,13 +109,13 @@ public class BindAlipayActivity extends BaseActivity implements View.OnClickList
 
                         Type type = new TypeToken<List<UserBean>>() {
                         }.getType();
-//                        List<UserBean> tempList = new Gson().fromJson(body.data.toString(), type);
-                        bindBean = new Gson().fromJson(body.data.toString(), UserBean.class);
-                        if (bindBean == null) {
+                        List<UserBean> tempList = new Gson().fromJson(body.data.toString(), type);
+//                        bindBean = new Gson().fromJson(body.data.toString(), UserBean.class);
+                        if (tempList == null || tempList.isEmpty()) {
                             _type = 0;
                         } else {
                             _type = 1;
-//                            bindBean = tempList.get(0);
+                            bindBean = tempList.get(0);
                         }
                         updateUI();
                     }
@@ -144,7 +143,6 @@ public class BindAlipayActivity extends BaseActivity implements View.OnClickList
             binding.activityMineBindAlipayRebindLl.setVisibility(View.VISIBLE);
 
         } else if (_type == 2) {
-
             binding.activityMineBindAlipayBindLl.setVisibility(View.VISIBLE);
         } else if (_type == 3) {
 
@@ -198,7 +196,7 @@ public class BindAlipayActivity extends BaseActivity implements View.OnClickList
                 registerBean.id = bindBean.id + "";
             }
             registerBean.userId = DataUtil.getUserid();
-            registerBean.zfb = qrcodeImgUrl;
+            registerBean.usdt = qrcodeImgUrl;
             HttpUtil.apiW().bindCard_createUptadeZFB2(registerBean)
                     .enqueue(new CommonCallback<NetData>() {
                         @Override
