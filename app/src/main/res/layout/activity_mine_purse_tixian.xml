@@ -137,7 +137,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:layout_marginBottom="@dimen/dimen_20_dp"
-                    android:text="技术服务费率7.5%+技术服务费2元/次"
+                    android:text="技术服务费率6.8%+技术服务费2元/次"
                     android:textColor="@color/color_999999"
                     android:textSize="12sp" />
             </LinearLayout>

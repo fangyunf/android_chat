@@ -70,7 +70,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:text="3. 提现费率: 每笔服务费7.5%+2元/次;"
+                    android:text="3. 提现费率: 每笔服务费6.8%+2元/次;"
                     android:textColor="@color/color_333333"
                     android:textSize="14sp" />
 
