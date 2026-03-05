@@ -238,8 +238,12 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
 
                 Type type = new TypeToken<List<UserBean>>() {
                 }.getType();
+                List<UserBean> tempList = new Gson().fromJson(body.data.toString(), type);
+
+//                Type type = new TypeToken<List<UserBean>>() {
+//                }.getType();
 //                        List<UserBean> tempList = new Gson().fromJson(body.data.toString(), type);
-                UserBean tempUser = new Gson().fromJson(body.data.toString(), UserBean.class);
+//                UserBean tempUser = new Gson().fromJson(body.data.toString(), UserBean.class);
 
 //                        Type type = new TypeToken<List<UserBean>>() {
 //                        }.getType();
@@ -254,23 +258,23 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
                     // 根据请求类型保存数据
                     switch (requestType) {
                         case "alipay":
-                            aliPayBean = tempUser;
-//                                    if (tempList != null && !tempList.isEmpty()) {
-//
-//                                        aliPayBean = tempList.get(0);
-//                                    }
+                            //aliPayBean = tempUser;
+                                    if (tempList != null && !tempList.isEmpty()) {
+
+                                        aliPayBean = tempList.get(0);
+                                    }
                             break;
                         case "wechat":
-                            wxPayBean = tempUser;
-//                                    if (tempList != null && !tempList.isEmpty()) {
-//                                        wxPayBean = tempList.get(0);
-//                                    }
+//                            wxPayBean = tempUser;
+                            if (tempList != null && !tempList.isEmpty()) {
+                                wxPayBean = tempList.get(0);
+                            }
                             break;
                         case "bank":
-                            yhkPayBean = tempUser;
-//                                    if (tempList != null && !tempList.isEmpty()) {
-//                                        yhkPayBean = tempList.get(0);
-//                                    }
+//                            yhkPayBean = tempUser;
+                                    if (tempList != null && !tempList.isEmpty()) {
+                                        yhkPayBean = tempList.get(0);
+                                    }
                             break;
                     }
 
