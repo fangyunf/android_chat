@@ -62,7 +62,7 @@ public class MyFuHaoListActivity extends BaseActivity implements View.OnClickLis
         setContentView(binding.getRoot());
         StatusBarUtils.transtStatusBar(this, binding.activityMineMyFuhaoListNav);
         binding.activityMineMyFuhaoListNav.addCloseImageButton().setOnClickListener(this);
-        binding.activityMineMyFuhaoListBuyTv.setOnClickListener(this);
+        binding.activityMineMyFuhaoListBuyIv.setOnClickListener(this);
         binding.activityMineMyFuhaoListSelfPhoneTv.setText(DataUtil.getUserInfo().phoneNo);
         // 改为垂直列表布局，匹配图1设计
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -128,7 +128,7 @@ public class MyFuHaoListActivity extends BaseActivity implements View.OnClickLis
 //            map.put("type","0");
 //            BuyFeatureActivity.start(BuyFeatureActivity.class,this,map);
             finish();
-        } else if (v == binding.activityMineMyFuhaoListBuyTv) {
+        } else if (v == binding.activityMineMyFuhaoListBuyIv) {
             HashMap map = new HashMap();
             map.put("type", "1");
             BuyFeatureActivity.start(BuyFeatureActivity.class, this, map);
