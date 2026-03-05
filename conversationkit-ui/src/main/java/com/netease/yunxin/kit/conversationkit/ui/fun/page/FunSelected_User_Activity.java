@@ -31,6 +31,7 @@ import com.yaoxin.appbase.activity.BaseActivity;
 import com.yaoxin.appbase.model.CustomMsgBean;
 import com.yaoxin.appbase.model.GroupInfoBean;
 import com.yaoxin.appbase.model.NetData;
+import com.yaoxin.appbase.model.ParamsBean;
 import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
@@ -60,10 +61,10 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
     ArrayList<GroupInfoBean> mContactModels = new ArrayList<>();
     private ActivityFunSelectedUserBinding binding;
     Fun_Selected_UserListAdapter adapter = new Fun_Selected_UserListAdapter();
-
     int page_type = 0;
     GroupInfoBean groupInfoBean;
     ArrayList ids = new ArrayList<>();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +72,7 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
         String temp = DataUtil.getStringValue("groupInfo");
 
         if (temp != null) {
-            groupInfoBean = new Gson().fromJson(temp,GroupInfoBean.class);
+            groupInfoBean = new Gson().fromJson(temp, GroupInfoBean.class);
         }
 
         if (type1 != null) {
@@ -107,20 +108,20 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
         _requestData1();
         _initView();
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        DataUtil.setStringValue("","groupInfo");
+        DataUtil.setStringValue("", "groupInfo");
     }
 
 
     protected void _requestData1() {
         if (page_type == 3 || page_type == 4) {
-            if (groupInfoBean == null ) {
+            if (groupInfoBean == null) {
                 return;
             }
             if (page_type == 4) {
-
                 Iterator<GroupInfoBean> iterator = groupInfoBean.userInfos.iterator();
                 while (iterator.hasNext()) {
                     GroupInfoBean userInfo = iterator.next();
@@ -144,27 +145,86 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
             adapter.notifyDataSetChanged();
             return;
         }
-        HttpUtil.apiW().friends_friendList(new RegisterBean())
+        _requestFriendListPage(1);
+//        HttpUtil.apiW().friends_friendList(new RegisterBean())
+//                .enqueue(new CommonCallback<NetData>() {
+//                    @Override
+//                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+//
+//                        Type type = new TypeToken<List<GroupInfoBean>>() {
+//                        }.getType();
+//                        mContactModels = new Gson().fromJson(body.data.toString(), type);
+//                        for (GroupInfoBean tempBean :
+//                                mContactModels) {
+//                            if (tempBean.userId.equals(DataUtil.getKeFuId())) {
+//                                mContactModels.remove(tempBean);
+//                                break;
+//                            }
+//
+//                        }
+//
+//                        Collections.sort(mContactModels, new Comparator<GroupInfoBean>() {
+//                            @Override
+//                            public int compare(GroupInfoBean o1, GroupInfoBean o2) {
+//                                // 获取name的首字母并忽略大小写比较
+//                                String firstLetter = FirstLetterUtil.getFirstLetter(o1.name);
+//                                String secondLetter = FirstLetterUtil.getFirstLetter(o2.name);
+//                                return firstLetter.compareTo(secondLetter);
+//                            }
+//                        });
+//                        if (page_type == 2) {
+//                            ArrayList<GroupInfoBean> tempArray = new ArrayList<>();
+//                            for (GroupInfoBean tempBean :mContactModels) {
+//                                if (!ids.contains(tempBean.userId)) {
+//                                    tempArray.add(tempBean);
+//                                }
+//                            }
+//                            mContactModels = tempArray;
+//                        } else {
+//
+//                        }
+//                        adapter.contacts = mContactModels;
+//                        adapter.setItems(mContactModels);
+//                        adapter.notifyDataSetChanged();
+//                    }
+//
+//                    @Override
+//                    public void Failure(Call<NetData> call, Throwable t) {
+//
+//                    }
+//                });
+    }
+
+
+    private void _requestFriendListPage(int page) {
+        ParamsBean paramsBean = new ParamsBean();
+        paramsBean.page = page;
+        HttpUtil.apiW().friends_friendLists(paramsBean)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-
                         Type type = new TypeToken<List<GroupInfoBean>>() {
                         }.getType();
-                        mContactModels = new Gson().fromJson(body.data.toString(), type);
-                        for (GroupInfoBean tempBean :
-                                mContactModels) {
-                            if (tempBean.userId.equals(DataUtil.getKeFuId())) {
+                        List<GroupInfoBean> pageList = new Gson().fromJson(body.data.toString(), type);
+                        if (pageList != null) {
+                            if (page == 1) {
+                                mContactModels = new ArrayList<>();
+                            }
+                            mContactModels.addAll(pageList);
+                        }
+                        if (pageList != null && pageList.size() == 100) {
+                            _requestFriendListPage(page + 1);
+                            return;
+                        }
+                        for (GroupInfoBean tempBean : new ArrayList<>(mContactModels)) {
+                            if (tempBean == null || tempBean.userId.equals(DataUtil.getKeFuId())) {
                                 mContactModels.remove(tempBean);
                                 break;
                             }
-
                         }
-
                         Collections.sort(mContactModels, new Comparator<GroupInfoBean>() {
                             @Override
                             public int compare(GroupInfoBean o1, GroupInfoBean o2) {
-                                // 获取name的首字母并忽略大小写比较
                                 String firstLetter = FirstLetterUtil.getFirstLetter(o1.name);
                                 String secondLetter = FirstLetterUtil.getFirstLetter(o2.name);
                                 return firstLetter.compareTo(secondLetter);
@@ -172,14 +232,12 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
                         });
                         if (page_type == 2) {
                             ArrayList<GroupInfoBean> tempArray = new ArrayList<>();
-                            for (GroupInfoBean tempBean :mContactModels) {
+                            for (GroupInfoBean tempBean : mContactModels) {
                                 if (!ids.contains(tempBean.userId)) {
                                     tempArray.add(tempBean);
                                 }
                             }
                             mContactModels = tempArray;
-                        } else {
-
                         }
                         adapter.contacts = mContactModels;
                         adapter.setItems(mContactModels);
@@ -188,7 +246,6 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
 
                     @Override
                     public void Failure(Call<NetData> call, Throwable t) {
-
                     }
                 });
     }
@@ -248,13 +305,13 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
                 int count = 0;
                 for (GroupInfoBean tempInfoBean : baseQuickAdapter.getItems()) {
                     if (tempInfoBean.isSelected) {
-                        count ++;
+                        count++;
                     }
 
                 }
                 if (count > 0) {
                     binding.activityFunSelectedUserConfirmTv.setText("确定  " + count);
-                } else  {
+                } else {
 
                     binding.activityFunSelectedUserConfirmTv.setText("确定");
                 }
@@ -312,7 +369,7 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
 
     @Override
     public void onClick(View view) {
-        if (view == binding.activityFunSelectedUserNav.addCloseImageButton()){
+        if (view == binding.activityFunSelectedUserNav.addCloseImageButton()) {
             finish();
         } else if (view == binding.activityFunSelectedUserConfirmTv) {
 
@@ -333,7 +390,7 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
                     return;
                 }
 
-                DialogAlertUtil.showInputAlert(this,"温馨提示","请输入群聊名称", new DialogAlertUtil.InputAlertCallBack() {
+                DialogAlertUtil.showInputAlert(this, "温馨提示", "请输入群聊名称", new DialogAlertUtil.InputAlertCallBack() {
                     @Override
                     public void inputText(String text) {
                         RegisterBean bean = new RegisterBean();
@@ -345,7 +402,7 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
                                     @Override
                                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                                         finish();
-                                        CustomMsgBean bean1 = new Gson().fromJson(body.data.toString(),CustomMsgBean.class);
+                                        CustomMsgBean bean1 = new Gson().fromJson(body.data.toString(), CustomMsgBean.class);
                                         XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_TEAM_PAGE)
                                                 .withParam(RouterConstant.CHAT_ID_KRY, bean1.groupId)
                                                 .withContext(AppProxy.getInstance().getContext())

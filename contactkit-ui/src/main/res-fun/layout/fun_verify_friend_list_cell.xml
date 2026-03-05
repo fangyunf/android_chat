@@ -85,8 +85,7 @@
         android:layout_width="49dp"
         android:layout_height="24dp"
         android:layout_alignParentRight="true"
-        android:background="@drawable/bg_app_theme_color_rounded_10"
-        android:visibility="gone">
+        android:background="@drawable/bg_app_theme_color_rounded_10">
 
         <TextView
             android:id="@+id/fun_verify_friend_list_cell_opt_tv"
@@ -106,7 +105,8 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/fun_verify_friend_list_cell_refuse_tv"

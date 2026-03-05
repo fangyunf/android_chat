@@ -87,8 +87,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_1_dp"
         android:layout_marginStart="@dimen/dimen_70_dp"
-        android:background="#F2F2F2"
-        android:visibility="gone" />
+        android:background="#F2F2F2" />
 
 
     <LinearLayout
@@ -97,10 +96,8 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:paddingHorizontal="@dimen/dimen_16_dp"
-        android:paddingVertical="@dimen/dimen_14_dp"
-        android:visibility="gone">
-
-
+        android:paddingVertical="@dimen/dimen_14_dp">
+        
         <RelativeLayout
             android:layout_width="47dp"
             android:layout_height="47dp">

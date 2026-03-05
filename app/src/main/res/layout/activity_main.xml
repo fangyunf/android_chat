@@ -39,28 +39,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         tools:ignore="MissingConstraints">
 
-        <RelativeLayout
-            android:id="@+id/conversation_btn_shop"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:onClick="tabClick"
-            android:visibility="gone">
-
-            <TextView
-                android:id="@+id/conversation_shop"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:drawableTop="@mipmap/mine_tabbar_shop_sel"
-                android:drawablePadding="3dp"
-                android:gravity="center"
-                android:text="商城"
-                android:textColor="@color/tab_checked_color"
-                android:textSize="12sp" />
-
-
-        </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/conversation_btn_group"
@@ -152,6 +130,28 @@
                 android:textColor="@color/color_white"
                 android:textSize="@dimen/text_size_12"
                 android:visibility="gone" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/conversation_btn_shop"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:onClick="tabClick">
+
+            <TextView
+                android:id="@+id/conversation_shop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:drawableTop="@mipmap/mine_tabbar_shop_normal"
+                android:drawablePadding="3dp"
+                android:gravity="center"
+                android:text="商城"
+                android:textColor="@color/tab_unchecked_color"
+                android:textSize="12sp" />
+
 
         </RelativeLayout>
 

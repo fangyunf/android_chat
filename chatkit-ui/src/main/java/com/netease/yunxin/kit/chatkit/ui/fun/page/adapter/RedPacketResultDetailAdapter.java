@@ -24,7 +24,7 @@ public class RedPacketResultDetailAdapter extends BaseQuickAdapter<CustomMsgBean
 
     @Override
     protected void onBindViewHolder(@NonNull QuickViewHolder quickViewHolder, int i, @Nullable CustomMsgBean bean) {
-        
+
         String remark = "";
         try {
             for (GroupInfoBean groupInfoBean : DataUtil.getFriendInfoList()) {

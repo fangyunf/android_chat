@@ -128,73 +128,27 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
     protected void _requestMemeber(int page) {
         ParamsBean registerBean = new ParamsBean();
         registerBean.page = page;
-        HttpUtil.apiW().friends_friendLists(registerBean)
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-
-                        if (page == 1) {
-                            mContactModels.clear();
-                        }
-                        Type type = new TypeToken<List<GroupInfoBean>>() {
-                        }.getType();
-                        List<GroupInfoBean> tempBeanList = new Gson().fromJson(body.data.toString(), type);
-                        for (GroupInfoBean tempBean :
-                                tempBeanList) {
-                            if (!tempBean.userId.equals(DataUtil.getKeFuId())) {
-                                mContactModels.add(tempBean);
-                            }
-
-                        }
-                        if (tempBeanList.size() == 100) {
-                            _requestMemeber(page + 1);
-                            return;
-                        }
-
-                        Collections.sort(mContactModels, new Comparator<GroupInfoBean>() {
-                            @Override
-                            public int compare(GroupInfoBean o1, GroupInfoBean o2) {
-                                // 获取name的首字母并忽略大小写比较
-                                String firstLetter = FirstLetterUtil.getFirstLetter(o1.name);
-                                String secondLetter = FirstLetterUtil.getFirstLetter(o2.name);
-                                return firstLetter.compareTo(secondLetter);
-                            }
-                        });
-                        DataUtil.setFriendInfoList(mContactModels);
-                        adapter.contacts = mContactModels;
-                        if (_selectIndex == 0) {
-                            adapter.setItems(mContactModels);
-                            binding.contactNewFragmentRv.setAdapter(adapter);
-                            adapter.notifyDataSetChanged();
-
-                        }
-                    }
-
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
-
-                    }
-                });
-    }
-
-    @Override
-    protected void _requestData() {
-        //_requestMemeber(1);
-
-        HttpUtil.apiW().friends_friendList(new RegisterBean()).enqueue(new CommonCallback<NetData>() {
+        HttpUtil.apiW().friends_friendLists(registerBean).enqueue(new CommonCallback<NetData>() {
             @Override
             public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
+                if (page == 1) {
+                    mContactModels.clear();
+                }
                 Type type = new TypeToken<List<GroupInfoBean>>() {
                 }.getType();
-                mContactModels = new Gson().fromJson(body.data.toString(), type);
-                for (GroupInfoBean tempBean : mContactModels) {
-                    if (tempBean == null || tempBean.userId.equals(DataUtil.getKeFuId())) {
-                        mContactModels.remove(tempBean);
-                        break;
+                List<GroupInfoBean> tempBeanList = new Gson().fromJson(body.data.toString(), type);
+                for (GroupInfoBean tempBean : tempBeanList) {
+                    if (!tempBean.userId.equals(DataUtil.getKeFuId())) {
+                        mContactModels.add(tempBean);
                     }
 
                 }
+                if (tempBeanList.size() == 100) {
+                    _requestMemeber(page + 1);
+                    return;
+                }
+
                 Collections.sort(mContactModels, new Comparator<GroupInfoBean>() {
                     @Override
                     public int compare(GroupInfoBean o1, GroupInfoBean o2) {
@@ -219,87 +173,127 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
 
             }
         });
+    }
+
+    @Override
+    protected void _requestData() {
+        _requestMemeber(1);
+
+//        HttpUtil.apiW().friends_friendList(new RegisterBean()).enqueue(new CommonCallback<NetData>() {
+//            @Override
+//            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+//
+//                Type type = new TypeToken<List<GroupInfoBean>>() {
+//                }.getType();
+//                mContactModels = new Gson().fromJson(body.data.toString(), type);
+//                for (GroupInfoBean tempBean : mContactModels) {
+//                    if (tempBean == null || tempBean.userId.equals(DataUtil.getKeFuId())) {
+//                        mContactModels.remove(tempBean);
+//                        break;
+//                    }
+//
+//                }
+//                Collections.sort(mContactModels, new Comparator<GroupInfoBean>() {
+//                    @Override
+//                    public int compare(GroupInfoBean o1, GroupInfoBean o2) {
+//                        // 获取name的首字母并忽略大小写比较
+//                        String firstLetter = FirstLetterUtil.getFirstLetter(o1.name);
+//                        String secondLetter = FirstLetterUtil.getFirstLetter(o2.name);
+//                        return firstLetter.compareTo(secondLetter);
+//                    }
+//                });
+//                DataUtil.setFriendInfoList(mContactModels);
+//                adapter.contacts = mContactModels;
+//                if (_selectIndex == 0) {
+//                    adapter.setItems(mContactModels);
+//                    binding.contactNewFragmentRv.setAdapter(adapter);
+//                    adapter.notifyDataSetChanged();
+//
+//                }
+//            }
+//
+//            @Override
+//            public void Failure(Call<NetData> call, Throwable t) {
+//
+//            }
+//        });
 
 
-        HttpUtil.apiW().friends_applyListNum(new RegisterBean())
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+        HttpUtil.apiW().friends_applyListNum(new RegisterBean()).enqueue(new CommonCallback<NetData>() {
+            @Override
+            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                        applyNumBean = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
-                        adapter.friendApplyNum = applyNumBean.friendApplyNum;
-                        adapter.groupApplyNum = applyNumBean.groupApplyNum;
-                        adapter.notifyDataSetChanged();
+                applyNumBean = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
+                adapter.friendApplyNum = applyNumBean.friendApplyNum;
+                adapter.groupApplyNum = applyNumBean.groupApplyNum;
+                adapter.notifyDataSetChanged();
 
-                        if (applyNumBean.friendApplyNum > 0) {
-                            binding.contactNewFragmentNewFriendNumTv.setText(applyNumBean.friendApplyNum + "");
-                            binding.contactNewFragmentNewFriendNumTv.setVisibility(View.VISIBLE);
-                        } else {
-                            binding.contactNewFragmentNewFriendNumTv.setVisibility(View.GONE);
-                        }
+                if (applyNumBean.friendApplyNum > 0) {
+                    binding.contactNewFragmentNewFriendNumTv.setText(applyNumBean.friendApplyNum + "");
+                    binding.contactNewFragmentNewFriendNumTv.setVisibility(View.VISIBLE);
+                } else {
+                    binding.contactNewFragmentNewFriendNumTv.setVisibility(View.GONE);
+                }
 //                        if (applyNumBean.groupApplyNum > 0) {
 //                            binding.contactNewFragmentGroupNoticeTv.setText(applyNumBean.groupApplyNum + "");
 //                            binding.contactNewFragmentGroupNoticeTv.setVisibility(View.VISIBLE);
 //                        } else {
 //                            binding.contactNewFragmentGroupNoticeTv.setVisibility(View.GONE);
 //                        }
-                        if (contactCallback != null) {
-                            contactCallback.updateUnreadCount(applyNumBean.friendApplyNum);
-                        }
+                if (contactCallback != null) {
+                    contactCallback.updateUnreadCount(applyNumBean.friendApplyNum);
+                }
 
-                    }
+            }
 
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
+            @Override
+            public void Failure(Call<NetData> call, Throwable t) {
 
-                    }
-                });
+            }
+        });
 
-        HttpUtil.apiW().group_userGroups(new RegisterBean())
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+        HttpUtil.apiW().group_userGroups(new RegisterBean()).enqueue(new CommonCallback<NetData>() {
+            @Override
+            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                        Type type = new TypeToken<List<GroupInfoBean>>() {
-                        }.getType();
+                Type type = new TypeToken<List<GroupInfoBean>>() {
+                }.getType();
 
-                        groupListDataList = new Gson().fromJson(body.data.toString(), type);
-                        if (_selectIndex == 1) {
-                            binding.contactNewFragmentRv.setAdapter(groupListAdapter);
-                            groupListAdapter.setItems(groupListDataList);
-                            groupListAdapter.notifyDataSetChanged();
-                        }
-                    }
+                groupListDataList = new Gson().fromJson(body.data.toString(), type);
+                if (_selectIndex == 1) {
+                    binding.contactNewFragmentRv.setAdapter(groupListAdapter);
+                    groupListAdapter.setItems(groupListDataList);
+                    groupListAdapter.notifyDataSetChanged();
+                }
+            }
 
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
+            @Override
+            public void Failure(Call<NetData> call, Throwable t) {
 
-                    }
-                });
+            }
+        });
 
         RegisterBean bean = new RegisterBean();
         bean.pageNo = "0";
-        HttpUtil.apiW().friends_applyList(bean)
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        NetData listData = new Gson().fromJson(body.data.toString(), NetData.class);
-                        Gson gson = new Gson();
-                        verifyList =
-                                gson.fromJson(new Gson().toJson(listData.data), new TypeToken<List<UserBean>>() {
-                                }.getType());
-                        if (_selectIndex == 2) {
-                            binding.contactNewFragmentRv.setAdapter(verifyAdapter);
-                            verifyAdapter.setItems(verifyList);
-                            verifyAdapter.notifyDataSetChanged();
-                        }
-                    }
+        HttpUtil.apiW().friends_applyList(bean).enqueue(new CommonCallback<NetData>() {
+            @Override
+            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                NetData listData = new Gson().fromJson(body.data.toString(), NetData.class);
+                Gson gson = new Gson();
+                verifyList = gson.fromJson(new Gson().toJson(listData.data), new TypeToken<List<UserBean>>() {
+                }.getType());
+                if (_selectIndex == 2) {
+                    binding.contactNewFragmentRv.setAdapter(verifyAdapter);
+                    verifyAdapter.setItems(verifyList);
+                    verifyAdapter.notifyDataSetChanged();
+                }
+            }
 
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
+            @Override
+            public void Failure(Call<NetData> call, Throwable t) {
 
-                    }
-                });
+            }
+        });
     }
 
     @Override
@@ -321,10 +315,7 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
         groupListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener<GroupInfoBean>() {
             @Override
             public void onClick(@NonNull BaseQuickAdapter<GroupInfoBean, ?> baseQuickAdapter, @NonNull View view, int i) {
-                XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_TEAM_PAGE)
-                        .withParam(RouterConstant.CHAT_ID_KRY, baseQuickAdapter.getItem(i).groupId)
-                        .withContext(that)
-                        .navigate();
+                XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_TEAM_PAGE).withParam(RouterConstant.CHAT_ID_KRY, baseQuickAdapter.getItem(i).groupId).withContext(that).navigate();
             }
         });
         verifyAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener<UserBean>() {
@@ -341,11 +332,7 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
             @Override
             public void onClick(@NonNull BaseQuickAdapter<GroupInfoBean, ?> baseQuickAdapter, @NonNull View view, int i) {
                 if (baseQuickAdapter.getItemViewType(i) == Constant.RECYCLE_VIEW_ITEM) {
-                    XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_SETTING_PAGE)
-                            .withParam(RouterConstant.CHAT_ID_KRY, baseQuickAdapter.getItem(i - 1).userId)
-                            .withParam("type", "1")
-                            .withContext(requireActivity())
-                            .navigate();
+                    XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_SETTING_PAGE).withParam(RouterConstant.CHAT_ID_KRY, baseQuickAdapter.getItem(i - 1).userId).withParam("type", "1").withContext(requireActivity()).navigate();
                 }
             }
         });
@@ -353,35 +340,25 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
         adapter.addOnItemChildClickListener(R.id.contact_index_headview_1_ll, new BaseQuickAdapter.OnItemChildClickListener<GroupInfoBean>() {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<GroupInfoBean, ?> baseQuickAdapter, @NonNull View view, int i) {
-                XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_P2P_PAGE)
-                        .withParam(RouterConstant.CHAT_ID_KRY, DataUtil.getKeFuId())
-                        .withContext(getContext())
-                        .navigate();
+                XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_P2P_PAGE).withParam(RouterConstant.CHAT_ID_KRY, DataUtil.getKeFuId()).withContext(getContext()).navigate();
             }
         });
         adapter.addOnItemChildClickListener(R.id.contact_index_headview_2_ll, new BaseQuickAdapter.OnItemChildClickListener<GroupInfoBean>() {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<GroupInfoBean, ?> baseQuickAdapter, @NonNull View view, int i) {
-                XKitRouter.withKey(RouterConstant.PATH_FUN_MY_BLACK_PAGE)
-                        .withContext(requireContext())
-                        .navigate();
+                XKitRouter.withKey(RouterConstant.PATH_FUN_MY_BLACK_PAGE).withContext(requireContext()).navigate();
             }
         });
         adapter.addOnItemChildClickListener(R.id.contact_index_headview_3_ll, new BaseQuickAdapter.OnItemChildClickListener<GroupInfoBean>() {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<GroupInfoBean, ?> baseQuickAdapter, @NonNull View view, int i) {
-                XKitRouter.withKey(RouterConstant.PATH_FUN_MY_NOTIFICATION_PAGE)
-                        .withContext(requireContext())
-                        .navigate();
+                XKitRouter.withKey(RouterConstant.PATH_FUN_MY_NOTIFICATION_PAGE).withContext(requireContext()).navigate();
             }
         });
         adapter.addOnItemChildClickListener(R.id.contact_index_headview_4_ll, new BaseQuickAdapter.OnItemChildClickListener<GroupInfoBean>() {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<GroupInfoBean, ?> baseQuickAdapter, @NonNull View view, int i) {
-                XKitRouter.withKey(RouterConstant.PATH_FUN_MY_NOTIFICATION_PAGE)
-                        .withParam("type", "1")
-                        .withContext(requireContext())
-                        .navigate();
+                XKitRouter.withKey(RouterConstant.PATH_FUN_MY_NOTIFICATION_PAGE).withParam("type", "1").withContext(requireContext()).navigate();
             }
         });
         adapter.addOnItemChildClickListener(R.id.contact_index_headview_5_ll, new BaseQuickAdapter.OnItemChildClickListener<GroupInfoBean>() {
@@ -445,19 +422,13 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
             verifyAdapter.notifyDataSetChanged();
 
         } else if (v == binding.contactNewFragmentSearchIv) {
-            XKitRouter.withKey("FunSystem_Notice_New_Activity")
-                    .withContext(requireContext())
-                    .navigate();
+            XKitRouter.withKey("FunSystem_Notice_New_Activity").withContext(requireContext()).navigate();
         } else if (v == binding.contactNewFragmentSearchLl) {
-            XKitRouter.withKey("SearchNewActivity")
-                    .withContext(requireContext())
-                    .navigate();
+            XKitRouter.withKey("SearchNewActivity").withContext(requireContext()).navigate();
 
 
         } else if (v == binding.contactNewFragmentMoreIv) {
-            XKitRouter.withKey(PATH_FUN_ADD_FRIEND_PAGE)
-                    .withContext(requireContext())
-                    .navigate();
+            XKitRouter.withKey(PATH_FUN_ADD_FRIEND_PAGE).withContext(requireContext()).navigate();
         }
     }
 

@@ -26,6 +26,7 @@ import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
 
+import java.util.HashMap;
 import java.util.List;
 
 import retrofit2.Call;
@@ -55,22 +56,23 @@ public class FunVerifyListActivity extends BaseActivity implements View.OnClickL
         BaseQuickAdapter.OnItemChildClickListener<UserBean> agreeRefuseListener = new BaseQuickAdapter.OnItemChildClickListener<UserBean>() {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<UserBean, ?> baseQuickAdapter, @NonNull View view, int i) {
-//                UserBean bean = baseQuickAdapter.getItem(i);
-//                bean.page_type = type == 1 ? 101 : 100;
-//                HashMap map = new HashMap();
-//                map.put("user", new Gson().toJson(bean));
-//                FunAddFriendVerifyActivity.start(FunAddFriendVerifyActivity.class, that, map);
                 UserBean bean = baseQuickAdapter.getItem(i);
-                int id = view.getId();
-                if (id == R.id.fun_verify_friend_list_cell_agree_tv) {
-                    optVerify(bean, true, baseQuickAdapter, i);
-                } else if (id == R.id.fun_verify_friend_list_cell_refuse_tv) {
-                    optVerify(bean, false, baseQuickAdapter, i);
-                }
+                bean.page_type = type == 1 ? 101 : 100;
+                HashMap map = new HashMap();
+                map.put("user", new Gson().toJson(bean));
+                FunAddFriendVerifyActivity.start(FunAddFriendVerifyActivity.class, FunVerifyListActivity.this, map);
+//                UserBean bean = baseQuickAdapter.getItem(i);
+//                int id = view.getId();
+//                if (id == R.id.fun_verify_friend_list_cell_agree_tv) {
+//                    optVerify(bean, true, baseQuickAdapter, i);
+//                } else if (id == R.id.fun_verify_friend_list_cell_refuse_tv) {
+//                    optVerify(bean, false, baseQuickAdapter, i);
+//                }
             }
         };
-        adapter.addOnItemChildClickListener(R.id.fun_verify_friend_list_cell_agree_tv, agreeRefuseListener);
-        adapter.addOnItemChildClickListener(R.id.fun_verify_friend_list_cell_refuse_tv, agreeRefuseListener);
+        adapter.addOnItemChildClickListener(R.id.fun_verify_friend_list_cell_opt_rl, agreeRefuseListener);
+        //adapter.addOnItemChildClickListener(R.id.fun_verify_friend_list_cell_agree_tv, agreeRefuseListener);
+        //adapter.addOnItemChildClickListener(R.id.fun_verify_friend_list_cell_refuse_tv, agreeRefuseListener);
     }
 
     private void optVerify(UserBean bean, boolean isAgree, BaseQuickAdapter<UserBean, ?> adapter, int position) {
