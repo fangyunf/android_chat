@@ -52,7 +52,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="60dp"
+        android:layout_marginBottom="50dp"
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
@@ -60,8 +60,19 @@
             android:id="@+id/activity_buy_group_feature_qsj_rule_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
             android:text="群升级规则"
-            android:textColor="@color/app_theme_color"
+            android:textColor="#ff006cff"
             android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/activity_buy_group_feature_buy_tv"
+            android:layout_width="253dp"
+            android:layout_height="52dp"
+            android:background="@drawable/fun_bg_app_theme_color_rounded_26"
+            android:gravity="center"
+            android:text="立即购买"
+            android:textColor="#ffffffff"
+            android:textSize="18sp" />
     </LinearLayout>
 </RelativeLayout>
