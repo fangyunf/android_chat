@@ -63,8 +63,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == SDK_PAY_FLAG) {
-                @SuppressWarnings("unchecked")
-                Map<String, String> result = (Map<String, String>) msg.obj;
+                @SuppressWarnings("unchecked") Map<String, String> result = (Map<String, String>) msg.obj;
                 Log.d("Alipay", "Result === " + result.toString());
 
                 // 支付结果处理逻辑
@@ -119,8 +118,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
     void _initRecycleView() {
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
-        Recharge_GridSpacingItemDecoration gridSpacingItemDecoration =
-                new Recharge_GridSpacingItemDecoration(3, SizeUtils.dp2px(10f), false);
+        Recharge_GridSpacingItemDecoration gridSpacingItemDecoration = new Recharge_GridSpacingItemDecoration(3, SizeUtils.dp2px(10f), false);
         gridSpacingItemDecoration.leftSpace = SizeUtils.dp2px(3f);
         recyclerView.addItemDecoration(gridSpacingItemDecoration);
         recyclerView.setLayoutManager(gridLayoutManager);
@@ -140,6 +138,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
         adpter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener<String>() {
             @Override
             public void onClick(@NonNull BaseQuickAdapter<String, ?> baseQuickAdapter, @NonNull View view, int i) {
+                binding.activityMinePurseRechargeEt.setText("");
                 adpter.selectStr = adpter.getItem(i);
 //                binding.activityMinePurseRechargeDetailTv.setText("≈" + adpter.selectStr+"CNY");
                 adpter.notifyDataSetChanged();
@@ -274,19 +273,18 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected void _requestData() {
-        HttpUtil.apiW().home_balance()
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        UserBean bean = new Gson().fromJson(body.data.toString(), UserBean.class);
-                        binding.activityMinePurseRechargeAccountTv.setText("¥" + NumberUtil.formartMoney(bean.balance));
-                    }
+        HttpUtil.apiW().home_balance().enqueue(new CommonCallback<NetData>() {
+            @Override
+            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                UserBean bean = new Gson().fromJson(body.data.toString(), UserBean.class);
+                binding.activityMinePurseRechargeAccountTv.setText("¥" + NumberUtil.formartMoney(bean.balance));
+            }
 
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
+            @Override
+            public void Failure(Call<NetData> call, Throwable t) {
 
-                    }
-                });
+            }
+        });
     }
 
     @Override
@@ -360,27 +358,46 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
         if (!inputMoney1.isEmpty()) {
             inputMoney = inputMoney1;
         }
+//        RequestParamsBean registerBean = new RequestParamsBean();
+//        registerBean.amount = NumberUtil.formartUploadMoney(inputMoney);
+//        registerBean.name = "12";
+//        registerBean.configId = "1";
+//        registerBean.payWay = "syPay";
+//        registerBean.type = payType;
+//        registerBean.userId = DataUtil.getUserid();
+//        HttpUtil.apiW().pay_gsPay(registerBean)
+//                .enqueue(new CommonCallback<NetData>() {
+//                    @Override
+//                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+//                        UserBean userBean = new Gson().fromJson(body.data.toString(), UserBean.class);
+////                        RechargeScanFragment.showV(getSupportFragmentManager(),payType.equals("wxpay")?"请使用微信扫码":"请使用支付宝扫码",userBean.payUrl);
+//                        startAlipayPayment(userBean.url);
+//                    }
+//
+//                    @Override
+//                    public void Failure(Call<NetData> call, Throwable t) {
+//
+//                    }
+//                });
         RequestParamsBean registerBean = new RequestParamsBean();
         registerBean.amount = NumberUtil.formartUploadMoney(inputMoney);
         registerBean.name = "12";
         registerBean.configId = "1";
-        registerBean.payWay = "syPay";
+//        registerBean.type = "alipay";
         registerBean.type = payType;
         registerBean.userId = DataUtil.getUserid();
-        HttpUtil.apiW().pay_gsPay(registerBean)
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        UserBean userBean = new Gson().fromJson(body.data.toString(), UserBean.class);
-//                        RechargeScanFragment.showV(getSupportFragmentManager(),payType.equals("wxpay")?"请使用微信扫码":"请使用支付宝扫码",userBean.payUrl);
-                        startAlipayPayment(userBean.url);
-                    }
+        HttpUtil.apiW().pay_six(registerBean).enqueue(new CommonCallback<NetData>() {
+            @Override
+            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                UserBean userBean = new Gson().fromJson(body.data.toString(), UserBean.class);
+                startAlipayPayment(userBean.url);
+            }
 
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
+            @Override
+            public void Failure(Call<NetData> call, Throwable t) {
 
-                    }
-                });
+            }
+        });
 
 
 //        String inputMoney1 = getTextStr(binding.activityMinePurseRechargeEt1);
