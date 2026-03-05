@@ -259,10 +259,10 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
                     switch (requestType) {
                         case "alipay":
                             //aliPayBean = tempUser;
-                                    if (tempList != null && !tempList.isEmpty()) {
+                            if (tempList != null && !tempList.isEmpty()) {
 
-                                        aliPayBean = tempList.get(0);
-                                    }
+                                aliPayBean = tempList.get(0);
+                            }
                             break;
                         case "wechat":
 //                            wxPayBean = tempUser;
@@ -272,9 +272,9 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
                             break;
                         case "bank":
 //                            yhkPayBean = tempUser;
-                                    if (tempList != null && !tempList.isEmpty()) {
-                                        yhkPayBean = tempList.get(0);
-                                    }
+                            if (tempList != null && !tempList.isEmpty()) {
+                                yhkPayBean = tempList.get(0);
+                            }
                             break;
                     }
 
