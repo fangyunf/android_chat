@@ -54,4 +54,13 @@
     <color name="app_theme_red_color">#FF0000</color>
     <color name="app_theme_aplha_color">#33006CFF</color>
 
+    <color name="grade_color_1">#38BFFE</color>
+    <color name="grade_color_2">#FF5981</color>
+    <color name="grade_color_3">#EF54A8</color>
+    <color name="grade_color_4">#33C03E</color>
+    <color name="grade_color_5">#FF6E00</color>
+    <color name="grade_color_6">#FFA800</color>
+    <color name="grade_color_7">#FFA800</color>
+    <color name="grade_color_8">#FFA800</color>
+
 </resources>
