@@ -128,19 +128,18 @@ public class ChatTipsMessageViewHolder extends FunChatBaseMessageViewHolder {
                         tempContent = msgBean.receiveUserName + " 领取了 你 的红包";
                     }
                     textBinding.messageTipText.setText(tempContent);
-
-                    ViewGroup.LayoutParams rootParams = baseViewBinding.baseRoot.getLayoutParams();
-                    if (rootParams != null) {
-                        rootParams.height = 0;
-                        baseViewBinding.baseRoot.setLayoutParams(rootParams);
-                    }
+//                    ViewGroup.LayoutParams rootParams = baseViewBinding.baseRoot.getLayoutParams();
+//                    if (rootParams != null) {
+//                        rootParams.height = 0;
+//                        baseViewBinding.baseRoot.setLayoutParams(rootParams);
+//                    }
                 } catch (Exception e) {
                     textBinding.messageTipText.setText("");
-                    ViewGroup.LayoutParams rootParams = baseViewBinding.baseRoot.getLayoutParams();
-                    if (rootParams != null) {
-                        rootParams.height = 0;
-                        baseViewBinding.baseRoot.setLayoutParams(rootParams);
-                    }
+//                    ViewGroup.LayoutParams rootParams = baseViewBinding.baseRoot.getLayoutParams();
+//                    if (rootParams != null) {
+//                        rootParams.height = 0;
+//                        baseViewBinding.baseRoot.setLayoutParams(rootParams);
+//                    }
                 }
             } else {
                 textBinding.messageTipText.setText(content);
@@ -148,12 +147,11 @@ public class ChatTipsMessageViewHolder extends FunChatBaseMessageViewHolder {
         } else {
             baseViewBinding.baseRoot.setVisibility(View.GONE);
             // content为空时，设置高度为0，不占空间
-            ViewGroup.LayoutParams rootParams = baseViewBinding.baseRoot.getLayoutParams();
-            if (rootParams != null) {
-                rootParams.height = 0;
-                baseViewBinding.baseRoot.setLayoutParams(rootParams);
-            }
-
+//            ViewGroup.LayoutParams rootParams = baseViewBinding.baseRoot.getLayoutParams();
+//            if (rootParams != null) {
+//                rootParams.height = 0;
+//                baseViewBinding.baseRoot.setLayoutParams(rootParams);
+//            }
         }
     }
 }
