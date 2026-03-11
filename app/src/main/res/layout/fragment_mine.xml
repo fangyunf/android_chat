@@ -331,8 +331,16 @@
                         android:id="@+id/fragment_mine_zhushou_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:visibility="gone"
                         app:leftImg="@mipmap/mine_index_item_lqzs"
                         app:titleText="零钱助手" />
+
+                    <com.yaoxin.appbase.view.IconTitleArrowTemplate
+                        android:id="@+id/fragment_mine_hyzx_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:leftImg="@mipmap/mine_index_item_hyzx"
+                        app:titleText="靓号" />
 
                     <com.yaoxin.appbase.view.IconTitleArrowTemplate
                         android:id="@+id/fragment_mine_hmd_view"
@@ -345,7 +353,6 @@
                         android:id="@+id/fragment_mine_kf_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:visibility="gone"
                         app:leftImg="@mipmap/mine_index_item_kf"
                         app:titleText="客服" />
 
@@ -367,13 +374,7 @@
                     <!--                            app:leftImg="@mipmap/mine_index_my_caidan"-->
                     <!--                            app:titleText="彩蛋商城"-->
                     <!--                            />-->
-                    <com.yaoxin.appbase.view.IconTitleArrowTemplate
-                        android:id="@+id/fragment_mine_hyzx_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:visibility="gone"
-                        app:leftImg="@mipmap/mine_index_item_hyzx"
-                        app:titleText="会员中心" />
+
 
                     <com.yaoxin.appbase.view.IconTitleArrowTemplate
                         android:id="@+id/fragment_mine_ylyx_view"
