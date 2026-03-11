@@ -213,7 +213,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dimen_20_dp"
-            android:text="注:提现费率:6.8%+单笔2元\n提现时间:8点-20点\n充值时间:8点-23点"
+            android:text="注:提现费率:7.2%+单笔2元\n提现时间:8点-20点\n充值时间:8点-23点"
             android:textColor="@color/color_FF3A3A"
             android:textSize="14sp" />
 
