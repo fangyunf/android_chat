@@ -177,10 +177,8 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
 //            fragment._requestData();
 //        }
         fragment.showNow(fragmentManager, "FunOpenRedPacketFragment");
-
     }
-
-
+    
     @Override
     public void onClick(View v) {
         if (v == binding.fragmentOpenRedPacketDialogDetailRl) {
@@ -193,6 +191,7 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
                 HttpUtil.apiW().red_reciveExclusiveRedpacket(bean).enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                        openReusltBean = new Gson().fromJson(body.data.toString(), CustomMsgBean.class);
                         gotoRedPacketDetail(true);
                         sendTipMsg(true);
                     }
@@ -207,6 +206,7 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
                 HttpUtil.apiW().red_recivePersonRedpacket(bean).enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                        openReusltBean = new Gson().fromJson(body.data.toString(), CustomMsgBean.class);
                         gotoRedPacketDetail(true);
                         sendTipMsg(false);
                     }
@@ -221,6 +221,7 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
                 HttpUtil.apiW().red_grab(bean).enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                        openReusltBean = new Gson().fromJson(body.data.toString(), CustomMsgBean.class);
                         gotoRedPacketDetail(true);
                         sendTipMsg(true);
                     }
