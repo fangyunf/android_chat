@@ -54,6 +54,8 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
     private String groupId;
     private int type;
     CustomMsgBean sendBean;
+
+    CustomMsgBean openReusltBean;
     IMMessage messageInfo;
 
     @Nullable
@@ -245,17 +247,33 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
     }
 
     void sendTipMsg(boolean isGroup) {
-        IMMessage msg = MessageBuilder.createTipMessage(groupId, isGroup ? SessionTypeEnum.Team : SessionTypeEnum.P2P);
-        CustomMsgBean msgBean = new CustomMsgBean();
-        msgBean.receiveUserId = DataUtil.getUserid();
-        msgBean.receiveUserName = DataUtil.getUserInfo().username;
-        msgBean.sendUserId = sendBean.result.fromUserId;
-        msgBean.sendUserName = sendBean.result.sendName;
-        msg.setContent(new Gson().toJson(msgBean));
-        CustomMessageConfig messageConfig = new CustomMessageConfig();
-        messageConfig.enableUnreadCount = false;
-        msg.setConfig(messageConfig);
-        ChatRepo.sendMessage(msg, null);
+        boolean isExit = false;
+        if (openReusltBean != null && !openReusltBean.vos.isEmpty()) {
+            for (CustomMsgBean bean :
+                    openReusltBean.vos) {
+                if (bean.userId.equals(DataUtil.getUserid())) {
+                    isExit = true;
+                    break;
+                }
+            }
+        }
+        if (isExit) {
+            IMMessage msg = MessageBuilder.createTipMessage(groupId, isGroup ? SessionTypeEnum.Team : SessionTypeEnum.P2P);
+            CustomMsgBean msgBean = new CustomMsgBean();
+            msgBean.receiveUserId = DataUtil.getUserid();
+            msgBean.receiveUserName = DataUtil.getUserInfo().username;
+            msgBean.sendUserId = sendBean.result.fromUserId;
+            msgBean.sendUserName = sendBean.result.sendName;
+            if (msgBean.sendUserId == null || msgBean.sendUserId.isEmpty()) {
+                msgBean.sendUserId = openReusltBean.sendId;
+                msgBean.sendUserName = openReusltBean.sendName;
+            }
+            msg.setContent(new Gson().toJson(msgBean));
+            CustomMessageConfig messageConfig = new CustomMessageConfig();
+            messageConfig.enableUnreadCount = false;
+            msg.setConfig(messageConfig);
+            ChatRepo.sendMessage(msg, null);
+        }
         updateMessage();
     }
 
