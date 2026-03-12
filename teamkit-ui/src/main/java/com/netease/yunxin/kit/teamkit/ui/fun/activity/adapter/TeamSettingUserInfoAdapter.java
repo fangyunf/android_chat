@@ -1,6 +1,7 @@
 package com.netease.yunxin.kit.teamkit.ui.fun.activity.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -26,6 +27,7 @@ public class TeamSettingUserInfoAdapter extends BaseQuickAdapter<GroupInfoBean, 
     List<GroupInfoBean> userInfoList;
 
     boolean isManager = false;
+
     public TeamSettingUserInfoAdapter(boolean isM, List<GroupInfoBean> userInfo) {
         isManager = isM;
         userInfoList = userInfo;
@@ -47,8 +49,16 @@ public class TeamSettingUserInfoAdapter extends BaseQuickAdapter<GroupInfoBean, 
             }
         } else {
             GroupInfoBean infoBean = userInfoList.get(i);
-            quickViewHolder.setText(R.id.cell_fun_team_setting_users_name_tv, infoBean.name);
-            GlideUtil.yh_loadImageRoundedCorner(getContext(),iv,infoBean.avatar,26);
+
+            // 设置名称
+            if (!TextUtils.isEmpty(infoBean.remark)) {
+                quickViewHolder.setText(R.id.cell_fun_team_setting_users_name_tv, infoBean.remark);
+            } else {
+                quickViewHolder.setText(R.id.cell_fun_team_setting_users_name_tv, infoBean.name);
+            }
+
+
+            GlideUtil.yh_loadImageRoundedCorner(getContext(), iv, infoBean.avatar, 26);
             tv.setVisibility(View.VISIBLE);
             if (infoBean.rankState == 1) {
                 tv.setText("群主");
@@ -60,11 +70,13 @@ public class TeamSettingUserInfoAdapter extends BaseQuickAdapter<GroupInfoBean, 
 
         }
     }
+
     @NonNull
     @Override
     protected QuickViewHolder onCreateViewHolder(@NonNull Context context, @NonNull ViewGroup viewGroup, int i) {
-        return new QuickViewHolder(R.layout.cell_fun_team_setting_users,viewGroup);
+        return new QuickViewHolder(R.layout.cell_fun_team_setting_users, viewGroup);
     }
+
     protected int getItemCount(@NonNull List<? extends GroupInfoBean> items) {
         if (isManager) {
             return userInfoList.size() + 2;

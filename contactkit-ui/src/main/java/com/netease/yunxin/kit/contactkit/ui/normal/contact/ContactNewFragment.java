@@ -158,6 +158,7 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
                         return firstLetter.compareTo(secondLetter);
                     }
                 });
+
                 DataUtil.setFriendInfoList(mContactModels);
                 adapter.contacts = mContactModels;
                 if (_selectIndex == 0) {
