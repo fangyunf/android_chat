@@ -105,12 +105,12 @@ public class FunRedPacketRecordListActivity extends BaseActivity implements View
 
             if (selectedIndex == 0) {
                 if (!receiveList.isEmpty()) {
-                    receiveEndId = receiveList.get(receiveList.size() - 1).transcationId;
+                    receiveEndId = receiveList.get(receiveList.size() - 1).id;
                 }
                 getReceiveList(false);
             } else if (selectedIndex == 1) {
                 if (!sendList.isEmpty()) {
-                    sendEndId = sendList.get(sendList.size() - 1).transcationId;
+                    sendEndId = sendList.get(sendList.size() - 1).id;
                 }
                 getSendRecord(false);
             }
