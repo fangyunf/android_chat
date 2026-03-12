@@ -139,7 +139,7 @@ public class BillDetailListActivity extends BaseActivity implements View.OnClick
         binding.smLayout.setOnLoadMoreListener(refreshLayout -> {
             // 加载更多时设置 endId 为最后一条数据的 id
             if (!dataList.isEmpty()) {
-                endId = dataList.get(dataList.size() - 1).transcationId;
+                endId = dataList.get(dataList.size() - 1).id;
             }
             loadData(false);
         });
