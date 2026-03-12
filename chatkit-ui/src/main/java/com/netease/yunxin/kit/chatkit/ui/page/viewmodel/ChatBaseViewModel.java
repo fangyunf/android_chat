@@ -848,15 +848,22 @@ public abstract class ChatBaseViewModel extends BaseViewModel {
 
                                     }
                                 }
-                                
+
                                 if (content != null && content.startsWith("{")) {
                                     try {
                                         CustomMsgBean msgBean = new Gson().fromJson(content, CustomMsgBean.class);
+
                                         if (msgBean.sendUserId != null && msgBean.sendUserName != null && msgBean.receiveUserName != null && msgBean.receiveUserId != null) {
-                                            iterator.remove(); // 领取 tip 全部过滤，不占高度
+                                            {
+                                                if (!msgBean.sendUserId.equals(DataUtil.getUserid()) && !msgBean.receiveUserId.equals(DataUtil.getUserid())) {
+                                                    iterator.remove();
+                                                }
+
+                                            }
                                         }
+
                                     } catch (Exception e) {
-                                        // ignore
+
                                     }
                                 }
                             }
@@ -972,11 +979,18 @@ public abstract class ChatBaseViewModel extends BaseViewModel {
                             if (content != null && content.startsWith("{")) {
                                 try {
                                     CustomMsgBean msgBean = new Gson().fromJson(content, CustomMsgBean.class);
+
                                     if (msgBean.sendUserId != null && msgBean.sendUserName != null && msgBean.receiveUserName != null && msgBean.receiveUserId != null) {
-                                        iterator.remove(); // 领取 tip 全部过滤，不占高度
+                                        {
+                                            if (!msgBean.sendUserId.equals(DataUtil.getUserid()) && !msgBean.receiveUserId.equals(DataUtil.getUserid())) {
+                                                iterator.remove();
+                                            }
+
+                                        }
                                     }
+
                                 } catch (Exception e) {
-                                    // ignore
+
                                 }
                             }
                         }
