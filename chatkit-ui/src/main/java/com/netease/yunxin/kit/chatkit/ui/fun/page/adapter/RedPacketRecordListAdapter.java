@@ -38,13 +38,17 @@ public class RedPacketRecordListAdapter extends BaseQuickAdapter<CustomMsgBean, 
                     .setText(R.id.item_fun_red_packet_result_detail_time_tv, TimeUtil.stampToDate(bean.createTime))
                     .setText(R.id.item_fun_red_packet_result_detail_money_tv, NumberUtil.formartMoney(bean.amount) + "元");
             GlideUtil.yh_loadImageRoundedCorner(getContext(), quickViewHolder.getView(R.id.item_fun_red_packet_result_detail_head_iv), bean.avatar, 20);
-            for (GroupInfoBean tempBean : DataUtil.getFriendInfoList()) {
-                if (tempBean.userId.equals(bean.userId)) {
-                    if (!TextUtils.isEmpty(tempBean.remark)) {
-                        quickViewHolder.setText(R.id.item_fun_red_packet_result_detail_username_tv, tempBean.remark);
+            try {
+                for (GroupInfoBean tempBean : DataUtil.getFriendInfoList()) {
+                    if (tempBean.userId.equals(bean.userId)) {
+                        if (!TextUtils.isEmpty(tempBean.remark)) {
+                            quickViewHolder.setText(R.id.item_fun_red_packet_result_detail_username_tv, tempBean.remark);
+                        }
+                        break;
                     }
-                    break;
                 }
+            } catch (Exception e) {
+                quickViewHolder.setText(R.id.item_fun_red_packet_result_detail_username_tv, bean.name);
             }
         } else {
 

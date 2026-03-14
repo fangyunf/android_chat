@@ -143,7 +143,7 @@ public class IMApplication extends MultiDexApplication {
             }
             // 开始震动
         }
-        CrashReport.initCrashReport(getApplicationContext(), "f2e6ec25a3", false);
+        CrashReport.initCrashReport(getApplicationContext(), "70637036c6", false);
     }
 
     private void initThirdPart() {

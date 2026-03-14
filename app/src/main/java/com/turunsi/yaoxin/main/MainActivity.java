@@ -28,11 +28,13 @@ import androidx.fragment.app.Fragment;
 
 import com.google.gson.Gson;
 //import com.king.camera.scan.CameraScan;
+import com.google.gson.reflect.TypeToken;
 import com.king.app.dialog.AppDialog;
 import com.king.app.dialog.AppDialogConfig;
 import com.king.app.updater.AppUpdater;
 import com.king.app.updater.callback.UpdateCallback;
 import com.king.app.updater.http.OkHttpManager;
+import com.nanchen.wavesidebar.FirstLetterUtil;
 import com.netease.lava.nertc.sdk.NERtcOption;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
@@ -79,6 +81,7 @@ import com.netease.yunxin.kit.corekit.im.repo.SettingRepo;
 import com.netease.yunxin.nertc.ui.CallKitNotificationConfig;
 import com.netease.yunxin.nertc.ui.CallKitUI;
 import com.netease.yunxin.nertc.ui.CallKitUIOptions;
+import com.yaoxin.appbase.model.GroupInfoBean;
 import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.ParamsBean;
 import com.yaoxin.appbase.model.RegisterBean;
@@ -97,7 +100,10 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -120,6 +126,8 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
     public static final int REQUEST_CODE_SCAN = 0x01;
     private AlertDialog updateDialog; // 升级对话框
     private ProgressDialog progressDialog; // 下载进度条对话框
+
+
 
     //皮肤变更事件
     EventNotify<SkinEvent> skinNotify = new EventNotify<SkinEvent>() {
@@ -167,6 +175,8 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
 //            }
 //        }
     }
+
+
 
     void _update() {
         HttpUtil.apiW().customer_versionCkeck("AOS", BuildConfig.VERSION_NAME).enqueue(new CommonCallback<NetData>() {

@@ -40,7 +40,6 @@
             android:textSize="26sp" />
 
         <TextView
-
             android:id="@+id/activity_app_update_lasted_version_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

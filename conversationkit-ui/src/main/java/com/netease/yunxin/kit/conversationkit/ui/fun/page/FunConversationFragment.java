@@ -56,6 +56,7 @@ import com.netease.yunxin.kit.corekit.route.XKitRouter;
 import com.sunfusheng.marqueeview.IMarqueeItem;
 import com.yaoxin.appbase.model.GroupInfoBean;
 import com.yaoxin.appbase.model.NetData;
+import com.yaoxin.appbase.model.ParamsBean;
 import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
@@ -82,6 +83,8 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 public class FunConversationFragment extends ConversationBaseFragment {
+
+    ArrayList<GroupInfoBean> mContactModels = new ArrayList<>();
 
     private FunConversationFragmentBinding viewBinding;
 
@@ -340,6 +343,8 @@ public class FunConversationFragment extends ConversationBaseFragment {
                             if (!hasXiaoZhushou) {
                                 sendMessage(xiaozhushouId);
                             }
+
+                            _requestMemeber(1);
                         }
 
                         @Override
@@ -348,6 +353,38 @@ public class FunConversationFragment extends ConversationBaseFragment {
                         }
                     });
         }
+    }
+
+
+    protected void _requestMemeber(int page) {
+        ParamsBean registerBean = new ParamsBean();
+        registerBean.page = page;
+        HttpUtil.apiW().friends_friendLists(registerBean).enqueue(new CommonCallback<NetData>() {
+            @Override
+            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                if (page == 1) {
+                    mContactModels.clear();
+                }
+                Type type = new TypeToken<List<GroupInfoBean>>() {
+                }.getType();
+                List<GroupInfoBean> tempBeanList = new Gson().fromJson(body.data.toString(), type);
+                for (GroupInfoBean tempBean : tempBeanList) {
+                    if (!tempBean.userId.equals(DataUtil.getKeFuId())) {
+                        mContactModels.add(tempBean);
+                    }
+                }
+                if (tempBeanList.size() == 100) {
+                    _requestMemeber(page + 1);
+                    return;
+                }
+                DataUtil.setFriendInfoList(mContactModels);
+            }
+
+            @Override
+            public void Failure(Call<NetData> call, Throwable t) {
+
+            }
+        });
     }
 
     void requestKefu(String kefuId) {
