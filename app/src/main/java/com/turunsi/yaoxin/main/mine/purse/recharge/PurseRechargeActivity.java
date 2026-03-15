@@ -125,11 +125,11 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
         adpter = new Recharge_Adpter();
         List<String> list = new ArrayList<>();
         list.add("100");
+        list.add("200");
         list.add("300");
         list.add("500");
         list.add("1000");
-        list.add("3000");
-        list.add("5000");
+        list.add("2000");
         adpter.setItems(list);
         adpter.selectStr = "100";
 //        binding.activityMinePurseRechargeDetailTv.setText("≈" + adpter.selectStr+"CNY");
