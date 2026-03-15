@@ -24,15 +24,33 @@
         android:orientation="vertical"
         android:paddingRight="@dimen/dimen_7_dp">
 
-        <TextView
-            android:id="@+id/fun_chat_message_red_packet_view_holder_greeting_tv"
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:layout_marginTop="20dp"
-            android:text="恭喜发财,大吉大利"
-            android:textColor="#ffffffff"
-            android:textSize="16sp" />
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/fun_chat_message_red_packet_view_holder_greeting_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:layout_marginTop="20dp"
+                android:text="恭喜发财,大吉大利"
+                android:textColor="#ffffffff"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/fun_chat_look_red"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:text="查看红包"
+                android:textColor="#ffffffff"
+                android:textSize="13sp"
+                android:visibility="gone" />
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/fun_chat_message_red_packet_view_holder_money_tv"

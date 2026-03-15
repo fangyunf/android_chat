@@ -19,14 +19,15 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
+import com.turunsi.yaoxin.R;
 import com.turunsi.yaoxin.databinding.ActivityMineAccountCodeBinding;
-import com.turunsi.yaoxin.databinding.ActivityMineAccountDetailBinding;
 import com.yaoxin.appbase.activity.BaseActivity;
 import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
+import com.yaoxin.appbase.utils.BaseEvent;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.GlideUtil;
 import com.yaoxin.appbase.utils.ImageUtil;
@@ -37,6 +38,8 @@ import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
 import com.zhihu.matisse.filter.Filter;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.util.List;
@@ -72,12 +75,20 @@ public class AccoutCodeDetailActivity extends BaseActivity implements View.OnCli
 
         viewBinding.activityMineAccountCodeNav.addCloseImageButton().setOnClickListener(this);
         viewBinding.activityMineAccountCodeSavePhoto.setOnClickListener(this);
+        viewBinding.activityMineAccountCodeScanTv.setOnClickListener(this);
 
-        Bitmap bitmap = generateQRCode(DataUtil.getUserInfo().memberCode);
+        UserBean user = DataUtil.getUserInfo();
+        if (user != null) {
+            viewBinding.activityMineAccountCodeNameTv.setText(DataUtil.getUserInfo().username);
+            viewBinding.activityMineAccountCodeSubtitleTv.setText("ID:" + DataUtil.getUserInfo().memberCode);
+            GlideUtil.loadImage(this, viewBinding.activityMineAccountCodeHeadIv,
+                    user.avatar, com.yaoxin.appbase.R.mipmap.app_default_base_icon_geren, com.yaoxin.appbase.R.mipmap.app_default_base_icon_geren);
+        }
+
+        Bitmap bitmap = generateQRCode(user != null ? user.memberCode : "");
         if (bitmap != null) {
             viewBinding.activityMineAccountCodeCodeIv.setImageBitmap(bitmap);
         }
-
     }
 
     private Bitmap generateQRCode(String text) {
@@ -103,10 +114,12 @@ public class AccoutCodeDetailActivity extends BaseActivity implements View.OnCli
     public void onClick(View v) {
         if (v == viewBinding.activityMineAccountCodeNav.addCloseImageButton()) {
             finish();
-
         } else if (v == viewBinding.activityMineAccountCodeSavePhoto) {
             ImageUtil.saveImageViewToGallery(this, viewBinding.activityMineAccountCodeCodeIv);
+        } else if (v == viewBinding.activityMineAccountCodeScanTv) {
+            EventBus.getDefault().post(new BaseEvent("gotoScan"));
         }
     }
+
 
 }

@@ -1,128 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tl="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#f5f5f5"
+    android:orientation="vertical">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scaleType="fitXY"
-        android:src="@mipmap/common_top_bg" />
+    <com.yaoxin.appbase.navbar.NavToolbar
+        android:id="@+id/activity_mine_account_code_nav"
+        style="@style/WhiteFontToolbar"
+        android:background="@color/white"
+        app:back_icon="@mipmap/temp_ic_back"
+        app:support_translucent_status_bar="false"
+        app:title="二维码"
+        app:title_text_color="@color/color_333333"
+        app:under_divider_color="@android:color/transparent" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_horizontal"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@mipmap/qr_code_bg"
         android:orientation="vertical">
 
-        <com.yaoxin.appbase.navbar.NavToolbar
-            android:id="@+id/activity_mine_account_code_nav"
-            style="@style/WhiteFontToolbar"
-            android:background="@color/transparent"
-            app:back_icon="@mipmap/temp_ic_back_white"
-            app:support_translucent_status_bar="false"
-            app:title="我的二维码"
-            app:title_text_color="@color/white"
-            app:under_divider_color="@android:color/transparent" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="20dp"
+            android:text="扫一扫"
+            android:textColor="@color/color_333333"
+            android:textSize="16sp" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:text="添加我为好友"
+            android:textColor="@color/color_333333"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:fillViewport="true"
+            android:paddingHorizontal="20dp">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="36dp"
+                    android:background="@drawable/bg_white_rounded_20"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="24dp"
+                    android:paddingTop="48dp"
+                    android:paddingBottom="28dp">
+
+                    <TextView
+                        android:id="@+id/activity_mine_account_code_name_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:textColor="@color/color_333333"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/activity_mine_account_code_subtitle_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:textColor="@color/color_333333"
+                        android:textSize="13sp"
+                         />
+
+                    <ImageView
+                        android:id="@+id/activity_mine_account_code_code_iv"
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
+                        android:layout_marginTop="20dp"
+                        android:contentDescription="@null" />
+                </LinearLayout>
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/activity_mine_account_code_head_iv"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    android:layout_gravity="top|center_horizontal"
+                    android:scaleType="centerCrop"
+                    app:riv_corner_radius="36dp" />
+            </FrameLayout>
+        </ScrollView>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="350dp"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="100dp"
-            android:background="@drawable/bg_white_rounded_20"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:padding="15dp">
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingHorizontal="24dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="24dp">
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="我的二维码"
-                android:textColor="#ff8e5f26"
-                android:textSize="15sp" />
+                android:id="@+id/activity_mine_account_code_save_photo"
+                android:layout_width="0dp"
+                android:layout_height="44dp"
+                android:layout_marginEnd="12dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_white_rounded_stroke_22"
+                android:gravity="center"
+                android:text="保存图片"
+                android:textColor="@color/color_333333"
+                android:textSize="16sp" />
 
-            <RelativeLayout
-                android:layout_width="210dp"
-                android:layout_height="210dp"
-                android:layout_marginTop="40dp">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@mipmap/account_code_qrcode_bg" />
-
-                <ImageView
-                    android:id="@+id/activity_mine_account_code_code_iv"
-                    android:layout_width="160dp"
-                    android:layout_height="160dp"
-                    android:layout_centerInParent="true" />
-            </RelativeLayout>
+            <TextView
+                android:id="@+id/activity_mine_account_code_scan_tv"
+                android:layout_width="0dp"
+                android:layout_height="44dp"
+                android:layout_marginStart="12dp"
+                android:layout_weight="1.4"
+                android:background="@drawable/fun_bg_app_theme_color_rounded_22"
+                android:gravity="center"
+                android:text="扫一扫"
+                android:textColor="@color/color_white"
+                android:textSize="16sp" />
         </LinearLayout>
-        <!--        <RelativeLayout-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content">-->
 
-        <!--            <RelativeLayout-->
-        <!--                android:layout_width="317dp"-->
-        <!--                android:layout_height="345dp"-->
-        <!--                android:layout_centerHorizontal="true"-->
-        <!--                android:layout_marginTop="80dp"-->
-        <!--                android:background="@color/white">-->
-
-        <!--                <ImageView-->
-        <!--                    android:layout_width="match_parent"-->
-        <!--                    android:layout_height="match_parent"-->
-        <!--                    android:src="@mipmap/account_code_bg" />-->
-
-        <!--                <ImageView-->
-        <!--                    android:id="@+id/activity_mine_account_code_code_iv"-->
-        <!--                    android:layout_width="150dp"-->
-        <!--                    android:layout_height="150dp"-->
-        <!--                    android:layout_centerHorizontal="true"-->
-        <!--                    android:layout_marginTop="140dp" />-->
-        <!--            </RelativeLayout>-->
-
-        <!--            <LinearLayout-->
-        <!--                android:layout_width="match_parent"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:layout_marginTop="50dp"-->
-        <!--                android:gravity="center_horizontal"-->
-        <!--                android:orientation="vertical">-->
-
-
-        <!--                <com.makeramen.roundedimageview.RoundedImageView-->
-        <!--                    android:id="@+id/activity_mine_account_code_head_iv"-->
-        <!--                    android:layout_width="58dp"-->
-        <!--                    android:layout_height="58dp"-->
-        <!--                    android:scaleType="centerCrop"-->
-        <!--                    app:riv_corner_radius="29dp" />-->
-
-        <!--                <TextView-->
-        <!--                    android:id="@+id/activity_mine_account_code_name_tv"-->
-        <!--                    android:layout_width="wrap_content"-->
-        <!--                    android:layout_height="28dp"-->
-        <!--                    android:layout_marginTop="15dp"-->
-        <!--                    android:text="会飞的洋芋"-->
-        <!--                    android:textColor="#ff000000"-->
-        <!--                    android:textSize="20sp" />-->
-        <!--            </LinearLayout>-->
-        <!--        </RelativeLayout>-->
-
-        <TextView
-            android:id="@+id/activity_mine_account_code_save_photo"
-            android:layout_width="194dp"
-            android:layout_height="44dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/fun_bg_app_theme_color_rounded_22"
-            android:gravity="center"
-            android:text="保存二维码至相册"
-            android:textColor="#ffffffff"
-            android:textSize="16sp" />
     </LinearLayout>
 
-</RelativeLayout>
+
+</LinearLayout>

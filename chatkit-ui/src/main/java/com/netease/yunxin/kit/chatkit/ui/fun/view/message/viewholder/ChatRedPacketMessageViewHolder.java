@@ -63,12 +63,28 @@ public class ChatRedPacketMessageViewHolder extends FunChatBaseMessageViewHolder
             }
             viewBinding.funChatMessageRedPacketViewHolderBgIv.setImageResource((bean.type == 21) ? R.drawable.chat_redpacket_purple_bg_no_open : R.drawable.chat_red_packet_cell_bg_no_open);
             if (bean.type == 21) {
+                viewBinding.funChatLookRed.setVisibility(View.VISIBLE);
+                View root = viewBinding.getRoot();
+                ViewGroup.LayoutParams lp = root.getLayoutParams();
+                if (lp != null) {
+                    lp.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100f, root.getResources().getDisplayMetrics());
+                    root.setLayoutParams(lp);
+                }
                 viewBinding.funChatMessageRedPacketViewHolderGreetingTv.setText(bean.result.toUserName);
                 viewBinding.funChatMessageRedPacketViewHolderTypeTv.setText("专属红包" + "¥" + NumberUtil.formartMoney(bean.result.amount));
-            } else if (bean.type == 22) {
+            } else {
+                viewBinding.funChatLookRed.setVisibility(View.GONE);
+                View root = viewBinding.getRoot();
+                ViewGroup.LayoutParams lp = root.getLayoutParams();
+                if (lp != null) {
+                    lp.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 90f, root.getResources().getDisplayMetrics());
+                    root.setLayoutParams(lp);
+                }
+            }
+            if (bean.type == 22) {
                 viewBinding.funChatMessageRedPacketViewHolderGreetingTv.setText(bean.result.title);
                 viewBinding.funChatMessageRedPacketViewHolderTypeTv.setText("红包" + "¥" + NumberUtil.formartMoney(bean.result.amount));
-            } else {
+            } else if (bean.type != 21) {
                 viewBinding.funChatMessageRedPacketViewHolderGreetingTv.setText(bean.result.title);
                 viewBinding.funChatMessageRedPacketViewHolderTypeTv.setText("拼手气" + "¥" + NumberUtil.formartMoney(bean.result.amount));
             }

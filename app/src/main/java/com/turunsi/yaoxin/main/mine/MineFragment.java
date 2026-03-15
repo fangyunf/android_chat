@@ -333,7 +333,8 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 //                    .navigate();
         } else if (v == binding.fragmentMineErweimaIv) {
             if (getActivity() != null) {
-                AccountCodeDialogFragment.showV(getActivity().getSupportFragmentManager());
+                //AccountCodeDialogFragment.showV(getActivity().getSupportFragmentManager());
+                AccoutCodeDetailActivity.start(AccoutCodeDetailActivity.class, context, null);
             }
         } else if (v == binding.fragmentMineYsglView) {
 
