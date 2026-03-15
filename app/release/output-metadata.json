@@ -4,7 +4,7 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.turunsi.wuyoucheng",
+  "applicationId": "com.turunsi.anyu",
   "variantName": "release",
   "elements": [
     {
@@ -13,7 +13,7 @@
       "attributes": [],
       "versionCode": 7,
       "versionName": "1.0.6",
-      "outputFile": "wuyoucheng_release_v1.0.6.apk"
+      "outputFile": "anyu_release_v1.0.6.apk"
     }
   ],
   "elementType": "File"

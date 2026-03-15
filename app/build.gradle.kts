@@ -11,9 +11,9 @@ android {
     compileSdk = 33
     signingConfigs {
         create("release") {
-            keyAlias = "baoxin"
+            keyAlias = "anyu"
             keyPassword = "qqqq1111"
-            storeFile = file("baoxin.jks")
+            storeFile = file("anyu.jks")
             storePassword = "qqqq1111"
         }
     }
