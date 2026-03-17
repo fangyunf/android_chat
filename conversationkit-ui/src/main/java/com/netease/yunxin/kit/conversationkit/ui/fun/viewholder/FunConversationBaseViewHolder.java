@@ -5,6 +5,7 @@
 package com.netease.yunxin.kit.conversationkit.ui.fun.viewholder;
 
 import android.graphics.drawable.Drawable;
+import android.text.TextUtils;
 import android.view.View;
 import androidx.annotation.NonNull;
 import com.netease.yunxin.kit.common.ui.utils.TimeFormatUtils;
@@ -15,6 +16,8 @@ import com.netease.yunxin.kit.conversationkit.ui.R;
 import com.netease.yunxin.kit.conversationkit.ui.common.ConversationUtils;
 import com.netease.yunxin.kit.conversationkit.ui.databinding.FunConversationViewHolderBinding;
 import com.netease.yunxin.kit.conversationkit.ui.model.ConversationBean;
+import com.yaoxin.appbase.utils.AppProxy;
+import com.yaoxin.appbase.utils.DataUtil;
 
 public class FunConversationBaseViewHolder extends BaseViewHolder<ConversationBean> {
 
@@ -41,8 +44,15 @@ public class FunConversationBaseViewHolder extends BaseViewHolder<ConversationBe
       viewBinding.unreadTv.setVisibility(View.GONE);
     } else {
       viewBinding.muteIv.setVisibility(View.GONE);
-      if (data.infoData.getUnreadCount() > 0) {
-        int count = data.infoData.getUnreadCount();
+      int count = data.infoData.getUnreadCount();
+      // 如果是“小助手”会话，把“自己给自己”的未读数也叠加上来
+      if (data.param != null && !TextUtils.isEmpty(DataUtil.getXiaoZhuShouId())) {
+        String targetId = (String) data.param;
+        if (TextUtils.equals(targetId, DataUtil.getXiaoZhuShouId())) {
+          count += AppProxy.getInstance().getSelfToSelfUnread();
+        }
+      }
+      if (count > 0) {
         String content;
         if (count >= 100) {
           content = "99+";

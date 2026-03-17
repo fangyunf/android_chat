@@ -39,6 +39,8 @@ public class AppProxy {
     public static String searchKeyWord0 = "";
     public static String searchKeyWord1 = "";
     public int showType = 0;
+    // 个人会话（自己给自己）的未读数，用于在小助手会话上展示
+    private int selfToSelfUnread = 0;
 
     public static AppProxy getInstance() {
         return SingletonHolder.instance;
@@ -167,6 +169,11 @@ public class AppProxy {
         return TYPE_PRODUCT_BETA == sProductType;
     }
 
+    public int getSelfToSelfUnread() {
+        return selfToSelfUnread;
+    }
 
-
+    public void setSelfToSelfUnread(int selfToSelfUnread) {
+        this.selfToSelfUnread = selfToSelfUnread;
+    }
 }

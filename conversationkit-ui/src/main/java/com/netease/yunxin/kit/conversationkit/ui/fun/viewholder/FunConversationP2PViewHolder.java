@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+
 import com.netease.yunxin.kit.common.ui.utils.AvatarColor;
 import com.netease.yunxin.kit.common.utils.SizeUtils;
 import com.netease.yunxin.kit.conversationkit.ui.R;
@@ -21,52 +22,52 @@ import java.util.List;
 
 public class FunConversationP2PViewHolder extends FunConversationBaseViewHolder {
 
-  public FunConversationP2PViewHolder(@NonNull FunConversationViewHolderBinding binding) {
-    super(binding);
-  }
+    public FunConversationP2PViewHolder(@NonNull FunConversationViewHolderBinding binding) {
+        super(binding);
+    }
 
-  @Override
-  public void onBindData(ConversationBean data, int position) {
-    super.onBindData(data, position);
+    @Override
+    public void onBindData(ConversationBean data, int position) {
+        super.onBindData(data, position);
 
-    viewBinding.funConversationViewHolderIdTv.setVisibility(View.GONE);
+        viewBinding.funConversationViewHolderIdTv.setVisibility(View.GONE);
 
-    if (data.param.equals(DataUtil.getKeFuId())) {
+        if (data.param.equals(DataUtil.getKeFuId())) {
 
-      String name = "客服";
-      viewBinding.avatarView.setData(
-              com.yaoxin.appbase.R.mipmap.app_default_base_icon_kefu,
-              data.infoData.getAvatarName(),
-              AvatarColor.avatarColor(data.infoData.getContactId()));
-      viewBinding.nameTv.setText(name);
-    } else if (data.param.equals(DataUtil.getXiaoZhuShouId())) {
+            String name = "客服";
+            viewBinding.avatarView.setData(
+                    com.yaoxin.appbase.R.mipmap.app_default_base_icon_kefu,
+                    data.infoData.getAvatarName(),
+                    AvatarColor.avatarColor(data.infoData.getContactId()));
+            viewBinding.nameTv.setText(name);
+        } else if (data.param.equals(DataUtil.getXiaoZhuShouId())) {
 
-      String name = "小助手";
-      viewBinding.avatarView.setData(
-              com.yaoxin.appbase.R.mipmap.app_default_base_icon_xiaozhushou,
-              data.infoData.getAvatarName(),
-              AvatarColor.avatarColor(data.infoData.getContactId()));
-      viewBinding.nameTv.setText(name);
-    } else {
+            String name = "小助手";
+            viewBinding.avatarView.setData(
+                    com.yaoxin.appbase.R.mipmap.app_default_base_icon_xiaozhushou,
+                    data.infoData.getAvatarName(),
+                    AvatarColor.avatarColor(data.infoData.getContactId()));
+            viewBinding.nameTv.setText(name);
+        } else {
 //      https://ao/defaultAvatar/8.png
 
-      String name = data.infoData.getName();
-      if (data.infoData != null && data.infoData.getAvatar() != null) {
-        if (data.infoData.getAvatar().startsWith("https://ao")) {
+            String name = data.infoData.getName();
+            if (data.infoData != null && data.infoData.getAvatar() != null) {
+                if (data.infoData.getAvatar().startsWith("https://ao")) {
 
-            viewBinding.avatarView.setData(
-                    com.yaoxin.appbase.R.mipmap.app_default_base_icon_geren,
-                    data.infoData.getAvatarName(),
-                    AvatarColor.avatarColor(data.infoData.getContactId()));
-        } else {
-            viewBinding.avatarView.setData(
-                    data.infoData.getAvatar(),
-                    data.infoData.getAvatarName(),
-                    AvatarColor.avatarColor(data.infoData.getContactId()));
-        }
-      }
+                    viewBinding.avatarView.setData(
+                            com.yaoxin.appbase.R.mipmap.app_default_base_icon_geren,
+                            data.infoData.getAvatarName(),
+                            AvatarColor.avatarColor(data.infoData.getContactId()));
+                } else {
+                    viewBinding.avatarView.setData(
+                            data.infoData.getAvatar(),
+                            data.infoData.getAvatarName(),
+                            AvatarColor.avatarColor(data.infoData.getContactId()));
+                }
+            }
 
-      viewBinding.nameTv.setText(name);
+            viewBinding.nameTv.setText(name);
 //      List<GroupInfoBean> friendInfoList = DataUtil.getFriendInfoList();
 //      if (!friendInfoList.isEmpty()) {
 //        for (GroupInfoBean tempBean :friendInfoList) {
@@ -77,26 +78,19 @@ public class FunConversationP2PViewHolder extends FunConversationBaseViewHolder 
 //          }
 //        }
 //      }
-
-      }
-    ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) viewBinding.rootLayout.getLayoutParams();
-    layoutParams.height = SizeUtils.dp2px(72);
-    if (!AppProxy.searchKeyWord0.isEmpty()) {
-      if (!viewBinding.nameTv.getText().toString().contains(AppProxy.searchKeyWord0)) {
-        layoutParams.height = 0;
-      }
+        }
+        ViewGroup.MarginLayoutParams layoutParams =
+                (ViewGroup.MarginLayoutParams) viewBinding.rootLayout.getLayoutParams();
+        // 自己给自己会话不在列表中展示，直接把高度置为 0
+        if (data.param.equals(DataUtil.getUserid())) {
+            layoutParams.height = SizeUtils.dp2px(0);
+        } else {
+            layoutParams.height = SizeUtils.dp2px(72);
+            if (!AppProxy.searchKeyWord0.isEmpty()
+                    && !viewBinding.nameTv.getText().toString().contains(AppProxy.searchKeyWord0)) {
+                layoutParams.height = 0;
+            }
+        }
+        viewBinding.rootLayout.setLayoutParams(layoutParams);
     }
-
-    viewBinding.rootLayout.setLayoutParams(layoutParams);
-//    viewBinding.rootLayout.setBackground(viewBinding.rootLayout.getContext().getDrawable(com.yaoxin.appbase.R.drawable.bg_white_rounded_12));
-//    ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) viewBinding.rootLayout.getLayoutParams();
-//    if (data.param.equals(DataUtil.getUserid()) || AppProxy.getInstance().showType == 2) {
-//      layoutParams.topMargin = 0;
-//      layoutParams.height = 0;
-//    } else {
-//      layoutParams.height = SizeUtils.dp2px(72);
-//      layoutParams.topMargin = SizeUtils.dp2px(5);
-//    }
-//    viewBinding.rootLayout.setLayoutParams(layoutParams);
-  }
 }
