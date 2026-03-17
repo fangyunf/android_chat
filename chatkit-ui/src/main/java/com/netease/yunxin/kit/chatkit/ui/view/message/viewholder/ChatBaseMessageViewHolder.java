@@ -40,6 +40,7 @@ import com.netease.yunxin.kit.common.utils.SizeUtils;
 import com.netease.yunxin.kit.corekit.im.IMKitClient;
 import com.netease.yunxin.kit.corekit.im.model.UserInfo;
 import com.netease.yunxin.kit.corekit.im.provider.FetchCallback;
+import com.yaoxin.appbase.utils.ResourceHelper;
 
 import java.util.List;
 import java.util.Map;
@@ -816,15 +817,48 @@ public abstract class ChatBaseMessageViewHolder extends CommonBaseMessageViewHol
      * @param messageBean 待展示消息
      */
     protected void onCommonViewVisibleConfig(ChatMessageBean messageBean) {
+
+        baseViewBinding.ivOtherGrade.setVisibility(View.GONE);
+
+        String messageUser = messageBean.getMessageData().getMessage().getFromAccount();
+        UserInfo userInfo = MessageHelper.getChatMessageUserInfo(messageUser);
+        // 安全地获取等级值
+        int grader = 0;
+        if (userInfo != null && userInfo.getExtensionMap() != null) {
+            Object gradeObj = userInfo.getExtensionMap().get("grade");
+            if (gradeObj instanceof Number) {
+                grader = ((Number) gradeObj).intValue();
+            } else if (gradeObj instanceof String) {
+                try {
+                    grader = Integer.parseInt((String) gradeObj);
+                } catch (Exception e) {
+                    grader = 0;
+                }
+            }
+        }
+        
         if (MessageHelper.isReceivedMessage(messageBean) || isForwardMsg()) {
             // 收到消息当前用户头像隐藏，对方用户头像显示
             baseViewBinding.myAvatar.setVisibility(View.GONE);
             baseViewBinding.otherUserAvatar.setVisibility(View.VISIBLE);
+            if (grader > 0) {
+                baseViewBinding.ivOtherGrade.setVisibility(View.VISIBLE);
+                int gradeColor = ResourceHelper.getGradeColor(baseViewBinding.myAvatar.getContext(), grader);
+                baseViewBinding.ivOtherGrade.setImageDrawable(ResourceHelper.getGradeDrawable(baseViewBinding.myAvatar.getContext(), grader));
+            } else {
+                baseViewBinding.ivOtherGrade.setVisibility(View.GONE);
+            }
         } else {
             // 发送消息当前用户头像显示，对方用户头像隐藏
+            baseViewBinding.ivOtherGrade.setVisibility(View.GONE);
             baseViewBinding.myAvatar.setVisibility(View.VISIBLE);
             baseViewBinding.otherUserAvatar.setVisibility(View.GONE);
         }
+
+        if (messageBean.getMessageData().getMessage().getSessionType() == SessionTypeEnum.P2P) {
+            baseViewBinding.ivOtherGrade.setVisibility(View.GONE);
+        }
+
         // 撤回消息消息状态隐藏
         if (messageBean.isRevoked()) {
             baseViewBinding.messageStatus.setVisibility(View.GONE);

@@ -17,6 +17,7 @@ import com.netease.yunxin.kit.conversationkit.ui.model.ConversationBean;
 import com.yaoxin.appbase.model.GroupInfoBean;
 import com.yaoxin.appbase.utils.AppProxy;
 import com.yaoxin.appbase.utils.DataUtil;
+import com.yaoxin.appbase.utils.ResourceHelper;
 
 import java.util.List;
 
@@ -92,5 +93,16 @@ public class FunConversationP2PViewHolder extends FunConversationBaseViewHolder 
             }
         }
         viewBinding.rootLayout.setLayoutParams(layoutParams);
-    }
+
+
+        if (data.infoData != null && data.infoData.getUserInfo() != null && data.infoData.getUserInfo().getExtensionMap() != null && data.infoData.getUserInfo().getExtensionMap().get("grade") != null) {
+            int grader = (int) data.infoData.getUserInfo().getExtensionMap().get("grade");
+            if (grader > 0) {
+                viewBinding.tvGrader.setVisibility(View.VISIBLE);
+                viewBinding.tvGrader.setImageDrawable(ResourceHelper.getGradeDrawable(viewBinding.tvGrader.getContext(), grader));
+            } else {
+                viewBinding.tvGrader.setVisibility(View.GONE);
+            }
+
+        }
 }
