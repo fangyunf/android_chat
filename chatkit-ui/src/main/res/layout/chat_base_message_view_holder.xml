@@ -90,6 +90,16 @@ android:layout_height="wrap_content">
         app:layout_constraintStart_toEndOf="@id/otherUserAvatar"
         app:layout_constraintTop_toBottomOf="@+id/tvTime" />
 
+    <ImageView
+        android:id="@+id/ivOtherGrade"
+        android:layout_width="40dp"
+        android:layout_height="20dp"
+        android:layout_marginLeft="5dp"
+        android:src="@mipmap/mine_grade_level_1"
+        android:visibility="gone"
+        app:layout_constraintStart_toEndOf="@+id/otherUsername"
+        app:layout_constraintTop_toTopOf="@+id/otherUsername" />
+
     <TextView
         android:id="@+id/myName"
         android:layout_width="@dimen/chat_name_max_length"
