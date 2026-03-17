@@ -40,7 +40,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dimen_16_dp"
-            android:layout_marginEnd="@dimen/dimen_100_dp"
             android:ellipsize="end"
             android:gravity="center_vertical">
 
@@ -48,9 +47,18 @@
                 android:id="@+id/nameTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:maxWidth="200dp"
                 android:maxLines="1"
                 android:textColor="@color/fun_conversation_item_title_text_color"
                 android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/tvGrader"
+                android:layout_width="@dimen/dimen_40_dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dimen_5_dp"
+                android:src="@mipmap/mine_grade_level_1"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/fun_conversation_view_holder_id_tv"
