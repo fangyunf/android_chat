@@ -72,7 +72,8 @@
                     android:layout_marginTop="12dp"
                     android:text="3. 提现费率: 每笔服务费6.8%+2元/次;"
                     android:textColor="@color/color_333333"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:visibility="gone" />
 
                 <!-- 到账时间说明 -->
                 <TextView

@@ -127,8 +127,6 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
     private AlertDialog updateDialog; // 升级对话框
     private ProgressDialog progressDialog; // 下载进度条对话框
 
-
-
     //皮肤变更事件
     EventNotify<SkinEvent> skinNotify = new EventNotify<SkinEvent>() {
         @Override
@@ -174,9 +172,33 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
 //                        .navigate();
 //            }
 //        }
+        getMessageCount();
     }
 
+    private void getMessageCount() {
+        HttpUtil.apiW().friends_applyListNum(new RegisterBean()).enqueue(new CommonCallback<NetData>() {
+            @Override
+            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                GroupInfoBean applyNumBean = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
+                int count = applyNumBean.friendApplyNum + applyNumBean.groupApplyNum;
+                if (count > 0) {
+                    if (count > 99) {
+                        activityMainBinding.contactDot.setText("99+");
+                    } else {
+                        activityMainBinding.contactDot.setText(count + "");
+                    }
+                    activityMainBinding.contactDot.setVisibility(View.VISIBLE);
+                } else {
+                    activityMainBinding.contactDot.setVisibility(View.GONE);
+                }
+            }
 
+            @Override
+            public void Failure(Call<NetData> call, Throwable t) {
+
+            }
+        });
+    }
 
     void _update() {
         HttpUtil.apiW().customer_versionCkeck("AOS", BuildConfig.VERSION_NAME).enqueue(new CommonCallback<NetData>() {
@@ -588,13 +610,13 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
             checkAndRequestScanPermissions();
         } else if ("gotoCreate".equals(event.getTag())) {
             XKitRouter.withKey(com.yaoxin.appbase.net.Constant.FunSelected_User_ActivityKey).withContext(this).withParam("type", "1").navigate();
-
         } else if ("login_out".equals(event.getTag())) {
             IMUtil.loginOut(this);
         } else if ("add_friend".equals(event.getTag())) {
             XKitRouter.withKey(RouterConstant.PATH_FUN_ADD_FRIEND_PAGE).withContext(this).navigate();
+        } else if ("refresh_notice".equals(event.getTag())) {
+            getMessageCount();
         }
-
     }
 
     @Override
