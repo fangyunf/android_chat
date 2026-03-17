@@ -128,6 +128,15 @@
                                 android:layout_marginLeft="10dp"
                                 android:src="@mipmap/mine_index_copy" />
                         </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/iv_grade"
+                            android:layout_width="@dimen/dimen_40_dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen_5_dp"
+                            android:src="@mipmap/mine_grade_level_1"
+                            android:visibility="gone" />
+
                     </LinearLayout>
 
                     <ImageView
