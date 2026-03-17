@@ -51,7 +51,7 @@ public class FunConversationBaseViewHolder extends BaseViewHolder<ConversationBe
             if (data.param != null && !TextUtils.isEmpty(DataUtil.getXiaoZhuShouId())) {
                 String targetId = (String) data.param;
                 if (TextUtils.equals(targetId, DataUtil.getXiaoZhuShouId())) {
-                    count += AppProxy.getInstance().getSelfToSelfUnread();
+                    count = AppProxy.getInstance().getSelfToSelfUnread();
                 }
             }
             if (count > 0) {
