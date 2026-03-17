@@ -20,6 +20,7 @@ import com.netease.yunxin.kit.conversationkit.ui.model.ConversationBean;
 import com.yaoxin.appbase.model.GroupInfoBean;
 import com.yaoxin.appbase.utils.AppProxy;
 import com.yaoxin.appbase.utils.DataUtil;
+import com.yaoxin.appbase.utils.ResourceHelper;
 
 import java.util.List;
 
@@ -95,23 +96,12 @@ public class FunConversationP2PViewHolder extends FunConversationBaseViewHolder 
             }
         }
         viewBinding.rootLayout.setLayoutParams(layoutParams);
-        
+
         if (data.infoData != null && data.infoData.getUserInfo() != null && data.infoData.getUserInfo().getExtensionMap() != null && data.infoData.getUserInfo().getExtensionMap().get("grade") != null) {
             int grader = (int) data.infoData.getUserInfo().getExtensionMap().get("grade");
             if (grader > 0) {
                 viewBinding.tvGrader.setVisibility(View.VISIBLE);
-                String imageName = "mine_grade_level_" + DataUtil.getUserInfo().grade;
-                Resources resources = viewBinding.tvGrader.getResources();
-                int resId = resources.getIdentifier(imageName, "mipmap", viewBinding.tvGrader.getContext().getPackageName());
-                // 如果找到了资源，则可以使用这个ID获取Drawable
-                Drawable drawable = null;
-                if (resId > 0) {
-                    drawable = ContextCompat.getDrawable(viewBinding.tvGrader.getContext(), resId);
-                }
-                // 如果需要将drawable设置到ImageView中
-                if (drawable != null) {
-                    viewBinding.tvGrader.setImageDrawable(drawable);
-                }
+                viewBinding.tvGrader.setImageDrawable(ResourceHelper.getGradeDrawable(viewBinding.tvGrader.getContext(), grader));
             } else {
                 viewBinding.tvGrader.setVisibility(View.GONE);
             }

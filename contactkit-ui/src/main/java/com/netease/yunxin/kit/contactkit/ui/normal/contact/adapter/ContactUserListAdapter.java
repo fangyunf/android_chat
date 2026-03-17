@@ -1,6 +1,7 @@
 package com.netease.yunxin.kit.contactkit.ui.normal.contact.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -19,6 +20,7 @@ import com.netease.yunxin.kit.corekit.route.XKitRouter;
 import com.yaoxin.appbase.model.GroupInfoBean;
 import com.yaoxin.appbase.net.Constant;
 import com.yaoxin.appbase.utils.GlideUtil;
+import com.yaoxin.appbase.utils.ResourceHelper;
 
 import java.util.List;
 
@@ -73,6 +75,9 @@ public class ContactUserListAdapter extends BaseQuickAdapter<GroupInfoBean, Quic
 
         ImageView iv = quickViewHolder.getView(R.id.cell_fun_team_setting_users_mingdan_head_iv);
         TextView tv = quickViewHolder.getView(R.id.cell_fun_team_setting_users_mingdan_tv_index);
+
+        ImageView ivGrade = quickViewHolder.getView(R.id.iv_grade);
+
         GroupInfoBean infoBean1;
         if (_isSearch) {
             infoBean1 = contacts.get(position);
@@ -89,7 +94,12 @@ public class ContactUserListAdapter extends BaseQuickAdapter<GroupInfoBean, Quic
         quickViewHolder.setText(R.id.cell_fun_team_setting_users_mingdan_name_tv, (infoBean1.remark != null && !infoBean1.remark.isEmpty()) ? infoBean1.remark : infoBean1.name);
         GlideUtil.yh_loadImageRoundedCorner(getContext(), iv, infoBean1.avatar, 22);
 
-
+        if (infoBean1.grade > 0) {
+            ivGrade.setVisibility(View.VISIBLE);
+            ivGrade.setImageDrawable(ResourceHelper.getGradeDrawable(getContext(), infoBean1.grade));
+        } else {
+            ivGrade.setVisibility(View.GONE);
+        }
     }
 
     @Override
