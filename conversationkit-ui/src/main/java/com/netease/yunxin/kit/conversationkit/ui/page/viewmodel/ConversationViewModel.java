@@ -228,9 +228,7 @@ public class ConversationViewModel extends BaseViewModel {
                 groupChatUnreadCount += recentContact.getUnreadCount();
             }
         }
-        // 把“自己给自己”的未读数也算进单聊未读总数（用于 TabBar 角标）
-        singleChatUnreadCount += com.yaoxin.appbase.utils.AppProxy.getInstance().getSelfToSelfUnread();
-        
+
         FetchResult<List<Integer>> fetchResult = new FetchResult<>(LoadStatus.Success);
         ArrayList<Integer> integers = new ArrayList<>();
         integers.add(singleChatUnreadCount);
