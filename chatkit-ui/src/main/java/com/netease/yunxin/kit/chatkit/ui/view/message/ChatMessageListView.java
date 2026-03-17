@@ -203,7 +203,7 @@ public class ChatMessageListView extends RecyclerView implements IMessageData {
   public void appendMessageList(List<ChatMessageBean> messageList, boolean needToScrollEnd) {
     if (messageAdapter != null) {
       messageAdapter.appendMessages(messageList);
-      if (needToScrollEnd) {
+      if (needToScrollEnd && needScrollToBottom()) {
         scrollToEnd();
       }
     }
@@ -213,7 +213,9 @@ public class ChatMessageListView extends RecyclerView implements IMessageData {
   public void appendMessage(ChatMessageBean message) {
     if (messageAdapter != null) {
       messageAdapter.appendMessage(message);
-      scrollToEnd();
+      if (needScrollToBottom()) {
+        scrollToEnd();
+      }
     }
   }
 
