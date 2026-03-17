@@ -172,7 +172,6 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
 //                        .navigate();
 //            }
 //        }
-        getMessageCount();
     }
 
     private void getMessageCount() {
@@ -387,6 +386,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         initContactFragment(mContactFragment);
         initConversationFragment(mConversationFragment);
         initConversationFragment(mConversationFragment1);
+        getMessageCount();
     }
 
     @Override
