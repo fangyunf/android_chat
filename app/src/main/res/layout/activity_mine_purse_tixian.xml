@@ -133,6 +133,7 @@
 
                 <!-- 费率说明 -->
                 <TextView
+                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"

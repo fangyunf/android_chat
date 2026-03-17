@@ -593,6 +593,14 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
             IMUtil.loginOut(this);
         } else if ("add_friend".equals(event.getTag())) {
             XKitRouter.withKey(RouterConstant.PATH_FUN_ADD_FRIEND_PAGE).withContext(this).navigate();
+        }else if (msgBean.type == 1) {
+            BaseEvent baseEvent = new BaseEvent("refresh_notice");
+            baseEvent.customMsgBean = msgBean;
+            EventBus.getDefault().post(baseEvent);
+        } else if (msgBean.type == 6) {
+            BaseEvent baseEvent = new BaseEvent("refresh_notice");
+            baseEvent.customMsgBean = msgBean;
+            EventBus.getDefault().post(baseEvent);
         }
 
     }
