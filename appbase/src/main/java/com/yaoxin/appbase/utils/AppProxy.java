@@ -40,6 +40,10 @@ public class AppProxy {
     public static String searchKeyWord1 = "";
     public int showType = 0;
 
+    // 个人会话（自己给自己）的未读数，用于在小助手会话上展示
+    private int selfToSelfUnread = 0;
+
+
     public static AppProxy getInstance() {
         return SingletonHolder.instance;
     }
@@ -94,10 +98,12 @@ public class AppProxy {
 
         return this;
     }
+
     public AppProxy setH5Host(String host) {
         h5Host = host;
         return this;
     }
+
     public AppProxy setTeamId(String teamId) {
         teamId = teamId;
         return this;
@@ -142,21 +148,25 @@ public class AppProxy {
 
         return sHost;
     }
+
     public final String getYCHost() {
         return "https://biz.myyancheng.com.cn";
     }
-    public final String getH5Host(){
-        if(TextUtils.isEmpty(h5Host)){
+
+    public final String getH5Host() {
+        if (TextUtils.isEmpty(h5Host)) {
             throw new IllegalAccessError("Please call setH5Host to initialize the h5Host first.");
         }
         return h5Host;
     }
-    public final String getTeamId(){
-        if(TextUtils.isEmpty(teamId)){
+
+    public final String getTeamId() {
+        if (TextUtils.isEmpty(teamId)) {
             throw new IllegalAccessError("Please call teamId to initialize the teamId first.");
         }
         return teamId;
     }
+
     // 正式环境
     public boolean isProductionEvn() { //
         return TYPE_PRODUCT_PRODUCT == sProductType;
@@ -167,6 +177,13 @@ public class AppProxy {
         return TYPE_PRODUCT_BETA == sProductType;
     }
 
+    public int getSelfToSelfUnread() {
+        return selfToSelfUnread;
+    }
+
+    public void setSelfToSelfUnread(int selfToSelfUnread) {
+        this.selfToSelfUnread = selfToSelfUnread;
+    }
 
 
 }

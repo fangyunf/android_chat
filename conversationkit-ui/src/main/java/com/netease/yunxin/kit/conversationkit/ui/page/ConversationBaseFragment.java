@@ -49,6 +49,7 @@ import com.netease.yunxin.kit.corekit.im.model.FriendInfo;
 import com.netease.yunxin.kit.corekit.im.model.UserInfo;
 import com.netease.yunxin.kit.corekit.route.XKitRouter;
 import com.yaoxin.appbase.net.Constant;
+import com.yaoxin.appbase.utils.AppProxy;
 import com.yaoxin.appbase.utils.DataUtil;
 
 import java.util.ArrayList;
@@ -139,22 +140,29 @@ public abstract class ConversationBaseFragment extends BaseFragment implements I
                                 conversationList = result.getData();
 
                                 ArrayList<ConversationBean> tempList = new ArrayList<>();
+                                int selfUnread = 0;
                                 if (conversationList != null) {
+                                    String selfId = DataUtil.getUserid();
                                     for (ConversationBean tempBean : conversationList) {
                                         if (_type == 1 && tempBean.viewType == 2) {
                                             tempList.add(tempBean);
                                         } else if (_type == 0 && tempBean.viewType == 1) {
-                                            String userid = DataUtil.getUserid();
                                             String targetUserId = (String) tempBean.param;
-                                            if (!userid.equals(targetUserId)) {
+                                            if (selfId.equals(targetUserId)) {
+                                                if (tempBean.infoData != null) {
+                                                    selfUnread = tempBean.infoData.getUnreadCount();
+                                                }
+                                            } else {
                                                 tempList.add(tempBean);
                                             }
-                                            // tempList.add(tempBean);
                                         } else if (_type == 3) {
                                             if (tempBean.viewType == 1) {
-                                                String userid = DataUtil.getUserid();
                                                 String targetUserId = (String) tempBean.param;
-                                                if (!userid.equals(targetUserId)) {
+                                                if (selfId.equals(targetUserId)) {
+                                                    if (tempBean.infoData != null) {
+                                                        selfUnread = tempBean.infoData.getUnreadCount();
+                                                    }
+                                                } else {
                                                     tempList.add(tempBean);
                                                 }
                                             } else if (tempBean.viewType == 2) {
@@ -163,6 +171,8 @@ public abstract class ConversationBaseFragment extends BaseFragment implements I
                                         }
                                     }
                                 }
+                                // 把“自己给自己”的未读数存到全局，供小助手会话展示
+                                AppProxy.getInstance().setSelfToSelfUnread(selfUnread);
                                 conversationList = tempList;
                                 finishLoadData();
                                 if (result.getLoadStatus() == LoadStatus.Success) {
@@ -184,7 +194,9 @@ public abstract class ConversationBaseFragment extends BaseFragment implements I
                         });
     }
 
-    /** Called when conversation query result is received; subclasses may override e.g. to finish pull-refresh. */
+    /**
+     * Called when conversation query result is received; subclasses may override e.g. to finish pull-refresh.
+     */
     protected void onConversationQueryResult(FetchResult<List<ConversationBean>> result) {
     }
 
@@ -201,6 +213,15 @@ public abstract class ConversationBaseFragment extends BaseFragment implements I
                             if (data.param != null) {
                                 String targetId = (String) data.param;
                                 if (targetId.equals(DataUtil.getXiaoZhuShouId())) {
+                                    // 打开小助手页面的同时，将“自己给自己”的会话未读数清零
+                                    try {
+                                        String selfId = DataUtil.getUserid();
+                                        if (!TextUtils.isEmpty(selfId)) {
+                                            NIMClient.getService(MsgService.class)
+                                                    .clearUnreadCount(selfId, SessionTypeEnum.P2P);
+                                        }
+                                    } catch (Exception ignored) {
+                                    }
                                     XKitRouter.withKey(Constant.XiaoZhuShouActivityKey)
                                             .withContext(ConversationBaseFragment.this.requireContext())
                                             .navigate();
@@ -233,6 +254,14 @@ public abstract class ConversationBaseFragment extends BaseFragment implements I
                             if (data.param != null) {
                                 String targetId = (String) data.param;
                                 if (targetId.equals(DataUtil.getXiaoZhuShouId())) {
+                                    try {
+                                        String selfId = DataUtil.getUserid();
+                                        if (!TextUtils.isEmpty(selfId)) {
+                                            NIMClient.getService(MsgService.class)
+                                                    .clearUnreadCount(selfId, SessionTypeEnum.P2P);
+                                        }
+                                    } catch (Exception ignored) {
+                                    }
                                     XKitRouter.withKey(Constant.XiaoZhuShouActivityKey)
                                             .withContext(ConversationBaseFragment.this.requireContext())
                                             .navigate();
