@@ -138,41 +138,20 @@ public abstract class ConversationBaseFragment extends BaseFragment implements I
                             if (conversationView != null) {
 //                conversationView._type = _type;
                                 conversationList = result.getData();
-
                                 ArrayList<ConversationBean> tempList = new ArrayList<>();
-                                int selfUnread = 0;
                                 if (conversationList != null) {
-                                    String selfId = DataUtil.getUserid();
                                     for (ConversationBean tempBean : conversationList) {
                                         if (_type == 1 && tempBean.viewType == 2) {
                                             tempList.add(tempBean);
                                         } else if (_type == 0 && tempBean.viewType == 1) {
-                                            String targetUserId = (String) tempBean.param;
-                                            if (selfId.equals(targetUserId)) {
-                                                if (tempBean.infoData != null) {
-                                                    selfUnread = tempBean.infoData.getUnreadCount();
-                                                }
-                                            } else {
-                                                tempList.add(tempBean);
-                                            }
+                                            tempList.add(tempBean);
                                         } else if (_type == 3) {
-                                            if (tempBean.viewType == 1) {
-                                                String targetUserId = (String) tempBean.param;
-                                                if (selfId.equals(targetUserId)) {
-                                                    if (tempBean.infoData != null) {
-                                                        selfUnread = tempBean.infoData.getUnreadCount();
-                                                    }
-                                                } else {
-                                                    tempList.add(tempBean);
-                                                }
-                                            } else if (tempBean.viewType == 2) {
+                                            if (tempBean.viewType == 1 || tempBean.viewType == 2) {
                                                 tempList.add(tempBean);
                                             }
                                         }
                                     }
                                 }
-                                // 把“自己给自己”的未读数存到全局，供小助手会话展示
-                                AppProxy.getInstance().setSelfToSelfUnread(selfUnread);
                                 conversationList = tempList;
                                 finishLoadData();
                                 if (result.getLoadStatus() == LoadStatus.Success) {

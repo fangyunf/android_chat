@@ -212,22 +212,29 @@ public class ConversationViewModel extends BaseViewModel {
     }
 
     public void getUnreadCount() {
-        List<RecentContact> recentContacts = NIMClient.getService(MsgService.class).queryRecentContactsBlock();
+        List<RecentContact> recentContacts =
+                NIMClient.getService(MsgService.class).queryRecentContactsBlock();
 
         int singleChatUnreadCount = 0;
         int groupChatUnreadCount = 0;
+        String selfId = DataUtil.getUserid();
+        int selfUnread = 0;
 
         for (RecentContact recentContact : recentContacts) {
             if (recentContact.getSessionType() == SessionTypeEnum.P2P) {
-                if (!recentContact.getContactId().equals(DataUtil.getUserid())) {
-                    // 单聊
-                    singleChatUnreadCount += recentContact.getUnreadCount();
+                // 包含自己给自己的会话
+                singleChatUnreadCount += recentContact.getUnreadCount();
+                if (recentContact.getContactId().equals(selfId)) {
+                    selfUnread = recentContact.getUnreadCount();
                 }
             } else if (recentContact.getSessionType() == SessionTypeEnum.Team) {
                 // 群组
                 groupChatUnreadCount += recentContact.getUnreadCount();
             }
         }
+
+        // 记录“自己给自己”的未读数，供小助手展示使用
+        com.yaoxin.appbase.utils.AppProxy.getInstance().setSelfToSelfUnread(selfUnread);
 
         FetchResult<List<Integer>> fetchResult = new FetchResult<>(LoadStatus.Success);
         ArrayList<Integer> integers = new ArrayList<>();
@@ -294,8 +301,13 @@ public class ConversationViewModel extends BaseViewModel {
                                 TAG,
                                 "queryConversation:onSuccess,size=" + (param != null ? param.size() : 0));
                         List<ConversationBean> resultData = new ArrayList<>();
-                        for (int index = 0; param != null && index < param.size(); index++) {
-                            resultData.add(conversationFactory.CreateBean(param.get(index)));
+                        if (param != null) {
+                            for (ConversationInfo info : param) {
+                                if (info == null) {
+                                    continue;
+                                }
+                                resultData.add(conversationFactory.CreateBean(info));
+                            }
                         }
                         hasMore = false; // param != null && param.size() == PAGE_LIMIT;
                         result.setData(resultData);

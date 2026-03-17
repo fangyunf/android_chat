@@ -94,9 +94,8 @@
         android:roundIcon="@mipmap/yaoxin_icon"
         android:supportsRtl="true"
         android:theme="@style/Theme.Xkit">
-        <!--        <meta-data-->
-        <!--            android:name="com.netease.nim.appKey"-->
-        <!--            android:value="2a6664a3c43a1fd51133b7dff030c575" />-->
+        
+        <!--安语-->
         <meta-data
             android:name="com.netease.nim.appKey"
             android:value="872b7d9ea9537f7d1bc51018dd173ace" />

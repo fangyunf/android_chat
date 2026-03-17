@@ -84,7 +84,7 @@ public class FunConversationP2PViewHolder extends FunConversationBaseViewHolder 
                 (ViewGroup.MarginLayoutParams) viewBinding.rootLayout.getLayoutParams();
         // 自己给自己会话不在列表中展示，直接把高度置为 0
         if (data.param.equals(DataUtil.getUserid())) {
-            layoutParams.height = 0;
+            layoutParams.height = SizeUtils.dp2px(0);
         } else {
             layoutParams.height = SizeUtils.dp2px(72);
             if (!AppProxy.searchKeyWord0.isEmpty()
