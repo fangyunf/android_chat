@@ -103,6 +103,8 @@ public class FunConversationP2PViewHolder extends FunConversationBaseViewHolder 
             } else {
                 viewBinding.tvGrader.setVisibility(View.GONE);
             }
-
+        } else {
+            viewBinding.tvGrader.setVisibility(View.GONE);
         }
+    }
 }
