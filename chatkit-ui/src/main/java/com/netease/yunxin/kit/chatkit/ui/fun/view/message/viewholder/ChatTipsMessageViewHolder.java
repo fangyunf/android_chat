@@ -82,6 +82,7 @@ public class ChatTipsMessageViewHolder extends FunChatBaseMessageViewHolder {
     @Override
     public void bindData(ChatMessageBean message, ChatMessageBean lastMessage) {
         super.bindData(message, lastMessage);
+        expandItem();
         String content = message.getMessageData().getMessage().getContent();
         if (content == null || content.isEmpty()) {
             // create team tip
@@ -104,6 +105,12 @@ public class ChatTipsMessageViewHolder extends FunChatBaseMessageViewHolder {
                     CustomMsgBean msgBean = new Gson().fromJson(content, CustomMsgBean.class);
                     textBinding.messageTipText.setText(content);
                     if (msgBean.sendUserId == null || msgBean.receiveUserId == null) {
+                        return;
+                    }
+                    String myUserId = DataUtil.getUserid();
+                    // 聊天详情仅展示：我发的红包被别人领取的轨迹
+                    if (!TextUtils.equals(msgBean.sendUserId, myUserId) || TextUtils.equals(msgBean.receiveUserId, myUserId)) {
+                        collapseItem();
                         return;
                     }
 //                    //屏蔽领取消息：设置高度为0，不占空间
@@ -134,7 +141,8 @@ public class ChatTipsMessageViewHolder extends FunChatBaseMessageViewHolder {
 //                        baseViewBinding.baseRoot.setLayoutParams(rootParams);
 //                    }
                 } catch (Exception e) {
-                    textBinding.messageTipText.setText("");
+                    collapseItem();
+                    return;
 //                    ViewGroup.LayoutParams rootParams = baseViewBinding.baseRoot.getLayoutParams();
 //                    if (rootParams != null) {
 //                        rootParams.height = 0;
@@ -145,13 +153,31 @@ public class ChatTipsMessageViewHolder extends FunChatBaseMessageViewHolder {
                 textBinding.messageTipText.setText(content);
             }
         } else {
-            baseViewBinding.baseRoot.setVisibility(View.GONE);
+            collapseItem();
             // content为空时，设置高度为0，不占空间
 //            ViewGroup.LayoutParams rootParams = baseViewBinding.baseRoot.getLayoutParams();
 //            if (rootParams != null) {
 //                rootParams.height = 0;
 //                baseViewBinding.baseRoot.setLayoutParams(rootParams);
 //            }
+        }
+    }
+
+    private void collapseItem() {
+        baseViewBinding.baseRoot.setVisibility(View.GONE);
+        ViewGroup.LayoutParams layoutParams = baseViewBinding.baseRoot.getLayoutParams();
+        if (layoutParams != null) {
+            layoutParams.height = 0;
+            baseViewBinding.baseRoot.setLayoutParams(layoutParams);
+        }
+    }
+
+    private void expandItem() {
+        baseViewBinding.baseRoot.setVisibility(View.VISIBLE);
+        ViewGroup.LayoutParams layoutParams = baseViewBinding.baseRoot.getLayoutParams();
+        if (layoutParams != null) {
+            layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+            baseViewBinding.baseRoot.setLayoutParams(layoutParams);
         }
     }
 }
