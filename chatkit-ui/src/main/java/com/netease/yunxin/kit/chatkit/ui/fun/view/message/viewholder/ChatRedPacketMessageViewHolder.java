@@ -58,7 +58,9 @@ public class ChatRedPacketMessageViewHolder extends FunChatBaseMessageViewHolder
             bean.result = new Gson().fromJson(bean.data, CustomMsgBean.class);
             if (hasDraw) {
                 viewBinding.funChatMessageRedPacketViewHolderMengceng.setVisibility(View.VISIBLE);
+                viewBinding.funChatMessageRedPacketViewHolderBgIv.setImageAlpha(128);
             } else {
+                viewBinding.funChatMessageRedPacketViewHolderBgIv.setImageAlpha(255);
                 viewBinding.funChatMessageRedPacketViewHolderMengceng.setVisibility(View.GONE);
             }
             viewBinding.funChatMessageRedPacketViewHolderBgIv.setImageResource((bean.type == 21) ? R.drawable.chat_redpacket_purple_bg_no_open : R.drawable.chat_red_packet_cell_bg_no_open);
@@ -90,10 +92,7 @@ public class ChatRedPacketMessageViewHolder extends FunChatBaseMessageViewHolder
         if (viewBinding != null) {
             View rootView = viewBinding.getRoot();
             // 红包的理想宽度是 216dp
-            int idealRedPacketWidth = (int) TypedValue.applyDimension(
-                    TypedValue.COMPLEX_UNIT_DIP, 216,
-                    parent.getContext().getResources().getDisplayMetrics()
-            );
+            int idealRedPacketWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 216, parent.getContext().getResources().getDisplayMetrics());
 
             // 获取 messageContainer 的实际可用宽度
             int availableWidth = baseViewBinding.messageContainer.getWidth();
