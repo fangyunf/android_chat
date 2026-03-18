@@ -225,7 +225,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen_20_dp"
                 android:text="充值说明:\n
-充值早上8点到晚上11点\n
 如果遇到充值不到账，请第一时间联系平台处理!\n
 平台保证用户充值数据，只要保留支付凭证，用户的利益就不会出现损失!"
                 android:textColor="#999999"
