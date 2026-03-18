@@ -79,6 +79,8 @@ public class MessageHelper {
 
   // @信息高亮颜色值
   private static final int AT_HIGHLIGHT = R.color.color_007aff;
+  // 我发送消息中的 @ 高亮颜色，避免和蓝色气泡背景冲突
+  private static final int AT_HIGHLIGHT_SELF = R.color.color_white;
   private static final ChatCustom chatCustom = new ChatCustom();
 
   /**
@@ -283,10 +285,17 @@ public class MessageHelper {
     if (message != null && textView != null) {
       SpannableString spannableString =
           replaceEmoticons(context, content, DEF_SCALE, ImageSpan.ALIGN_BOTTOM);
-      int color = context.getResources().getColor(AT_HIGHLIGHT);
+      int color = resolveAitHighlightColor(context, message);
       identifyAitExpression(context, spannableString, color, content, message);
       viewSetText(textView, spannableString);
     }
+  }
+
+  private static int resolveAitHighlightColor(Context context, IMMessage message) {
+    if (message != null && message.getDirect() == MsgDirectionEnum.Out) {
+      return context.getResources().getColor(AT_HIGHLIGHT_SELF);
+    }
+    return context.getResources().getColor(AT_HIGHLIGHT);
   }
 
   public static void identifyAitExpression(
