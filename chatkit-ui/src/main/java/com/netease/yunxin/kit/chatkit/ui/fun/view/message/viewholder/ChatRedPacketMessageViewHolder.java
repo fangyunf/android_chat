@@ -57,11 +57,12 @@ public class ChatRedPacketMessageViewHolder extends FunChatBaseMessageViewHolder
             CustomMsgBean bean = new Gson().fromJson(message.getMessageData().getMessage().getAttachStr(), CustomMsgBean.class);
             bean.result = new Gson().fromJson(bean.data, CustomMsgBean.class);
             if (hasDraw) {
+                viewBinding.funChatMessageRedPacketViewHolderBgIv.setImageResource((bean.type == 21) ? R.drawable.chat_redpacket_purple_bg_is_open : R.drawable.chat_red_packet_cell_bg_is_open);
                 viewBinding.funChatMessageRedPacketViewHolderMengceng.setVisibility(View.VISIBLE);
             } else {
+                viewBinding.funChatMessageRedPacketViewHolderBgIv.setImageResource((bean.type == 21) ? R.drawable.chat_redpacket_purple_bg_no_open : R.drawable.chat_red_packet_cell_bg_no_open);
                 viewBinding.funChatMessageRedPacketViewHolderMengceng.setVisibility(View.GONE);
             }
-            viewBinding.funChatMessageRedPacketViewHolderBgIv.setImageResource((bean.type == 21) ? R.drawable.chat_redpacket_purple_bg_no_open : R.drawable.chat_red_packet_cell_bg_no_open);
             if (bean.type == 21) {
                 viewBinding.funChatLookRed.setVisibility(View.VISIBLE);
                 View root = viewBinding.getRoot();
