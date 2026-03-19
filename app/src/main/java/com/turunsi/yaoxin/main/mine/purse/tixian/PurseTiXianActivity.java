@@ -226,9 +226,9 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
         makeRequest(wechatBean, "wechat");
 //
 //        // 发起银行卡请求
-//        RegisterBean bankBean = new RegisterBean();
-//        bankBean.type = 3;
-//        makeRequest(bankBean, "bank");
+        RegisterBean bankBean = new RegisterBean();
+        bankBean.type = 3;
+        makeRequest(bankBean, "bank");
     }
 
     private void makeRequest(RegisterBean bean, String requestType) {
@@ -281,7 +281,7 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
                     completedRequests++;
 
                     // 检查是否所有请求都完成了
-                    if (completedRequests == 2) {
+                    if (completedRequests == 3) {
                         handleAllRequestsCompleted();
                     }
                 }
@@ -293,7 +293,7 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
                     completedRequests++;
 
                     // 即使失败也要检查是否所有请求都完成了
-                    if (completedRequests == 2) {
+                    if (completedRequests == 3) {
                         handleAllRequestsCompleted();
                     }
                 }
@@ -391,7 +391,7 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
             binding.activityMinePurseTixianMoneyEt.setText(accountMoeny);
         } else if (v == binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgLl || v == binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt) {
 
-            DialogAlertUtil.showSheetView(this, getSupportFragmentManager(), new String[]{"支付宝", "微信"}, new DialogAlertUtil.DialogAlertUtilCallBack() {
+            DialogAlertUtil.showSheetView(this, getSupportFragmentManager(), new String[]{"支付宝", "微信", "银行卡"}, new DialogAlertUtil.DialogAlertUtilCallBack() {
                 @Override
                 public void clickType(int type) {
                     if (type == 1) {
