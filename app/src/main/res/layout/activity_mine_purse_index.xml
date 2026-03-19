@@ -142,10 +142,7 @@
                 android:id="@+id/activity_mine_purse_index_wdkb"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                app:bgColor="#545454"
                 app:leftImg="@mipmap/purse_index_item_kabao"
-                app:textColor="@color/white"
                 app:titleText="绑定银行卡" />
         </LinearLayout>
 
