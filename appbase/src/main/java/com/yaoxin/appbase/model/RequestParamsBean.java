@@ -5,7 +5,7 @@ import com.yaoxin.appbase.utils.AppProxy;
 import com.yaoxin.appbase.utils.DeviceUtils;
 
 public class RequestParamsBean {
-    private String phone;
+    public String phone;
     public String id;
     public String payChannel;
     public String zfb;
@@ -21,7 +21,26 @@ public class RequestParamsBean {
     public String type;
     private String deviceId;
     private String clientType;
-    public RequestParamsBean(String phone1,String name1, String type1) {
+    public String bankUserName;
+    public String bankCardNo;
+    public String bankPhone;
+    public String bankName;
+    public String idNumber;
+    public String payment_id;
+    public String order_no;
+    public String apply_id;
+    public String app_id;
+    public String memberId;
+    public String smsCode;
+    public String sms_code;
+    public String goodsTitle;
+    public String goodsDesc;
+    public String description;
+    public String token_no;
+    public String in_member_id;
+    public String out_member_id;
+
+    public RequestParamsBean(String phone1, String name1, String type1) {
         deviceId = DeviceUtils.getDeviceId(AppProxy.getInstance().getContext());
         clientType = Constant.clientType;
         phone = phone1;
