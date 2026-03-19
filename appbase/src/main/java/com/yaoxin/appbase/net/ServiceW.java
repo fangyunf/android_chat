@@ -583,4 +583,7 @@ public interface ServiceW {
     @POST("/pay/createCardApply")
     Call<NetData> pay_createCardApply(@Body RequestParamsBean userBean);
 
+    @POST("/card/buildCard")
+    Call<NetData> card_buildCard(@Body RequestParamsBean userBean);
+
 }
