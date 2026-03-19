@@ -127,4 +127,7 @@ public class BankCardListActivity extends BaseActivity implements View.OnClickLi
         }
     }
 
+
+
+
 }

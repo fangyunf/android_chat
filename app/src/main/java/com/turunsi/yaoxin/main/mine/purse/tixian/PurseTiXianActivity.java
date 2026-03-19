@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.turunsi.yaoxin.R;
 import com.turunsi.yaoxin.main.mine.purse.alipay.BindAlipayActivity;
+import com.turunsi.yaoxin.main.mine.purse.bankcard.BankCardListActivity;
 import com.yaoxin.appbase.activity.BaseActivity;
 import com.turunsi.yaoxin.databinding.ActivityMinePurseTixianBinding;
 
@@ -138,13 +139,11 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
             bean.zfbUrl = aliPayBean.usdt;
             bean.userUsdtId = aliPayBean.id + "";
         } else if (payType.equals("wxpay")) {
-
             bean.zfbNo = wxPayBean.phone;
             bean.name = wxPayBean.name;
             bean.zfbUrl = wxPayBean.usdt;
             bean.userUsdtId = wxPayBean.id + "";
         } else if (payType.equals("yhkpay")) {
-
             bean.zfbNo = yhkPayBean.phone;
             bean.name = yhkPayBean.name;
             bean.zfbUrl = yhkPayBean.usdt;
@@ -411,16 +410,31 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
                         }
                         payType = "wxpay";
                     } else if (type == 3) {
-                        if (yhkPayBean != null) {
-                            binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setText("银行卡:" + yhkPayBean.phone);
-                        } else {
-                            ToastUtils.toastMsg("请绑定银行卡账号");
-                            return;
-                        }
-                        payType = "yhkpay";
+
+                        HashMap map = new HashMap<>();
+                        map.put("type", "1");
+                        BankCardListActivity.startForResult(BankCardListActivity.class, PurseTiXianActivity.this, map);
+
+//                        if (yhkPayBean != null) {
+//                            binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setText("银行卡:" + yhkPayBean.phone);
+//                        } else {
+//                            ToastUtils.toastMsg("请绑定银行卡账号");
+//                            return;
+//                        }
+//                        payType = "yhkpay";
                     }
                 }
             });
+        }
+    }
+
+
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 8 && resultCode == RESULT_OK) {
+            yhkPayBean = (UserBean) data.getSerializableExtra("bank");
+            binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setText("银行卡：" + yhkPayBean.phone);
+            payType = "yhkpay";
         }
     }
 
