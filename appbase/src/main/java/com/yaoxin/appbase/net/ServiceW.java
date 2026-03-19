@@ -580,4 +580,7 @@ public interface ServiceW {
             @Body RequestParamsBean userBean
     );
 
+    @POST("/pay/createCardApply")
+    Call<NetData> pay_createCardApply(@Body RequestParamsBean userBean);
+
 }
