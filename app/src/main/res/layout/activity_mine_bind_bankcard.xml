@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tl="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.yaoxin.appbase.navbar.NavToolbar
+        android:id="@+id/activity_mine_bind_bankcard_nav"
+        style="@style/WhiteFontToolbar"
+        android:background="@color/white"
+        app:back_icon="@mipmap/temp_ic_back"
+        app:enable_under_divider="true"
+        app:support_translucent_status_bar="false"
+        app:title="添加银行卡"
+        app:title_text_color="@color/color_333333"
+        app:under_divider_color="@color/transparent" />
+
+
+    <LinearLayout
+        android:id="@+id/activity_mine_bind_bankcard_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <include
+            android:id="@+id/activity_mine_bind_bankcard_name"
+            layout="@layout/view_top_title_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <include
+            android:id="@+id/activity_mine_bind_bankcard_id_card"
+            layout="@layout/view_top_title_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <include
+            android:id="@+id/activity_mine_bind_bankcard_card_num"
+            layout="@layout/view_top_title_et"
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content" />
+
+        <include
+            android:id="@+id/activity_mine_bind_bankcard_bank_name"
+            layout="@layout/view_top_title_et"
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content" />
+
+        <include
+            android:id="@+id/activity_mine_bind_bankcard_yuliu_phone"
+            layout="@layout/view_top_title_et"
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content" />
+
+        <include
+            android:id="@+id/activity_mine_bind_bankcard_verify_code"
+            layout="@layout/view_top_title_et"
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/activity_mine_bind_alipay_bind_tv"
+            android:layout_width="252dp"
+            android:layout_height="44dp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/fun_bg_app_theme_color_rounded_22"
+            android:gravity="center"
+            android:text="完成"
+            android:textColor="#ffffffff"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+</LinearLayout>
