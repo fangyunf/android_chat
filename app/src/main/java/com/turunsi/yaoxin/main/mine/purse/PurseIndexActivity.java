@@ -126,10 +126,11 @@ public class PurseIndexActivity extends BaseActivity implements View.OnClickList
             map.put("type", "1");
             BindAlipayActivity.start(BindAlipayActivity.class, this, map);
         } else if (v == binding.activityMinePurseIndexWdkb) {
+//            Map map = new HashMap();
+//            map.put("type", "3");
+//            BindAlipayActivity.start(BindAlipayActivity.class, this, map);
+            BankCardListActivity.start(BankCardListActivity.class, this, null);
 
-            Map map = new HashMap();
-            map.put("type", "3");
-            BindAlipayActivity.start(BindAlipayActivity.class, this, map);
         } else if (v == binding.activityMinePurseIndexSmrz) {
             ToastUtils.toastMsg("已完成实名");
 //            if (!Constant.isRunningRealName) {

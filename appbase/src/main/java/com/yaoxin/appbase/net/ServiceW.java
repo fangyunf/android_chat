@@ -586,4 +586,7 @@ public interface ServiceW {
     @POST("/card/buildCard")
     Call<NetData> card_buildCard(@Body RequestParamsBean userBean);
 
+    @POST("/bindCard/deleteZFB")
+    Call<NetData> deleteZFB(@Body RegisterBean userBean);
+
 }
