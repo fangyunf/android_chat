@@ -43,6 +43,12 @@ public class ForgetPwdActivity extends BaseActivity implements View.OnClickListe
         binding = ActivityForgetPwdBinding.inflate(getLayoutInflater());
 //        binding.forgetPwdActivityNav.addCloseImageButton().setOnClickListener(this);
         binding.forgetPwdActivityBtn.setOnClickListener(this);
+        binding.tvGoRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         binding.forgetPwdActivityIsAgreeLl.setOnClickListener(this);
         binding.registerActivityBackIv.setOnClickListener(new View.OnClickListener() {
             @Override

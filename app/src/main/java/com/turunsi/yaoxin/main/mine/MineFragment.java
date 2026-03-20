@@ -93,6 +93,8 @@ import retrofit2.Response;
 public class MineFragment extends BaseFragment implements View.OnClickListener {
     private FragmentMineBinding binding;
     private ActivityResultLauncher<Intent> launcher;
+    private boolean walletBalanceVisible = true;
+    private String walletBalanceText = "0.00";
 
     @Nullable
     @Override
@@ -163,7 +165,9 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                         UserBean bean = new Gson().fromJson(body.data.toString(), UserBean.class);
-                        binding.fragmentMineQbyeView.rightTv.setText("￥ " + NumberUtil.formartMoney(bean.balance));
+                        walletBalanceText = NumberUtil.formartMoney(bean.balance);
+                        binding.fragmentMineQbyeView.rightTv.setText(walletBalanceText);
+                        updateWalletBalanceView();
                     }
 
                     @Override
@@ -190,6 +194,8 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
     }
 
     private void _initItems() {
+        binding.tvWallet.setOnClickListener(this);
+        binding.fragmentMineWalletEyeIv.setOnClickListener(this);
         binding.fragmentMineLtszView.setOnClickListener(this);
         binding.fragmentMineYsglView.setOnClickListener(this);
         binding.fragmentMineZhglView.setOnClickListener(this);
@@ -217,6 +223,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 
         binding.fragmentMineQbyeView.rightIv.setVisibility(View.GONE);
         binding.fragmentMineQbyeView.rightTv.setVisibility(View.VISIBLE);
+        updateWalletBalanceView();
 
 
 //        binding.mineFragmentMyManagerItem1.viewMineFragmentItemCellCl.setOnClickListener(this);
@@ -330,7 +337,10 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         Context context = getContext();
-        if (v == binding.fragmentMineTzView) {
+        if (v == binding.fragmentMineWalletEyeIv) {
+            walletBalanceVisible = !walletBalanceVisible;
+            updateWalletBalanceView();
+        } else if (v == binding.fragmentMineTzView) {
             startActivity(new Intent(getActivity(), SettingNotifyNewActivity.class));
         } else if (v == binding.fragmentMineZhushouView) {
             XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_P2P_PAGE).withParam(RouterConstant.CHAT_ID_KRY, DataUtil.getKeFuId()).withContext(getContext()).navigate();
@@ -520,7 +530,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
             AppUpdateActivity.start(AppUpdateActivity.class, getContext(), null);
         if (v == binding.fragmentMineIndexCdscLl) {
             EggListIndexActivity.start(EggListIndexActivity.class, getContext(), null);
-        } else if (v == binding.fragmentMineIndexWdqbLl || v == binding.fragmentMineQbglView) {
+        } else if (v == binding.fragmentMineIndexWdqbLl || v == binding.fragmentMineQbglView || v == binding.tvWallet) {
             PurseIndexActivity.start(PurseIndexActivity.class, context, null);
         } else if (v == binding.fragmentMineKfView) {
             XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_P2P_PAGE)
@@ -529,5 +539,15 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                     .navigate();
         }
 
+    }
+
+    private void updateWalletBalanceView() {
+        if (walletBalanceVisible) {
+            binding.fragmentMineWalletEyeIv.setImageResource(R.mipmap.ic_y_open);
+            binding.fragmentMineWalletBalanceTv.setText(walletBalanceText);
+        } else {
+            binding.fragmentMineWalletEyeIv.setImageResource(R.mipmap.ic_y_close);
+            binding.fragmentMineWalletBalanceTv.setText("*****");
+        }
     }
 }

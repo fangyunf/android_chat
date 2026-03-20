@@ -49,10 +49,9 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         binding = ActivityRegisterBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
         binding.registerActivityBackIv.setOnClickListener(this);
         binding.registerActivityIsAgreeLl.setOnClickListener(this);
-
+        binding.tvGoRegister.setOnClickListener(view -> finish());
         // 设置协议文本的SpannableString
         setupAgreementText();
         // 初始化协议复选框为选中状态
@@ -65,7 +64,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         binding.registerActivityCodeTf.viewTitleTfCountTitleTv.setText("请输入验证码");
         binding.registerActivityPwdTf.viewTitleTfCountTitleTv.setText("请输入8-12位密码,数字+字母");
         binding.registerActivityPwd2Tf.viewTitleTfCountTitleTv.setText("请再次输入8-12位密码,数字+字母");
-
         // 设置输入类型
         binding.registerActivityPhoneTf.viewTitleTfCountEt.setInputType(InputType.TYPE_CLASS_NUMBER);
         binding.registerActivityCodeTf.viewTitleTfCountEt.setInputType(InputType.TYPE_CLASS_NUMBER);
