@@ -9,10 +9,9 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:scaleType="fitXY"
-        android:src="@mipmap/jinzita_common_page_bg"
-        android:visibility="gone"
+        android:src="@mipmap/bg_wallet_top"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -38,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="15dp"
             android:layout_marginTop="@dimen/dimen_20_dp"
-            android:background="@mipmap/bg_wallet_top"
+            android:background="@drawable/bg_white_alpha_30_rounded_20"
             android:gravity="center"
             android:orientation="vertical"
             android:paddingHorizontal="20dp">

@@ -358,7 +358,7 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
             binding.activityFunSendRedPacketToPeopleLl.setVisibility(View.GONE);
             binding.activityFunSendRedPacketGreetingLl.setVisibility(View.VISIBLE);
             binding.activityFunSendRedPacketCountLl.setVisibility(View.VISIBLE);
-            binding.activityFunSendRedPacketNetworkFeeLl.setVisibility(View.VISIBLE);
+            binding.activityFunSendRedPacketNetworkFeeLl.setVisibility(View.GONE);
 //            binding.activityFunSendRedPacketPinChangeTypeTv.setText("拼手气红包");
         } else if (type == 2) {
             if (targetUserInfo != null) {
@@ -366,7 +366,7 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
                 GlideUtil.yh_loadImageRoundedCorner(this, binding.activityFunSendRedPacketToPeopleHeadIv, targetUserInfo.getAvatar(), 15);
                 selectToUserId = targetUserInfo.getAccount();
             }
-            binding.activityFunSendRedPacketNetworkFeeLl.setVisibility(View.VISIBLE);
+            binding.activityFunSendRedPacketNetworkFeeLl.setVisibility(View.GONE);
             binding.activityFunSendRedPacketToPeopleLl.setVisibility(View.VISIBLE);
             binding.activityFunSendRedPacketCountLl.setVisibility(View.GONE);
             binding.activityFunSendRedPacketGreetingLl.setVisibility(View.VISIBLE);

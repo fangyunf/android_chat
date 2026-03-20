@@ -5,5 +5,5 @@
     android:shape="rectangle"
     tools:ignore="ResourceName">
   <corners android:radius="20dp"/>
-  <solid android:color="#33FFFFFF"/>
+  <solid android:color="#f0FFFFFF"/>
 </shape>
