@@ -3,6 +3,8 @@ package com.turunsi.yaoxin.main.mine.purse.recharge;
 
 import android.content.Context;
 import android.view.ViewGroup;
+import android.view.animation.LinearInterpolator;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,8 +24,9 @@ public class Recharge_Adpter extends
     @Override
     protected void onBindViewHolder(@NonNull QuickViewHolder quickViewHolder, int i, @Nullable String orderListBean) {
         TextView tv = quickViewHolder.findView(R.id.activity_mine_purse_recharge_item_tv);
+        LinearLayout layout_boot = quickViewHolder.findView(R.id.layout_boot);
         tv.setText(orderListBean);
-        tv.setSelected(selectStr.equals(orderListBean));
+        layout_boot.setSelected(selectStr.equals(orderListBean));
 
     }
 

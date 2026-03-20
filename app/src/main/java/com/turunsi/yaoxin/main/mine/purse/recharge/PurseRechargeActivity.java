@@ -28,6 +28,7 @@ import com.chad.library.adapter4.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.netease.yunxin.kit.common.utils.SizeUtils;
 import com.turunsi.yaoxin.R;
+import com.turunsi.yaoxin.main.mine.purse.PurseIndexActivity;
 import com.yaoxin.appbase.activity.BaseActivity;
 import com.turunsi.yaoxin.databinding.ActivityMinePurseRechargeBinding;
 import com.yaoxin.appbase.model.NetData;
@@ -53,6 +54,8 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
     ActivityMinePurseRechargeBinding binding;
     String payType = "alipay";
     int _type = 0;
+    private boolean walletBalanceVisible = true;
+    private String walletBalanceText = "¥0.00";
     private RecyclerView recyclerView;
     private RecyclerView recyclerView1;
     Recharge_Adpter adpter;
@@ -106,6 +109,9 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
         setContentView(binding.getRoot());
         StatusBarUtils.transtStatusBar(this, binding.activityMinePurseRechargeNav);
         binding.activityMinePurseRechargeNav.addCloseImageButton().setOnClickListener(this);
+        binding.activityMinePurseRechargeEyeIv.setOnClickListener(this);
+        binding.activityMinePurseRechargeWalletTv.setOnClickListener(this);
+        binding.activityMinePurseRechargeWalletModuleRl.setOnClickListener(this);
         recyclerView = binding.activityMinePurseRechargeRv;
         recyclerView1 = binding.activityMinePurseRechargeRv1;
         _initRecycleView();
@@ -119,7 +125,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
         Recharge_GridSpacingItemDecoration gridSpacingItemDecoration = new Recharge_GridSpacingItemDecoration(3, SizeUtils.dp2px(10f), false);
-        gridSpacingItemDecoration.leftSpace = SizeUtils.dp2px(3f);
+        gridSpacingItemDecoration.leftSpace = SizeUtils.dp2px(10f);
         recyclerView.addItemDecoration(gridSpacingItemDecoration);
         recyclerView.setLayoutManager(gridLayoutManager);
         adpter = new Recharge_Adpter();
@@ -277,7 +283,8 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
             @Override
             public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                 UserBean bean = new Gson().fromJson(body.data.toString(), UserBean.class);
-                binding.activityMinePurseRechargeAccountTv.setText("¥" + NumberUtil.formartMoney(bean.balance));
+                walletBalanceText = "¥" + NumberUtil.formartMoney(bean.balance);
+                updateWalletBalanceView();
             }
 
             @Override
@@ -291,6 +298,12 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
     public void onClick(View v) {
         if (v == binding.activityMinePurseRechargeNav.addCloseImageButton()) {
             finish();
+        } else if (v == binding.activityMinePurseRechargeEyeIv) {
+            walletBalanceVisible = !walletBalanceVisible;
+            updateWalletBalanceView();
+        } else if (v == binding.activityMinePurseRechargeWalletTv
+                || v == binding.activityMinePurseRechargeWalletModuleRl) {
+            PurseIndexActivity.start(PurseIndexActivity.class, this, null);
         } else if (v == binding.activityMinePurseRechargeRechargeRl) {
 //            String inputMoney = getTextStr(binding.activityMinePurseRechargeEt);
 //            if (inputMoney.isEmpty()) {
@@ -555,6 +568,16 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
 //            // 提示用户安装支付宝或者其他处理逻辑
 //            ToastUtils.toastMsg("请安装支付宝");
 //        }
+    }
+
+    private void updateWalletBalanceView() {
+        if (walletBalanceVisible) {
+            binding.activityMinePurseRechargeEyeIv.setImageResource(R.mipmap.ic_y_open);
+            binding.activityMinePurseRechargeAccountTv.setText(walletBalanceText);
+        } else {
+            binding.activityMinePurseRechargeEyeIv.setImageResource(R.mipmap.ic_y_close);
+            binding.activityMinePurseRechargeAccountTv.setText("*****");
+        }
     }
 
 }

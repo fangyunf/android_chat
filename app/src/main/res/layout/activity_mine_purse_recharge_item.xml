@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_boot"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
+    android:background="@drawable/recharge_money_item_selector"
+    android:gravity="center"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/activity_mine_purse_recharge_item_tv"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="@dimen/dimen_50_dp"
-        android:background="@drawable/recharge_money_item_selector"
+        android:drawableLeft="@mipmap/ic_conin"
+        android:drawablePadding="@dimen/dimen_5_dp"
         android:gravity="center"
         android:text="100"
         android:textColor="@color/black"
