@@ -55,7 +55,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
     String payType = "alipay";
     int _type = 0;
     private boolean walletBalanceVisible = true;
-    private String walletBalanceText = "¥0.00";
+    private String walletBalanceText = "0.00";
     private RecyclerView recyclerView;
     private RecyclerView recyclerView1;
     Recharge_Adpter adpter;
@@ -283,7 +283,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
             @Override
             public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                 UserBean bean = new Gson().fromJson(body.data.toString(), UserBean.class);
-                walletBalanceText = "¥" + NumberUtil.formartMoney(bean.balance);
+                walletBalanceText = NumberUtil.formartMoney(bean.balance);
                 updateWalletBalanceView();
             }
 
