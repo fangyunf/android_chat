@@ -39,7 +39,6 @@ import com.turunsi.yaoxin.eggs.EggSuccessDialogFragment;
 import com.turunsi.yaoxin.eggs.GroupListActivity;
 import com.turunsi.yaoxin.login.LoginActivity;
 import com.turunsi.yaoxin.login.RealNameSetActivity;
-import com.turunsi.yaoxin.login.WelcomeLoginActivity;
 import com.turunsi.yaoxin.main.mine.account.AccountAnQuanManagerActivity;
 import com.turunsi.yaoxin.main.mine.account.AccountDetailActivity;
 import com.turunsi.yaoxin.main.mine.account.AccoutCodeDetailActivity;
@@ -82,7 +81,6 @@ import com.yaoxin.appbase.pswkeyboard.widget.PopEnterPassword;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.DialogAlertUtil;
 import com.yaoxin.appbase.utils.NumberUtil;
-import com.yaoxin.appbase.utils.ResourceHelper;
 import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
 
@@ -101,7 +99,10 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(
+            @NonNull LayoutInflater inflater,
+            @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState) {
         ALog.d(Constant.PROJECT_TAG, "MineFragment:onCreateView");
         binding = FragmentMineBinding.inflate(inflater);
         return binding.getRoot();
@@ -112,11 +113,14 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         super.onViewCreated(view, savedInstanceState);
         _initItems();
 
-        launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-            if (result.getResultCode() == Activity.RESULT_OK) {
-                refreshUserInfo(IMKitClient.account());
-            }
-        });
+        launcher =
+                registerForActivityResult(
+                        new ActivityResultContracts.StartActivityForResult(),
+                        result -> {
+                            if (result.getResultCode() == Activity.RESULT_OK) {
+                                refreshUserInfo(IMKitClient.account());
+                            }
+                        });
 
 //    binding.aboutLl.setOnClickListener(
 //        v -> {
@@ -154,56 +158,59 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 
 
     void _requestData() {
-        HttpUtil.apiW().home_balance().enqueue(new CommonCallback<NetData>() {
-            @Override
-            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                UserBean bean = new Gson().fromJson(body.data.toString(), UserBean.class);
+        HttpUtil.apiW().home_balance()
+                .enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                        UserBean bean = new Gson().fromJson(body.data.toString(), UserBean.class);
 //                        binding.mineFragmentPacketMoneyDetailTv.setText("￥ " + NumberUtil.formartMoney(bean.balance));
-            }
-
-            @Override
-            public void Failure(Call<NetData> call, Throwable t) {
-
-            }
-        });
-        HttpUtil.apiW().home_getUserByToken(new RegisterBean()).enqueue(new CommonCallback<NetData>() {
-            @Override
-            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                UserBean userBean = new Gson().fromJson((String) body.data, UserBean.class);
-                if (userBean != null) {
-                    DataUtil.putUserInfo(userBean);
-                    DataUtil.putToken(userBean.token);
-                    updateUIGrade();
-                }
-            }
-
-            @Override
-            public void Failure(Call<NetData> call, Throwable t) {
-            }
-        });
-
-
-        HttpUtil.apiW().customer_about(new RegisterBean()).enqueue(new CommonCallback<NetData>() {
-            @Override
-            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-
-                DownLoadBean downLoadBean = new Gson().fromJson(body.data.toString(), DownLoadBean.class);
-                for (DownLoadBean tempBean : downLoadBean.linkUrl) {
-                    if (tempBean.appType.equals("IOS")) {
-                        _iosDownLoadUrl = tempBean.downloadUrl;
-                    }
-                    if (tempBean.appType.equals("ANDROID")) {
-                        _androidDownLoadUrl = tempBean.downloadUrl;
                     }
 
-                }
-            }
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
 
-            @Override
-            public void Failure(Call<NetData> call, Throwable t) {
+                    }
+                });
+        HttpUtil.apiW().home_getUserByToken(new RegisterBean())
+                .enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                        UserBean userBean = new Gson().fromJson((String) body.data, UserBean.class);
+                        if (userBean != null) {
+                            DataUtil.putUserInfo(userBean);
+                            DataUtil.putToken(userBean.token);
+                            updateUIGrade();
+                        }
+                    }
 
-            }
-        });
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
+                    }
+                });
+
+
+        HttpUtil.apiW().customer_about(new RegisterBean())
+                .enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+
+                        DownLoadBean downLoadBean = new Gson().fromJson(body.data.toString(), DownLoadBean.class);
+                        for (DownLoadBean tempBean : downLoadBean.linkUrl) {
+                            if (tempBean.appType.equals("IOS")) {
+                                _iosDownLoadUrl = tempBean.downloadUrl;
+                            }
+                            if (tempBean.appType.equals("ANDROID")) {
+                                _androidDownLoadUrl = tempBean.downloadUrl;
+                            }
+
+                        }
+                    }
+
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
+
+                    }
+                });
     }
 
     private void _initItems() {
@@ -232,7 +239,6 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         binding.fragmentMineTcdlView.setOnClickListener(this);
         binding.fragmentMineCopyIos.setOnClickListener(this);
         binding.fragmentMineCopyAndroid.setOnClickListener(this);
-        binding.fragmentMineGwdzView.setOnClickListener(this);
         binding.tvInfo.setOnClickListener(this);
 
 //        binding.mineFragmentMyManagerItem1.viewMineFragmentItemCellCl.setOnClickListener(this);
@@ -276,31 +282,35 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         binding.cavIcon.setCornerRadius(cornerRadius);
         List<String> userInfoList = new ArrayList<>();
         userInfoList.add(account);
-        CommonRepo.getUserInfo(account, new FetchCallback<UserInfo>() {
-            @Override
-            public void onSuccess(@Nullable UserInfo param) {
-                if (param != null) {
-                    updateUI(param);
-                }
-            }
+        CommonRepo.getUserInfo(
+                account,
+                new FetchCallback<UserInfo>() {
+                    @Override
+                    public void onSuccess(@Nullable UserInfo param) {
+                        if (param != null) {
+                            updateUI(param);
+                        }
+                    }
 
-            @Override
-            public void onFailed(int code) {
-                ToastX.showShortToast(R.string.user_fail);
-                updateUI(new UserInfo(account, account, ""));
-            }
+                    @Override
+                    public void onFailed(int code) {
+                        ToastX.showShortToast(R.string.user_fail);
+                        updateUI(new UserInfo(account, account, ""));
+                    }
 
-            @Override
-            public void onException(@Nullable Throwable exception) {
-                ToastX.showShortToast(R.string.user_fail);
-                updateUI(new UserInfo(account, account, ""));
-            }
-        });
+                    @Override
+                    public void onException(@Nullable Throwable exception) {
+                        ToastX.showShortToast(R.string.user_fail);
+                        updateUI(new UserInfo(account, account, ""));
+                    }
+                });
     }
 
     private void updateUI(UserInfo userInfo) {
-        String name = TextUtils.isEmpty(userInfo.getName()) ? userInfo.getAccount() : userInfo.getName();
-        binding.cavIcon.setData(userInfo.getAvatar(), name, AvatarColor.avatarColor(IMKitClient.account()));
+        String name =
+                TextUtils.isEmpty(userInfo.getName()) ? userInfo.getAccount() : userInfo.getName();
+        binding.cavIcon.setData(
+                userInfo.getAvatar(), name, AvatarColor.avatarColor(IMKitClient.account()));
         binding.tvName.setText(name);
     }
 
@@ -309,8 +319,19 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 //            binding.fragmentMineGradeRl.setVisibility(View.VISIBLE);
 //            binding.fragmentMineGradeTv.setVisibility(View.VISIBLE);
             binding.fragmentMineGradeIv.setVisibility(View.VISIBLE);
-            binding.fragmentMineGradeIv.setImageDrawable(ResourceHelper.getGradeDrawable(requireActivity(), DataUtil.getUserInfo().grade));
-            binding.tvName.setTextColor(ResourceHelper.getGradeColor(requireActivity(), DataUtil.getUserInfo().grade));
+//            binding.fragmentMineGradeTv.setText(DataUtil.getUserInfo().grade + "级靓号用户");
+            String imageName = "mine_grade_level_" + DataUtil.getUserInfo().grade;
+            Resources resources = getResources();
+            int resId = resources.getIdentifier(imageName, "mipmap", getContext().getPackageName());
+            // 如果找到了资源，则可以使用这个ID获取Drawable
+            Drawable drawable = null;
+            if (resId > 0) {
+                drawable = ContextCompat.getDrawable(getContext(), resId);
+            }
+            // 如果需要将drawable设置到ImageView中
+            if (drawable != null) {
+                binding.fragmentMineGradeIv.setImageDrawable(drawable);
+            }
         } else {
             binding.fragmentMineGradeRl.setVisibility(View.GONE);
             binding.fragmentMineGradeTv.setVisibility(View.GONE);
@@ -334,10 +355,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         Context context = getContext();
-
-        if (v == binding.fragmentMineGwdzView) {
-            DownLoadActivity.start(DownLoadActivity.class, getActivity(), null);
-        } else if (v == binding.fragmentMineErweimaIv) {
+        if (v == binding.fragmentMineErweimaIv) {
 //            if (getActivity() != null) {
 //                AccountCodeDialogFragment.showV(getActivity().getSupportFragmentManager());
 //            }
@@ -352,7 +370,9 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 //            startActivity(new Intent(getContext(), SettingNotifyActivity.class));
             startActivity(new Intent(getContext(), SettingNotifyNewActivity.class));
         } else if (v == binding.fragmentMineHmdView) {
-            XKitRouter.withKey(RouterConstant.PATH_FUN_MY_BLACK_PAGE).withContext(requireContext()).navigate();
+            XKitRouter.withKey(RouterConstant.PATH_FUN_MY_BLACK_PAGE)
+                    .withContext(requireContext())
+                    .navigate();
         } else if (v == binding.fragmentMineMmszView) {
             Mine_Pwd_Set_ManagerActivity.start(Mine_Pwd_Set_ManagerActivity.class, getContext(), null);
         } else if (v == binding.fragmentMineTyszView || v == binding.fragmentMineShezhiIv) {
@@ -523,20 +543,25 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
     }
 
     void showLogin() {
-        IMKitClient.logoutIM(new com.netease.yunxin.kit.corekit.im.login.LoginCallback<Void>() {
-            @Override
-            public void onError(int errorCode, @NonNull String errorMsg) {
-                Toast.makeText(getActivity(), "error code is " + errorCode + ", message is " + errorMsg, Toast.LENGTH_SHORT).show();
-            }
+        IMKitClient.logoutIM(
+                new com.netease.yunxin.kit.corekit.im.login.LoginCallback<Void>() {
+                    @Override
+                    public void onError(int errorCode, @NonNull String errorMsg) {
+                        Toast.makeText(
+                                        getActivity(),
+                                        "error code is " + errorCode + ", message is " + errorMsg,
+                                        Toast.LENGTH_SHORT)
+                                .show();
+                    }
 
-            @Override
-            public void onSuccess(@Nullable Void data) {
+                    @Override
+                    public void onSuccess(@Nullable Void data) {
 
-                DataUtil.deleteLoginUserInfoList(DataUtil.getUserInfo());
-                DataUtil.deleteData();
-                startActivity(new Intent(getActivity(), WelcomeLoginActivity.class));
-                getActivity().finish();
-            }
-        });
+                        DataUtil.deleteLoginUserInfoList(DataUtil.getUserInfo());
+                        DataUtil.deleteData();
+                        startActivity(new Intent(getActivity(), LoginActivity.class));
+                        getActivity().finish();
+                    }
+                });
     }
 }

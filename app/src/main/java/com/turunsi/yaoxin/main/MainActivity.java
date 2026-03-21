@@ -347,7 +347,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         fragments.add(mConversationFragment1);
         fragments.add(mContactFragment);
         fragments.add(new FoundFragment());
-        fragments.add(new MineFragment1());
+        fragments.add(new MineFragment());
 //        fragments.add(mConversationFragment1);
         FragmentAdapter fragmentAdapter = new FragmentAdapter(this);
         fragmentAdapter.setFragmentList(fragments);

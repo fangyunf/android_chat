@@ -48,7 +48,7 @@
                     android:id="@+id/activity_buy_feature_money_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="100"
+                    android:text="168"
                     android:textColor="#4C2E29"
                     android:textSize="50sp" />
 

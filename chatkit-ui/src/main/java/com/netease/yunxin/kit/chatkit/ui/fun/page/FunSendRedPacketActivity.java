@@ -54,6 +54,7 @@ import retrofit2.Response;
 
 public class FunSendRedPacketActivity extends BaseActivity implements View.OnClickListener {
     private static final String[] KEY = new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "<<", "0", "完成"};
+    private static final int MAX_RED_PACKET_AMOUNT = 2000 * 100;
     protected ActivityResultLauncher<Intent> forwardTeamLauncher;
     ActivityFunSendRedPacketBinding binding;
     ArrayList<GroupInfoBean> userList = new ArrayList<>();
@@ -409,6 +410,11 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
                 ToastUtils.toastMsg("请输入金额");
                 return;
             }
+            int amount = NumberUtil.formartUploadMoney(moneyStr);
+            if (amount > MAX_RED_PACKET_AMOUNT) {
+                ToastUtils.toastMsg("单笔红包上限2000元");
+                return;
+            }
 //            binding.activityFunSendRedPacketKeybordRl.setVisibility(View.VISIBLE);
             PopEnterPassword popEnterPassword = new PopEnterPassword(this, new OnPasswordInputFinish() {
                 @Override
@@ -444,6 +450,10 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
 
         if (amout <= 0) {
             ToastUtils.toastMsg("请输入金额");
+            return;
+        }
+        if (amout > MAX_RED_PACKET_AMOUNT) {
+            ToastUtils.toastMsg("单笔红包上限2000元");
             return;
         }
         RegisterBean bean = new RegisterBean();

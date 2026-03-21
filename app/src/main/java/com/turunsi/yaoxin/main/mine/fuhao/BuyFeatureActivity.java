@@ -62,7 +62,7 @@ public class BuyFeatureActivity extends BaseActivity implements View.OnClickList
 
     void _updateUI() {
         binding.activityBuyFeatureNav.getTitleView().setText("购买副号");
-        binding.activityBuyFeatureMoneyTv.setText("100");
+        binding.activityBuyFeatureMoneyTv.setText("168");
         binding.activityBuyFeatureDetailTv.setText("购买即得15个副号");
 
 //        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
@@ -124,32 +124,30 @@ public class BuyFeatureActivity extends BaseActivity implements View.OnClickList
                     registerBean.password = password;
                     registerBean.smsPhone = smsPhone;
                     LoadingDialog.showDialog(getSupportFragmentManager(), "购买中..");
-                    HttpUtil.apiW().home_gmfh(registerBean)
-                            .enqueue(new CommonCallback<NetData>() {
-                                @Override
-                                public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                    HttpUtil.apiW().home_gmfh(registerBean).enqueue(new CommonCallback<NetData>() {
+                        @Override
+                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                                    ToastUtils.toastMsg("购买成功");
-                                    EventBus.getDefault().post(new BaseEvent("reload_fuhao"));
-                                    finish();
-                                }
+                            ToastUtils.toastMsg("购买成功");
+                            EventBus.getDefault().post(new BaseEvent("reload_fuhao"));
+                            finish();
+                        }
 
-                                @Override
-                                public void Failure(Call<NetData> call, Throwable t) {
+                        @Override
+                        public void Failure(Call<NetData> call, Throwable t) {
 
-                                }
+                        }
 
-                                @Override
-                                public void end() {
-                                    super.end();
-                                    LoadingDialog.dismissDialog();
-                                }
-                            });
+                        @Override
+                        public void end() {
+                            super.end();
+                            LoadingDialog.dismissDialog();
+                        }
+                    });
                 }
-            }, "100");
+            }, "168");
             // 显示窗口
-            popEnterPassword.showAtLocation(binding.activityBuyFeatureRootRl,
-                    Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); // 设置layout在PopupWindow中显示的位置
+            popEnterPassword.showAtLocation(binding.activityBuyFeatureRootRl, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); // 设置layout在PopupWindow中显示的位置
         }
     }
 

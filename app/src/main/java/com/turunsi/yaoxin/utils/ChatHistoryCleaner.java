@@ -21,7 +21,7 @@ public final class ChatHistoryCleaner {
 
     private static final String TAG = "ChatHistoryCleaner";
     private static final long DAY_MS = 24 * 60 * 60 * 1000L;
-    private static final int RETENTION_DAYS = 7;
+    private static final int RETENTION_DAYS = 3;
 
     private static final AtomicBoolean sCleanedThisProcess = new AtomicBoolean(false);
 
