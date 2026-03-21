@@ -344,8 +344,8 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         mConversationFragment1 = FunConversationFragment.newInstance(1);
         mContactFragment = new ContactNewFragment();
         fragments.add(mConversationFragment);
-        fragments.add(mContactFragment);
         fragments.add(mConversationFragment1);
+        fragments.add(mContactFragment);
         fragments.add(new FoundFragment());
         fragments.add(new MineFragment1());
 //        fragments.add(mConversationFragment1);
@@ -423,7 +423,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
     @SuppressLint("UseCompatLoadingForDrawables")
     private void resetTabSkin() {
         if (mCurrentTab == activityMainBinding.contactBtnGroup) {
-            activityMainBinding.viewPager.setCurrentItem(1, false);
+            activityMainBinding.viewPager.setCurrentItem(2, false);
             activityMainBinding.contact.setTextColor(getResources().getColor(R.color.tab_checked_color));
             activityMainBinding.contact.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.mine_tabbar_txl_sel), null, null);
             changeStatusBarColor(R.color.fun_page_bg_color);
@@ -438,7 +438,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
             activityMainBinding.conversation.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.mine_tabbar_msg_sel), null, null);
             changeStatusBarColor(R.color.fun_page_bg_color);
         } else if (mCurrentTab == activityMainBinding.conversationBtnGroup1) {
-            activityMainBinding.viewPager.setCurrentItem(2, false);
+            activityMainBinding.viewPager.setCurrentItem(1, false);
             activityMainBinding.conversation1.setTextColor(getResources().getColor(R.color.tab_checked_color));
             activityMainBinding.conversation1.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.mine_tabbar_msg_group_sel), null, null);
             changeStatusBarColor(R.color.fun_page_bg_color);

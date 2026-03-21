@@ -36,7 +36,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "sanyang"
+rootProject.name = "xinda"
 include(":app")
 include(":conversationkit-ui")
 include(":teamkit-ui")
