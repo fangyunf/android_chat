@@ -4,7 +4,7 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.turunsi.sanyang",
+  "applicationId": "com.turunsi.xinda",
   "variantName": "release",
   "elements": [
     {
@@ -13,7 +13,7 @@
       "attributes": [],
       "versionCode": 9,
       "versionName": "1.0.8",
-      "outputFile": "sanyang_release_v1.0.8.apk"
+      "outputFile": "xinda_release_v1.0.8.apk"
     }
   ],
   "elementType": "File"

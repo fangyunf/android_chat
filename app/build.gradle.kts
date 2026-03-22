@@ -13,7 +13,7 @@ android {
         create("release") {
             keyAlias = "miliao"
             keyPassword = "qqqq1111"
-            storeFile = file("miliao.jks")
+            storeFile = file("xinda.jks")
             storePassword = "qqqq1111"
         }
     }
