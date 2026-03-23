@@ -74,8 +74,7 @@ public class ChatMessageListView extends RecyclerView implements IMessageData {
         initView(attrs);
     }
 
-    public ChatMessageListView(
-            @NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public ChatMessageListView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initView(attrs);
     }
@@ -85,35 +84,31 @@ public class ChatMessageListView extends RecyclerView implements IMessageData {
         setFocusable(true);
         setClickable(true);
         initRecyclerView();
-        gestureDetector =
-                new GestureDetector(
-                        getContext(),
-                        new GestureDetector.SimpleOnGestureListener() {
-                            @Override
-                            public boolean onSingleTapUp(MotionEvent e) {
-                                if (!isScroll) {
-                                    if (onListViewEventListener != null) {
-                                        onListViewEventListener.onListViewStartScroll();
-                                    }
-                                    isScroll = true;
-                                }
-                                return true;
-                            }
+        gestureDetector = new GestureDetector(getContext(), new GestureDetector.SimpleOnGestureListener() {
+            @Override
+            public boolean onSingleTapUp(MotionEvent e) {
+                if (!isScroll) {
+                    if (onListViewEventListener != null) {
+                        onListViewEventListener.onListViewStartScroll();
+                    }
+                    isScroll = true;
+                }
+                return true;
+            }
 
-                            @Override
-                            public boolean onScroll(
-                                    MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-                                if (!isScroll) {
-                                    if (onListViewEventListener != null) {
-                                        onListViewEventListener.onListViewStartScroll();
-                                    }
-                                    isScroll = true;
-                                    isStartScroll = true;
+            @Override
+            public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+                if (!isScroll) {
+                    if (onListViewEventListener != null) {
+                        onListViewEventListener.onListViewStartScroll();
+                    }
+                    isScroll = true;
+                    isStartScroll = true;
 
-                                }
-                                return true;
-                            }
-                        });
+                }
+                return true;
+            }
+        });
     }
 
     private void initRecyclerView() {
@@ -208,7 +203,7 @@ public class ChatMessageListView extends RecyclerView implements IMessageData {
     public void appendMessageList(List<ChatMessageBean> messageList, boolean needToScrollEnd) {
         if (messageAdapter != null) {
             messageAdapter.appendMessages(messageList);
-            if (needToScrollEnd && needScrollToBottom()) {
+            if (needToScrollEnd) {
                 scrollToEnd();
             }
         }
@@ -218,9 +213,7 @@ public class ChatMessageListView extends RecyclerView implements IMessageData {
     public void appendMessage(ChatMessageBean message) {
         if (messageAdapter != null) {
             messageAdapter.appendMessage(message);
-            if (needScrollToBottom()) {
-                scrollToEnd();
-            }
+            scrollToEnd();
         }
     }
 
@@ -374,8 +367,7 @@ public class ChatMessageListView extends RecyclerView implements IMessageData {
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        if (Math.abs(oldh - h)
-                > BarUtils.getStatusBarHeight(getContext()) + BarUtils.getNavBarHeight(getContext())) {
+        if (Math.abs(oldh - h) > BarUtils.getStatusBarHeight(getContext()) + BarUtils.getNavBarHeight(getContext())) {
             if (hasMoreNewerMessages) {
                 scrollBy(0, oldh - h);
             } else {
@@ -452,13 +444,10 @@ public class ChatMessageListView extends RecyclerView implements IMessageData {
             if (messageAdapter.getMessageList() == null || messageAdapter.getMessageList().isEmpty()) {
                 return;
             }
-            if (firstVisible < 0
-                    || lastVisible + 1 > messageAdapter.getMessageList().size()
-                    || firstVisible > lastVisible + 1) {
+            if (firstVisible < 0 || lastVisible + 1 > messageAdapter.getMessageList().size() || firstVisible > lastVisible + 1) {
                 return;
             }
-            loadHandler.onVisibleItemChange(
-                    messageAdapter.getMessageList().subList(firstVisible, lastVisible + 1));
+            loadHandler.onVisibleItemChange(messageAdapter.getMessageList().subList(firstVisible, lastVisible + 1));
         }
     }
 
