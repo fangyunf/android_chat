@@ -329,7 +329,6 @@
                             android:text="立即开通"
                             android:textColor="@color/white"
                             android:textSize="12sp" />
-
                     </LinearLayout>
 
 

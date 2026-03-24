@@ -662,29 +662,29 @@ public abstract class ChatBaseMessageViewHolder extends CommonBaseMessageViewHol
             }
             // 若消息不需要展示消息已读状态 或者 MessageProperties#getShowP2pMessageStatus 返回 false
             // 控制不展示点对点消息发送成功后的已读状态，则不进行点对点会话中消息已读状态展示，否则展示
-//            if (!properties.getShowP2pMessageStatus() || !data.getMessageData().getMessage().needMsgAck() || !ChatConfigManager.showReadStatus) {
-//                baseViewBinding.ivStatus.setVisibility(View.GONE);
-//            } else {
-            baseViewBinding.ivStatus.setVisibility(View.VISIBLE);
-            // 判断消息是否已读，根据已读状态设置对应状态图标
-            if (data.getMessageData().getMessage().isRemoteRead()) {
-                if (messageStatusUIOption.readFlagIconRes != null) {
-                    // 自定义设置消息已读状态图标资源
-                    baseViewBinding.ivStatus.setImageResource(messageStatusUIOption.readFlagIconRes);
-                } else {
-                    baseViewBinding.ivStatus.setImageResource(R.drawable.ic_message_red_new);
-                }
-                data.setHaveRead(true);
+            if (!properties.getShowP2pMessageStatus() || !data.getMessageData().getMessage().needMsgAck() || !ChatConfigManager.showReadStatus) {
+                baseViewBinding.ivStatus.setVisibility(View.GONE);
             } else {
-                if (messageStatusUIOption.unreadFlagIconRes != null) {
-                    // 自定义设置消息未读状态图标资源
-                    baseViewBinding.ivStatus.setImageResource(messageStatusUIOption.unreadFlagIconRes);
+                baseViewBinding.ivStatus.setVisibility(View.VISIBLE);
+                // 判断消息是否已读，根据已读状态设置对应状态图标
+                if (data.getMessageData().getMessage().isRemoteRead()) {
+                    if (messageStatusUIOption.readFlagIconRes != null) {
+                        // 自定义设置消息已读状态图标资源
+                        baseViewBinding.ivStatus.setImageResource(messageStatusUIOption.readFlagIconRes);
+                    } else {
+                        baseViewBinding.ivStatus.setImageResource(R.drawable.ic_message_red_new);
+                    }
+                    data.setHaveRead(true);
                 } else {
-                    baseViewBinding.ivStatus.setImageResource(R.drawable.ic_message_unread);
+                    if (messageStatusUIOption.unreadFlagIconRes != null) {
+                        // 自定义设置消息未读状态图标资源
+                        baseViewBinding.ivStatus.setImageResource(messageStatusUIOption.unreadFlagIconRes);
+                    } else {
+                        baseViewBinding.ivStatus.setImageResource(R.drawable.ic_message_unread);
 //                        baseViewBinding.ivStatus.setImageDrawable(new BitmapDrawable());
+                    }
                 }
             }
-            // }
             // 自定义设置是否展示已读状态
             if (messageStatusUIOption.showReadStatus != null) {
                 baseViewBinding.ivStatus.setVisibility(messageStatusUIOption.showReadStatus ? View.VISIBLE : View.GONE);
