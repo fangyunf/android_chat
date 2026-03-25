@@ -333,9 +333,10 @@ public class FunConversationFragment extends ConversationBaseFragment {
 
                                 }
                             }
-                            if (!hasKefu) {
-                                sendMessage(kefuId);
-                            }
+//                            if (!hasKefu) {
+//                                sendMessage(kefuId);
+//                            }
+
                             if (!hasXiaoZhushou) {
                                 sendMessage(xiaozhushouId);
                             }

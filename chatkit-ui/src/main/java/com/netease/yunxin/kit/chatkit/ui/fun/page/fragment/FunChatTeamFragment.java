@@ -48,6 +48,7 @@ import com.netease.yunxin.kit.chatkit.model.IMMessageInfo;
 import com.netease.yunxin.kit.chatkit.model.IMTeamMessageReceiptInfo;
 import com.netease.yunxin.kit.chatkit.model.UserInfoWithTeam;
 import com.netease.yunxin.kit.chatkit.ui.R;
+import com.netease.yunxin.kit.chatkit.ui.common.ChatUtils;
 import com.netease.yunxin.kit.chatkit.ui.common.MessageHelper;
 import com.netease.yunxin.kit.chatkit.ui.dialog.ChatEggOpenDialogFragment;
 import com.netease.yunxin.kit.chatkit.ui.fun.view.MessageBottomLayout;
@@ -254,7 +255,7 @@ public class FunChatTeamFragment extends FunChatFragment {
 
   private void refreshView() {
     if (teamInfo != null) {
-      chatView.getTitleBar().setTitle(teamInfo.getName());
+      chatView.getTitleBar().setTitle(ChatUtils.getTeamChatTitle(requireContext(), teamInfo));
       chatView.getMessageListView().updateTeamInfo(teamInfo);
     }
     if (currentMember != null && teamInfo != null) {

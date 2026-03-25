@@ -10,6 +10,7 @@
     <string name="chat_dialog_sure">确定</string>
     <string name="chat_pressed_to_speak">按住说话</string>
     <string name="chat_record_failed">录音失败，请重试</string>
+    <string name="chat_team_title_with_member_count">%1$s（%2$d人）</string>
     <string name="chat_message_send_hint">发送给 %s</string>
     <string name="chat_message_send_error">消息发送失败</string>
     <string name="chat_message_fetch_error">消息获取失败，请重试</string>

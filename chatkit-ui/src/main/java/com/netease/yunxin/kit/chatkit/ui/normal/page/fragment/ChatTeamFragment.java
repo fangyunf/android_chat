@@ -30,6 +30,7 @@ import com.netease.yunxin.kit.chatkit.model.IMMessageInfo;
 import com.netease.yunxin.kit.chatkit.model.IMTeamMessageReceiptInfo;
 import com.netease.yunxin.kit.chatkit.model.UserInfoWithTeam;
 import com.netease.yunxin.kit.chatkit.ui.R;
+import com.netease.yunxin.kit.chatkit.ui.common.ChatUtils;
 import com.netease.yunxin.kit.chatkit.ui.common.MessageHelper;
 import com.netease.yunxin.kit.chatkit.ui.model.ChatMessageBean;
 import com.netease.yunxin.kit.chatkit.ui.normal.view.MessageBottomLayout;
@@ -94,7 +95,7 @@ public class ChatTeamFragment extends NormalChatFragment {
 
   private void refreshView() {
     if (teamInfo != null) {
-      chatView.getTitleBar().setTitle(teamInfo.getName());
+      chatView.getTitleBar().setTitle(ChatUtils.getTeamChatTitle(requireContext(), teamInfo));
       chatView.updateInputHintInfo(teamInfo.getName());
       chatView.getMessageListView().updateTeamInfo(teamInfo);
     }
