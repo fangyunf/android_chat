@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="fun_conversation_search_text">搜索</string>
+    <string name="fun_selected_user_already_in_group">已在群中</string>
+    <string name="fun_selected_user_invite_pick_hint">请选择要邀请的好友</string>
 </resources>

@@ -21,6 +21,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.nanchen.wavesidebar.FirstLetterUtil;
 import com.nanchen.wavesidebar.WaveSideBarView;
+import com.netease.yunxin.kit.conversationkit.ui.R;
 import com.netease.yunxin.kit.conversationkit.ui.databinding.ActivityFunSelectedUserBinding;
 import com.netease.yunxin.kit.conversationkit.ui.fun.page.adapter.Fun_Selected_UserListAdapter;
 import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
@@ -49,8 +50,10 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -63,7 +66,8 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
 
     int page_type = 0;
     GroupInfoBean groupInfoBean;
-    ArrayList ids = new ArrayList<>();
+    /** 群成员 userId，邀请页用于标记已在群中 */
+    private Set<String> teamMemberUserIds;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -86,8 +90,13 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
 
         if (page_type == 2) {
             binding.activityFunSelectedUserNav.getTitleView().setText("邀请好友");
-            for (GroupInfoBean tempBen : groupInfoBean.userInfos) {
-                ids.add(tempBen.userId);
+            teamMemberUserIds = new HashSet<>();
+            if (groupInfoBean != null && groupInfoBean.userInfos != null) {
+                for (GroupInfoBean tempBen : groupInfoBean.userInfos) {
+                    if (tempBen.userId != null) {
+                        teamMemberUserIds.add(tempBen.userId);
+                    }
+                }
             }
         }
         if (page_type == 3) {
@@ -144,6 +153,7 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
             adapter.contacts = mContactModels;
             adapter.setItems(mContactModels);
             adapter.notifyDataSetChanged();
+            updateConfirmButtonLabel();
             return;
         }
         HttpUtil.apiW().friends_friendList(new RegisterBean())
@@ -172,20 +182,19 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
                                 return firstLetter.compareTo(secondLetter);
                             }
                         });
-                        if (page_type == 2) {
-                            ArrayList<GroupInfoBean> tempArray = new ArrayList<>();
+                        if (page_type == 2 && teamMemberUserIds != null) {
                             for (GroupInfoBean tempBean : mContactModels) {
-                                if (!ids.contains(tempBean.userId)) {
-                                    tempArray.add(tempBean);
-                                }
+                                boolean inGroup =
+                                        tempBean.userId != null
+                                                && teamMemberUserIds.contains(tempBean.userId);
+                                tempBean.alreadyInGroup = inGroup;
+                                tempBean.isSelected = inGroup;
                             }
-                            mContactModels = tempArray;
-                        } else {
-
                         }
                         adapter.contacts = mContactModels;
                         adapter.setItems(mContactModels);
                         adapter.notifyDataSetChanged();
+                        updateConfirmButtonLabel();
                     }
 
                     @Override
@@ -246,20 +255,16 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
                     return;
                 }
 
-                baseQuickAdapter.getItem(i).isSelected = !baseQuickAdapter.getItem(i).isSelected;
-                int count = 0;
-                for (GroupInfoBean tempInfoBean : baseQuickAdapter.getItems()) {
-                    if (tempInfoBean.isSelected) {
-                        count++;
-                    }
-
+                GroupInfoBean clicked = baseQuickAdapter.getItem(i);
+                if (clicked == null) {
+                    return;
                 }
-                if (count > 0) {
-                    binding.activityFunSelectedUserConfirmTv.setText("确定  " + count);
-                } else {
-
-                    binding.activityFunSelectedUserConfirmTv.setText("确定");
+                if (page_type == 2 && clicked.alreadyInGroup) {
+                    return;
                 }
+
+                clicked.isSelected = !clicked.isSelected;
+                updateConfirmButtonLabel();
                 adapter.notifyDataSetChanged();
             }
         });
@@ -299,16 +304,47 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
                     ArrayList<GroupInfoBean> tempArr = new ArrayList<>();
                     for (GroupInfoBean temp :
                             mContactModels) {
-                        if (temp.name.contains(string)) {
+                        if (temp.name != null && temp.name.contains(string)) {
                             tempArr.add(temp);
                         }
                     }
                     adapter.setItems(tempArr);
                     adapter.notifyDataSetChanged();
                 }
+                updateConfirmButtonLabel();
             }
         });
 
+    }
+
+    /** 底部「确定」计数：邀请页不含已在群成员 */
+    private int countEffectiveSelection() {
+        int count = 0;
+        for (GroupInfoBean b : mContactModels) {
+            if (!b.isSelected) {
+                continue;
+            }
+            if (page_type == 2 && b.alreadyInGroup) {
+                continue;
+            }
+            count++;
+        }
+        return count;
+    }
+
+    private void updateConfirmButtonLabel() {
+        if (binding.activityFunSelectedUserConfirmTv.getVisibility() != View.VISIBLE) {
+            return;
+        }
+        if (page_type != 1 && page_type != 2 && page_type != 3) {
+            return;
+        }
+        int count = countEffectiveSelection();
+        if (count > 0) {
+            binding.activityFunSelectedUserConfirmTv.setText("确定  " + count);
+        } else {
+            binding.activityFunSelectedUserConfirmTv.setText("确定");
+        }
     }
 
 
@@ -321,11 +357,15 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
             ArrayList list = new ArrayList();
             ArrayList nameList = new ArrayList();
             for (GroupInfoBean tempBen : mContactModels) {
-                if (tempBen.isSelected) {
-                    list.add(tempBen.userId);
-                    if (nameList.size() < 3) {
-                        nameList.add(tempBen.name);
-                    }
+                if (!tempBen.isSelected) {
+                    continue;
+                }
+                if (page_type == 2 && tempBen.alreadyInGroup) {
+                    continue;
+                }
+                list.add(tempBen.userId);
+                if (nameList.size() < 3) {
+                    nameList.add(tempBen.name);
                 }
             }
             if (page_type == 1) {
@@ -362,6 +402,10 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
                 });
 
             } else if (page_type == 2) {
+                if (list.isEmpty()) {
+                    ToastUtils.toastMsg(getString(R.string.fun_selected_user_invite_pick_hint));
+                    return;
+                }
                 RegisterBean bean = new RegisterBean();
                 bean.groupId = groupInfoBean.groupId;
                 bean.members = list;

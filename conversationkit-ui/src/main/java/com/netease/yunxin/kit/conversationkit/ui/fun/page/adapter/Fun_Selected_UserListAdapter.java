@@ -28,6 +28,7 @@ public class Fun_Selected_UserListAdapter extends BaseQuickAdapter<GroupInfoBean
 
         ImageView iv = quickViewHolder.getView(R.id.cell_fun_selected_user_list_head_iv);
         ImageView selectIv = quickViewHolder.getView(R.id.cell_fun_selected_user_list_selected_iv);
+        TextView inGroupTv = quickViewHolder.getView(R.id.cell_fun_selected_user_list_in_group_tv);
         TextView tv = quickViewHolder.getView(R.id.cell_fun_selected_user_list_tv_index);
         if (!TextUtils.isEmpty(infoBean.remark)) {
             quickViewHolder.setText(R.id.cell_fun_selected_user_list_name_tv, infoBean.remark);
@@ -35,8 +36,17 @@ public class Fun_Selected_UserListAdapter extends BaseQuickAdapter<GroupInfoBean
             quickViewHolder.setText(R.id.cell_fun_selected_user_list_name_tv, infoBean.name);
         }
         GlideUtil.yh_loadImageRoundedCorner(getContext(), iv, infoBean.avatar, 22);
-//        selectIv.setVisibility(infoBean.isSelected ? View.VISIBLE:View.GONE);
-        selectIv.setSelected(infoBean.isSelected);
+        if (infoBean.alreadyInGroup) {
+            inGroupTv.setVisibility(View.VISIBLE);
+            selectIv.setSelected(true);
+            selectIv.setEnabled(false);
+            selectIv.setAlpha(0.45f);
+        } else {
+            inGroupTv.setVisibility(View.GONE);
+            selectIv.setSelected(infoBean.isSelected);
+            selectIv.setEnabled(true);
+            selectIv.setAlpha(1f);
+        }
         if (position == 0 || !contacts.get(position - 1).getIndex().equals(infoBean.getIndex())) {
             tv.setVisibility(View.VISIBLE);
             tv.setText(infoBean.getIndex());

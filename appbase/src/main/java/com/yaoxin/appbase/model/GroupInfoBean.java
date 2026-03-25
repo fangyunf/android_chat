@@ -45,6 +45,8 @@ public class GroupInfoBean {
     public int topState;
     public int inviteState;
     public boolean isSelected;
+    /** 选择联系人页：是否已是群成员（仅邀请入群等场景使用） */
+    public boolean alreadyInGroup;
     public int addFriendsState;
     public int shutupState;
     public int nonCollectionState;
