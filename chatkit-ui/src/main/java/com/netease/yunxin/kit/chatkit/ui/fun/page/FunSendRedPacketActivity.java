@@ -411,10 +411,19 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
                 return;
             }
             int amount = NumberUtil.formartUploadMoney(moneyStr);
-            if (amount > MAX_RED_PACKET_AMOUNT) {
-                ToastUtils.toastMsg("单笔红包上限2000元");
-                return;
+
+            if (type == 1) {
+                if (amount > 200 * 100) {
+                    ToastUtils.toastMsg("单笔红包上限200元");
+                    return;
+                }
+            } else {
+                if (amount > MAX_RED_PACKET_AMOUNT) {
+                    ToastUtils.toastMsg("单笔红包上限2000元");
+                    return;
+                }
             }
+
 //            binding.activityFunSendRedPacketKeybordRl.setVisibility(View.VISIBLE);
             PopEnterPassword popEnterPassword = new PopEnterPassword(this, new OnPasswordInputFinish() {
                 @Override
@@ -452,9 +461,16 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
             ToastUtils.toastMsg("请输入金额");
             return;
         }
-        if (amout > MAX_RED_PACKET_AMOUNT) {
-            ToastUtils.toastMsg("单笔红包上限2000元");
-            return;
+        if (type == 1) {
+            if (amout > 200 * 100) {
+                ToastUtils.toastMsg("单笔红包上限200元");
+                return;
+            }
+        } else {
+            if (amout > MAX_RED_PACKET_AMOUNT) {
+                ToastUtils.toastMsg("单笔红包上限2000元");
+                return;
+            }
         }
         RegisterBean bean = new RegisterBean();
         bean.amount = amout;

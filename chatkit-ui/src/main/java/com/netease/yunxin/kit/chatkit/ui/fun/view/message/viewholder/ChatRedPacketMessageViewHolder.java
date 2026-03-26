@@ -70,13 +70,13 @@ public class ChatRedPacketMessageViewHolder extends FunChatBaseMessageViewHolder
             }
             if (bean.type == 21) {
                 viewBinding.funChatMessageRedPacketViewHolderGreetingTv.setText(bean.result.toUserName);
-                viewBinding.funChatMessageRedPacketViewHolderTypeTv.setText("专属红包");
+                viewBinding.funChatMessageRedPacketViewHolderTypeTv.setText("专属红包" + "¥" + NumberUtil.formartMoney(bean.result.amount));
             } else if (bean.type == 22) {
                 viewBinding.funChatMessageRedPacketViewHolderGreetingTv.setText(bean.result.title);
-                viewBinding.funChatMessageRedPacketViewHolderTypeTv.setText("红包");
+                viewBinding.funChatMessageRedPacketViewHolderTypeTv.setText("红包" + "¥" + NumberUtil.formartMoney(bean.result.amount));
             } else {
                 viewBinding.funChatMessageRedPacketViewHolderGreetingTv.setText(bean.result.title);
-                viewBinding.funChatMessageRedPacketViewHolderTypeTv.setText("拼手气红包");
+                viewBinding.funChatMessageRedPacketViewHolderTypeTv.setText("拼手气红包" + "¥" + NumberUtil.formartMoney(bean.result.amount));
             }
             viewBinding.funChatMessageRedPacketViewHolderTimeTv.setText(TimeUtil.stampToDate(bean.result.createTime));
 //      if (bean.type == 21) {
