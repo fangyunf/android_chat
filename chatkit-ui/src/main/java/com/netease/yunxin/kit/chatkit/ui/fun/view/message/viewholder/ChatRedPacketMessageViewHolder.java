@@ -93,7 +93,7 @@ public class ChatRedPacketMessageViewHolder extends FunChatBaseMessageViewHolder
         // 为红包消息设置宽度限制，防止在小屏幕手机上被裁剪
         if (viewBinding != null) {
             View rootView = viewBinding.getRoot();
-            // 红包的理想宽度是 216dp
+            // 红包的理想宽度是 230dp
             int idealRedPacketWidth = (int) TypedValue.applyDimension(
                     TypedValue.COMPLEX_UNIT_DIP, 230,
                     parent.getContext().getResources().getDisplayMetrics()
@@ -105,14 +105,15 @@ public class ChatRedPacketMessageViewHolder extends FunChatBaseMessageViewHolder
             if (availableWidth <= 0) {
                 availableWidth = baseViewBinding.messageContainer.getMeasuredWidth();
             }
-            // 如果可用宽度小于红包理想宽度，动态调整红包宽度以适应可用空间
-            if (availableWidth > 0 && availableWidth < idealRedPacketWidth) {
-                // 调整红包的宽度以适应可用空间，防止被裁剪
-                ViewGroup.LayoutParams redPacketLayoutParams = rootView.getLayoutParams();
-                if (redPacketLayoutParams != null) {
-                    redPacketLayoutParams.width = availableWidth;
-                    rootView.setLayoutParams(redPacketLayoutParams);
-                }
+            // 每次都重设宽度，避免 RecyclerView 复用导致红包宽度残留（出现一大一小）
+            int targetWidth = idealRedPacketWidth;
+            if (availableWidth > 0) {
+                targetWidth = Math.min(availableWidth, idealRedPacketWidth);
+            }
+            ViewGroup.LayoutParams redPacketLayoutParams = rootView.getLayoutParams();
+            if (redPacketLayoutParams != null && redPacketLayoutParams.width != targetWidth) {
+                redPacketLayoutParams.width = targetWidth;
+                rootView.setLayoutParams(redPacketLayoutParams);
             }
         }
     }
