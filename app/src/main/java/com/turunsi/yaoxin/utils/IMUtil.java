@@ -38,10 +38,9 @@ import retrofit2.Response;
 public class IMUtil {
     public static void loginIM(Activity context, String account, String token) {
 
-        LoginInfo loginInfo =
-                LoginInfo.LoginInfoBuilder.loginInfoDefault(account, token)
-                        .withAppKey(DataUtils.readAppKey(context))
-                        .build();
+        LoginInfo loginInfo = LoginInfo.LoginInfoBuilder.loginInfoDefault(account, token)
+                .withAppKey(DataUtils.readAppKey(context))
+                .build();
         IMKitClient.loginIM(
                 loginInfo,
                 new LoginCallback<LoginInfo>() {

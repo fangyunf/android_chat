@@ -98,6 +98,8 @@ public class FunConversationFragment extends ConversationBaseFragment {
 
     private boolean _needRefresh;
     private String noticeText = "";
+    /** 与顶部 tvNoticeCount 一致，用于列表头「系统公告」角标 */
+    private int cachedTotalNoticeUnread;
     private RecyclerView.Adapter<?> headerAdapterRef;
     private int topIndex;
 
@@ -482,11 +484,15 @@ public class FunConversationFragment extends ConversationBaseFragment {
         finishCount++;
         if (finishCount == TOTAL_REQUESTS) {
             int totalUnread = nimUnread + sysNoticeUnread + applyUnread;
+            cachedTotalNoticeUnread = sysNoticeUnread;
             if (totalUnread > 0) {
                 viewBinding.tvNoticeCount.setVisibility(View.VISIBLE);
                 viewBinding.tvNoticeCount.setText(totalUnread + "");
             } else {
                 viewBinding.tvNoticeCount.setVisibility(View.GONE);
+            }
+            if (headerAdapterRef != null) {
+                headerAdapterRef.notifyItemChanged(0);
             }
             finishCount = 0;
         }
@@ -667,6 +673,15 @@ public class FunConversationFragment extends ConversationBaseFragment {
                 public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
                     TextView tv = holder.itemView.findViewById(R.id.messageTv);
                     tv.setText(noticeText);
+                    TextView unreadTv = holder.itemView.findViewById(R.id.unreadTv);
+                    if (unreadTv != null) {
+                        if (cachedTotalNoticeUnread > 0) {
+                            unreadTv.setVisibility(View.VISIBLE);
+                            unreadTv.setText(String.valueOf(cachedTotalNoticeUnread));
+                        } else {
+                            unreadTv.setVisibility(View.GONE);
+                        }
+                    }
                     // 头像点击（或整个头部）跳转到系统公告页
                     holder.itemView.setOnClickListener(v ->
                             FunSystem_Notice_New_Activity.start(
