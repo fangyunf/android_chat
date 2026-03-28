@@ -477,6 +477,21 @@ public class FunConversationFragment extends ConversationBaseFragment {
         });
     }
 
+    // 每个请求完成后调用
+    private void onOneRequestFinish() {
+        finishCount++;
+        if (finishCount == TOTAL_REQUESTS) {
+            int totalUnread = nimUnread + sysNoticeUnread + applyUnread;
+            if (totalUnread > 0) {
+                viewBinding.tvNoticeCount.setVisibility(View.VISIBLE);
+                viewBinding.tvNoticeCount.setText(totalUnread + "");
+            } else {
+                viewBinding.tvNoticeCount.setVisibility(View.GONE);
+            }
+            finishCount = 0;
+        }
+    }
+
 
     void requestKefu(String kefuId) {
         RegisterBean bean = new RegisterBean();
