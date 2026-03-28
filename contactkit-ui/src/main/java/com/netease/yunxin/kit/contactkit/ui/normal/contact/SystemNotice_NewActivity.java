@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.netease.yunxin.kit.contactkit.ui.databinding.ActivitySystemNoticeNewBinding;
 import com.netease.yunxin.kit.contactkit.ui.normal.contact.adapter.System_noticeAdapter;
+import com.netease.yunxin.kit.corekit.im.utils.PreferenceUtils;
 import com.yaoxin.appbase.activity.BaseActivity;
 import com.yaoxin.appbase.model.GroupInfoBean;
 import com.yaoxin.appbase.model.NetData;
@@ -51,6 +52,7 @@ public class SystemNotice_NewActivity extends BaseActivity implements View.OnCli
                         List<GroupInfoBean> tempList = new Gson().fromJson(body.data.toString(), type);
                         adapter.setItems(tempList);
                         adapter.notifyDataSetChanged();
+                        PreferenceUtils.INSTANCE.saveInt("sysNotice", tempList.size());
                     }
 
                     @Override
