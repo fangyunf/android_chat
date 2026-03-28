@@ -1,6 +1,5 @@
 package com.turunsi.yaoxin.main.mine.purse.recharge;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,6 +13,7 @@ import android.text.method.DigitsKeyListener;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -22,7 +22,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.alipay.sdk.app.AlipayApi;
 import com.alipay.sdk.app.PayTask;
 import com.chad.library.adapter4.BaseQuickAdapter;
 import com.google.gson.Gson;
@@ -31,12 +30,10 @@ import com.turunsi.yaoxin.R;
 import com.yaoxin.appbase.activity.BaseActivity;
 import com.turunsi.yaoxin.databinding.ActivityMinePurseRechargeBinding;
 import com.yaoxin.appbase.model.NetData;
-import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.model.RequestParamsBean;
 import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
-import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.DialogAlertUtil;
 import com.yaoxin.appbase.utils.NumberUtil;
 import com.yaoxin.appbase.utils.StatusBarUtils;
@@ -51,6 +48,9 @@ import retrofit2.Response;
 
 public class PurseRechargeActivity extends BaseActivity implements View.OnClickListener {
     ActivityMinePurseRechargeBinding binding;
+    /** 1×1 隐藏 WebView，支付宝 H5 收银台在此加载并由 SDK 拦截 */
+    private WebView h5PayWebView;
+    private boolean h5PayWebViewConfigured;
     String payType = "alipay";
     int _type = 0;
     private RecyclerView recyclerView;
@@ -107,6 +107,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
         setContentView(binding.getRoot());
         StatusBarUtils.transtStatusBar(this, binding.activityMinePurseRechargeNav);
         binding.activityMinePurseRechargeNav.addCloseImageButton().setOnClickListener(this);
+        h5PayWebView = binding.activityMinePurseRechargeH5PayWv;
         recyclerView = binding.activityMinePurseRechargeRv;
         recyclerView1 = binding.activityMinePurseRechargeRv1;
         _initRecycleView();
@@ -114,6 +115,36 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
             _type = Integer.parseInt((String) extras.get("type"));
         }
         _initCell();
+    }
+
+    private void ensureH5PayWebView() {
+        if (h5PayWebView == null || h5PayWebViewConfigured) {
+            return;
+        }
+        AlipayH5PayWebHelper.configure(h5PayWebView, this);
+        h5PayWebViewConfigured = true;
+    }
+
+    /**
+     * 在当前页用隐藏 WebView 打开支付宝 H5 收银台（逻辑同 {@link H5PayActivity}），不再跳转新页面。
+     */
+    private void startAlipayH5PayInHiddenWebView(String url) {
+        if (url == null || url.isEmpty()) {
+            ToastUtils.toastMsg("支付地址无效");
+            return;
+        }
+        ensureH5PayWebView();
+        if (h5PayWebView != null) {
+            h5PayWebView.loadUrl(url);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        AlipayH5PayWebHelper.destroyWebView(h5PayWebView);
+        h5PayWebView = null;
+        h5PayWebViewConfigured = false;
+        super.onDestroy();
     }
 
     void _initRecycleView() {
@@ -373,7 +404,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
                         @Override
                         public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                             UserBean userBean = new Gson().fromJson(body.data.toString(), UserBean.class);
-                            startAlipayPayment1(userBean.url);
+                            startAlipayH5PayInHiddenWebView(userBean.url);
                         }
 
                         @Override
@@ -484,7 +515,6 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
         } else {
             startAlipay(url);
         }
-
     }
 
     private void startAlipayPayment(String url) {
@@ -493,7 +523,6 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 // 设置URL，替换为你想打开的网页地址
                 intent.setData(Uri.parse(url));
-
                 // 启动Intent，跳转到浏览器
                 startActivity(intent);
             } catch (Exception e) {
