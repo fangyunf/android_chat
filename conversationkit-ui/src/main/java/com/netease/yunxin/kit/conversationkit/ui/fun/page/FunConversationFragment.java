@@ -204,6 +204,8 @@ public class FunConversationFragment extends ConversationBaseFragment {
     public void onMessageEvent(BaseEvent event) {
         if (event.getTag().equals("refresh_chat_list")) {
             _needRefresh = true;
+        } else if ("refresh_notice".equals(event.getTag())) {
+            getMessageCount();
         }
     }
 
@@ -214,6 +216,7 @@ public class FunConversationFragment extends ConversationBaseFragment {
             _needRefresh = false;
             requestMsg();
         }
+        getMessageCount();
     }
 
     @Override

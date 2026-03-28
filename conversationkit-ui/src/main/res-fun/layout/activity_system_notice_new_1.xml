@@ -9,34 +9,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_white"
-
     android:orientation="vertical">
-
 
     <com.yaoxin.appbase.navbar.NavToolbar
         android:id="@+id/activity_system_notice_new_nav"
         style="@style/WhiteFontToolbar"
-        android:background="@color/color_F2F2F2"
+        android:background="#ffffff"
         app:back_icon="@mipmap/temp_ic_back"
         app:enable_under_divider="true"
         app:support_translucent_status_bar="false"
         app:title="系统通知"
         app:title_text_color="@color/color_333333"
-        app:under_divider_color="@color/transparent"
-
-        />
+        app:under_divider_color="@color/transparent" />
 
     <LinearLayout
         android:id="@+id/activity_system_notice_new_xttz_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:gravity="center_vertical"
         android:paddingHorizontal="15dp">
 
         <ImageView
-            android:layout_width="56dp"
-            android:layout_height="56dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:src="@drawable/system_notice_xttz" />
 
         <TextView
@@ -65,13 +61,13 @@
         android:id="@+id/activity_system_notice_new_qtz_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:gravity="center_vertical"
         android:paddingHorizontal="15dp">
 
         <ImageView
-            android:layout_width="@dimen/dimen_56_dp"
-            android:layout_height="@dimen/dimen_56_dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:src="@drawable/system_notice_quntongzhi" />
 
         <TextView
@@ -99,13 +95,13 @@
         android:id="@+id/activity_system_notice_new_qbxx_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:gravity="center_vertical"
         android:paddingHorizontal="15dp">
 
         <ImageView
-            android:layout_width="@dimen/dimen_56_dp"
-            android:layout_height="@dimen/dimen_56_dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:src="@drawable/system_notice_qianbao" />
 
         <TextView
