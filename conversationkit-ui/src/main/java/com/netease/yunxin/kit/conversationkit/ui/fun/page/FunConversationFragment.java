@@ -51,6 +51,7 @@ import com.netease.yunxin.kit.conversationkit.ui.fun.page.Bean.ConversationCusto
 import com.netease.yunxin.kit.conversationkit.ui.model.ConversationBean;
 import com.netease.yunxin.kit.conversationkit.ui.page.ConversationBaseFragment;
 import com.netease.yunxin.kit.corekit.im.IMKitClient;
+import com.netease.yunxin.kit.corekit.im.utils.PreferenceUtils;
 import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
 import com.netease.yunxin.kit.corekit.route.XKitRouter;
 import com.sunfusheng.marqueeview.IMarqueeItem;
@@ -85,6 +86,13 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 public class FunConversationFragment extends ConversationBaseFragment {
+
+
+    private int nimUnread = 0;
+    private int sysNoticeUnread = 0;
+    private int applyUnread = 0;
+    private int finishCount = 0; // 记录完成的请求数
+    private final int TOTAL_REQUESTS = 3;
 
     private FunConversationFragmentBinding viewBinding;
 
@@ -350,6 +358,88 @@ public class FunConversationFragment extends ConversationBaseFragment {
                         }
                     });
         }
+    }
+
+
+    //获取消息数量
+    private void getMessageCount() {
+//        sendMessage(DataUtil.getUserid());
+        nimUnread = 0;
+        sysNoticeUnread = 0;
+        applyUnread = 0;
+        finishCount = 0;
+        // 1. 网易云信未读
+        NIMClient.getService(MsgService.class).queryUnreadMessageList(DataUtil.getUserid(), SessionTypeEnum.P2P).setCallback(new RequestCallback<List<IMMessage>>() {
+            @Override
+            public void onSuccess(List<IMMessage> result) {
+                nimUnread += result.size();
+                onOneRequestFinish();
+            }
+
+            @Override
+            public void onFailed(int code) {
+                onOneRequestFinish();
+            }
+
+            @Override
+            public void onException(Throwable exception) {
+                onOneRequestFinish();
+            }
+        });
+//        NIMClient.getService(MsgService.class).queryRecentContacts().setCallback(new RequestCallback<List<RecentContact>>() {
+//            @Override
+//            public void onSuccess(List<RecentContact> recents) {
+//                for (RecentContact recent : recents) {
+//                    if (recent.getContactId().equals(DataUtil.getUserid())) {  // targetId 是你要查询的会话ID
+//                        nimUnread += recent.getUnreadCount();
+//                    }
+//                }
+//                onOneRequestFinish();
+//            }
+//
+//            @Override
+//            public void onFailed(int code) {
+//                onOneRequestFinish();
+//            }
+//
+//            @Override
+//            public void onException(Throwable exception) {
+//                onOneRequestFinish();
+//            }
+//        });
+
+        // 2. 系统通知未读
+        HttpUtil.apiW().customer_noticeList().enqueue(new CommonCallback<NetData>() {
+            @Override
+            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                Type type = new TypeToken<List<GroupInfoBean>>() {
+                }.getType();
+                List<GroupInfoBean> tempList = new Gson().fromJson(body.data.toString(), type);
+                int oldCount = PreferenceUtils.INSTANCE.getInt("sysNotice", 0);
+                sysNoticeUnread = Math.max(0, tempList.size() - oldCount);
+                onOneRequestFinish();
+            }
+
+            @Override
+            public void Failure(Call<NetData> call, Throwable t) {
+                onOneRequestFinish();
+            }
+        });
+
+        // 3. 好友申请未读
+        HttpUtil.apiW().friends_applyListNum(new RegisterBean()).enqueue(new CommonCallback<NetData>() {
+            @Override
+            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                GroupInfoBean applyNumBean = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
+                applyUnread = Math.max(0, applyNumBean.groupApplyNum);
+                onOneRequestFinish();
+            }
+
+            @Override
+            public void Failure(Call<NetData> call, Throwable t) {
+                onOneRequestFinish();
+            }
+        });
     }
 
     private void loadFriendList() {
