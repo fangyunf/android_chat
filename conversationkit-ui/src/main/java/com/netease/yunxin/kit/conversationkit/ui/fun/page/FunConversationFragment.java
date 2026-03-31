@@ -151,19 +151,28 @@ public class FunConversationFragment extends ConversationBaseFragment {
     @Override
     public void onPause() {
         super.onPause();
-        if (_type == 0 || _type == 3) {
-            if (!AppProxy.searchKeyWord0.isEmpty()) {
-                viewBinding.funConversationFragmentEt.setText("");
-                AppProxy.searchKeyWord0 = "";
-                conversationView.adapter.notifyDataSetChanged();
-            }
-        } else {
-            if (!AppProxy.searchKeyWord1.isEmpty()) {
-                viewBinding.funConversationFragmentEt.setText("");
-                AppProxy.searchKeyWord1 = "";
-                conversationView.adapter.notifyDataSetChanged();
-            }
-        }
+    if (_type == 0) {
+      if (!AppProxy.searchKeyWord0.isEmpty()) {
+        viewBinding.funConversationFragmentEt.setText("");
+        AppProxy.searchKeyWord0 = "";
+        conversationView.adapter.notifyDataSetChanged();
+      }
+    } else if (_type == 1) {
+      if (!AppProxy.searchKeyWord1.isEmpty()) {
+        viewBinding.funConversationFragmentEt.setText("");
+        AppProxy.searchKeyWord1 = "";
+        conversationView.adapter.notifyDataSetChanged();
+      }
+    } else if (_type == 3) {
+      // 消息页包含单聊+群聊，两种会话都要清空搜索关键字
+      if (!AppProxy.searchKeyWord0.isEmpty()
+          || !AppProxy.searchKeyWord1.isEmpty()) {
+        viewBinding.funConversationFragmentEt.setText("");
+        AppProxy.searchKeyWord0 = "";
+        AppProxy.searchKeyWord1 = "";
+        conversationView.adapter.notifyDataSetChanged();
+      }
+    }
 
 
     }
@@ -183,11 +192,15 @@ public class FunConversationFragment extends ConversationBaseFragment {
             @Override
             public void afterTextChanged(Editable s) {
                 String string = s.toString();
-                if (_type == 0 || _type == 3) {
-                    AppProxy.getInstance().searchKeyWord0 = string;
-                } else {
-                    AppProxy.getInstance().searchKeyWord1 = string;
-                }
+        if (_type == 0) {
+          AppProxy.getInstance().searchKeyWord0 = string;
+        } else if (_type == 1) {
+          AppProxy.getInstance().searchKeyWord1 = string;
+        } else if (_type == 3) {
+          // 消息页同时搜索单聊(P2P) 和 群聊(TEAM)
+          AppProxy.getInstance().searchKeyWord0 = string;
+          AppProxy.getInstance().searchKeyWord1 = string;
+        }
 
                 conversationView.adapter.notifyDataSetChanged();
             }
