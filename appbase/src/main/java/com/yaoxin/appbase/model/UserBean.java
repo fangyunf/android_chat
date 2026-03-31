@@ -19,6 +19,7 @@ public class UserBean {
     public String zfb;
     public String phone;
     public String url;
+    public String sdkUrl;
     //    为1是会员    0或者空为非会员
     public String hy;
     public String qrCode;

@@ -3,15 +3,22 @@ package com.turunsi.yaoxin.main.mine.purse.recharge;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.text.Editable;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.DigitsKeyListener;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import com.alipay.sdk.app.PayTask;
 import com.google.gson.Gson;
 import com.turunsi.yaoxin.R;
 import com.yaoxin.appbase.activity.BaseActivity;
@@ -27,6 +34,8 @@ import com.yaoxin.appbase.utils.DialogAlertUtil;
 import com.yaoxin.appbase.utils.NumberUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
 
+import java.util.Map;
+
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -34,6 +43,47 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
     ActivityMinePurseRechargeBinding binding;
     String payType = "alipay";
     int _type = 0;
+    private static final int SDK_PAY_FLAG = 1;
+
+    private Handler mHandler = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == SDK_PAY_FLAG) {
+                @SuppressWarnings("unchecked") Map<String, String> result = (Map<String, String>) msg.obj;
+                Log.d("Alipay", "Result === " + result.toString());
+
+                // 支付结果处理逻辑
+                String resultStatus = result.get("resultStatus");
+
+                switch (resultStatus) {
+                    case "9000":
+                        Toast.makeText(PurseRechargeActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
+                        break;
+                    case "8000":
+                        Toast.makeText(PurseRechargeActivity.this, "支付结果正在确认中", Toast.LENGTH_SHORT).show();
+                        break;
+                    case "4000":
+                        Toast.makeText(PurseRechargeActivity.this, "支付失败", Toast.LENGTH_SHORT).show();
+                        break;
+                    case "5000":
+                        Toast.makeText(PurseRechargeActivity.this, "重复请求", Toast.LENGTH_SHORT).show();
+                        break;
+                    case "6001":
+                        Toast.makeText(PurseRechargeActivity.this, "用户取消支付", Toast.LENGTH_SHORT).show();
+                        break;
+                    case "6002":
+                        Toast.makeText(PurseRechargeActivity.this, "网络连接出错", Toast.LENGTH_SHORT).show();
+                        break;
+                    case "6004":
+                        Toast.makeText(PurseRechargeActivity.this, "支付结果未知，请稍后查询", Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        Toast.makeText(PurseRechargeActivity.this, "其他支付状态：" + resultStatus, Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        }
+    };
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -131,19 +181,18 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected void _requestData() {
-        HttpUtil.apiW().home_balance()
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        UserBean bean = new Gson().fromJson(body.data.toString(), UserBean.class);
+        HttpUtil.apiW().home_balance().enqueue(new CommonCallback<NetData>() {
+            @Override
+            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                UserBean bean = new Gson().fromJson(body.data.toString(), UserBean.class);
 //                        binding.activityMinePurseRechargeAccountTv.setText("¥"+NumberUtil.formartMoney(bean.balance));
-                    }
+            }
 
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
+            @Override
+            public void Failure(Call<NetData> call, Throwable t) {
 
-                    }
-                });
+            }
+        });
     }
 
     @Override
@@ -201,20 +250,27 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
         registerBean.payWay = "syPay";
         registerBean.type = payType;
         registerBean.userId = DataUtil.getUserid();
-        HttpUtil.apiW().pay_gsPay(registerBean)
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        UserBean userBean = new Gson().fromJson(body.data.toString(), UserBean.class);
+        HttpUtil.apiW().pay_gsPay(registerBean).enqueue(new CommonCallback<NetData>() {
+            @Override
+            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                UserBean userBean = new Gson().fromJson(body.data.toString(), UserBean.class);
 //                        RechargeScanFragment.showV(getSupportFragmentManager(),payType.equals("wxpay")?"请使用微信扫码":"请使用支付宝扫码",userBean.payUrl);
+                if (payType.equals("alipay")) {
+                    if (!TextUtils.isEmpty(userBean.sdkUrl)) {
+                        startAlipay(userBean.sdkUrl);
+                    } else {
                         startAlipayPayment(userBean.url);
                     }
+                } else {
+                    startAlipayPayment(userBean.url);
+                }
+            }
 
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
+            @Override
+            public void Failure(Call<NetData> call, Throwable t) {
 
-                    }
-                });
+            }
+        });
 
 
 //        RequestParamsBean registerBean = new RequestParamsBean();
@@ -253,6 +309,19 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
 //                        }
 //                    });
 //        }
+    }
+
+    private void startAlipay(String orderInfo) {
+        Runnable payRunnable = () -> {
+            PayTask alipay = new PayTask(PurseRechargeActivity.this);
+            Map<String, String> result = alipay.payV2(orderInfo, true);
+            Message msg = new Message();
+            msg.what = SDK_PAY_FLAG;
+            msg.obj = result;
+            mHandler.sendMessage(msg);
+        };
+        Thread payThread = new Thread(payRunnable);
+        payThread.start();
     }
 
     private void startAlipayPayment(String url) {

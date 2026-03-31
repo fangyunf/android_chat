@@ -21,8 +21,8 @@ android {
         applicationId = "com.turunsi.yipingxiang"
         minSdk = 21
         targetSdk = 33
-        versionCode = 4
-        versionName = "1.0.3"
+        versionCode = 5
+        versionName = "1.0.4"
         multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -99,6 +99,7 @@ dependencies {
     implementation("com.google.code.gson:gson:2.9.0")
     implementation("commons-codec:commons-codec:1.10")
     implementation("androidx.annotation:annotation:1.3.0")
+    implementation("com.alipay.sdk:alipaysdk-android:+@aar")
 
 
 }
