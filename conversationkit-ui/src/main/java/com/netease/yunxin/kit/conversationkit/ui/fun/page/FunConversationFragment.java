@@ -57,6 +57,7 @@ import com.netease.yunxin.kit.corekit.route.XKitRouter;
 import com.sunfusheng.marqueeview.IMarqueeItem;
 import com.yaoxin.appbase.model.GroupInfoBean;
 import com.yaoxin.appbase.model.NetData;
+import com.yaoxin.appbase.model.ParamsBean;
 import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
@@ -357,23 +358,48 @@ public class FunConversationFragment extends ConversationBaseFragment {
 
 
     private void loadFriendList() {
-        HttpUtil.apiW().friends_friendList(new RegisterBean()).enqueue(new CommonCallback<NetData>() {
+        loadFriendListPage(1);
+    }
+
+    private void loadFriendListPage(int page) {
+        ParamsBean paramsBean = new ParamsBean();
+        paramsBean.page = page;
+        HttpUtil.apiW().friends_friendListPage(paramsBean).enqueue(new CommonCallback<NetData>() {
             @Override
             public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                Type type = new TypeToken<List<GroupInfoBean>>() {
-                }.getType();
-                List<GroupInfoBean> tempList = new Gson().fromJson(body.data.toString(), type);
-                // 移除客服（使用迭代器避免 ConcurrentModificationException）
-                mContactModels = new ArrayList<>();
+                if (page == 1) {
+                    mContactModels = new ArrayList<>();
+                }
+                List<GroupInfoBean> tempList = Collections.emptyList();
+                try {
+                    if (body != null && body.data != null) {
+                        Type type = new TypeToken<List<GroupInfoBean>>() {
+                        }.getType();
+                        tempList = new Gson().fromJson(body.data.toString(), type);
+                    }
+                } catch (Exception e) {
+                    tempList = Collections.emptyList();
+                }
+                if (tempList == null) {
+                    tempList = Collections.emptyList();
+                }
                 for (GroupInfoBean tempBean : tempList) {
-                    if (tempBean != null && !tempBean.userId.equals(DataUtil.getKeFuId())) {
+                    if (tempBean != null
+                            && tempBean.userId != null
+                            && !tempBean.userId.equals(DataUtil.getKeFuId())) {
                         mContactModels.add(tempBean);
                     }
                 }
-                // 排序
+                if (tempList.size() == 100) {
+                    loadFriendListPage(page + 1);
+                    return;
+                }
                 Collections.sort(mContactModels, new Comparator<GroupInfoBean>() {
                     @Override
                     public int compare(GroupInfoBean o1, GroupInfoBean o2) {
+                        if (o1 == null || o2 == null) {
+                            return 0;
+                        }
                         String firstLetter = FirstLetterUtil.getFirstLetter(o1.name);
                         String secondLetter = FirstLetterUtil.getFirstLetter(o2.name);
                         return firstLetter.compareTo(secondLetter);

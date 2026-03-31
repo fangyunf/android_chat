@@ -155,7 +155,7 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
 
     @Override
     protected void _requestData() {
-//        _requestMemeber(1);
+        //_requestMemeber(1);
         loadFriendList();
         loadMessageCount();
         loadTeamList();
@@ -246,6 +246,20 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
                 DataUtil.setFriendInfoList(mContactModels);
                 friendAdapter.contacts = mContactModels;
                 friendAdapter.setItems(mContactModels);
+                Activity that = getActivity();
+                friendAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener<GroupInfoBean>() {
+                    @Override
+                    public void onClick(@NonNull BaseQuickAdapter<GroupInfoBean, ?> baseQuickAdapter, @NonNull View view, int i) {
+                        GroupInfoBean friend = baseQuickAdapter.getItem(i);
+                        if (friend != null) {
+                            XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_SETTING_PAGE)
+                                    .withParam(RouterConstant.CHAT_ID_KRY, friend.userId)
+                                    .withParam("type", "1")
+                                    .withContext(requireActivity())
+                                    .navigate();
+                        }
+                    }
+                });
                 if (_selectIndex == 0) {
                     // 首次加载时设置 adapter
                     ConcatAdapter concatAdapter = new ConcatAdapter(headerAdapter, friendAdapter);
@@ -467,62 +481,63 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
      * 加载好友列表数据
      */
     private void loadFriendList() {
-        HttpUtil.apiW().friends_friendList(new RegisterBean()).enqueue(new CommonCallback<NetData>() {
-            @Override
-            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                Type type = new TypeToken<List<GroupInfoBean>>() {
-                }.getType();
-                List<GroupInfoBean> tempList = new Gson().fromJson(body.data.toString(), type);
-
-                // 移除客服（使用迭代器避免 ConcurrentModificationException）
-                mContactModels = new ArrayList<>();
-                for (GroupInfoBean tempBean : tempList) {
-                    if (tempBean != null && !tempBean.userId.equals(DataUtil.getKeFuId())) {
-                        mContactModels.add(tempBean);
-                    }
-                }
-
-                // 排序
-                Collections.sort(mContactModels, new Comparator<GroupInfoBean>() {
-                    @Override
-                    public int compare(GroupInfoBean o1, GroupInfoBean o2) {
-                        String firstLetter = FirstLetterUtil.getFirstLetter(o1.name);
-                        String secondLetter = FirstLetterUtil.getFirstLetter(o2.name);
-                        return firstLetter.compareTo(secondLetter);
-                    }
-                });
-
-                DataUtil.setFriendInfoList(mContactModels);
-                // 重新创建 adapter
-                friendAdapter = new SimpleFriendListAdapter();
-                friendAdapter.contacts = mContactModels;
-                friendAdapter.setItems(mContactModels);
-                // 绑定点击事件
-                Activity that = getActivity();
-                friendAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener<GroupInfoBean>() {
-                    @Override
-                    public void onClick(@NonNull BaseQuickAdapter<GroupInfoBean, ?> baseQuickAdapter, @NonNull View view, int i) {
-                        GroupInfoBean friend = baseQuickAdapter.getItem(i);
-                        if (friend != null) {
-                            XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_SETTING_PAGE)
-                                    .withParam(RouterConstant.CHAT_ID_KRY, friend.userId)
-                                    .withParam("type", "1")
-                                    .withContext(requireActivity())
-                                    .navigate();
-                        }
-                    }
-                });
-
-                if (_selectIndex == 0) {
-                    ConcatAdapter concatAdapter = new ConcatAdapter(headerAdapter, friendAdapter);
-                    binding.contactNewFragmentRv.setAdapter(concatAdapter);
-                }
-            }
-
-            @Override
-            public void Failure(Call<NetData> call, Throwable t) {
-            }
-        });
+//        HttpUtil.apiW().friends_friendList(new RegisterBean()).enqueue(new CommonCallback<NetData>() {
+//            @Override
+//            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+//                Type type = new TypeToken<List<GroupInfoBean>>() {
+//                }.getType();
+//                List<GroupInfoBean> tempList = new Gson().fromJson(body.data.toString(), type);
+//
+//                // 移除客服（使用迭代器避免 ConcurrentModificationException）
+//                mContactModels = new ArrayList<>();
+//                for (GroupInfoBean tempBean : tempList) {
+//                    if (tempBean != null && !tempBean.userId.equals(DataUtil.getKeFuId())) {
+//                        mContactModels.add(tempBean);
+//                    }
+//                }
+//
+//                // 排序
+//                Collections.sort(mContactModels, new Comparator<GroupInfoBean>() {
+//                    @Override
+//                    public int compare(GroupInfoBean o1, GroupInfoBean o2) {
+//                        String firstLetter = FirstLetterUtil.getFirstLetter(o1.name);
+//                        String secondLetter = FirstLetterUtil.getFirstLetter(o2.name);
+//                        return firstLetter.compareTo(secondLetter);
+//                    }
+//                });
+//
+//                DataUtil.setFriendInfoList(mContactModels);
+//                // 重新创建 adapter
+//                friendAdapter = new SimpleFriendListAdapter();
+//                friendAdapter.contacts = mContactModels;
+//                friendAdapter.setItems(mContactModels);
+//                // 绑定点击事件
+//                Activity that = getActivity();
+//                friendAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener<GroupInfoBean>() {
+//                    @Override
+//                    public void onClick(@NonNull BaseQuickAdapter<GroupInfoBean, ?> baseQuickAdapter, @NonNull View view, int i) {
+//                        GroupInfoBean friend = baseQuickAdapter.getItem(i);
+//                        if (friend != null) {
+//                            XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_SETTING_PAGE)
+//                                    .withParam(RouterConstant.CHAT_ID_KRY, friend.userId)
+//                                    .withParam("type", "1")
+//                                    .withContext(requireActivity())
+//                                    .navigate();
+//                        }
+//                    }
+//                });
+//
+//                if (_selectIndex == 0) {
+//                    ConcatAdapter concatAdapter = new ConcatAdapter(headerAdapter, friendAdapter);
+//                    binding.contactNewFragmentRv.setAdapter(concatAdapter);
+//                }
+//            }
+//
+//            @Override
+//            public void Failure(Call<NetData> call, Throwable t) {
+//            }
+//        });
+        _requestMemeber(1);
     }
 
     /**
