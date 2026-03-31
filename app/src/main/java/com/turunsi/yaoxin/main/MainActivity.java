@@ -340,12 +340,12 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         //    loadConfig();
         List<Fragment> fragments = new ArrayList<>();
         // changeStatusBarColor(R.color.fun_page_bg_color);
-        mConversationFragment = FunConversationFragment.newInstance(0);
-        mConversationFragment1 = FunConversationFragment.newInstance(1);
+        mConversationFragment = FunConversationFragment.newInstance(3);
+        //mConversationFragment1 = FunConversationFragment.newInstance(1);
         mContactFragment = new ContactNewFragment();
         fragments.add(mConversationFragment);
         fragments.add(mContactFragment);
-        fragments.add(mConversationFragment1);
+        //fragments.add(mConversationFragment1);
         fragments.add(new FoundFragment());
         fragments.add(new MineFragment1());
 //        fragments.add(mConversationFragment1);
@@ -366,7 +366,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         super.onResume();
         initContactFragment(mContactFragment);
         initConversationFragment(mConversationFragment);
-        initConversationFragment(mConversationFragment1);
+        //initConversationFragment(mConversationFragment1);
     }
 
     @Override
@@ -471,20 +471,20 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
                     }
 
                     if (conversationFragment == mConversationFragment) {
-                        if ((singleChatUnreadCount) > 0) {
+                        if ((singleChatUnreadCount + groupChatUnreadCount) > 0) {
                             activityMainBinding.conversationDot.setVisibility(View.VISIBLE);
                         } else {
                             activityMainBinding.conversationDot.setVisibility(View.GONE);
                         }
                     }
-                    if (conversationFragment == mConversationFragment1) {
-                        if (groupChatUnreadCount > 0) {
-                            activityMainBinding.conversationDot1.setVisibility(View.VISIBLE);
-                        } else {
-                            activityMainBinding.conversationDot1.setVisibility(View.GONE);
-
-                        }
-                    }
+//                    if (conversationFragment == mConversationFragment1) {
+//                        if (groupChatUnreadCount > 0) {
+//                            activityMainBinding.conversationDot1.setVisibility(View.VISIBLE);
+//                        } else {
+//                            activityMainBinding.conversationDot1.setVisibility(View.GONE);
+//
+//                        }
+//                    }
                 }
             });
         }
