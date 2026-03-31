@@ -12,7 +12,6 @@ import androidx.core.content.ContextCompat;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.netease.yunxin.kit.chatkit.ui.fun.page.FunChatSettingActivity;
 import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
 import com.netease.yunxin.kit.corekit.route.XKitRouter;
 import com.netease.yunxin.kit.teamkit.ui.databinding.FunTeamUserInfoDetailBinding;
@@ -20,6 +19,7 @@ import com.yaoxin.appbase.activity.BaseActivity;
 import com.yaoxin.appbase.model.CustomMsgBean;
 import com.yaoxin.appbase.model.GroupInfoBean;
 import com.yaoxin.appbase.model.NetData;
+import com.yaoxin.appbase.model.ParamsBean;
 import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
@@ -36,6 +36,7 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -212,66 +213,98 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
         });
     }
 
+    /**
+     * 分页拉取好友列表，判断是否已为好友（与联系人页 {@code friends_friendListPage} 一致，每页 100 条）。
+     */
     protected void _requestData1() {
-        RegisterBean bean = new RegisterBean();
-        HttpUtil.apiW().friends_friendList(bean).enqueue(new CommonCallback<NetData>() {
+        isFriend = false;
+        friendBean = null;
+        _requestFriendListPageForUser(1);
+    }
+
+    private void _requestFriendListPageForUser(int page) {
+        ParamsBean registerBean = new ParamsBean();
+        registerBean.page = page;
+        HttpUtil.apiW().friends_friendListPage(registerBean).enqueue(new CommonCallback<NetData>() {
             @Override
             public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                Type userListType = new TypeToken<List<GroupInfoBean>>() {
-                }.getType();
-                List<GroupInfoBean> userList = new Gson().fromJson(body.data.toString(), userListType);
+                List<GroupInfoBean> userList = Collections.emptyList();
+                try {
+                    if (body != null && body.data != null) {
+                        Type userListType = new TypeToken<List<GroupInfoBean>>() {}.getType();
+                        userList = new Gson().fromJson(body.data.toString(), userListType);
+                    }
+                } catch (Exception e) {
+                    userList = Collections.emptyList();
+                }
+                if (userList == null) {
+                    userList = Collections.emptyList();
+                }
+
+                String targetUserId = groupInfoBean != null ? groupInfoBean.userId : null;
                 for (GroupInfoBean tempBean : userList) {
-                    if (tempBean.userId.equals(groupInfoBean.userId)) {
+                    if (tempBean != null
+                            && tempBean.userId != null
+                            && targetUserId != null
+                            && tempBean.userId.equals(targetUserId)) {
                         isFriend = true;
                         friendBean = tempBean;
-//                                binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowLl.setVisibility(View.VISIBLE);
                         binding.funTeamUserInfoDetailBottomTv.setText("发消息");
                         binding.funTeamUserInfoDetailBottomTv.setVisibility(View.VISIBLE);
-
-                        break;
+                        applyFriendListCheckUi();
+                        return;
                     }
                 }
-                if (rankState == 1 || rankState == 2) {
-                    if (isFriend) {
-                        binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowRightTv.setVisibility(View.VISIBLE);
-                        if (friendBean != null) {
-                            binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowRightTv.setText(friendBean.remark);
-                        }
-                        binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowLl.setVisibility(View.VISIBLE);
-                    }
-                    binding.funTeamUserInfoDetailBottomTv.setVisibility(View.VISIBLE);
-                } else {
-                    HttpUtil.apiW().group_groupManage(groupId).enqueue(new CommonCallback<NetData>() {
-                        @Override
-                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                            GroupInfoBean tempBean = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
-                            if (tempBean.addFriendsState == 1) {
-                                if (!isFriend) {
-                                    binding.funTeamUserInfoDetailBottomTv.setVisibility(View.VISIBLE);
-                                }
-                            } else {
-                                if (!isFriend && isGuanli) {
-                                    binding.funTeamUserInfoDetailBottomTv.setVisibility(View.VISIBLE);
-                                }
-                            }
-                        }
 
-                        @Override
-                        public void Failure(Call<NetData> call, Throwable t) {
-
-                        }
-                    });
+                if (userList.size() == 100) {
+                    _requestFriendListPageForUser(page + 1);
+                    return;
                 }
-
+                applyFriendListCheckUi();
             }
 
             @Override
             public void Failure(Call<NetData> call, Throwable t) {
-
+                if (page == 1) {
+                    applyFriendListCheckUi();
+                }
             }
         });
+    }
 
+    /** 好友列表分页检索结束后的 UI（与原 {@code friends_friendList} 单次逻辑一致） */
+    private void applyFriendListCheckUi() {
+        if (rankState == 1 || rankState == 2) {
+            if (isFriend) {
+                binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowRightTv.setVisibility(View.VISIBLE);
+                if (friendBean != null) {
+                    binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowRightTv.setText(friendBean.remark);
+                }
+                binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowLl.setVisibility(View.VISIBLE);
+            }
+            binding.funTeamUserInfoDetailBottomTv.setVisibility(View.VISIBLE);
+        } else {
+            HttpUtil.apiW().group_groupManage(groupId).enqueue(new CommonCallback<NetData>() {
+                @Override
+                public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                    GroupInfoBean tempBean = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
+                    if (tempBean.addFriendsState == 1) {
+                        if (!isFriend) {
+                            binding.funTeamUserInfoDetailBottomTv.setVisibility(View.VISIBLE);
+                        }
+                    } else {
+                        if (!isFriend && isGuanli) {
+                            binding.funTeamUserInfoDetailBottomTv.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }
 
+                @Override
+                public void Failure(Call<NetData> call, Throwable t) {
+
+                }
+            });
+        }
     }
 
     @Override
