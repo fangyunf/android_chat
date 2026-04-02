@@ -9,6 +9,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.text.Editable;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.DigitsKeyListener;
 import android.util.Log;
@@ -394,8 +395,13 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
                     UserBean userBean = new Gson().fromJson(body.data.toString(), UserBean.class);
 //                        RechargeScanFragment.showV(getSupportFragmentManager(),payType.equals("wxpay")?"请使用微信扫码":"请使用支付宝扫码",userBean.payUrl);
                     //tartAlipayPayment(userBean.url);
-
-                   // startAlipayPayment1
+                    if (!TextUtils.isEmpty(userBean.payUrl)) {
+                        RechargeScanFragment.showV(getSupportFragmentManager(), payType.equals("wxpay") ? "请使用微信扫码" : "请使用支付宝扫码", userBean.payUrl);
+                    } else if (!TextUtils.isEmpty(userBean.qrUrl)) {
+                        RechargeScanFragment.showV(getSupportFragmentManager(), payType.equals("wxpay") ? "请使用微信扫码" : "请使用支付宝扫码", userBean.qrUrl);
+                    } else if (!TextUtils.isEmpty(userBean.url)) {
+                        RechargeScanFragment.showV(getSupportFragmentManager(), payType.equals("wxpay") ? "请使用微信扫码" : "请使用支付宝扫码", userBean.url);
+                    }
                 }
 
                 @Override
@@ -408,7 +414,6 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
             RequestParamsBean registerBean = new RequestParamsBean();
             registerBean.amount = NumberUtil.formartUploadMoney(inputMoney);
             registerBean.type = payType;
-
             HttpUtil.apiW().pay_sixwx(registerBean).enqueue(new CommonCallback<NetData>() {
                 @Override
                 public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
