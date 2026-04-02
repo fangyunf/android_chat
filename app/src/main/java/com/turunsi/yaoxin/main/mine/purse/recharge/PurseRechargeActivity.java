@@ -387,7 +387,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
             registerBean.amount = NumberUtil.formartUploadMoney(inputMoney);
             registerBean.type = payType;
 
-            HttpUtil.apiW().pay_sixwx(registerBean)
+            HttpUtil.apiW().pay_six(registerBean)
                     .enqueue(new CommonCallback<NetData>() {
                         @Override
                         public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
