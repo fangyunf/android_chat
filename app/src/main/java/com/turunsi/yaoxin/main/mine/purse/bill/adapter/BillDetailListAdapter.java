@@ -26,9 +26,8 @@ public class BillDetailListAdapter extends BaseQuickAdapter<BillDetailBean, Quic
     protected void onBindViewHolder(@NonNull QuickViewHolder quickViewHolder, int i, @Nullable BillDetailBean bean) {
         quickViewHolder.setText(R.id.item_purse_bill_detail_list_title_tv, bean.name)
                 .setText(R.id.item_purse_bill_detail_list_content_tv, TimeUtil.stampToDate(bean.createTime))
-                .setText(R.id.item_purse_bill_detail_list_money_tv, (bean.amount > 0 ? "+" : "-") + NumberUtil.formartMoney(Math.abs(bean.amount) + ""))
-                .setTextColor(R.id.item_purse_bill_detail_list_money_tv, getContext().getResources().getColor(bean.amount > 0 ? R.color.color_FF3A3A : R.color.color_24CE70));
-        ;
+                .setText(R.id.item_purse_bill_detail_list_money_tv, (bean.amount > 0 ? "+" : "-") + NumberUtil.formartMoney(Math.abs(bean.amount) + ""));
+        //.setTextColor(R.id.item_purse_bill_detail_list_money_tv, getContext().getResources().getColor(bean.amount > 0 ? R.color.color_FF3A3A : R.color.color_24CE70));
 
         ImageView headIv = quickViewHolder.getView(R.id.item_purse_bill_detail_list_icon);
 //        GlideUtil.yh_loadImageRoundedCorner(this,headIv,bean.);
