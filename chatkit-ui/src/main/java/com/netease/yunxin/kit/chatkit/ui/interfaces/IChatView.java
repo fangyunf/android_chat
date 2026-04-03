@@ -65,6 +65,9 @@ public interface IChatView {
 
   void setInputMute(boolean mute);
 
+  /** @param fullGroupMute true: 全员禁言；false: 仅当前成员被禁言 */
+  void setTeamInputMute(boolean mute, boolean fullGroupMute);
+
   void updateUserInfo(List<UserInfo> userInfoList);
 
   void setNetWorkState(boolean available);

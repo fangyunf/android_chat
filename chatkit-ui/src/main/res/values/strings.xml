@@ -178,6 +178,8 @@
     <string name="message_search_empty">暂无聊天记录</string>
 
     <string name="chat_team_all_mute">当前群主设置为禁言</string>
+    <string name="chat_team_mute_all_banner">全员禁言</string>
+    <string name="chat_team_mute_member_banner">当前群主设置为禁言</string>
     <string name="chat_message_session_info">[转发]%s的会话记录</string>
     <string name="chat_message_multi_forward_tips">[合并转发]%s的会话记录</string>
     <string name="chat_message_single_forward_tips">[逐条转发]%s的会话记录</string>

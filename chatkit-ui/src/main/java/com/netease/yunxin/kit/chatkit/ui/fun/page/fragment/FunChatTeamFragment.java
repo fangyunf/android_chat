@@ -267,9 +267,17 @@ public class FunChatTeamFragment extends FunChatFragment {
         if (currentMember != null && teamInfo != null) {
             if (currentMember.getType() != TeamMemberType.Owner
                     && currentMember.getType() != TeamMemberType.Manager) {
-                chatView.setInputMute(teamInfo.isAllMute());
+                boolean allMute = teamInfo.isAllMute();
+                boolean selfMuted = currentMember.isMute();
+                if (allMute) {
+                    chatView.setTeamInputMute(true, true);
+                } else if (selfMuted) {
+                    chatView.setTeamInputMute(true, false);
+                } else {
+                    chatView.setTeamInputMute(false, false);
+                }
             } else {
-                chatView.setInputMute(false);
+                chatView.setTeamInputMute(false, false);
             }
         }
     }
