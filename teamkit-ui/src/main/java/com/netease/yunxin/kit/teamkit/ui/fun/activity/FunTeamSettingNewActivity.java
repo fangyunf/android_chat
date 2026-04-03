@@ -332,26 +332,42 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
                 });
     }
 
-    void updateUI() {
-        GlideUtil.yh_loadImageRoundedCorner(this, binding.funTeamSettingNewActivityTeamIcon, groupInfoBean.head, 30);
+    /** 群主展示名：优先 rankState==1 的成员 */
+    private String resolveFounderDisplayName() {
+        if (groupInfoBean == null || groupInfoBean.userInfos == null) {
+            return "";
+        }
+        for (GroupInfoBean u : groupInfoBean.userInfos) {
+            if (u != null && u.rankState == 1 && !TextUtils.isEmpty(u.name)) {
+                return u.name;
+            }
+        }
+        return "";
+    }
 
-        binding.tvName.setText(groupInfoBean.name + "(" + groupInfoBean.userInfos.size() + "人)");
+    void updateUI() {
+        GlideUtil.yh_loadImageRoundedCorner(
+                this, binding.funTeamSettingNewActivityTeamIcon, groupInfoBean.head, 12);
+
+        List<GroupInfoBean> userInfos =
+                groupInfoBean.userInfos != null ? groupInfoBean.userInfos : new ArrayList<>();
+        int memberCount = userInfos.size();
+        String groupTitle = TextUtils.isEmpty(groupInfoBean.name) ? "" : groupInfoBean.name;
+        binding.tvName.setText(groupTitle + "(" + memberCount + ")");
+
+        String founderName = resolveFounderDisplayName();
+        binding.funTeamSettingNewActivityFounderTv.setText(
+                "创始人:" + (TextUtils.isEmpty(founderName) ? "--" : founderName));
 
         ArrayList<GroupInfoBean> maxList = new ArrayList<>();
-        if (groupInfoBean.userInfos.size() > 2) {
+        if (userInfos.size() > 2) {
             for (int i = 0; i < 2; i++) {
-                maxList.add(groupInfoBean.userInfos.get(i));
+                maxList.add(userInfos.get(i));
             }
         } else {
-            maxList.addAll(groupInfoBean.userInfos);
-
+            maxList.addAll(userInfos);
         }
-        //binding.funTeamSettingNewActivityIdTv.setText("ID: " + groupInfoBean.groupId);
 
-        if (maxList.size() > 0) {
-            binding.funTeamSettingNewActivityIdTv.setText("创始人:" + maxList.get(0).name);
-        }
-        
         adapter = new TeamSettingUserInfoAdapter((groupInfoBean.rankState == 1 || groupInfoBean.rankState == 2), maxList);
         binding.funTeamSettingNewActivityMemberRv.setAdapter(adapter);
         Context that = this;

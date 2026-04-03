@@ -94,6 +94,7 @@ public class ChatTipsMessageViewHolder extends FunChatBaseMessageViewHolder {
         if (content != null && !content.isEmpty()) {
             ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) baseViewBinding.baseRoot.getLayoutParams();
             layoutParams.setMargins(0, 0, 0, 0);
+            layoutParams.height = ViewGroup.MarginLayoutParams.WRAP_CONTENT;
             baseViewBinding.baseRoot.setLayoutParams(layoutParams);
 
             textBinding.messageTipText.setGravity(Gravity.CENTER);
@@ -103,6 +104,15 @@ public class ChatTipsMessageViewHolder extends FunChatBaseMessageViewHolder {
                 try {
                     CustomMsgBean msgBean = new Gson().fromJson(content, CustomMsgBean.class);
                     textBinding.messageTipText.setText(content);
+                    if (content.equals(textBinding.messageTipText.getResources().getString(R.string.chat_team_cancel_all_mute))
+                            || content.equals(textBinding.messageTipText.getResources().getString(R.string.chat_team_full_mute))) {
+                        ViewGroup.LayoutParams rootParams = baseViewBinding.baseRoot.getLayoutParams();
+                        if (rootParams != null) {
+                            rootParams.height = 0;
+                            baseViewBinding.baseRoot.setLayoutParams(rootParams);
+                        }
+                    }
+                    
                     if (msgBean.sendUserId == null || msgBean.receiveUserId == null) {
                         return;
                     }

@@ -44,70 +44,76 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
+                    android:orientation="vertical"
                     android:paddingHorizontal="15dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="117dp"
-                        android:layout_marginTop="32dp"
-                        android:background="@drawable/bg_white_rounded_10">
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_white_rounded_10"
+                        android:gravity="center_vertical"
+                        android:minHeight="88dp"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="14dp">
+
+                        <com.makeramen.roundedimageview.RoundedImageView
+                            android:id="@+id/fun_team_setting_new_activity_team_icon"
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:scaleType="centerCrop"
+                            app:riv_corner_radius="6dp" />
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="15dp"
-                            android:layout_marginTop="56dp"
+                            android:layout_marginStart="12dp"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
                             android:orientation="vertical">
 
                             <LinearLayout
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:gravity="center_vertical">
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
 
                                 <TextView
                                     android:id="@+id/tvName"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="0dp"
                                     android:layout_height="wrap_content"
-                                    android:maxWidth="350dp"
-                                    android:singleLine="true"
+                                    android:layout_weight="1"
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
                                     android:textColor="@color/color_333333"
-                                    android:textSize="16dp"
-                                    tools:ignore="SpUsage" />
+                                    android:textSize="17sp"
+                                    tools:text="群名称(0)" />
 
                                 <ImageView
                                     android:id="@+id/edit_icon"
                                     android:layout_width="20dp"
                                     android:layout_height="20dp"
-                                    android:layout_marginLeft="5dp"
+                                    android:layout_marginStart="6dp"
                                     android:src="@mipmap/mine_index_bj" />
                             </LinearLayout>
 
                             <TextView
-                                android:id="@+id/fun_team_setting_new_activity_id_tv"
-                                android:layout_width="wrap_content"
-                                android:layout_height="20dp"
-                                android:layout_marginTop="11dp"
-                                android:paddingHorizontal="10dp"
-                                android:text="ID:87988656"
-                                android:textColor="@color/black"
-
-                                android:textSize="14sp" />
+                                android:id="@+id/fun_team_setting_new_activity_founder_tv"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="6dp"
+                                android:ellipsize="end"
+                                android:maxLines="1"
+                                android:textColor="#999999"
+                                android:textSize="13sp"
+                                tools:text="创始人:玉麒麟" />
                         </LinearLayout>
-
                     </LinearLayout>
-
-                    <com.makeramen.roundedimageview.RoundedImageView
-                        android:id="@+id/fun_team_setting_new_activity_team_icon"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:layout_marginLeft="15dp"
-                        android:scaleType="centerCrop"
-                        app:riv_corner_radius="6dp" />
-                </RelativeLayout>
+                </LinearLayout>
 
 
                 <LinearLayout
