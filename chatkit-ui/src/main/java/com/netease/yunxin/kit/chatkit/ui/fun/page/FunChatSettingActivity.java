@@ -349,7 +349,7 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
                     public void clickType(int type) {
                         if (type == 1) {
                             if (userBean == null) {
-                                ToastUtils.toastMsg("网络错误");
+                                ToastUtils.toastMsg("非常抱歉，我们正在努力解决中");
                             }
                             RegisterBean bean = new RegisterBean();
                             bean.memberCode = userBean.memberCode;

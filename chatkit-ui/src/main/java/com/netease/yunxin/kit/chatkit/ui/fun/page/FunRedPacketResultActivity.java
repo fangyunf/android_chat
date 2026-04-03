@@ -76,7 +76,7 @@ public class FunRedPacketResultActivity extends BaseActivity implements View.OnC
 
     protected void _requestData1() {
         if (redpacketId == null || redpacketId.isEmpty()) {
-            ToastUtils.toastMsg("网络错误");
+            ToastUtils.toastMsg("非常抱歉，我们正在努力解决中");
             finish();
             return;
         }

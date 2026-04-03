@@ -82,7 +82,7 @@ public class ChatPopActionFactory {
                     || message.getMessageData().getMessage().isInBlackList()) {
                 if (message.getViewType() == MsgTypeEnum.text.getValue()) {
                     actions.add(getCopyAction(message));
-                    actions.add(getCollectionAction(message));
+                    //actions.add(getCollectionAction(message));
                 }
                 actions.add(getDeleteAction(message));
 //        actions.add(getMultiSelectAction(message));
@@ -110,11 +110,11 @@ public class ChatPopActionFactory {
                     || message.getViewType() == ChatMessageType.RICH_TEXT_ATTACHMENT) {
 //                actions.add(getTransmitAction(message));
                 actions.add(getCopyAction(message));
-                actions.add(getCollectionAction(message));
+                //actions.add(getCollectionAction(message));
             }
 //      actions.add(getReplyAction(message));
             if (message.getViewType() == MsgTypeEnum.image.getValue()) {
-                actions.add(getCollectionAction(message));
+               // actions.add(getCollectionAction(message));
             }
 //      actions.add(getPinAction(message));
             actions.add(getDeleteAction(message));

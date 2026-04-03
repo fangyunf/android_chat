@@ -255,7 +255,7 @@ public abstract class FunChatFragment extends ChatBaseFragment {
 
                                         }
                                     } else {
-                                        ToastUtils.toastMsg("网络错误");
+                                        ToastUtils.toastMsg("非常抱歉，我们正在努力解决中");
                                     }
                                 }
                                 if (redBean.type == 4 || redBean.type == 5) {

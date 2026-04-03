@@ -118,7 +118,7 @@ public abstract class CommonCallback<T> implements Callback<T> {
         } else if (t instanceof NetServerException) {
             ToastUtils.toastMsg(t.getMessage());
         } else {
-            ToastUtils.toastMsg("网络错误");
+            ToastUtils.toastMsg("非常抱歉，我们正在努力解决中");
 //            Logger.e(t.toString());
         }
         Failure(call, t);

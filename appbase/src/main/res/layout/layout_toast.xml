@@ -1,22 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/shape_toast">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingStart="32dp"
+    android:paddingEnd="32dp">
 
     <TextView
-        android:id="@android:id/message"
+        android:id="@+id/appbase_toast_message_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="Toast"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="30dp"
-        android:layout_centerInParent="true"
-        android:textColor="#deFFFFFF"
-        android:textSize="21.33sp"
-        />
-
-</RelativeLayout>
+        android:layout_gravity="center"
+        android:background="@drawable/bg_appbase_toast_rounded"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxWidth="280dp"
+        android:minWidth="48dp"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="12dp"
+        android:textColor="#FFFFFFFF"
+        android:textSize="15sp"
+        tools:text="提示内容" />
+</FrameLayout>
