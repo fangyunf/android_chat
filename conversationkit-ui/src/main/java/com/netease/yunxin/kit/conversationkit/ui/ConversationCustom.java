@@ -10,12 +10,17 @@ import android.text.TextUtils;
 import com.google.gson.Gson;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.msg.MsgService;
+import com.netease.nimlib.sdk.msg.attachment.MsgAttachment;
 import com.netease.nimlib.sdk.msg.attachment.NetCallAttachment;
+import com.netease.nimlib.sdk.msg.attachment.NotificationAttachment;
 import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.yunxin.kit.chatkit.model.ConversationInfo;
+import com.netease.yunxin.kit.chatkit.model.IMMessageInfo;
+import com.netease.yunxin.kit.chatkit.ui.common.TeamNotificationHelper;
 import com.netease.yunxin.kit.corekit.im.model.AttachmentContent;
+import com.netease.yunxin.kit.corekit.im.model.UserInfo;
 import com.yaoxin.appbase.model.CustomMsgBean;
 import com.yaoxin.appbase.utils.AESUtil;
 
@@ -24,8 +29,38 @@ public class ConversationCustom {
     public String customContentText(Context context, ConversationInfo conversationInfo) {
         if (conversationInfo != null && context != null) {
             MsgTypeEnum typeEnum = conversationInfo.getMsgType();
+
+
             switch (typeEnum) {
                 case notification:
+                    String sessionAccount = conversationInfo.getContactId();
+                    SessionTypeEnum sessionTypeEnum = conversationInfo.getSessionType();
+                    try {
+                        MsgAttachment msgAttachment = conversationInfo.getAttachment();
+                        if (msgAttachment instanceof NotificationAttachment
+                                && conversationInfo.getSessionType() == SessionTypeEnum.Team) {
+                            NotificationAttachment noteAttachment =
+                                    (NotificationAttachment) msgAttachment;
+                            String tid = conversationInfo.getContactId();
+                            UserInfo fromUser = conversationInfo.getUserInfo();
+                            String fromAccount = null;
+                            if (!TextUtils.isEmpty(sessionAccount) && sessionTypeEnum != null) {
+                                IMMessage last =
+                                        NIMClient.getService(MsgService.class)
+                                                .queryLastMessage(sessionAccount, sessionTypeEnum);
+                                if (last != null) {
+                                    fromAccount = last.getFromAccount();
+                                }
+                            }
+                            String preview =
+                                    TeamNotificationHelper.getNotificationPreviewFromAttachment(
+                                            tid, fromUser, fromAccount, noteAttachment);
+                            if (!TextUtils.isEmpty(preview)) {
+                                return preview;
+                            }
+                        }
+                    } catch (Exception ignored) {
+                    }
                     return context.getString(R.string.msg_type_notification);
                 case text:
 //          return conversationInfo.getContent();

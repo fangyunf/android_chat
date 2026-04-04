@@ -17,7 +17,6 @@ import com.netease.yunxin.kit.chatkit.ui.R;
 import com.netease.yunxin.kit.chatkit.ui.common.TeamNotificationHelper;
 import com.netease.yunxin.kit.chatkit.ui.databinding.ChatBaseMessageViewHolderBinding;
 import com.netease.yunxin.kit.chatkit.ui.databinding.FunChatMessageNoticeTextViewHolderBinding;
-import com.netease.yunxin.kit.chatkit.ui.databinding.FunChatMessageTextViewHolderBinding;
 import com.netease.yunxin.kit.chatkit.ui.model.ChatMessageBean;
 import com.netease.yunxin.kit.chatkit.ui.view.input.ActionConstants;
 import com.netease.yunxin.kit.corekit.im.IMKitClient;
@@ -104,11 +103,30 @@ public class ChatNotificationMessageViewHolder extends FunChatBaseMessageViewHol
   private void loadData(ChatMessageBean message, ChatMessageBean lastMessage, boolean refreshTime) {
     if (message.getMessageData().getMessage().getAttachment()
         instanceof NotificationAttachmentWithExtension) {
+      ViewGroup.LayoutParams rootLp = baseViewBinding.baseRoot.getLayoutParams();
+      if (rootLp != null) {
+        rootLp.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        baseViewBinding.baseRoot.setLayoutParams(rootLp);
+      }
+      baseViewBinding.baseRoot.setVisibility(View.VISIBLE);
+
       textBinding.messageText.setGravity(Gravity.CENTER);
       textBinding.messageText.setTextColor(
           IMKitClient.getApplicationContext().getResources().getColor(R.color.color_999999));
       textBinding.messageText.setTextSize(12);
       String content = TeamNotificationHelper.getTeamNotificationText(message.getMessageData());
+      if (TeamNotificationHelper.isAllMuteOnlyConversationTipText(content)) {
+        textBinding.messageText.setText("");
+        if (rootLp != null) {
+          rootLp.height = 0;
+          baseViewBinding.baseRoot.setLayoutParams(rootLp);
+        }
+        baseViewBinding.baseRoot.setVisibility(View.GONE);
+        baseViewBinding.contentWithAllLayer.setVisibility(View.GONE);
+        baseViewBinding.msgBgLayout.setVisibility(View.GONE);
+        textBinding.getRoot().setVisibility(View.GONE);
+        return;
+      }
       textBinding.messageText.setText(content);
       if (TextUtils.isEmpty(content)) {
         baseViewBinding.contentWithAllLayer.setVisibility(View.GONE);
