@@ -61,6 +61,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <TextView
@@ -76,13 +77,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/dimen_5_dp"
-                    android:background="@drawable/fun_conversation_view_top_guanfang"
+                    android:background="@drawable/bg_app_theme_color_rounded_4"
                     android:maxLines="1"
                     android:paddingHorizontal="@dimen/dimen_4_dp"
                     android:text="官方"
-                    android:textColor="#FF962C"
-                    android:textSize="12sp"
-                    android:visibility="gone" />
+                    android:textColor="@color/color_white"
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <TextView
