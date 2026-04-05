@@ -18,7 +18,7 @@ android {
         }
     }
     defaultConfig {
-        applicationId = "com.turunsi.xingyuxing"
+        applicationId = "com.turunsi.youmi"
         minSdk = 21
         targetSdk = 33
         versionCode = 10
