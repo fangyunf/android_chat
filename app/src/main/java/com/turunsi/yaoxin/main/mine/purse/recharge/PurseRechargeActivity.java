@@ -39,6 +39,7 @@ import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.DialogAlertUtil;
 import com.yaoxin.appbase.utils.NumberUtil;
+import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
 
 import java.util.ArrayList;
@@ -104,6 +105,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         binding = ActivityMinePurseRechargeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        StatusBarUtils.transtStatusBar(this, binding.activityMinePurseRechargeNav);
         binding.activityMinePurseRechargeNav.addCloseImageButton().setOnClickListener(this);
         recyclerView = binding.activityMinePurseRechargeRv;
         recyclerView1 = binding.activityMinePurseRechargeRv1;

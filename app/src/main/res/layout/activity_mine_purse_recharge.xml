@@ -4,13 +4,13 @@
     xmlns:tl="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@mipmap/bg_2"
     android:orientation="vertical">
 
     <com.yaoxin.appbase.navbar.NavToolbar
         android:id="@+id/activity_mine_purse_recharge_nav"
         style="@style/WhiteFontToolbar"
-        android:background="@color/white"
+        android:background="@color/transparent"
         app:back_icon="@mipmap/temp_ic_back"
         app:enable_under_divider="true"
         app:support_translucent_status_bar="false"
@@ -18,213 +18,302 @@
         app:title_text_color="@color/color_333333"
         app:under_divider_color="@color/transparent" />
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:paddingHorizontal="@dimen/dimen_16_dp">
+        android:layout_weight="1">
 
-
-        <!--        <RelativeLayout-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content">-->
-
-        <!--            <ImageView-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:src="@mipmap/mine_fragment_purse_recharge_bg" />-->
-
-        <!--            <LinearLayout-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:layout_centerInParent="true"-->
-        <!--                android:gravity="center_horizontal"-->
-        <!--                android:orientation="vertical">-->
-
-        <!--                <TextView-->
-        <!--                    android:layout_width="wrap_content"-->
-        <!--                    android:layout_height="22dp"-->
-        <!--                    android:text="钱包余额"-->
-        <!--                    android:textColor="#ffffffff"-->
-        <!--                    android:textSize="16sp" />-->
-
-        <!--                <TextView-->
-
-        <!--                    android:id="@+id/activity_mine_purse_recharge_account_tv"-->
-        <!--                    android:layout_width="wrap_content"-->
-        <!--                    android:layout_height="45dp"-->
-        <!--                    android:layout_marginTop="8dp"-->
-        <!--                    android:text=""-->
-        <!--                    android:textColor="#ffffffff"-->
-        <!--                    android:textSize="32sp" />-->
-        <!--            </LinearLayout>-->
-        <!--        </RelativeLayout>-->
-
-        <LinearLayout
-            android:visibility="gone"
-            android:layout_width="match_parent"
-            android:layout_height="77dp"
-            android:gravity="center_vertical"
-            android:background="@drawable/bg_f2f2f2_rounded_10"
-            android:paddingHorizontal="15dp"
-
-            >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:text="¥"
-                android:textColor="#ff000000"
-                android:textSize="36sp"
-                />
-
-            <EditText
-                android:id="@+id/activity_mine_purse_recharge_et"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:paddingHorizontal="10dp"
-                android:layout_marginHorizontal="15dp"
-                android:layout_height="match_parent"
-                android:textSize="30sp"
-                android:hint="请输入金额"
-                android:background="@null"
-                android:textColorHint="@color/color_999999"
-                android:textColor="@color/black"
-                android:cursorVisible="true"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="充值金额"
-                android:textColor="#333333"
-                android:textSize="16sp"
-                />
-        </LinearLayout>
-        <!--        <include-->
-        <!--            android:id="@+id/activity_mine_purse_recharge_recharge_money"-->
-        <!--            layout="@layout/view_title_tf_without_bg"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_marginTop="@dimen/dimen_12_dp" />-->
-        <LinearLayout
-            android:layout_marginTop="@dimen/dimen_10_dp"
-            android:layout_width="match_parent"
+        <ImageView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
+            android:layout_gravity="right|top"
+            android:layout_marginTop="@dimen/dimen_20_dp"
+            android:layout_marginRight="@dimen/dimen_30_dp"
+            android:src="@mipmap/qiabao1" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="@dimen/dimen_16_dp">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_50_dp"
+                    android:background="@drawable/bg_white_rounded_10"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="@dimen/dimen_16_dp">
+
+
+                    <!--        <RelativeLayout-->
+                    <!--            android:layout_width="match_parent"-->
+                    <!--            android:layout_height="wrap_content">-->
+
+                    <!--            <ImageView-->
+                    <!--                android:layout_width="wrap_content"-->
+                    <!--                android:layout_height="wrap_content"-->
+                    <!--                android:src="@mipmap/mine_fragment_purse_recharge_bg" />-->
+
+                    <!--            <LinearLayout-->
+                    <!--                android:layout_width="wrap_content"-->
+                    <!--                android:layout_height="wrap_content"-->
+                    <!--                android:layout_centerInParent="true"-->
+                    <!--                android:gravity="center_horizontal"-->
+                    <!--                android:orientation="vertical">-->
+
+                    <!--                <TextView-->
+                    <!--                    android:layout_width="wrap_content"-->
+                    <!--                    android:layout_height="22dp"-->
+                    <!--                    android:text="钱包余额"-->
+                    <!--                    android:textColor="#ffffffff"-->
+                    <!--                    android:textSize="16sp" />-->
+
+                    <!--                <TextView-->
+
+                    <!--                    android:id="@+id/activity_mine_purse_recharge_account_tv"-->
+                    <!--                    android:layout_width="wrap_content"-->
+                    <!--                    android:layout_height="45dp"-->
+                    <!--                    android:layout_marginTop="8dp"-->
+                    <!--                    android:text=""-->
+                    <!--                    android:textColor="#ffffffff"-->
+                    <!--                    android:textSize="32sp" />-->
+                    <!--            </LinearLayout>-->
+                    <!--        </RelativeLayout>-->
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="77dp"
+                        android:background="@drawable/bg_f2f2f2_rounded_10"
+                        android:gravity="center_vertical"
+                        android:paddingHorizontal="15dp"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:text="¥"
+                            android:textColor="#ff000000"
+                            android:textSize="36sp" />
+
+                        <EditText
+                            android:id="@+id/activity_mine_purse_recharge_et"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginHorizontal="15dp"
+                            android:layout_weight="1"
+                            android:background="@null"
+                            android:cursorVisible="true"
+                            android:focusable="true"
+                            android:focusableInTouchMode="true"
+                            android:hint="请输入金额"
+                            android:paddingHorizontal="10dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/color_999999"
+                            android:textSize="30sp"
+
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="充值金额"
+                            android:textColor="#333333"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+                    <!--        <include-->
+                    <!--            android:id="@+id/activity_mine_purse_recharge_recharge_money"-->
+                    <!--            layout="@layout/view_title_tf_without_bg"-->
+                    <!--            android:layout_width="match_parent"-->
+                    <!--            android:layout_height="wrap_content"-->
+                    <!--            android:layout_marginTop="@dimen/dimen_12_dp" />-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen_10_dp"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="购买数量"
+                                android:textColor="@color/black"
+                                android:textSize="16sp" />
+                            <!--                <ImageView-->
+                            <!--                    android:layout_marginLeft="5dp"-->
+                            <!--                    android:layout_width="20dp"-->
+                            <!--                    android:layout_height="20dp"-->
+                            <!--                    android:src="@mipmap/recharge_index_coin"-->
+                            <!--                    />-->
+                        </LinearLayout>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/activity_mine_purse_recharge_rv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="@dimen/dimen_16_dp"
+                        android:background="@drawable/note_home_bg"
+                        android:gravity="center_vertical"
+                        android:paddingHorizontal="27dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="我的账单"
+                            android:textColor="#ff000000"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/tvAccount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="≈200 CNY"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/color_999999"
+                            android:textSize="@dimen/text_size_15" />
+                        <!--            <TextView-->
+                        <!--                android:id="@+id/activity_mine_purse_recharge_detail_tv"-->
+                        <!--                android:layout_width="wrap_content"-->
+                        <!--                android:layout_height="wrap_content"-->
+                        <!--                android:text="≈200CNY"-->
+                        <!--                android:textColor="#ff000001"-->
+                        <!--                android:textSize="15sp"-->
+                        <!--                />-->
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="支付方式"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/activity_mine_purse_recharge_rv_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center_vertical"
+                        android:paddingHorizontal="27dp"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="充值金额"
+                            android:textColor="#ff000000"
+                            android:textSize="14sp" />
+
+                        <EditText
+                            android:id="@+id/activity_mine_purse_recharge_et1"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="15dp"
+                            android:layout_weight="1"
+                            android:background="@null"
+                            android:cursorVisible="true"
+                            android:focusable="true"
+                            android:focusableInTouchMode="true"
+                            android:hint="请输入金额"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/color_999999"
+                            android:textSize="20sp"
+
+                            />
+                        <!--            <TextView-->
+                        <!--                android:id="@+id/activity_mine_purse_recharge_detail_tv"-->
+                        <!--                android:layout_width="wrap_content"-->
+                        <!--                android:layout_height="wrap_content"-->
+                        <!--                android:text="≈200CNY"-->
+                        <!--                android:textColor="#ff000001"-->
+                        <!--                android:textSize="15sp"-->
+                        <!--                />-->
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="支付方式"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen_10_dp"
+                        android:background="@drawable/bg_white_rounded_10">
+
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <include
+                    android:id="@+id/activity_mine_purse_recharge_recharge_type"
+                    layout="@layout/view_title_tf_without_bg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_12_dp" />
+
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="购买数量"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
-                    />
-<!--                <ImageView-->
-<!--                    android:layout_marginLeft="5dp"-->
-<!--                    android:layout_width="20dp"-->
-<!--                    android:layout_height="20dp"-->
-<!--                    android:src="@mipmap/recharge_index_coin"-->
-<!--                    />-->
+                    android:layout_height="64dp"
+                    android:layout_marginTop="@dimen/dimen_20_dp"
+                    android:text="充值说明：\n1.充值实时到账\n2.充值未到账情况联系客服处理"
+                    android:textColor="#999999"
+                    android:textSize="14sp"
+                    android:visibility="gone" />
+
+
             </LinearLayout>
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/activity_mine_purse_recharge_rv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:gravity="center_vertical"
-            android:paddingHorizontal="27dp"
-            android:background="@drawable/fun_bg_fff5e6_color_rounded_26"
-            android:layout_height="56dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="充值金额"
-                android:textColor="#ff000000"
-                android:textSize="14sp"
-                />
+        </androidx.core.widget.NestedScrollView>
 
-            <EditText
-                android:id="@+id/activity_mine_purse_recharge_et1"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_marginStart="15dp"
-                android:layout_height="match_parent"
-                android:textSize="20sp"
-                android:hint="请输入金额"
-                android:background="@null"
-                android:textColorHint="@color/color_999999"
-                android:textColor="@color/black"
-                android:cursorVisible="true"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
 
-                />
-<!--            <TextView-->
-<!--                android:id="@+id/activity_mine_purse_recharge_detail_tv"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="≈200CNY"-->
-<!--                android:textColor="#ff000001"-->
-<!--                android:textSize="15sp"-->
-<!--                />-->
-        </LinearLayout>
-        <LinearLayout
-            android:layout_marginTop="10dp"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="支付方式"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                />
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/activity_mine_purse_recharge_rv_1"
+    </FrameLayout>
 
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
-        <include
-            android:id="@+id/activity_mine_purse_recharge_recharge_type"
-            layout="@layout/view_title_tf_without_bg"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dimen_12_dp" />
-
-        <TextView
-            android:layout_marginTop="@dimen/dimen_20_dp"
-            android:layout_width="wrap_content"
-            android:layout_height="64dp"
-            android:text="充值说明：\n1.充值实时到账\n2.充值未到账情况联系客服处理"
-            android:textColor="#999999"
-            android:textSize="14sp"
-            />
-        <TextView
-            android:layout_marginTop="35dp"
-            android:id="@+id/activity_mine_purse_recharge_recharge_rl"
-            android:layout_width="301dp"
-            android:layout_height="@dimen/dimen_44_dp"
-            android:text="充值"
-            android:gravity="center"
-            android:layout_gravity="center_horizontal"
-            android:textColor="@color/white"
-            android:background="@drawable/fun_bg_app_theme_color_rounded_22"
-            android:textSize="16sp" />
-    </LinearLayout>
+    <TextView
+        android:id="@+id/activity_mine_purse_recharge_recharge_rl"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_44_dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="@dimen/dimen_20_dp"
+        android:layout_marginTop="35dp"
+        android:background="@drawable/bg_app_theme_color_rounded_10"
+        android:gravity="center"
+        android:text="确定充值"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
 
 
 </LinearLayout>
+
