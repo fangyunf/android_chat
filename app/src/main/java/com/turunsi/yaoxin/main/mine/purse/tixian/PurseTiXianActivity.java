@@ -1,6 +1,5 @@
 package com.turunsi.yaoxin.main.mine.purse.tixian;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
@@ -14,7 +13,6 @@ import androidx.annotation.Nullable;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.turunsi.yaoxin.R;
-import com.turunsi.yaoxin.main.mine.purse.alipay.BindAlipayActivity;
 import com.yaoxin.appbase.activity.BaseActivity;
 import com.turunsi.yaoxin.databinding.ActivityMinePurseTixianBinding;
 import com.yaoxin.appbase.model.NetData;
@@ -28,11 +26,8 @@ import com.yaoxin.appbase.utils.DialogAlertUtil;
 import com.yaoxin.appbase.utils.NumberUtil;
 import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
-import com.yaoxin.appbase.view.pwdkeyboard.Keyboard;
-import com.yaoxin.appbase.view.pwdkeyboard.PayEditText;
 
 import java.lang.reflect.Type;
-import java.util.HashMap;
 import java.util.List;
 
 import retrofit2.Call;
@@ -99,35 +94,13 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
         binding.activityMinePurseTixianTixianBtn.setOnClickListener(this);
         binding.activityMinePurseTixianAccoutTv.setEnabled(false);
 
-        binding.activityMinePurseMyLingqian.viewTitleTfWithoutBgEt.setBackgroundColor(getResources().getColor(R.color.color_white));
-        binding.activityMinePurseMyLingqian.viewTitleTfWithoutBgLl.setBackgroundColor(getResources().getColor(R.color.color_white));
-
-        binding.activityMinePurseMyLingqian.viewTitleTfWithoutBgLl.setBackground(getResources().getDrawable(com.yaoxin.appbase.R.drawable.bg_f2f2f2_rounded_10));
-        binding.activityMinePurseMyLingqian.viewTitleTfWithoutBgEt.setBackground(getResources().getDrawable(R.color.transparent));
-        binding.activityMinePurseMyLingqian.viewTitleTfWithoutBgTv.setText("我的零钱");
-        binding.activityMinePurseMyLingqian.viewTitleTfWithoutBgArrowIv.setVisibility(View.GONE);
-        int gravity = Gravity.END | Gravity.CENTER_VERTICAL; // 组合重力
-
-        binding.activityMinePurseMyLingqian.viewTitleTfWithoutBgEt.setGravity(gravity);
-//        binding.activityMinePurseMyLingqian.viewTitleTfWithoutBgEt.setText("支付宝");
-        binding.activityMinePurseMyLingqian.viewTitleTfWithoutBgLl.setOnClickListener(this);
-        binding.activityMinePurseMyLingqian.viewTitleTfWithoutBgEt.setFocusable(false);
-        binding.activityMinePurseMyLingqian.viewTitleTfWithoutBgEt.setFocusableInTouchMode(false);
-        binding.activityMinePurseMyLingqian.viewTitleTfWithoutBgEt.setClickable(true);
-        binding.activityMinePurseMyLingqian.viewTitleTfWithoutBgEt.setOnClickListener(this);
-        binding.activityMinePurseTixianAccoutTv.setVisibility(View.GONE);
-
-        binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgArrowIv.setVisibility(View.VISIBLE);
-        binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgTv.setText("提现方式");
-        binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setOnClickListener(this);
-        binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgLl.setOnClickListener(this);
-        binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setFocusable(false);
-        binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setFocusableInTouchMode(false);
-        binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setClickable(true);
-        binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgLl.setBackground(getResources().getDrawable(R.color.color_white));
-        binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setBackground(getResources().getDrawable(R.color.color_white));
-        binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setGravity(gravity);
-        binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setHint("请选择");
+        // 设置提现方式点击事件
+        binding.activityMinePurseTixianfangshiLl.setOnClickListener(this);
+        binding.activityMinePurseTixianfangshiEt.setFocusable(false);
+        binding.activityMinePurseTixianfangshiEt.setFocusableInTouchMode(false);
+        binding.activityMinePurseTixianfangshiEt.setClickable(true);
+        binding.activityMinePurseTixianfangshiEt.setOnClickListener(this);
+        binding.activityMinePurseTixianfangshiEt.setHint("请选择");
     }
 
     void tiXianClick(String pwd) {
@@ -153,7 +126,7 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
             bean.zfbNo = wxPayBean.phone;
             bean.name = wxPayBean.name;
             bean.zfbUrl = wxPayBean.usdt;
-            bean.userUsdtId = wxPayBean.id +"";
+            bean.userUsdtId = wxPayBean.id + "";
         } else if (payType.equals("yhkpay")) {
 
             bean.zfbNo = yhkPayBean.phone;
@@ -190,7 +163,7 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                         UserBean bean = new Gson().fromJson(body.data.toString(), UserBean.class);
                         accountMoeny = NumberUtil.formartMoney(bean.balance);
-                        binding.activityMinePurseMyLingqian.viewTitleTfWithoutBgEt.setText("¥" + NumberUtil.formartMoney(bean.balance));
+                        binding.activityMinePurseTixianAvailableBalanceTv.setText("可用余额 " + NumberUtil.formartMoney(bean.balance));
                     }
 
                     @Override
@@ -295,7 +268,7 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
 
                             // 即使失败也要检查是否所有请求都完成了
                             if (completedRequests == 2) {
-                        handleAllRequestsCompleted();
+                                handleAllRequestsCompleted();
                             }
                         }
                     }
@@ -306,15 +279,21 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
         // 所有请求完成后的处理逻辑
         if (aliPayBean != null) {
             payType = "alipay";
-            binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setText("支付宝：" + aliPayBean.phone);
+            binding.activityMinePurseTixianfangshiIconIv.setImageResource(R.mipmap.recharge_index_zfb);
+            binding.activityMinePurseTixianfangshiIconIv.setVisibility(View.VISIBLE);
+            binding.activityMinePurseTixianfangshiEt.setText("支付宝:" + aliPayBean.phone);
         } else {
             if (wxPayBean != null) {
                 payType = "wxpay";
-                binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setText("微信：" + wxPayBean.phone);
+                binding.activityMinePurseTixianfangshiIconIv.setImageResource(R.mipmap.recharge_index_wx);
+                binding.activityMinePurseTixianfangshiIconIv.setVisibility(View.VISIBLE);
+                binding.activityMinePurseTixianfangshiEt.setText("微信:" + wxPayBean.phone);
             } else {
                 if (yhkPayBean != null) {
                     payType = "yhkpay";
-                    binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setText("银行卡：" + yhkPayBean.phone);
+                    binding.activityMinePurseTixianfangshiIconIv.setImageResource(R.mipmap.recharge_index_szrmb);
+                    binding.activityMinePurseTixianfangshiIconIv.setVisibility(View.VISIBLE);
+                    binding.activityMinePurseTixianfangshiEt.setText("银行卡:" + yhkPayBean.phone);
                 }
             }
         }
@@ -388,14 +367,15 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
 //            }
         } else if (v == binding.activityMinePurseTixianAllTixianTv) {
             binding.activityMinePurseTixianMoneyEt.setText(accountMoeny);
-        } else if (v == binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgLl || v == binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt) {
-
+        } else if (v == binding.activityMinePurseTixianfangshiLl || v == binding.activityMinePurseTixianfangshiEt) {
             DialogAlertUtil.showSheetView(this, getSupportFragmentManager(), new String[]{"支付宝", "微信"}, new DialogAlertUtil.DialogAlertUtilCallBack() {
                 @Override
                 public void clickType(int type) {
                     if (type == 1) {
                         if (aliPayBean != null) {
-                            binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setText("支付宝:" + aliPayBean.phone);
+                            binding.activityMinePurseTixianfangshiIconIv.setImageResource(R.mipmap.recharge_index_zfb);
+                            binding.activityMinePurseTixianfangshiIconIv.setVisibility(View.VISIBLE);
+                            binding.activityMinePurseTixianfangshiEt.setText("支付宝:" + aliPayBean.phone);
                         } else {
                             ToastUtils.toastMsg("请绑定支付宝账号");
                             return;
@@ -403,7 +383,9 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
                         payType = "alipay";
                     } else if (type == 2) {
                         if (wxPayBean != null) {
-                            binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setText("微信:" + wxPayBean.phone);
+                            binding.activityMinePurseTixianfangshiIconIv.setImageResource(R.mipmap.recharge_index_wx);
+                            binding.activityMinePurseTixianfangshiIconIv.setVisibility(View.VISIBLE);
+                            binding.activityMinePurseTixianfangshiEt.setText("微信:" + wxPayBean.phone);
                         } else {
                             ToastUtils.toastMsg("请绑定微信账号");
                             return;
@@ -411,7 +393,9 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
                         payType = "wxpay";
                     } else if (type == 3) {
                         if (yhkPayBean != null) {
-                            binding.activityMinePurseTixianfangshi.viewTitleTfWithoutBgEt.setText("银行卡:" + yhkPayBean.phone);
+                            binding.activityMinePurseTixianfangshiIconIv.setImageResource(R.mipmap.recharge_index_szrmb);
+                            binding.activityMinePurseTixianfangshiIconIv.setVisibility(View.VISIBLE);
+                            binding.activityMinePurseTixianfangshiEt.setText("银行卡:" + yhkPayBean.phone);
                         } else {
                             ToastUtils.toastMsg("请绑定银行卡账号");
                             return;
