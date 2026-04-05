@@ -24,7 +24,6 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.gson.Gson;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.msg.MsgService;
-import com.netease.nimlib.sdk.msg.constant.DeleteTypeEnum;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
 import com.netease.nimlib.sdk.msg.model.StickTopSessionInfo;
@@ -359,6 +358,7 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
                                         public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
                                             ToastUtils.toastMsg(body.msg);
+                                            clearP2PSessionAfterDeleteFriend();
                                             finish();
                                         }
 
@@ -427,6 +427,22 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
 
                             }
                         });
+    }
+
+    /** HTTP 删好友成功后清记录并删最近会话（deleteRecentContact2 会通知列表刷新）。 */
+    private void clearP2PSessionAfterDeleteFriend() {
+        String sessionId = accId;
+        if (TextUtils.isEmpty(sessionId) && userBean != null) {
+            sessionId = userBean.userId;
+        }
+        if (TextUtils.isEmpty(sessionId)) {
+            return;
+        }
+        MsgService msgService = NIMClient.getService(MsgService.class);
+        msgService.clearChattingHistory(sessionId, SessionTypeEnum.P2P);
+        msgService.clearServerHistory(sessionId, SessionTypeEnum.P2P);
+        msgService.deleteRecentContact2(sessionId, SessionTypeEnum.P2P);
+        EventBus.getDefault().post(new BaseEvent("clearP2PMessageList"));
     }
 
     private void refreshView() {

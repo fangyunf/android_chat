@@ -9,6 +9,9 @@ import static com.netease.yunxin.kit.contactkit.ui.ContactConstant.LIB_TAG;
 import android.text.TextUtils;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.MutableLiveData;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.msg.MsgService;
+import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.yunxin.kit.alog.ALog;
 import com.netease.yunxin.kit.chatkit.repo.ContactObserverRepo;
 import com.netease.yunxin.kit.chatkit.repo.ContactRepo;
@@ -23,8 +26,10 @@ import com.netease.yunxin.kit.corekit.im.provider.FetchCallback;
 import com.netease.yunxin.kit.corekit.im.provider.FriendChangeType;
 import com.netease.yunxin.kit.corekit.im.provider.FriendObserver;
 import com.netease.yunxin.kit.corekit.im.provider.UserInfoObserver;
+import com.yaoxin.appbase.utils.BaseEvent;
 import java.util.ArrayList;
 import java.util.List;
+import org.greenrobot.eventbus.EventBus;
 
 public class UserInfoViewModel extends BaseViewModel {
   private final String TAG = "UserInfoViewModel";
@@ -208,6 +213,7 @@ public class UserInfoViewModel extends BaseViewModel {
           @Override
           public void onSuccess(@Nullable Void param) {
             ALog.d(LIB_TAG, TAG, "deleteFriend,onSuccess");
+            clearP2PSessionAfterDeleteFriend(account);
           }
 
           @Override
@@ -222,6 +228,18 @@ public class UserInfoViewModel extends BaseViewModel {
             fetchResult.setError(-1, "");
           }
         });
+  }
+
+  /** 删好友后清记录并移除会话列表项；用 deleteRecentContact2 才会触发 SDK 删除通知以便列表刷新。 */
+  private void clearP2PSessionAfterDeleteFriend(String account) {
+    if (TextUtils.isEmpty(account)) {
+      return;
+    }
+    MsgService msgService = NIMClient.getService(MsgService.class);
+    msgService.clearChattingHistory(account, SessionTypeEnum.P2P);
+    msgService.clearServerHistory(account, SessionTypeEnum.P2P);
+    msgService.deleteRecentContact2(account, SessionTypeEnum.P2P);
+    EventBus.getDefault().post(new BaseEvent("clearP2PMessageList"));
   }
 
   public void addFriend(String account, FriendVerifyType type, FetchCallback<Void> callback) {

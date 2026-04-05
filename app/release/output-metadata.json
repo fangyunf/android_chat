@@ -11,9 +11,9 @@
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 20,
-      "versionName": "1.2.0",
-      "outputFile": "meinianda_release_v1.2.0.apk"
+      "versionCode": 21,
+      "versionName": "1.2.1",
+      "outputFile": "meinianda_release_v1.2.1.apk"
     }
   ],
   "elementType": "File"
