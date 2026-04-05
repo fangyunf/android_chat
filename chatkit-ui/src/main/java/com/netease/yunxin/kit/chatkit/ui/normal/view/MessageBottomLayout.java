@@ -639,8 +639,11 @@ public class MessageBottomLayout extends FrameLayout
       }
       mBinding.chatMessageInputLayout.setBackgroundResource(
           mute ? R.color.color_e3e4e4 : R.color.color_white);
-      if (actionAdapter != null) {
-        actionAdapter.disableAll(mute);
+      int extraVisibility = mute ? GONE : VISIBLE;
+      mBinding.chatMessageActionContainer.setVisibility(extraVisibility);
+      mBinding.chatMsgInputSwitchLayout.setVisibility(extraVisibility);
+      if (actionAdapter != null && !mute) {
+        actionAdapter.disableAll(false);
       }
     }
   }

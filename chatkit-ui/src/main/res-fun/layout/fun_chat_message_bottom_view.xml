@@ -152,9 +152,8 @@
                     android:id="@+id/inputMuteTv"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:alpha="0.8"
                     android:background="@color/color_e3e4e4"
-                    android:gravity="center_vertical"
+                    android:gravity="center"
                     android:paddingStart="@dimen/dimen_12_dp"
                     android:text="@string/chat_team_all_mute"
                     android:visibility="gone" />

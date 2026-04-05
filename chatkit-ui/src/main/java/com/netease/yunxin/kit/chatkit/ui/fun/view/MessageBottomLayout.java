@@ -812,16 +812,18 @@ public class MessageBottomLayout extends FrameLayout
             mBinding.inputEt.setText("");
             mBinding.chatRichEt.setText("");
             if (mute) {
+                mBinding.inputEt.setHint("");
                 collapse(true);
+            } else {
+                mBinding.inputEt.setHint(R.string.fun_chat_input_hint_tips);
             }
             mBinding.inputLayout.setBackgroundResource(mute ? R.color.color_e3e4e4 : R.color.color_white);
-            mBinding.inputAudioRb.setEnabled(!mute);
-            mBinding.inputAudioRb.setAlpha(mute ? 0.5f : 1f);
-            mBinding.inputEmojiRb.setEnabled(!mute);
-            mBinding.inputEmojiRb.setAlpha(mute ? 0.5f : 1f);
+            int sideVisibility = mute ? GONE : VISIBLE;
+            mBinding.inputLeftLayout.setVisibility(sideVisibility);
+            mBinding.inputRightLayout.setVisibility(sideVisibility);
+            mBinding.funChatMessageBottomViewOptLl.setVisibility(GONE);
+            mBinding.inputAudioTv.setVisibility(GONE);
             updateSendButtonVisibility(mBinding.inputEt.getText());
-//      mBinding.inputMoreRb.setEnabled(!mute);
-//      mBinding.inputMoreRb.setAlpha(mute ? 0.5f : 1f);
         }
     }
 
