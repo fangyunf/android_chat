@@ -10,6 +10,13 @@
         <attr name="bgColor" format="color|reference" />
         <attr name="textColor" format="color|reference" />
     </declare-styleable>
+
+    <!-- 我的页等：行内无左右留白，图标与字号略小 -->
+    <declare-styleable name="IconTitleArrowMineCell">
+        <attr name="mineCellLeftImg" format="reference" />
+        <attr name="mineCellTitle" format="string" />
+        <attr name="mineCellTextColor" format="color|reference" />
+    </declare-styleable>
     <declare-styleable name="ActionSheet">
         <attr name="actionSheetBackground" format="color|reference" />
         <attr name="cancelButtonBackground" format="color|reference" />
