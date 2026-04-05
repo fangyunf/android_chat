@@ -783,6 +783,26 @@ public class MessageBottomLayout extends FrameLayout
 
     }
 
+//    public void setMute(boolean mute) {
+//        if (mute != mMute) {
+//            mMute = mute;
+//            mBinding.inputEt.setEnabled(!mute);
+//            mBinding.inputMuteTv.setVisibility(mute ? VISIBLE : GONE);
+//            mBinding.inputEt.setText("");
+//            mBinding.chatRichEt.setText("");
+//            if (mute) {
+//                collapse(true);
+//            }
+//            mBinding.inputLayout.setBackgroundResource(mute ? R.color.color_e3e4e4 : R.color.color_white);
+//            mBinding.inputAudioRb.setEnabled(!mute);
+//            mBinding.inputAudioRb.setAlpha(mute ? 0.5f : 1f);
+//            mBinding.inputEmojiRb.setEnabled(!mute);
+//            mBinding.inputEmojiRb.setAlpha(mute ? 0.5f : 1f);
+
+    /// /      mBinding.inputMoreRb.setEnabled(!mute);
+    /// /      mBinding.inputMoreRb.setAlpha(mute ? 0.5f : 1f);
+//        }
+//    }
     public void setMute(boolean mute) {
         if (mute != mMute) {
             mMute = mute;
@@ -791,17 +811,30 @@ public class MessageBottomLayout extends FrameLayout
             mBinding.inputEt.setText("");
             mBinding.chatRichEt.setText("");
             if (mute) {
+                mBinding.inputEt.setHint("");
                 collapse(true);
+            } else {
+                mBinding.inputEt.setHint(R.string.fun_chat_input_hint_tips);
             }
             mBinding.inputLayout.setBackgroundResource(mute ? R.color.color_e3e4e4 : R.color.color_white);
-            mBinding.inputAudioRb.setEnabled(!mute);
-            mBinding.inputAudioRb.setAlpha(mute ? 0.5f : 1f);
-            mBinding.inputEmojiRb.setEnabled(!mute);
-            mBinding.inputEmojiRb.setAlpha(mute ? 0.5f : 1f);
-//      mBinding.inputMoreRb.setEnabled(!mute);
-//      mBinding.inputMoreRb.setAlpha(mute ? 0.5f : 1f);
+            int sideVisibility = mute ? GONE : VISIBLE;
+            mBinding.inputLeftLayout.setVisibility(sideVisibility);
+            mBinding.inputRightLayout.setVisibility(sideVisibility);
+            mBinding.funChatMessageBottomViewOptLl.setVisibility(GONE);
+            mBinding.inputAudioTv.setVisibility(GONE);
+            //updateSendButtonVisibility(mBinding.inputEt.getText());
         }
     }
+
+//    private void updateSendButtonVisibility(CharSequence text) {
+//        if (mBinding.inputSendBtn == null) {
+//            return;
+//        }
+//        boolean hasText = !TextUtils.isEmpty(text) && text.toString().trim().length() > 0;
+//        mBinding.inputSendBtn.setVisibility(hasText ? VISIBLE : GONE);
+//        mBinding.inputSendBtn.setEnabled(hasText && !mMute);
+//        mBinding.inputSendBtn.setClickable(hasText && !mMute);
+//    }
 
     public boolean isMute() {
         return mMute;
