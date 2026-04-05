@@ -48,10 +48,10 @@ import retrofit2.Response;
 
 public class MyFuHaoListActivity extends BaseActivity implements View.OnClickListener {
     ActivityMineMyFuhaoListBinding binding;
-
     MyFuHaoListAdapter adapter = new MyFuHaoListAdapter();
 
     ArrayList<UserBean> userBeanList = new ArrayList<>();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +67,8 @@ public class MyFuHaoListActivity extends BaseActivity implements View.OnClickLis
                 new CommonGridSpacingItemDecoration(2, SizeUtils.dp2px(10), false);
         binding.activityMineMyFuhaoListRv.addItemDecoration(gridSpacingItemDecoration);
         binding.activityMineMyFuhaoListRv.setAdapter(adapter);
+
+        binding.tvBuyFuhao.setOnClickListener(this);
 
 //        for (int i = 0; i < 20; i++) {
 //            UserBean bean = new UserBean();
@@ -105,7 +107,8 @@ public class MyFuHaoListActivity extends BaseActivity implements View.OnClickLis
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                        Type type = new TypeToken<List<UserBean>>() {}.getType();
+                        Type type = new TypeToken<List<UserBean>>() {
+                        }.getType();
                         userBeanList = new Gson().fromJson(body.data.toString(), type);
                         adapter.setItems(userBeanList);
                         adapter.notifyDataSetChanged();
@@ -128,8 +131,12 @@ public class MyFuHaoListActivity extends BaseActivity implements View.OnClickLis
             finish();
         } else if (v == binding.activityMineMyFuhaoListBuyIv) {
             HashMap map = new HashMap();
-            map.put("type","1");
-            BuyFeatureActivity.start(BuyFeatureActivity.class,this,map);
+            map.put("type", "1");
+            BuyFeatureActivity.start(BuyFeatureActivity.class, this, map);
+        } else if (v == binding.tvBuyFuhao) {
+            HashMap map = new HashMap();
+            map.put("type", "1");
+            BuyFeatureActivity.start(BuyFeatureActivity.class, this, map);
         }
     }
 
