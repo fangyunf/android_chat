@@ -31,7 +31,8 @@ public final class UsdtPayResultDialog {
 
     private UsdtPayResultDialog() {}
 
-    public static String fieldAsString(@Nullable JsonObject o, String key) {
+    public static String
+    fieldAsString(@Nullable JsonObject o, String key) {
         if (o == null || !o.has(key) || o.get(key).isJsonNull()) {
             return "--";
         }
