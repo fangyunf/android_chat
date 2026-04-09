@@ -247,6 +247,8 @@
         <activity android:name=".main.mine.setting.SettingNewActivity" />
         <activity android:name=".main.mine.account.AccountDetailActivity" />
         <activity android:name=".main.mine.purse.alipay.BindAlipayActivity" />
+        <activity android:name=".main.mine.purse.usdt.BindUsdtEntryActivity" />
+        <activity android:name=".main.mine.purse.usdt.BindUsdtActivity" />
         <activity android:name=".main.mine.account.Mine_Pwd_Set_ManagerActivity" />
         <activity android:name=".main.mine.huiyuan.LiangHaoZoneActivity" />
         <activity android:name=".main.mine.huiyuan.LiangHaoZoneMoreActivity" />

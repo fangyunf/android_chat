@@ -21,6 +21,7 @@ import com.turunsi.yaoxin.databinding.ActivityMinePurseIndexBinding;
 import com.turunsi.yaoxin.main.mine.purse.bankcard.BankCardListActivity;
 import com.turunsi.yaoxin.main.mine.purse.pwdmanager.PursePwdManagerActivity;
 import com.turunsi.yaoxin.main.mine.purse.recharge.PurseRechargeActivity;
+import com.turunsi.yaoxin.main.mine.purse.usdt.BindUsdtEntryActivity;
 import com.turunsi.yaoxin.main.mine.purse.tixian.PurseTiXianActivity;
 import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.UserBean;
@@ -101,6 +102,7 @@ public class PurseIndexActivity extends BaseActivity implements View.OnClickList
         binding.activityMinePurseIndexWdkb.setOnClickListener(this);
         binding.activityMinePurseIndexBdwx.setOnClickListener(this);
         binding.activityMinePurseIndexBdzfb.setOnClickListener(this);
+        binding.activityMinePurseIndexUstd.setOnClickListener(this);
     }
 
     @Override
@@ -123,6 +125,8 @@ public class PurseIndexActivity extends BaseActivity implements View.OnClickList
             BillDetailListActivity.start(BillDetailListActivity.class,this,null);
         } else if (v == binding.activityMinePurseIndexBdzfb) {
             BindAlipayActivity.start(BindAlipayActivity.class,this,null);
+        } else if (v == binding.activityMinePurseIndexUstd) {
+            BindUsdtEntryActivity.start(BindUsdtEntryActivity.class, this, null);
         } else if (v == binding.activityMinePurseIndexBdwx) {
             Map map = new HashMap();
             map.put("type","1");
