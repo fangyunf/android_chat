@@ -437,6 +437,12 @@ public interface ServiceW {
             @Body RequestParamsBean userBean
     );
 
+    /** USDT 充值（归档 {@code /pay/usdtPay}），入参：amount（分）、id（绑定记录 cardId） */
+    @POST("/pay/usdtPay")
+    Call<NetData> pay_usdtPay(
+            @Body RequestParamsBean userBean
+    );
+
     //  好友列表
     @POST("/customer/about")
     Call<NetData> customer_about(
