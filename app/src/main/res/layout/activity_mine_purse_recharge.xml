@@ -255,6 +255,18 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="@dimen/dimen_16_dp" />
                 </LinearLayout>
+
+                <TextView
+                    android:id="@+id/activity_mine_purse_recharge_usdt_link_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:gravity="center"
+                    android:paddingVertical="10dp"
+                    android:text="USDT充值"
+                    android:textColor="@color/app_theme_color"
+                    android:textSize="15sp"
+                    android:visibility="gone" />
             </LinearLayout>
 
             <include

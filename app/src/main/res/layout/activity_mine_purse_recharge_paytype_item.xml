@@ -9,7 +9,7 @@
         android:id="@+id/activity_mine_purse_recharge_paytype_item_icon"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:src="@mipmap/recharge_index_bi"
+        android:src="@drawable/icon_usdt"
         />
     <TextView
         android:layout_marginStart="5dp"

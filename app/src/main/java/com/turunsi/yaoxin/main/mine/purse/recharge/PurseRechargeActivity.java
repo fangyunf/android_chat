@@ -14,7 +14,6 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.webkit.WebView;
-import android.app.Dialog;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,15 +25,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.alipay.sdk.app.PayTask;
 import com.chad.library.adapter4.BaseQuickAdapter;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
 import com.netease.yunxin.kit.common.utils.SizeUtils;
 import com.turunsi.yaoxin.R;
-import com.turunsi.yaoxin.main.mine.purse.usdt.BindUsdtEntryActivity;
 import com.yaoxin.appbase.activity.BaseActivity;
 import com.turunsi.yaoxin.databinding.ActivityMinePurseRechargeBinding;
 import com.yaoxin.appbase.model.NetData;
-import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.model.RequestParamsBean;
 import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
@@ -44,8 +39,8 @@ import com.yaoxin.appbase.utils.NumberUtil;
 import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -53,11 +48,8 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 public class PurseRechargeActivity extends BaseActivity implements View.OnClickListener {
-    private static final int BIND_QUERY_TYPE_USDT = 1;
 
     ActivityMinePurseRechargeBinding binding;
-    /** 归档 SWUsdtPayResultAlertView：页面销毁时关闭 */
-    private Dialog usdtPayResultDialog;
     /** 1×1 隐藏 WebView，支付宝 H5 收银台在此加载并由 SDK 拦截 */
     private WebView h5PayWebView;
     private boolean h5PayWebViewConfigured;
@@ -151,18 +143,10 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected void onDestroy() {
-        dismissUsdtPayResultDialog();
         AlipayH5PayWebHelper.destroyWebView(h5PayWebView);
         h5PayWebView = null;
         h5PayWebViewConfigured = false;
         super.onDestroy();
-    }
-
-    private void dismissUsdtPayResultDialog() {
-        if (usdtPayResultDialog != null && usdtPayResultDialog.isShowing()) {
-            usdtPayResultDialog.dismiss();
-        }
-        usdtPayResultDialog = null;
     }
 
     void _initRecycleView() {
@@ -352,11 +336,15 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
         if (v == binding.activityMinePurseRechargeNav.addCloseImageButton()) {
             finish();
         } else if (v == binding.activityMinePurseRechargeRechargeRl) {
-//            String inputMoney = getTextStr(binding.activityMinePurseRechargeEt);
-//            if (inputMoney.isEmpty()) {
-//                ToastUtils.toastMsg("请输入金额");
-//                return;
-//            }
+
+            if (payType.equals("usdt")) {
+                Map<String, String> map = new HashMap<>();
+                String yuan = adpter != null && adpter.selectStr != null ? adpter.selectStr : "100";
+                map.put(UsdtRechargeActivity.EXTRA_SELECTED_CNY_YUAN, yuan);
+                UsdtRechargeActivity.start(UsdtRechargeActivity.class, this, map);
+                return;
+            }
+
             rechargeMoney(adpter.selectStr);
         }
 //        else if (v == binding.activityMinePurseRechargeMoney100) {
@@ -373,7 +361,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
 //            rechargeMoney("5000");
 //        }
         else if (v == binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgLl || v == binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt) {
-            DialogAlertUtil.showSheetView(this, getSupportFragmentManager(), new String[]{"支付宝", "微信", "银行卡", "USDT充值"}, new DialogAlertUtil.DialogAlertUtilCallBack() {
+            DialogAlertUtil.showSheetView(this, getSupportFragmentManager(), new String[]{"支付宝", "微信", "银行卡"}, new DialogAlertUtil.DialogAlertUtilCallBack() {
                 @Override
                 public void clickType(int type) {
                     if (type == 1) {
@@ -387,10 +375,6 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
                     } else if (type == 3) {
                         binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt.setText("微信");
                         payType = "bank";
-                    } else if (type == 4) {
-                        binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt.setText("USDT");
-                        payType = "usdt";
-                        adpter1.payType = "USDT充值";
                     }
                     adpter1.notifyDataSetChanged();
                 }
@@ -423,10 +407,6 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
             inputMoney = inputMoney1;
         }
         if (payType.equals("")) {
-            return;
-        }
-        if ("USDT充值".equals(adpter1.payType)) {
-            performUsdtRecharge(inputMoney);
             return;
         }
         if ("支付宝充值".equals(adpter1.payType)) {
@@ -540,81 +520,6 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
 //                        }
 //                    });
 //        }
-    }
-
-    /**
-     * 归档 {@code SWNewRechargeViewController performUsdtPayWithCnyAmount}：
-     * 先 {@code /bindCard/userZFB} type=1 取绑定 id，再 {@code /pay/usdtPay}，成功后弹出支付信息。
-     */
-    private void performUsdtRecharge(String cnyAmount) {
-        if (cnyAmount == null || cnyAmount.isEmpty()) {
-            ToastUtils.toastMsg("请选择充值金额");
-            return;
-        }
-        RegisterBean query = new RegisterBean();
-        query.type = BIND_QUERY_TYPE_USDT;
-        HttpUtil.apiW().bindCard_userZFB(query)
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        if (body == null || body.data == null) {
-                            ToastUtils.toastMsg("请先绑定USDT地址");
-                            BindUsdtEntryActivity.start(BindUsdtEntryActivity.class, PurseRechargeActivity.this, null);
-                            return;
-                        }
-                        Type listType = new TypeToken<List<UserBean>>() {}.getType();
-                        List<UserBean> list = new Gson().fromJson(body.data.toString(), listType);
-                        UserBean model =
-                                (list == null || list.isEmpty()) ? null : list.get(list.size() - 1);
-                        String bindId = "";
-                        if (model != null) {
-                            if (model.cardId != null && !model.cardId.trim().isEmpty()) {
-                                bindId = model.cardId.trim();
-                            } else if (model.id > 0) {
-                                bindId = String.valueOf(model.id);
-                            }
-                        }
-                        if (bindId.isEmpty()) {
-                            ToastUtils.toastMsg("请先绑定USDT地址");
-                            BindUsdtEntryActivity.start(BindUsdtEntryActivity.class, PurseRechargeActivity.this, null);
-                            return;
-                        }
-                        String finalBindId = bindId;
-                        RequestParamsBean payBean = new RequestParamsBean();
-                        payBean.amount = NumberUtil.formartUploadMoney(cnyAmount);
-                        payBean.id = finalBindId;
-                        HttpUtil.apiW().pay_usdtPay(payBean)
-                                .enqueue(new CommonCallback<NetData>() {
-                                    @Override
-                                    public void Successful(Call<NetData> call, Response<NetData> response,
-                                            NetData body1) {
-                                        if (body1 == null || body1.data == null) {
-                                            ToastUtils.toastMsg("数据异常");
-                                            return;
-                                        }
-                                        JsonObject payload =
-                                                new Gson().fromJson(body1.data.toString(), JsonObject.class);
-                                        if (payload == null) {
-                                            ToastUtils.toastMsg("数据异常");
-                                            return;
-                                        }
-                                        dismissUsdtPayResultDialog();
-                                        usdtPayResultDialog = UsdtPayResultDialog.show(
-                                                PurseRechargeActivity.this,
-                                                payload,
-                                                () -> usdtPayResultDialog = null);
-                                    }
-
-                                    @Override
-                                    public void Failure(Call<NetData> call, Throwable t) {
-                                    }
-                                });
-                    }
-
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
-                    }
-                });
     }
 
     private void startAlipayPayment1(String url) {

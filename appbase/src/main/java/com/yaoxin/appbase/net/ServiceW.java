@@ -437,7 +437,13 @@ public interface ServiceW {
             @Body RequestParamsBean userBean
     );
 
-    /** USDT 充值（归档 {@code /pay/usdtPay}），入参：amount（分）、id（绑定记录 cardId） */
+    /** USDT 充值页「展示」：收款信息等（与现网约定 {@code /pay/qwe}），入参通常与预览一致：amount（分）、id（绑定 cardId） */
+    @POST("/pay/qwe")
+    Call<NetData> pay_qwe(
+            @Body RequestParamsBean userBean
+    );
+
+    /** USDT 充值提交：{@code /pay/usdtPay}，入参：amount（分）、id、txHash、voucher 等见 {@link com.yaoxin.appbase.model.RequestParamsBean} */
     @POST("/pay/usdtPay")
     Call<NetData> pay_usdtPay(
             @Body RequestParamsBean userBean

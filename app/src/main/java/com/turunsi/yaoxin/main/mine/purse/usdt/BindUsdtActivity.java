@@ -25,11 +25,16 @@ public class BindUsdtActivity extends BaseActivity implements View.OnClickListen
     public static final String EXTRA_BIND_ID = "bind_id";
     public static final String EXTRA_INITIAL_USDT = "initial_usdt";
 
-    /** 与 iOS 一致的绑定类型 */
-    private static final String BIND_TYPE_USDT = "1";
+    /**
+     * 与 iOS 一致的绑定类型
+     */
+    private static final String BIND_TYPE_USDT = "5";
 
     private ActivityBindUsdtBinding binding;
-    private long bindId;
+    /**
+     * iOS 传的是 cardId（字符串）
+     */
+    private String bindId = "";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,11 +45,7 @@ public class BindUsdtActivity extends BaseActivity implements View.OnClickListen
         if (extras != null) {
             String idStr = extras.getString(EXTRA_BIND_ID);
             if (idStr != null && !idStr.isEmpty()) {
-                try {
-                    bindId = Long.parseLong(idStr);
-                } catch (NumberFormatException ignored) {
-                    bindId = 0;
-                }
+                bindId = idStr;
             }
             String initial = extras.getString(EXTRA_INITIAL_USDT);
             if (initial != null && !initial.isEmpty()) {
@@ -52,7 +53,7 @@ public class BindUsdtActivity extends BaseActivity implements View.OnClickListen
             }
         }
 
-        boolean isEdit = bindId > 0;
+        boolean isEdit = !bindId.isEmpty();
         binding.activityBindUsdtNav.getTitleView().setText(isEdit ? "修改USDT绑定" : "绑定USDT");
         binding.activityBindUsdtAddress.viewTitleTfWithoutBgTv.setText("USDT地址");
         binding.activityBindUsdtAddress.viewTitleTfWithoutBgEt.setHint("请输入TRC20收款地址");
@@ -79,8 +80,8 @@ public class BindUsdtActivity extends BaseActivity implements View.OnClickListen
         RequestParamsBean registerBean = new RequestParamsBean("", "", BIND_TYPE_USDT);
         registerBean.type = BIND_TYPE_USDT;
         registerBean.usdt = addr;
-        if (bindId > 0) {
-            registerBean.id = String.valueOf(bindId);
+        if (!bindId.isEmpty()) {
+            registerBean.id = bindId;
         }
         HttpUtil.apiW().bindCard_createUptadeZFB1(registerBean)
                 .enqueue(new CommonCallback<NetData>() {

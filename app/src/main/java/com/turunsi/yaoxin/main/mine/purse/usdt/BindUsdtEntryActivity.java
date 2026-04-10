@@ -28,11 +28,11 @@ import retrofit2.Response;
 
 /**
  * USDT 绑定入口，对应归档 {@code SWUsdtBindEntryViewController}：
- * {@code POST /bindCard/userZFB}，type=1。
+ * {@code POST /bindCard/userZFB}，查询 USDT 绑定时 type=5（以后台为准）。
  */
 public class BindUsdtEntryActivity extends BaseActivity implements View.OnClickListener {
 
-    private static final int API_TYPE_USDT = 1;
+    private static final int API_TYPE_USDT = 5;
 
     private ActivityBindUsdtEntryBinding binding;
     private UserBean bindBean;
@@ -88,34 +88,13 @@ public class BindUsdtEntryActivity extends BaseActivity implements View.OnClickL
         return list.get(list.size() - 1);
     }
 
-    /**
-     * 与归档 SWWithdrawViewController {@code isUsdtBindReady} 一致：有效 USDT 需地址非空且 cardId 有效。
-     */
-    private static boolean isUsdtBindReady(UserBean model) {
-        if (model == null) {
-            return false;
-        }
-        String addr = model.usdt == null ? "" : model.usdt.trim();
-        if (addr.isEmpty()) {
-            return false;
-        }
-        String cid = model.cardId == null ? "" : model.cardId.trim();
-        if (TextUtils.equals("zfb", cid)) {
-            return false;
-        }
-        // 归档要求 cardId 有效；若接口只返回主键 id，用 id 兜底
-        if (cid.isEmpty() && model.id <= 0) {
-            return false;
-        }
-        return true;
-    }
-
     private void refreshUi() {
-        boolean bound = isUsdtBindReady(bindBean);
+        boolean bound = bindBean != null;
         binding.activityBindUsdtEntryInfoLl.setVisibility(bound ? View.VISIBLE : View.GONE);
         binding.activityBindUsdtEntryEmptyLl.setVisibility(bound ? View.GONE : View.VISIBLE);
-        if (bound && bindBean != null) {
-            binding.activityBindUsdtEntryAddressTv.setText(bindBean.usdt);
+        if (bound) {
+            String addr = bindBean.usdt != null ? bindBean.usdt.trim() : "";
+            binding.activityBindUsdtEntryAddressTv.setText(addr.isEmpty() ? "--" : addr);
         }
     }
 
@@ -128,8 +107,8 @@ public class BindUsdtEntryActivity extends BaseActivity implements View.OnClickL
         } else if (v == binding.activityBindUsdtEntryRebindTv) {
             Map<String, String> map = new HashMap<>();
             if (bindBean != null) {
-                if (bindBean.id > 0) {
-                    map.put(BindUsdtActivity.EXTRA_BIND_ID, String.valueOf(bindBean.id));
+                if (!TextUtils.isEmpty(bindBean.cardId)) {
+                    map.put(BindUsdtActivity.EXTRA_BIND_ID, bindBean.cardId);
                 }
                 if (!TextUtils.isEmpty(bindBean.usdt)) {
                     map.put(BindUsdtActivity.EXTRA_INITIAL_USDT, bindBean.usdt);

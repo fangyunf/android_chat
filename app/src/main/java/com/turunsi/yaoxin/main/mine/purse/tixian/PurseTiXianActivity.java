@@ -2,7 +2,6 @@ package com.turunsi.yaoxin.main.mine.purse.tixian;
 
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.text.method.DigitsKeyListener;
@@ -14,7 +13,6 @@ import androidx.annotation.Nullable;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.turunsi.yaoxin.R;
-import com.turunsi.yaoxin.main.mine.purse.usdt.BindUsdtEntryActivity;
 import com.yaoxin.appbase.activity.BaseActivity;
 import com.turunsi.yaoxin.databinding.ActivityMinePurseTixianBinding;
 import com.yaoxin.appbase.model.NetData;
@@ -30,15 +28,16 @@ import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
 
 import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Response;
 
 public class PurseTiXianActivity extends BaseActivity implements View.OnClickListener {
-    /** 归档 {@code kSWWithdrawUsdtMinYuan} */
-    private static final double USDT_WITHDRAW_MIN_YUAN = 500;
     private static final double WITHDRAW_MIN_YUAN = 100;
+    private static final double USDT_WITHDRAW_MIN_YUAN = 500;
 
     ActivityMinePurseTixianBinding binding;
     String accountMoeny;
@@ -47,8 +46,6 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
     UserBean aliPayBean;
     UserBean wxPayBean;
     UserBean yhkPayBean;
-    /** 与归档 {@code SWWithdrawViewController} 一致：type=1 列表 lastObject 且 {@link #isUsdtBindReady} */
-    UserBean usdtPayBean;
     private final Object lock = new Object();
     private int completedRequests = 0;
     private int resumeCount;
@@ -62,14 +59,15 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
         }
     }
 
-    /** 从绑定页返回后刷新可提现方式（含 USDT） */
+    /**
+     * 从绑定页返回后刷新可提现方式
+     */
     private void reloadBindAccountsAndBalance() {
         synchronized (lock) {
             completedRequests = 0;
         }
         aliPayBean = null;
         wxPayBean = null;
-        usdtPayBean = null;
         HttpUtil.apiW().home_balance()
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
@@ -146,43 +144,9 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
         binding.activityMinePurseTixianfangshiEt.setHint("请选择");
     }
 
-    /** 与归档 {@code isUsdtBindReady}、{@link com.turunsi.yaoxin.main.mine.purse.usdt.BindUsdtEntryActivity} 一致 */
-    private static boolean isUsdtBindReady(UserBean model) {
-        if (model == null) {
-            return false;
-        }
-        String addr = model.usdt == null ? "" : model.usdt.trim();
-        if (addr.isEmpty()) {
-            return false;
-        }
-        String cid = model.cardId == null ? "" : model.cardId.trim();
-        if (TextUtils.equals("zfb", cid)) {
-            return false;
-        }
-        if (cid.isEmpty() && model.id <= 0) {
-            return false;
-        }
-        return true;
-    }
-
-    private static String resolveWithdrawUserUsdtId(UserBean b) {
-        if (b == null) {
-            return "";
-        }
-        if (b.cardId != null && !b.cardId.trim().isEmpty()) {
-            return b.cardId.trim();
-        }
-        if (b.id > 0) {
-            return String.valueOf(b.id);
-        }
-        return "";
-    }
-
     private void updateWithdrawNoteForPayType() {
         if ("usdt".equals(payType)) {
-            binding.activityMinePurseTixianNoteTv.setText(
-                    "注：USDT提现费率35%（按提现金额计算）\n提现金额500元起，通道TRC20\n"
-                            + "提现时间（早8.00-晚20.00）\n发起提现后二小时内到账");
+            binding.activityMinePurseTixianNoteTv.setText(R.string.usdt_withdraw_notes);
         } else {
             binding.activityMinePurseTixianNoteTv.setText(
                     "注:技术服务费率8%+服务费2元/笔\n提现时间（早8.00-晚20.00）\n发起提现后二小时内到账");
@@ -190,6 +154,9 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
     }
 
     void tiXianClick(String pwd) {
+        if ("usdt".equals(payType)) {
+            return;
+        }
         String inputMoney = getTextStr(binding.activityMinePurseTixianMoneyEt);
 
         if (inputMoney.isEmpty()) {
@@ -200,42 +167,25 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
         RegisterBean bean = new RegisterBean();
         bean.payPassword = pwd;
         bean.amount = NumberUtil.formartUploadMoney(inputMoney);
-        if (payType.equals("usdt")) {
-            // 归档 {@code requestUsdtWithdrawSubmit}：同一 withdrawDeposit，type=1
-            bean.type = 1;
-            if (usdtPayBean == null) {
-                ToastUtils.toastMsg("请先绑定USDT地址");
-                return;
-            }
-            bean.zfbNo = usdtPayBean.phone != null ? usdtPayBean.phone : "";
-            bean.name = usdtPayBean.name != null ? usdtPayBean.name : "";
-            bean.zfbUrl = usdtPayBean.usdt;
-            bean.userUsdtId = resolveWithdrawUserUsdtId(usdtPayBean);
-            if (bean.userUsdtId.isEmpty()) {
-                ToastUtils.toastMsg("USDT绑定信息异常，请重新绑定");
-                return;
-            }
-        } else {
-            bean.type = 2;
-            if (payType.equals("alipay")) {
+        bean.type = 2;
+        if (payType.equals("alipay")) {
 
-                bean.zfbNo = aliPayBean.phone;
-                bean.name = aliPayBean.name;
-                bean.zfbUrl = aliPayBean.usdt;
-                bean.userUsdtId = aliPayBean.id + "";
-            } else if (payType.equals("wxpay")) {
+            bean.zfbNo = aliPayBean.phone;
+            bean.name = aliPayBean.name;
+            bean.zfbUrl = aliPayBean.usdt;
+            bean.userUsdtId = aliPayBean.id + "";
+        } else if (payType.equals("wxpay")) {
 
-                bean.zfbNo = wxPayBean.phone;
-                bean.name = wxPayBean.name;
-                bean.zfbUrl = wxPayBean.usdt;
-                bean.userUsdtId = wxPayBean.id + "";
-            } else if (payType.equals("yhkpay")) {
+            bean.zfbNo = wxPayBean.phone;
+            bean.name = wxPayBean.name;
+            bean.zfbUrl = wxPayBean.usdt;
+            bean.userUsdtId = wxPayBean.id + "";
+        } else if (payType.equals("yhkpay")) {
 
-                bean.zfbNo = yhkPayBean.phone;
-                bean.name = yhkPayBean.name;
-                bean.zfbUrl = yhkPayBean.usdt;
-                bean.userUsdtId = yhkPayBean.id + "";
-            }
+            bean.zfbNo = yhkPayBean.phone;
+            bean.name = yhkPayBean.name;
+            bean.zfbUrl = yhkPayBean.usdt;
+            bean.userUsdtId = yhkPayBean.id + "";
         }
         HttpUtil.apiW().withdraw_withdrawDeposit(bean)
                 .enqueue(new CommonCallback<NetData>() {
@@ -346,11 +296,6 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
                                 case "wechat":
                                     if (tempList != null && !tempList.isEmpty()) {
                                         wxPayBean = tempList.get(0);
-                                        UserBean last =
-                                                tempList.get(tempList.size() - 1);
-                                        if (isUsdtBindReady(last)) {
-                                            usdtPayBean = last;
-                                        }
                                     }
                                     break;
                                 case "bank":
@@ -384,73 +329,38 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void handleAllRequestsCompleted() {
-        // 所有请求完成后的处理逻辑（优先级与归档一致：支付宝 > 微信 > USDT > 银行卡）
-        if (aliPayBean != null) {
-            payType = "alipay";
-            binding.activityMinePurseTixianfangshiIconIv.setImageResource(R.mipmap.recharge_index_zfb);
+        if (!"usdt".equals(payType)) {
+            // 所有请求完成后的处理逻辑（支付宝 > 微信 > 银行卡）
+            if (aliPayBean != null) {
+                payType = "alipay";
+                binding.activityMinePurseTixianfangshiIconIv.setImageResource(R.mipmap.recharge_index_zfb);
+                binding.activityMinePurseTixianfangshiIconIv.setVisibility(View.VISIBLE);
+                binding.activityMinePurseTixianfangshiEt.setText("支付宝:" + aliPayBean.phone);
+            } else if (wxPayBean != null) {
+                payType = "wxpay";
+                binding.activityMinePurseTixianfangshiIconIv.setImageResource(R.mipmap.recharge_index_wx);
+                binding.activityMinePurseTixianfangshiIconIv.setVisibility(View.VISIBLE);
+                binding.activityMinePurseTixianfangshiEt.setText("微信:" + wxPayBean.phone);
+            } else if (yhkPayBean != null) {
+                payType = "yhkpay";
+                binding.activityMinePurseTixianfangshiIconIv.setImageResource(R.mipmap.recharge_index_szrmb);
+                binding.activityMinePurseTixianfangshiIconIv.setVisibility(View.VISIBLE);
+                binding.activityMinePurseTixianfangshiEt.setText("银行卡:" + yhkPayBean.phone);
+            }
+        } else {
+            binding.activityMinePurseTixianfangshiIconIv.setImageResource(R.drawable.icon_usdt);
             binding.activityMinePurseTixianfangshiIconIv.setVisibility(View.VISIBLE);
-            binding.activityMinePurseTixianfangshiEt.setText("支付宝:" + aliPayBean.phone);
-        } else if (wxPayBean != null) {
-            payType = "wxpay";
-            binding.activityMinePurseTixianfangshiIconIv.setImageResource(R.mipmap.recharge_index_wx);
-            binding.activityMinePurseTixianfangshiIconIv.setVisibility(View.VISIBLE);
-            binding.activityMinePurseTixianfangshiEt.setText("微信:" + wxPayBean.phone);
-        } else if (usdtPayBean != null) {
-            payType = "usdt";
-            binding.activityMinePurseTixianfangshiIconIv.setImageResource(R.mipmap.recharge_index_bi);
-            binding.activityMinePurseTixianfangshiIconIv.setVisibility(View.VISIBLE);
-            String u = usdtPayBean.usdt == null ? "" : usdtPayBean.usdt;
-            binding.activityMinePurseTixianfangshiEt.setText("USDT:" + u);
-        } else if (yhkPayBean != null) {
-            payType = "yhkpay";
-            binding.activityMinePurseTixianfangshiIconIv.setImageResource(R.mipmap.recharge_index_szrmb);
-            binding.activityMinePurseTixianfangshiIconIv.setVisibility(View.VISIBLE);
-            binding.activityMinePurseTixianfangshiEt.setText("银行卡:" + yhkPayBean.phone);
+            binding.activityMinePurseTixianfangshiEt.setText("USDT-TRC20");
         }
 
         updateWithdrawNoteForPayType();
 
-        // 检查是否都为空
-        if (aliPayBean == null && wxPayBean == null && yhkPayBean == null && usdtPayBean == null) {
-            ToastUtils.toastMsg("请先绑定账号");
-            finish();
+        if (aliPayBean == null && wxPayBean == null && yhkPayBean == null) {
+            if (!"usdt".equals(payType)) {
+                ToastUtils.toastMsg("请先绑定账号");
+                finish();
+            }
         }
-    }
-
-    /**
-     * 归档 {@code fetchUsdtBindThenContinueWithdrawWithAmount}：提现前刷新绑定，再弹支付密码。
-     */
-    private void fetchUsdtBindThenWithdraw(String textStr) {
-        RegisterBean q = new RegisterBean();
-        q.type = 1;
-        HttpUtil.apiW().bindCard_userZFB(q)
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        if (body == null || body.data == null) {
-                            ToastUtils.toastMsg("请先绑定USDT地址");
-                            BindUsdtEntryActivity.start(BindUsdtEntryActivity.class,
-                                    PurseTiXianActivity.this, null);
-                            return;
-                        }
-                        Type type = new TypeToken<List<UserBean>>() {}.getType();
-                        List<UserBean> list = new Gson().fromJson(body.data.toString(), type);
-                        UserBean last =
-                                (list == null || list.isEmpty()) ? null : list.get(list.size() - 1);
-                        if (!isUsdtBindReady(last)) {
-                            ToastUtils.toastMsg("请先绑定USDT地址");
-                            BindUsdtEntryActivity.start(BindUsdtEntryActivity.class,
-                                    PurseTiXianActivity.this, null);
-                            return;
-                        }
-                        usdtPayBean = last;
-                        showWithdrawPasswordPopup(textStr);
-                    }
-
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
-                    }
-                });
     }
 
     private void showWithdrawPasswordPopup(String textStr) {
@@ -490,7 +400,7 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
 //            });
 //        }
         else if (v == binding.activityMinePurseTixianTixianBtn) {
-            String textStr = getTextStr(binding.activityMinePurseTixianMoneyEt);
+            String textStr = getTextStr(binding.activityMinePurseTixianMoneyEt).trim();
             if (textStr.isEmpty()) {
                 ToastUtils.toastMsg("请输入金额");
                 return;
@@ -503,11 +413,9 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
                 return;
             }
             if ("usdt".equals(payType)) {
-                if (amountYuan < USDT_WITHDRAW_MIN_YUAN) {
-                    ToastUtils.toastMsg("USDT提现金额500元起");
-                    return;
-                }
-                fetchUsdtBindThenWithdraw(textStr);
+                Map<String, String> map = new HashMap<>();
+                map.put(UsdtWithdrawActivity.EXTRA_INITIAL_CNY_YUAN, textStr);
+                UsdtWithdrawActivity.start(UsdtWithdrawActivity.class, PurseTiXianActivity.this, map);
                 return;
             }
             if (amountYuan < WITHDRAW_MIN_YUAN) {
@@ -531,46 +439,47 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
         } else if (v == binding.activityMinePurseTixianAllTixianTv) {
             binding.activityMinePurseTixianMoneyEt.setText(accountMoeny);
         } else if (v == binding.activityMinePurseTixianfangshiLl || v == binding.activityMinePurseTixianfangshiEt) {
-            DialogAlertUtil.showSheetView(this, getSupportFragmentManager(), new String[]{"支付宝", "微信", "USDT"}, new DialogAlertUtil.DialogAlertUtilCallBack() {
-                @Override
-                public void clickType(int type) {
-                    if (type == 1) {
-                        if (aliPayBean != null) {
-                            binding.activityMinePurseTixianfangshiIconIv.setImageResource(R.mipmap.recharge_index_zfb);
-                            binding.activityMinePurseTixianfangshiIconIv.setVisibility(View.VISIBLE);
-                            binding.activityMinePurseTixianfangshiEt.setText("支付宝:" + aliPayBean.phone);
-                        } else {
-                            ToastUtils.toastMsg("请绑定支付宝账号");
-                            return;
+            DialogAlertUtil.showSheetView(this, getSupportFragmentManager(),
+                    new String[]{"支付宝", "微信", "USDT"},
+                    new DialogAlertUtil.DialogAlertUtilCallBack() {
+                        @Override
+                        public void clickType(int type) {
+                            if (type == 0) {
+                                return;
+                            }
+                            if (type == 3) {
+                                payType = "usdt";
+                                binding.activityMinePurseTixianfangshiIconIv.setImageResource(R.drawable.icon_usdt);
+                                binding.activityMinePurseTixianfangshiIconIv.setVisibility(View.VISIBLE);
+                                binding.activityMinePurseTixianfangshiEt.setText("USDT");
+                                updateWithdrawNoteForPayType();
+                                UsdtWithdrawActivity.start(UsdtWithdrawActivity.class, PurseTiXianActivity.this, null);
+                                return;
+                            }
+                            if (type == 1) {
+                                if (aliPayBean != null) {
+                                    binding.activityMinePurseTixianfangshiIconIv.setImageResource(R.mipmap.recharge_index_zfb);
+                                    binding.activityMinePurseTixianfangshiIconIv.setVisibility(View.VISIBLE);
+                                    binding.activityMinePurseTixianfangshiEt.setText("支付宝:" + aliPayBean.phone);
+                                } else {
+                                    ToastUtils.toastMsg("请绑定支付宝账号");
+                                    return;
+                                }
+                                payType = "alipay";
+                            } else if (type == 2) {
+                                if (wxPayBean != null) {
+                                    binding.activityMinePurseTixianfangshiIconIv.setImageResource(R.mipmap.recharge_index_wx);
+                                    binding.activityMinePurseTixianfangshiIconIv.setVisibility(View.VISIBLE);
+                                    binding.activityMinePurseTixianfangshiEt.setText("微信:" + wxPayBean.phone);
+                                } else {
+                                    ToastUtils.toastMsg("请绑定微信账号");
+                                    return;
+                                }
+                                payType = "wxpay";
+                            }
+                            updateWithdrawNoteForPayType();
                         }
-                        payType = "alipay";
-                    } else if (type == 2) {
-                        if (wxPayBean != null) {
-                            binding.activityMinePurseTixianfangshiIconIv.setImageResource(R.mipmap.recharge_index_wx);
-                            binding.activityMinePurseTixianfangshiIconIv.setVisibility(View.VISIBLE);
-                            binding.activityMinePurseTixianfangshiEt.setText("微信:" + wxPayBean.phone);
-                        } else {
-                            ToastUtils.toastMsg("请绑定微信账号");
-                            return;
-                        }
-                        payType = "wxpay";
-                    } else if (type == 3) {
-                        if (usdtPayBean != null) {
-                            binding.activityMinePurseTixianfangshiIconIv.setImageResource(R.mipmap.recharge_index_bi);
-                            binding.activityMinePurseTixianfangshiIconIv.setVisibility(View.VISIBLE);
-                            String u = usdtPayBean.usdt == null ? "" : usdtPayBean.usdt;
-                            binding.activityMinePurseTixianfangshiEt.setText("USDT:" + u);
-                        } else {
-                            ToastUtils.toastMsg("请绑定USDT地址");
-                            BindUsdtEntryActivity.start(BindUsdtEntryActivity.class,
-                                    PurseTiXianActivity.this, null);
-                            return;
-                        }
-                        payType = "usdt";
-                    }
-                    updateWithdrawNoteForPayType();
-                }
-            });
+                    });
         }
     }
 

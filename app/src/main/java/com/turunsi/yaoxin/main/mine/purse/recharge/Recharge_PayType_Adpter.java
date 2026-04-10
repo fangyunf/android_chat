@@ -13,6 +13,8 @@ import com.chad.library.adapter4.BaseQuickAdapter;
 import com.chad.library.adapter4.viewholder.QuickViewHolder;
 import com.turunsi.yaoxin.R;
 
+import java.util.Locale;
+
 /***
  * Created by wangyong951 on 2019/6/27.
  */
@@ -32,6 +34,10 @@ public class Recharge_PayType_Adpter extends
     }  else if (orderListBean.contains("微信")) {
 
       iconIv.setImageResource(R.mipmap.recharge_index_wx);
+    } else if (orderListBean != null
+        && orderListBean.toUpperCase(Locale.ROOT).contains("USDT")) {
+
+      iconIv.setImageResource(R.drawable.icon_usdt);
     } else  {
 
       iconIv.setImageResource(R.mipmap.recharge_index_bi);
@@ -47,7 +53,7 @@ public class Recharge_PayType_Adpter extends
 //        iconIv.setImageResource(R.mipmap.recharge_index_szrmb);
 //        break;
 //      case "USDT":
-//        iconIv.setImageResource(R.mipmap.recharge_index_bi);
+//        iconIv.setImageResource(R.drawable.icon_usdt);
 //        break;
 //    }
 //    tv.setText(orderListBean);

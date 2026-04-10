@@ -84,7 +84,7 @@ public final class UsdtPayResultDialog {
         addrTv.setText(busUsdt.isEmpty() ? "--" : busUsdt);
 
         if (!busUsdt.isEmpty()) {
-            Bitmap bmp = generateQr(busUsdt, 200);
+            Bitmap bmp = generateQrBitmap(busUsdt, 200);
             if (bmp != null) {
                 qrIv.setImageBitmap(bmp);
                 qrIv.setVisibility(View.VISIBLE);
@@ -130,8 +130,9 @@ public final class UsdtPayResultDialog {
         return dialog;
     }
 
+    /** 与 USDT 充值页等处共用 */
     @Nullable
-    private static Bitmap generateQr(String text, int size) {
+    public static Bitmap generateQrBitmap(String text, int size) {
         QRCodeWriter writer = new QRCodeWriter();
         try {
             BitMatrix bitMatrix = writer.encode(text, BarcodeFormat.QR_CODE, size, size);
