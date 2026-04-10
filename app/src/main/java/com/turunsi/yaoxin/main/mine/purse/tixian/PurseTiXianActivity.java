@@ -440,7 +440,7 @@ public class PurseTiXianActivity extends BaseActivity implements View.OnClickLis
             binding.activityMinePurseTixianMoneyEt.setText(accountMoeny);
         } else if (v == binding.activityMinePurseTixianfangshiLl || v == binding.activityMinePurseTixianfangshiEt) {
             DialogAlertUtil.showSheetView(this, getSupportFragmentManager(),
-                    new String[]{"支付宝", "微信", "USDT"},
+                    new String[]{"支付宝", "微信"},
                     new DialogAlertUtil.DialogAlertUtilCallBack() {
                         @Override
                         public void clickType(int type) {

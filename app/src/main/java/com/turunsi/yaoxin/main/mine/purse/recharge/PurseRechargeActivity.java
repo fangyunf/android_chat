@@ -50,7 +50,9 @@ import retrofit2.Response;
 public class PurseRechargeActivity extends BaseActivity implements View.OnClickListener {
 
     ActivityMinePurseRechargeBinding binding;
-    /** 1×1 隐藏 WebView，支付宝 H5 收银台在此加载并由 SDK 拦截 */
+    /**
+     * 1×1 隐藏 WebView，支付宝 H5 收银台在此加载并由 SDK 拦截
+     */
     private WebView h5PayWebView;
     private boolean h5PayWebViewConfigured;
     String payType = "alipay";
@@ -188,7 +190,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
         List<String> list1 = new ArrayList<>();
         list1.add("支付宝充值");
         list1.add("微信充值");
-        list1.add("USDT充值");
+        // list1.add("USDT充值");
 //        list1.add("支付宝充值二");
 //        list1.add("微信充值二");
         adpter1.setItems(list1);

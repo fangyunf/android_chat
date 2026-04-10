@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_bottom_sheet_white_rounded_top"
+    android:orientation="vertical"
+    android:paddingHorizontal="20dp"
+    android:paddingTop="20dp"
+    android:paddingBottom="24dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/purse_pay_channel_title"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/dialog_purse_pay_channel_wp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_horizontal"
+            android:minHeight="148dp"
+            android:orientation="vertical"
+            android:padding="12dp">
+
+            <ImageView
+                android:id="@+id/dialog_purse_pay_channel_wp_iv"
+                android:layout_width="match_parent"
+                android:layout_height="130dp"
+                android:contentDescription="@null"
+                android:scaleType="fitCenter"
+                android:src="@mipmap/ic_wp" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/dialog_purse_pay_channel_usdt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_horizontal"
+            android:minHeight="148dp"
+            android:orientation="vertical"
+            android:padding="12dp">
+
+            <ImageView
+                android:id="@+id/dialog_purse_pay_channel_usdt_iv"
+                android:layout_width="match_parent"
+                android:layout_height="130dp"
+                android:contentDescription="@null"
+                android:scaleType="fitCenter"
+                android:src="@mipmap/ic_usdt" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/dialog_purse_pay_channel_confirm"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/fun_bg_app_theme_color_rounded_22"
+        android:gravity="center"
+        android:text="@string/purse_pay_channel_go_recharge"
+        android:textColor="@color/color_white"
+        android:textSize="16sp" />
+</LinearLayout>
