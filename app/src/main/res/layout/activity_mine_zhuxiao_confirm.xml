@@ -124,7 +124,7 @@
                             android:layout_marginTop="8dp"
                             android:lineSpacingExtra="4dp"
                             android:text="账号注销后，您的所有数据和账号信息将全部丢失，账号一旦注销不可恢复，为避免您的个人损失，请谨慎操作"
-                            android:textColor="@color/color_666666"
+                            android:textColor="@color/app_theme_red_color"
                             android:textSize="13sp" />
                     </LinearLayout>
 
@@ -134,7 +134,8 @@
                     android:id="@+id/activity_mine_zhuxiao_confirm_get_code"
                     layout="@layout/view_top_title_et"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" />
 
                 <!-- 底部按钮 -->
                 <TextView
