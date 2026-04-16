@@ -308,7 +308,6 @@
         android:id="@+id/activity_mine_purse_recharge_h5_pay_wv"
         android:layout_width="1dp"
         android:layout_height="1dp"
-        android:visibility="invisible"
         android:focusable="false"
         android:focusableInTouchMode="false" />
 

@@ -420,6 +420,10 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
                         public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                             UserBean userBean = new Gson().fromJson(body.data.toString(), UserBean.class);
                             startAlipayH5PayInHiddenWebView(userBean.url);
+//                            startAlipayPayment(userBean.url);
+//                            Intent intent = new Intent(PurseRechargeActivity.this, H5PayActivity.class);
+//                            intent.putExtra("url", userBean.url);
+//                            startActivity(intent);
                         }
 
                         @Override

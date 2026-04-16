@@ -1,6 +1,8 @@
 package com.turunsi.yaoxin.main.mine.purse.recharge;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.text.TextUtils;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -16,7 +18,8 @@ import com.alipay.sdk.util.H5PayResultModel;
  */
 public final class AlipayH5PayWebHelper {
 
-    private AlipayH5PayWebHelper() {}
+    private AlipayH5PayWebHelper() {
+    }
 
     public static void configure(final WebView webView, final Activity activity) {
         if (webView == null || activity == null) {
@@ -35,7 +38,26 @@ public final class AlipayH5PayWebHelper {
                 new WebViewClient() {
                     @Override
                     public boolean shouldOverrideUrlLoading(final WebView view, String url) {
-                        if (!(url.startsWith("http") || url.startsWith("https"))) {
+                        if (TextUtils.isEmpty(url)) {
+                            return true;
+                        }
+                        String lowerUrl = url.toLowerCase();
+                        if (lowerUrl.startsWith("alipays://")
+                                || lowerUrl.startsWith("alipay://")
+                                || lowerUrl.startsWith("intent://")) {
+                            try {
+                                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                                activity.startActivity(intent);
+                            } catch (Exception ignored) {
+                            }
+                            return true;
+                        }
+                        if (!(lowerUrl.startsWith("http://") || lowerUrl.startsWith("https://"))) {
+                            try {
+                                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                                activity.startActivity(intent);
+                            } catch (Exception ignored) {
+                            }
                             return true;
                         }
                         final PayTask task = new PayTask(activity);
