@@ -105,10 +105,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/activity_mine_bank_bill_detail_list_rv"
+            <com.scwang.smart.refresh.layout.SmartRefreshLayout
+                android:id="@+id/activity_mine_bank_bill_detail_list_refresh_layout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/activity_mine_bank_bill_detail_list_rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 
             <RelativeLayout
                 android:id="@+id/activity_mine_bank_bill_detail_list_gray_rl"

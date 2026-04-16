@@ -19,10 +19,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.netease.yunxin.kit.common.utils.SizeUtils;
 import com.turunsi.yaoxin.databinding.ActivityMineBankBillDetailListBinding;
-import com.turunsi.yaoxin.databinding.ActivityMineBankCardListBinding;
-import com.turunsi.yaoxin.main.mine.purse.bankcard.PurseBankListAddActivity;
-import com.turunsi.yaoxin.main.mine.purse.bankcard.adapter.BankCardListAdapter;
-import com.turunsi.yaoxin.main.mine.purse.bankcard.bean.BankCardListBean;
 import com.turunsi.yaoxin.main.mine.purse.bill.adapter.BillDetailGridSpacingItemDecoration;
 import com.turunsi.yaoxin.main.mine.purse.bill.adapter.BillDetailListAdapter;
 import com.turunsi.yaoxin.main.mine.purse.bill.adapter.BillDetailList_ShaiXuan_Adapter;
@@ -51,6 +47,9 @@ public class BillDetailListActivity extends BaseActivity implements View.OnClick
     ArrayList<BillDetailBean> shaixuanList = new ArrayList<>();
     int moudleType = -1;
     String selectedMonth = TimeUtils.getTodayDateString("yyyy-MM");
+    private String endId = "";
+    private boolean isLoadingMore;
+    private boolean hasMore = true;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,11 +65,17 @@ public class BillDetailListActivity extends BaseActivity implements View.OnClick
         binding.activityMineBankBillDetailListGrayRl.setOnClickListener(this);
         binding.activityMineBankBillDetailListRv.setLayoutManager(new LinearLayoutManager(this));
         binding.activityMineBankBillDetailListRv.setAdapter(adapter);
+        binding.activityMineBankBillDetailListRefreshLayout.setEnableRefresh(true);
+        binding.activityMineBankBillDetailListRefreshLayout.setEnableLoadMore(true);
+        // 数据不足一屏时也允许触发上拉，避免“看起来分页被禁用”
+        binding.activityMineBankBillDetailListRefreshLayout.setEnableLoadMoreWhenContentNotFull(true);
+        binding.activityMineBankBillDetailListRefreshLayout.setOnRefreshListener(refreshLayout -> resetAndRequestBillList());
+        binding.activityMineBankBillDetailListRefreshLayout.setOnLoadMoreListener(refreshLayout -> requestBillList(true));
 
         binding.activityMineBankBillDetailListDateTv.setText(selectedMonth);
 
-        String[] strs = {"全部","发送群红包","领取群红包","发送专属红包","领取专属红包","发送个人红包","领取个人红包","充值","提现","红包退回","提现驳回","购物支出","抽奖","靓号"};
-        int[] types = {-1,23,26,21,24,22,25,0,1,27,5,0,100,80,78};
+        String[] strs = {"全部", "发送群红包", "领取群红包", "发送专属红包", "领取专属红包", "发送个人红包", "领取个人红包", "充值", "提现", "红包退回", "提现驳回", "购物支出", "抽奖", "靓号"};
+        int[] types = {-1, 23, 26, 21, 24, 22, 25, 0, 1, 27, 5, 0, 100, 80, 78};
 
 //        for (int i = 0; i < strs.length; i++) {
 //            BillDetailBean bean = new BillDetailBean();
@@ -94,11 +99,10 @@ public class BillDetailListActivity extends BaseActivity implements View.OnClick
             public void onClick(@NonNull BaseQuickAdapter<BillDetailBean, ?> baseQuickAdapter, @NonNull View view, int i) {
 
                 HashMap map = new HashMap();
-                map.put("bean",new Gson().toJson(baseQuickAdapter.getItem(i)));
-                BillDetailList_DetailActivity.start(BillDetailList_DetailActivity.class,that,map);
+                map.put("bean", new Gson().toJson(baseQuickAdapter.getItem(i)));
+                BillDetailList_DetailActivity.start(BillDetailList_DetailActivity.class, that, map);
             }
         });
-
 
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
@@ -122,30 +126,102 @@ public class BillDetailListActivity extends BaseActivity implements View.OnClick
                 moudleType = baseQuickAdapter.getItem(i).type;
                 binding.activityMineBankBillDetailListGrayRl.setVisibility(View.GONE);
                 shaiXuanAdapter.notifyDataSetChanged();
-                _requestData();
+                resetAndRequestBillList();
             }
         });
+
+        // BaseActivity 会在 super.onCreate() 内先触发 _requestData()，
+        // 此处确保 binding 初始化后执行一次真正首刷。
+        resetAndRequestBillList();
     }
 
     @Override
     protected void _requestData() {
+        if (binding == null) {
+            return;
+        }
+        resetAndRequestBillList();
+    }
+
+    private void resetAndRequestBillList() {
+        endId = "";
+        hasMore = true;
+        isLoadingMore = false;
+        binding.activityMineBankBillDetailListRefreshLayout.setEnableLoadMore(true);
+        binding.activityMineBankBillDetailListRefreshLayout.resetNoMoreData();
+        dataList.clear();
+        adapter.setItems(dataList);
+        adapter.notifyDataSetChanged();
+        requestBillList(false);
+    }
+
+    private void requestBillList(boolean loadMore) {
+        if (isLoadingMore) {
+            return;
+        }
+        if (loadMore && !hasMore) {
+            return;
+        }
+        isLoadingMore = true;
         RegisterBean bean = new RegisterBean();
         bean.moudleType = moudleType;
         bean.date = selectedMonth;
+        if (!endId.isEmpty()) {
+            bean.endId = endId;
+        }
         HttpUtil.apiW().red_transcationsList(bean)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-
-                        Type type = new TypeToken<List<BillDetailBean>>(){}.getType();
-                        dataList = new Gson().fromJson(body.data.toString(),type);
+                        isLoadingMore = false;
+                        if (loadMore) {
+                            binding.activityMineBankBillDetailListRefreshLayout.finishLoadMore();
+                        } else {
+                            binding.activityMineBankBillDetailListRefreshLayout.finishRefresh();
+                        }
+                        Type type = new TypeToken<List<BillDetailBean>>() {
+                        }.getType();
+                        List<BillDetailBean> list = new Gson().fromJson(body.data.toString(), type);
+                        if (list == null) {
+                            list = new ArrayList<>();
+                        }
+                        if (!loadMore) {
+                            dataList.clear();
+                        }
+                        dataList.addAll(list);
+                        if (!dataList.isEmpty()) {
+                            BillDetailBean last = (BillDetailBean) dataList.get(dataList.size() - 1);
+                            if (last != null) {
+                                if (last.transcationId != null && !last.transcationId.isEmpty()) {
+                                    endId = last.transcationId;
+                                } else if (last.id != null && !last.id.isEmpty()) {
+                                    // 兼容后端未返回 transcationId 的场景
+                                    endId = last.id;
+                                } else {
+                                    endId = "";
+                                }
+                            } else {
+                                endId = "";
+                            }
+                        }
+                        // 本页返回空才认为没有更多；若有数据但 endId 异常，不主动关分页
+                        hasMore = !list.isEmpty();
                         adapter.setItems(dataList);
                         adapter.notifyDataSetChanged();
+                        binding.activityMineBankBillDetailListRefreshLayout.setEnableLoadMore(hasMore);
+                        if (loadMore && !hasMore) {
+                            binding.activityMineBankBillDetailListRefreshLayout.finishLoadMoreWithNoMoreData();
+                        }
                     }
 
                     @Override
                     public void Failure(Call<NetData> call, Throwable t) {
-
+                        isLoadingMore = false;
+                        if (loadMore) {
+                            binding.activityMineBankBillDetailListRefreshLayout.finishLoadMore(false);
+                        } else {
+                            binding.activityMineBankBillDetailListRefreshLayout.finishRefresh(false);
+                        }
                     }
                 });
     }
@@ -162,11 +238,11 @@ public class BillDetailListActivity extends BaseActivity implements View.OnClick
             DatePicker picker = new DatePicker(this);
             picker.setBodyWidth(240);
             DateWheelLayout wheelLayout = picker.getWheelLayout();
-            DateEntity start = DateEntity.target(2023,6,15);
+            DateEntity start = DateEntity.target(2023, 6, 15);
             DateEntity end = DateEntity.target(new Date());
             DateEntity defaultEn = DateEntity.target(new Date());
 
-            wheelLayout.setRange(start,end,defaultEn);
+            wheelLayout.setRange(start, end, defaultEn);
             wheelLayout.setDateMode(DateMode.YEAR_MONTH);
             wheelLayout.setDateLabel("年", "月", "");
             picker.setOnDatePickedListener(new OnDatePickedListener() {
@@ -174,10 +250,7 @@ public class BillDetailListActivity extends BaseActivity implements View.OnClick
                 public void onDatePicked(int year, int month, int day) {
                     selectedMonth = year + "-" + month;
                     binding.activityMineBankBillDetailListDateTv.setText(selectedMonth);
-                    dataList.clear();
-                    adapter.setItems(dataList);
-                    adapter.notifyDataSetChanged();
-                    _requestData();
+                    resetAndRequestBillList();
                 }
             });
             picker.show();

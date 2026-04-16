@@ -153,6 +153,7 @@ public class MineFragment1 extends BaseFragment implements View.OnClickListener 
                 if (userBean != null) {
                     DataUtil.putUserInfo(userBean);
                     DataUtil.putToken(userBean.token);
+                    
                     if (DataUtil.getUserInfo().grade > 0) {
                         binding.fragmentMineGradeIv.setImageDrawable(ResourceHelper.getGradeDrawable(requireActivity(), DataUtil.getUserInfo().grade));
                         binding.tvName.setTextColor(ResourceHelper.getGradeColor(requireActivity(), DataUtil.getUserInfo().grade));

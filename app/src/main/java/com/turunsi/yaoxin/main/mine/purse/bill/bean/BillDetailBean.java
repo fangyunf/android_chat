@@ -8,6 +8,7 @@ public class BillDetailBean {
     public double amount;
     public int moduleType;
     public String traceId;
+    public String transcationId;
     public String name;
     public String remark;
     public String createTime;

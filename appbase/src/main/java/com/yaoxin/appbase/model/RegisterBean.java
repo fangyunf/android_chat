@@ -32,6 +32,7 @@ public class RegisterBean {
     public String avatar;
     public String date;
     public String requestId;
+    public String endId;
     public String certifyId;
     public String validate;
     public String jqr;

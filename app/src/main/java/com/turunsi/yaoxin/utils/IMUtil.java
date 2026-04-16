@@ -68,7 +68,6 @@ public class IMUtil {
                 UserBean userBean = new Gson().fromJson((String) body.data, UserBean.class);
                 DataUtil.putUserInfo(userBean);
                 DataUtil.putToken(userBean.token);
-
             }
 
             @Override
