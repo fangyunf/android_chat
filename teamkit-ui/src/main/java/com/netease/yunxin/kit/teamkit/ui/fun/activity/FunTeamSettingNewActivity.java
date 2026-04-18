@@ -180,6 +180,7 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
         binding.funTeamSettingNewActivityNicheng.viewTitleArrowTv.setText("我在本群昵称");
         binding.funTeamSettingNewActivityNicheng.viewTitleArrowRightTv.setVisibility(View.VISIBLE);
         binding.funTeamSettingNewActivityNicheng.viewTitleArrowLl.setOnClickListener(this);
+        binding.funTeamSettingNewActivityNicheng.getRoot().setVisibility(View.GONE);
 
         binding.funTeamSettingNewActivitySetGonggao.viewTitleArrowTv.setText("设置群公告");
         binding.funTeamSettingNewActivitySetGonggao.viewTitleArrowLl.setOnClickListener(this);
@@ -332,7 +333,9 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
                 });
     }
 
-    /** 群主展示名：优先 rankState==1 的成员 */
+    /**
+     * 群主展示名：优先 rankState==1 的成员
+     */
     private String resolveFounderDisplayName() {
         if (groupInfoBean == null || groupInfoBean.userInfos == null) {
             return "";
