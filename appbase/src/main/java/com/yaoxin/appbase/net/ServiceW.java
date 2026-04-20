@@ -505,4 +505,14 @@ public interface ServiceW {
             @Body RegisterBean userBean
     );
 
+    @POST("/home/deviceLog")
+    Call<NetData> home_deviceLog(
+            @Body RegisterBean userBean
+    );
+
+    @POST("/home/deleteDevice")
+    Call<NetData> home_deleteDevice(
+            @Body RegisterBean userBean
+    );
+
 }

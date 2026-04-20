@@ -45,6 +45,7 @@ import com.turunsi.yaoxin.main.mine.account.AccoutCodeDetailActivity;
 import com.turunsi.yaoxin.main.mine.account.Mine_Pwd_Set_ManagerActivity;
 import com.turunsi.yaoxin.main.mine.address.AddressListActivity;
 import com.turunsi.yaoxin.main.mine.collection.CollectionListActivity;
+import com.turunsi.yaoxin.main.mine.device.DeviceManageActivity;
 import com.turunsi.yaoxin.main.mine.fragment.AccountCodeDialogFragment;
 import com.turunsi.yaoxin.main.mine.fuhao.BuyGroupFeatureActivity;
 import com.turunsi.yaoxin.main.mine.fuhao.MyFuHaoListActivity;
@@ -154,12 +155,12 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
     }
 
 
-    void  _requestData() {
+    void _requestData() {
         HttpUtil.apiW().home_balance()
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        UserBean bean = new Gson().fromJson(body.data.toString(),UserBean.class);
+                        UserBean bean = new Gson().fromJson(body.data.toString(), UserBean.class);
 //                        binding.fragmentMineQbyeView.rightTv.setText("￥ " + NumberUtil.formartMoney(bean.balance));
                     }
 
@@ -172,7 +173,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        UserBean userBean = new Gson().fromJson((String) body.data,UserBean.class);
+                        UserBean userBean = new Gson().fromJson((String) body.data, UserBean.class);
                         if (userBean != null) {
                             DataUtil.putUserInfo(userBean);
                             DataUtil.putToken(userBean.token);
@@ -210,6 +211,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         binding.fragmentMineSzView.setOnClickListener(this);
         binding.fragmentMineQbglView.setOnClickListener(this);
         binding.fragmentMineTcdlView.setOnClickListener(this);
+        binding.fragmentMineSbglView.setOnClickListener(this);
 //        binding.fragmentMineQbyeView.rightIv.setVisibility(View.GONE);
 //        binding.fragmentMineQbyeView.rightTv.setVisibility(View.VISIBLE);
 
@@ -278,6 +280,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                 userInfo.getAvatar(), name, AvatarColor.avatarColor(IMKitClient.account()));
         binding.tvName.setText(name);
     }
+
     private void updateUIGrade() {
         if (DataUtil.getUserInfo().grade > 0) {
             binding.fragmentMineGradeRl.setVisibility(View.VISIBLE);
@@ -319,19 +322,20 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         Context context = getContext();
-        if (v == binding.fragmentMineErweimaIv) {
+        if (v == binding.fragmentMineSbglView) {
+            DeviceManageActivity.start(DeviceManageActivity.class, context, null);
+        } else if (v == binding.fragmentMineErweimaIv) {
             if (getActivity() != null) {
                 AccountCodeDialogFragment.showV(getActivity().getSupportFragmentManager());
             }
         } else if (v == binding.fragmentMineYsglView) {
-
-            AccountAnQuanManagerActivity.start(AccountAnQuanManagerActivity.class,context,null);
+            AccountAnQuanManagerActivity.start(AccountAnQuanManagerActivity.class, context, null);
         } else if (v == binding.fragmentMineYlyxView) {
 
             ToastUtils.toastMsg("敬请期待,等待开放");
         } else if (v == binding.fragmentMineZhglView) {
 
-            ZHGLNewActivity.start(ZHGLNewActivity.class,context,null);
+            ZHGLNewActivity.start(ZHGLNewActivity.class, context, null);
         } else if (v == binding.fragmentMineLtszView) {
 //            startActivity(new Intent(getContext(), SettingNotifyActivity.class));
             startActivity(new Intent(getContext(), SettingNotifyNewActivity.class));
@@ -340,14 +344,14 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                     .withContext(requireContext())
                     .navigate();
         } else if (v == binding.fragmentMineMmszView) {
-            Mine_Pwd_Set_ManagerActivity.start(Mine_Pwd_Set_ManagerActivity.class,getContext(),null);
+            Mine_Pwd_Set_ManagerActivity.start(Mine_Pwd_Set_ManagerActivity.class, getContext(), null);
 
         } else if (v == binding.fragmentMineXtszView || v == binding.fragmentMineSzView) {
-            SettingNewActivity.start(SettingNewActivity.class,getContext(),null);
+            SettingNewActivity.start(SettingNewActivity.class, getContext(), null);
         } else if (v == binding.fragmentMineTcdlView) {
             showLogin();
         } else if (v == binding.fragmentMineHyzxView || v == binding.fragmentMineGotoUpgradeTv) {
-            MyHuiYuanListActivity.start(MyHuiYuanListActivity.class,context,null);
+            MyHuiYuanListActivity.start(MyHuiYuanListActivity.class, context, null);
 
 //            Activity that = getActivity();
 //
@@ -427,7 +431,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 //                    .navigate();
 //        }
         else if (v == binding.fragmentMineWdfhView) {
-            MyFuHaoListActivity.start(MyFuHaoListActivity.class,getActivity(),null);
+            MyFuHaoListActivity.start(MyFuHaoListActivity.class, getActivity(), null);
         }
 //        if (v == binding.mineFragmentMyManagerItem5.viewMineFragmentItemCellCl) {
 ////            startActivity(new Intent(getContext(), SettingActivity.class));
@@ -455,13 +459,13 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 ////            XKitRouter.withKey(RouterConstant.PATH_FUN_COLLECTION_PAGE).withContext(this.requireContext()).navigate();
 //        }
         if (v == binding.cavIcon || v == binding.fragmentMineEditIv) {
-            AccountDetailActivity.start(AccountDetailActivity.class,getContext(),null);
+            AccountDetailActivity.start(AccountDetailActivity.class, getContext(), null);
         }
 //        if (v == binding.fragmentMineCaidanView) {
 //            EggListIndexActivity.start(EggListIndexActivity.class,getContext(),null);
 ////            ToastUtils.toastMsg("敬请期待,等待开放");
 //        }
-        if (v ==  binding.fragmentMineCopyIv) {
+        if (v == binding.fragmentMineCopyIv) {
             // 获取剪切板管理器
             ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
 
@@ -473,14 +477,14 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
             ToastUtils.toastMsg("复制成功");
         }
         if (v == binding.fragmentMineFxyyView) {
-            DownLoadActivity.start(DownLoadActivity.class,getContext(),null);
+            DownLoadActivity.start(DownLoadActivity.class, getContext(), null);
         }
         if (v == binding.fragmentMineYysjView)
-            AppUpdateActivity.start(AppUpdateActivity.class,getContext(),null);
+            AppUpdateActivity.start(AppUpdateActivity.class, getContext(), null);
         if (v == binding.fragmentMineIndexCdscLl) {
-            EggListIndexActivity.start(EggListIndexActivity.class,getContext(),null);
+            EggListIndexActivity.start(EggListIndexActivity.class, getContext(), null);
         } else if (v == binding.fragmentMineIndexWdqbLl || v == binding.fragmentMineQbglView) {
-            PurseIndexActivity.start(PurseIndexActivity.class,context,null);
+            PurseIndexActivity.start(PurseIndexActivity.class, context, null);
         } else if (v == binding.fragmentMineKfView) {
             XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_P2P_PAGE)
                     .withParam(RouterConstant.CHAT_ID_KRY, DataUtil.getKeFuId())

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/dimen_8_dp"
+    android:background="@color/white"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingHorizontal="@dimen/dimen_16_dp"
+    android:paddingVertical="@dimen/dimen_14_dp">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:id="@+id/item_collection_list_cell_text_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="title"
+                android:textColor="#ff000000"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tvLoginTime"
+                android:layout_width="wrap_content"
+                android:layout_height="17dp"
+                android:layout_marginTop="@dimen/dimen_5_dp"
+                android:text="2024-8-23"
+                android:textColor="@color/color_999999"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/tvDelete"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
+        android:background="@drawable/bg_3339ff_rounded_28"
+        android:gravity="center"
+        android:text="删除"
+        android:textColor="@color/white"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tvJIzi"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
+        android:gravity="center"
+        android:text="本机"
+        android:textColor="@color/black"
+        android:textSize="14sp" />
+
+</LinearLayout>
