@@ -322,7 +322,8 @@
                     <RelativeLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="15dp">
+                        android:layout_marginHorizontal="15dp"
+                        android:visibility="gone">
 
                         <com.yaoxin.appbase.view.IconTitleArrowTemplate_1
                             android:id="@+id/fragment_mine_sbgl_view"

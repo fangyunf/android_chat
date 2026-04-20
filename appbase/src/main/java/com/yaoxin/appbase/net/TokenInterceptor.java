@@ -1,11 +1,15 @@
 package com.yaoxin.appbase.net;
 
+import android.os.Build;
+
 import androidx.annotation.NonNull;
 
 
 import com.google.gson.Gson;
 import com.yaoxin.appbase.utils.AESUtil;
+import com.yaoxin.appbase.utils.AppProxy;
 import com.yaoxin.appbase.utils.DataUtil;
+import com.yaoxin.appbase.utils.DeviceUtils;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -46,6 +50,8 @@ public class TokenInterceptor implements Interceptor {
                 builder.addHeader("Authorization", DataUtil.getToken());
                 builder.addHeader("phone", DataUtil.getUserInfo().phoneNo);
             }
+            builder.addHeader("deviceId", DeviceUtils.getDeviceId(AppProxy.getInstance().getContext()));
+            builder.addHeader("user-agent", DeviceUtils.getDeviceName() + "=" + "Android" + Build.VERSION.RELEASE + "=Android");
             // 创建新的请求
             Request newRequest = builder
                     .method(original.method(), newRequestBody)
@@ -59,9 +65,12 @@ public class TokenInterceptor implements Interceptor {
             requestBuilder.addHeader("Authorization", DataUtil.getToken());
             requestBuilder.addHeader("phone", DataUtil.getUserInfo().phoneNo);
         }
+        requestBuilder.addHeader("deviceId", DeviceUtils.getDeviceId(AppProxy.getInstance().getContext()));
+        requestBuilder.addHeader("user-agent", DeviceUtils.getDeviceName() + "=" + "Android" + Build.VERSION.RELEASE + "=Android");
         original = requestBuilder.build();
         return chain.proceed(original);
     }
+
     // 模拟修改请求体的方法
     private String modifyRequestBody(String oldBody) {
         // 这里可以对请求体进行任何操作，比如增加、修改参数等
@@ -72,7 +81,7 @@ public class TokenInterceptor implements Interceptor {
             throw new RuntimeException(e);
         }
         HashMap map = new HashMap();
-        map.put("param",s);
+        map.put("param", s);
         return new Gson().toJson(map);
     }
 
