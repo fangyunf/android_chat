@@ -102,5 +102,6 @@
     <!--    common-->
     <string name="cancel">取消</string>
     <string name="contact_network_error_tip">当前网络不可用，请检查你当网络设置。</string>
+    <string name="contact_user_logout">已注销</string>
 
 </resources>

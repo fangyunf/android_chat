@@ -1174,7 +1174,6 @@ public abstract class ChatBaseViewModel extends BaseViewModel {
                                         } catch (Exception e) {
 
                                         }
-
                                     }
                                     if (content != null && content.startsWith("{")) {
                                         try {

@@ -98,7 +98,9 @@ public class FunConversationFragment extends ConversationBaseFragment {
 
     private boolean _needRefresh;
     private String noticeText = "";
-    /** 与顶部 tvNoticeCount 一致，用于列表头「系统公告」角标 */
+    /**
+     * 与顶部 tvNoticeCount 一致，用于列表头「系统公告」角标
+     */
     private int cachedTotalNoticeUnread;
     private RecyclerView.Adapter<?> headerAdapterRef;
     private int topIndex;

@@ -35,6 +35,7 @@ public class SimpleFriendListAdapter extends BaseQuickAdapter<GroupInfoBean, Qui
         ImageView avatarIv = holder.getView(R.id.cell_fun_team_setting_users_mingdan_head_iv);
         TextView indexTv = holder.getView(R.id.cell_fun_team_setting_users_mingdan_tv_index);
         TextView nameTv = holder.getView(R.id.cell_fun_team_setting_users_mingdan_name_tv);
+        TextView logoutTv = holder.getView(R.id.cell_fun_team_setting_users_mingdan_logout_tv);
         ImageView tvGradbg = holder.getView(R.id.tvGradbg);
         ImageView ivGrade = holder.getView(R.id.ivGrade);
 
@@ -51,6 +52,8 @@ public class SimpleFriendListAdapter extends BaseQuickAdapter<GroupInfoBean, Qui
             displayName = item.name;
         }
         nameTv.setText(displayName);
+        boolean isLogout = item.logout != null && item.logout == 0;
+        logoutTv.setVisibility(isLogout ? View.VISIBLE : View.GONE);
 
         // 加载头像
         GlideUtil.yh_loadImageRoundedCorner(getContext(), avatarIv, item.avatar, 22);

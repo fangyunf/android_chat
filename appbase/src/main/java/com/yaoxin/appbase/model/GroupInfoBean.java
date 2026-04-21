@@ -32,6 +32,8 @@ public class GroupInfoBean {
     public String userGroupName;
     public String memberCode;
     public String userId;
+    /* 0、已注销；1、正常使用 */
+    public Integer logout;
     public int forbidState;
     public String inviteMemberCode;
     public String inviteName;

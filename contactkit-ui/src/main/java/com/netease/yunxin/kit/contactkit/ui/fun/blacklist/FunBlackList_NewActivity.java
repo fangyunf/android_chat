@@ -52,6 +52,7 @@ public class FunBlackList_NewActivity extends BaseActivity implements View.OnCli
 
     GroupInfoBean _groupInfoBean;
     String _groupId;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,7 +73,6 @@ public class FunBlackList_NewActivity extends BaseActivity implements View.OnCli
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<GroupInfoBean, ?> baseQuickAdapter, @NonNull View view, int i) {
                 if (_groupId == null) {
-
                     RegisterBean registerBean = new RegisterBean();
                     registerBean.state = 0;
                     registerBean.memberCode = baseQuickAdapter.getItem(i).memberCode;
@@ -81,7 +81,7 @@ public class FunBlackList_NewActivity extends BaseActivity implements View.OnCli
                                 @Override
                                 public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                                     ToastUtils.toastMsg(body.msg);
-                                    _requestData();
+                                    _requestPersonData();
                                 }
 
                                 @Override
@@ -90,7 +90,6 @@ public class FunBlackList_NewActivity extends BaseActivity implements View.OnCli
                                 }
                             });
                 } else {
-
                     RegisterBean registerBean = new RegisterBean();
                     registerBean.userId = baseQuickAdapter.getItem(i).userId;
                     registerBean.groupId = _groupId;
@@ -149,7 +148,7 @@ public class FunBlackList_NewActivity extends BaseActivity implements View.OnCli
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        GroupInfoBean groupInfoBean = new Gson().fromJson(body.data.toString(),GroupInfoBean.class);
+                        GroupInfoBean groupInfoBean = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
                         _groupInfoBean = groupInfoBean;
                         adapter.setItems(groupInfoBean.data);
                         adapter.notifyDataSetChanged();
@@ -161,6 +160,7 @@ public class FunBlackList_NewActivity extends BaseActivity implements View.OnCli
                     }
                 });
     }
+
     void _requestGroupData() {
         super._requestData();
         RegisterBean registerBean = new RegisterBean();
@@ -170,7 +170,8 @@ public class FunBlackList_NewActivity extends BaseActivity implements View.OnCli
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        Type type = new TypeToken<List<GroupInfoBean>>() {}.getType();
+                        Type type = new TypeToken<List<GroupInfoBean>>() {
+                        }.getType();
                         _groupInfoBean = new GroupInfoBean();
                         _groupInfoBean.data = new Gson().fromJson(body.data.toString(), type);
 //
