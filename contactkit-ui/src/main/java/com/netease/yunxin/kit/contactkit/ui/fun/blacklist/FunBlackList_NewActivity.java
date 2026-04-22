@@ -7,6 +7,7 @@ package com.netease.yunxin.kit.contactkit.ui.fun.blacklist;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,15 +21,11 @@ import com.chad.library.adapter4.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.netease.yunxin.kit.common.utils.NetworkUtils;
+import com.netease.yunxin.kit.chatkit.repo.ContactRepo;
 import com.netease.yunxin.kit.contactkit.ui.R;
-import com.netease.yunxin.kit.contactkit.ui.blacklist.BaseBlackListActivity;
 import com.netease.yunxin.kit.contactkit.ui.databinding.ActivityBlackListNewBinding;
-import com.netease.yunxin.kit.contactkit.ui.databinding.BaseListActivityLayoutBinding;
 import com.netease.yunxin.kit.contactkit.ui.fun.blacklist.adapter.Fun_BlackList_NewAdapter;
-import com.netease.yunxin.kit.contactkit.ui.fun.view.FunContactViewHolderFactory;
-import com.netease.yunxin.kit.contactkit.ui.fun.view.viewholder.FunBlackListViewHolder;
-import com.netease.yunxin.kit.contactkit.ui.model.IViewTypeConstant;
-import com.netease.yunxin.kit.contactkit.ui.view.viewholder.BaseContactViewHolder;
+import com.netease.yunxin.kit.corekit.im.model.UserInfo;
 import com.netease.yunxin.kit.corekit.im.provider.FetchCallback;
 import com.yaoxin.appbase.activity.BaseActivity;
 import com.yaoxin.appbase.model.GroupInfoBean;
@@ -73,38 +70,47 @@ public class FunBlackList_NewActivity extends BaseActivity implements View.OnCli
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<GroupInfoBean, ?> baseQuickAdapter, @NonNull View view, int i) {
                 if (_groupId == null) {
-                    RegisterBean registerBean = new RegisterBean();
-                    registerBean.state = 0;
-                    registerBean.memberCode = baseQuickAdapter.getItem(i).memberCode;
-                    HttpUtil.apiW().friends_changeBlackState(registerBean)
-                            .enqueue(new CommonCallback<NetData>() {
-                                @Override
-                                public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                                    ToastUtils.toastMsg(body.msg);
-                                    _requestPersonData();
-                                }
+                    GroupInfoBean bean = baseQuickAdapter.getItem(i);
+                    String account = bean == null ? "" : bean.userId;
+                    if (TextUtils.isEmpty(account)) {
+                        account = bean == null ? "" : bean.memberCode;
+                    }
+                    if (TextUtils.isEmpty(account)) {
+                        ToastUtils.toastMsg("移除失败");
+                        return;
+                    }
+                    ContactRepo.removeBlackList(account, new FetchCallback<Void>() {
+                        @Override
+                        public void onSuccess(@Nullable Void param) {
+                            ToastUtils.toastMsg("移除成功");
+                            _requestPersonData();
+                        }
 
-                                @Override
-                                public void Failure(Call<NetData> call, Throwable t) {
+                        @Override
+                        public void onFailed(int code) {
+                            ToastUtils.toastMsg("移除失败");
+                        }
 
-                                }
-                            });
+                        @Override
+                        public void onException(@Nullable Throwable exception) {
+                            ToastUtils.toastMsg("移除失败");
+                        }
+                    });
                 } else {
                     RegisterBean registerBean = new RegisterBean();
                     registerBean.userId = baseQuickAdapter.getItem(i).userId;
                     registerBean.groupId = _groupId;
-                    HttpUtil.apiW().group_addDeleteBlack(registerBean)
-                            .enqueue(new CommonCallback<NetData>() {
-                                @Override
-                                public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                                    _requestGroupData();
-                                }
+                    HttpUtil.apiW().group_addDeleteBlack(registerBean).enqueue(new CommonCallback<NetData>() {
+                        @Override
+                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                            _requestGroupData();
+                        }
 
-                                @Override
-                                public void Failure(Call<NetData> call, Throwable t) {
+                        @Override
+                        public void Failure(Call<NetData> call, Throwable t) {
 
-                                }
-                            });
+                        }
+                    });
                 }
             }
         });
@@ -127,8 +133,7 @@ public class FunBlackList_NewActivity extends BaseActivity implements View.OnCli
                     adapter.notifyDataSetChanged();
                 } else {
                     ArrayList<GroupInfoBean> tempArr = new ArrayList<>();
-                    for (GroupInfoBean temp :
-                            _groupInfoBean.data) {
+                    for (GroupInfoBean temp : _groupInfoBean.data) {
                         if (temp.name.contains(string)) {
                             tempArr.add(temp);
                         }
@@ -142,23 +147,39 @@ public class FunBlackList_NewActivity extends BaseActivity implements View.OnCli
 
     protected void _requestPersonData() {
         super._requestData();
-        RegisterBean registerBean = new RegisterBean();
-        registerBean.pageNo = "100";
-        HttpUtil.apiW().friends_blackList(registerBean)
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        GroupInfoBean groupInfoBean = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
-                        _groupInfoBean = groupInfoBean;
-                        adapter.setItems(groupInfoBean.data);
-                        adapter.notifyDataSetChanged();
+        ContactRepo.getBlackList(new FetchCallback<List<UserInfo>>() {
+            @Override
+            public void onSuccess(@Nullable List<UserInfo> param) {
+                GroupInfoBean groupInfoBean = new GroupInfoBean();
+                groupInfoBean.data = new ArrayList<>();
+                if (param != null) {
+                    for (UserInfo info : param) {
+                        if (info == null) {
+                            continue;
+                        }
+                        GroupInfoBean temp = new GroupInfoBean();
+                        temp.userId = info.getAccount();
+                        temp.memberCode = info.getAccount();
+                        temp.name = info.getName();
+                        temp.avatar = info.getAvatar();
+                        groupInfoBean.data.add(temp);
                     }
+                }
+                _groupInfoBean = groupInfoBean;
+                adapter.setItems(groupInfoBean.data);
+                adapter.notifyDataSetChanged();
+            }
 
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
+            @Override
+            public void onFailed(int code) {
+                ToastUtils.toastMsg("获取黑名单失败");
+            }
 
-                    }
-                });
+            @Override
+            public void onException(@Nullable Throwable exception) {
+                ToastUtils.toastMsg("获取黑名单失败");
+            }
+        });
     }
 
     void _requestGroupData() {
@@ -166,24 +187,23 @@ public class FunBlackList_NewActivity extends BaseActivity implements View.OnCli
         RegisterBean registerBean = new RegisterBean();
         registerBean.pageNo = "100";
         registerBean.groupId = _groupId;
-        HttpUtil.apiW().group_groupBlackList(registerBean)
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        Type type = new TypeToken<List<GroupInfoBean>>() {
-                        }.getType();
-                        _groupInfoBean = new GroupInfoBean();
-                        _groupInfoBean.data = new Gson().fromJson(body.data.toString(), type);
+        HttpUtil.apiW().group_groupBlackList(registerBean).enqueue(new CommonCallback<NetData>() {
+            @Override
+            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                Type type = new TypeToken<List<GroupInfoBean>>() {
+                }.getType();
+                _groupInfoBean = new GroupInfoBean();
+                _groupInfoBean.data = new Gson().fromJson(body.data.toString(), type);
 //
-                        adapter.setItems(_groupInfoBean.data);
-                        adapter.notifyDataSetChanged();
-                    }
+                adapter.setItems(_groupInfoBean.data);
+                adapter.notifyDataSetChanged();
+            }
 
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
+            @Override
+            public void Failure(Call<NetData> call, Throwable t) {
 
-                    }
-                });
+            }
+        });
     }
 
     @Override

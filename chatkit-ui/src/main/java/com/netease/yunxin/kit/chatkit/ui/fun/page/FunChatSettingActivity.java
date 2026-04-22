@@ -319,30 +319,11 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
 
         binding.funChatSettingActivityClearAddBlackList.funTitleTfArrowViewSwitch.setOnClickListener(
                 (View v) -> {
-                    RegisterBean registerBean = new RegisterBean();
                     if (binding.funChatSettingActivityClearAddBlackList.funTitleTfArrowViewSwitch.isSelected()) {
-                        registerBean.state = 0;
-//                        viewModel1.removeBlack(accId);
+                        viewModel1.removeBlack(accId);
                     } else {
-                        registerBean.state = 1;
-//                        viewModel1.addBlack(accId);
+                        viewModel1.addBlack(accId);
                     }
-                    registerBean.memberCode = userBean.memberCode;
-                    HttpUtil.apiW().friends_changeBlackState(registerBean)
-                            .enqueue(new CommonCallback<NetData>() {
-                                @Override
-                                public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                                    ToastUtils.toastMsg(body.msg);
-                                    binding.funChatSettingActivityClearAddBlackList.funTitleTfArrowViewSwitch.setSelected(!binding.funChatSettingActivityClearAddBlackList.funTitleTfArrowViewSwitch.isSelected());
-
-                                }
-
-                                @Override
-                                public void Failure(Call<NetData> call, Throwable t) {
-
-                                }
-                            });
-
                 }
         );
 
