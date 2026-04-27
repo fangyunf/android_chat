@@ -183,7 +183,7 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
         binding.funTeamSettingNewActivityNicheng.viewTitleArrowRightTv.setVisibility(View.VISIBLE);
         binding.funTeamSettingNewActivityNicheng.viewTitleArrowLl.setOnClickListener(this);
         binding.funTeamSettingNewActivityNicheng.getRoot().setVisibility(View.GONE);
-        
+
         binding.funTeamSettingNewActivitySetGonggao.viewTitleArrowTv.setText("设置群公告");
         binding.funTeamSettingNewActivitySetGonggao.viewTitleArrowLl.setOnClickListener(this);
         binding.funTeamSettingNewActivityManagerTeam.viewTitleArrowTv.setText("群管理");
@@ -248,35 +248,25 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
         bean.groupId = groupId;
         bean.page = page + "";
         bean.pageNo = "100";
-
-        memberList.clear();
-//        LoadingDialog.showDialog(getSupportFragmentManager(),"加载中");
-
         HttpUtil.apiW().group_groupUserListPost(bean)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-
                         Type type = new TypeToken<List<GroupInfoBean>>() {
                         }.getType();
                         List<GroupInfoBean> tempList = new Gson().fromJson(body.data.toString(), type);
-                        if (!tempList.isEmpty()) {
-                            groupInfoBean.userInfos.addAll(tempList);
-                            memberList.addAll(tempList);
-                            if (tempList.size() == 100) {
-                                _requestPeople((page + 1));
-                            } else {
-                                DataUtil.setGroupMemberInfoList(memberList);
-
-                                LoadingDialog.dismissDialog();
-                                requestYunXin();
-                                updateUI();
-                            }
-                        } else {
-                            LoadingDialog.dismissDialog();
-                            requestYunXin();
-                            updateUI();
-
+                        if (tempList == null) {
+                            tempList = new ArrayList<>();
+                        }
+                        groupInfoBean.userInfos.addAll(tempList);
+                        memberList.addAll(tempList);
+                        DataUtil.setGroupMemberInfoList(memberList);
+                        // 首屏先展示第一页，不等待全量分页结束
+                        LoadingDialog.dismissDialog();
+                        updateUI();
+                        // 剩余页后台补拉，减少“页面打开慢”的体感
+                        if (tempList.size() == 100) {
+                            requestPeopleInBackground(page + 1);
                         }
                     }
 
@@ -293,6 +283,35 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
                 });
     }
 
+    private void requestPeopleInBackground(int page) {
+        RegisterBean bean = new RegisterBean();
+        bean.groupId = groupId;
+        bean.page = String.valueOf(page);
+        bean.pageNo = "100";
+        HttpUtil.apiW().group_groupUserListPost(bean)
+                .enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                        Type type = new TypeToken<List<GroupInfoBean>>() {
+                        }.getType();
+                        List<GroupInfoBean> tempList = new Gson().fromJson(body.data.toString(), type);
+                        if (tempList == null || tempList.isEmpty()) {
+                            return;
+                        }
+                        groupInfoBean.userInfos.addAll(tempList);
+                        memberList.addAll(tempList);
+                        DataUtil.setGroupMemberInfoList(memberList);
+                        if (tempList.size() == 100) {
+                            requestPeopleInBackground(page + 1);
+                        }
+                    }
+
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
+                    }
+                });
+    }
+
     @Override
     protected void _requestData() {
         SPUtils.getInstance().put("reloadTeamSettingData", false);
@@ -301,11 +320,11 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-
                         groupInfoBean = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
                         groupInfoBean.userInfos.clear();
+                        memberList.clear();
+                        requestYunXin();
                         _requestPeople(1);
-
                     }
 
                     @Override
@@ -328,7 +347,6 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
                 new FetchCallback<TeamWithCurrentMember>() {
                     @Override
                     public void onSuccess(@Nullable TeamWithCurrentMember param) {
-
                         binding.funTeamSettingNewActivityZhiding.viewTitleArrowRightTvSwitch.setSelected(param.isStickTop());
                         binding.funTeamSettingNewActivityMiandarao.viewTitleArrowRightTvSwitch.setSelected(param.getTeam().getMessageNotifyType() == TeamMessageNotifyTypeEnum.Mute);
                     }
@@ -346,7 +364,8 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
     void updateUI() {
         GlideUtil.yh_loadImageRoundedCorner(this, binding.funTeamSettingNewActivityTeamIcon, groupInfoBean.head, 30);
 
-        binding.tvName.setText(groupInfoBean.name + "(" + groupInfoBean.userInfos.size() + "人)");
+        int total = groupInfoBean.groupMemberNum > 0 ? groupInfoBean.groupMemberNum : groupInfoBean.userInfos.size();
+        binding.tvName.setText(groupInfoBean.name + "(" + total + "人)");
 
         ArrayList<GroupInfoBean> maxList = new ArrayList<>();
         if (groupInfoBean.userInfos.size() > 3) {
