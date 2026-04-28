@@ -10,13 +10,12 @@ public class Constant {
     public static final Boolean DEBUG = true;
     public static Boolean isRunningRealName = false;
     public static Boolean isRunningLoginView = false;
-//    public static final String BASE_URL = "http://sy.sxweinizx.com/";
+    //    public static final String BASE_URL = "http://sy.sxweinizx.com/";
 //    public static final String ENCODE_KEY = "frxsecretpadding";
 //    public static final String MSG_ENCODE_KEY = "carefullanimchat";
-
-    public static final String BASE_URL = "http://youliao263sjhw.jpjsshop.com:17117/";
-    public static final String BASE_URL_H5 = "http://youliao263sjhw.jpjsshop.com:17117";
-    public static final String CHOUJIANG_H5 = "http://youliao263sjhw.jpjsshop.com:17117/gw/build/index.html#/";
+    public static final String BASE_URL = "http://shiguangji428xkaih.163-yunxin-api.com/";
+    public static final String BASE_URL_H5 = "http://shiguangji428xkaih.163-yunxin-api.com";
+    public static final String CHOUJIANG_H5 = "http://shiguangji428xkaih.163-yunxin-api.com/gw/build/index.html#/";
     public static final String ENCODE_KEY = "wesecretpaddingg";
     public static final String MSG_ENCODE_KEY = "wallstreetimchat";
 
