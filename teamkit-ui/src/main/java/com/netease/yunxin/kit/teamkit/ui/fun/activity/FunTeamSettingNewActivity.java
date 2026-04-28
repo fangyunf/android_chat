@@ -182,6 +182,9 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
         binding.funTeamSettingNewActivityNicheng.viewTitleArrowRightTv.setVisibility(View.VISIBLE);
         binding.funTeamSettingNewActivityNicheng.viewTitleArrowLl.setOnClickListener(this);
 
+        binding.funTeamSettingNewActivityRedPacketRecord.viewTitleArrowTv.setText("群红包记录");
+        binding.funTeamSettingNewActivityRedPacketRecord.viewTitleArrowLl.setOnClickListener(this);
+
         binding.funTeamSettingNewActivitySetGonggao.viewTitleArrowTv.setText("设置群公告");
         binding.funTeamSettingNewActivitySetGonggao.viewTitleArrowLl.setOnClickListener(this);
         binding.funTeamSettingNewActivityManagerTeam.viewTitleArrowTv.setText("群管理");
@@ -655,6 +658,10 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
                             });
                 }
             },groupInfoBean.getSelfRemarkName());
+        } else if (view == binding.funTeamSettingNewActivityRedPacketRecord.viewTitleArrowLl) {
+            HashMap map = new HashMap();
+            map.put("groupId", groupId);
+            FunTeamRedPacketRecordActivity.start(FunTeamRedPacketRecordActivity.class, this, map);
         } else if (view == binding.funTeamSettingNewActivitySetGonggao.viewTitleArrowLl) {
 
             Intent intent = new Intent(this, ModifyInfoActivity.class);

@@ -35,15 +35,16 @@ public class FunBottomActionFactory {
 //    actions.add(
 //        new ActionItem(
 //            ActionConstants.ACTION_TYPE_FILE, R.drawable.chat_fragment_toolbar_collection, R.string.chat_message_file));
-
-        actions.add(
-                new ActionItem(
-                        ActionConstants.ACTION_TYPE_MING_PIAN, R.drawable.bottom_layout_item_2, R.string.chat_message_ming_pian));
+        if (sessionType == SessionTypeEnum.P2P) {
+            actions.add(
+                    new ActionItem(
+                            ActionConstants.ACTION_TYPE_MING_PIAN, R.drawable.bottom_layout_item_2, R.string.chat_message_ming_pian));
+        }
 
         actions.add(
                 new ActionItem(
                         ActionConstants.ACTION_TYPE_SHOPPING_COUPON, R.drawable.bottom_layout_item_3, R.string.chat_message_shopping_coupon));
-        
+
         if (sessionType == SessionTypeEnum.P2P) {
             actions.add(
                     new ActionItem(

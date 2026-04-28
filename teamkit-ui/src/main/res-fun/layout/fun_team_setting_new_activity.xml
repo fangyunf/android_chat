@@ -304,6 +304,21 @@
                     <!--                        android:layout_height="wrap_content" />-->
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="15dp"
+                    android:layout_marginTop="@dimen/dimen_12_dp"
+                    android:background="@drawable/bg_white_rounded_10"
+                    android:orientation="vertical">
+
+                    <include
+                        android:id="@+id/fun_team_setting_new_activity_red_packet_record"
+                        layout="@layout/view_title_arrow_template"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
                 <TextView
                     android:id="@+id/fun_team_setting_new_activity_quite"
                     android:layout_width="match_parent"

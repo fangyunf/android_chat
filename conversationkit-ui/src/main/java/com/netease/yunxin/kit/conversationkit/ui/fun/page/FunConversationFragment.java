@@ -26,8 +26,10 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.ConcatAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.chad.library.adapter4.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.nanchen.wavesidebar.FirstLetterUtil;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.msg.MessageBuilder;
@@ -71,6 +73,8 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -88,6 +92,7 @@ public class FunConversationFragment extends ConversationBaseFragment {
     private String noticeText = "";
     private RecyclerView.Adapter<?> headerAdapterRef;
     private int topIndex;
+    private List<GroupInfoBean> mContactModels = new ArrayList<>();
 
     public FunConversationFragment() {
     }
@@ -337,6 +342,7 @@ public class FunConversationFragment extends ConversationBaseFragment {
                             if (!hasXiaoZhushou) {
                                 sendMessage(xiaozhushouId);
                             }
+                            loadFriendList();
                         }
 
                         @Override
@@ -345,6 +351,29 @@ public class FunConversationFragment extends ConversationBaseFragment {
                         }
                     });
         }
+    }
+
+    private void loadFriendList() {
+        HttpUtil.apiW().friends_friendList(new RegisterBean()).enqueue(new CommonCallback<NetData>() {
+            @Override
+            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                Type type = new TypeToken<List<GroupInfoBean>>() {
+                }.getType();
+                List<GroupInfoBean> tempList = new Gson().fromJson(body.data.toString(), type);
+                // 移除客服（使用迭代器避免 ConcurrentModificationException）
+                mContactModels = new ArrayList<>();
+                for (GroupInfoBean tempBean : tempList) {
+                    if (tempBean != null && !tempBean.userId.equals(DataUtil.getKeFuId())) {
+                        mContactModels.add(tempBean);
+                    }
+                }
+                DataUtil.setFriendInfoList(mContactModels);
+            }
+
+            @Override
+            public void Failure(Call<NetData> call, Throwable t) {
+            }
+        });
     }
 
     void requestKefu(String kefuId) {

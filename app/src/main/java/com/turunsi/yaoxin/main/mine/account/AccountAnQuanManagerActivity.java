@@ -92,6 +92,7 @@ public class AccountAnQuanManagerActivity extends BaseActivity implements View.O
         binding.activityAccountAnquanManagerCell7.viewTitleArrowRightTvSwitch.setOnClickListener(this);
         binding.activityAccountAnquanManagerCell7.viewTitleArrowRightTvSwitch.setVisibility(View.VISIBLE);
         binding.activityAccountAnquanManagerCell7.viewTitleArrowArrowIv.setVisibility(View.GONE);
+        binding.activityAccountAnquanManagerCell7.getRoot().setVisibility(View.GONE);
 
 
     }

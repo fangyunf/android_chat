@@ -107,6 +107,8 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".fun.activity.FunTeamSettingNew_Vlq_HB_ListActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".fun.activity.FunTeamRedPacketRecordActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".fun.activity.FunTeamUserInfoDetailActivity"
             android:screenOrientation="portrait"/>
 
