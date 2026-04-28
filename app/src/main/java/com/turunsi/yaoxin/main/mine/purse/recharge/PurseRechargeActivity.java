@@ -334,7 +334,6 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
         }
 
     }
-
     /**
      * 启动支付宝支付
      *

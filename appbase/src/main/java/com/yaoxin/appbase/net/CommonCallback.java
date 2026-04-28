@@ -5,7 +5,6 @@ import androidx.annotation.NonNull;
 
 
 import com.netease.yunxin.kit.corekit.route.XKitRouter;
-import com.yaoxin.appbase.BuildConfig;
 import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.utils.AESUtil;
 import com.yaoxin.appbase.utils.AppProxy;
@@ -62,17 +61,15 @@ public abstract class CommonCallback<T> implements Callback<T> {
                             EventBus.getDefault().post(new BaseEvent("login_out"));
                         }
                         break;
-                    case 777:// 版本更新
-//                        if (BuildConfig.DEBUG) {
-//                        } else {
+                    case 777:
+                    case 910:
                         if (!Constant.isRunningRealName) {
                             Constant.isRunningRealName = true;
                             XKitRouter.withKey(Constant.RealName_Router)
                                     .withContext(AppProxy.getInstance().getContext())
                                     .navigate();
-//                        }
                         }
-                        break;
+                        return;
                     case -101://认证过期
                         ToastUtils.toastMsg(((NetData) t).msg);
                         DataUtil.putUserInfo(null);

@@ -572,9 +572,9 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         } else {
             storagePermission = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
         }
-        
+
         if (!EasyPermissions.hasPermissions(this, storagePermission)) {
-            EasyPermissions.requestPermissions(this, "需要访问相册权限才能使用扫码功能", 
+            EasyPermissions.requestPermissions(this, "需要访问相册权限才能使用扫码功能",
                     com.yaoxin.appbase.net.Constant.RC_PHOTO_PICKER_PERM, storagePermission);
             return;
         }
@@ -582,7 +582,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         // 再检查相机权限
         String[] cameraPermission = {Manifest.permission.CAMERA};
         if (!EasyPermissions.hasPermissions(this, cameraPermission)) {
-            EasyPermissions.requestPermissions(this, "需要访问相机权限才能使用扫码功能", 
+            EasyPermissions.requestPermissions(this, "需要访问相机权限才能使用扫码功能",
                     com.yaoxin.appbase.net.Constant.RC_PHOTO_CAMERA_PERM, cameraPermission);
             return;
         }
