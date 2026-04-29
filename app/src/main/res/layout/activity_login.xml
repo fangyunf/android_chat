@@ -93,6 +93,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_marginTop="@dimen/dimen_10_dp"
+                android:layout_marginRight="@dimen/dimen_30_dp"
 
                 android:text="忘记密码"
                 android:textColor="@color/app_theme_color"
@@ -132,7 +133,7 @@
                 android:layout_height="46dp"
                 android:layout_marginHorizontal="@dimen/dimen_30_dp"
                 android:layout_marginTop="@dimen/dimen_24_dp"
-                android:background="@drawable/bg_3339ff_rounded_28"
+                android:background="@drawable/bg_3339ff_rounded_6"
                 android:gravity="center"
                 android:text="登录"
                 android:textColor="@color/white"
