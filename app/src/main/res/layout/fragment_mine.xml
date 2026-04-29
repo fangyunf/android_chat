@@ -358,6 +358,7 @@
                             android:id="@+id/fragment_mine_wdfh_view"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:visibility="gone"
                             app:leftImg="@mipmap/mine_index_item_wdfh"
                             app:titleText="我的副号" />
 
@@ -371,8 +372,8 @@
                         <com.yaoxin.appbase.view.IconTitleArrowTemplate
                             android:id="@+id/fragment_mine_mmsz_view"
                             android:layout_width="match_parent"
-                            android:visibility="gone"
                             android:layout_height="wrap_content"
+                            android:visibility="gone"
                             app:leftImg="@mipmap/mine_index_item_wdfh"
                             app:titleText="密码设置" />
 
@@ -395,11 +396,11 @@
                                 app:titleText="官网地址" />
 
                             <LinearLayout
-                                android:visibility="gone"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentRight="true"
-                                android:layout_centerVertical="true">
+                                android:layout_centerVertical="true"
+                                android:visibility="gone">
 
                                 <TextView
                                     android:id="@+id/fragment_mine_copy_ios"

@@ -92,7 +92,8 @@
                 android:id="@+id/activity_mine_set_new_zhuxiao"
                 layout="@layout/view_title_arrow"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
 
             <include
                 android:id="@+id/activity_mine_set_new_login_out"

@@ -21,8 +21,8 @@ android {
         applicationId = "com.turunsi.shiguangji"
         minSdk = 21
         targetSdk = 33
-        versionCode = 10
-        versionName = "1.0.9"
+        versionCode = 11
+        versionName = "1.0.1"
         multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
