@@ -6,7 +6,7 @@
 
     <RelativeLayout
         android:layout_width="274dp"
-        android:layout_height="412dp">
+        android:layout_height="450dp">
 
         <ImageView
             android:id="@+id/fragment_open_red_packet_dialog_bg_iv"
@@ -43,25 +43,34 @@
                     android:layout_width="wrap_content"
                     android:layout_height="22dp"
                     android:layout_marginLeft="8dp"
-                    android:text="西瓜虫"
-                    android:textColor="#ffffffff"
+                    android:text=""
+                    android:textColor="#FFEEAB"
                     android:textSize="16sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="22dp"
                     android:text="发出的红包"
-                    android:textColor="#ffffffff"
+                    android:textColor="#FFEEAB"
                     android:textSize="16sp" />
             </LinearLayout>
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/fragment_open_red_packet_remark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dimen_10_dp"
+                android:textColor="#FFEEAB"
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/fragment_open_red_packet_dialog_greeting_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:text="手慢啦，红包已抢完"
-                android:textColor="#ffffffff"
-                android:textSize="22sp" />
+                android:textColor="#FFEEAB"
+                android:textSize="20sp" />
         </LinearLayout>
 
         <RelativeLayout
@@ -69,9 +78,17 @@
             android:layout_width="200dp"
             android:layout_height="@dimen/dimen_100_dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="250dp"
+            android:layout_marginTop="145dp" />
 
-            />
+        <RelativeLayout
+            android:id="@+id/fragment_open_red_packet_dialog_open_rl1"
+            android:layout_width="200dp"
+            android:layout_height="@dimen/dimen_100_dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="145dp"
+            android:layout_marginBottom="@dimen/dimen_40_dp" />
+
 
         <LinearLayout
             android:id="@+id/fragment_open_red_packet_dialog_detail_rl"

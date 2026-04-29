@@ -3,6 +3,7 @@ package com.netease.yunxin.kit.chatkit.ui.fun.page.fragment;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,7 @@ import com.yaoxin.appbase.utils.AppProxy;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.GlideUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
+import com.yaoxin.appbase.view.LoadingDialog;
 
 import java.util.HashMap;
 
@@ -44,6 +46,7 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
     public interface OpenRedPacketBlock {
         public void hasOpen(IMMessage messageInfo);
     }
+
     private OpenRedPacketBlock block;
     FragmentOpenRedPacketDialogBinding binding;
     private CustomMsgBean redBean;
@@ -51,73 +54,116 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
     private String groupId;
     private int type;
     CustomMsgBean sendBean;
+
+    CustomMsgBean openReusltBean;
     IMMessage messageInfo;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentOpenRedPacketDialogBinding.inflate(inflater, container, false);
         binding.fragmentOpenRedPacketDialogOpenRl.setOnClickListener(this);
         binding.fragmentOpenRedPacketDialogDetailRl.setOnClickListener(this);
+        binding.fragmentOpenRedPacketDialogOpenRl1.setOnClickListener(this);
         _requestData();
         return binding.getRoot();
     }
+
     void _requestData() {
         if (type == 1) {
             updateUI();
             return;
         }
+        //LoadingDialog.showDialog(getChildFragmentManager(), "请求中");
         RegisterBean bean = new RegisterBean();
         bean.redpacketId = redPacketId;
-        HttpUtil.apiW().red_redpacketDetail(bean)
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        redBean = new Gson().fromJson(body.data.toString(), CustomMsgBean.class);
+        HttpUtil.apiW().red_redpacketDetail(bean).enqueue(new CommonCallback<NetData>() {
+            @Override
+            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                redBean = new Gson().fromJson(body.data.toString(), CustomMsgBean.class);
+                updateUI();
+                LoadingDialog.dismissDialog();
+            }
 
-                        updateUI();
-
-                    }
-
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
-                    }
-                });
+            @Override
+            public void Failure(Call<NetData> call, Throwable t) {
+                // LoadingDialog.dismissDialog();
+            }
+        });
     }
+
     private void updateUI() {
-
+        binding.fragmentOpenRedPacketDialogOpenRl.setVisibility(View.GONE);
+        binding.fragmentOpenRedPacketDialogOpenRl1.setVisibility(View.GONE);
+        binding.fragmentOpenRedPacketRemark.setVisibility(View.GONE);
         if (redBean != null) {
-
-            GlideUtil.yh_loadImageRoundedCorner(getContext(),binding.fragmentOpenRedPacketDialogHeadIv,redBean.sendAvatar,24);
+            GlideUtil.yh_loadImageRoundedCorner(getContext(), binding.fragmentOpenRedPacketDialogHeadIv, redBean.sendAvatar, 24);
             binding.fragmentOpenRedPacketDialogNameTv.setText(redBean.sendName);
             binding.fragmentOpenRedPacketDialogGreetingTv.setText(redBean.title);
+            if (!TextUtils.isEmpty(redBean.title) && (type == 2 || type == 3)) {
+                binding.fragmentOpenRedPacketRemark.setVisibility(View.VISIBLE);
+                binding.fragmentOpenRedPacketRemark.setText(redBean.title);
+            }
         }
         if (type == 1) {
             //可领取
             binding.fragmentOpenRedPacketDialogBgIv.setImageResource(R.drawable.chat_red_packet_open_bg_can_open);
             binding.fragmentOpenRedPacketDialogDetailRl.setVisibility(View.GONE);
-            binding.fragmentOpenRedPacketDialogOpenRl.setVisibility(View.VISIBLE);
-            GlideUtil.yh_loadImageRoundedCorner(getContext(),binding.fragmentOpenRedPacketDialogHeadIv,sendBean.result.sendAvatar,24);
+            GlideUtil.yh_loadImageRoundedCorner(getContext(), binding.fragmentOpenRedPacketDialogHeadIv, sendBean.result.sendAvatar, 24);
             binding.fragmentOpenRedPacketDialogNameTv.setText(sendBean.result.sendName);
             binding.fragmentOpenRedPacketDialogGreetingTv.setText(sendBean.result.title);
+
+            if (sendBean.type == 21) {
+                binding.fragmentOpenRedPacketDialogOpenRl.setVisibility(View.VISIBLE);
+                binding.fragmentOpenRedPacketDialogBgIv.setImageResource(R.drawable.chat_red_packet_open_bg_group_can_open);
+            } else {
+                binding.fragmentOpenRedPacketDialogOpenRl1.setVisibility(View.VISIBLE);
+                binding.fragmentOpenRedPacketDialogBgIv.setImageResource(R.drawable.chat_red_packet_open_bg_can_open);
+            }
+
         }
         if (type == 2) {
             //已领完
-            binding.fragmentOpenRedPacketDialogGreetingTv.setText("手慢啦，红包已抢完");
-            binding.fragmentOpenRedPacketDialogBgIv.setImageResource(R.drawable.chat_red_packet_open_bg_cant_open);
+            binding.fragmentOpenRedPacketDialogGreetingTv.setText("来晚一步，红包被抢完啦");
+            //binding.fragmentOpenRedPacketDialogBgIv.setImageResource(R.drawable.chat_red_packet_open_bg_cant_open);
             binding.fragmentOpenRedPacketDialogDetailRl.setVisibility(View.VISIBLE);
             binding.fragmentOpenRedPacketDialogOpenRl.setVisibility(View.GONE);
+
+            if (sendBean.type == 21) {
+//                binding.fragmentOpenRedPacketDialogBgIv.setImageResource(R.drawable.chat_red_packet_open_bg_cant_open_z);
+                binding.fragmentOpenRedPacketDialogBgIv.setImageResource(R.drawable.chat_red_packet_open_bg_group_cant_open);
+            } else {
+                binding.fragmentOpenRedPacketDialogBgIv.setImageResource(R.drawable.chat_red_packet_open_bg_cant_open);
+            }
+
+            if (sendBean != null && !TextUtils.isEmpty(sendBean.result.title)) {
+                binding.fragmentOpenRedPacketRemark.setVisibility(View.VISIBLE);
+                binding.fragmentOpenRedPacketRemark.setText(sendBean.result.title);
+            }
         }
         if (type == 3) {
             //红包已退款，当前用户未领取
-
-            binding.fragmentOpenRedPacketDialogGreetingTv.setText("手慢啦，红包已抢完");
-            binding.fragmentOpenRedPacketDialogBgIv.setImageResource(R.drawable.chat_red_packet_open_bg_cant_open);
+            binding.fragmentOpenRedPacketDialogGreetingTv.setText("来晚一步，红包被抢完啦");
+            // binding.fragmentOpenRedPacketDialogBgIv.setImageResource(R.drawable.chat_red_packet_open_bg_cant_open);
             binding.fragmentOpenRedPacketDialogDetailRl.setVisibility(View.VISIBLE);
             binding.fragmentOpenRedPacketDialogOpenRl.setVisibility(View.GONE);
+
+            if (sendBean.type == 21) {
+//                binding.fragmentOpenRedPacketDialogBgIv.setImageResource(R.drawable.chat_red_packet_open_bg_cant_open_z);
+                binding.fragmentOpenRedPacketDialogBgIv.setImageResource(R.drawable.chat_red_packet_open_bg_group_cant_open);
+            } else {
+                binding.fragmentOpenRedPacketDialogBgIv.setImageResource(R.drawable.chat_red_packet_open_bg_cant_open);
+            }
+
+            if (sendBean != null && !TextUtils.isEmpty(sendBean.result.title)) {
+                binding.fragmentOpenRedPacketRemark.setVisibility(View.VISIBLE);
+                binding.fragmentOpenRedPacketRemark.setText(sendBean.result.title);
+            }
         }
     }
-    public static void showV(FragmentManager fragmentManager, String redPacketId,int type,String groupId,CustomMsgBean sendBean, IMMessage messageInfo, OpenRedPacketBlock block1) {
-        FunOpenRedPacketFragment fragment = new  FunOpenRedPacketFragment();
+
+    public static void showV(FragmentManager fragmentManager, String redPacketId, int type, String groupId, CustomMsgBean sendBean, IMMessage messageInfo, OpenRedPacketBlock block1) {
+        FunOpenRedPacketFragment fragment = new FunOpenRedPacketFragment();
         fragment.redPacketId = redPacketId;
         fragment.messageInfo = messageInfo;
         fragment.type = type;
@@ -130,73 +176,69 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
 //        } else {
 //            fragment._requestData();
 //        }
-        fragment.showNow(fragmentManager,"FunOpenRedPacketFragment");
-
+        fragment.showNow(fragmentManager, "FunOpenRedPacketFragment");
     }
-
-
+    
     @Override
     public void onClick(View v) {
-
-
         if (v == binding.fragmentOpenRedPacketDialogDetailRl) {
+            sendTipMsg(true);
             gotoRedPacketDetail(false);
-
-        } else if (v == binding.fragmentOpenRedPacketDialogOpenRl) {
+        } else if (v == binding.fragmentOpenRedPacketDialogOpenRl || v == binding.fragmentOpenRedPacketDialogOpenRl1) {
             RegisterBean bean = new RegisterBean();
             bean.redpacketId = redPacketId;
             if (sendBean.type == 21) {
-                HttpUtil.apiW().red_reciveExclusiveRedpacket(bean)
-                        .enqueue(new CommonCallback<NetData>() {
-                            @Override
-                            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                                gotoRedPacketDetail(true);
-                                sendTipMsg(true);
-                            }
+                HttpUtil.apiW().red_reciveExclusiveRedpacket(bean).enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                        openReusltBean = new Gson().fromJson(body.data.toString(), CustomMsgBean.class);
+                        gotoRedPacketDetail(true);
+                        sendTipMsg(true);
+                    }
 
-                            @Override
-                            public void Failure(Call<NetData> call, Throwable t) {
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
 
-                            }
-                        });
+                    }
+                });
             } else if (sendBean.type == 22) {
                 //type == 22 个人
-                HttpUtil.apiW().red_recivePersonRedpacket(bean)
-                        .enqueue(new CommonCallback<NetData>() {
-                            @Override
-                            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                                gotoRedPacketDetail(true);
-                                sendTipMsg(false);
-                            }
+                HttpUtil.apiW().red_recivePersonRedpacket(bean).enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                        openReusltBean = new Gson().fromJson(body.data.toString(), CustomMsgBean.class);
+                        gotoRedPacketDetail(true);
+                        sendTipMsg(false);
+                    }
 
-                            @Override
-                            public void Failure(Call<NetData> call, Throwable t) {
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
 
-                            }
-                        });
+                    }
+                });
             } else if (sendBean.type == 23) {
                 //type == 23 群
-                HttpUtil.apiW().red_grab(bean)
-                        .enqueue(new CommonCallback<NetData>() {
-                            @Override
-                            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                HttpUtil.apiW().red_grab(bean).enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                        openReusltBean = new Gson().fromJson(body.data.toString(), CustomMsgBean.class);
+                        gotoRedPacketDetail(true);
+                        sendTipMsg(true);
+                    }
 
-                                gotoRedPacketDetail(true);
-                                sendTipMsg(true);
-                            }
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
 
-                            @Override
-                            public void Failure(Call<NetData> call, Throwable t) {
-
-                            }
-                        });
+                    }
+                });
             }
         }
     }
+
     void updateMessage() {
         HashMap map = new HashMap<>();
-        map.put("userId",DataUtil.getUserid());
-        map.put("hasDragDown",1);
+        map.put("userId", DataUtil.getUserid());
+        map.put("hasDragDown", 1);
         IMMessage message = messageInfo;
         message.setLocalExtension(map);
         NIMClient.getService(MsgService.class).updateIMMessage(message);
@@ -204,34 +246,51 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
             block.hasOpen(message);
         }
     }
+
     void sendTipMsg(boolean isGroup) {
-        IMMessage msg = MessageBuilder.createTipMessage(groupId, isGroup ? SessionTypeEnum.Team :SessionTypeEnum.P2P);
-        CustomMsgBean msgBean = new CustomMsgBean();
-        msgBean.receiveUserId = DataUtil.getUserid();
-        msgBean.receiveUserName = DataUtil.getUserInfo().username;
-        msgBean.sendUserId = sendBean.result.fromUserId;
-        msgBean.sendUserName = sendBean.result.sendName;
-        msg.setContent(new Gson().toJson(msgBean));
-        CustomMessageConfig messageConfig = new CustomMessageConfig();
-        messageConfig.enableUnreadCount = false;
-        msg.setConfig(messageConfig);
-        ChatRepo.sendMessage(msg, null);
+        boolean isExit = false;
+        if (openReusltBean != null && !openReusltBean.vos.isEmpty()) {
+            for (CustomMsgBean bean :
+                    openReusltBean.vos) {
+                if (bean.userId.equals(DataUtil.getUserid())) {
+                    isExit = true;
+                    break;
+                }
+            }
+        }
+        if (isExit) {
+            IMMessage msg = MessageBuilder.createTipMessage(groupId, isGroup ? SessionTypeEnum.Team : SessionTypeEnum.P2P);
+            CustomMsgBean msgBean = new CustomMsgBean();
+            msgBean.receiveUserId = DataUtil.getUserid();
+            msgBean.receiveUserName = DataUtil.getUserInfo().username;
+            msgBean.sendUserId = sendBean.result.fromUserId;
+            msgBean.sendUserName = sendBean.result.sendName;
+            if (msgBean.sendUserId == null || msgBean.sendUserId.isEmpty()) {
+                msgBean.sendUserId = openReusltBean.sendId;
+                msgBean.sendUserName = openReusltBean.sendName;
+            }
+            msg.setContent(new Gson().toJson(msgBean));
+            CustomMessageConfig messageConfig = new CustomMessageConfig();
+            messageConfig.enableUnreadCount = false;
+            msg.setConfig(messageConfig);
+            ChatRepo.sendMessage(msg, null);
+        }
         updateMessage();
     }
 
     void gotoRedPacketDetail(boolean needToast) {
         if (needToast) {
-            ToastUtils.toastMsg("领取成功");
+            //ToastUtils.toastMsg("领取成功");
         }
         HashMap map = new HashMap();
-        map.put("redpacketId",redPacketId);
+        map.put("redpacketId", redPacketId);
         Activity context = getActivity();
         if (context == null) {
             ToastUtils.toastMsg("请重试");
             dismiss();
             return;
         }
-        FunRedPacketResultActivity.start(FunRedPacketResultActivity.class,context,map);
+        FunRedPacketResultActivity.start(FunRedPacketResultActivity.class, context, map);
         dismiss();
     }
 }

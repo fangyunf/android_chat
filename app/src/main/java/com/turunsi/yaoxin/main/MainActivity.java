@@ -48,6 +48,7 @@ import com.turunsi.yaoxin.R;
 import com.turunsi.yaoxin.databinding.ActivityMainBinding;
 import com.turunsi.yaoxin.login.LoginActivity;
 import com.turunsi.yaoxin.main.mine.MineFragment;
+import com.turunsi.yaoxin.main.mine.MineFragment1;
 import com.turunsi.yaoxin.main.mine.setting.SettingNewActivity;
 import com.turunsi.yaoxin.utils.Constant;
 import com.turunsi.yaoxin.utils.DataUtils;
@@ -288,7 +289,7 @@ public class MainActivity extends BaseActivity {
         fragments.add(mConversationFragment);
         fragments.add(new ShopNewFragment());
         fragments.add(mContactFragment);
-        fragments.add(new MineFragment());
+        fragments.add(new MineFragment1());
         FragmentAdapter fragmentAdapter = new FragmentAdapter(this);
         fragmentAdapter.setFragmentList(fragments);
         activityMainBinding.viewPager.setUserInputEnabled(false);
