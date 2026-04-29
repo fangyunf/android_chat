@@ -1,87 +1,111 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2022 NetEase, Inc. All rights reserved.
   ~ Use of this source code is governed by a MIT license that can be
   ~ found in the LICENSE file.
   -->
-
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fun_chat_message_red_packet_view_holder_rl"
     android:layout_width="216dp"
     android:layout_height="90dp"
-    android:orientation="vertical"
-    android:layout_marginHorizontal="@dimen/dimen_5_dp">
+    android:layout_marginHorizontal="@dimen/dimen_5_dp"
+    android:orientation="vertical">
 
     <ImageView
         android:id="@+id/fun_chat_message_red_packet_view_holder_bg_iv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/chat_red_packet_cell_bg_no_open_left"
-        />
+        android:scaleType="fitXY"
+        android:src="@drawable/chat_red_packet_cell_bg_no_open" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:paddingRight="@dimen/dimen_7_dp">
 
 
-        >
-
-        <TextView
-            android:id="@+id/fun_chat_message_red_packet_view_holder_greeting_tv"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingStart="55dp"
-            android:text="恭喜发财,大吉大利"
-            android:maxLines="1"
-            android:textColor="#ffffffff"
-            android:textSize="16sp"
-            android:layout_marginTop="9dp"
-            />
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/fun_chat_message_red_packet_view_holder_greeting_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:layout_marginTop="20dp"
+                android:text="恭喜发财,大吉大利"
+                android:textColor="#ffffffff"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/fun_chat_look_red"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:text="查看红包"
+                android:textColor="#ffffffff"
+                android:textSize="13sp"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
         <TextView
             android:id="@+id/fun_chat_message_red_packet_view_holder_money_tv"
-            android:paddingStart="55dp"
-
             android:layout_width="wrap_content"
             android:layout_height="20dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="3dp"
             android:text="0.00"
             android:textColor="@color/color_white"
             android:textSize="16sp"
-            android:layout_marginTop="3dp"
-            />
-        <LinearLayout
+            android:visibility="gone" />
+
+        <View
             android:layout_width="match_parent"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:paddingHorizontal="9dp"
-            android:layout_marginTop="15dp"
-            android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/fun_chat_message_red_packet_view_holder_type_tv"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="红包"
-                android:textColor="@color/color_999999"
-                android:textSize="11sp"
-                android:layout_weight="1"
-                />
-            <TextView
-                android:id="@+id/fun_chat_message_red_packet_view_holder_time_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="2023-11-08 19:20:30"
-                android:textColor="@color/color_999999"
-                android:textSize="10sp"
-                />
-        </LinearLayout>
+            android:layout_height="1dp"
+            android:layout_marginLeft="9dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/color_white"
+            android:visibility="gone" />
+
+
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="@dimen/dimen_7_dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="@dimen/dimen_9_dp">
+
+        <TextView
+            android:id="@+id/fun_chat_message_red_packet_view_holder_type_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="红包"
+            android:textColor="@color/black"
+            android:textSize="11sp" />
+
+        <TextView
+            android:id="@+id/fun_chat_message_red_packet_view_holder_time_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2023-11-08 19:20:30"
+            android:textColor="@color/black"
+            android:textSize="10sp" />
+    </LinearLayout>
+
     <View
-        android:visibility="gone"
         android:id="@+id/fun_chat_message_red_packet_view_holder_mengceng"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/color_white"
         android:alpha="0.5"
-        />
-</RelativeLayout>
+        android:background="@color/color_white"
+        android:visibility="gone" />
+</FrameLayout>
