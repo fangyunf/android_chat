@@ -4,16 +4,16 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.turunsi.youyibao",
+  "applicationId": "com.turunsi.yunxun",
   "variantName": "release",
   "elements": [
     {
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 22,
-      "versionName": "1.0.43",
-      "outputFile": "xiaohaitun_release_v1.0.43.apk"
+      "versionCode": 10,
+      "versionName": "1.0.0",
+      "outputFile": "yunxun_release_v1.0.0.apk"
     }
   ],
   "elementType": "File"

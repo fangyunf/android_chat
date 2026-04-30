@@ -68,26 +68,25 @@ public class SettingNewActivity extends BaseActivity implements View.OnClickList
     }
 
     private void loadDownUrl() {
-        HttpUtil.apiW().customer_about(new RegisterBean())
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        DownLoadBean downLoadBean = new Gson().fromJson(body.data.toString(), DownLoadBean.class);
-                        for (DownLoadBean tempBean : downLoadBean.linkUrl) {
-                            if (tempBean.appType.equals("IOS")) {
-                                IOSdownloadUrl = tempBean.downloadUrl;
-                            }
-                            if (tempBean.appType.equals("ANDROID")) {
-                                AndroiddownloadUrl = tempBean.downloadUrl;
-                            }
-                        }
+        HttpUtil.apiW().customer_about(new RegisterBean()).enqueue(new CommonCallback<NetData>() {
+            @Override
+            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                DownLoadBean downLoadBean = new Gson().fromJson(body.data.toString(), DownLoadBean.class);
+                for (DownLoadBean tempBean : downLoadBean.linkUrl) {
+                    if (tempBean.appType.equals("IOS")) {
+                        IOSdownloadUrl = tempBean.downloadUrl;
                     }
-
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
-
+                    if (tempBean.appType.equals("ANDROID")) {
+                        AndroiddownloadUrl = tempBean.downloadUrl;
                     }
-                });
+                }
+            }
+
+            @Override
+            public void Failure(Call<NetData> call, Throwable t) {
+
+            }
+        });
     }
 
     public void copyToClipboard(String text) {
@@ -107,7 +106,7 @@ public class SettingNewActivity extends BaseActivity implements View.OnClickList
         viewBinding.activityMineSetNewAboutUs.viewTitleArrowLl.setOnClickListener(this);
         viewBinding.activityMineSetNewDownload.viewTitleArrowLl.setOnClickListener(this);
 
-        viewBinding.activityMineSetNewLoginOut.viewTitleArrowLl.setOnClickListener(this);
+        viewBinding.activityMineSetNewLoginOut.setOnClickListener(this);
         viewBinding.activityMineSetNewExchangeAcount.viewTitleArrowLl.setOnClickListener(this);
         viewBinding.activityMineSetNewZhuxiao.viewTitleArrowLl.setOnClickListener(this);
 
@@ -125,12 +124,11 @@ public class SettingNewActivity extends BaseActivity implements View.OnClickList
         viewBinding.activityMineSetNewAboutUs.viewTitleArrowTv.setText("关于我们");
 
         viewBinding.activityMineSetNewDownload.viewTitleArrowTv.setText("下载地址");
-        viewBinding.activityMineSetNewLoginOut.viewTitleArrowTv.setText("退出登录");
         viewBinding.activityMineSetNewZhuxiao.viewTitleArrowTv.setText("注销账号");
         viewBinding.activityMineSetNewExchangeAcount.viewTitleArrowTv.setText("切换账号");
 
 //      viewBinding.activityMineSetNewExchangeAcount.viewTitleArrowTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.app_theme_red_color));
-        viewBinding.activityMineSetNewLoginOut.viewTitleArrowTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.app_theme_red_color));
+        //viewBinding.activityMineSetNewLoginOut.le.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.app_theme_red_color));
 
         viewBinding.activityMineSetNewZhuxiao.viewTitleArrowTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.app_theme_red_color));
 
@@ -174,9 +172,8 @@ public class SettingNewActivity extends BaseActivity implements View.OnClickList
         } else if (v == viewBinding.activityMineSetNewAboutUs.viewTitleArrowLl || v == viewBinding.activityMineSetNewGywm) {
 
             AboutUsNewActivity.start(AboutUsNewActivity.class, this, null);
-        } else if (v == viewBinding.activityMineSetNewLoginOut.viewTitleArrowLl) {
+        } else if (v == viewBinding.activityMineSetNewLoginOut) {
             showLogin();
-
         } else if (v == viewBinding.activityMineSetNewExchangeAcount.viewTitleArrowLl) {
 //        showLogin();
             ExchangeAccountActivity.start(ExchangeAccountActivity.class, this, null);
@@ -190,19 +187,18 @@ public class SettingNewActivity extends BaseActivity implements View.OnClickList
                 @Override
                 public void clickType(int type) {
                     if (type == 1) {
-                        HttpUtil.apiW().home_logout()
-                                .enqueue(new CommonCallback<NetData>() {
-                                    @Override
-                                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                                        ToastUtils.toastMsg("注销成功");
-                                        showLogin();
-                                    }
+                        HttpUtil.apiW().home_logout().enqueue(new CommonCallback<NetData>() {
+                            @Override
+                            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                                ToastUtils.toastMsg("注销成功");
+                                showLogin();
+                            }
 
-                                    @Override
-                                    public void Failure(Call<NetData> call, Throwable t) {
+                            @Override
+                            public void Failure(Call<NetData> call, Throwable t) {
 
-                                    }
-                                });
+                            }
+                        });
 
                     }
                 }
@@ -211,29 +207,23 @@ public class SettingNewActivity extends BaseActivity implements View.OnClickList
     }
 
     void showLogin() {
-        IMKitClient.logoutIM(
-                new com.netease.yunxin.kit.corekit.im.login.LoginCallback<Void>() {
-                    @Override
-                    public void onError(int errorCode, @NonNull String errorMsg) {
-                        Toast.makeText(
-                                        SettingNewActivity.this,
-                                        "error code is " + errorCode + ", message is " + errorMsg,
-                                        Toast.LENGTH_SHORT)
-                                .show();
-                    }
+        IMKitClient.logoutIM(new com.netease.yunxin.kit.corekit.im.login.LoginCallback<Void>() {
+            @Override
+            public void onError(int errorCode, @NonNull String errorMsg) {
+                Toast.makeText(SettingNewActivity.this, "error code is " + errorCode + ", message is " + errorMsg, Toast.LENGTH_SHORT).show();
+            }
 
-                    @Override
-                    public void onSuccess(@Nullable Void data) {
-                        if (getApplicationContext() instanceof IMApplication) {
-                            ((IMApplication) getApplicationContext())
-                                    .clearActivity(SettingNewActivity.this);
-                        }
-                        DataUtil.deleteLoginUserInfoList(DataUtil.getUserInfo());
-                        DataUtil.deleteData();
-                        startActivity(new Intent(SettingNewActivity.this, LoginActivity.class));
-                        finish();
-                    }
-                });
+            @Override
+            public void onSuccess(@Nullable Void data) {
+                if (getApplicationContext() instanceof IMApplication) {
+                    ((IMApplication) getApplicationContext()).clearActivity(SettingNewActivity.this);
+                }
+                DataUtil.deleteLoginUserInfoList(DataUtil.getUserInfo());
+                DataUtil.deleteData();
+                startActivity(new Intent(SettingNewActivity.this, LoginActivity.class));
+                finish();
+            }
+        });
     }
 
     private List<DirCacheFileType> getSDKFileType() {
