@@ -29,7 +29,7 @@ public class CustomMsgBean {
     public String toUserId;
     public String toUserName;
     public String redPacketId;
-    public String redpacketid;
+    public String redpacketId;
     public String sendAmount;
     public String totalNum;
     public List<CustomMsgBean> vos;

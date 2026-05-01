@@ -88,7 +88,7 @@ public class FunRedPacketRecordListActivity extends BaseActivity implements View
             String targetId;
             if (selectedIndex == 0) {
                 // 我收到的：用 redpacketId
-                targetId = item.redpacketid;
+                targetId = item.redpacketId;
             } else {
                 // 我发出的：用 id
                 targetId = item.id;
