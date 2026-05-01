@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="67dp"
+    android:layout_height="wrap_content"
+    android:minHeight="67dp"
     android:background="@color/white"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="66dp"
+        android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/dimen_16_dp"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:paddingVertical="8dp">
 
         <ImageView
             android:id="@+id/item_purse_bill_detail_list_icon"
@@ -27,17 +29,18 @@
 
             <TextView
                 android:id="@+id/item_purse_bill_detail_list_title_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="22dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="2"
                 android:text="发送群红包"
                 android:textColor="#ff000000"
-                android:textSize="16sp" />
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/item_purse_bill_detail_list_content_tv"
                 android:layout_width="wrap_content"
-                android:layout_height="17dp"
-                android:layout_marginTop="@dimen/dimen_4_dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
                 android:text="2023-01-23  16:00"
                 android:textColor="#ff999999"
                 android:textSize="12sp" />
@@ -51,18 +54,19 @@
             <TextView
                 android:id="@+id/item_purse_bill_detail_list_money_tv"
                 android:layout_width="wrap_content"
-                android:layout_height="25dp"
+                android:layout_height="wrap_content"
                 android:text="-66.00"
                 android:textColor="#ff000000"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/item_purse_bill_detail_list_yue_money_tv"
                 android:layout_width="wrap_content"
-                android:layout_height="25dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
                 android:text=""
                 android:textColor="#ff000000"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
         </LinearLayout>
     </LinearLayout>
 

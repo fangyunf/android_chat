@@ -16,6 +16,7 @@ import com.turunsi.yaoxin.main.mine.purse.bill.bean.BillDetailBean;
 import com.yaoxin.appbase.utils.GlideUtil;
 import com.yaoxin.appbase.utils.NumberUtil;
 import com.yaoxin.appbase.utils.TimeUtil;
+import android.text.TextUtils;
 
 import java.util.List;
 
@@ -24,7 +25,8 @@ public class BillDetailListAdapter extends BaseQuickAdapter<BillDetailBean, Quic
 
     @Override
     protected void onBindViewHolder(@NonNull QuickViewHolder quickViewHolder, int i, @Nullable BillDetailBean bean) {
-        quickViewHolder.setText(R.id.item_purse_bill_detail_list_title_tv,bean.name)
+        String userName = !TextUtils.isEmpty(bean.remark) ? bean.remark : bean.name;
+        quickViewHolder.setText(R.id.item_purse_bill_detail_list_title_tv,userName)
                 .setText(R.id.item_purse_bill_detail_list_content_tv, TimeUtil.stampToDate(bean.createTime))
                 .setText(R.id.item_purse_bill_detail_list_money_tv, (bean.amount > 0 ? "+": "-") + NumberUtil.formartMoney(Math.abs(bean.amount) + "") )
                 .setText(R.id.item_purse_bill_detail_list_yue_money_tv,  "余额:" + NumberUtil.formartMoney(Math.abs(bean.balance) + "") )

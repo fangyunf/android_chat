@@ -44,6 +44,7 @@ import com.yaoxin.appbase.view.actionsheet.ActionSheet;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import retrofit2.Call;
@@ -79,6 +80,27 @@ public class FunRedPacketRecordListActivity extends BaseActivity implements View
 
         binding.activityFunRedPacketRecordListRv.setLayoutManager(new LinearLayoutManager(this));
         binding.activityFunRedPacketRecordListRv.setAdapter(adapter);
+        adapter.setOnItemClickListener((baseQuickAdapter, view, position) -> {
+            CustomMsgBean item = adapter.getItem(position);
+            if (item == null) {
+                return;
+            }
+            String targetId;
+            if (selectedIndex == 0) {
+                // 我收到的：用 redpacketId
+                targetId = item.redpacketid;
+            } else {
+                // 我发出的：用 id
+                targetId = item.id;
+            }
+            if (targetId == null || targetId.isEmpty()) {
+                ToastUtils.toastMsg("红包ID为空");
+                return;
+            }
+            HashMap map = new HashMap();
+            map.put("redpacketId", targetId);
+            FunRedPacketResultActivity.start(FunRedPacketResultActivity.class, this, map);
+        });
     }
 
     void selectItem(int type) {
@@ -116,45 +138,45 @@ public class FunRedPacketRecordListActivity extends BaseActivity implements View
     }
 
     protected void _requestData() {
-            RegisterBean bean = new RegisterBean();
-            bean.date = selectedMonth;
-            HttpUtil.apiW().red_reciveRecord(bean)
-                    .enqueue(new CommonCallback<NetData>() {
-                        @Override
-                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                            Type userListType = new TypeToken<List<CustomMsgBean>>() {
-                            }.getType();
-                            receiveList = new Gson().fromJson(body.data.toString(), userListType);
-                            if (selectedIndex == 0) {
-                                adapter._type = 0;
-                                adapter.setItems(receiveList);
-                                adapter.notifyDataSetChanged();
-                            }
+        RegisterBean bean = new RegisterBean();
+        bean.date = selectedMonth;
+        HttpUtil.apiW().red_reciveRecord(bean)
+                .enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                        Type userListType = new TypeToken<List<CustomMsgBean>>() {
+                        }.getType();
+                        receiveList = new Gson().fromJson(body.data.toString(), userListType);
+                        if (selectedIndex == 0) {
+                            adapter._type = 0;
+                            adapter.setItems(receiveList);
+                            adapter.notifyDataSetChanged();
                         }
+                    }
 
-                        @Override
-                        public void Failure(Call<NetData> call, Throwable t) {
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
+                    }
+                });
+        HttpUtil.apiW().red_sendRecord(bean)
+                .enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                        Type userListType = new TypeToken<List<CustomMsgBean>>() {
+                        }.getType();
+                        sendList = new Gson().fromJson(body.data.toString(), userListType);
+                        if (selectedIndex == 1) {
+                            adapter._type = 1;
+                            adapter.setItems(sendList);
+                            adapter.notifyDataSetChanged();
                         }
-                    });
-            HttpUtil.apiW().red_sendRecord(bean)
-                    .enqueue(new CommonCallback<NetData>() {
-                        @Override
-                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                            Type userListType = new TypeToken<List<CustomMsgBean>>() {
-                            }.getType();
-                            sendList = new Gson().fromJson(body.data.toString(), userListType);
-                            if (selectedIndex == 1) {
-                                adapter._type = 1;
-                                adapter.setItems(sendList);
-                                adapter.notifyDataSetChanged();
-                            }
-                        }
+                    }
 
-                        @Override
-                        public void Failure(Call<NetData> call, Throwable t) {
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
 
-                        }
-                    });
+                    }
+                });
 
 
     }
@@ -168,11 +190,11 @@ public class FunRedPacketRecordListActivity extends BaseActivity implements View
             DatePicker picker = new DatePicker(this);
             picker.setBodyWidth(240);
             DateWheelLayout wheelLayout = picker.getWheelLayout();
-            DateEntity start = DateEntity.target(2023,6,15);
+            DateEntity start = DateEntity.target(2023, 6, 15);
             DateEntity end = DateEntity.target(new Date());
             DateEntity defaultEn = DateEntity.target(new Date());
 
-            wheelLayout.setRange(start,end,defaultEn);
+            wheelLayout.setRange(start, end, defaultEn);
             wheelLayout.setDateMode(DateMode.YEAR_MONTH);
             wheelLayout.setDateLabel("年", "月", "");
             picker.setOnDatePickedListener(new OnDatePickedListener() {

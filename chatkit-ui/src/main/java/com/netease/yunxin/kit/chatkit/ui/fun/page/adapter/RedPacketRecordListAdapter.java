@@ -1,6 +1,7 @@
 package com.netease.yunxin.kit.chatkit.ui.fun.page.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -24,36 +25,51 @@ public class RedPacketRecordListAdapter extends BaseQuickAdapter<CustomMsgBean, 
 
     // 0.我收到的  1我发出的
     public int _type;
+
     @Override
     protected void onBindViewHolder(@NonNull QuickViewHolder quickViewHolder, int i, @Nullable CustomMsgBean bean) {
         TextView nameTv = quickViewHolder.getView(R.id.item_fun_red_packet_result_detail_username_tv);
         RoundedImageView roundedImageView = quickViewHolder.getView(R.id.item_fun_red_packet_result_detail_head_iv);
         LinearLayout bestLl = quickViewHolder.getView(R.id.item_fun_red_packet_result_detail_best_win_ll);
-        bestLl.setVisibility( View.GONE);
+        bestLl.setVisibility(View.GONE);
         if (_type == 0) {
             roundedImageView.setVisibility(View.VISIBLE);
 
-            quickViewHolder.setText(R.id.item_fun_red_packet_result_detail_username_tv,bean.name)
+            quickViewHolder.setText(R.id.item_fun_red_packet_result_detail_username_tv, bean.name)
                     .setText(R.id.item_fun_red_packet_result_detail_time_tv, TimeUtil.stampToDate(bean.createTime))
                     .setText(R.id.item_fun_red_packet_result_detail_money_tv, NumberUtil.formartMoney(bean.amount) + "元");
-            GlideUtil.yh_loadImageRoundedCorner(getContext(),quickViewHolder.getView(R.id.item_fun_red_packet_result_detail_head_iv),bean.avatar,20);
-            for (GroupInfoBean tempBean : DataUtil.getFriendInfoList()) {
-                if (tempBean.userId.equals(bean.userId)) {
-                    if (tempBean.remark != null && !tempBean.remark.isEmpty()) {
-                        quickViewHolder.setText(R.id.item_fun_red_packet_result_detail_username_tv,tempBean.remark);
+            GlideUtil.yh_loadImageRoundedCorner(getContext(), quickViewHolder.getView(R.id.item_fun_red_packet_result_detail_head_iv), bean.avatar, 20);
+            if (!TextUtils.isEmpty(bean.remark)) {
+                quickViewHolder.setText(R.id.item_fun_red_packet_result_detail_username_tv, bean.remark);
+            } else {
+                for (GroupInfoBean tempBean : DataUtil.getFriendInfoList()) {
+                    if (tempBean.userId.equals(bean.userId)) {
+                        if (!TextUtils.isEmpty(tempBean.remark)) {
+                            quickViewHolder.setText(R.id.item_fun_red_packet_result_detail_username_tv, tempBean.remark);
+                        }
+                        break;
                     }
-                    break;
                 }
             }
         } else {
-
-            roundedImageView.setVisibility(View.GONE);
-            if (bean.type == 21) {
-                nameTv.setText("专属红包");
-            }if (bean.type == 22) {
-                nameTv.setText("个人红包");
-            }if (bean.type == 23) {
-                nameTv.setText("群红包");
+            GlideUtil.yh_loadImageRoundedCorner(
+                    getContext(),
+                    quickViewHolder.getView(R.id.item_fun_red_packet_result_detail_head_iv),
+                    DataUtil.getUserInfo() == null ? "" : DataUtil.getUserInfo().avatar,
+                    20);
+            roundedImageView.setVisibility(View.VISIBLE);
+            if (!TextUtils.isEmpty(bean.remark)) {
+                nameTv.setText(bean.remark);
+            } else {
+                if (bean.type == 21) {
+                    nameTv.setText("专属红包");
+                }
+                if (bean.type == 22) {
+                    nameTv.setText("个人红包");
+                }
+                if (bean.type == 23) {
+                    nameTv.setText("群红包");
+                }
             }
             quickViewHolder
                     .setText(R.id.item_fun_red_packet_result_detail_time_tv, TimeUtil.stampToDate(bean.createTime))
@@ -65,7 +81,7 @@ public class RedPacketRecordListAdapter extends BaseQuickAdapter<CustomMsgBean, 
     @NonNull
     @Override
     protected QuickViewHolder onCreateViewHolder(@NonNull Context context, @NonNull ViewGroup viewGroup, int i) {
-        return new QuickViewHolder(R.layout.item_fun_red_packet_result_detail,viewGroup);
+        return new QuickViewHolder(R.layout.item_fun_red_packet_result_detail, viewGroup);
     }
 }
 
