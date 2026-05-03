@@ -35,20 +35,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:text="恭喜发财,大吉大利"
                 android:textColor="#ffffffff"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/fun_chat_look_red"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50dp"
-                android:text="查看红包"
+                android:text="¥0.00"
                 android:textColor="#ffffffff"
-                android:textSize="13sp"
-                android:visibility="gone" />
+                android:textSize="14sp" />
 
         </LinearLayout>
 

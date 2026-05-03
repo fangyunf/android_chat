@@ -75,9 +75,9 @@ public class ChatRedPacketMessageViewHolder extends FunChatBaseMessageViewHolder
                     root.setLayoutParams(lp);
                 }
                 viewBinding.funChatMessageRedPacketViewHolderGreetingTv.setText(bean.result.toUserName);
-                viewBinding.funChatMessageRedPacketViewHolderTypeTv.setText("专属红包" + "¥" + NumberUtil.formartMoney(bean.result.amount));
+                viewBinding.funChatMessageRedPacketViewHolderTypeTv.setText("专属红包");
             } else {
-                viewBinding.funChatLookRed.setVisibility(View.GONE);
+                viewBinding.funChatLookRed.setVisibility(View.VISIBLE);
                 View root = viewBinding.getRoot();
                 ViewGroup.LayoutParams lp = root.getLayoutParams();
                 if (lp != null) {
@@ -87,11 +87,12 @@ public class ChatRedPacketMessageViewHolder extends FunChatBaseMessageViewHolder
             }
             if (bean.type == 22) {
                 viewBinding.funChatMessageRedPacketViewHolderGreetingTv.setText(bean.result.title);
-                viewBinding.funChatMessageRedPacketViewHolderTypeTv.setText("红包" + "¥" + NumberUtil.formartMoney(bean.result.amount));
+                viewBinding.funChatMessageRedPacketViewHolderTypeTv.setText("红包");
             } else if (bean.type != 21) {
                 viewBinding.funChatMessageRedPacketViewHolderGreetingTv.setText(bean.result.title);
-                viewBinding.funChatMessageRedPacketViewHolderTypeTv.setText("拼手气" + "¥" + NumberUtil.formartMoney(bean.result.amount));
+                viewBinding.funChatMessageRedPacketViewHolderTypeTv.setText("拼手气");
             }
+            viewBinding.funChatLookRed.setText("¥" + NumberUtil.formartMoney(bean.result.amount));
             viewBinding.funChatMessageRedPacketViewHolderTimeTv.setText(TimeUtil.stampToTime(bean.result.createTime));
 //      if (bean.type == 21) {
             viewBinding.funChatMessageRedPacketViewHolderMoneyTv.setText("¥" + NumberUtil.formartMoney(bean.result.amount));
