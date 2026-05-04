@@ -93,7 +93,7 @@ public class ChatRedPacketMessageViewHolder extends FunChatBaseMessageViewHolder
                 viewBinding.funChatMessageRedPacketViewHolderTypeTv.setText("拼手气");
             }
             viewBinding.funChatLookRed.setText("¥" + NumberUtil.formartMoney(bean.result.amount));
-            viewBinding.funChatMessageRedPacketViewHolderTimeTv.setText(TimeUtil.stampToTime(bean.result.createTime));
+            viewBinding.funChatMessageRedPacketViewHolderTimeTv.setText(TimeUtil.stampToDate(bean.result.createTime));
 //      if (bean.type == 21) {
             viewBinding.funChatMessageRedPacketViewHolderMoneyTv.setText("¥" + NumberUtil.formartMoney(bean.result.amount));
 //      } else {
@@ -111,10 +111,7 @@ public class ChatRedPacketMessageViewHolder extends FunChatBaseMessageViewHolder
         if (viewBinding != null) {
             View rootView = viewBinding.getRoot();
             // 红包的理想宽度是 216dp
-            int idealRedPacketWidth = (int) TypedValue.applyDimension(
-                    TypedValue.COMPLEX_UNIT_DIP, 216,
-                    parent.getContext().getResources().getDisplayMetrics()
-            );
+            int idealRedPacketWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 216, parent.getContext().getResources().getDisplayMetrics());
 
             // 获取 messageContainer 的实际可用宽度
             int availableWidth = baseViewBinding.messageContainer.getWidth();
