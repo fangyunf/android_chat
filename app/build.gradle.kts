@@ -12,13 +12,13 @@ android {
     signingConfigs {
         create("release") {
             keyAlias = "miliao"
-            keyPassword = "qqqq1111"
-            storeFile = file("xinda.jks")
-            storePassword = "qqqq1111"
+            keyPassword = "123456"
+            storeFile = file("dida.jks")
+            storePassword = "123456"
         }
     }
     defaultConfig {
-        applicationId = "com.turunsi.xinda"
+        applicationId = "com.turunsi.dida"
         minSdk = 21
         targetSdk = 33
         versionCode = 112
