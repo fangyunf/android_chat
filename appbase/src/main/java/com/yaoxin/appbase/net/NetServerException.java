@@ -9,6 +9,9 @@ import java.io.IOException;
 public class NetServerException extends IOException{
     private static final long serialVersionUID = 1L;
     private int errCode;
+    /** 例如图形验证码错误时（704）服务端返回的新图片地址 */
+    private String extraPayload;
+
     public NetServerException(String message) {
         super(message);
     }
@@ -18,7 +21,17 @@ public class NetServerException extends IOException{
         this.errCode = errCode;
     }
 
+    public NetServerException(String message, int errCode, String extraPayload) {
+        super(message);
+        this.errCode = errCode;
+        this.extraPayload = extraPayload;
+    }
+
     public int getErrCode() {
         return errCode;
+    }
+
+    public String getExtraPayload() {
+        return extraPayload;
     }
 }

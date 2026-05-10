@@ -83,14 +83,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         binding.activityLoginTf3.viewTitleTfCountEt.setTransformationMethod(PasswordTransformationMethod.getInstance());
 
 
-        CountDownView mCountDownView = binding.activityLoginTf2.viewTitleTfCountCaptcha;
+        final CountDownView mCountDownView = binding.activityLoginTf2.viewTitleTfCountCaptcha;
         mCountDownView.setUserEdit(binding.activityLoginTf1.viewTitleTfCountEt);
         mCountDownView.setCountDownTime(60);
         mCountDownView.setCaptchaListener(new LoginLoader.CaptchaListener() {
             @Override
             public void onPre() {
                 String phone = getTextStr(binding.activityLoginTf1.viewTitleTfCountEt);
-                CommonNetUtil.getPhoneCode(phone);
+                CommonNetUtil.getPhoneCode(LoginActivity.this, phone, mCountDownView);
             }
 
             @Override

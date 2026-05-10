@@ -18,6 +18,7 @@ public class CountDownView extends androidx.appcompat.widget.AppCompatButton imp
     private MyCountTimer mMyCountTimer;
     private static int DEFAULT_COUNT_DOWN_TIME = 60;
     public boolean needVerify = true;
+    private String defaultButtonLabel;
 
     public CountDownView(Context context) {
         this(context, null);
@@ -60,6 +61,10 @@ public class CountDownView extends androidx.appcompat.widget.AppCompatButton imp
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
+        if (defaultButtonLabel == null) {
+            CharSequence t = getText();
+            defaultButtonLabel = t != null && t.length() > 0 ? t.toString() : "获取验证码";
+        }
     }
 
     boolean flag = true;
@@ -82,9 +87,34 @@ public class CountDownView extends androidx.appcompat.widget.AppCompatButton imp
         }
 
         if (flag) {
-            mMyCountTimer.start();
-            onPre();
+            if (mCaptchaListener != null) {
+                onPre();
+            } else {
+                mMyCountTimer.start();
+                onPre();
+            }
         }
+    }
+
+    /** 服务端确认已发短信后启动倒计时（与图形验证流程配合，避免未发短信就进入倒计时） */
+    public void notifySmsSentSuccess() {
+        if (mMyCountTimer != null) {
+            mMyCountTimer.cancel();
+        }
+        mMyCountTimer = new MyCountTimer(DEFAULT_COUNT_DOWN_TIME * 1000, 1000);
+        mMyCountTimer.start();
+        flag = false;
+        setEnabled(false);
+    }
+
+    /** 请求失败或用户取消图形验证时恢复按钮，可再次点击获取 */
+    public void notifySmsRequestFailed() {
+        if (mMyCountTimer != null) {
+            mMyCountTimer.cancel();
+        }
+        flag = true;
+        setEnabled(true);
+        setText(defaultButtonLabel != null ? defaultButtonLabel : "获取验证码");
     }
 
     public boolean checkUser() {

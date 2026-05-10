@@ -77,6 +77,25 @@ public abstract class CommonCallback<T> implements Callback<T> {
                         DataUtil.putToken(null);
 //                        LoginActivity.cleanStart(App.getContext());
                         break;
+                    case 704:// 图形验证码错误，data 为新图片地址
+                        {
+                        String newCaptchaUrl = null;
+                        try {
+                            if (netData.data != null) {
+                                newCaptchaUrl = AESUtil.aseDecrypt(netData.data.toString());
+                            }
+                        } catch (Exception e) {
+                            if (netData.data != null) {
+                                newCaptchaUrl = netData.data.toString();
+                            }
+                        }
+                        onFailure(call, new NetServerException(
+                                netData.msg != null ? netData.msg : "验证码错误",
+                                704,
+                                newCaptchaUrl
+                        ));
+                        return;
+                        }
                     default:
                         boolean isSkip = false;
                         try {

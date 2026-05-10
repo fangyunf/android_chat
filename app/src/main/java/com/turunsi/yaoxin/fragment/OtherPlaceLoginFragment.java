@@ -13,7 +13,6 @@ import androidx.annotation.Nullable;
 
 import com.google.gson.Gson;
 import com.turunsi.yaoxin.databinding.FragmentOtherPlaceLoginBinding;
-import com.turunsi.yaoxin.utils.GetPhoneCodeUtil;
 import com.turunsi.yaoxin.utils.IMUtil;
 import com.yaoxin.appbase.fragment.BaseDialogFragment;
 import com.yaoxin.appbase.model.NetData;
@@ -39,14 +38,14 @@ public class OtherPlaceLoginFragment extends BaseDialogFragment implements View.
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentOtherPlaceLoginBinding.inflate(inflater, container, false);
 
-        CountDownView mCountDownView = binding.btnCaptcha;
+        final CountDownView mCountDownView = binding.btnCaptcha;
         mCountDownView.setUserEdit(binding.fragmentOtherPlaceLoginPhoneEt);
         mCountDownView.setCountDownTime(60);
         mCountDownView.setCaptchaListener(new LoginLoader.CaptchaListener() {
             @Override
             public void onPre() {
                 String phone = getTextStr(binding.fragmentOtherPlaceLoginPhoneEt);
-                CommonNetUtil.getPhoneCode(phone);
+                CommonNetUtil.getPhoneCode(requireActivity(), phone, mCountDownView);
             }
 
             @Override

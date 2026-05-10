@@ -91,14 +91,14 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
         // 设置验证码按钮
         binding.registerActivityCodeTf.viewTitleTfCountCaptcha.setVisibility(View.VISIBLE);
-        CountDownView mCountDownView = binding.registerActivityCodeTf.viewTitleTfCountCaptcha;
+        final CountDownView mCountDownView = binding.registerActivityCodeTf.viewTitleTfCountCaptcha;
         mCountDownView.setUserEdit(binding.registerActivityPhoneTf.viewTitleTfCountEt);
         mCountDownView.setCountDownTime(60);
         mCountDownView.setCaptchaListener(new LoginLoader.CaptchaListener() {
             @Override
             public void onPre() {
                 String phone = getTextStr(binding.registerActivityPhoneTf.viewTitleTfCountEt);
-                CommonNetUtil.getPhoneCode(phone);
+                CommonNetUtil.getPhoneCode(RegisterActivity.this, phone, mCountDownView);
             }
 
             @Override
