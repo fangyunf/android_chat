@@ -14,13 +14,16 @@ import com.yaoxin.appbase.net.HttpUtil;
 import retrofit2.Call;
 import retrofit2.Response;
 
+/**
+ * 阿里云实人认证（ZIM）。当前 {@link com.turunsi.yaoxin.login.RealNameSetActivity} 已改为仅后端校验，
+ * 此类保留备用；若恢复刷脸流程，在 Activity 中取消注释对应代码块即可。
+ */
 public class RealNameAuthUtil {
     public interface dispathBlockT {
-    void finishBlock();
-}
-    public static void start(Context ctx, String certifyId,dispathBlockT finishBlock) {
+        void finishBlock();
+    }
 
-
+    public static void start(Context ctx, String certifyId, dispathBlockT finishBlock) {
         ZIMFacade.install(ctx);
         ZIMFacade zimFacade = ZIMFacadeBuilder.create(ctx);
         zimFacade.verify(certifyId, true, null, new ZIMCallback() {
@@ -36,7 +39,6 @@ public class RealNameAuthUtil {
                                         if (finishBlock != null) {
                                             finishBlock.finishBlock();
                                         }
-
                                     }
 
                                     @Override
@@ -67,6 +69,5 @@ public class RealNameAuthUtil {
                 return true;
             }
         });
-
     }
 }

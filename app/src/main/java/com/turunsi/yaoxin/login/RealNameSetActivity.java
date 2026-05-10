@@ -1,32 +1,18 @@
 package com.turunsi.yaoxin.login;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.text.InputType;
 import android.view.View;
 
 import androidx.annotation.Nullable;
 
-import com.alipay.face.api.ZIMFacade;
-import com.google.gson.Gson;
-import com.netease.yunxin.kit.alog.ALog;
-import com.turunsi.yaoxin.R;
-import com.turunsi.yaoxin.databinding.ActivityMinePursePwdManagerSetBinding;
 import com.turunsi.yaoxin.databinding.ActivityMineRealNameSetBinding;
-import com.turunsi.yaoxin.utils.IMUtil;
-import com.turunsi.yaoxin.utils.RealNameAuthUtil;
 import com.yaoxin.appbase.activity.BaseActivity;
 import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.RegisterBean;
-import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.Constant;
 import com.yaoxin.appbase.net.HttpUtil;
-import com.yaoxin.appbase.utils.DataUtil;
-import com.yaoxin.appbase.utils.DeviceUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
-
-import java.util.HashMap;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -78,19 +64,26 @@ public class RealNameSetActivity extends BaseActivity implements View.OnClickLis
                 ToastUtils.toastMsg("请输入身份证");
                 return;
             }
+
+            /* ========== 原阿里云实人认证流程（保留备用）==========
+             * 恢复时请把下面整段取消注释，并增加 import：
+             * android.app.Activity; com.alipay.face.api.ZIMFacade; com.google.gson.Gson;
+             * com.turunsi.yaoxin.utils.RealNameAuthUtil;
+             * 同时注释或删掉当前仅姓名/身份证 + consumer_certified 的分支，避免重复提交。
+             *
             ZIMFacade.install(this);
             String metaInfos = ZIMFacade.getMetaInfos(this);
-            RegisterBean registerBean = new RegisterBean();
-            registerBean.metaInfos = metaInfos;
-            registerBean.certName = certName;
-            registerBean.certNo = certNo;
+            RegisterBean registerBeanAli = new RegisterBean();
+            registerBeanAli.metaInfos = metaInfos;
+            registerBeanAli.certName = certName;
+            registerBeanAli.certNo = certNo;
 
             Activity that = this;
-            HttpUtil.apiW().consumer_certify(registerBean)
+            HttpUtil.apiW().consumer_certify(registerBeanAli)
                     .enqueue(new CommonCallback<NetData>() {
                         @Override
                         public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                            RegisterBean dataBean = new Gson().fromJson(body.data.toString(),RegisterBean.class);
+                            RegisterBean dataBean = new Gson().fromJson(body.data.toString(), RegisterBean.class);
 
                             RealNameAuthUtil.start(that, dataBean.certifyId, new RealNameAuthUtil.dispathBlockT() {
                                 @Override
@@ -99,7 +92,35 @@ public class RealNameSetActivity extends BaseActivity implements View.OnClickLis
                                     finish();
                                 }
                             });
+                        }
 
+                        @Override
+                        public void Failure(Call<NetData> call, Throwable t) {
+
+                        }
+                    });
+             * ================================================== */
+
+            RegisterBean registerBean = new RegisterBean();
+            registerBean.certName = certName;
+            registerBean.certNo = certNo;
+
+            HttpUtil.apiW().consumer_certify(registerBean)
+                    .enqueue(new CommonCallback<NetData>() {
+                        @Override
+                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                            HttpUtil.apiW().consumer_certified()
+                                    .enqueue(new CommonCallback<NetData>() {
+                                        @Override
+                                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                                            ToastUtils.toastMsg("认证成功");
+                                            finish();
+                                        }
+
+                                        @Override
+                                        public void Failure(Call<NetData> call, Throwable t) {
+                                        }
+                                    });
                         }
 
                         @Override

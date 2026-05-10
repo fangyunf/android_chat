@@ -6,13 +6,10 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 
-import com.alipay.face.api.ZIMFacade;
 import com.google.gson.Gson;
 import com.turunsi.yaoxin.R;
-import com.turunsi.yaoxin.databinding.ActivityMineRealNameSetBinding;
 import com.turunsi.yaoxin.databinding.ActivityOtherPlaceLoginBinding;
 import com.turunsi.yaoxin.utils.IMUtil;
-import com.turunsi.yaoxin.utils.RealNameAuthUtil;
 import com.yaoxin.appbase.activity.BaseActivity;
 import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.RegisterBean;
