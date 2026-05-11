@@ -4,16 +4,16 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.turunsi.xinda",
+  "applicationId": "com.turunsi.dida",
   "variantName": "release",
   "elements": [
     {
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 112,
-      "versionName": "1.1.2",
-      "outputFile": "dida_release_v1.1.2.apk"
+      "versionCode": 100,
+      "versionName": "1.0.0",
+      "outputFile": "dida_release_v1.0.0.apk"
     }
   ],
   "elementType": "File"
