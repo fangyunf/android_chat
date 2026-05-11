@@ -323,7 +323,7 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
 
     /**
      * 根据金额计算网络费并更新显示
-     * 扣费规则: 10元以上0.01-30元以上0.02-100以上0.03-200以上0.05
+     * 扣费规则: 10～29 元 0.01；30～49 元 0.02；50～149 元 0.03；150 元及以上 0.04；10 元以下 0
      */
     private void updateNetworkFee(String amountStr) {
         double networkFee = 0.0; // 默认0

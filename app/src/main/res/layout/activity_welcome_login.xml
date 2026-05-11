@@ -37,12 +37,12 @@
             android:id="@+id/btn_login"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="@drawable/bg_green_rounded_10"
+            android:background="@drawable/bg_white_rounded_10"
             android:clickable="true"
             android:focusable="true"
             android:gravity="center"
             android:text="登录"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/app_theme_color"
             android:textSize="16sp" />
 
         <!-- 注册按钮 -->
