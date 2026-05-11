@@ -12,6 +12,10 @@ import androidx.core.content.ContextCompat;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.RequestCallback;
+import com.netease.nimlib.sdk.team.TeamService;
+import com.netease.nimlib.sdk.team.model.TeamMember;
 import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
 import com.netease.yunxin.kit.corekit.route.XKitRouter;
 import com.netease.yunxin.kit.teamkit.ui.databinding.FunTeamUserInfoDetailBinding;
@@ -113,12 +117,14 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
         binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowTv.setText("备注名");
         binding.funTeamUserInfoDetailLahei.viewTitleArrowTv.setText("加入黑名单");
         binding.funTeamUserInfoDetailJinzhi.viewTitleArrowTv.setText("禁止领取红包");
+        binding.funTeamUserInfoDetailJinyan.viewTitleArrowTv.setText("禁言");
         binding.funTeamUserInfoDetailTichu.viewTitleArrowTv.setText("踢出群聊");
 
         binding.funTeamUserInfoDetailYaoqingren.viewTitleArrowLl.setVisibility(View.GONE);
         binding.funTeamUserInfoDetailYaoqingren.viewTitleArrowArrowIv.setVisibility(View.GONE);
         binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowLl.setVisibility(View.GONE);
         binding.funTeamUserInfoDetailJinzhi.viewTitleArrowLl.setVisibility(View.GONE);
+        binding.funTeamUserInfoDetailJinyan.viewTitleArrowLl.setVisibility(View.GONE);
         binding.funTeamUserInfoDetailTichu.viewTitleArrowLl.setVisibility(View.GONE);
         binding.funTeamUserInfoDetailLahei.viewTitleArrowLl.setVisibility(View.GONE);
         binding.funTeamUserInfoDetailBottomTv.setVisibility(View.GONE);
@@ -132,6 +138,14 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
             binding.funTeamUserInfoDetailJinzhi.viewTitleArrowRightTvSwitch.setVisibility(View.VISIBLE);
             binding.funTeamUserInfoDetailJinzhi.viewTitleArrowArrowIv.setVisibility(View.GONE);
             binding.funTeamUserInfoDetailJinzhi.viewTitleArrowRightTvSwitch.setOnClickListener(this);
+
+            if (shouldShowMemberMuteRow()) {
+                binding.funTeamUserInfoDetailJinyan.viewTitleArrowLl.setVisibility(View.VISIBLE);
+                binding.funTeamUserInfoDetailJinyan.viewTitleArrowRightTvSwitch.setVisibility(View.VISIBLE);
+                binding.funTeamUserInfoDetailJinyan.viewTitleArrowArrowIv.setVisibility(View.GONE);
+                binding.funTeamUserInfoDetailJinyan.viewTitleArrowRightTvSwitch.setOnClickListener(this);
+                refreshMuteSwitchFromSdk();
+            }
 
             binding.funTeamUserInfoDetailLahei.viewTitleArrowLl.setVisibility(View.VISIBLE);
             binding.funTeamUserInfoDetailLahei.viewTitleArrowRightTvSwitch.setVisibility(View.VISIBLE);
@@ -294,6 +308,41 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
             }
 
 
+        } else if (v == binding.funTeamUserInfoDetailJinyan.viewTitleArrowRightTvSwitch) {
+            if (groupId == null || groupInfoBean == null || groupInfoBean.userId == null) {
+                return;
+            }
+            final boolean willMute =
+                    !binding.funTeamUserInfoDetailJinyan.viewTitleArrowRightTvSwitch.isSelected();
+            NIMClient.getService(TeamService.class)
+                    .muteTeamMember(groupId, groupInfoBean.userId, willMute)
+                    .setCallback(
+                            new RequestCallback<Void>() {
+                                @Override
+                                public void onSuccess(Void param) {
+                                    runOnUiThread(
+                                            () -> {
+                                                ToastUtils.toastMsg(willMute ? "已禁言" : "已解除禁言");
+                                                binding
+                                                        .funTeamUserInfoDetailJinyan
+                                                        .viewTitleArrowRightTvSwitch
+                                                        .setSelected(willMute);
+                                            });
+                                }
+
+                                @Override
+                                public void onFailed(int code) {
+                                    runOnUiThread(
+                                            () ->
+                                                    ToastUtils.toastMsg(
+                                                            "操作失败(" + code + ")"));
+                                }
+
+                                @Override
+                                public void onException(Throwable exception) {
+                                    runOnUiThread(() -> ToastUtils.toastMsg("操作异常"));
+                                }
+                            });
         } else if (v == binding.funTeamUserInfoDetailJinzhi.viewTitleArrowRightTvSwitch) {
             int targetState = binding.funTeamUserInfoDetailJinzhi.viewTitleArrowRightTvSwitch.isSelected() ? 0 : 1;
             RegisterBean bean = new RegisterBean();
@@ -346,6 +395,44 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
                         }
                     });
         }
+    }
+
+    /**
+     * 群主、管理员可见禁言入口；不能禁言自己、群主；管理员仅能禁言普通成员（与常见群权限一致）。
+     */
+    private boolean shouldShowMemberMuteRow() {
+        if (groupInfoBean == null || groupInfoBean.userId == null) {
+            return false;
+        }
+        String selfId = DataUtil.getUserid();
+        if (selfId != null && selfId.equals(groupInfoBean.userId)) {
+            return false;
+        }
+        if (groupInfoBean.rankState == 1) {
+            return false;
+        }
+        if (rankState == 2 && groupInfoBean.rankState != 3) {
+            return false;
+        }
+        return true;
+    }
+
+    private void refreshMuteSwitchFromSdk() {
+        if (groupId == null || groupInfoBean == null || groupInfoBean.userId == null) {
+            return;
+        }
+        List<TeamMember> muted =
+                NIMClient.getService(TeamService.class).queryMutedTeamMembers(groupId);
+        boolean mutedNow = false;
+        if (muted != null) {
+            for (TeamMember m : muted) {
+                if (m != null && groupInfoBean.userId.equals(m.getAccount())) {
+                    mutedNow = true;
+                    break;
+                }
+            }
+        }
+        binding.funTeamUserInfoDetailJinyan.viewTitleArrowRightTvSwitch.setSelected(mutedNow);
     }
 
     void tichuuser(boolean needToast) {

@@ -378,6 +378,13 @@
                             app:titleText="密码设置" />
 
                         <com.yaoxin.appbase.view.IconTitleArrowTemplate
+                            android:id="@+id/fragment_mine_cs_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:leftImg="@mipmap/mine_index_item_wdfh"
+                            app:titleText="我的收藏" />
+
+                        <com.yaoxin.appbase.view.IconTitleArrowTemplate
                             android:id="@+id/fragment_mine_tysz_view"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

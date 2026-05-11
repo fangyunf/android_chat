@@ -108,6 +108,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             <include
+                android:id="@+id/fun_team_user_info_detail_jinyan"
+                layout="@layout/view_title_arrow_template"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <include
                 android:id="@+id/fun_team_user_info_detail_tichu"
                 layout="@layout/view_title_arrow_template"
                 android:layout_width="match_parent"

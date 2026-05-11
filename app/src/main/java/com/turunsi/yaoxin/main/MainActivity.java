@@ -271,7 +271,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         List<Fragment> fragments = new ArrayList<>();
 
         changeStatusBarColor(R.color.fun_page_bg_color);
-        mConversationFragment = FunConversationFragment.newInstance(0);
+        mConversationFragment = FunConversationFragment.newInstance(3);
         mConversationFragment1 = FunConversationFragment.newInstance(1);
         mContactFragment = new ContactNewFragment();
         fragments.add(mConversationFragment);
@@ -380,7 +380,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
                     }
 
                     if (conversationFragment == mConversationFragment) {
-                        if ((singleChatUnreadCount) > 0) {
+                        if ((singleChatUnreadCount + groupChatUnreadCount) > 0) {
                             activityMainBinding.conversationDot.setVisibility(View.VISIBLE);
                         } else {
                             activityMainBinding.conversationDot.setVisibility(View.GONE);
@@ -574,16 +574,14 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         }
 
         if (!EasyPermissions.hasPermissions(this, storagePermission)) {
-            EasyPermissions.requestPermissions(this, "需要访问相册权限才能使用扫码功能",
-                    com.yaoxin.appbase.net.Constant.RC_PHOTO_PICKER_PERM, storagePermission);
+            EasyPermissions.requestPermissions(this, "需要访问相册权限才能使用扫码功能", com.yaoxin.appbase.net.Constant.RC_PHOTO_PICKER_PERM, storagePermission);
             return;
         }
 
         // 再检查相机权限
         String[] cameraPermission = {Manifest.permission.CAMERA};
         if (!EasyPermissions.hasPermissions(this, cameraPermission)) {
-            EasyPermissions.requestPermissions(this, "需要访问相机权限才能使用扫码功能",
-                    com.yaoxin.appbase.net.Constant.RC_PHOTO_CAMERA_PERM, cameraPermission);
+            EasyPermissions.requestPermissions(this, "需要访问相机权限才能使用扫码功能", com.yaoxin.appbase.net.Constant.RC_PHOTO_CAMERA_PERM, cameraPermission);
             return;
         }
 
@@ -621,23 +619,18 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
      * 显示权限被拒绝的对话框，引导用户到设置页面
      */
     private void showPermissionDeniedDialog() {
-        new AlertDialog.Builder(this)
-                .setTitle("权限被拒绝")
-                .setMessage("扫码功能需要相机和相册权限，请在设置中开启相关权限")
-                .setPositiveButton("去设置", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        openAppSettings();
-                        dialog.dismiss();
-                    }
-                })
-                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                })
-                .show();
+        new AlertDialog.Builder(this).setTitle("权限被拒绝").setMessage("扫码功能需要相机和相册权限，请在设置中开启相关权限").setPositiveButton("去设置", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                openAppSettings();
+                dialog.dismiss();
+            }
+        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        }).show();
     }
 
     /**
