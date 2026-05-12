@@ -11,7 +11,7 @@ android {
     compileSdk = 33
     signingConfigs {
         create("release") {
-            keyAlias = "miliao"
+            keyAlias = "dida"
             keyPassword = "123456"
             storeFile = file("dida.jks")
             storePassword = "123456"
@@ -21,8 +21,8 @@ android {
         applicationId = "com.turunsi.dida"
         minSdk = 21
         targetSdk = 33
-        versionCode = 100
-        versionName = "1.0.0"
+        versionCode = 101
+        versionName = "1.0.1"
         multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
