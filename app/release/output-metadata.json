@@ -4,7 +4,7 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.turunsi.dida",
+  "applicationId": "com.turunsi.yueyouping",
   "variantName": "release",
   "elements": [
     {
@@ -13,7 +13,7 @@
       "attributes": [],
       "versionCode": 101,
       "versionName": "1.0.1",
-      "outputFile": "dida_release_v1.0.1.apk"
+      "outputFile": "yueyouping_release_v1.0.1.apk"
     }
   ],
   "elementType": "File"
