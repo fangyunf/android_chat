@@ -11,14 +11,14 @@ android {
     compileSdk = 33
     signingConfigs {
         create("release") {
-            keyAlias = "dida"
+            keyAlias = "yueyouping"
             keyPassword = "123456"
-            storeFile = file("dida.jks")
+            storeFile = file("yueyouping.jks")
             storePassword = "123456"
         }
     }
     defaultConfig {
-        applicationId = "com.turunsi.dida"
+        applicationId = "com.turunsi.yueyouping"
         minSdk = 21
         targetSdk = 33
         versionCode = 101
