@@ -21,7 +21,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#e7fcf7"
+        android:background="#ffdad8"
         android:orientation="vertical">
 
         <!--        android:background="@drawable/home_bg"-->
@@ -114,7 +114,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dimen_48_dp"
                     android:autofillHints=""
-                    android:background="@color/transparent"
+                    android:background="@drawable/bg_white_rounded_10"
                     android:drawableStart="@mipmap/conversation_list_index_search_icon1"
                     android:drawablePadding="5dp"
                     android:hint="搜索"
