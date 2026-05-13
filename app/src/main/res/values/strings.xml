@@ -90,4 +90,18 @@
     <string name="base_type">基础皮肤</string>
     <string name="common_skin">通用皮肤</string>
 
+    <string name="usdt_recharge_important_tips">重要提示：\n1. 请复制地址或保存二维码后，使用钱包向该地址转账 (TRC20) 。\n2. 请务必选择 TRC20 通道，地址错误或非 TRC20 通道将导致资产丢失，损失由用户自行承担。\n3. 链上交易约 10 分钟确认，请耐心等待。\n4. 请按实际到账金额（扣除网络手续费后）填写充值信息，并上传转账截图作为充值凭证。</string>
+
+    <string name="usdt_withdraw_amount_hint">请输入提现金额</string>
+    <string name="usdt_withdraw_address_unbound">未绑定 USDT 地址</string>
+    <string name="usdt_withdraw_notes">注：\n1. USDT提现费率5%（按提现金额计算）\n2. 提现金额500元起，通道TRC20\n3. 提现时间（早8.00-晚20.00）\n4. 发起提现后二小时内到账</string>
+    <string name="usdt_withdraw_important_tips">重要提示：\n1. 请仔细核对提现地址，通道为 TRC20。\n2. 地址错误或走非 TRC20 通道将导致 USDT 丢失且无法找回，损失由用户自行承担。\n3. 若长时间未到账，请先核对地址，再联系官方客服处理。</string>
+
+    <string name="purse_pay_channel_title">请选择支付方式</string>
+    <string name="purse_pay_channel_wp">微信/支付宝</string>
+    <string name="purse_pay_channel_usdt_label">USDT</string>
+    <string name="purse_pay_channel_go_recharge">去充值</string>
+    <string name="purse_pay_channel_go_withdraw">去提现</string>
+    <string name="purse_pay_channel_pick_first">请选择支付方式</string>
+
 </resources>

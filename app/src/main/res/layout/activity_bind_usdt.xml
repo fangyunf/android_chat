@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <com.yaoxin.appbase.navbar.NavToolbar
+        android:id="@+id/activity_bind_usdt_nav"
+        style="@style/WhiteFontToolbar"
+        android:background="@color/white"
+        app:back_icon="@mipmap/temp_ic_back"
+        app:enable_under_divider="true"
+        app:support_translucent_status_bar="false"
+        app:title="绑定USDT"
+        app:title_text_color="@color/color_333333"
+        app:under_divider_color="@color/transparent" />
+
+    <include
+        android:id="@+id/activity_bind_usdt_address"
+        layout="@layout/view_top_title_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <TextView
+        android:id="@+id/activity_bind_usdt_confirm_tv"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginHorizontal="60dp"
+        android:layout_marginBottom="52dp"
+        android:background="@drawable/bg_app_theme_color_rounded_4"
+        android:gravity="center"
+        android:text="确定"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
+</LinearLayout>

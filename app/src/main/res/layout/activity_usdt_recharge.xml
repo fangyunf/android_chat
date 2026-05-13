@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="utf-8"?><!-- 对齐 iOS USDT 充值页：网络/汇率、地址二维码、金额与 USDT 数量、交易 ID、凭证、提交 -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_F6F6F6"
+    android:orientation="vertical">
+
+    <com.yaoxin.appbase.navbar.NavToolbar
+        android:id="@+id/activity_usdt_recharge_nav"
+        style="@style/WhiteFontToolbar"
+        android:background="@color/color_white"
+        app:back_icon="@mipmap/temp_ic_back"
+        app:enable_under_divider="true"
+        app:support_translucent_status_bar="false"
+        app:title="充值"
+        app:title_text_color="@color/color_333333"
+        app:under_divider_color="@color/color_E8E8E8" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/dimen_16_dp"
+            android:paddingTop="@dimen/dimen_12_dp"
+            android:paddingBottom="@dimen/dimen_16_dp">
+
+            <!-- 地址卡 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_white_rounded_10"
+                android:orientation="vertical"
+                android:paddingHorizontal="@dimen/dimen_16_dp"
+                android:paddingTop="@dimen/dimen_16_dp"
+                android:paddingBottom="@dimen/dimen_16_dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="充币网络"
+                        android:textColor="@color/color_666666"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:background="@drawable/bg_usdt_tag_grey_pill"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="4dp"
+                        android:text="TRC20"
+                        android:textColor="@color/color_333333"
+                        android:textSize="13sp" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="今日汇率"
+                        android:textColor="@color/color_666666"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/activity_usdt_recharge_rate_pill_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:background="@drawable/bg_usdt_tag_grey_pill"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="4dp"
+                        android:text="1USDT ≈ 7.00 元"
+                        android:textColor="@color/color_333333"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:text="请向以下地址转账"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+
+                <ImageView
+                    android:id="@+id/activity_usdt_recharge_qr_iv"
+                    android:layout_width="180dp"
+                    android:layout_height="180dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="16dp"
+                    android:background="@color/color_white"
+                    android:contentDescription="@null"
+                    android:padding="8dp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/activity_usdt_recharge_address_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_weight="1"
+                        android:ellipsize="middle"
+                        android:gravity="center"
+                        android:maxLines="2"
+                        android:text="--"
+                        android:textColor="@color/color_333333"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/activity_usdt_recharge_copy_address_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:paddingHorizontal="8dp"
+                        android:paddingVertical="4dp"
+                        android:text="复制"
+                        android:textColor="@color/color_884EEF"
+                        android:textSize="14sp" />
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:text="长按二维码保存到相册"
+                    android:textColor="@color/color_9D9D9D"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <!-- 表单 + 凭证 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/bg_white_rounded_10"
+                android:orientation="vertical"
+                android:paddingHorizontal="@dimen/dimen_16_dp"
+                android:paddingTop="@dimen/dimen_16_dp"
+                android:paddingBottom="@dimen/dimen_16_dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="充值金额"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/bg_usdt_recharge_input"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="14dp">
+
+                    <EditText
+                        android:id="@+id/activity_usdt_recharge_cny_et"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:hint="0"
+                        android:inputType="numberDecimal"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/color_999999"
+                        android:textSize="17sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="元"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:text="充值数量"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/bg_usdt_recharge_input"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="14dp">
+
+                    <EditText
+                        android:id="@+id/activity_usdt_recharge_usdt_et"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:enabled="false"
+                        android:hint="0"
+                        android:inputType="numberDecimal"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/color_999999"
+                        android:textSize="17sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="USDT"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:text="区块链交易 ID"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/bg_usdt_recharge_input"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="14dp">
+
+                    <EditText
+                        android:id="@+id/activity_usdt_recharge_txid_et"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:hint="请输入你的区块链交易 ID"
+                        android:inputType="text"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/color_999999"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/activity_usdt_recharge_paste_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:paddingHorizontal="8dp"
+                        android:text="粘贴"
+                        android:textColor="@color/color_884EEF"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:text="充值凭证"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+
+                <FrameLayout
+                    android:id="@+id/activity_usdt_recharge_upload_fl"
+                    android:layout_width="match_parent"
+                    android:layout_height="140dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/bg_usdt_upload_frame">
+
+                    <ImageView
+                        android:id="@+id/activity_usdt_recharge_voucher_iv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:contentDescription="@null"
+                        android:scaleType="centerCrop"
+                        android:visibility="gone" />
+
+                    <LinearLayout
+                        android:id="@+id/activity_usdt_recharge_upload_placeholder_ll"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
+                            android:background="@drawable/bg_usdt_plus_circle"
+                            android:gravity="center"
+                            android:text="+"
+                            android:textColor="@color/color_white"
+                            android:textSize="22sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="上传转账截图"
+                            android:textColor="@color/color_9D9D9D"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:lineSpacingExtra="3dp"
+                    android:text="@string/usdt_recharge_important_tips"
+                    android:textColor="@color/color_666666"
+                    android:textSize="13sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <TextView
+        android:id="@+id/activity_usdt_recharge_submit_tv"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_50_dp"
+        android:layout_marginHorizontal="@dimen/dimen_20_dp"
+        android:layout_marginTop="@dimen/dimen_8_dp"
+        android:layout_marginBottom="@dimen/dimen_20_dp"
+        android:background="@drawable/bg_usdt_submit_green_rounded_22"
+        android:gravity="center"
+        android:text="确认充值"
+        android:textColor="@color/color_white"
+        android:textSize="16sp" />
+</LinearLayout>

@@ -147,7 +147,6 @@
                 android:id="@+id/activity_mine_purse_index_bdwx"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
                 app:titleText="绑定微信" />
 
             <com.yaoxin.appbase.view.IconTitleArrowTemplate
@@ -155,6 +154,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:titleText="绑定支付宝" />
+
+            <com.yaoxin.appbase.view.IconTitleArrowTemplate
+                android:id="@+id/activity_mine_purse_index_ustd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:titleText="绑定USDT" />
 
             <com.yaoxin.appbase.view.IconTitleArrowTemplate
                 android:id="@+id/activity_mine_purse_index_wdkb"

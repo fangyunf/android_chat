@@ -36,6 +36,16 @@ public class RequestParamsBean {
     public String goodsTitle;
     public String goodsDesc;
     public String description;
+    /** USDT 充值：区块链交易哈希（若有后端字段以此为准，可多字段兼容时再扩展） */
+    public String txHash;
+    /** USDT 充值：凭证图 URL（上传后） */
+    public String voucher;
+    /** USDT 充值：凭证图 URL（后端字段名 zfpz） */
+    public String zfpz;
+    /** USDT 充值：充值金额（元）字符串，与 {@link #amount}（分）同笔订单一致，按后台需要可选 */
+    public String rechargeMoney;
+    /** USDT 充值：应付 USDT 数量（字符串，如 14.29），按后台需要可选 */
+    public String usdtAmount;
     public String token_no;
     public String in_member_id;
     public String out_member_id;
