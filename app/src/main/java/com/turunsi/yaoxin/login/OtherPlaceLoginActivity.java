@@ -2,12 +2,12 @@ package com.turunsi.yaoxin.login;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 
 import androidx.annotation.Nullable;
 
 import com.google.gson.Gson;
-import com.turunsi.yaoxin.R;
 import com.turunsi.yaoxin.databinding.ActivityOtherPlaceLoginBinding;
 import com.turunsi.yaoxin.utils.IMUtil;
 import com.yaoxin.appbase.activity.BaseActivity;
@@ -16,12 +16,8 @@ import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
-import com.yaoxin.appbase.utils.CommonNetUtil;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
-import com.yaoxin.appbase.view.loginlib.utils.LoginLoader;
-import com.yaoxin.appbase.view.loginlib.view.CountDownView;
-import com.yaoxin.appbase.view.splitedittextview.OnInputListener;
 
 import java.util.HashMap;
 
@@ -57,45 +53,33 @@ public class OtherPlaceLoginActivity extends BaseActivity implements View.OnClic
             binding.activityOtherPlaceLoginVerifyLl.setVisibility(View.GONE);
             binding.activityOtherPlaceLoginNav.getTitleView().setText("安全验证");
             Activity that = this;
-            binding.activityOtherPlaceLoginSplitEt.setOnInputListener(new OnInputListener() {
-                @Override
-                public void onInputFinished(String content) {
-                    RegisterBean registerBean = new RegisterBean();
-                    registerBean.phoneNo = _phone;
-                    registerBean.captcha = content;
-                    HttpUtil.apiW().customer_ydCodeCheck(registerBean)
-                            .enqueue(new CommonCallback<NetData>() {
-                                @Override
-                                public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                                    ToastUtils.toastMsg("验证成功");
-                                    UserBean userBean = new Gson().fromJson((String) body.data, UserBean.class);
-                                    DataUtil.putUserInfo(userBean);
-                                    DataUtil.putToken(userBean.token);
-                                    IMUtil.loginIM(that, userBean.userId, userBean.imToken);
-                                }
-
-                                @Override
-                                public void Failure(Call<NetData> call, Throwable t) {
-
-                                }
-                            });
-                }
-            });
-            CountDownView mCountDownView = binding.activityOtherPlaceLoginBtnCaptcha;
-            mCountDownView.needVerify = false;
-            mCountDownView.setCountDownTime(60);
-            mCountDownView.setCaptchaListener(new LoginLoader.CaptchaListener() {
-                @Override
-                public void onPre() {
-                    CommonNetUtil.getPhoneCode(_phone);
-                }
-
-                @Override
-                public void onComplete(String phoneOrEmail) {
-                }
-            });
+            binding.activityOtherPlaceLoginSubmitAnsTv.setOnClickListener(v -> submitRemoteVerify(that));
         }
+    }
 
+    private void submitRemoteVerify(Activity that) {
+        String ans = getTextStr(binding.activityOtherPlaceLoginAnsEt).trim();
+        if (TextUtils.isEmpty(ans)) {
+            ToastUtils.toastMsg("请输入密保答案");
+            return;
+        }
+        RegisterBean registerBean = new RegisterBean();
+        registerBean.phoneNo = _phone;
+        registerBean.ans = ans;
+        HttpUtil.apiW().customer_ydCodeCheck(registerBean)
+                .enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                        ToastUtils.toastMsg("验证成功");
+                        UserBean userBean = new Gson().fromJson((String) body.data, UserBean.class);
+                        DataUtil.putUserInfo(userBean);
+                        DataUtil.putToken(userBean.token);
+                        IMUtil.loginIM(that, userBean.userId, userBean.imToken);
+                    }
+
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {}
+                });
     }
 
     @Override

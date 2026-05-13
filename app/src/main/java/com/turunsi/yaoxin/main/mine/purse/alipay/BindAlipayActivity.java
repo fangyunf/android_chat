@@ -164,7 +164,7 @@ public class BindAlipayActivity extends BaseActivity implements View.OnClickList
             String name = getTextStr(binding.activityMineBindAlipayName.viewTitleTfWithoutBgEt);
             String account = getTextStr(binding.activityMineBindKaihuName.viewTitleTfWithoutBgEt);
             if (phone.isEmpty()) {
-                ToastUtils.toastMsg("请输入手机号");
+                ToastUtils.toastMsg("请输入账号");
                 return;
             }
             if (name.isEmpty()) {

@@ -41,7 +41,7 @@
         android:layout_marginTop="15dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="为了保证你的帐号安全，需先脸证你的手机信息，\n验证成功后可以进行下一步操作。"
+        android:text="为了保证你的帐号安全，需先验证密保信息，\n验证成功后可以进行下一步操作。"
         android:textColor="#ff999999"
         android:textSize="10sp"
         />
@@ -53,36 +53,32 @@
         android:orientation="vertical"
         android:gravity="center_horizontal"
         >
-        <com.yaoxin.appbase.view.splitedittextview.SplitEditTextView
-            android:id="@+id/activity_other_place_login_split_et"
+        <EditText
+            android:id="@+id/activity_other_place_login_ans_et"
             android:layout_width="match_parent"
-            android:layout_marginHorizontal="40dp"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="40dp"
             android:layout_marginTop="20dp"
-            android:inputType="number"
-            android:textSelectHandleLeft="@android:color/transparent"
-            android:textSelectHandleRight="@android:color/transparent"
-            app:borderColor="@color/colorPrimary"
-            app:borderSize="2dp"
-            app:contentNumber="6"
-            app:contentShowMode="text"
-            app:inputBoxStyle="underline"
-            app:spaceSize="20dp"
-            app:underlineFocusColor="@color/app_theme_color"
-            app:underlineNormalColor="@color/colorPrimary" />
+            android:background="@color/color_white"
+            android:hint="请输入密保答案"
+            android:inputType="text"
+            android:minHeight="48dp"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="10dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/color_999999"
+            android:textSize="15sp" />
 
-        <com.yaoxin.appbase.view.loginlib.view.CountDownView
-            android:id="@+id/activity_other_place_login_btn_captcha"
+        <TextView
+            android:id="@+id/activity_other_place_login_submit_ans_tv"
             android:layout_width="253dp"
-            android:layout_marginTop="40dp"
             android:layout_height="52dp"
-            android:gravity="center"
-            android:text="获取验证码"
-            android:textColor="@color/white"
-            android:textSize="18sp"
+            android:layout_marginTop="24dp"
             android:background="@drawable/fun_bg_app_theme_color_rounded_26"
-
-            />
+            android:gravity="center"
+            android:text="提交验证"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
     </LinearLayout>
 
 </LinearLayout>

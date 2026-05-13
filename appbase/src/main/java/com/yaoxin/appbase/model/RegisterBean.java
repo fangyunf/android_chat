@@ -37,7 +37,10 @@ public class RegisterBean {
     public String jqr;
     public String param;
     public String password;
+    /** 短信验证码（未走密保接口时仍可能使用，如注销等） */
     public String captcha;
+    /** 密保答案：registerZh / updatePasswordZh / ydCodeCheckZh / updateFullPasswordZh 入参，对应原验证码字段 */
+    public String ans;
     public String deviceId;
     public String clientType;
     public String phoneAndCode;

@@ -31,13 +31,10 @@ import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.Constant;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.AESUtil;
-import com.yaoxin.appbase.utils.CommonNetUtil;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.DeviceUtils;
 import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
-import com.yaoxin.appbase.view.loginlib.utils.LoginLoader;
-import com.yaoxin.appbase.view.loginlib.view.CountDownView;
 
 import java.util.HashMap;
 
@@ -72,13 +69,13 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         binding.registerActivityPwd2Tf.viewTitleTfCountIv.setImageResource(R.mipmap.login_icon_password);
 
         // 设置输入类型和提示文本
-        binding.registerActivityPhoneTf.viewTitleTfCountEt.setInputType(InputType.TYPE_CLASS_NUMBER);
-        binding.registerActivityCodeTf.viewTitleTfCountEt.setInputType(InputType.TYPE_CLASS_NUMBER);
+        binding.registerActivityPhoneTf.viewTitleTfCountEt.setInputType(InputType.TYPE_CLASS_TEXT);
+        binding.registerActivityCodeTf.viewTitleTfCountEt.setInputType(InputType.TYPE_CLASS_TEXT);
         binding.registerActivityPwdTf.viewTitleTfCountEt.setTransformationMethod(PasswordTransformationMethod.getInstance());
         binding.registerActivityPwd2Tf.viewTitleTfCountEt.setTransformationMethod(PasswordTransformationMethod.getInstance());
 
-        binding.registerActivityPhoneTf.viewTitleTfCountEt.setHint("输入11位中国大陆手机*");
-        binding.registerActivityCodeTf.viewTitleTfCountEt.setHint("输入验证码*");
+        binding.registerActivityPhoneTf.viewTitleTfCountEt.setHint("请输入账号*");
+        binding.registerActivityCodeTf.viewTitleTfCountEt.setHint("请输入密保答案*");
         binding.registerActivityUsernameTf.viewTitleTfCountEt.setHint("输入用户名");
         binding.registerActivityPwdTf.viewTitleTfCountEt.setHint("输入您的密码*");
         binding.registerActivityPwd2Tf.viewTitleTfCountEt.setHint("再次输入您的密码*");
@@ -91,22 +88,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         binding.registerActivityPwd2Tf.viewTitleTfCountEyeRl.setOnClickListener(this);
         binding.registerActivityPwd2Tf.viewTitleTfCountEyeIv.setSelected(true);
 
-        // 显示验证码按钮
-        binding.registerActivityCodeTf.viewTitleTfCountCaptcha.setVisibility(View.VISIBLE);
-        CountDownView mCountDownView = binding.registerActivityCodeTf.viewTitleTfCountCaptcha;
-        mCountDownView.setUserEdit(binding.registerActivityPhoneTf.viewTitleTfCountEt);
-        mCountDownView.setCountDownTime(60);
-        mCountDownView.setCaptchaListener(new LoginLoader.CaptchaListener() {
-            @Override
-            public void onPre() {
-                String phone = getTextStr(binding.registerActivityPhoneTf.viewTitleTfCountEt);
-                CommonNetUtil.getPhoneCode(phone);
-            }
-
-            @Override
-            public void onComplete(String phoneOrEmail) {
-            }
-        });
+        binding.registerActivityCodeTf.viewTitleTfCountCaptcha.setVisibility(View.GONE);
     }
 
     private void setupAgreementText() {
@@ -204,14 +186,14 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 return;
             }
 
-            String phone = getTextStr(binding.registerActivityPhoneTf.viewTitleTfCountEt);
-            if (phone.length() != 11) {
-                ToastUtils.toastMsg("手机格式错误");
+            String phone = getTextStr(binding.registerActivityPhoneTf.viewTitleTfCountEt).trim();
+            if (phone.isEmpty()) {
+                ToastUtils.toastMsg("请输入账号");
                 return;
             }
-            String code = getTextStr(binding.registerActivityCodeTf.viewTitleTfCountEt);
-            if (code.length() > 6 || code.isEmpty()) {
-                ToastUtils.toastMsg("验证码错误");
+            String code = getTextStr(binding.registerActivityCodeTf.viewTitleTfCountEt).trim();
+            if (code.isEmpty()) {
+                ToastUtils.toastMsg("请输入密保答案");
                 return;
             }
             String username = getTextStr(binding.registerActivityUsernameTf.viewTitleTfCountEt);
@@ -232,7 +214,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             RegisterBean registerBean = new RegisterBean();
             registerBean.phoneNo = phone;
             registerBean.password = pwd1;
-            registerBean.captcha = code;
+            registerBean.ans = code;
             registerBean.deviceId = DeviceUtils.getDeviceId(this);
             registerBean.clientType = Constant.clientType;
             // 如果有用户名和性别字段，可以在这里设置

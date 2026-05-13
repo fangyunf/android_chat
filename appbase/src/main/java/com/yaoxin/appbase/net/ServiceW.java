@@ -46,7 +46,7 @@ public interface ServiceW {
             @Body RegisterBean userBean
     );
 
-    @POST("/customer/register")
+    @POST("/customer/registerZh")
     Call<NetData> customer_register(
             @Body RegisterBean userBean
     );
@@ -56,7 +56,7 @@ public interface ServiceW {
             @Body RegisterBean userBean
     );
 
-    @POST("/customer/updatePassword")
+    @POST("/customer/updatePasswordZh")
     Call<NetData> customer_updatePassword(
             @Body RegisterBean userBean
     );
@@ -123,7 +123,7 @@ public interface ServiceW {
             @Body RegisterBean userBean
     );
 
-    @POST("/home/updateFullPassword")
+    @POST("/home/updateFullPasswordZh")
     Call<NetData> home_updateFullPassword(
             @Body RegisterBean userBean
     );
@@ -138,7 +138,7 @@ public interface ServiceW {
             @Body RegisterBean userBean
     );
 
-    @POST("/customer/ydCodeCheck")
+    @POST("/customer/ydCodeCheckZh")
     Call<NetData> customer_ydCodeCheck(
             @Body RegisterBean userBean
     );

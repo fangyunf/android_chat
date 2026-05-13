@@ -18,12 +18,8 @@ import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
-import com.yaoxin.appbase.utils.CommonNetUtil;
-import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
-import com.yaoxin.appbase.view.loginlib.utils.LoginLoader;
-import com.yaoxin.appbase.view.loginlib.view.CountDownView;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -49,12 +45,12 @@ public class ForgetPwdActivity extends BaseActivity implements View.OnClickListe
         binding.forgetPwdActivityPwdTf.viewTitleTfCountIv.setImageResource(R.mipmap.login_icon_password);
 
         // 设置输入类型和提示文本
-        binding.forgetPwdActivityPhoneTf.viewTitleTfCountEt.setInputType(InputType.TYPE_CLASS_NUMBER);
-        binding.forgetPwdActivityCodeTf.viewTitleTfCountEt.setInputType(InputType.TYPE_CLASS_NUMBER);
+        binding.forgetPwdActivityPhoneTf.viewTitleTfCountEt.setInputType(InputType.TYPE_CLASS_TEXT);
+        binding.forgetPwdActivityCodeTf.viewTitleTfCountEt.setInputType(InputType.TYPE_CLASS_TEXT);
         binding.forgetPwdActivityPwdTf.viewTitleTfCountEt.setTransformationMethod(PasswordTransformationMethod.getInstance());
 
-        binding.forgetPwdActivityPhoneTf.viewTitleTfCountEt.setHint("输入11位中国大陆手机*");
-        binding.forgetPwdActivityCodeTf.viewTitleTfCountEt.setHint("输入验证码*");
+        binding.forgetPwdActivityPhoneTf.viewTitleTfCountEt.setHint("请输入账号*");
+        binding.forgetPwdActivityCodeTf.viewTitleTfCountEt.setHint("请输入密保答案*");
         binding.forgetPwdActivityPwdTf.viewTitleTfCountEt.setHint("输入您的密码*");
 
         // 显示密码可见性切换按钮
@@ -62,22 +58,7 @@ public class ForgetPwdActivity extends BaseActivity implements View.OnClickListe
         binding.forgetPwdActivityPwdTf.viewTitleTfCountEyeRl.setOnClickListener(this);
         binding.forgetPwdActivityPwdTf.viewTitleTfCountEyeIv.setSelected(true);
 
-        // 显示验证码按钮
-        binding.forgetPwdActivityCodeTf.viewTitleTfCountCaptcha.setVisibility(View.VISIBLE);
-        CountDownView mCountDownView = binding.forgetPwdActivityCodeTf.viewTitleTfCountCaptcha;
-        mCountDownView.setUserEdit(binding.forgetPwdActivityPhoneTf.viewTitleTfCountEt);
-        mCountDownView.setCountDownTime(60);
-        mCountDownView.setCaptchaListener(new LoginLoader.CaptchaListener() {
-            @Override
-            public void onPre() {
-                String phone = getTextStr(binding.forgetPwdActivityPhoneTf.viewTitleTfCountEt);
-                CommonNetUtil.getPhoneCode(phone);
-            }
-
-            @Override
-            public void onComplete(String phoneOrEmail) {
-            }
-        });
+        binding.forgetPwdActivityCodeTf.viewTitleTfCountCaptcha.setVisibility(View.GONE);
     }
 
     @Override
@@ -93,14 +74,14 @@ public class ForgetPwdActivity extends BaseActivity implements View.OnClickListe
                 binding.forgetPwdActivityPwdTf.viewTitleTfCountEt.setTransformationMethod(null);
             }
         } else if (v == binding.forgetPwdActivityBtn) {
-            String phone = getTextStr(binding.forgetPwdActivityPhoneTf.viewTitleTfCountEt);
-            if (phone.length() != 11) {
-                ToastUtils.toastMsg("手机格式错误");
+            String phone = getTextStr(binding.forgetPwdActivityPhoneTf.viewTitleTfCountEt).trim();
+            if (phone.isEmpty()) {
+                ToastUtils.toastMsg("请输入账号");
                 return;
             }
-            String code = getTextStr(binding.forgetPwdActivityCodeTf.viewTitleTfCountEt);
-            if (code.length() > 6 || code.isEmpty()) {
-                ToastUtils.toastMsg("验证码错误");
+            String code = getTextStr(binding.forgetPwdActivityCodeTf.viewTitleTfCountEt).trim();
+            if (code.isEmpty()) {
+                ToastUtils.toastMsg("请输入密保答案");
                 return;
             }
             String pwd1 = getTextStr(binding.forgetPwdActivityPwdTf.viewTitleTfCountEt);
@@ -112,7 +93,7 @@ public class ForgetPwdActivity extends BaseActivity implements View.OnClickListe
             RegisterBean bean = new RegisterBean();
             bean.password = pwd1;
             bean.phoneNo = phone;
-            bean.captcha = code;
+            bean.ans = code;
 
             Activity that = this;
             HttpUtil.apiW().customer_updatePassword(bean)
