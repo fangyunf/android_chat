@@ -18,7 +18,7 @@ import com.turunsi.yaoxin.R;
  */
 public class Recharge_Adpter extends
         BaseQuickAdapter<String, QuickViewHolder> {
-    String selectStr = "100";
+    String selectStr = "200";
 
     @Override
     protected void onBindViewHolder(@NonNull QuickViewHolder quickViewHolder, int i, @Nullable String orderListBean) {
