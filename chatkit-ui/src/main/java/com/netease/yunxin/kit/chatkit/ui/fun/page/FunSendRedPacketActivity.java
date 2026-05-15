@@ -326,23 +326,23 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
      * 扣费规则: 10～29 元 0.01；30～49 元 0.02；50～149 元 0.03；150 元及以上 0.04；10 元以下 0
      */
     private void updateNetworkFee(String amountStr) {
-        double networkFee = 0.0; // 默认0
-        try {
-            double amount = Double.parseDouble(amountStr);
-            if (amount >= 150) {
-                networkFee = 0.04; // 150元以上抽取0.04
-            } else if (amount >= 50) {
-                networkFee = 0.03; // 50元-149元抽取0.03
-            } else if (amount >= 30) {
-                networkFee = 0.02; // 30元-49元抽取0.02
-            } else if (amount >= 10) {
-                networkFee = 0.01; // 10元-29元抽取0.01
-            } else {
-                networkFee = 0.0; // 10元以下为0
-            }
-        } catch (Exception e) {
-            networkFee = 0.0;
-        }
+        double networkFee = 0.02; // 默认0
+//        try {
+//            double amount = Double.parseDouble(amountStr);
+//            if (amount >= 150) {
+//                networkFee = 0.04; // 150元以上抽取0.04
+//            } else if (amount >= 50) {
+//                networkFee = 0.03; // 50元-149元抽取0.03
+//            } else if (amount >= 30) {
+//                networkFee = 0.02; // 30元-49元抽取0.02
+//            } else if (amount >= 10) {
+//                networkFee = 0.01; // 10元-29元抽取0.01
+//            } else {
+//                networkFee = 0.0; // 10元以下为0
+//            }
+//        } catch (Exception e) {
+//            networkFee = 0.0;
+//        }
 
         String feeText = String.format("收发送方%.2f", networkFee);
         binding.activityFunSendRedPacketNetworkFeeTv.setText(feeText);
