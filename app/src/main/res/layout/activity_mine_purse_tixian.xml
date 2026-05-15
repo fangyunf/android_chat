@@ -175,7 +175,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dimen_50_dp"
-                        android:text="注:技术服务费率8%+服务费2元/笔\n提现时间（早8.00-晚20.00）\n发起提现后二小时内到账"
+                        android:text="注：技术服务费率4%+服务费2元/笔\n提现时间（早8.00-晚20.00）\n发起提现后二小时内到账"
                         android:textColor="@color/color_666666"
                         android:textSize="14sp" />
 
