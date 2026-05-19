@@ -40,7 +40,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.nanchen.wavesidebar.FirstLetterUtil;
 import com.nanchen.wavesidebar.WaveSideBarView;
-import com.netease.yunxin.kit.chatkit.repo.ContactRepo;
 import com.netease.yunxin.kit.common.ui.widgets.ContentListPopView;
 import com.netease.yunxin.kit.common.utils.SizeUtils;
 import com.netease.yunxin.kit.contactkit.ui.R;
@@ -471,23 +470,13 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
                 Type type = new TypeToken<List<GroupInfoBean>>() {
                 }.getType();
                 List<GroupInfoBean> tempList = new Gson().fromJson(body.data.toString(), type);
-                if (tempList == null) {
-                    tempList = new ArrayList<>();
-                }
 
                 // 移除客服（使用迭代器避免 ConcurrentModificationException）
                 mContactModels = new ArrayList<>();
                 for (GroupInfoBean tempBean : tempList) {
-                    if (tempBean == null || TextUtils.isEmpty(tempBean.userId)) {
-                        continue;
+                    if (tempBean != null && !tempBean.userId.equals(DataUtil.getKeFuId())) {
+                        mContactModels.add(tempBean);
                     }
-                    if (tempBean.userId.equals(DataUtil.getKeFuId())) {
-                        continue;
-                    }
-                    if (ContactRepo.isBlackList(tempBean.userId)) {
-                        continue;
-                    }
-                    mContactModels.add(tempBean);
                 }
 
                 // 保存完整列表用于搜索
