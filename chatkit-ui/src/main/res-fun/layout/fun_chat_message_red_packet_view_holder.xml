@@ -22,10 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingRight="@dimen/dimen_7_dp"
-
-
-        >
+        android:paddingRight="@dimen/dimen_7_dp">
 
         <TextView
             android:id="@+id/fun_chat_message_red_packet_view_holder_greeting_tv"
