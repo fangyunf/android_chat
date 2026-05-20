@@ -36,6 +36,8 @@ public class Constant {
     public static final int REQUEST_CODE_CHOOSE = 23;
     /** 聊天添加自定义表情包 */
     public static final int REQUEST_CODE_ADD_CUSTOM_STICKER = 27;
+    /** 保存图片到相册（二维码等） */
+    public static final int RC_SAVE_IMAGE_GALLERY = 29;
 
 
     public static final int REQUEST_PERMISSION = 0;

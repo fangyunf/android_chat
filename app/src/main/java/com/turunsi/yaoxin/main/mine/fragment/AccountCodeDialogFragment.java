@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +36,7 @@ import java.util.Map;
 
 public class AccountCodeDialogFragment extends BaseDialogFragment implements View.OnClickListener {
     DialogAccountCodeBinding binding;
+    private Bitmap qrBitmap;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -45,9 +47,9 @@ public class AccountCodeDialogFragment extends BaseDialogFragment implements Vie
         binding.dialogAccountCodeIdTv.setText( "ID:" +DataUtil.getUserInfo().memberCode);
 
         GlideUtil.yh_loadImageRoundedCorner(getContext(),binding.dialogAccountCodeHeadIv,DataUtil.getUserInfo().avatar,2);
-        Bitmap bitmap = generateQRCode(DataUtil.getUserInfo().memberCode,getContext());
-        if (bitmap != null) {
-            binding.dialogAccountCodeCodeIv.setImageBitmap(bitmap);
+        qrBitmap = generateQRCode(DataUtil.getUserInfo().memberCode, getContext());
+        if (qrBitmap != null) {
+            binding.dialogAccountCodeCodeIv.setImageBitmap(qrBitmap);
         }
         return binding.getRoot();
     }
@@ -113,7 +115,21 @@ public class AccountCodeDialogFragment extends BaseDialogFragment implements Vie
          if (v == binding.dialogAccountCodeCloseIv) {
             dismiss();
         } else if (binding.dialogAccountCodeSavePhoto == v) {
-             ImageUtil.saveImageViewToGallery(getContext(), binding.dialogAccountCodeCodeIv);
-         }
+            Activity activity = getActivity();
+            if (activity != null) {
+                ImageUtil.saveImageToGallery(activity, qrBitmap);
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(
+            int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        Activity activity = getActivity();
+        if (activity != null) {
+            ImageUtil.onSaveImageGalleryPermissionResult(
+                    activity, requestCode, permissions, grantResults);
+        }
     }
 }

@@ -7,6 +7,8 @@ import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -53,30 +55,91 @@ public class ImageUtil {
         };
     }
 
-    public static void saveImageViewToGallery(Context context, ImageView imageView) {
-        String[] permission = getImageSavePermissions();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            permission =
-                    new String[] {
-                            Manifest.permission.READ_MEDIA_IMAGES, Manifest.permission.READ_MEDIA_VIDEO
-                    };
+    /** 从 ImageView 取出 Bitmap（优先 drawable，避免 drawingCache 为空） */
+    public static Bitmap getBitmapFromImageView(ImageView imageView) {
+        if (imageView == null) {
+            return null;
         }
-        if (!EasyPermissions.hasPermissions(context, permission)) {
-            // 请求相机权限
-            EasyPermissions.requestPermissions((Activity) context, "需要访问相册权限", Constant.RC_PHOTO_PICKER_PERM, permission);
-            return;
+        Drawable drawable = imageView.getDrawable();
+        if (drawable instanceof BitmapDrawable) {
+            Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+            if (bitmap != null && !bitmap.isRecycled()) {
+                return bitmap;
+            }
         }
-
-        // 获取 ImageView 中的 Bitmap
         imageView.setDrawingCacheEnabled(true);
-        Bitmap bitmap = Bitmap.createBitmap(imageView.getDrawingCache());
+        imageView.buildDrawingCache();
+        Bitmap cache = imageView.getDrawingCache();
+        if (cache != null) {
+            Bitmap copy = Bitmap.createBitmap(cache);
+            imageView.setDrawingCacheEnabled(false);
+            return copy;
+        }
         imageView.setDrawingCacheEnabled(false);
-
-        // 保存 Bitmap 到相册
-        saveBitmapToGallery(context, bitmap);
+        return null;
     }
 
-    private static void saveBitmapToGallery(Context context, Bitmap bitmap) {
+    /**
+     * 保存 Bitmap 到相册（先申请权限，授权后自动继续保存）。
+     * 调用方 Activity/Fragment 需在 onRequestPermissionsResult 中调用
+     * {@link #onSaveImageGalleryPermissionResult(Activity, int, String[], int[])}。
+     */
+    public static void saveImageToGallery(Activity activity, Bitmap bitmap) {
+        if (activity == null || bitmap == null || bitmap.isRecycled()) {
+            ToastUtils.toastMsg("保存失败");
+            return;
+        }
+        pendingGalleryBitmap = bitmap;
+        pendingGalleryActivity = activity;
+        String[] permissions = getImageSavePermissions();
+        if (EasyPermissions.hasPermissions(activity, permissions)) {
+            saveBitmapToGallery(activity, bitmap);
+            clearPendingGallerySave();
+            return;
+        }
+        EasyPermissions.requestPermissions(
+                activity, "保存图片需要访问相册权限", Constant.RC_SAVE_IMAGE_GALLERY, permissions);
+    }
+
+    public static void saveImageViewToGallery(Activity activity, ImageView imageView) {
+        if (activity == null || imageView == null) {
+            return;
+        }
+        Bitmap bitmap = getBitmapFromImageView(imageView);
+        if (bitmap == null) {
+            ToastUtils.toastMsg("保存失败");
+            return;
+        }
+        saveImageToGallery(activity, bitmap);
+    }
+
+    private static Bitmap pendingGalleryBitmap;
+    private static Activity pendingGalleryActivity;
+
+    private static void clearPendingGallerySave() {
+        pendingGalleryBitmap = null;
+        pendingGalleryActivity = null;
+    }
+
+    public static void onSaveImageGalleryPermissionResult(
+            Activity activity, int requestCode, String[] permissions, int[] grantResults) {
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, activity);
+        if (requestCode != Constant.RC_SAVE_IMAGE_GALLERY) {
+            return;
+        }
+        Activity pendingActivity = pendingGalleryActivity;
+        Bitmap pendingBitmap = pendingGalleryBitmap;
+        clearPendingGallerySave();
+        if (pendingActivity == null
+                || pendingBitmap == null
+                || activity != pendingActivity
+                || !EasyPermissions.hasPermissions(activity, getImageSavePermissions())) {
+            return;
+        }
+        saveBitmapToGallery(activity, pendingBitmap);
+    }
+
+    public static boolean saveBitmapToGallery(Context context, Bitmap bitmap) {
         // 获取外部存储路径
         String savedImageURL = null;
         String imageFileName = "JPEG_" + System.currentTimeMillis() + ".jpg";
@@ -121,12 +184,12 @@ public class ImageUtil {
             }
         }
 
-        // 打印保存的图片路径
         if (savedImageURL != null) {
             ToastUtils.toastMsg("保存成功");
-        } else {
-            ToastUtils.toastMsg("保存失败");
+            return true;
         }
+        ToastUtils.toastMsg("保存失败");
+        return false;
     }
 
     /** 将本地图片文件保存到系统相册，兼容 Android 10+ */

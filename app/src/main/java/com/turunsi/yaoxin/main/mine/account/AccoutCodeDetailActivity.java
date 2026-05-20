@@ -12,6 +12,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+
 import androidx.annotation.Nullable;
 
 import com.google.gson.Gson;
@@ -53,6 +55,7 @@ public class AccoutCodeDetailActivity extends BaseActivity implements View.OnCli
 
     private static final int REQUEST_CODE_CHOOSE = 23;
     private ActivityMineAccountCodeBinding viewBinding;
+    private Bitmap qrBitmap;
 
     private ExecutorService executor = Executors.newSingleThreadExecutor();
 
@@ -68,9 +71,9 @@ public class AccoutCodeDetailActivity extends BaseActivity implements View.OnCli
     private void initView() {
         viewBinding.activityMineAccountCodeNav.addCloseImageButton().setOnClickListener(this);
         viewBinding.activityMineAccountCodeSavePhoto.setOnClickListener(this);
-        Bitmap bitmap = generateQRCode(DataUtil.getUserInfo().memberCode);
-        if (bitmap != null) {
-            viewBinding.activityMineAccountCodeCodeIv.setImageBitmap(bitmap);
+        qrBitmap = generateQRCode(DataUtil.getUserInfo().memberCode);
+        if (qrBitmap != null) {
+            viewBinding.activityMineAccountCodeCodeIv.setImageBitmap(qrBitmap);
         }
         viewBinding.activityMineAccountCodeNameTv.setText(DataUtil.getUserInfo().username);
         viewBinding.activityMineAccountCode.setText("ID:" + DataUtil.getUserInfo().memberCode);
@@ -101,8 +104,15 @@ public class AccoutCodeDetailActivity extends BaseActivity implements View.OnCli
         if (v == viewBinding.activityMineAccountCodeNav.addCloseImageButton()) {
             finish();
         } else if (v == viewBinding.activityMineAccountCodeSavePhoto) {
-            ImageUtil.saveImageViewToGallery(this, viewBinding.activityMineAccountCodeCodeIv);
+            ImageUtil.saveImageToGallery(this, qrBitmap);
         }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(
+            int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        ImageUtil.onSaveImageGalleryPermissionResult(this, requestCode, permissions, grantResults);
     }
 
 }
