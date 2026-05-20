@@ -28,9 +28,33 @@ import okhttp3.Response;
 import pub.devrel.easypermissions.EasyPermissions;
 
 public class ImageUtil {
+
+    /** 保存图片到相册所需权限（与项目其它相册逻辑一致） */
+    public static String[] getImageSavePermissions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            return new String[] {Manifest.permission.READ_MEDIA_IMAGES};
+        }
+        return new String[] {
+            Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE
+        };
+    }
+
+    public static boolean hasImageSavePermission(Context context) {
+        return EasyPermissions.hasPermissions(context, getImageSavePermissions());
+    }
+
+    /** 保存视频到相册所需权限 */
+    public static String[] getVideoSavePermissions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            return new String[] {Manifest.permission.READ_MEDIA_VIDEO};
+        }
+        return new String[] {
+            Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE
+        };
+    }
+
     public static void saveImageViewToGallery(Context context, ImageView imageView) {
-        String[] permission = new String[] {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
-        // 根据系统版本判断，如果是Android13则采用Manifest.permission.READ_MEDIA_IMAGES
+        String[] permission = getImageSavePermissions();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             permission =
                     new String[] {
@@ -102,6 +126,86 @@ public class ImageUtil {
             ToastUtils.toastMsg("保存成功");
         } else {
             ToastUtils.toastMsg("保存失败");
+        }
+    }
+
+    /** 将本地图片文件保存到系统相册，兼容 Android 10+ */
+    public static boolean saveImageFileToGallery(Context context, String sourcePath) {
+        if (context == null || sourcePath == null || sourcePath.isEmpty()) {
+            return false;
+        }
+        File source = new File(sourcePath);
+        if (!source.exists() || !source.isFile()) {
+            return false;
+        }
+        String fileName = source.getName();
+        if (!fileName.contains(".")) {
+            fileName = "IMG_" + System.currentTimeMillis() + ".jpg";
+        }
+        String mimeType = "image/jpeg";
+        if (fileName.toLowerCase().endsWith(".png")) {
+            mimeType = "image/png";
+        } else if (fileName.toLowerCase().endsWith(".webp")) {
+            mimeType = "image/webp";
+        } else if (fileName.toLowerCase().endsWith(".gif")) {
+            mimeType = "image/gif";
+        }
+
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                ContentValues values = new ContentValues();
+                values.put(MediaStore.Images.Media.DISPLAY_NAME, fileName);
+                values.put(MediaStore.Images.Media.MIME_TYPE, mimeType);
+                values.put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_PICTURES);
+                values.put(MediaStore.Images.Media.IS_PENDING, 1);
+
+                Uri collection =
+                        MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY);
+                Uri item = context.getContentResolver().insert(collection, values);
+                if (item == null) {
+                    return false;
+                }
+                try (InputStream in = new java.io.FileInputStream(source);
+                        OutputStream out = context.getContentResolver().openOutputStream(item)) {
+                    if (out == null) {
+                        return false;
+                    }
+                    byte[] buffer = new byte[8192];
+                    int len;
+                    while ((len = in.read(buffer)) > 0) {
+                        out.write(buffer, 0, len);
+                    }
+                }
+                values.clear();
+                values.put(MediaStore.Images.Media.IS_PENDING, 0);
+                context.getContentResolver().update(item, values, null, null);
+                return true;
+            } else {
+                File picturesDir =
+                        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+                if (!picturesDir.exists() && !picturesDir.mkdirs()) {
+                    return false;
+                }
+                File dest = new File(picturesDir, fileName);
+                try (InputStream in = new java.io.FileInputStream(source);
+                        OutputStream out = new FileOutputStream(dest)) {
+                    byte[] buffer = new byte[8192];
+                    int len;
+                    while ((len = in.read(buffer)) > 0) {
+                        out.write(buffer, 0, len);
+                    }
+                }
+                MediaStore.Images.Media.insertImage(
+                        context.getContentResolver(), dest.getAbsolutePath(), fileName, fileName);
+                context.sendBroadcast(
+                        new android.content.Intent(
+                                android.content.Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
+                                Uri.fromFile(dest)));
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
         }
     }
 

@@ -17,7 +17,9 @@ import com.netease.yunxin.kit.chatkit.ui.R;
 import com.netease.yunxin.kit.chatkit.ui.view.media.SimpleVideoPlayer;
 import com.netease.yunxin.kit.common.ui.utils.Permission;
 import com.netease.yunxin.kit.common.ui.utils.ToastX;
+import com.netease.yunxin.kit.common.utils.PermissionUtils;
 import com.netease.yunxin.kit.common.utils.storage.ExternalStorage;
+import com.yaoxin.appbase.utils.ImageUtil;
 import java.io.File;
 import java.util.List;
 
@@ -60,26 +62,17 @@ public class WatchVideoActivity extends WatchBaseActivity {
     }
     ALog.d(TAG, "save path:" + path);
 
-    Permission.requirePermissions(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    String[] permissions = ImageUtil.getVideoSavePermissions();
+    if (PermissionUtils.hasPermissions(this, permissions)) {
+      saveVideoFile(path);
+      return;
+    }
+    Permission.requirePermissions(this, permissions)
         .request(
             new Permission.PermissionCallback() {
               @Override
               public void onGranted(List<String> permissionsGranted) {
-                if (permissionsGranted.contains(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                  if (ExternalStorage.saveVideoFile(new File(path))) {
-                    ToastX.showShortToast(R.string.chat_message_video_save);
-                  } else {
-                    ToastX.showShortToast(R.string.chat_message_video_save_fail);
-                  }
-                } else {
-                  Toast.makeText(
-                          WatchVideoActivity.this,
-                          WatchVideoActivity.this
-                              .getResources()
-                              .getString(R.string.permission_default),
-                          Toast.LENGTH_SHORT)
-                      .show();
-                }
+                saveVideoFile(path);
               }
 
               @Override
@@ -105,6 +98,14 @@ public class WatchVideoActivity extends WatchBaseActivity {
                     .show();
               }
             });
+  }
+
+  private void saveVideoFile(String path) {
+    if (ExternalStorage.saveVideoFile(new File(path))) {
+      ToastX.showShortToast(R.string.chat_message_video_save);
+    } else {
+      ToastX.showShortToast(R.string.chat_message_video_save_fail);
+    }
   }
 
   @Override
