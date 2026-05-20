@@ -19,7 +19,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.chad.library.adapter4.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.nanchen.wavesidebar.FirstLetterUtil;
 import com.nanchen.wavesidebar.SearchEditText;
 import com.nanchen.wavesidebar.Trans2PinYinUtil;
 import com.nanchen.wavesidebar.WaveSideBarView;
@@ -42,8 +41,6 @@ import com.yaoxin.appbase.view.CommonGridSpacingItemDecoration;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import retrofit2.Call;
@@ -93,8 +90,6 @@ public class FunTeamSettingNew_ForbiddenListActivity extends BaseActivity implem
         });
         mRecyclerView.addItemDecoration(decoration);
         mRecyclerView.setAdapter(adapter);
-
-
         // 侧边设置相关
         WaveSideBarView mWaveSideBarView = binding.mainSideBar;
         mWaveSideBarView.setOnSelectIndexItemListener(new WaveSideBarView.OnSelectIndexItemListener() {
@@ -132,7 +127,6 @@ public class FunTeamSettingNew_ForbiddenListActivity extends BaseActivity implem
                         mShowModels.add(model);
                     }
                 }
-                adapter.setItems(mShowModels);
                 adapter.notifyDataSetChanged();
             }
         });
@@ -190,16 +184,6 @@ public class FunTeamSettingNew_ForbiddenListActivity extends BaseActivity implem
                             }
 
                         }
-
-                        Collections.sort(mContactModels, new Comparator<GroupInfoBean>() {
-                            @Override
-                            public int compare(GroupInfoBean o1, GroupInfoBean o2) {
-                                // 获取name的首字母并忽略大小写比较
-                                String firstLetter = FirstLetterUtil.getFirstLetter(o1.name);
-                                String secondLetter = FirstLetterUtil.getFirstLetter(o2.name);
-                                return firstLetter.compareTo(secondLetter);
-                            }
-                        });
                         updateUI();
 
                     }

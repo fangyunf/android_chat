@@ -173,7 +173,7 @@
     <string name="chat_message_is_typing_fun">对方正在输入中...</string>
 
     <!-- search -->
-    <string name="message_search_title">历史记录</string>
+    <string name="message_search_title">查找聊天记录</string>
     <string name="message_search_hint">搜索聊天内容</string>
     <string name="message_search_empty">暂无聊天记录</string>
 

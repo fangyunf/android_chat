@@ -95,13 +95,12 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
             binding.fragmentOpenRedPacketDialogGreetingTv.setText(redBean.title);
         }
         if (type == 1) {
-            //可领取
+            // 可领取
             if (sendBean.type == 21) {
-                binding.fragmentOpenRedPacketDialogBgIv.setImageResource(R.drawable.chat_red_packet_open_bg_group_can_open);
+                binding.fragmentOpenRedPacketDialogBgIv.setImageResource(R.drawable.chat_red_packet_open_bg_can_open_z);
             } else {
                 binding.fragmentOpenRedPacketDialogBgIv.setImageResource(R.drawable.chat_red_packet_open_bg_can_open);
             }
-            binding.fragmentOpenRedPacketDialogBgIv.setImageResource(R.drawable.chat_red_packet_open_bg_can_open);
             binding.fragmentOpenRedPacketDialogDetailRl.setVisibility(View.GONE);
             binding.fragmentOpenRedPacketDialogOpenRl.setVisibility(View.VISIBLE);
             GlideUtil.yh_loadImageRoundedCorner(getContext(), binding.fragmentOpenRedPacketDialogHeadIv, sendBean.result.sendAvatar, 24);
@@ -109,24 +108,24 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
             binding.fragmentOpenRedPacketDialogGreetingTv.setText(sendBean.result.title);
         }
         if (type == 2) {
-            //已领完
+            // 已领完
+            binding.fragmentOpenRedPacketDialogGreetingTv.setText("手慢啦，红包已抢完");
             if (sendBean.type == 21) {
-                binding.fragmentOpenRedPacketDialogBgIv.setImageResource(R.drawable.chat_red_packet_open_bg_group_cant_open);
+                binding.fragmentOpenRedPacketDialogBgIv.setImageResource(R.drawable.chat_red_packet_open_bg_cant_open_z);
             } else {
                 binding.fragmentOpenRedPacketDialogBgIv.setImageResource(R.drawable.chat_red_packet_open_bg_cant_open);
             }
-            binding.fragmentOpenRedPacketDialogGreetingTv.setText("手慢啦，红包已抢完");
             binding.fragmentOpenRedPacketDialogDetailRl.setVisibility(View.VISIBLE);
             binding.fragmentOpenRedPacketDialogOpenRl.setVisibility(View.GONE);
         }
         if (type == 3) {
-            //红包已退款，当前用户未领取
+            // 红包已退款，当前用户未领取
+            binding.fragmentOpenRedPacketDialogGreetingTv.setText("手慢啦，红包已抢完");
             if (sendBean.type == 21) {
-                binding.fragmentOpenRedPacketDialogBgIv.setImageResource(R.drawable.chat_red_packet_open_bg_group_cant_open);
+                binding.fragmentOpenRedPacketDialogBgIv.setImageResource(R.drawable.chat_red_packet_open_bg_cant_open_z);
             } else {
                 binding.fragmentOpenRedPacketDialogBgIv.setImageResource(R.drawable.chat_red_packet_open_bg_cant_open);
             }
-            binding.fragmentOpenRedPacketDialogGreetingTv.setText("手慢啦，红包已抢完");
             binding.fragmentOpenRedPacketDialogDetailRl.setVisibility(View.VISIBLE);
             binding.fragmentOpenRedPacketDialogOpenRl.setVisibility(View.GONE);
         }

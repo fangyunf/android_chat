@@ -1,42 +1,29 @@
 package com.netease.yunxin.kit.chatkit.ui.fun.page;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.InputType;
-import android.text.TextWatcher;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.gson.Gson;
 import com.netease.yunxin.kit.chatkit.ui.databinding.ActivityFunRedPacketResultDetailBinding;
-import com.netease.yunxin.kit.chatkit.ui.databinding.ActivityFunSendRedPacketBinding;
 import com.netease.yunxin.kit.chatkit.ui.fun.page.adapter.RedPacketResultDetailAdapter;
-import com.netease.yunxin.kit.chatkit.ui.fun.page.fragment.FunOpenRedPacketFragment;
-import com.netease.yunxin.kit.corekit.im.model.UserInfo;
-import com.netease.yunxin.kit.corekit.route.XKitRouter;
 import com.yaoxin.appbase.activity.BaseActivity;
 import com.yaoxin.appbase.model.CustomMsgBean;
 import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.RegisterBean;
-import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
-import com.yaoxin.appbase.net.Constant;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.BarUtils;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.GlideUtil;
 import com.yaoxin.appbase.utils.NumberUtil;
+import com.yaoxin.appbase.utils.ResourceHelper;
 import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
-import com.yaoxin.appbase.view.actionsheet.ActionSheet;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -61,11 +48,14 @@ public class FunRedPacketResultActivity extends BaseActivity implements View.OnC
         _initView();
 
         StatusBarUtils.setStatusBarLightMode(this, true, true);
-        RelativeLayout.LayoutParams params =
-                (RelativeLayout.LayoutParams) binding.activityFunRedPacketResultDetailNav.getLayoutParams();
+        LinearLayout.LayoutParams params =
+                (LinearLayout.LayoutParams) binding.activityFunRedPacketResultDetailNav.getLayoutParams();
         params.height = params.height + BarUtils.getStatusBarHeight();
         binding.activityFunRedPacketResultDetailNav.setLayoutParams(params);
         binding.activityFunRedPacketResultDetailNav.setPadding(0, BarUtils.getStatusBarHeight(), 0, 0);
+        binding.activityFunRedPacketResultDetailNav.setActionText("购物卡记录");
+        binding.activityFunRedPacketResultDetailNav.setActionClickListener(
+                () -> FunRedPacketRecordListActivity.start(FunRedPacketRecordListActivity.class, this, null));
     }
 
     protected void _requestData1() {
@@ -111,6 +101,14 @@ public class FunRedPacketResultActivity extends BaseActivity implements View.OnC
 
     void _updateUI() {
         GlideUtil.yh_loadImageRoundedCorner(this, binding.activityFunRedPacketResultDetailSenderHeadIv, redBean.sendAvatar, 17);
+
+        if (!TextUtils.isEmpty(redBean.sendLevel) && Integer.parseInt(redBean.sendLevel) > 0) {
+            binding.ivGrade.setVisibility(View.VISIBLE);
+            binding.ivGrade.setImageDrawable(ResourceHelper.getGradeBackground(this, Integer.parseInt(redBean.sendLevel)));
+        } else {
+            binding.ivGrade.setVisibility(View.GONE);
+        }
+
         binding.activityFunRedPacketResultDetailSenderTv.setText(redBean.sendName);
         binding.activityFunRedPacketResultDetailGreetingTv.setText(redBean.title);
         if (redBean.redpacketType == 21) {
@@ -154,8 +152,6 @@ public class FunRedPacketResultActivity extends BaseActivity implements View.OnC
     protected void _initView() {
 
         binding.activityFunRedPacketResultDetailNav.addCloseImageButton().setOnClickListener(this);
-        binding.activityFunRedPacketResultDetailRedPacketRecordTv.setOnClickListener(this);
-//        binding.activityFunRedPacketResultDetailNav.setActionText("红包记录");
         binding.activityFunRedPacketResultDetailRv.setLayoutManager(new LinearLayoutManager(this));
         binding.activityFunRedPacketResultDetailRv.setAdapter(adapter);
 
@@ -166,11 +162,7 @@ public class FunRedPacketResultActivity extends BaseActivity implements View.OnC
     public void onClick(View v) {
         if (v == binding.activityFunRedPacketResultDetailNav.addCloseImageButton()) {
             finish();
-        } else if (v == binding.activityFunRedPacketResultDetailRedPacketRecordTv) {
-            FunRedPacketRecordListActivity.start(FunRedPacketRecordListActivity.class, this, null);
         }
-//        else if (v == binding.activityFunSendRedPacketPinChangeTypeLl) {
-//        }
     }
 
 }

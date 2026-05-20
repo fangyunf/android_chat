@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_fafafa"
+    android:orientation="vertical">
+    <!--    &lt;!&ndash; 顶部标题栏 &ndash;&gt;-->
+    <com.yaoxin.appbase.navbar.NavToolbar
+        android:id="@+id/layoutTitleBar"
+        style="@style/WhiteFontToolbar"
+        android:background="@mipmap/icon_nav_title_bg"
+        app:back_icon="@mipmap/icon_a_back"
+        app:enable_under_divider="true"
+        app:support_translucent_status_bar="false"
+        app:title="账号申诉"
+        app:title_text_color="@color/white"
+        app:under_divider_color="@color/transparent" />
+    <!-- 中间内容可滚动 -->
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- 提示文字 -->
+            <TextView
+                android:id="@+id/tv_hint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="拍摄或上传图片原件保持图片清晰"
+                android:textColor="#222222"
+                android:textSize="16sp" />
+
+            <!-- 申诉手机号 -->
+            <EditText
+                android:id="@+id/et_phone"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/bg_white_rounded_10"
+                android:hint="请输入申诉手机号"
+                android:inputType="phone"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textColorHint="#999999"
+                android:textSize="16sp" />
+
+            <!-- 真实姓名 -->
+            <EditText
+                android:id="@+id/et_real_name"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/bg_white_rounded_10"
+                android:hint="请输入真实姓名"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textColorHint="#999999"
+                android:textSize="16sp" />
+
+            <!-- 身份证号 -->
+            <EditText
+                android:id="@+id/et_id_card"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/bg_white_rounded_10"
+                android:hint="请输入身份证号码"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textColorHint="#999999"
+                android:textSize="16sp" />
+
+            <!-- 身份证上传标题 -->
+            <TextView
+                android:id="@+id/tv_upload_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:gravity="center"
+                android:text="身份证上传"
+                android:textColor="#222222"
+                android:textSize="20sp" />
+
+            <!-- 身份证上传区域 -->
+            <GridLayout
+                android:id="@+id/grid_upload"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:alignmentMode="alignMargins"
+                android:columnCount="3"
+                android:rowCount="2"
+                android:rowOrderPreserved="false">
+
+                <!-- 身份证正面 -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/iv_id_front"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:contentDescription="身份证正面"
+                        android:scaleType="centerInside"
+                        android:src="@mipmap/icon_add_photo" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="身份证正面"
+                        android:textColor="#222222"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <!-- 身份证反面 -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/iv_id_back"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:contentDescription="身份证反面"
+                        android:scaleType="centerInside"
+                        android:src="@mipmap/icon_add_photo" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="身份证反面"
+                        android:textColor="#222222"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <!-- 手持身份证正面 -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/iv_id_hold_front"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:contentDescription="手持身份证正面"
+                        android:scaleType="centerInside"
+                        android:src="@mipmap/icon_add_photo" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="手持身份证正面"
+                        android:textColor="#222222"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <!-- 手持身份证反面 -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_row="1"
+                    android:layout_column="0"
+                    android:layout_columnWeight="1"
+                    android:layout_marginTop="@dimen/dimen_16_dp"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/iv_id_hold_back"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:contentDescription="手持身份证反面"
+                        android:scaleType="centerInside"
+                        android:src="@mipmap/icon_add_photo" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="手持身份证反面"
+                        android:textColor="#222222"
+                        android:textSize="16sp" />
+                </LinearLayout>
+            </GridLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+    -->
+
+    <!-- 申诉进度 -->
+    <TextView
+        android:id="@+id/tv_progress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_10_dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:text="申诉进度"
+        android:textColor="@color/app_theme_color"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_submit"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <!-- 提交申诉按钮，固定底部 -->
+    <TextView
+        android:id="@+id/btn_submit"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/fun_bg_app_theme_color_rounded_26"
+        android:gravity="center"
+        android:text="提交申诉"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/scroll_content" />
+</LinearLayout>

@@ -4,42 +4,24 @@
 
 package com.netease.yunxin.kit.teamkit.ui.fun.activity;
 
-import static com.netease.yunxin.kit.corekit.im.utils.RouterConstant.KEY_TEAM_ICON;
-import static com.netease.yunxin.kit.corekit.im.utils.RouterConstant.KEY_TEAM_ID;
-import static com.netease.yunxin.kit.corekit.im.utils.RouterConstant.KEY_TEAM_NAME;
-import static com.netease.yunxin.kit.corekit.im.utils.RouterConstant.REQUEST_CONTACT_SELECTOR_KEY;
-import static com.netease.yunxin.kit.teamkit.ui.activity.BaseTeamUpdateIntroduceActivity.KEY_TEAM_INTRODUCE;
-import static com.netease.yunxin.kit.teamkit.ui.activity.BaseTeamUpdateNicknameActivity.KEY_TEAM_MY_NICKNAME;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.collection.ArraySet;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.chad.library.adapter4.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
-import com.netease.nimlib.sdk.msg.model.StickTopSessionInfo;
-import com.netease.yunxin.kit.chatkit.repo.ConversationRepo;
 import com.netease.yunxin.kit.common.utils.SizeUtils;
-import com.netease.yunxin.kit.corekit.im.provider.FetchCallback;
 import com.netease.yunxin.kit.corekit.route.XKitRouter;
-import com.netease.yunxin.kit.teamkit.ui.databinding.FunTeamSettingNewActivityBinding;
 import com.netease.yunxin.kit.teamkit.ui.databinding.FunTeamSettingNewTeamUsersActivityBinding;
-import com.netease.yunxin.kit.teamkit.ui.fun.activity.adapter.TeamSettingUserInfoAdapter;
 import com.netease.yunxin.kit.teamkit.ui.fun.activity.adapter.TeamSettingUserListAdapter;
-import com.netease.yunxin.kit.teamkit.ui.utils.ColorUtils;
 import com.yaoxin.appbase.activity.BaseActivity;
 import com.yaoxin.appbase.model.GroupInfoBean;
 import com.yaoxin.appbase.model.NetData;
@@ -49,8 +31,7 @@ import com.yaoxin.appbase.net.Constant;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.BaseEvent;
 import com.yaoxin.appbase.utils.DataUtil;
-import com.yaoxin.appbase.utils.GlideUtil;
-import com.yaoxin.appbase.utils.ToastUtils;
+import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.view.CommonGridSpacingItemDecoration;
 
 import org.greenrobot.eventbus.EventBus;
@@ -84,11 +65,10 @@ public class FunTeamSettingNew_TeamUsersActivity extends BaseActivity implements
         opt_type = getIntent().getStringExtra("opt_type");
         groupId = getIntent().getStringExtra("groupId");
         super.onCreate(savedInstanceState);
-        binding =
-                FunTeamSettingNewTeamUsersActivityBinding.inflate(getLayoutInflater());
+        binding = FunTeamSettingNewTeamUsersActivityBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         _initView();
-
+        StatusBarUtils.transtStatusBar(this, binding.funTeamSettingNewTeamUsersActivityNav);
         if ("1".equals(opt_type)) {
             binding.funTeamSettingNewTeamUsersActivityNav.getTitleView().setText("选择新群主");
             binding.funTeamSettingNewTeamUsersActivityConfirmTv.setVisibility(View.VISIBLE);
@@ -98,7 +78,6 @@ public class FunTeamSettingNew_TeamUsersActivity extends BaseActivity implements
             binding.funTeamSettingNewTeamUsersActivityConfirmTv.setVisibility(View.VISIBLE);
         }
         if (opt_type != null) {
-
             binding.funTeamSettingNewTeamUsersActivityConfirmTv.setVisibility(View.VISIBLE);
             binding.funTeamSettingNewTeamUsersActivityConfirmTv.setOnClickListener(this);
             adapter.opt_type = Integer.parseInt(opt_type);
@@ -110,8 +89,6 @@ public class FunTeamSettingNew_TeamUsersActivity extends BaseActivity implements
     @Override
     protected void _initView() {
         binding.funTeamSettingNewTeamUsersActivityNav.addCloseImageButton().setOnClickListener(this);
-
-
         binding.funTeamSettingNewTeamUsersActivitySearchEt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -143,10 +120,10 @@ public class FunTeamSettingNew_TeamUsersActivity extends BaseActivity implements
                 }
             }
         });
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 6);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 5);
         binding.funTeamSettingNewTeamUsersActivityRv.setLayoutManager(gridLayoutManager);
         CommonGridSpacingItemDecoration gridSpacingItemDecoration =
-                new CommonGridSpacingItemDecoration(6, SizeUtils.dp2px(10), false);
+                new CommonGridSpacingItemDecoration(5, SizeUtils.dp2px(10), false);
         binding.funTeamSettingNewTeamUsersActivityRv.addItemDecoration(gridSpacingItemDecoration);
         binding.funTeamSettingNewTeamUsersActivityRv.setAdapter(adapter);
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener<GroupInfoBean>() {
@@ -245,8 +222,10 @@ public class FunTeamSettingNew_TeamUsersActivity extends BaseActivity implements
     }
 
     void updateUI() {
+
         adapter.setItems(dataList);
         adapter.notifyDataSetChanged();
+
     }
 
     @Override

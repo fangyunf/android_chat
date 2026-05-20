@@ -26,6 +26,7 @@ public class TeamSettingUserInfoAdapter extends BaseQuickAdapter<GroupInfoBean, 
     List<GroupInfoBean> userInfoList;
 
     boolean isManager = false;
+
     public TeamSettingUserInfoAdapter(boolean isM, List<GroupInfoBean> userInfo) {
         isManager = isM;
         userInfoList = userInfo;
@@ -33,9 +34,7 @@ public class TeamSettingUserInfoAdapter extends BaseQuickAdapter<GroupInfoBean, 
 
     @Override
     protected void onBindViewHolder(@NonNull QuickViewHolder quickViewHolder, int i, @Nullable GroupInfoBean bean) {
-
         ImageView iv = quickViewHolder.getView(R.id.cell_fun_team_setting_users_head_iv);
-
         TextView tv = quickViewHolder.getView(R.id.cell_fun_team_setting_users_name_tv_role);
         if (i >= userInfoList.size()) {
             if (i == userInfoList.size()) {
@@ -48,7 +47,7 @@ public class TeamSettingUserInfoAdapter extends BaseQuickAdapter<GroupInfoBean, 
         } else {
             GroupInfoBean infoBean = userInfoList.get(i);
             quickViewHolder.setText(R.id.cell_fun_team_setting_users_name_tv, infoBean.name);
-            GlideUtil.yh_loadImageRoundedCorner(getContext(),iv,infoBean.avatar,26);
+            GlideUtil.yh_loadImageRoundedCorner(getContext(), iv, infoBean.avatar, 26);
             tv.setVisibility(View.VISIBLE);
             if (infoBean.rankState == 1) {
                 tv.setText("群主");
@@ -60,11 +59,13 @@ public class TeamSettingUserInfoAdapter extends BaseQuickAdapter<GroupInfoBean, 
 
         }
     }
+
     @NonNull
     @Override
     protected QuickViewHolder onCreateViewHolder(@NonNull Context context, @NonNull ViewGroup viewGroup, int i) {
-        return new QuickViewHolder(R.layout.cell_fun_team_setting_users,viewGroup);
+        return new QuickViewHolder(R.layout.cell_fun_team_setting_users, viewGroup);
     }
+
     protected int getItemCount(@NonNull List<? extends GroupInfoBean> items) {
         if (isManager) {
             return userInfoList.size() + 2;

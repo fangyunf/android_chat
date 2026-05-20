@@ -5,41 +5,40 @@
   -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#e7fcf7">
+    android:background="@color/color_white">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="fitXY"
-        android:src="@mipmap/jinzita_common_page_bg"
-        android:visibility="gone" />
-
-    <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
         <LinearLayout
+            android:background="@mipmap/concat_top_bg"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="200dp"
             android:orientation="vertical">
-
 
             <LinearLayout
                 android:id="@+id/contact_new_fragment_top_ll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                android:paddingHorizontal="15dp">
+                android:paddingHorizontal="15dp"
+                android:paddingTop="@dimen/dimen_25_dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:paddingRight="10dp"
-                    >
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:id="@+id/contact_new_fragment_search_iv"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@mipmap/conversation_list_index_notice_icon"
+                        android:visibility="invisible" />
 
                     <TextView
                         android:id="@+id/fun_conversation_fragment_title_tv"
@@ -47,79 +46,203 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:paddingLeft="60dp"
-                        android:text="好友"
-                        android:textColor="@color/color_black"
-                        android:textSize="20sp" />
-
-                    <ImageView
-                        android:id="@+id/contact_new_fragment_search_iv"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:layout_marginHorizontal="10dp"
-                        android:src="@mipmap/conversation_list_index_notice_icon" />
+                        android:text="联系人"
+                        android:textColor="@color/color_white"
+                        android:textSize="16sp" />
 
                     <ImageView
                         android:id="@+id/contact_new_fragment_more_iv"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:src="@mipmap/conversation_index_pop_more" />
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/saoyisao" />
                 </LinearLayout>
-
-
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/fun_conversation_fragment_search_ll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="@dimen/dimen_10_dp"
-                android:background="@drawable/home_seach_bg"
-                android:gravity="center">
+                android:orientation="vertical">
 
-                <EditText
-                    android:id="@+id/fun_conversation_fragment_et"
+
+                <LinearLayout
+                    android:id="@+id/contact_new_fragment_search_ll"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dimen_48_dp"
-                    android:autofillHints=""
-                    android:background="@color/transparent"
-                    android:drawableStart="@mipmap/conversation_list_index_search_icon1"
-                    android:drawablePadding="5dp"
-                    android:hint="搜索"
-                    android:maxLines="1"
-                    android:paddingStart="15dp"
-                    android:paddingEnd="15dp"
-                    android:textColor="@color/color_333333"
-                    android:textColorHint="#8E8E93"
-                    android:textSize="16dp" />
+                    android:layout_height="40dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="13dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="@drawable/bg_white_rounded_10"
+                    android:gravity="center"
+                    android:paddingHorizontal="@dimen/dimen_16_dp">
 
-            </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/contact_new_fragment_search_ll"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="@dimen/dimen_16_dp"
-                android:background="@drawable/bg_white_rounded_12"
-                android:gravity="center"
-                android:visibility="gone">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="搜索"
+                        android:textColor="#ffa0a0a0"
+                        android:textSize="15sp" />
 
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginRight="10dp"
-                    android:src="@mipmap/conversation_list_index_search_icon1" />
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:src="@mipmap/icon_sousou" />
+                </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="搜索"
-                    android:textColor="#8E8E93"
-                    android:textSize="16sp" />
+                    android:layout_marginTop="@dimen/dimen_10_dp"
+                    android:layout_marginBottom="@dimen/dimen_14_dp"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="@dimen/dimen_16_dp">
+
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <LinearLayout
+                            android:id="@+id/layoutNewFriend"
+                            android:layout_width="match_parent"
+                            android:layout_height="62dp"
+                            android:layout_marginTop="@dimen/dimen_4_dp"
+                            android:background="@drawable/fun_concat_top_bg"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="22dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/icon_new_pengyou" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="20dp"
+                                android:layout_marginTop="@dimen/dimen_5_dp"
+                                android:text="新的朋友"
+                                android:textColor="#ffffffff"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/caontact_list_header_new_friend_num_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="18dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_gravity="right"
+                            android:background="@drawable/fun_bg_red_rounded_9"
+                            android:gravity="center"
+                            android:minWidth="18dp"
+                            android:text="99"
+                            android:textColor="@color/color_white"
+                            android:textSize="12sp"
+                            android:visibility="gone" />
+
+                    </FrameLayout>
+
+                    <LinearLayout
+                        android:id="@+id/layoutMyGrop"
+                        android:layout_width="0dp"
+                        android:layout_height="62dp"
+                        android:layout_marginLeft="@dimen/dimen_16_dp"
+                        android:layout_marginTop="@dimen/dimen_4_dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/fun_concat_top_bg"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/icon_new_group" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="20dp"
+                            android:layout_marginTop="@dimen/dimen_5_dp"
+                            android:text="我的群聊"
+                            android:textColor="#ffffffff"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dimen_16_dp"
+                        android:layout_weight="1">
+
+                        <LinearLayout
+                            android:id="@+id/layoutGropNotice"
+                            android:layout_width="match_parent"
+                            android:layout_height="62dp"
+                            android:layout_marginTop="@dimen/dimen_4_dp"
+                            android:background="@drawable/fun_concat_top_bg"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="22dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/icon_qun_message" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="20dp"
+                                android:layout_marginTop="@dimen/dimen_5_dp"
+                                android:text="群通知"
+                                android:textColor="#ffffffff"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/team_nontice_num"
+                            android:layout_width="wrap_content"
+                            android:layout_height="18dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_gravity="right"
+                            android:background="@drawable/fun_bg_red_rounded_9"
+                            android:gravity="center"
+                            android:minWidth="18dp"
+                            android:text="99"
+                            android:textColor="@color/color_white"
+                            android:textSize="12sp"
+                            android:visibility="gone" />
+
+                    </FrameLayout>
+
+                    <LinearLayout
+                        android:id="@+id/layoutKehu"
+                        android:layout_width="0dp"
+                        android:layout_height="62dp"
+                        android:layout_marginLeft="@dimen/dimen_16_dp"
+                        android:layout_marginTop="@dimen/dimen_4_dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/fun_concat_top_bg"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/icon_guanfang_kehu" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="20dp"
+                            android:layout_marginTop="@dimen/dimen_5_dp"
+                            android:text="官方客服"
+                            android:textColor="#ffffffff"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
 
             </LinearLayout>
 
@@ -180,7 +303,6 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-
                 android:gravity="center_vertical|center">
 
                 <TextView
@@ -219,7 +341,29 @@
                 android:layout_height="match_parent"
                 android:background="@color/transparent" />
 
-            <!--字母导航栏（只在好友列表显示）-->
+
+            <LinearLayout
+                android:id="@+id/layoutNoData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="133dp"
+                    android:layout_height="138dp"
+                    android:src="@drawable/icon_zhanwushuju" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="暂无联系人"
+                    android:textColor="@color/color_999999" />
+
+            </LinearLayout>
+
+            <!--字母导航栏-->
             <com.nanchen.wavesidebar.WaveSideBarView
                 android:id="@+id/contact_new_fragment_main_side_bar"
                 android:layout_width="match_parent"
@@ -227,9 +371,7 @@
                 android:padding="8dp"
                 app:sidebar_lazy_respond="false"
                 app:sidebar_text_color="@color/black" />
-
         </FrameLayout>
-
     </LinearLayout>
 
 </RelativeLayout>

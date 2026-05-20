@@ -25,4 +25,19 @@
     <style name="TeamSelectorRadioBtn" parent="Widget.AppCompat.CompoundButton.RadioButton">
         <item name="android:button">@drawable/bg_team_radio_button_selector</item>
     </style>
+
+    <!-- 布局预览用：TabLayout 等 Material 组件需要 MaterialComponents 主题 -->
+    <style name="TeamKitLayoutPreviewTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/app_theme_color</item>
+        <item name="colorAccent">@color/app_theme_color</item>
+    </style>
+
+    <style name="MyTabLayoutSmall" parent="Widget.MaterialComponents.TabLayout">
+        <item name="tabTextAppearance">@style/MyTabTextAppearanceSmall</item>
+        <item name="android:minHeight">0dp</item>
+    </style>
+
+    <style name="MyTabTextAppearanceSmall" parent="TextAppearance.MaterialComponents.Button">
+        <item name="android:textSize">16sp</item>
+    </style>
 </resources>

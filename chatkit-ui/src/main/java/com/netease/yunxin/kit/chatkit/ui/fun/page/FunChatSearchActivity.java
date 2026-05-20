@@ -24,6 +24,9 @@ import com.netease.yunxin.kit.common.utils.KeyboardUtils;
 import com.netease.yunxin.kit.common.utils.SizeUtils;
 import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
 import com.netease.yunxin.kit.corekit.route.XKitRouter;
+import android.view.ViewGroup;
+import com.yaoxin.appbase.utils.BarUtils;
+import com.yaoxin.appbase.utils.StatusBarUtils;
 
 /** Fun皮肤搜索页面，继承自ChatSearchBaseActivity */
 public class FunChatSearchActivity extends ChatSearchBaseActivity {
@@ -33,7 +36,7 @@ public class FunChatSearchActivity extends ChatSearchBaseActivity {
 
   @Override
   protected void initViewAndSetContentView(@Nullable Bundle savedInstanceState) {
-    changeStatusBarColor(R.color.fun_chat_secondary_page_bg_color);
+    changeStatusBarColor(com.yaoxin.appbase.R.color.color_F2F2F2);
     viewBinding = FunChatSearchMessageActivityBinding.inflate(getLayoutInflater());
     setContentView(viewBinding.getRoot());
     searchRV = viewBinding.searchRv;
@@ -41,7 +44,14 @@ public class FunChatSearchActivity extends ChatSearchBaseActivity {
     clearIV = viewBinding.clearIv;
     emptyLayout = viewBinding.emptyLayout;
     viewBinding.searchRv.addItemDecoration(getItemDecoration());
-    viewBinding.cancelBtn.setOnClickListener(view -> finish());
+
+    StatusBarUtils.setStatusBarLightMode(this, true, true);
+    ViewGroup.LayoutParams params = viewBinding.searchTitleBar.getLayoutParams();
+    params.height = params.height + BarUtils.getStatusBarHeight();
+    viewBinding.searchTitleBar.setLayoutParams(params);
+    viewBinding.searchTitleBar.setPadding(0, BarUtils.getStatusBarHeight(), 0, 0);
+    viewBinding.searchTitleBar.addCloseImageButton().setOnClickListener(v -> finish());
+    viewBinding.cancelBtn.setOnClickListener(v -> finish());
   }
 
   @Override

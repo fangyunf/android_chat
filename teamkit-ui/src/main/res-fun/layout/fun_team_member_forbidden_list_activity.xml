@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2022 NetEase, Inc. All rights reserved.
   ~ Use of this source code is governed by a MIT license that can be
   ~ found in the LICENSE file.
@@ -24,8 +23,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="SpUsage"
-        />
+        tools:ignore="SpUsage" />
 
     <ImageView
         android:id="@+id/ivBack"
@@ -90,7 +88,7 @@
         android:layout_marginTop="@dimen/dimen_191_dp"
         android:layout_width="@dimen/dimen_118_dp"
         android:src="@drawable/fun_ic_contact_empty"
-        android:layout_height="@dimen/dimen_96_dp"/>
+        android:layout_height="@dimen/dimen_96_dp" />
 
     <TextView
         android:id="@+id/tvEmpty"
@@ -100,13 +98,13 @@
         android:gravity="center"
         app:layout_constraintTop_toBottomOf="@id/ivEmpty"
         android:text="@string/team_search_result_empty"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/groupEmtpy"
         app:constraint_referenced_ids="ivEmpty,tvEmpty"
         android:visibility="gone"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,16 +5,24 @@
 package com.netease.yunxin.kit.conversationkit.ui;
 
 import android.content.Context;
+import android.text.TextUtils;
 import com.netease.nimlib.sdk.msg.attachment.NetCallAttachment;
 import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 import com.netease.yunxin.kit.chatkit.model.ConversationInfo;
 import com.netease.yunxin.kit.corekit.im.model.AttachmentContent;
 import com.yaoxin.appbase.utils.AESUtil;
+import com.yaoxin.appbase.utils.ChatDraftHelper;
 
 public class ConversationCustom {
 
   public String customContentText(Context context, ConversationInfo conversationInfo) {
     if (conversationInfo != null && context != null) {
+      String draftPreview =
+          ChatDraftHelper.formatDraftPreview(
+              context, conversationInfo.getContactId(), conversationInfo.getSessionType());
+      if (!TextUtils.isEmpty(draftPreview)) {
+        return draftPreview;
+      }
       MsgTypeEnum typeEnum = conversationInfo.getMsgType();
       switch (typeEnum) {
         case notification:

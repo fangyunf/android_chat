@@ -4,33 +4,19 @@
 
 package com.netease.yunxin.kit.teamkit.ui.fun.activity;
 
-import static com.netease.yunxin.kit.corekit.im.utils.RouterConstant.KEY_TEAM_ID;
-import static com.netease.yunxin.kit.corekit.im.utils.RouterConstant.REQUEST_CONTACT_SELECTOR_KEY;
-
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.chad.library.adapter4.BaseQuickAdapter;
 import com.google.gson.Gson;
-import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
-import com.netease.nimlib.sdk.msg.model.StickTopSessionInfo;
-import com.netease.yunxin.kit.chatkit.repo.ConversationRepo;
 import com.netease.yunxin.kit.common.ui.dialog.ChoiceListener;
 import com.netease.yunxin.kit.common.ui.dialog.CommonChoiceDialog;
-import com.netease.yunxin.kit.corekit.im.provider.FetchCallback;
 import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
 import com.netease.yunxin.kit.corekit.route.XKitRouter;
 import com.netease.yunxin.kit.teamkit.ui.databinding.FunTeamSettingGroupManagerActivityBinding;
-import com.netease.yunxin.kit.teamkit.ui.databinding.FunTeamSettingNewActivityBinding;
 import com.netease.yunxin.kit.teamkit.ui.fun.activity.adapter.TeamSettingUserInfoAdapter;
 import com.yaoxin.appbase.activity.BaseActivity;
 import com.yaoxin.appbase.model.GroupInfoBean;
@@ -39,16 +25,15 @@ import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.BaseEvent;
-import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.GlideUtil;
 import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
+import com.yaoxin.appbase.view.LoadingDialog;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -86,18 +71,16 @@ public class FunTeamSetting_GroupManagerActivity extends BaseActivity implements
         setContentView(binding.getRoot());
         StatusBarUtils.transtStatusBar(this, binding.funTeamSettingGroupManagerActivityNav);
         _initView();
-
     }
 
     @Override
     protected void _initView() {
         binding.funTeamSettingGroupManagerActivityNav.addCloseImageButton().setOnClickListener(this);
-
         binding.funTeamSettingGroupManagerActivityJiesanTv.setOnClickListener(this);
-
-
         binding.funTeamSettingGroupManagerActivityYaoqing.viewTitleDetailArrowTemplateTitleTv.setText("入群需审核");
+        binding.funTeamSettingGroupManagerActivityYaoqing.viewTitleDetailArrowTemplateDetailTv.setVisibility(View.GONE);
         binding.funTeamSettingGroupManagerActivityYaoqing.viewTitleDetailArrowTemplateDetailTv.setText("启用后，需群主管理员确认才能邀请群成员");
+        binding.funTeamSettingGroupManagerActivityYaoqing.viewTitleDetailArrowTemplateLl.setBackgroundResource(com.yaoxin.appbase.R.drawable.bg_white_rounded_10);
         binding.funTeamSettingGroupManagerActivityYaoqing.viewTitleDetailArrowTemplateSwitch.setOnClickListener(this);
 
         binding.funTeamSettingGroupManagerActivityQunzhuZhuanrang.viewTitleArrowTv.setText("转让群主");
@@ -106,20 +89,24 @@ public class FunTeamSetting_GroupManagerActivity extends BaseActivity implements
         binding.funTeamSettingGroupManagerActivityGuanliyuanSet.viewTitleArrowTv.setText("设置管理员");
         binding.funTeamSettingGroupManagerActivityGuanliyuanSet.viewTitleArrowLl.setOnClickListener(this);
 
-
         binding.funTeamSettingGroupManagerActivityChengyuanJinyan.viewTitleDetailArrowTemplateTitleTv.setText("全员禁言");
         binding.funTeamSettingGroupManagerActivityChengyuanJinyan.viewTitleDetailArrowTemplateDetailTv.setText("启用后，群成员无法发送消息，群主管理员除外");
+        binding.funTeamSettingGroupManagerActivityChengyuanJinyan.viewTitleDetailArrowTemplateDetailTv.setVisibility(View.GONE);
+        binding.funTeamSettingGroupManagerActivityChengyuanJinyan.viewTitleDetailArrowTemplateLl.setBackgroundResource(com.yaoxin.appbase.R.drawable.bg_white_rounded_10);
         binding.funTeamSettingGroupManagerActivityChengyuanJinyan.viewTitleDetailArrowTemplateSwitch.setOnClickListener(this);
-
 
         binding.funTeamSettingGroupManagerActivityJinzhiLingquGouwuquan.viewTitleDetailArrowTemplateTitleTv.setText("禁止领取红包");
         binding.funTeamSettingGroupManagerActivityJinzhiLingquGouwuquan.viewTitleDetailArrowTemplateDetailTv.setText("启用后，群成员无法通过该群领红包");
         binding.funTeamSettingGroupManagerActivityJinzhiLingquGouwuquan.viewTitleDetailArrowTemplateSwitch.setOnClickListener(this);
 
+        binding.funTeamSettingGroupManagerActivityJinzhiLingquGouwuquan.viewTitleDetailArrowTemplateDetailTv.setVisibility(View.GONE);
+        binding.funTeamSettingGroupManagerActivityJinzhiLingquGouwuquan.viewTitleDetailArrowTemplateLl.setBackgroundResource(com.yaoxin.appbase.R.drawable.bg_white_rounded_10);
 
         binding.funTeamSettingGroupManagerActivityQunchengyuanBaohu.viewTitleDetailArrowTemplateTitleTv.setText("群成员保护模式");
         binding.funTeamSettingGroupManagerActivityQunchengyuanBaohu.viewTitleDetailArrowTemplateDetailTv.setText("启用后，群成员无法通过该群互加好友");
         binding.funTeamSettingGroupManagerActivityQunchengyuanBaohu.viewTitleDetailArrowTemplateSwitch.setOnClickListener(this);
+        binding.funTeamSettingGroupManagerActivityQunchengyuanBaohu.viewTitleDetailArrowTemplateDetailTv.setVisibility(View.GONE);
+        binding.funTeamSettingGroupManagerActivityQunchengyuanBaohu.viewTitleDetailArrowTemplateLl.setBackgroundResource(com.yaoxin.appbase.R.drawable.bg_white_rounded_10);
 
         binding.funTeamSettingGroupManagerActivityJinzhiLingquMingdan.viewTitleArrowLl.setVisibility(View.VISIBLE);
         binding.funTeamSettingGroupManagerActivityJinzhiLingquMingdan.viewTitleArrowTv.setText("禁止领取红包名单");
@@ -127,10 +114,11 @@ public class FunTeamSetting_GroupManagerActivity extends BaseActivity implements
 
         binding.funTeamSettingGroupManagerActivityQunshengji.viewTitleArrowTv.setText("群升级");
         binding.funTeamSettingGroupManagerActivityQunshengji.viewTitleArrowLl.setOnClickListener(this);
+        binding.funTeamSettingGroupManagerActivityQunshengji.viewTitleArrowLl.setVisibility(View.GONE);
 
         binding.funTeamSettingGroupManagerActivityQunheimingdan.viewTitleArrowTv.setText("群黑名单");
         binding.funTeamSettingGroupManagerActivityQunheimingdan.viewTitleArrowLl.setOnClickListener(this);
-
+        binding.funTeamSettingGroupManagerActivityQunheimingdan.viewTitleArrowLl.setVisibility(View.GONE);
 
     }
 
@@ -142,7 +130,6 @@ public class FunTeamSetting_GroupManagerActivity extends BaseActivity implements
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-
                         groupInfoBean = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
                         updateUI();
                     }
@@ -152,15 +139,29 @@ public class FunTeamSetting_GroupManagerActivity extends BaseActivity implements
 
                     }
                 });
+
+        //获取群信息
+        HttpUtil.apiW().group_groupHomeInfo(groupId).enqueue(new CommonCallback<NetData>() {
+            @Override
+            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                GroupInfoBean groupInfoBean = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
+                GlideUtil.yh_loadImageRoundedCorner(FunTeamSetting_GroupManagerActivity.this, binding.funTeamSettingNewActivityTeamIcon, groupInfoBean.head, 30);
+                binding.tvName.setText(groupInfoBean.name);
+                binding.funTeamSettingNewActivityIdTv.setText("共" + groupInfoBean.userInfos.size() + "人");
+            }
+
+            @Override
+            public void Failure(Call<NetData> call, Throwable t) {
+                LoadingDialog.dismissDialog();
+            }
+        });
     }
 
     void updateUI() {
-
         binding.funTeamSettingGroupManagerActivityYaoqing.viewTitleDetailArrowTemplateSwitch.setSelected(groupInfoBean.inviteState == 0);
         binding.funTeamSettingGroupManagerActivityChengyuanJinyan.viewTitleDetailArrowTemplateSwitch.setSelected(groupInfoBean.shutupState == 0);
         binding.funTeamSettingGroupManagerActivityJinzhiLingquGouwuquan.viewTitleDetailArrowTemplateSwitch.setSelected(groupInfoBean.nonCollectionState == 0);
         binding.funTeamSettingGroupManagerActivityQunchengyuanBaohu.viewTitleDetailArrowTemplateSwitch.setSelected(groupInfoBean.addFriendsState == 0);
-
     }
 
 
@@ -226,7 +227,6 @@ public class FunTeamSetting_GroupManagerActivity extends BaseActivity implements
             activityResultLauncher.launch(intent);
 
         } else if (view == binding.funTeamSettingGroupManagerActivityJinzhiLingquMingdan.viewTitleArrowLl) {
-
             HashMap map = new HashMap();
             map.put("groupId", groupId);
             FunTeamSettingNew_ForbiddenListActivity.start(FunTeamSettingNew_ForbiddenListActivity.class, this, map);
@@ -250,9 +250,7 @@ public class FunTeamSetting_GroupManagerActivity extends BaseActivity implements
         super.callBackResult(data);
 
         ArrayList<String> userIds = data.getStringArrayListExtra("userIds");
-
         String opt_type = data.getStringExtra("opt_type");
-
         RegisterBean bean = new RegisterBean();
         bean.groupId = groupId;
 

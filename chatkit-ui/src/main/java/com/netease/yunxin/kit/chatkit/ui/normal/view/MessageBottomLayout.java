@@ -406,6 +406,24 @@ public class MessageBottomLayout extends FrameLayout
     return mBinding.chatMessageInputEt.getText().toString();
   }
 
+  /** 恢复未发送的输入草稿（仅当输入框为空时生效） */
+  public void restoreDraftText(String draft) {
+    if (TextUtils.isEmpty(draft) || mMute) {
+      return;
+    }
+    if (!TextUtils.isEmpty(mBinding.chatMessageInputEt.getText())) {
+      return;
+    }
+    clearInputEditTextChange();
+    MessageHelper.identifyExpressionForEditMsg(
+        getContext(),
+        mBinding.chatMessageInputEt,
+        draft,
+        aitTextWatcher != null ? aitTextWatcher.getAitContactsModel() : null);
+    mBinding.chatMessageInputEt.setSelection(mBinding.chatMessageInputEt.getText().length());
+    mBinding.chatMessageInputEt.addTextChangedListener(msgInputTextWatcher);
+  }
+
   public void switchRichInput(boolean titleForces, String title, String content) {
     hideCurrentInput();
     mInputState = InputState.input;

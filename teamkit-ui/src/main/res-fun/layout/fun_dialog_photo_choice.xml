@@ -10,6 +10,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/fun_bg_team_dialog"
+    android:fitsSystemWindows="true"
     android:paddingBottom="30dp">
 
     <TextView

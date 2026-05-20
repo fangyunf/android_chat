@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingTop="12dp"
+    android:paddingBottom="24dp">
+
+    <TextView
+        android:id="@+id/tvCancel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:paddingLeft="24dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="16dp"
+        android:text="取消"
+        android:textColor="#4D7DFE"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvEditName"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="24dp"
+        android:background="@drawable/bg_group_edit_action_btn"
+        android:gravity="center"
+        android:text="修改群名称"
+        android:textColor="#4D7DFE"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/tvEditNotice"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="24dp"
+        android:background="@drawable/bg_group_edit_action_btn"
+        android:gravity="center"
+        android:text="修改群公告"
+        android:textColor="#4D7DFE"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/tvEditAvatar"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="24dp"
+        android:background="@drawable/bg_group_edit_action_btn"
+        android:gravity="center"
+        android:text="修改群头像"
+        android:textColor="#4D7DFE"
+        android:textSize="18sp" />
+</LinearLayout>

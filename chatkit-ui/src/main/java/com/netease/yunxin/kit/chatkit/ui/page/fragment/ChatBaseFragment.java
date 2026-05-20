@@ -68,6 +68,8 @@ import com.netease.yunxin.kit.chatkit.ui.custom.RichTextAttachment;
 import com.netease.yunxin.kit.chatkit.ui.dialog.ChatBaseForwardSelectDialog;
 import com.netease.yunxin.kit.chatkit.ui.fun.page.FunSendRedPacketActivity;
 import com.netease.yunxin.kit.chatkit.ui.fun.page.FunSendZhuanZhangActivity;
+import com.netease.yunxin.kit.chatkit.ui.fun.view.FunChatView;
+import com.netease.yunxin.kit.chatkit.ui.normal.view.ChatView;
 import com.netease.yunxin.kit.chatkit.ui.interfaces.IChatView;
 import com.netease.yunxin.kit.chatkit.ui.interfaces.IMessageItemClickListener;
 import com.netease.yunxin.kit.chatkit.ui.interfaces.IMessageLoadHandler;
@@ -110,6 +112,7 @@ import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.Constant;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.BaseEvent;
+import com.yaoxin.appbase.utils.ChatDraftHelper;
 import com.yaoxin.appbase.utils.CommonCallBack;
 import com.yaoxin.appbase.utils.DialogAlertUtil;
 import com.yaoxin.appbase.utils.ImageUtil;
@@ -242,6 +245,15 @@ public abstract class ChatBaseFragment extends BaseFragment {
         if (!NetworkUtils.isConnected()) {
             initToFetchData();
         }
+        if (rootView != null) {
+            rootView.post(this::restoreChatInputDraft);
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        saveChatInputDraft();
     }
 
     @Override
@@ -433,6 +445,7 @@ public abstract class ChatBaseFragment extends BaseFragment {
                     if (aitManager != null) {
                         aitManager.reset();
                     }
+                    clearChatInputDraft();
                     return true;
                 }
 
@@ -469,6 +482,7 @@ public abstract class ChatBaseFragment extends BaseFragment {
                     if (aitManager != null) {
                         aitManager.reset();
                     }
+                    clearChatInputDraft();
                     return true;
                 }
 
@@ -1904,5 +1918,52 @@ public abstract class ChatBaseFragment extends BaseFragment {
     }
 
     public void updateCurrentUserInfo() {
+    }
+
+    private String getChatInputDraftText() {
+        if (chatView instanceof FunChatView) {
+            return ((FunChatView) chatView).getBottomInputLayout().getRichInputContent();
+        }
+        if (chatView instanceof ChatView) {
+            return ((ChatView) chatView).getBottomInputLayout().getRichInputContent();
+        }
+        return "";
+    }
+
+    private void restoreChatInputDraft() {
+        if (TextUtils.isEmpty(sessionID) || sessionType == null || getContext() == null) {
+            return;
+        }
+        String draft = ChatDraftHelper.getDraft(getContext(), sessionID, sessionType);
+        if (TextUtils.isEmpty(draft)) {
+            return;
+        }
+        if (chatView instanceof FunChatView) {
+            com.netease.yunxin.kit.chatkit.ui.fun.view.MessageBottomLayout layout =
+                    ((FunChatView) chatView).getBottomInputLayout();
+            if (!layout.isMute()) {
+                layout.restoreDraftText(draft);
+            }
+        } else if (chatView instanceof ChatView) {
+            com.netease.yunxin.kit.chatkit.ui.normal.view.MessageBottomLayout layout =
+                    ((ChatView) chatView).getBottomInputLayout();
+            if (!layout.isMute()) {
+                layout.restoreDraftText(draft);
+            }
+        }
+    }
+
+    private void saveChatInputDraft() {
+        if (TextUtils.isEmpty(sessionID) || sessionType == null || getContext() == null) {
+            return;
+        }
+        ChatDraftHelper.saveDraft(getContext(), sessionID, sessionType, getChatInputDraftText());
+    }
+
+    private void clearChatInputDraft() {
+        if (TextUtils.isEmpty(sessionID) || sessionType == null || getContext() == null) {
+            return;
+        }
+        ChatDraftHelper.clearDraft(getContext(), sessionID, sessionType);
     }
 }

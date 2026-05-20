@@ -84,4 +84,13 @@
         <item name="android:windowEnterAnimation">@anim/push_bottom_in</item>
         <item name="android:windowExitAnimation">@anim/push_bottom_out</item>
     </style>
+
+    <style name="MyTabLayoutSmall" parent="Widget.MaterialComponents.TabLayout">
+        <item name="tabTextAppearance">@style/MyTabTextAppearanceSmall</item>
+        <item name="android:minHeight">0dp</item>
+    </style>
+
+    <style name="MyTabTextAppearanceSmall">
+        <item name="android:textSize">16sp</item>
+    </style>
 </resources>

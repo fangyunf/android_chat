@@ -57,6 +57,7 @@ import com.scwang.smart.refresh.layout.listener.DefaultRefreshFooterCreator;
 import com.scwang.smart.refresh.layout.listener.DefaultRefreshHeaderCreator;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.turunsi.yaoxin.crash.AppCrashHandler;
+import com.turunsi.yaoxin.login.AccountBAppealActivity;
 import com.turunsi.yaoxin.login.LoginActivity;
 import com.turunsi.yaoxin.login.OtherPlaceLoginActivity;
 import com.turunsi.yaoxin.login.RealNameSetActivity;
@@ -359,6 +360,7 @@ public class IMApplication extends MultiDexApplication {
                                 || activity instanceof RealNameSetActivity
                                 || activity instanceof BaseWebViewActivity
                                 || activity instanceof OtherPlaceLoginActivity
+                                || activity instanceof AccountBAppealActivity
                                 || activity instanceof WelcomeLoginActivity)
                                 && !coldStart) {
                             activity.finish();

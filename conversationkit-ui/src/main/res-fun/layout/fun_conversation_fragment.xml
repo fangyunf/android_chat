@@ -9,19 +9,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fafafa">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scaleType="fitXY"
-        android:src="@mipmap/jinzita_common_page_bg"
-        android:visibility="gone" />
+    android:background="@mipmap/concat_top_bg">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#e7fcf7"
+        android:background="@android:color/transparent"
         android:orientation="vertical">
 
         <!--        android:background="@drawable/home_bg"-->
@@ -61,7 +55,7 @@
                         android:gravity="center"
                         android:paddingLeft="@dimen/dimen_35_dp"
                         android:text="消息"
-                        android:textColor="@color/black"
+                        android:textColor="@color/color_white"
                         android:textSize="20sp" />
 
                     <ImageView
@@ -69,14 +63,15 @@
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:layout_marginHorizontal="10dp"
-                        android:src="@mipmap/conversation_list_index_notice_icon" />
+                        android:src="@mipmap/conversation_list_index_notice_icon"
+                        app:tint="@color/color_white" />
 
                     <ImageView
                         android:id="@+id/fun_conversation_fragment_more_iv"
-
                         android:layout_width="25dp"
                         android:layout_height="25dp"
-                        android:src="@mipmap/conversation_index_pop_more" />
+                        android:src="@mipmap/conversation_index_pop_more"
+                        app:tint="@color/color_white" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -88,7 +83,7 @@
                 android:layout_marginHorizontal="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="@dimen/dimen_10_dp"
-                android:background="@drawable/home_seach_bg"
+                android:background="@drawable/bg_white_rounded_10"
                 android:gravity="center">
 
                 <EditText
@@ -139,7 +134,7 @@
                         app:mvDirection="bottom_to_top"
                         app:mvInterval="3000"
                         app:mvSingleLine="true"
-                        app:mvTextColor="#00C591"
+                        app:mvTextColor="@color/app_theme_color"
                         app:mvTextSize="12sp" />
 
                 </LinearLayout>

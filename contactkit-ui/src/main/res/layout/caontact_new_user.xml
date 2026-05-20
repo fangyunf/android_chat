@@ -41,10 +41,10 @@
                 app:riv_corner_radius="22dp" />
 
             <ImageView
+                android:visibility="gone"
                 android:id="@+id/tvGradbg"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone" />
+                android:layout_height="match_parent" />
 
         </FrameLayout>
 
@@ -60,10 +60,10 @@
         <ImageView
             android:id="@+id/ivGrade"
             android:layout_width="@dimen/dimen_60_dp"
-            android:layout_height="@dimen/dimen_30_dp"
+            android:layout_height="@dimen/dimen_20_dp"
             android:layout_marginLeft="5dp"
-            android:src="@mipmap/mine_grade_level_1"
             android:visibility="gone" />
+
     </LinearLayout>
 
     <View
