@@ -12,6 +12,40 @@
               android:orientation="vertical"
               android:visibility="visible">
 
+    <LinearLayout
+        android:id="@+id/emoji_segment_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="6dp"
+        android:background="@drawable/bg_emoji_segment_track"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="2dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/emoji_segment_emoji_tv"
+            android:layout_width="72dp"
+            android:layout_height="32dp"
+            android:background="@drawable/bg_emoji_segment_item"
+            android:gravity="center"
+            android:text="@string/chat_emoji_tab_emoji"
+            android:textColor="@color/color_333333"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/emoji_segment_sticker_tv"
+            android:layout_width="72dp"
+            android:layout_height="32dp"
+            android:background="@drawable/bg_emoji_segment_item"
+            android:gravity="center"
+            android:text="@string/chat_emoji_tab_sticker"
+            android:textColor="@color/color_333333"
+            android:textSize="14sp" />
+    </LinearLayout>
+
     <View
         android:id="@+id/top_divider_line"
         android:layout_height="2px"
@@ -19,14 +53,30 @@
         android:background="@color/color_d9d9d9"
         android:visibility="gone"/>
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/scrPlugin"
-        android:layout_width="fill_parent"
+    <FrameLayout
+        android:layout_width="match_parent"
         android:layout_height="152dp"
         android:layout_marginBottom="4dp"
-        android:layout_marginTop="4dp"
-        android:overScrollMode="never"
-        android:scrollbars="none"/>
+        android:layout_marginTop="4dp">
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/scrPlugin"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never"
+            android:scrollbars="none" />
+
+        <GridView
+            android:id="@+id/custom_sticker_gv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:horizontalSpacing="6dp"
+            android:numColumns="4"
+            android:padding="8dp"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="6dp"
+            android:visibility="gone" />
+    </FrameLayout>
 
     <LinearLayout
         android:id="@+id/layout_scr_bottom"

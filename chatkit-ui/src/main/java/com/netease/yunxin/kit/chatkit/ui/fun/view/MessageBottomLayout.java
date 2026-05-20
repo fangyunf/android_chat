@@ -11,6 +11,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.pm.PackageManager;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -45,7 +46,6 @@ import com.netease.yunxin.kit.alog.ALog;
 import com.netease.yunxin.kit.chatkit.repo.ChatRepo;
 import com.netease.yunxin.kit.chatkit.ui.R;
 import com.netease.yunxin.kit.chatkit.ui.common.MessageHelper;
-import com.netease.yunxin.kit.chatkit.ui.custom.StickerAttachment;
 import com.netease.yunxin.kit.chatkit.ui.databinding.FunChatMessageBottomViewBinding;
 import com.netease.yunxin.kit.chatkit.ui.fun.FunAudioRecordDialog;
 import com.netease.yunxin.kit.chatkit.ui.fun.page.FunSendRedPacketActivity;
@@ -55,7 +55,11 @@ import com.netease.yunxin.kit.chatkit.ui.model.ChatMessageBean;
 import com.netease.yunxin.kit.chatkit.ui.view.IItemActionListener;
 import com.netease.yunxin.kit.chatkit.ui.view.ait.AitManager;
 import com.netease.yunxin.kit.chatkit.ui.view.ait.AitTextChangeListener;
+import com.netease.yunxin.kit.chatkit.ui.view.emoji.CustomStickerStore;
+import com.netease.yunxin.kit.chatkit.ui.view.emoji.EmojiPickerView;
 import com.netease.yunxin.kit.chatkit.ui.view.emoji.IEmojiSelectedListener;
+import com.yaoxin.appbase.net.Constant;
+import com.yaoxin.appbase.utils.UploadUtil;
 import com.netease.yunxin.kit.chatkit.ui.view.input.ActionConstants;
 import com.netease.yunxin.kit.chatkit.ui.view.input.ActionsPanel;
 import com.netease.yunxin.kit.chatkit.ui.view.input.InputProperties;
@@ -84,6 +88,7 @@ import com.yaoxin.appbase.utils.DialogAlertUtil;
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -93,6 +98,8 @@ import retrofit2.Response;
 public class MessageBottomLayout extends FrameLayout
         implements IAudioRecordCallback, AitTextChangeListener, IItemActionListener {
     public static final String TAG = "MessageBottomLayout";
+    /** 单次最多可添加的表情张数 */
+    private static final int MAX_CUSTOM_STICKER_PICK = 9;
     private static final long SHOW_DELAY_TIME = 200;
     private FunChatMessageBottomViewBinding mBinding;
     private IMessageProxy mProxy;
@@ -189,9 +196,7 @@ public class MessageBottomLayout extends FrameLayout
 
                     @Override
                     public void onStickerSelected(String categoryName, String stickerName) {
-                        MsgAttachment attachment = new StickerAttachment(categoryName, stickerName);
-                        mProxy.sendCustomMessage(
-                                attachment, getContext().getString(R.string.chat_message_custom_sticker));
+                        sendCustomStickerMessage(stickerName);
                     }
 
                     @Override
@@ -395,6 +400,18 @@ public class MessageBottomLayout extends FrameLayout
                 });
 
         mBinding.emojiPickerView.setWithSticker(true);
+        mBinding.emojiPickerView.setOnCustomStickerActionListener(
+                new EmojiPickerView.OnCustomStickerActionListener() {
+                    @Override
+                    public void onRequestAddCustomSticker() {
+                        openAddCustomStickerPicker();
+                    }
+
+                    @Override
+                    public void onCustomStickerDelete(String stickerId) {
+                        showDeleteCustomStickerDialog(stickerId);
+                    }
+                });
         // 多行消息设置点击事件
         mBinding.chatRichEt.addTextChangedListener(
                 new TextWatcher() {
@@ -1029,5 +1046,86 @@ public class MessageBottomLayout extends FrameLayout
                 mBinding.inputEt.setHintTextColor(inputProperties.inputEditHintTextColor);
             }
         }
+    }
+
+    public void openAddCustomStickerPicker() {
+        Activity activity = findActivity();
+        if (activity == null) {
+            ToastX.showShortToast(getContext().getString(R.string.chat_custom_sticker_add_failed));
+            return;
+        }
+        UploadUtil.openPhotoLibrary(
+                activity, Constant.REQUEST_CODE_ADD_CUSTOM_STICKER, MAX_CUSTOM_STICKER_PICK);
+    }
+
+    private Activity findActivity() {
+        Context ctx = getContext();
+        while (ctx instanceof ContextWrapper) {
+            if (ctx instanceof Activity) {
+                return (Activity) ctx;
+            }
+            ctx = ((ContextWrapper) ctx).getBaseContext();
+        }
+        return ctx instanceof Activity ? (Activity) ctx : null;
+    }
+
+    public void onCustomStickerImagePicked(String imagePath) {
+        if (TextUtils.isEmpty(imagePath)) {
+            return;
+        }
+        List<String> list = new ArrayList<>();
+        list.add(imagePath);
+        onCustomStickerImagesPicked(list);
+    }
+
+    public void onCustomStickerImagesPicked(List<String> imagePaths) {
+        if (imagePaths == null || imagePaths.isEmpty()) {
+            return;
+        }
+        CustomStickerStore.getInstance().init(getContext());
+        int added = CustomStickerStore.getInstance().addStickers(imagePaths);
+        if (added > 0) {
+            mBinding.emojiPickerView.reloadCustomStickers();
+            if (added == 1) {
+                ToastX.showShortToast(getContext().getString(R.string.chat_custom_sticker_added));
+            } else {
+                ToastX.showShortToast(
+                        getContext()
+                                .getString(R.string.chat_custom_sticker_added_count, added));
+            }
+        } else {
+            ToastX.showShortToast(getContext().getString(R.string.chat_custom_sticker_add_failed));
+        }
+    }
+
+    private void showDeleteCustomStickerDialog(String stickerId) {
+        new AlertDialog.Builder(getContext())
+                .setMessage(R.string.chat_custom_sticker_delete_confirm)
+                .setPositiveButton(
+                        R.string.chat_dialog_sure,
+                        (d, w) -> {
+                            CustomStickerStore.getInstance().removeSticker(stickerId);
+                            mBinding.emojiPickerView.reloadCustomStickers();
+                        })
+                .setNegativeButton(R.string.cancel, null)
+                .show();
+    }
+
+    private void sendCustomStickerMessage(String stickerId) {
+        String localPath = CustomStickerStore.getInstance().getLocalPath(stickerId);
+        if (TextUtils.isEmpty(localPath)) {
+            return;
+        }
+        File imageFile = new File(localPath);
+        if (!imageFile.exists()) {
+            ToastX.showShortToast(getContext().getString(R.string.chat_custom_sticker_add_failed));
+            return;
+        }
+        if (!NetworkUtils.isConnected()) {
+            ToastX.showShortToast(getContext().getString(R.string.chat_network_error_tips));
+            return;
+        }
+        // 走云信图片消息发送（与聊天发图相同），避免业务上传接口失败导致「网络错误」
+        mProxy.sendImageMessage(imageFile);
     }
 }

@@ -54,6 +54,12 @@
     <string name="chat_message_video_fail_try_again">暂时无法播放视频，请重试</string>
     <string name="chat_message_video_time">%02d:%02d</string>
     <string name="chat_message_send">发送</string>
+    <string name="chat_emoji_tab_emoji">表情</string>
+    <string name="chat_emoji_tab_sticker">表情包</string>
+    <string name="chat_custom_sticker_added">已添加到表情包</string>
+    <string name="chat_custom_sticker_added_count">已添加 %d 张表情</string>
+    <string name="chat_custom_sticker_add_failed">添加失败，请重试</string>
+    <string name="chat_custom_sticker_delete_confirm">删除这张表情？</string>
     <string name="chat_message_video_error">无法播放该视频</string>
     <string name="chat_message_custom_sticker">贴图消息</string>
 

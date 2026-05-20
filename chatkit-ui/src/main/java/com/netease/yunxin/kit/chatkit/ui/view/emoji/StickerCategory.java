@@ -101,13 +101,29 @@ public class StickerCategory implements Serializable {
     return null;
   }
 
+  public List<StickerItem> reloadStickerData() {
+    return loadStickerData();
+  }
+
   public List<StickerItem> loadStickerData() {
+    if (CustomStickerStore.CATALOG.equals(name)) {
+      this.stickers = CustomStickerStore.getInstance().getStickerItems();
+      return stickers;
+    }
     List<StickerItem> stickers = new ArrayList<>();
+    if (EmojiManager.getContext() == null) {
+      this.stickers = stickers;
+      return stickers;
+    }
     AssetManager assetManager = EmojiManager.getContext().getResources().getAssets();
     try {
       String[] files = assetManager.list("sticker/" + name);
-      for (String file : files) {
-        stickers.add(new StickerItem(name, file));
+      if (files != null) {
+        for (String file : files) {
+          if (file != null && file.endsWith(".png")) {
+            stickers.add(new StickerItem(name, file));
+          }
+        }
       }
     } catch (IOException e) {
       e.printStackTrace();

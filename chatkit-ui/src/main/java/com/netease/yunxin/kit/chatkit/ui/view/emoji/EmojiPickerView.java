@@ -7,43 +7,45 @@ package com.netease.yunxin.kit.chatkit.ui.view.emoji;
 import static com.netease.yunxin.kit.chatkit.ui.ChatKitUIConstant.LIB_TAG;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Handler;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
+import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import com.netease.yunxin.kit.alog.ALog;
 import com.netease.yunxin.kit.chatkit.ui.R;
 import com.netease.yunxin.kit.chatkit.ui.databinding.ChatEmojiLayoutBinding;
-import com.netease.yunxin.kit.common.utils.ImageUtils;
-import com.netease.yunxin.kit.common.utils.SizeUtils;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
 
 /** emoji picker view */
 public class EmojiPickerView extends LinearLayout implements IEmojiCategoryChanged {
+
+  public interface OnCustomStickerActionListener {
+    void onRequestAddCustomSticker();
+
+    void onCustomStickerDelete(String stickerId);
+  }
+
+  private static final int MODE_EMOJI = 0;
+  private static final int MODE_STICKER = 1;
 
   private Context context;
   private ChatEmojiLayoutBinding viewBinding;
 
   private IEmojiSelectedListener listener;
+  private OnCustomStickerActionListener customStickerActionListener;
 
   private boolean loaded = false;
-
   private boolean withSticker;
-
   private EmojiView gifView;
-
-  private int categoryIndex;
-
+  private int segmentMode = MODE_EMOJI;
   private Handler uiHandler;
+  private CustomFavoriteStickerAdapter customStickerAdapter;
 
   public EmojiPickerView(Context context) {
     super(context);
@@ -64,10 +66,8 @@ public class EmojiPickerView extends LinearLayout implements IEmojiCategoryChang
   private void init(Context context) {
     this.context = context;
     this.uiHandler = new Handler(context.getMainLooper());
-    viewBinding = ChatEmojiLayoutBinding.inflate(LayoutInflater.from(context), this, true);
-    LayoutInflater inflater =
-        (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    inflater.inflate(R.layout.chat_emoji_layout, this);
+    LayoutInflater.from(context).inflate(R.layout.chat_emoji_layout, this, true);
+    viewBinding = ChatEmojiLayoutBinding.bind(this);
   }
 
   @Override
@@ -76,16 +76,12 @@ public class EmojiPickerView extends LinearLayout implements IEmojiCategoryChang
     setupEmojiView();
   }
 
-  @Override
-  protected void onDetachedFromWindow() {
-    super.onDetachedFromWindow();
-  }
-
   public void show(IEmojiSelectedListener listener) {
     setListener(listener);
-    if (loaded) return;
-    loadStickers();
-    loaded = true;
+    if (!loaded) {
+      prepareStickerData();
+      loaded = true;
+    }
     show();
   }
 
@@ -97,6 +93,23 @@ public class EmojiPickerView extends LinearLayout implements IEmojiCategoryChang
     }
   }
 
+  public void setOnCustomStickerActionListener(OnCustomStickerActionListener listener) {
+    this.customStickerActionListener = listener;
+  }
+
+  public void reloadCustomStickers() {
+    CustomStickerStore.getInstance().init(context);
+    StickerManager.getInstance().reloadCategories();
+    if (customStickerAdapter != null) {
+      customStickerAdapter.refresh();
+    }
+    if (segmentMode == MODE_STICKER) {
+      showCustomStickerGrid();
+    } else {
+      selectSegmentMode(MODE_STICKER);
+    }
+  }
+
   protected void setupEmojiView() {
     viewBinding.topDividerLine.setVisibility(View.VISIBLE);
     viewBinding.emojiSendTv.setOnClickListener(
@@ -105,162 +118,119 @@ public class EmojiPickerView extends LinearLayout implements IEmojiCategoryChang
             listener.onEmojiSendClick();
           }
         });
+    setupSegmentBar();
+    setupCustomStickerGrid();
   }
 
-  // add tab button
-  OnClickListener tabCheckListener = v -> onEmoticonBtnChecked(v.getId());
+  private void prepareStickerData() {
+    StickerManager.getInstance().reloadCategories();
+    updateSegmentBarVisibility();
+    viewBinding.emojTabViewContainer.setVisibility(GONE);
+  }
 
-  private void loadStickers() {
+  private void setupCustomStickerGrid() {
+    customStickerAdapter =
+        new CustomFavoriteStickerAdapter(
+            context,
+            new CustomFavoriteStickerAdapter.Callback() {
+              @Override
+              public void onAddClick() {
+                if (customStickerActionListener != null) {
+                  customStickerActionListener.onRequestAddCustomSticker();
+                }
+              }
 
-    final StickerManager manager = StickerManager.getInstance();
+              @Override
+              public void onStickerClick(String stickerId) {
+                if (listener != null) {
+                  listener.onStickerSelected(CustomStickerStore.CATALOG, stickerId);
+                }
+              }
 
-    viewBinding.emojiTabView.removeAllViews();
+              @Override
+              public void onStickerLongClick(String stickerId) {
+                if (customStickerActionListener != null) {
+                  customStickerActionListener.onCustomStickerDelete(stickerId);
+                }
+              }
+            });
+    viewBinding.customStickerGv.setAdapter(customStickerAdapter);
+    viewBinding.customStickerGv.setSelector(R.drawable.emoji_item_selector);
+  }
 
-    int index = 0;
+  private void setupSegmentBar() {
+    viewBinding.emojiSegmentEmojiTv.setOnClickListener(v -> selectSegmentMode(MODE_EMOJI));
+    viewBinding.emojiSegmentStickerTv.setOnClickListener(v -> selectSegmentMode(MODE_STICKER));
+  }
 
-    // emoji
-    CheckedImageButton btn = addEmojiIconTabBtn(index++, tabCheckListener);
-    btn.setNormalImageId(R.drawable.ic_emoji_inactive);
-    btn.setCheckedImageId(R.drawable.ic_emoji);
+  private void updateSegmentBarVisibility() {
+    viewBinding.emojiSegmentBar.setVisibility(withSticker ? VISIBLE : GONE);
+  }
 
-    //sticker
-    if (withSticker) {
-      List<StickerCategory> categories = manager.getCategories();
-      for (StickerCategory category : categories) {
-        btn = addEmojiIconTabBtn(index++, tabCheckListener);
-        setCheckedButtonImage(btn, category);
-      }
+  private void selectSegmentMode(int mode) {
+    segmentMode = mode;
+    updateSegmentStyle(mode);
+    if (mode == MODE_EMOJI) {
+      showEmojiPanel();
+    } else {
+      showCustomStickerGrid();
     }
   }
 
-  private CheckedImageButton addEmojiIconTabBtn(int index, OnClickListener listener) {
-    CheckedImageButton emojiBtn = new CheckedImageButton(context);
-    emojiBtn.setNormalBkResId(R.drawable.bg_sticker_button_normal_layer);
-    emojiBtn.setCheckedBkResId(R.drawable.bg_sticker_button_pressed_layer);
-    emojiBtn.setId(index);
-    emojiBtn.setOnClickListener(listener);
-    emojiBtn.setScaleType(ImageView.ScaleType.FIT_CENTER);
-    emojiBtn.setPaddingValue(SizeUtils.dp2px(7));
-
-    final int emojiBtnWidth = SizeUtils.dp2px(50);
-    final int emojiBtnHeight = SizeUtils.dp2px(42);
-
-    viewBinding.emojiTabView.addView(emojiBtn);
-
-    ViewGroup.LayoutParams emojiBtnLayoutParams = emojiBtn.getLayoutParams();
-    emojiBtnLayoutParams.width = emojiBtnWidth;
-    emojiBtnLayoutParams.height = emojiBtnHeight;
-    emojiBtn.setLayoutParams(emojiBtnLayoutParams);
-
-    return emojiBtn;
+  private void updateSegmentStyle(int mode) {
+    viewBinding.emojiSegmentEmojiTv.setSelected(mode == MODE_EMOJI);
+    viewBinding.emojiSegmentStickerTv.setSelected(mode == MODE_STICKER);
   }
 
-  private void setCheckedButtonImage(CheckedImageButton btn, StickerCategory category) {
-    try {
-      InputStream is = category.getCoverNormalInputStream(context);
-      if (is != null) {
-        Bitmap bmp = ImageUtils.getBitmap(is);
-        btn.setNormalImage(bmp);
-        is.close();
-      }
-      is = category.getCoverPressedInputStream(context);
-      if (is != null) {
-        Bitmap bmp = ImageUtils.getBitmap(is);
-        btn.setCheckedImage(bmp);
-        is.close();
-      }
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
-
-  private void onEmoticonBtnChecked(int index) {
-    updateTabButton(index);
-    showEmojiPager(index);
-  }
-
-  private void updateTabButton(int index) {
-    for (int i = 0; i < viewBinding.emojiTabView.getChildCount(); ++i) {
-      View child = viewBinding.emojiTabView.getChildAt(i);
-      if (child instanceof FrameLayout) {
-        child = ((FrameLayout) child).getChildAt(0);
-      }
-
-      if (child != null && child instanceof CheckedImageButton) {
-        CheckedImageButton tabButton = (CheckedImageButton) child;
-        if (tabButton.isChecked() && i != index) {
-          tabButton.setChecked(false);
-        } else if (!tabButton.isChecked() && i == index) {
-          tabButton.setChecked(true);
-        }
-      }
-    }
-  }
-
-  private void showEmojiPager(int index) {
+  private void showEmojiPanel() {
+    viewBinding.scrPlugin.setVisibility(VISIBLE);
+    viewBinding.customStickerGv.setVisibility(GONE);
+    viewBinding.layoutScrBottom.setVisibility(VISIBLE);
     if (gifView == null) {
       gifView =
           new EmojiView(context, listener, viewBinding.scrPlugin, viewBinding.layoutScrBottom);
       gifView.setCategoryChangCheckedCallback(this);
     }
-
-    gifView.showStickers(index);
+    gifView.showStickers(0);
   }
 
-  private void showEmojiView() {
-    if (gifView == null) {
-      gifView =
-          new EmojiView(context, listener, viewBinding.scrPlugin, viewBinding.layoutScrBottom);
+  private void showCustomStickerGrid() {
+    viewBinding.scrPlugin.setVisibility(GONE);
+    viewBinding.customStickerGv.setVisibility(VISIBLE);
+    viewBinding.layoutScrBottom.setVisibility(GONE);
+    if (customStickerAdapter != null) {
+      customStickerAdapter.refresh();
     }
-    gifView.showEmojis();
   }
 
   private void show() {
-    if (listener == null) {
-      ALog.d(LIB_TAG, "sticker", "show picker view when listener is null");
-    }
-    //        if (!withSticker) {
-    //            showEmojiView();
-    //        } else {
-    onEmoticonBtnChecked(0);
-    setSelectedVisible(0);
-    //        }
-  }
-
-  private void setSelectedVisible(final int index) {
-    final Runnable runnable =
-        new Runnable() {
-          @Override
-          public void run() {
-            if (viewBinding.emojTabViewContainer.getChildAt(0).getWidth() == 0) {
-              uiHandler.postDelayed(this, 100);
-            }
-            int x = -1;
-            View child = viewBinding.emojiTabView.getChildAt(index);
-            if (child != null) {
-              if (child.getRight() > viewBinding.emojTabViewContainer.getWidth()) {
-                x = child.getRight() - viewBinding.emojTabViewContainer.getWidth();
-              }
-            }
-            if (x != -1) {
-              viewBinding.emojTabViewContainer.smoothScrollTo(x, 0);
-            }
-          }
-        };
-    uiHandler.postDelayed(runnable, 100);
+    segmentMode = MODE_EMOJI;
+    updateSegmentStyle(MODE_EMOJI);
+    showEmojiPanel();
   }
 
   @Override
   public void onCategoryChanged(int index) {
-    if (categoryIndex == index) {
+    if (!withSticker) {
       return;
     }
-
-    categoryIndex = index;
-    updateTabButton(index);
+    int mode = index == 0 ? MODE_EMOJI : MODE_STICKER;
+    if (segmentMode != mode) {
+      segmentMode = mode;
+      updateSegmentStyle(mode);
+      if (mode == MODE_STICKER) {
+        showCustomStickerGrid();
+      } else {
+        showEmojiPanel();
+      }
+    }
   }
 
   public void setWithSticker(boolean withSticker) {
     this.withSticker = withSticker;
+    updateSegmentBarVisibility();
+    if (loaded) {
+      prepareStickerData();
+    }
   }
 }

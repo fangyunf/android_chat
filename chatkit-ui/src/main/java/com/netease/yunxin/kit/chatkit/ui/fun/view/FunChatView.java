@@ -590,4 +590,14 @@ public class FunChatView extends LinearLayout implements IChatView, AitTextChang
                     }
                 }
             };
+
+  @Override
+  public void onCustomStickerImagePicked(String imagePath) {
+    binding.chatBottomInputLayout.onCustomStickerImagePicked(imagePath);
+  }
+
+  @Override
+  public void onCustomStickerImagesPicked(java.util.List<String> imagePaths) {
+    binding.chatBottomInputLayout.onCustomStickerImagesPicked(imagePaths);
+  }
 }

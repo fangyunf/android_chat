@@ -104,4 +104,14 @@ public interface IChatView {
   void setMultiSelectEnable(boolean enable);
 
   View getRootView();
+
+  /** 从相册选择图片添加为自定义表情包（单张，兼容旧调用） */
+  default void onCustomStickerImagePicked(String imagePath) {
+    if (imagePath != null && !imagePath.isEmpty()) {
+      onCustomStickerImagesPicked(java.util.Collections.singletonList(imagePath));
+    }
+  }
+
+  /** 从相册多选图片添加为自定义表情包 */
+  default void onCustomStickerImagesPicked(java.util.List<String> imagePaths) {}
 }

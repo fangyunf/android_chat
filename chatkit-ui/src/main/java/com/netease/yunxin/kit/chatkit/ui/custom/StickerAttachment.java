@@ -12,11 +12,13 @@ import org.json.JSONObject;
 
 public class StickerAttachment extends CustomAttachment {
 
-  private final String KEY_CATALOG = "catalog";
-  private final String KEY_CHART_LET = "chartlet";
+  private static final String KEY_CATALOG = "catalog";
+  private static final String KEY_CHART_LET = "chartlet";
+  private static final String KEY_URL = "url";
 
   private String catalog;
   private String chartLet;
+  private String url;
 
   public StickerAttachment() {
     super(ChatMessageType.CUSTOM_STICKER);
@@ -28,11 +30,20 @@ public class StickerAttachment extends CustomAttachment {
     this.chartLet = FileUtils.getFileNameNoExtension(emotion);
   }
 
+  public void setUrl(String url) {
+    this.url = url;
+  }
+
+  public String getUrl() {
+    return url;
+  }
+
   @Override
   protected void parseData(JSONObject data) {
     try {
-      this.catalog = data.getString(KEY_CATALOG);
-      this.chartLet = data.getString(KEY_CHART_LET);
+      this.catalog = data.optString(KEY_CATALOG, "");
+      this.chartLet = data.optString(KEY_CHART_LET, "");
+      this.url = data.optString(KEY_URL, "");
     } catch (Exception exception) {
 
     }
@@ -44,6 +55,9 @@ public class StickerAttachment extends CustomAttachment {
     try {
       data.put(KEY_CATALOG, catalog);
       data.put(KEY_CHART_LET, chartLet);
+      if (url != null && !url.isEmpty()) {
+        data.put(KEY_URL, url);
+      }
     } catch (Exception exception) {
 
     }
@@ -54,7 +68,7 @@ public class StickerAttachment extends CustomAttachment {
   @Nullable
   @Override
   public String getContent() {
-    return super.getContent();
+    return "[表情]";
   }
 
   public String getCatalog() {

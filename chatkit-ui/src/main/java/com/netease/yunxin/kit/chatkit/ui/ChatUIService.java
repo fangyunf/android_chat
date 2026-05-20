@@ -40,6 +40,7 @@ import com.netease.yunxin.kit.chatkit.ui.normal.page.ChatSettingActivity;
 import com.netease.yunxin.kit.chatkit.ui.normal.page.ChatTeamActivity;
 import com.netease.yunxin.kit.chatkit.ui.page.LocationPageActivity;
 import com.netease.yunxin.kit.chatkit.ui.view.ait.AitService;
+import com.netease.yunxin.kit.chatkit.ui.view.emoji.CustomStickerStore;
 import com.netease.yunxin.kit.chatkit.ui.view.emoji.EmojiManager;
 import com.netease.yunxin.kit.corekit.im.IMKitClient;
 import com.netease.yunxin.kit.corekit.im.provider.FetchCallback;
@@ -115,6 +116,7 @@ public class ChatUIService extends ChatService {
 
   public void chatKitInit(Context context) {
     EmojiManager.init(context);
+    CustomStickerStore.getInstance().init(context);
   }
 
   // 将发送创建群成功Tips注册到路由器，可通过路由触发

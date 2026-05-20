@@ -34,6 +34,8 @@ public class Constant {
     public static final int RC_PHOTO_PICKER_PERM = 123;
     public static final int RC_PHOTO_CAMERA_PERM = 124;
     public static final int REQUEST_CODE_CHOOSE = 23;
+    /** 聊天添加自定义表情包 */
+    public static final int REQUEST_CODE_ADD_CUSTOM_STICKER = 27;
 
 
     public static final int REQUEST_PERMISSION = 0;

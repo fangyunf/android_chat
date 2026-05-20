@@ -42,11 +42,16 @@ public class ChatStickerViewHolder extends ChatBaseMessageViewHolder {
       return;
     }
 
+    String displayUri =
+        StickerManager.resolveDisplayUri(
+            attachment.getCatalog(), attachment.getChartLet(), attachment.getUrl());
     Glide.with(parent.getContext())
-        .load(
-            StickerManager.getInstance()
-                .getStickerUri(attachment.getCatalog(), attachment.getChartLet()))
-        .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE))
+        .load(displayUri)
+        .apply(
+            new RequestOptions()
+                .error(com.netease.yunxin.kit.chatkit.ui.R.drawable.ic_img_failed)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .dontAnimate())
         .into(binding.thumbnail);
   }
 }

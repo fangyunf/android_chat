@@ -4,10 +4,13 @@
 
 package com.netease.yunxin.kit.chatkit.ui.page;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import com.netease.yunxin.kit.chatkit.ui.R;
 import com.netease.yunxin.kit.chatkit.ui.databinding.ChatActivityLayoutBinding;
 import com.netease.yunxin.kit.chatkit.ui.model.CloseChatPageEvent;
 import com.netease.yunxin.kit.common.ui.activities.BaseActivity;
@@ -44,6 +47,18 @@ public abstract class ChatBaseActivity extends BaseActivity {
   }
 
   protected abstract void initChat();
+
+  /**
+   * 相册等由 Activity 发起的 startActivityForResult，需转发给聊天 Fragment（如添加自定义表情包）。
+   */
+  @Override
+  protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+    Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.container);
+    if (fragment != null) {
+      fragment.onActivityResult(requestCode, resultCode, data);
+    }
+  }
 
   @Override
   protected void onStop() {

@@ -1901,6 +1901,32 @@ public abstract class ChatBaseFragment extends BaseFragment {
             for (Uri uri : selectedUris) {
                 mHandler.postDelayed(() -> viewModel.sendImageOrVideoMessage(uri), 100);
             }
+        } else if (requestCode == Constant.REQUEST_CODE_ADD_CUSTOM_STICKER
+                && resultCode == Activity.RESULT_OK
+                && data != null
+                && chatView != null) {
+            List<String> paths = Matisse.obtainPathResult(data);
+            List<Uri> uris = Matisse.obtainResult(data);
+            List<String> selected = new ArrayList<>();
+            if (paths != null && !paths.isEmpty()) {
+                for (int i = 0; i < paths.size(); i++) {
+                    String path = paths.get(i);
+                    if (!TextUtils.isEmpty(path)) {
+                        selected.add(path);
+                    } else if (uris != null && i < uris.size() && uris.get(i) != null) {
+                        selected.add(uris.get(i).toString());
+                    }
+                }
+            } else if (uris != null) {
+                for (Uri uri : uris) {
+                    if (uri != null) {
+                        selected.add(uri.toString());
+                    }
+                }
+            }
+            if (!selected.isEmpty()) {
+                chatView.onCustomStickerImagesPicked(selected);
+            }
         }
     }
 

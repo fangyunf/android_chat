@@ -74,8 +74,19 @@ public class UploadUtil {
         });
 
     }
+    /** 默认单选，支持图片与视频（聊天发图等） */
+    public static void openPhotoLibrary(Activity activity, int requestCode) {
+        openPhotoLibrary(activity, requestCode, 1, false);
+    }
+
+    /** 多选图片（如添加表情包） */
+    public static void openPhotoLibrary(Activity activity, int requestCode, int maxSelectable) {
+        openPhotoLibrary(activity, requestCode, maxSelectable, true);
+    }
+
     @AfterPermissionGranted(Constant.RC_PHOTO_PICKER_PERM)
-    public static void openPhotoLibrary(Activity activity,int requestCode) {
+    private static void openPhotoLibrary(
+            Activity activity, int requestCode, int maxSelectable, boolean imagesOnly) {
 
         String[] permission = new String[] {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
         // 根据系统版本判断，如果是Android13则采用Manifest.permission.READ_MEDIA_IMAGES
@@ -99,14 +110,15 @@ public class UploadUtil {
         }
 
 
+        int max = Math.max(1, maxSelectable);
         Matisse.from(activity)
-                .choose(MimeType.ofAll())
+                .choose(imagesOnly ? MimeType.ofImage() : MimeType.ofAll())
                 .countable(true)
-                .maxSelectable(1)
+                .maxSelectable(max)
                 .capture(true)
                 .captureStrategy(new CaptureStrategy(true, "com.turunsi.longyutai.IMKitFileProvider"))
                 .imageEngine(new GlideEngine())
-                .forResult(Constant.REQUEST_CODE_CHOOSE);
+                .forResult(requestCode);
 
     }
     public static void compressImages(String imagePaths, LubanCommonCallBack callBack) {
@@ -130,7 +142,10 @@ public class UploadUtil {
 
                     @Override
                     public void onError(Throwable e) {
-                        // 压缩失败的操作
+                        // 压缩失败时使用原图，避免添加表情包等场景无响应
+                        if (imagePaths != null && new File(imagePaths).exists()) {
+                            callBack.finishCompress(imagePaths);
+                        }
                     }
                 }).launch();
     }
