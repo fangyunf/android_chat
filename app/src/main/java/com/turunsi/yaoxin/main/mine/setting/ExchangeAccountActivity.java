@@ -145,7 +145,7 @@ public class ExchangeAccountActivity extends BaseActivity implements View.OnClic
                                     .clearActivity(ExchangeAccountActivity.this);
                         }
                         DataUtil.deleteData();
-                        startActivity(new Intent(ExchangeAccountActivity.this, WelcomeLoginActivity.class));
+                        startActivity(new Intent(ExchangeAccountActivity.this, LoginActivity.class));
                         finish();
                     }
                 });

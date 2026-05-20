@@ -169,7 +169,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         super.onCreate(savedInstanceState);
         ALog.d(Constant.PROJECT_TAG, "MainActivity:onCreate");
         if (TextUtils.isEmpty(IMKitClient.account())) {
-            Intent intent = new Intent(this, WelcomeLoginActivity.class);
+            Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
             finish();
             return;
@@ -568,7 +568,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
                         ((IMApplication) getApplicationContext()).clearActivity(MainActivity.this);
                     }
                     DataUtil.deleteData();
-                    startActivity(new Intent(MainActivity.this, WelcomeLoginActivity.class));
+                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
                     finish();
                 }
             }

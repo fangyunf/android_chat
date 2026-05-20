@@ -211,7 +211,7 @@ public class SettingNewActivity extends BaseActivity implements View.OnClickList
                         }
                         DataUtil.deleteLoginUserInfoList(DataUtil.getUserInfo());
                         DataUtil.deleteData();
-                        startActivity(new Intent(SettingNewActivity.this, WelcomeLoginActivity.class));
+                        startActivity(new Intent(SettingNewActivity.this, LoginActivity.class));
                         finish();
                     }
                 });

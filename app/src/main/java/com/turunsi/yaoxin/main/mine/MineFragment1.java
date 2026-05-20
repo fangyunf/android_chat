@@ -517,7 +517,7 @@ public class MineFragment1 extends BaseFragment implements View.OnClickListener 
 
                         DataUtil.deleteLoginUserInfoList(DataUtil.getUserInfo());
                         DataUtil.deleteData();
-                        startActivity(new Intent(getActivity(), WelcomeLoginActivity.class));
+                        startActivity(new Intent(getActivity(), LoginActivity.class));
                         getActivity().finish();
                     }
                 });

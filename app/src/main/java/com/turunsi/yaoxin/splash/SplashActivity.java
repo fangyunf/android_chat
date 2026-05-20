@@ -43,7 +43,7 @@ public class SplashActivity extends BaseActivity {
                         if (account != null && token != null) {
                             IMUtil.loginIM(that, account, token);
                         } else {
-                            WelcomeLoginActivity.start(WelcomeLoginActivity.class, SplashActivity.this, null);
+                            LoginActivity.start(LoginActivity.class, SplashActivity.this, null);
                             finish();
                         }
                     }

@@ -245,7 +245,7 @@ public class PursePwdManagerSetActivity extends BaseActivity implements View.OnC
                         }
                         DataUtil.deleteLoginUserInfoList(DataUtil.getUserInfo());
                         DataUtil.deleteData();
-                        startActivity(new Intent(PursePwdManagerSetActivity.this, WelcomeLoginActivity.class));
+                        startActivity(new Intent(PursePwdManagerSetActivity.this, LoginActivity.class));
                         finish();
                     }
                 });

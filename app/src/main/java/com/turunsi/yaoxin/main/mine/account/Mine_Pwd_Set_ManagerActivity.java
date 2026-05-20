@@ -99,7 +99,7 @@ public class Mine_Pwd_Set_ManagerActivity extends BaseActivity implements View.O
                         }
                         DataUtil.deleteLoginUserInfoList(DataUtil.getUserInfo());
                         DataUtil.deleteData();
-                        startActivity(new Intent(Mine_Pwd_Set_ManagerActivity.this, WelcomeLoginActivity.class));
+                        startActivity(new Intent(Mine_Pwd_Set_ManagerActivity.this, LoginActivity.class));
                         finish();
                     }
                 });
