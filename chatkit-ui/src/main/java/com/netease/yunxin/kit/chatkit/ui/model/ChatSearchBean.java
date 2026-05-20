@@ -68,30 +68,38 @@ public class ChatSearchBean extends BaseBean {
   }
 
   public SpannableString getSpannableString(int color) {
-    if (msgRecord != null) {
-      String text = msgRecord.getIndexRecord().getText();
-      if (!TextUtils.isEmpty(text)) {
-        try {
-          text = AESUtil.msgAseDecrypt(text);
-        } catch (Exception ignored) {
-        }
-      }
-      if (TextUtils.isEmpty(text)) {
-        text = "";
-      }
-      SpannableString spannable = new SpannableString(text);
-      List<RecordHitInfo> hitInfoList = msgRecord.getIndexRecord().getHitInfo();
-      if (hitInfoList != null) {
-        for (RecordHitInfo hitInfo : hitInfoList) {
-          spannable.setSpan(
-              new ForegroundColorSpan(color),
-              hitInfo.start,
-              hitInfo.end + 1,
-              Spanned.SPAN_INCLUSIVE_INCLUSIVE);
-        }
-      }
+    if (msgRecord == null || msgRecord.getIndexRecord() == null) {
+      return new SpannableString("");
+    }
+    String text = decryptSearchText(msgRecord.getIndexRecord().getText());
+    SpannableString spannable = new SpannableString(text);
+    List<RecordHitInfo> hitInfoList = msgRecord.getIndexRecord().getHitInfo();
+    if (hitInfoList == null) {
       return spannable;
     }
-    return null;
+    int length = text.length();
+    for (RecordHitInfo hitInfo : hitInfoList) {
+      if (hitInfo == null) {
+        continue;
+      }
+      int start = hitInfo.start;
+      int end = hitInfo.end + 1;
+      if (start >= 0 && end > start && end <= length) {
+        spannable.setSpan(
+            new ForegroundColorSpan(color), start, end, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+      }
+    }
+    return spannable;
+  }
+
+  private static String decryptSearchText(String rawText) {
+    if (TextUtils.isEmpty(rawText)) {
+      return "";
+    }
+    try {
+      return AESUtil.msgAseDecrypt(rawText);
+    } catch (Exception ignored) {
+      return rawText;
+    }
   }
 }

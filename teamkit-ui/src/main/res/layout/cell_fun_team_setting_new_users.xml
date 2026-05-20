@@ -39,7 +39,7 @@
             android:layout_marginLeft="@dimen/dimen_12_dp"
             android:layout_marginRight="@dimen/dimen_8_dp"
             android:textColor="#ff000000"
-            android:textSize="12sp" />
+            android:textSize="14sp" />
 
         <ImageView
             android:id="@+id/ivGrade"

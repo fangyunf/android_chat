@@ -56,7 +56,7 @@ public class FunSearchMessageViewHolder extends BaseViewHolder<ChatSearchBean> {
   private void setUserInfo(ChatSearchBean data) {
     //get nick name
     UserInfo userInfo = ChatUserCache.getUserInfo(data.getAccount());
-    if (userInfo == null) {
+    if (userInfo == null && data.getMessage() != null) {
       ContactRepo.fetchUserInfo(
           data.getMessage().getFromAccount(),
           new FetchCallback<UserInfo>() {

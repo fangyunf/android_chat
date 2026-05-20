@@ -1,123 +1,124 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2022 NetEase, Inc. All rights reserved.
   ~ Use of this source code is governed by a MIT license that can be
   ~ found in the LICENSE file.
   -->
 
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_F2F2F2">
+    android:background="@color/color_F2F2F2"
+    android:orientation="vertical">
 
     <com.yaoxin.appbase.navbar.NavToolbar
         android:id="@+id/searchTitleBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         style="@style/WhiteFontToolbar"
-        android:background="@color/transparent"
+        android:background="@mipmap/icon_nav_title_bg"
         app:back_icon="@mipmap/icon_a_back"
         app:enable_under_divider="true"
         app:support_translucent_status_bar="false"
-        app:title="@string/message_search_title"
-        app:title_text_color="@color/color_333333"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:under_divider_color="@color/transparent"
-        tools:ignore="MissingConstraints" />
+        app:title="查找聊天记录"
+        app:title_text_color="@color/color_white"
+        app:under_divider_color="@color/transparent" />
 
-    <EditText
-        android:id="@+id/searchEt"
-        android:layout_width="0dp"
-        android:layout_height="36dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="@dimen/dimen_12_dp"
-        android:layout_marginEnd="12dp"
-        android:autofillHints=""
-        android:background="@drawable/bg_white_rounded_10"
-        android:drawableStart="@drawable/ic_search"
-        android:drawablePadding="5dp"
-        android:hint="@string/message_search_hint"
-        android:inputType="text"
-        android:maxLines="1"
-        android:paddingStart="15dp"
-        android:paddingEnd="15dp"
-        android:textColor="@color/color_333333"
-        android:textColorHint="@color/color_666666"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toStartOf="@id/cancelBtn"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/searchTitleBar"
-        tools:ignore="SpUsage" />
-
-    <ImageView
-        android:id="@+id/clearIv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
-        android:contentDescription="@string/cancel"
-        android:src="@drawable/ic_clear"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@id/searchEt"
-        app:layout_constraintEnd_toEndOf="@id/searchEt"
-        app:layout_constraintTop_toTopOf="@id/searchEt" />
-
-    <TextView
-        android:id="@+id/cancelBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:text="@string/cancel"
-        android:textColor="@color/app_theme_color"
-        android:textSize="@dimen/text_size_16"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="@id/searchEt"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/searchEt"
-        app:layout_constraintTop_toTopOf="@id/searchEt"
-        tools:ignore="MissingConstraints" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/searchRv"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="@dimen/dimen_12_dp"
-        android:scrollbars="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/searchEt" />
+        android:layout_weight="1">
 
-    <LinearLayout
-        android:id="@+id/emptyLayout"
-        android:layout_width="@dimen/dimen_100_dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dimen_55_dp"
-        android:orientation="vertical"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/searchEt"
-        tools:ignore="MissingConstraints,UseCompoundDrawables">
+        <EditText
+            android:id="@+id/searchEt"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="@dimen/dimen_12_dp"
+            android:layout_marginEnd="12dp"
+            android:autofillHints=""
+            android:background="@drawable/bg_white_rounded_10"
+            android:drawableStart="@drawable/ic_search"
+            android:drawablePadding="5dp"
+            android:hint="@string/message_search_hint"
+            android:inputType="text"
+            android:maxLines="1"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"
+            android:textColor="@color/color_333333"
+            android:textColorHint="@color/color_666666"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toStartOf="@id/cancelBtn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="SpUsage" />
 
         <ImageView
-            android:id="@+id/emptyIv"
-            android:layout_width="@dimen/dimen_74_dp"
-            android:layout_height="@dimen/dimen_74_dp"
-            android:layout_gravity="center_horizontal"
-            android:contentDescription="@string/chat_location_empty"
-            android:src="@drawable/fun_ic_chat_search_empty" />
+            android:id="@+id/clearIv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:contentDescription="@string/cancel"
+            android:src="@drawable/ic_clear"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/searchEt"
+            app:layout_constraintEnd_toEndOf="@id/searchEt"
+            app:layout_constraintTop_toTopOf="@id/searchEt" />
 
         <TextView
-            android:id="@+id/emptyTv"
-            android:layout_width="match_parent"
+            android:id="@+id/cancelBtn"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dimen_6_dp"
-            android:gravity="center_horizontal"
-            android:text="@string/message_search_empty"
-            android:textColor="@color/fun_chat_search_empty_text_color"
-            android:textSize="@dimen/text_size_14" />
-    </LinearLayout>
+            android:layout_marginEnd="16dp"
+            android:text="@string/cancel"
+            android:textColor="@color/app_theme_color"
+            android:textSize="@dimen/text_size_16"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@id/searchEt"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/searchEt"
+            app:layout_constraintTop_toTopOf="@id/searchEt"
+            tools:ignore="MissingConstraints" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/searchRv"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/dimen_12_dp"
+            android:scrollbars="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/searchEt" />
+
+        <LinearLayout
+            android:id="@+id/emptyLayout"
+            android:layout_width="@dimen/dimen_100_dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_55_dp"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/searchEt"
+            tools:ignore="MissingConstraints,UseCompoundDrawables">
+
+            <ImageView
+                android:id="@+id/emptyIv"
+                android:layout_width="@dimen/dimen_74_dp"
+                android:layout_height="@dimen/dimen_74_dp"
+                android:layout_gravity="center_horizontal"
+                android:contentDescription="@string/chat_location_empty"
+                android:src="@drawable/fun_ic_chat_search_empty" />
+
+            <TextView
+                android:id="@+id/emptyTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_6_dp"
+                android:gravity="center_horizontal"
+                android:text="@string/message_search_empty"
+                android:textColor="@color/fun_chat_search_empty_text_color"
+                android:textSize="@dimen/text_size_14" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

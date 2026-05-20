@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -61,6 +62,7 @@ import com.yaoxin.appbase.utils.BaseEvent;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.DialogAlertUtil;
 import com.yaoxin.appbase.utils.GlideUtil;
+import com.yaoxin.appbase.utils.BarUtils;
 import com.yaoxin.appbase.utils.ResourceHelper;
 import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
@@ -115,11 +117,16 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
         }
         super.onCreate(savedInstanceState);
         EventCenter.registerEventNotify(closeEventNotify);
-        changeStatusBarColor(R.color.color_white);
+        changeStatusBarColor(com.yaoxin.appbase.R.color.color_F2F2F2);
         binding = FunChatSettingActivityBinding.inflate(getLayoutInflater());
-        StatusBarUtils.transtStatusBar(this, binding.funChatSettingActivityNav);
         viewModel = new ViewModelProvider(this).get(ChatSettingViewModel.class);
         setContentView(binding.getRoot());
+        binding.funChatSettingActivityNav.enableUnderDivider(false);
+        StatusBarUtils.setStatusBarLightMode(this, true, true);
+        ViewGroup.LayoutParams navParams = binding.funChatSettingActivityNav.getLayoutParams();
+        navParams.height = navParams.height + BarUtils.getStatusBarHeight();
+        binding.funChatSettingActivityNav.setLayoutParams(navParams);
+        binding.funChatSettingActivityNav.setPadding(0, BarUtils.getStatusBarHeight(), 0, 0);
         binding.funChatSettingActivityNav.addCloseImageButton().setOnClickListener(this);
         binding.funChatSettingActivityNav.getTitleView().setText("聊天设置");
         if (type == 1) {
@@ -155,9 +162,9 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
                         }
 
                         if (userBean.grade > 0) {
-                            binding.funTeamUserInfoDetailGradeIv.setVisibility(View.VISIBLE);
+                            binding.ivGrade.setVisibility(View.VISIBLE);
                             binding.ivGradeBg.setVisibility(View.VISIBLE);
-                            binding.funTeamUserInfoDetailGradeIv.setImageDrawable(ResourceHelper.getGradeDrawable(FunChatSettingActivity.this, userBean.grade));
+                            binding.ivGrade.setImageDrawable(ResourceHelper.getGradeDrawable(FunChatSettingActivity.this, userBean.grade));
                             binding.nameTv.setTextColor(ResourceHelper.getGradeColor(FunChatSettingActivity.this, userBean.grade));
                             binding.ivGradeBg.setImageDrawable(ResourceHelper.getGradeBackground(FunChatSettingActivity.this, userBean.grade));
                         }
@@ -346,43 +353,28 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
                 }
         );
 
-        binding.funChatSettingActivityClearDeleteFriend.titTv.setText("删除好友");
-        binding.funChatSettingActivityClearDeleteFriend.titTv.setTextColor(getResources().getColor(R.color.fun_chat_color_EF0000));
-        binding.funChatSettingActivityClearDeleteFriend.funTitleTfArrowViewLl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                DialogAlertUtil.showAlert("确定删除好友吗？", new DialogAlertUtil.DialogAlertUtilCallBack() {
-                    @Override
-                    public void clickType(int type) {
-                        if (type == 1) {
-                            if (userBean == null) {
-                                ToastUtils.toastMsg("网络错误");
+        binding.tvDelete.setOnClickListener(v -> DialogAlertUtil.showAlert("确定删除好友吗？", type -> {
+            if (type == 1) {
+                if (userBean == null) {
+                    ToastUtils.toastMsg("网络错误");
+                    return;
+                }
+                RegisterBean bean = new RegisterBean();
+                bean.memberCode = userBean.memberCode;
+                HttpUtil.apiW().friends_delFriend(bean)
+                        .enqueue(new CommonCallback<NetData>() {
+                            @Override
+                            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                                ToastUtils.toastMsg(body.msg);
+                                finish();
                             }
-                            RegisterBean bean = new RegisterBean();
-                            bean.memberCode = userBean.memberCode;
-                            HttpUtil.apiW().friends_delFriend(bean)
-                                    .enqueue(new CommonCallback<NetData>() {
-                                        @Override
-                                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                                            ToastUtils.toastMsg(body.msg);
-                                            finish();
-                                        }
-
-                                        @Override
-                                        public void Failure(Call<NetData> call, Throwable t) {
-
-                                        }
-                                    });
-                        }
-                    }
-                }, getSupportFragmentManager());
-
-//                viewModel1.deleteFriend(userInfoData.data.getAccount());
+                            @Override
+                            public void Failure(Call<NetData> call, Throwable t) {
+                            }
+                        });
             }
-        });
-
+        }, getSupportFragmentManager()));
 
         binding.funChatSettingActivitySendMsgRl.setOnClickListener(new View.OnClickListener() {
             @Override

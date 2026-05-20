@@ -45,10 +45,13 @@ public class FunChatSearchActivity extends ChatSearchBaseActivity {
     emptyLayout = viewBinding.emptyLayout;
     viewBinding.searchRv.addItemDecoration(getItemDecoration());
 
+    viewBinding.searchTitleBar.enableUnderDivider(false);
     StatusBarUtils.setStatusBarLightMode(this, true, true);
-    ViewGroup.LayoutParams params = viewBinding.searchTitleBar.getLayoutParams();
-    params.height = params.height + BarUtils.getStatusBarHeight();
-    viewBinding.searchTitleBar.setLayoutParams(params);
+    ViewGroup.LayoutParams navParams = viewBinding.searchTitleBar.getLayoutParams();
+    if (navParams.height > 0) {
+      navParams.height = navParams.height + BarUtils.getStatusBarHeight();
+      viewBinding.searchTitleBar.setLayoutParams(navParams);
+    }
     viewBinding.searchTitleBar.setPadding(0, BarUtils.getStatusBarHeight(), 0, 0);
     viewBinding.searchTitleBar.addCloseImageButton().setOnClickListener(v -> finish());
     viewBinding.cancelBtn.setOnClickListener(v -> finish());
