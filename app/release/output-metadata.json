@@ -4,16 +4,16 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.turunsi.sanyang",
+  "applicationId": "com.turunsi.duoxi",
   "variantName": "release",
   "elements": [
     {
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 17,
-      "versionName": "1.1.6",
-      "outputFile": "sanyang_release_v1.1.6.apk"
+      "versionCode": 1,
+      "versionName": "1.0.0",
+      "outputFile": "duoxi_release_v1.0.0.apk"
     }
   ],
   "elementType": "File"

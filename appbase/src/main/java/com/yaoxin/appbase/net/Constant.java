@@ -14,9 +14,9 @@ public class Constant {
 //    public static final String ENCODE_KEY = "frxsecretpadding";
 //    public static final String MSG_ENCODE_KEY = "carefullanimchat";
 
-    public static final String BASE_URL = "http://sanyang117xk.jpjsshop.com:17117/";
-    public static final String BASE_URL_H5 = "http://sanyang117xk.jpjsshop.com:17117";
-    public static final String CHOUJIANG_H5 = "http://sanyang117xk.jpjsshop.com:17117/gw/build/index.html#/";
+    public static final String BASE_URL = "http://yueyoupin512xkai.zengfengwujishi.cn:8669/";
+    public static final String BASE_URL_H5 = "http://yueyoupin512xkai.zengfengwujishi.cn:8669";
+    public static final String CHOUJIANG_H5 = "http://yueyoupin512xkai.zengfengwujishi.cn:8669/gw/build/index.html#/";
     public static final String ENCODE_KEY = "wesecretpaddingg";
     public static final String MSG_ENCODE_KEY = "wallstreetimchat";
 
@@ -34,9 +34,13 @@ public class Constant {
     public static final int RC_PHOTO_PICKER_PERM = 123;
     public static final int RC_PHOTO_CAMERA_PERM = 124;
     public static final int REQUEST_CODE_CHOOSE = 23;
-    /** 聊天添加自定义表情包 */
+    /**
+     * 聊天添加自定义表情包
+     */
     public static final int REQUEST_CODE_ADD_CUSTOM_STICKER = 27;
-    /** 保存图片到相册（二维码等） */
+    /**
+     * 保存图片到相册（二维码等）
+     */
     public static final int RC_SAVE_IMAGE_GALLERY = 29;
 
 
