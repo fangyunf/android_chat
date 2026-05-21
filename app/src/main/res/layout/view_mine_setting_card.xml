@@ -1,25 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="72dp"
-    android:background="@drawable/bg_mine_setting_card"
-    android:gravity="center_vertical"
-    android:orientation="horizontal"
-    android:paddingHorizontal="16dp">
-
-    <TextView
-        android:id="@+id/view_mine_setting_card_title"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:textColor="@color/color_333333"
-        android:textSize="15sp"
-        android:textStyle="bold" />
+    android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/view_mine_setting_card_icon"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:scaleType="fitCenter" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:contentDescription="@null"
+        android:scaleType="fitXY" />
 
-</LinearLayout>
+    <!-- 保留 id，图片已含文案，不再显示 -->
+    <TextView
+        android:id="@+id/view_mine_setting_card_title"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone" />
+
+</FrameLayout>

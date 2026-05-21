@@ -21,6 +21,8 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.netease.yunxin.kit.corekit.im.login.LoginCallback;
+
 import com.google.gson.Gson;
 import com.netease.yunxin.kit.alog.ALog;
 import com.netease.yunxin.kit.common.ui.fragments.BaseFragment;
@@ -129,16 +131,18 @@ public class MineFragment1 extends BaseFragment implements View.OnClickListener 
     }
 
     private void _initItems() {
-        setupSettingCard(binding.fragmentMineRenzhengView.getRoot(), "实名认证", R.mipmap.icon_menu1);
-        setupSettingCard(binding.fragmentMineIndexWdqbLl.getRoot(), "我的钱包", R.mipmap.icon_menu4);
-        setupSettingCard(binding.fragmentMineYsglView.getRoot(), "隐私安全", R.mipmap.icon_menu2);
-        setupSettingCard(binding.fragmentMineZhglView.getRoot(), "账户安全", R.mipmap.icon_menu3);
+        setupSettingCard(binding.fragmentMineRenzhengView.getRoot(), R.mipmap.ic_menu1);
+        setupSettingCard(binding.fragmentMineIndexWdqbLl.getRoot(), R.mipmap.ic_menu4);
+        setupSettingCard(binding.fragmentMineYsglView.getRoot(), R.mipmap.ic_menu2);
+        setupSettingCard(binding.fragmentMineZhglView.getRoot(), R.mipmap.ic_menu3);
 
         setupOtherFuncItem(binding.fragmentMineProfileView.getRoot(), "我的资料");
         setupOtherFuncItem(binding.fragmentMineYysjView.getRoot(), "下载链接");
         setupOtherFuncItem(binding.fragmentMineWdfhView.getRoot(), "购买生成号");
         setupOtherFuncItem(binding.fragmentMineLtszView.getRoot(), "我的收藏");
         setupOtherFuncItem(binding.fragmentMineMmszView.getRoot(), "我的设置");
+        setupOtherFuncItem(binding.fragmentMineAccountManageView.getRoot(), "账号管理");
+        setupOtherFuncItem(binding.fragmentMineLogoutView.getRoot(), "退出登录");
 
         binding.fragmentMineRenzhengView.getRoot().setOnClickListener(this);
         binding.fragmentMineIndexWdqbLl.getRoot().setOnClickListener(this);
@@ -149,20 +153,18 @@ public class MineFragment1 extends BaseFragment implements View.OnClickListener 
         binding.fragmentMineWdfhView.getRoot().setOnClickListener(this);
         binding.fragmentMineLtszView.getRoot().setOnClickListener(this);
         binding.fragmentMineMmszView.getRoot().setOnClickListener(this);
+        binding.fragmentMineAccountManageView.getRoot().setOnClickListener(this);
+        binding.fragmentMineLogoutView.getRoot().setOnClickListener(this);
 
         binding.fragmentMineErweimaIv.setOnClickListener(this);
         binding.layoutEditUserInfo.setOnClickListener(this);
         binding.cavIcon.setOnClickListener(this);
     }
 
-    private void setupSettingCard(View root, String title, int iconRes) {
-        View titleView = root.findViewById(R.id.view_mine_setting_card_title);
+    private void setupSettingCard(View root, int imageRes) {
         View iconView = root.findViewById(R.id.view_mine_setting_card_icon);
-        if (titleView instanceof android.widget.TextView) {
-            ((android.widget.TextView) titleView).setText(title);
-        }
         if (iconView instanceof android.widget.ImageView) {
-            ((android.widget.ImageView) iconView).setImageResource(iconRes);
+            ((android.widget.ImageView) iconView).setImageResource(imageRes);
         }
     }
 
@@ -232,6 +234,8 @@ public class MineFragment1 extends BaseFragment implements View.OnClickListener 
         View buyRoot = binding.fragmentMineWdfhView.getRoot();
         View collectRoot = binding.fragmentMineLtszView.getRoot();
         View settingRoot = binding.fragmentMineMmszView.getRoot();
+        View accountManageRoot = binding.fragmentMineAccountManageView.getRoot();
+        View logoutRoot = binding.fragmentMineLogoutView.getRoot();
 
         if (v == binding.fragmentMineRenzhengView.getRoot()) {
             ToastUtils.toastMsg("已完成实名");
@@ -254,8 +258,38 @@ public class MineFragment1 extends BaseFragment implements View.OnClickListener 
                     .navigate();
         } else if (v == settingRoot) {
             SettingNewActivity.start(SettingNewActivity.class, context, null);
+        } else if (v == accountManageRoot) {
+            ExchangeAccountActivity.start(ExchangeAccountActivity.class, context, null);
+        } else if (v == logoutRoot) {
+            showLogin();
         } else if (v == binding.fragmentMineErweimaIv) {
             AccoutCodeDetailActivity.start(AccoutCodeDetailActivity.class, context, null);
         }
+    }
+
+    private void showLogin() {
+        Activity activity = getActivity();
+        if (activity == null) {
+            return;
+        }
+        IMKitClient.logoutIM(
+                new LoginCallback<Void>() {
+                    @Override
+                    public void onError(int errorCode, @NonNull String errorMsg) {
+                        Toast.makeText(
+                                        activity,
+                                        "error code is " + errorCode + ", message is " + errorMsg,
+                                        Toast.LENGTH_SHORT)
+                                .show();
+                    }
+
+                    @Override
+                    public void onSuccess(@Nullable Void data) {
+                        DataUtil.deleteLoginUserInfoList(DataUtil.getUserInfo());
+                        DataUtil.deleteData();
+                        startActivity(new Intent(activity, LoginActivity.class));
+                        activity.finish();
+                    }
+                });
     }
 }

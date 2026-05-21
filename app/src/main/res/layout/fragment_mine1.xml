@@ -50,8 +50,8 @@
 
                         <com.makeramen.roundedimageview.RoundedImageView
                             android:id="@+id/cavIcon"
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
                             android:scaleType="centerCrop"
                             app:riv_corner_radius="40dp" />
 
@@ -67,6 +67,7 @@
                         android:id="@+id/fragment_mine_erweima_iv"
                         android:layout_width="32dp"
                         android:layout_height="32dp"
+                        android:layout_marginRight="10dp"
                         android:layout_gravity="bottom|end"
                         android:src="@mipmap/mine_index_erweima" />
                 </FrameLayout>
@@ -153,7 +154,7 @@
                         android:id="@+id/fragment_mine_renzheng_view"
                         layout="@layout/view_mine_setting_card"
                         android:layout_width="0dp"
-                        android:layout_height="72dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginEnd="6dp"
                         android:layout_weight="1" />
 
@@ -161,7 +162,7 @@
                         android:id="@+id/fragment_mine_index_wdqb_ll"
                         layout="@layout/view_mine_setting_card"
                         android:layout_width="0dp"
-                        android:layout_height="72dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginStart="6dp"
                         android:layout_weight="1" />
                 </LinearLayout>
@@ -176,7 +177,7 @@
                         android:id="@+id/fragment_mine_ysgl_view"
                         layout="@layout/view_mine_setting_card"
                         android:layout_width="0dp"
-                        android:layout_height="72dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginEnd="6dp"
                         android:layout_weight="1" />
 
@@ -184,7 +185,7 @@
                         android:id="@+id/fragment_mine_zhgl_view"
                         layout="@layout/view_mine_setting_card"
                         android:layout_width="0dp"
-                        android:layout_height="72dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginStart="6dp"
                         android:layout_weight="1" />
                 </LinearLayout>
@@ -266,66 +267,94 @@
                         android:layout_marginEnd="6dp"
                         android:layout_weight="1" />
 
-                    <View
+                    <include
+                        android:id="@+id/fragment_mine_account_manage_view"
+                        layout="@layout/view_mine_other_func_item"
                         android:layout_width="0dp"
                         android:layout_height="44dp"
-                        android:layout_marginStart="6dp"
-                        android:layout_weight="1"
-                        android:visibility="invisible" />
+                        android:layout_marginEnd="6dp"
+                        android:layout_weight="1" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <include
+                        android:id="@+id/fragment_mine_logout_view"
+                        layout="@layout/view_mine_other_func_item"
+                        android:layout_width="0dp"
+                        android:layout_height="44dp"
+                        android:layout_marginEnd="6dp"
+                        android:layout_weight="1" />
+
+                    <View
+                        layout="@layout/view_mine_other_func_item"
+                        android:layout_width="0dp"
+                        android:layout_height="44dp"
+                        android:layout_marginEnd="6dp"
+                        android:layout_weight="1" />
                 </LinearLayout>
             </LinearLayout>
-
+            
             <!-- 保留旧 id，避免编译引用断裂 -->
             <View
                 android:id="@+id/fragment_mine_index_collec"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:visibility="gone" />
+
             <View
                 android:id="@+id/fragment_mine_index_choujiang"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:visibility="gone" />
+
             <View
                 android:id="@+id/fragment_mine_hmd_view"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:visibility="gone" />
+
             <View
                 android:id="@+id/fragment_mine_ylyx_view"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:visibility="gone" />
+
             <View
                 android:id="@+id/fragment_mine_xtsz_view"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:visibility="gone" />
+
             <View
                 android:id="@+id/fragment_mine_index_cdsc_ll"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:visibility="gone" />
-            <View
-                android:id="@+id/fragment_mine_logout_view"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:visibility="gone" />
+
             <View
                 android:id="@+id/fragment_mine_grade_rl"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:visibility="gone" />
+
             <TextView
                 android:id="@+id/fragment_mine_grade_tv"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:visibility="gone" />
+
             <TextView
                 android:id="@+id/fragment_mine_goto_upgrade_tv"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:visibility="gone" />
+
             <ImageView
                 android:id="@+id/tv_info"
                 android:layout_width="0dp"
