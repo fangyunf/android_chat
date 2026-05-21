@@ -445,9 +445,14 @@ public class FunChatView extends LinearLayout implements IChatView, AitTextChang
 
     @Override
     public void setInputMute(boolean mute) {
+        setInputMute(mute, null);
+    }
+
+    public void setInputMute(boolean mute, @Nullable String muteHint) {
         if (mute) {
             hideRichInputPanel();
         }
+        binding.chatBottomInputLayout.setMuteHint(muteHint);
         binding.chatBottomInputLayout.setMute(mute);
     }
 

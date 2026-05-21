@@ -77,6 +77,7 @@ public class MessageBottomLayout extends FrameLayout
     private InputActionAdapter actionAdapter;
     private IMessageProxy mProxy;
     private String mEdieNormalHint = "";
+    private String mMuteHint = "";
     private boolean mMute = false;
     private InputProperties inputProperties;
 
@@ -635,14 +636,24 @@ public class MessageBottomLayout extends FrameLayout
         }
     }
 
+    public void setMuteHint(String hint) {
+        mMuteHint = hint;
+    }
+
     public void setMute(boolean mute) {
         if (mute != mMute) {
             mMute = mute;
             mBinding.chatMessageInputEt.setEnabled(!mute);
             mBinding.chatMessageInputEt.setText("");
             mBinding.chatRichEt.setText("");
-            String hint = mute ? getContext().getString(R.string.chat_team_all_mute) : mEdieNormalHint;
-            mBinding.chatMessageInputEt.setText(hint);
+            String hint = mEdieNormalHint;
+            if (mute) {
+                hint =
+                        !TextUtils.isEmpty(mMuteHint)
+                                ? mMuteHint
+                                : getContext().getString(R.string.chat_team_all_mute);
+            }
+            mBinding.chatMessageInputEt.setHint(hint);
             if (mute) {
                 collapse(true);
             }

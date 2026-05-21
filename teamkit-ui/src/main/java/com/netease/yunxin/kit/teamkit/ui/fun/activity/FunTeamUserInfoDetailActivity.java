@@ -2,9 +2,8 @@ package com.netease.yunxin.kit.teamkit.ui.fun.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -12,8 +11,12 @@ import androidx.core.content.ContextCompat;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.netease.yunxin.kit.chatkit.ui.fun.page.FunChatSettingActivity;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.RequestCallback;
+import com.netease.nimlib.sdk.team.TeamService;
+import com.netease.yunxin.kit.corekit.im.IMKitClient;
 import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
+import com.netease.yunxin.kit.chatkit.ui.common.TeamNimMuteHelper;
 import com.netease.yunxin.kit.corekit.route.XKitRouter;
 import com.netease.yunxin.kit.teamkit.ui.databinding.FunTeamUserInfoDetailBinding;
 import com.yaoxin.appbase.activity.BaseActivity;
@@ -117,12 +120,14 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
         binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowTv.setText("备注名");
         binding.funTeamUserInfoDetailLahei.viewTitleArrowTv.setText("加入黑名单");
         binding.funTeamUserInfoDetailJinzhi.viewTitleArrowTv.setText("禁止领取红包");
+        binding.funTeamUserInfoDetailDanrenjinyan.viewTitleArrowTv.setText("禁言");
         binding.funTeamUserInfoDetailTichu.viewTitleArrowTv.setText("踢出群聊");
 
         binding.funTeamUserInfoDetailYaoqingren.viewTitleArrowLl.setVisibility(View.GONE);
         binding.funTeamUserInfoDetailYaoqingren.viewTitleArrowArrowIv.setVisibility(View.GONE);
         binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowLl.setVisibility(View.GONE);
         binding.funTeamUserInfoDetailJinzhi.viewTitleArrowLl.setVisibility(View.GONE);
+        binding.funTeamUserInfoDetailDanrenjinyan.viewTitleArrowLl.setVisibility(View.GONE);
         binding.funTeamUserInfoDetailTichu.viewTitleArrowLl.setVisibility(View.GONE);
         binding.funTeamUserInfoDetailLahei.viewTitleArrowLl.setVisibility(View.GONE);
         binding.funTeamUserInfoDetailBottomTv.setVisibility(View.GONE);
@@ -131,6 +136,17 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
             binding.funTeamUserInfoDetailAccountTv.setVisibility(View.VISIBLE);
             binding.funTeamUserInfoDetailYaoqingren.viewTitleArrowLl.setVisibility(View.VISIBLE);
             binding.funTeamUserInfoDetailJinzhi.viewTitleArrowLl.setVisibility(View.VISIBLE);
+            if (canMuteTargetMember()) {
+                binding.funTeamUserInfoDetailDanrenjinyan.viewTitleArrowLl.setVisibility(View.VISIBLE);
+                binding.funTeamUserInfoDetailDanrenjinyan.viewTitleArrowRightTvSwitch.setVisibility(
+                        View.VISIBLE);
+                binding.funTeamUserInfoDetailDanrenjinyan.viewTitleArrowArrowIv.setVisibility(
+                        View.GONE);
+                binding.funTeamUserInfoDetailDanrenjinyan.viewTitleArrowRightTvSwitch
+                        .setSelected(TeamNimMuteHelper.isMemberMuted(groupId, groupInfoBean.userId));
+                binding.funTeamUserInfoDetailDanrenjinyan.viewTitleArrowRightTvSwitch
+                        .setOnClickListener(this);
+            }
             binding.funTeamUserInfoDetailTichu.viewTitleArrowLl.setVisibility(View.VISIBLE);
             binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowLl.setOnClickListener(this);
             binding.funTeamUserInfoDetailJinzhi.viewTitleArrowRightTvSwitch.setVisibility(View.VISIBLE);
@@ -293,6 +309,10 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
             }
 
 
+        } else if (v == binding.funTeamUserInfoDetailDanrenjinyan.viewTitleArrowRightTvSwitch) {
+            muteTeamMemberByNim(
+                    !binding.funTeamUserInfoDetailDanrenjinyan.viewTitleArrowRightTvSwitch
+                            .isSelected());
         } else if (v == binding.funTeamUserInfoDetailJinzhi.viewTitleArrowRightTvSwitch) {
             int targetState = binding.funTeamUserInfoDetailJinzhi.viewTitleArrowRightTvSwitch.isSelected() ? 0 : 1;
             RegisterBean bean = new RegisterBean();
@@ -343,6 +363,47 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
                 }
             });
         }
+    }
+
+    private boolean canMuteTargetMember() {
+        if (groupInfoBean == null || TextUtils.isEmpty(groupInfoBean.userId)) {
+            return false;
+        }
+        if (rankState != 1 && rankState != 2) {
+            return false;
+        }
+        if (groupInfoBean.rankState == 1 || groupInfoBean.rankState == 2) {
+            return false;
+        }
+        String myAccount = IMKitClient.account();
+        return !TextUtils.isEmpty(myAccount) && !myAccount.equals(groupInfoBean.userId);
+    }
+
+    private void muteTeamMemberByNim(boolean mute) {
+        if (groupInfoBean == null || TextUtils.isEmpty(groupId)) {
+            return;
+        }
+        NIMClient.getService(TeamService.class)
+                .muteTeamMember(groupId, groupInfoBean.userId, mute)
+                .setCallback(
+                        new RequestCallback<Void>() {
+                            @Override
+                            public void onSuccess(Void param) {
+                                binding.funTeamUserInfoDetailDanrenjinyan.viewTitleArrowRightTvSwitch
+                                        .setSelected(mute);
+                                ToastUtils.toastMsg(mute ? "已禁言" : "已解除禁言");
+                            }
+
+                            @Override
+                            public void onFailed(int code) {
+                                ToastUtils.toastMsg("操作失败(" + code + ")");
+                            }
+
+                            @Override
+                            public void onException(Throwable exception) {
+                                ToastUtils.toastMsg("操作失败");
+                            }
+                        });
     }
 
     void tichuuser(boolean needToast) {

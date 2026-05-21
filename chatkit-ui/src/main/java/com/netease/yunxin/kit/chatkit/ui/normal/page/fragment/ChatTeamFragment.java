@@ -102,7 +102,24 @@ public class ChatTeamFragment extends NormalChatFragment {
     if (currentMember != null && teamInfo != null) {
       if (currentMember.getType() != TeamMemberType.Owner
           && currentMember.getType() != TeamMemberType.Manager) {
-        chatView.setInputMute(teamInfo.isAllMute());
+        boolean allMute = teamInfo.isAllMute();
+        boolean memberMute =
+            com.netease.yunxin.kit.chatkit.ui.common.TeamNimMuteHelper.isMemberMuted(
+                sessionID, currentMember.getAccount());
+        if (chatView instanceof com.netease.yunxin.kit.chatkit.ui.normal.view.ChatView) {
+          com.netease.yunxin.kit.chatkit.ui.normal.view.MessageBottomLayout bottomLayout =
+              ((com.netease.yunxin.kit.chatkit.ui.normal.view.ChatView) chatView)
+                  .getBottomInputLayout();
+          if (memberMute) {
+            bottomLayout.setMuteHint(getString(R.string.chat_team_member_mute));
+            chatView.setInputMute(true);
+          } else {
+            bottomLayout.setMuteHint(null);
+            chatView.setInputMute(allMute);
+          }
+        } else {
+          chatView.setInputMute(allMute || memberMute);
+        }
       } else {
         chatView.setInputMute(false);
       }
