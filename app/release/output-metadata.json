@@ -11,9 +11,9 @@
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 111,
-      "versionName": "1.1.1",
-      "outputFile": "yueyouping_release_v1.1.1.apk"
+      "versionCode": 112,
+      "versionName": "1.1.2",
+      "outputFile": "yueyouping_release_v1.1.2.apk"
     }
   ],
   "elementType": "File"
