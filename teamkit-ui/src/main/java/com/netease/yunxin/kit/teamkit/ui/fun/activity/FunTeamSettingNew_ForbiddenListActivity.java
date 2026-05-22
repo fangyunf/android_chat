@@ -80,6 +80,7 @@ public class FunTeamSettingNew_ForbiddenListActivity extends BaseActivity implem
 
     @Override
     protected void _initView() {
+        adapter.opt_type = TeamSettingUserMingDanListAdapter.OPT_FORBID_RED_PACKET;
         binding.funTeamSettingNewForbiddenListActivityNav.addCloseImageButton().setOnClickListener(this);
         // RecyclerView设置相关
         RecyclerView mRecyclerView = binding.funTeamSettingNewForbiddenListActivityRv;
