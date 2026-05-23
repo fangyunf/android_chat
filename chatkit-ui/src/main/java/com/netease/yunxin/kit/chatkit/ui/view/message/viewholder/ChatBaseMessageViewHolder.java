@@ -868,7 +868,7 @@ public abstract class ChatBaseMessageViewHolder extends CommonBaseMessageViewHol
                 }
             }
             if (grader > 0 && (messageBean.getMessageData().getMessage().getSessionType() == SessionTypeEnum.Team)) {
-                baseViewBinding.ivOtherGrade.setVisibility(View.VISIBLE);
+                baseViewBinding.ivOtherGrade.setVisibility(View.GONE);
 //                String imageName = "mine_grade_level_" + grader;
 //                Resources resources = baseViewBinding.ivOtherGrade.getResources();
 //                int resId = resources.getIdentifier(imageName, "mipmap", baseViewBinding.ivOtherGrade.getContext().getPackageName());

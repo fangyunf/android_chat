@@ -321,7 +321,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         if (DataUtil.getUserInfo().grade > 0) {
 //            binding.fragmentMineGradeRl.setVisibility(View.VISIBLE);
 //            binding.fragmentMineGradeTv.setVisibility(View.VISIBLE);
-            binding.fragmentMineGradeIv.setVisibility(View.VISIBLE);
+            binding.fragmentMineGradeIv.setVisibility(View.GONE);
             binding.fragmentMineGradeIv.setImageDrawable(ResourceHelper.getGradeDrawable(requireActivity(), DataUtil.getUserInfo().grade));
             binding.tvName.setTextColor(ResourceHelper.getGradeColor(requireActivity(), DataUtil.getUserInfo().grade));
         } else {

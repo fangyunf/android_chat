@@ -55,7 +55,7 @@ public class SimpleFriendListAdapter extends BaseQuickAdapter<GroupInfoBean, Qui
         GlideUtil.yh_loadImageRoundedCorner(getContext(), avatarIv, item.avatar, 22);
 
         if (item.grade > 0) {
-            ivGrade.setVisibility(View.VISIBLE);
+            ivGrade.setVisibility(View.GONE);
             nameTv.setTextColor(ResourceHelper.getGradeColor(getContext(), item.grade));
             ivGrade.setImageDrawable(ResourceHelper.getGradeDrawable(getContext(), item.grade));
         } else {
