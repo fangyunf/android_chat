@@ -63,7 +63,7 @@ public class AccountAnQuanManagerActivity extends BaseActivity implements View.O
         binding.activityAccountAnquanManagerCell1.viewTitleArrowRightTvSwitch.setVisibility(View.VISIBLE);
         binding.activityAccountAnquanManagerCell1.viewTitleArrowArrowIv.setVisibility(View.GONE);
 
-        binding.activityAccountAnquanManagerCell2.viewTitleArrowTv.setText("允许通过手机号搜索我");
+        binding.activityAccountAnquanManagerCell2.viewTitleArrowTv.setText("允许通过账号搜索我");
         binding.activityAccountAnquanManagerCell2.viewTitleArrowRightTvSwitch.setOnClickListener(this);
         binding.activityAccountAnquanManagerCell2.viewTitleArrowRightTvSwitch.setVisibility(View.VISIBLE);
         binding.activityAccountAnquanManagerCell2.viewTitleArrowArrowIv.setVisibility(View.GONE);

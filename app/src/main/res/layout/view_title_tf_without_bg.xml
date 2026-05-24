@@ -12,7 +12,7 @@ android:gravity="center_vertical"
         android:id="@+id/view_title_tf_without_bg_tv"
         android:layout_width="@dimen/dimen_70_dp"
         android:layout_height="@dimen/dimen_22_dp"
-        android:text="手机号号"
+        android:text="@string/label_account"
         android:textColor="@color/black"
         android:textSize="@dimen/text_size_16" />
 

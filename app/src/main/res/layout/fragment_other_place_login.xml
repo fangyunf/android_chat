@@ -28,7 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_40_dp"
         android:textSize="@dimen/text_size_14"
-        android:hint="请输入手机号"
+        android:hint="@string/hint_input_account"
         android:textColorHint="@color/color_999999"
         android:textColor="@color/black"
         android:background="@color/color_white"
@@ -46,7 +46,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_40_dp"
             android:textSize="@dimen/text_size_14"
-            android:hint="请输入验证码"
+            android:hint="@string/hint_input_security_answer"
             android:textColorHint="@color/color_999999"
             android:textColor="@color/black"
             android:background="@color/color_white"
@@ -58,16 +58,8 @@
         <com.yaoxin.appbase.view.loginlib.view.CountDownView
             android:id="@+id/btn_captcha"
             android:layout_width="wrap_content"
-            android:layout_marginTop="@dimen/dimen_5_dp"
-            android:layout_marginRight="@dimen/dimen_8_dp"
-            android:layout_height="30dp"
-            android:layout_alignParentEnd="true"
-            android:gravity="center"
-            android:text="获取验证码"
-            android:background="@color/white"
-            android:textColor="@color/app_theme_color"
-            android:visibility="visible"
-            />
+            android:layout_height="0dp"
+            android:visibility="gone" />
     </RelativeLayout>
     <TextView
         android:id="@+id/fragment_other_place_login_confirm_btn"

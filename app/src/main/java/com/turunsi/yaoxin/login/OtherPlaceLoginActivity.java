@@ -2,115 +2,85 @@ package com.turunsi.yaoxin.login;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 
 import androidx.annotation.Nullable;
 
-import com.alipay.face.api.ZIMFacade;
 import com.google.gson.Gson;
 import com.turunsi.yaoxin.R;
-import com.turunsi.yaoxin.databinding.ActivityMineRealNameSetBinding;
 import com.turunsi.yaoxin.databinding.ActivityOtherPlaceLoginBinding;
 import com.turunsi.yaoxin.utils.IMUtil;
-import com.turunsi.yaoxin.utils.RealNameAuthUtil;
 import com.yaoxin.appbase.activity.BaseActivity;
 import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
-import com.yaoxin.appbase.utils.CommonNetUtil;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
-import com.yaoxin.appbase.view.loginlib.utils.LoginLoader;
-import com.yaoxin.appbase.view.loginlib.view.CountDownView;
-import com.yaoxin.appbase.view.splitedittextview.OnInputListener;
-
-import java.util.HashMap;
 
 import retrofit2.Call;
 import retrofit2.Response;
 
-public class OtherPlaceLoginActivity extends BaseActivity implements View.OnClickListener {
+/** 异地登录：输入密保完成验证 */
+public class OtherPlaceLoginActivity extends BaseActivity {
     ActivityOtherPlaceLoginBinding binding;
-
-    int _type = 0;
-    String _phone = "";
+    String account = "";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityOtherPlaceLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        binding.activityOtherPlaceLoginNav.addCloseImageButton().setOnClickListener(this);
-        binding.activityOtherPlaceLoginDontVerifyTv.setOnClickListener(this);
-        binding.activityOtherPlaceLoginVerifyTv.setOnClickListener(this);
+        binding.activityOtherPlaceLoginNav.addCloseImageButton().setOnClickListener(v -> finish());
+        binding.activityOtherPlaceLoginDontVerifyTv.setOnClickListener(v -> finish());
 
-        if (extras.get("type") != null) {
-            _type = Integer.parseInt((String) extras.get("type"));
-        }
-        if (extras.get("phone") != null) {
-            _phone = (String) extras.get("phone");
-        }
-        if (_type == 1) {
-            binding.activityOtherPlaceLoginTv2.setTextSize(18);
-            binding.activityOtherPlaceLoginGetCodeLl.setVisibility(View.VISIBLE);
-            binding.activityOtherPlaceLoginTv1.setText("安全验证");
-            binding.activityOtherPlaceLoginTv2.setText(_phone);
-            binding.activityOtherPlaceLoginVerifyLl.setVisibility(View.GONE);
-            binding.activityOtherPlaceLoginNav.getTitleView().setText("安全验证");
-            Activity that = this;
-            binding.activityOtherPlaceLoginSplitEt.setOnInputListener(new OnInputListener() {
-                @Override
-                public void onInputFinished(String content) {
-                    RegisterBean registerBean = new RegisterBean();
-                    registerBean.phoneNo = _phone;
-                    registerBean.captcha = content;
-                    HttpUtil.apiW().customer_ydCodeCheck(registerBean)
-                            .enqueue(new CommonCallback<NetData>() {
-                                @Override
-                                public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                                    ToastUtils.toastMsg("验证成功");
-                                    UserBean userBean = new Gson().fromJson((String) body.data, UserBean.class);
-                                    DataUtil.putUserInfo(userBean);
-                                    DataUtil.putToken(userBean.token);
-                                    IMUtil.loginIM(that, userBean.userId, userBean.imToken);
-                                }
-
-                                @Override
-                                public void Failure(Call<NetData> call, Throwable t) {
-
-                                }
-                            });
-                }
-            });
-            CountDownView mCountDownView = binding.activityOtherPlaceLoginBtnCaptcha;
-            mCountDownView.needVerify = false;
-            mCountDownView.setCountDownTime(60);
-            mCountDownView.setCaptchaListener(new LoginLoader.CaptchaListener() {
-                @Override
-                public void onPre() {
-                    CommonNetUtil.getPhoneCode(_phone);
-                }
-
-                @Override
-                public void onComplete(String phoneOrEmail) {
-                }
-            });
+        if (extras != null && extras.get("phone") != null) {
+            account = (String) extras.get("phone");
         }
 
+        binding.activityOtherPlaceLoginNav.getTitleView().setText("安全验证");
+        binding.activityOtherPlaceLoginTv1.setText("您正在异地登录，须完成密保验证方可继续");
+        binding.activityOtherPlaceLoginTv2.setVisibility(View.VISIBLE);
+        binding.activityOtherPlaceLoginTv2.setTextSize(16);
+        binding.activityOtherPlaceLoginTv2.setText(getString(R.string.label_account) + "：" + account);
+        binding.activityOtherPlaceLoginGetCodeLl.setVisibility(View.VISIBLE);
+
+        Activity that = this;
+        binding.activityOtherPlaceLoginConfirmAnsTv.setOnClickListener(v -> submitSecurityAnswer(that));
     }
 
-    @Override
-    public void onClick(View v) {
-        if (v == binding.activityOtherPlaceLoginNav.addCloseImageButton() || binding.activityOtherPlaceLoginDontVerifyTv == v) {
-            finish();
-        } else if (v == binding.activityOtherPlaceLoginVerifyTv) {
-
-            HashMap map = new HashMap<>();
-            map.put("type", "1");
-            map.put("phone", _phone);
-            OtherPlaceLoginActivity.start(OtherPlaceLoginActivity.class, this, map);
+    private void submitSecurityAnswer(Activity activity) {
+        if (TextUtils.isEmpty(account)) {
+            ToastUtils.toastMsg(getString(R.string.toast_account_empty));
+            return;
         }
+        String ans = getTextStr(binding.activityOtherPlaceLoginAnsEt);
+        if (TextUtils.isEmpty(ans)) {
+            ToastUtils.toastMsg(getString(R.string.toast_security_answer_empty));
+            return;
+        }
+        RegisterBean registerBean = new RegisterBean();
+        registerBean.phoneNo = account;
+        registerBean.ans = ans;
+        HttpUtil.apiW()
+                .customer_ydCodeCheckZh(registerBean)
+                .enqueue(
+                        new CommonCallback<NetData>() {
+                            @Override
+                            public void Successful(
+                                    Call<NetData> call, Response<NetData> response, NetData body) {
+                                ToastUtils.toastMsg("验证成功");
+                                UserBean userBean =
+                                        new Gson().fromJson((String) body.data, UserBean.class);
+                                DataUtil.putUserInfo(userBean);
+                                DataUtil.putToken(userBean.token);
+                                IMUtil.loginIM(activity, userBean.userId, userBean.imToken);
+                            }
+
+                            @Override
+                            public void Failure(Call<NetData> call, Throwable t) {}
+                        });
     }
 }

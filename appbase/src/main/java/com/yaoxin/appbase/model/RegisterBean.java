@@ -39,6 +39,8 @@ public class RegisterBean {
     public String param;
     public String password;
     public String captcha;
+    /** 密保答案（Zh 接口替代短信验证码字段） */
+    public String ans;
     public String deviceId;
     public String clientType;
     public String phoneAndCode;
