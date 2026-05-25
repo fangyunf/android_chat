@@ -27,6 +27,16 @@ public class FunBottomActionFactory {
                         ActionConstants.ACTION_TYPE_CAMERA,
                         R.drawable.bottom_layout_item_1,
                         R.string.chat_message_more_shoot));
+
+
+        if (sessionType == SessionTypeEnum.P2P) {
+            actions.add(
+                    new ActionItem(
+                            ActionConstants.ACTION_TYPE_VIDEO_CALL,
+                            R.drawable.ic_video_call,
+                            R.string.chat_message_video_call));
+        }
+
 //    actions.add(
 //        new ActionItem(
 //            ActionConstants.ACTION_TYPE_LOCATION,
@@ -43,24 +53,18 @@ public class FunBottomActionFactory {
         actions.add(
                 new ActionItem(
                         ActionConstants.ACTION_TYPE_SHOPPING_COUPON, R.drawable.bottom_layout_item_3, R.string.chat_message_shopping_coupon));
-        
-        if (sessionType == SessionTypeEnum.P2P) {
-            actions.add(
-                    new ActionItem(
-                            ActionConstants.ACTION_TYPE_ZHUAN_ZHANG, R.drawable.bottom_layout_item_4, R.string.chat_message_zhuan_zhang));
 
-        }
+//        if (sessionType == SessionTypeEnum.P2P) {
+//            actions.add(
+//                    new ActionItem(
+//                            ActionConstants.ACTION_TYPE_ZHUAN_ZHANG, R.drawable.bottom_layout_item_4, R.string.chat_message_zhuan_zhang));
+//
+//        }
 
 //        actions.add(
 //                new ActionItem(ActionConstants.ACTION_TYPE_SHOU_CANG, R.drawable.chat_fragment_toolbar_shoucang, R.string.chat_message_shou_cang));
 
-//    if (sessionType == SessionTypeEnum.P2P) {
-//      actions.add(
-//          new ActionItem(
-//              ActionConstants.ACTION_TYPE_VIDEO_CALL,
-//              R.drawable.ic_video_call,
-//              R.string.chat_message_video_call));
-//    }
+
         if (ChatKitClient.getChatUIConfig() != null
                 && ChatKitClient.getChatUIConfig().chatInputMenu != null) {
             return ChatKitClient.getChatUIConfig().chatInputMenu.customizeInputMore(actions);
