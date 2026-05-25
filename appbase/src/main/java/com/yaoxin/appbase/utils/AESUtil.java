@@ -73,6 +73,18 @@ public class AESUtil {
         byte[] decrypted = cipher.doFinal(decodedBytes);
         return new String(decrypted, StandardCharsets.UTF_8);
     }
+
+    /** 聊天消息解密，失败时返回原文 */
+    public static String safeMsgDecrypt(String text) {
+        if (text == null || text.isEmpty()) {
+            return text == null ? "" : text;
+        }
+        try {
+            return msgAseDecrypt(text);
+        } catch (Exception e) {
+            return text;
+        }
+    }
     public static boolean isChineseCharacter(char c) {
         Character.UnicodeBlock ub = Character.UnicodeBlock.of(c);
         return ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS

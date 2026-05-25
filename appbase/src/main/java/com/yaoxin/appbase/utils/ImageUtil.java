@@ -45,6 +45,13 @@ public class ImageUtil {
         return EasyPermissions.hasPermissions(context, getImageSavePermissions());
     }
 
+    /**
+     * Android 10+ 通过 MediaStore 写入相册无需存储权限；更低版本需申请读写权限。
+     */
+    public static boolean needsImageSaveRuntimePermission() {
+        return Build.VERSION.SDK_INT < Build.VERSION_CODES.Q;
+    }
+
     /** 保存视频到相册所需权限 */
     public static String[] getVideoSavePermissions() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -91,6 +98,11 @@ public class ImageUtil {
         }
         pendingGalleryBitmap = bitmap;
         pendingGalleryActivity = activity;
+        if (!needsImageSaveRuntimePermission()) {
+            saveBitmapToGallery(activity, bitmap);
+            clearPendingGallerySave();
+            return;
+        }
         String[] permissions = getImageSavePermissions();
         if (EasyPermissions.hasPermissions(activity, permissions)) {
             saveBitmapToGallery(activity, bitmap);

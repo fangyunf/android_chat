@@ -155,6 +155,11 @@ public class WatchImageActivity extends WatchBaseActivity {
 
   private void saveLocalImageFile(String path) {
     pendingSavePath = path;
+    if (!ImageUtil.needsImageSaveRuntimePermission()) {
+      performSave(path);
+      pendingSavePath = null;
+      return;
+    }
     String[] permissions = ImageUtil.getImageSavePermissions();
     if (PermissionUtils.hasPermissions(this, permissions)) {
       performSave(path);

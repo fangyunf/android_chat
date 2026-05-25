@@ -414,11 +414,7 @@ public class MessageHelper {
         if (TextUtils.isEmpty(value)) {
             value = "";
         }
-        try {
-            value = AESUtil.msgAseDecrypt(value);
-        } catch (Exception e) {
-
-        }
+        value = AESUtil.safeMsgDecrypt(value);
         SpannableString mSpannableString = new SpannableString(value);
         Matcher matcher = EmojiManager.getPattern().matcher(value);
         while (matcher.find()) {
@@ -526,38 +522,49 @@ public class MessageHelper {
         }
     }
 
+    /** 获取可复制到剪贴板的明文（已解密） */
+    public static String getCopyablePlainText(IMMessageInfo messageInfo) {
+        if (messageInfo == null || messageInfo.getMessage() == null) {
+            return "";
+        }
+        IMMessage message = messageInfo.getMessage();
+        if (message.getMsgType() == MsgTypeEnum.text) {
+            return AESUtil.safeMsgDecrypt(message.getContent());
+        }
+        if (isRichText(messageInfo)) {
+            RichTextAttachment attachment = (RichTextAttachment) message.getAttachment();
+            if (attachment == null) {
+                return "";
+            }
+            String title = AESUtil.safeMsgDecrypt(attachment.title);
+            String body = AESUtil.safeMsgDecrypt(attachment.body);
+            if (!TextUtils.isEmpty(title) && !TextUtils.isEmpty(body)) {
+                return title + "\n" + body;
+            }
+            return !TextUtils.isEmpty(body) ? body : title;
+        }
+        if (message.getMsgType() == MsgTypeEnum.custom
+                && message.getAttachment() instanceof com.netease.yunxin.kit.corekit.im.custom.CustomAttachment) {
+            String content =
+                    ((com.netease.yunxin.kit.corekit.im.custom.CustomAttachment) message.getAttachment())
+                            .getContent();
+            return AESUtil.safeMsgDecrypt(content);
+        }
+        return AESUtil.safeMsgDecrypt(message.getContent());
+    }
+
     public static void copyTextMessage(IMMessageInfo messageInfo, boolean showToast) {
+        String content = getCopyablePlainText(messageInfo);
+        if (TextUtils.isEmpty(content)) {
+            return;
+        }
         ClipboardManager cmb =
                 (ClipboardManager)
                         IMKitClient.getApplicationContext().getSystemService(Context.CLIPBOARD_SERVICE);
-        ClipData clipData = null;
-        if (messageInfo.getMessage().getMsgType() == MsgTypeEnum.text) {
-//      clipData = ClipData.newPlainText(null, messageInfo.getMessage().getContent());
-            String content = messageInfo.getMessage().getContent();
-            try {
-                content = AESUtil.msgAseDecrypt(content);
-            } catch (Exception e) {
-
-            }
-            clipData = ClipData.newPlainText(null, content);
-            cmb.setPrimaryClip(clipData);
-            if (showToast) {
-                ToastX.showShortToast(R.string.chat_message_action_copy_success);
-            }
-
-            cmb.setPrimaryClip(clipData);
-            if (showToast) {
-                ToastX.showShortToast(R.string.chat_message_action_copy_success);
-            }
-        } else if (messageInfo.getMessage().getMsgType() == MsgTypeEnum.custom) {
-//      CustomAttachment attachment = (CustomAttachment) messageInfo.getMessage().getAttachment();
-//      if (attachment instanceof RichTextAttachment) {
-//        String data = ((RichTextAttachment) attachment).body;
-//        if (TextUtils.isEmpty(data)) {
-//          data = ((RichTextAttachment) attachment).title;
-//        }
-//        clipData = ClipData.newPlainText(null, data);
-//      }
+        ClipData clipData = ClipData.newPlainText(null, content);
+        cmb.setPrimaryClip(clipData);
+        if (showToast) {
+            ToastX.showShortToast(R.string.chat_message_action_copy_success);
         }
     }
 
