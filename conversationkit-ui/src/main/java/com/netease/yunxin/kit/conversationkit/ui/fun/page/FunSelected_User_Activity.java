@@ -98,6 +98,10 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
             binding.activityFunSelectedUserNav.getTitleView().setText("赠送对象");
             binding.activityFunSelectedUserConfirmTv.setVisibility(View.GONE);
         }
+        if (page_type == 7) {
+            binding.activityFunSelectedUserNav.getTitleView().setText("按群成员查找");
+            binding.activityFunSelectedUserConfirmTv.setVisibility(View.GONE);
+        }
         if (page_type == 5) {
             binding.activityFunSelectedUserNav.getTitleView().setText("发送名片");
             binding.activityFunSelectedUserConfirmTv.setVisibility(View.GONE);
@@ -118,7 +122,7 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
 
 
     protected void _requestData1() {
-        if (page_type == 3 || page_type == 4) {
+        if (page_type == 3 || page_type == 4 || page_type == 7) {
             if (groupInfoBean == null) {
                 return;
             }
@@ -256,7 +260,7 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener<GroupInfoBean>() {
             @Override
             public void onClick(@NonNull BaseQuickAdapter<GroupInfoBean, ?> baseQuickAdapter, @NonNull View view, int i) {
-                if (page_type == 4) {
+                if (page_type == 4 || page_type == 7) {
 
                     Intent resultIntent = new Intent();
                     GroupInfoBean groupInfoBean1 = baseQuickAdapter.getItem(i);
