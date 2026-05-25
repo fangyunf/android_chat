@@ -23,6 +23,7 @@ import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.Constant;
 import com.yaoxin.appbase.net.HttpUtil;
+import com.yaoxin.appbase.net.NetServerException;
 import com.yaoxin.appbase.pswkeyboard.OnPasswordInputFinish;
 import com.yaoxin.appbase.pswkeyboard.widget.PopEnterPassword;
 import com.yaoxin.appbase.utils.DataUtil;
@@ -222,7 +223,10 @@ public class FunSendZhuanZhangActivity extends BaseActivity implements View.OnCl
 
                 @Override
                 public void Failure(Call<NetData> call, Throwable t) {
-                    ToastUtils.toastMsg("转账失败");
+                    if (handlePayPasswordNotSet(t)) {
+                        return;
+                    }
+                    ToastUtils.toastMsg(t.getMessage());
                 }
             });
             return;
@@ -237,7 +241,10 @@ public class FunSendZhuanZhangActivity extends BaseActivity implements View.OnCl
 
             @Override
             public void Failure(Call<NetData> call, Throwable t) {
-                ToastUtils.toastMsg("转账失败");
+                if (handlePayPasswordNotSet(t)) {
+                    return;
+                }
+                ToastUtils.toastMsg(t.getMessage());
             }
         });
     }
@@ -255,5 +262,20 @@ public class FunSendZhuanZhangActivity extends BaseActivity implements View.OnCl
         binding.activityFunSendZhuanzhangLiushuihaoTv.setVisibility(View.VISIBLE);
         binding.activityFunSendZhuanzhangLiushuihaoTv.setText("点击更换收款人");
         GlideUtil.yh_loadImageRoundedCorner(this, binding.activityFunSendRedPacketToPeopleHeadIv, userInfo.avatar, 6);
+    }
+
+    private boolean handlePayPasswordNotSet(Throwable t) {
+        if (!(t instanceof NetServerException) || ((NetServerException) t).getErrCode() != 8008) {
+            return false;
+        }
+        try {
+            Intent intent = new Intent();
+            intent.putExtra("type", "0");
+            intent.setClassName(getPackageName(), "com.turunsi.yaoxin.main.mine.purse.pwdmanager.PursePwdManagerSetActivity");
+            startActivity(intent);
+            return true;
+        } catch (Exception ignored) {
+            return false;
+        }
     }
 }

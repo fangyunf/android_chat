@@ -79,10 +79,16 @@ public class PursePwdManagerSetActivity extends BaseActivity implements View.OnC
     private void updateSecurityRowVisibility() {
         binding.activityMinePursePwdManagerGetCode
                 .getRoot()
-                .setVisibility(type == 100 ? View.VISIBLE : View.GONE);
+                .setVisibility(type == 0 || type == 100 ? View.VISIBLE : View.GONE);
     }
 
     private void _initSetCell() {
+        binding.activityMinePursePwdManagerGetCode.viewTitleTfWithoutBgTv.setText(
+                R.string.label_security_answer);
+        binding.activityMinePursePwdManagerGetCode.viewTitleTfWithoutBgEt.setHint(
+                R.string.hint_input_security_answer);
+        binding.activityMinePursePwdManagerGetCode.viewTitleTfWithoutBgEt.setInputType(
+                InputType.TYPE_CLASS_TEXT);
         binding.activityMinePursePwdManagerSetSetPwd.viewTitleTfWithoutBgTv.setText("输入密码");
         binding.activityMinePursePwdManagerSetConfirmPwd.viewTitleTfWithoutBgTv.setText("确认密码");
         binding.activityMinePursePwdManagerSetSetPwd.viewTitleTfWithoutBgEt.setHint("请输入密码");
@@ -173,6 +179,12 @@ public class PursePwdManagerSetActivity extends BaseActivity implements View.OnC
 
         RegisterBean registerBean = new RegisterBean();
         if (type == 0) {
+            String ans = getTextStr(binding.activityMinePursePwdManagerGetCode.viewTitleTfWithoutBgEt);
+            if (TextUtils.isEmpty(ans)) {
+                ToastUtils.toastMsg(getString(R.string.toast_security_answer_empty));
+                return;
+            }
+            registerBean.ans = ans;
             registerBean.password = pwd1;
         } else if (type == 1) {
             registerBean.password = pwd1;
