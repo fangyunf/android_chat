@@ -1,29 +1,35 @@
 package com.netease.yunxin.kit.chatkit.ui.fun.page;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.InputType;
-import android.text.TextWatcher;
 import android.text.method.DigitsKeyListener;
 import android.view.Gravity;
 import android.view.View;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 
 import com.google.gson.Gson;
+import com.netease.yunxin.kit.corekit.route.XKitRouter;
 import com.netease.yunxin.kit.chatkit.ui.databinding.ActivityFunSendZhuanzhangPacketBinding;
 import com.yaoxin.appbase.activity.BaseActivity;
+import com.yaoxin.appbase.model.GroupInfoBean;
 import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
+import com.yaoxin.appbase.net.Constant;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.pswkeyboard.OnPasswordInputFinish;
 import com.yaoxin.appbase.pswkeyboard.widget.PopEnterPassword;
+import com.yaoxin.appbase.utils.DataUtil;
+import com.yaoxin.appbase.utils.GlideUtil;
 import com.yaoxin.appbase.utils.NumberUtil;
 import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
-import com.yaoxin.appbase.utils.GlideUtil;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -31,8 +37,12 @@ import retrofit2.Response;
 public class FunSendZhuanZhangActivity extends BaseActivity implements View.OnClickListener {
 
     ActivityFunSendZhuanzhangPacketBinding binding;
+    protected ActivityResultLauncher<Intent> forwardTeamLauncher;
     private String sessionId = "";
+    private int sessionType = 0;
+    private String selectToUserId = "";
     private UserBean targetUserBean;
+    private GroupInfoBean groupInfoBean;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,6 +53,25 @@ public class FunSendZhuanZhangActivity extends BaseActivity implements View.OnCl
         if (extras != null && extras.get("sessionId") != null) {
             sessionId = (String) extras.get("sessionId");
         }
+        if (extras != null && extras.get("sessionType") != null) {
+            String tempSessionType = (String) extras.get("sessionType");
+            sessionType = Integer.parseInt(tempSessionType);
+        }
+        forwardTeamLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if (result.getResultCode() != Activity.RESULT_OK) {
+                return;
+            }
+            Intent data = result.getData();
+            if (data == null) {
+                return;
+            }
+            String userInfoJson = data.getStringExtra("userInfo");
+            if (userInfoJson == null || userInfoJson.isEmpty()) {
+                return;
+            }
+            GroupInfoBean userInfo = new Gson().fromJson(userInfoJson, GroupInfoBean.class);
+            updateSelectedGroupMember(userInfo);
+        });
         _initView();
         _requestUserInfo();
         _requestData();
@@ -68,6 +97,25 @@ public class FunSendZhuanZhangActivity extends BaseActivity implements View.OnCl
     }
 
     private void _requestUserInfo() {
+        if (sessionType == 1) {
+            binding.activityFunSendRedPacketNav.getTitleView().setText("群内转账");
+            binding.activityFunSendRedPacketToPeopleNameTv.setText("请选择收款人");
+            binding.activityFunSendZhuanzhangLiushuihaoTv.setVisibility(View.VISIBLE);
+            binding.activityFunSendZhuanzhangLiushuihaoTv.setText("点击选择收款人");
+            HttpUtil.apiW().group_groupHomeInfo(sessionId).enqueue(new CommonCallback<NetData>() {
+                @Override
+                public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                    if (body != null && body.data != null) {
+                        groupInfoBean = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
+                    }
+                }
+
+                @Override
+                public void Failure(Call<NetData> call, Throwable t) {
+                }
+            });
+            return;
+        }
         if (sessionId == null || sessionId.isEmpty()) return;
         RegisterBean bean = new RegisterBean();
         bean.userId = sessionId;
@@ -96,6 +144,7 @@ public class FunSendZhuanZhangActivity extends BaseActivity implements View.OnCl
     protected void _initView() {
         binding.activityFunSendRedPacketNav.addCloseImageButton().setOnClickListener(this);
         binding.activityFunSendRedPacketSendTv.setOnClickListener(this);
+        binding.activityFunSendRedPacketToPeopleLl.setOnClickListener(this);
         binding.activityFunSendRedPacketMoneyEt.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
         binding.activityFunSendRedPacketMoneyEt.setKeyListener(DigitsKeyListener.getInstance("0123456789."));
         binding.activityFunSendRedPacketGreetingEt.setHint("添加转账说明");
@@ -105,7 +154,25 @@ public class FunSendZhuanZhangActivity extends BaseActivity implements View.OnCl
     public void onClick(View v) {
         if (v == binding.activityFunSendRedPacketNav.addCloseImageButton()) {
             finish();
+        } else if (v == binding.activityFunSendRedPacketToPeopleLl) {
+            if (sessionType != 1) {
+                return;
+            }
+            if (groupInfoBean == null) {
+                ToastUtils.toastMsg("群成员加载中");
+                return;
+            }
+            DataUtil.setStringValue(new Gson().toJson(groupInfoBean), "groupInfo");
+            XKitRouter.withKey(Constant.FunSelected_User_ActivityKey)
+                    .withParam("type", "4")
+                    .withParam("groupId", sessionId)
+                    .withContext(this)
+                    .navigate(forwardTeamLauncher);
         } else if (v == binding.activityFunSendRedPacketSendTv) {
+            if (sessionType == 1 && (selectToUserId == null || selectToUserId.isEmpty())) {
+                ToastUtils.toastMsg("请选择收款人");
+                return;
+            }
             String moneyStr = getTextStr(binding.activityFunSendRedPacketMoneyEt);
             if (moneyStr == null || moneyStr.isEmpty()) {
                 ToastUtils.toastMsg("请输入金额");
@@ -139,6 +206,27 @@ public class FunSendZhuanZhangActivity extends BaseActivity implements View.OnCl
         bean.amount = amount;
         bean.title = (greeting == null || greeting.isEmpty()) ? "你发起了一笔转账" : greeting;
         bean.password = pwd;
+        if (sessionType == 1) {
+            if (selectToUserId == null || selectToUserId.isEmpty()) {
+                ToastUtils.toastMsg("请选择收款人");
+                return;
+            }
+            bean.toUserId = selectToUserId;
+            bean.groupId = sessionId;
+            HttpUtil.apiW().red_groupZZ(bean).enqueue(new CommonCallback<NetData>() {
+                @Override
+                public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                    ToastUtils.toastMsg("发送成功");
+                    finish();
+                }
+
+                @Override
+                public void Failure(Call<NetData> call, Throwable t) {
+                    ToastUtils.toastMsg("转账失败");
+                }
+            });
+            return;
+        }
         bean.toUserId = sessionId;
         HttpUtil.apiW().red_zz(bean).enqueue(new CommonCallback<NetData>() {
             @Override
@@ -152,5 +240,20 @@ public class FunSendZhuanZhangActivity extends BaseActivity implements View.OnCl
                 ToastUtils.toastMsg("转账失败");
             }
         });
+    }
+
+    private void updateSelectedGroupMember(GroupInfoBean userInfo) {
+        if (userInfo == null || userInfo.userId == null || userInfo.userId.isEmpty()) {
+            return;
+        }
+        if (userInfo.userId.equals(DataUtil.getUserid())) {
+            ToastUtils.toastMsg("不能给自己转账");
+            return;
+        }
+        selectToUserId = userInfo.userId;
+        binding.activityFunSendRedPacketToPeopleNameTv.setText(userInfo.name);
+        binding.activityFunSendZhuanzhangLiushuihaoTv.setVisibility(View.VISIBLE);
+        binding.activityFunSendZhuanzhangLiushuihaoTv.setText("点击更换收款人");
+        GlideUtil.yh_loadImageRoundedCorner(this, binding.activityFunSendRedPacketToPeopleHeadIv, userInfo.avatar, 6);
     }
 }

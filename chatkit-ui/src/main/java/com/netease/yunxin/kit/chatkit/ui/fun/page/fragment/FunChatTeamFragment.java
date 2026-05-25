@@ -142,7 +142,6 @@ public class FunChatTeamFragment extends FunChatFragment {
     chatView.setAitManager(aitManager);
     refreshView();
     _requestData();
-    getMessageBottomLayout().getOpt4().setVisibility(View.GONE);
 //    startTimer();
   }
   private void startTimer() {

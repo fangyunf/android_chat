@@ -133,6 +133,11 @@ public interface ServiceW {
             @Body RegisterBean userBean
     );
 
+    @POST("/red/groupZZ")
+    Call<NetData> red_groupZZ(
+            @Body RegisterBean userBean
+    );
+
     @POST("/home/updateFullPassword")
     Call<NetData> home_updateFullPassword(
             @Body RegisterBean userBean

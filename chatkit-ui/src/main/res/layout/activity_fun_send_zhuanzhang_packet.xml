@@ -38,9 +38,12 @@
 
                 <!-- 收款人信息：头像 + 流水号 + 姓名 -->
                 <LinearLayout
+                    android:id="@+id/activity_fun_send_red_packet_to_people_ll"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dimen_24_dp"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:gravity="center_horizontal"
                     android:orientation="vertical">
 

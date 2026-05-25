@@ -693,11 +693,10 @@ public abstract class ChatBaseFragment extends BaseFragment {
 
                 @Override
                 public void sendZhuanZhang() {
-                    if (getSessionType() == SessionTypeEnum.P2P) {
-                        HashMap map = new HashMap();
-                        map.put("sessionId", getSessionId());
-                        FunSendZhuanZhangActivity.start(FunSendZhuanZhangActivity.class, getContext(), map);
-                    }
+                    HashMap map = new HashMap();
+                    map.put("sessionId", getSessionId());
+                    map.put("sessionType", getSessionType() == SessionTypeEnum.Team ? "1" : "0");
+                    FunSendZhuanZhangActivity.start(FunSendZhuanZhangActivity.class, getContext(), map);
                 }
 
                 @Override
