@@ -113,7 +113,9 @@ public class AccountCodeDialogFragment extends BaseDialogFragment implements Vie
          if (v == binding.dialogAccountCodeCloseIv) {
             dismiss();
         } else if (binding.dialogAccountCodeSavePhoto == v) {
-             ImageUtil.saveImageViewToGallery(getContext(), binding.dialogAccountCodeCodeIv);
+            if (getActivity() != null) {
+                ImageUtil.saveImageViewToGallery(getActivity(), binding.dialogAccountCodeCodeIv);
+            }
          }
     }
 }

@@ -49,7 +49,7 @@
     <color name="app_theme_color">#00B4C3</color>
     <color name="app_chat_view_bg_color">#F1F1F1</color>
     <color name="app_chat_send_pop_bg">#377AF5</color>
-    <color name="app_chat_receive_pop_bg">#FFFFFF</color>
+    <color name="app_chat_receive_pop_bg">#f5f5f5</color>
     <color name="app_theme_red_color">#FF0000</color>
     <color name="app_theme_aplha_color">#33006CFF</color>
 

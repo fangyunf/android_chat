@@ -6,7 +6,6 @@ package com.netease.yunxin.kit.chatkit.ui.page;
 
 import static com.netease.yunxin.kit.chatkit.ui.ChatKitUIConstant.LIB_TAG;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
@@ -20,7 +19,8 @@ import com.netease.yunxin.kit.chatkit.ui.R;
 import com.netease.yunxin.kit.chatkit.ui.page.adapter.WatchImageAdapter;
 import com.netease.yunxin.kit.common.ui.utils.Permission;
 import com.netease.yunxin.kit.common.ui.utils.ToastX;
-import com.netease.yunxin.kit.common.utils.storage.ExternalStorage;
+import com.netease.yunxin.kit.common.utils.PermissionUtils;
+import com.yaoxin.appbase.utils.ImageUtil;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +38,7 @@ public class WatchImageActivity extends WatchBaseActivity {
   private List<IMMessage> messages;
   private int firstDisplayImageIndex = 0;
   private boolean newPageSelected = false;
+  private String pendingSavePath;
 
   public static void launch(Context context, ArrayList<IMMessage> list, int showIndex) {
     Intent intent = new Intent(context, WatchImageActivity.class);
@@ -122,60 +123,102 @@ public class WatchImageActivity extends WatchBaseActivity {
   public void saveMedia() {
     int position = viewPager2.getCurrentItem();
     ALog.d(LIB_TAG, TAG, "save image -->> currentItem:" + position);
-    if (position >= 0 && position < messages.size()) {
-      IMMessage currentMsg = messages.get(position);
-      ImageAttachment attachment = (ImageAttachment) currentMsg.getAttachment();
-      String path = attachment.getPath();
-      if (TextUtils.isEmpty(path)) {
-        ALog.e(TAG, "save image -->> path is null");
-        return;
-      }
-      ALog.d(TAG, "save path:" + path);
-      Permission.requirePermissions(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-          .request(
-              new Permission.PermissionCallback() {
-                @Override
-                public void onGranted(List<String> permissionsGranted) {
-                  if (permissionsGranted.contains(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                    if (ExternalStorage.savePictureFile(new File(path))) {
-                      ToastX.showShortToast(R.string.chat_message_image_save);
+    if (position < 0 || position >= messages.size()) {
+      return;
+    }
+    String path = resolveLocalImagePath(messages.get(position));
+    if (TextUtils.isEmpty(path)) {
+      ToastX.showShortToast(R.string.chat_message_image_save_fail);
+      return;
+    }
+    if (path.startsWith("http://") || path.startsWith("https://")) {
+      saveImageFromUrl(path);
+      return;
+    }
+    saveLocalImageFile(path);
+  }
+
+  private String resolveLocalImagePath(IMMessage message) {
+    if (message == null || !(message.getAttachment() instanceof ImageAttachment)) {
+      return null;
+    }
+    ImageAttachment attachment = (ImageAttachment) message.getAttachment();
+    if (!TextUtils.isEmpty(attachment.getPath())) {
+      return attachment.getPath();
+    }
+    if (!TextUtils.isEmpty(attachment.getThumbPath())) {
+      return attachment.getThumbPath();
+    }
+    return attachment.getUrl();
+  }
+
+  private void saveLocalImageFile(String path) {
+    pendingSavePath = path;
+    if (!ImageUtil.needsImageSaveRuntimePermission()) {
+      performSave(path);
+      pendingSavePath = null;
+      return;
+    }
+    String[] permissions = ImageUtil.getImageSavePermissions();
+    if (PermissionUtils.hasPermissions(this, permissions)) {
+      performSave(path);
+      pendingSavePath = null;
+      return;
+    }
+    Permission.requirePermissions(this, permissions)
+        .request(
+            new Permission.PermissionCallback() {
+              @Override
+              public void onGranted(List<String> permissionsGranted) {
+                if (!TextUtils.isEmpty(pendingSavePath)) {
+                  performSave(pendingSavePath);
+                  pendingSavePath = null;
+                }
+              }
+
+              @Override
+              public void onDenial(
+                  List<String> permissionsDenial, List<String> permissionDenialForever) {
+                pendingSavePath = null;
+                showPermissionDeniedToast();
+              }
+
+              @Override
+              public void onException(Exception exception) {
+                pendingSavePath = null;
+                showPermissionDeniedToast();
+              }
+            });
+  }
+
+  private void saveImageFromUrl(String url) {
+    File cacheFile =
+        new File(getCacheDir(), "watch_save_" + System.currentTimeMillis() + ".jpg");
+    new Thread(
+            () -> {
+              ImageUtil.downloadImage(url, cacheFile);
+              runOnUiThread(
+                  () -> {
+                    if (cacheFile.exists() && cacheFile.length() > 0) {
+                      saveLocalImageFile(cacheFile.getAbsolutePath());
                     } else {
                       ToastX.showShortToast(R.string.chat_message_image_save_fail);
                     }
-                  } else {
-                    Toast.makeText(
-                            WatchImageActivity.this,
-                            WatchImageActivity.this
-                                .getResources()
-                                .getString(R.string.permission_default),
-                            Toast.LENGTH_SHORT)
-                        .show();
-                  }
-                }
+                  });
+            })
+        .start();
+  }
 
-                @Override
-                public void onDenial(
-                    List<String> permissionsDenial, List<String> permissionDenialForever) {
-                  Toast.makeText(
-                          WatchImageActivity.this,
-                          WatchImageActivity.this
-                              .getResources()
-                              .getString(R.string.permission_default),
-                          Toast.LENGTH_SHORT)
-                      .show();
-                }
-
-                @Override
-                public void onException(Exception exception) {
-                  Toast.makeText(
-                          WatchImageActivity.this,
-                          WatchImageActivity.this
-                              .getResources()
-                              .getString(R.string.permission_default),
-                          Toast.LENGTH_SHORT)
-                      .show();
-                }
-              });
+  private void performSave(String path) {
+    if (ImageUtil.saveImageFileToGallery(this, path)) {
+      ToastX.showShortToast(R.string.chat_message_image_save);
+    } else {
+      ToastX.showShortToast(R.string.chat_message_image_save_fail);
     }
+  }
+
+  private void showPermissionDeniedToast() {
+    Toast.makeText(this, getResources().getString(R.string.permission_default), Toast.LENGTH_SHORT)
+        .show();
   }
 }

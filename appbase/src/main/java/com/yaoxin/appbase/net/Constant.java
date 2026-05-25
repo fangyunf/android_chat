@@ -34,7 +34,8 @@ public class Constant {
     public static final int RC_PHOTO_PICKER_PERM = 123;
     public static final int RC_PHOTO_CAMERA_PERM = 124;
     public static final int REQUEST_CODE_CHOOSE = 23;
-
+    /** 保存图片到相册（二维码、聊天图片等） */
+    public static final int RC_SAVE_IMAGE_GALLERY = 29;
 
     public static final int REQUEST_PERMISSION = 0;
     public static final int REQUEST_CAMERA_PERMISSION = 1;

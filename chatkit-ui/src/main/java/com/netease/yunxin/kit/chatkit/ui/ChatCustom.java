@@ -4,11 +4,14 @@
 
 package com.netease.yunxin.kit.chatkit.ui;
 
+import android.text.TextUtils;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.yunxin.kit.chatkit.model.IMMessageInfo;
 import com.netease.yunxin.kit.chatkit.ui.common.TeamNotificationHelper;
+import com.netease.yunxin.kit.chatkit.ui.custom.RichTextAttachment;
 import com.netease.yunxin.kit.corekit.im.IMKitClient;
 import com.netease.yunxin.kit.corekit.im.custom.CustomAttachment;
+import com.yaoxin.appbase.utils.AESUtil;
 
 public class ChatCustom {
 
@@ -45,13 +48,22 @@ public class ChatCustom {
         return IMKitClient.getApplicationContext()
             .getString(R.string.chat_reply_message_brief_robot);
       case custom:
+        if (msg.getAttachment() instanceof RichTextAttachment) {
+          RichTextAttachment attachment = (RichTextAttachment) msg.getAttachment();
+          String body = AESUtil.safeMsgDecrypt(attachment.body);
+          String title = AESUtil.safeMsgDecrypt(attachment.title);
+          if (!TextUtils.isEmpty(title) && !TextUtils.isEmpty(body)) {
+            return title + ": " + body;
+          }
+          return !TextUtils.isEmpty(body) ? body : title;
+        }
         if (msg.getAttachment() instanceof CustomAttachment) {
-          return ((CustomAttachment) msg.getAttachment()).getContent();
+          return AESUtil.safeMsgDecrypt(((CustomAttachment) msg.getAttachment()).getContent());
         } else {
-          return msg.getContent();
+          return AESUtil.safeMsgDecrypt(msg.getContent());
         }
       default:
-        return msg.getContent();
+        return AESUtil.safeMsgDecrypt(msg.getContent());
     }
   }
 }

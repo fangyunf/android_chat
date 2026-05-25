@@ -21,13 +21,7 @@ public class ConversationCustom {
           return context.getString(R.string.msg_type_notification);
         case text:
 //          return conversationInfo.getContent();
-          String content = conversationInfo.getContent();
-          try {
-            content = AESUtil.msgAseDecrypt(content);
-          } catch (Exception e) {
-
-          }
-          return content;
+          return AESUtil.safeMsgDecrypt(conversationInfo.getContent());
         case audio:
           return context.getString(R.string.msg_type_audio);
         case video:
