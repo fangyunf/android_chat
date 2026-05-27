@@ -40,7 +40,11 @@ public class ChatTextMessageViewHolder extends NormalChatBaseMessageViewHolder {
     public void bindData(ChatMessageBean message, ChatMessageBean lastMessage) {
         super.bindData(message, lastMessage);
         CommonUIOption commonUIOption = uiOptions.commonUIOption;
-        if (commonUIOption.messageTextColor != null) {
+        if (isForwardMsg()) {
+            // 合并转发详情页是白底列表，统一黑字，避免「白底白字」
+            textBinding.messageText.setTextColor(
+                    parent.getContext().getResources().getColor(R.color.color_333333));
+        } else if (commonUIOption.messageTextColor != null) {
             textBinding.messageText.setTextColor(commonUIOption.messageTextColor);
         } else if (properties.getMessageTextColor() != null) {
             textBinding.messageText.setTextColor(properties.getMessageTextColor());
@@ -54,11 +58,10 @@ public class ChatTextMessageViewHolder extends NormalChatBaseMessageViewHolder {
         if (message.getMessageData().getMessage().getMsgType() == MsgTypeEnum.text) {
             //转发消息不需要展示@的高亮
             if (isForwardMsg()) {
-                MessageHelper.identifyFaceExpression(
+                MessageHelper.identifyExpression(
                         textBinding.getRoot().getContext(),
                         textBinding.messageText,
-                        message.getMessageData().getMessage().getContent(),
-                        ImageSpan.ALIGN_BOTTOM);
+                        message.getMessageData().getMessage());
             } else {
                 MessageHelper.identifyExpression(
                         textBinding.getRoot().getContext(),

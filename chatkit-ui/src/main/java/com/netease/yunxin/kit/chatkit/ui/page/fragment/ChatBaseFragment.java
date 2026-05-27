@@ -1332,9 +1332,13 @@ public abstract class ChatBaseFragment extends BaseFragment {
 
     private void showDeleteConfirmDialog(List<ChatMessageBean> message) {
         CommonChoiceDialog dialog = new CommonChoiceDialog();
+        String contentStr =
+                message != null && message.size() > 1
+                        ? getString(R.string.chat_message_action_delete_multi_message, message.size())
+                        : getString(R.string.chat_message_action_delete_this_message);
         dialog
                 .setTitleStr(getString(R.string.chat_message_action_delete))
-                .setContentStr(getString(R.string.chat_message_action_delete_this_message))
+                .setContentStr(contentStr)
                 .setPositiveStr(getString(R.string.chat_message_delete))
                 .setNegativeStr(getString(R.string.cancel))
                 .setConfirmListener(

@@ -7,8 +7,8 @@ package com.netease.yunxin.kit.chatkit.ui.normal.view.message.viewholder;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
+import com.netease.yunxin.kit.chatkit.ui.ChatBriefUtils;
 import com.netease.yunxin.kit.chatkit.ui.R;
-import com.netease.yunxin.kit.chatkit.ui.common.ChatUtils;
 import com.netease.yunxin.kit.chatkit.ui.common.MessageHelper;
 import com.netease.yunxin.kit.chatkit.ui.custom.MultiForwardAttachment;
 import com.netease.yunxin.kit.chatkit.ui.databinding.ChatBaseMessageViewHolderBinding;
@@ -64,24 +64,9 @@ public class ChatForwardMessageViewHolder extends NormalChatBaseMessageViewHolde
               attachment.sessionName);
       viewBinding.messageMultiTitle.setText(titleText);
       if (attachment.abstractsList != null) {
-        String contentFormat =
-            getMessageContainer()
-                .getContext()
-                .getString(R.string.chat_message_multi_record_content);
-        StringBuilder textBuilder = new StringBuilder();
-        for (int i = 0; i < attachment.abstractsList.size(); i++) {
-          String content =
-              String.format(
-                  contentFormat,
-                  ChatUtils.getEllipsizeMiddleNick(attachment.abstractsList.get(i).senderNick),
-                  attachment.abstractsList.get(i).content);
-          textBuilder.append(content);
-          textBuilder.append("\n");
-        }
-        if (attachment.abstractsList.size() > 1) {
-          textBuilder.deleteCharAt(textBuilder.length() - 1);
-        }
-        viewBinding.messageText.setText(textBuilder.toString());
+        viewBinding.messageText.setText(
+            ChatBriefUtils.buildForwardAbstractPreview(
+                getMessageContainer().getContext(), attachment.abstractsList));
       }
     }
   }

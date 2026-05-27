@@ -172,8 +172,12 @@ class FunChatBaseMessageViewHolder extends ChatBaseMessageViewHolder {
         }
 
         if (isReceivedMsg) {
-            //firstChild.setBackgroundResource(R.drawable.fun_message_receive_new_bg);
-            firstChild.setBackgroundResource(R.drawable.fun_message_receive_bg);
+            if (messageBean.getMessageData().getMessage().getAttachment()
+                    instanceof MultiForwardAttachment) {
+                firstChild.setBackgroundResource(R.drawable.fun_forward_message_receive_bg);
+            } else {
+                firstChild.setBackgroundResource(R.drawable.fun_message_receive_bg);
+            }
         } else {
             if (messageBean.getMessageData().getMessage().getAttachment()
                     instanceof MultiForwardAttachment) {

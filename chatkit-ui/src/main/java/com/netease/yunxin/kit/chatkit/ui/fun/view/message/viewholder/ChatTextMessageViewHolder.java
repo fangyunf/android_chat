@@ -4,7 +4,6 @@
 
 package com.netease.yunxin.kit.chatkit.ui.fun.view.message.viewholder;
 
-import android.text.style.ImageSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -42,6 +41,9 @@ public class ChatTextMessageViewHolder extends FunChatBaseMessageViewHolder {
         }
         if (properties.getMessageTextColor() != null) {
             textBinding.messageText.setTextColor(properties.getMessageTextColor());
+        } else if (isForwardMsg()) {
+            // 合并转发详情页是白底列表，统一黑字，避免「白底白字」
+            textBinding.messageText.setTextColor(parent.getContext().getResources().getColor(R.color.color_333333));
         } else {
             // 用发送方向判断「我的消息」，避免 fromUser 未加载时先黑后白
             if (message.getMessageData().getMessage().getDirect() == MsgDirectionEnum.Out) {
@@ -53,7 +55,10 @@ public class ChatTextMessageViewHolder extends FunChatBaseMessageViewHolder {
         if (message.getMessageData().getMessage().getMsgType() == MsgTypeEnum.text) {
 
             if (isForwardMsg()) {
-                MessageHelper.identifyFaceExpression(textBinding.getRoot().getContext(), textBinding.messageText, message.getMessageData().getMessage().getContent(), ImageSpan.ALIGN_BOTTOM);
+                MessageHelper.identifyExpression(
+                    textBinding.getRoot().getContext(),
+                    textBinding.messageText,
+                    message.getMessageData().getMessage());
             } else {
                 MessageHelper.identifyExpression(textBinding.getRoot().getContext(), textBinding.messageText, message.getMessageData().getMessage());
             }

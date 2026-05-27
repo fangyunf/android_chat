@@ -104,6 +104,7 @@
 
     <string name="chat_message_action_revoke_this_message">撤回此消息</string>
     <string name="chat_message_action_delete_this_message">删除此消息</string>
+    <string name="chat_message_action_delete_multi_message">删除选中的 %d 条消息？</string>
     <string name="chat_message_removed_tip">该消息已撤回或删除</string>
 
     <string name="chat_message_reply_someone">%s</string>
@@ -239,6 +240,7 @@
     <string name="msg_multi_detail_title">聊天记录</string>
     <string name="msg_multi_forward_error_tips">存在不可转发的消息体</string>
     <string name="msg_multi_forward_download_error_tips">信息获取失败</string>
+    <string name="chat_forward_success_tips">转发成功</string>
     <string name="msg_forward_error_dialog_title">异常说明</string>
     <string name="msg_forward_error_dialog_content">存在不可转发的消息体，是否去除后发送？</string>
 

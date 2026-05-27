@@ -150,6 +150,7 @@ public abstract class FunChatFragment extends ChatBaseFragment {
                     for (String accId : sessionIds) {
                         viewModel.sendForwardMessage(msg, inputMsg, accId, type);
                     }
+                    Toast.makeText(getContext(), R.string.chat_forward_success_tips, Toast.LENGTH_SHORT).show();
                 }
             } else if (TextUtils.equals(forwardAction, ActionConstants.ACTION_TYPE_MULTI_FORWARD)) {
                 viewModel.sendMultiForwardMessage(getSessionName(), inputMsg, sessionIds, type, ChatMsgCache.getMessageList());
@@ -157,6 +158,7 @@ public abstract class FunChatFragment extends ChatBaseFragment {
             } else if (TextUtils.equals(forwardAction, ActionConstants.ACTION_TYPE_SINGLE_FORWARD)) {
                 viewModel.sendForwardMessages(getSessionName(), inputMsg, sessionIds, type, ChatMsgCache.getMessageList());
                 clearMessageMultiSelectStatus();
+                Toast.makeText(getContext(), R.string.chat_forward_success_tips, Toast.LENGTH_SHORT).show();
             }
         });
         confirmDialog.show(getParentFragmentManager(), FunChatMessageForwardConfirmDialog.TAG);

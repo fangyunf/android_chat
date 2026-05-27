@@ -820,6 +820,7 @@ public abstract class ChatBaseViewModel extends BaseViewModel {
                     sendTextMessage(inputMsg, session, sessionType);
                   }
                 }
+                ToastX.showShortToast(R.string.chat_forward_success_tips);
               }
             }
 

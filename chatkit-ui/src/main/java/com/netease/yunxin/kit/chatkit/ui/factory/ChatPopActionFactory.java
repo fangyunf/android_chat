@@ -70,6 +70,7 @@ public class ChatPopActionFactory {
 
             actions.add(getDeleteAction(message));
             addQuoteActionIfNeeded(actions, message);
+            addMultiSelectActionIfNeeded(actions, message);
             if (message.getMessageData().getMessage().getAttachStr().contains("memberCode")) {
                 if (message.getMessageData().getMessage().getDirect() == MsgDirectionEnum.Out) {
                     long diff =
@@ -93,14 +94,14 @@ public class ChatPopActionFactory {
                     actions.add(getCollectionAction(message));
                 }
                 actions.add(getDeleteAction(message));
-//        actions.add(getMultiSelectAction(message));
+                addMultiSelectActionIfNeeded(actions, message);
                 return actions;
             }
 
             if (message.getViewType() == MsgTypeEnum.nrtc_netcall.getValue()) {
                 // call
                 actions.add(getDeleteAction(message));
-//        actions.add(getMultiSelectAction(message));
+                addMultiSelectActionIfNeeded(actions, message);
                 return actions;
             }
             // 基础消息类型都在MsgTypeEnum中定义,自定义消息类型都是MsgTypeEnum.custom，
@@ -117,10 +118,9 @@ public class ChatPopActionFactory {
                 actions.add(getCollectionAction(message));
             }
             addQuoteActionIfNeeded(actions, message);
+            addMultiSelectActionIfNeeded(actions, message);
 //      actions.add(getPinAction(message));
             actions.add(getDeleteAction(message));
-//            actions.add(getMultiSelectAction(message));
-//            actions.add(getCollectionAction(message));
             if (message.getMessageData().getMessage().getDirect() == MsgDirectionEnum.Out) {
                 long diff =
                         System.currentTimeMillis() - message.getMessageData().getMessage().getTime();
@@ -155,6 +155,24 @@ public class ChatPopActionFactory {
     private void addQuoteActionIfNeeded(List<ChatPopMenuAction> actions, ChatMessageBean message) {
         if (canQuoteMessage(message)) {
             actions.add(getReplyAction(message));
+        }
+    }
+
+    /** 是否支持多选（合并转发 / 批量删除） */
+    private boolean canMultiSelect(ChatMessageBean message) {
+        if (message == null || message.getMessageData() == null || message.isRevoked()) {
+            return false;
+        }
+        IMMessage msg = message.getMessageData().getMessage();
+        if (msg.getMsgType() == MsgTypeEnum.notification || msg.getMsgType() == MsgTypeEnum.tip) {
+            return false;
+        }
+        return true;
+    }
+
+    private void addMultiSelectActionIfNeeded(List<ChatPopMenuAction> actions, ChatMessageBean message) {
+        if (canMultiSelect(message)) {
+            actions.add(getMultiSelectAction(message));
         }
     }
 
