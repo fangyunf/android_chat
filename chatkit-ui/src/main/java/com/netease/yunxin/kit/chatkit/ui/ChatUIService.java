@@ -23,6 +23,7 @@ import com.netease.yunxin.kit.chatkit.ui.custom.MingPianAttachment;
 import com.netease.yunxin.kit.chatkit.ui.custom.MultiForwardAttachment;
 import com.netease.yunxin.kit.chatkit.ui.custom.RedPacketAttachment;
 import com.netease.yunxin.kit.chatkit.ui.custom.RichTextAttachment;
+import com.netease.yunxin.kit.chatkit.ui.custom.GroupZhuanZhangAttachment;
 import com.netease.yunxin.kit.chatkit.ui.custom.ZhuanZhangAttachment;
 import com.netease.yunxin.kit.chatkit.ui.fun.page.FunChatForwardActivity;
 import com.netease.yunxin.kit.chatkit.ui.fun.page.FunChatP2PActivity;
@@ -104,6 +105,8 @@ public class ChatUIService extends ChatService {
     ChatKitClient.addCustomAttach(ChatMessageType.RedPacket_ATTACHMENT, RedPacketAttachment.class);
 
       ChatKitClient.addCustomAttach(ChatMessageType.ZhuanZhang_ATTACHMENT, ZhuanZhangAttachment.class);
+    ChatKitClient.addCustomAttach(
+        ChatMessageType.GROUP_ZHUANZHANG_ATTACHMENT, GroupZhuanZhangAttachment.class);
     ChatKitClient.addCustomAttach(ChatMessageType.MingPian_ATTACHMENT, MingPianAttachment.class);
 
     chatKitInit(context);

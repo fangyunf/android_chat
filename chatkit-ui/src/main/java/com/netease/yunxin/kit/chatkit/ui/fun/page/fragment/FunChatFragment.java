@@ -32,6 +32,7 @@ import com.netease.yunxin.kit.chatkit.model.IMMessageInfo;
 import com.netease.yunxin.kit.chatkit.ui.R;
 import com.netease.yunxin.kit.chatkit.ui.common.ChatMsgCache;
 import com.netease.yunxin.kit.chatkit.ui.common.ChatUtils;
+import com.netease.yunxin.kit.chatkit.ui.common.ChatZhuanZhangHelper;
 import com.netease.yunxin.kit.chatkit.ui.custom.MultiForwardAttachment;
 import com.netease.yunxin.kit.chatkit.ui.databinding.FunChatFragmentBinding;
 import com.netease.yunxin.kit.chatkit.ui.dialog.ChatBaseForwardSelectDialog;
@@ -176,7 +177,24 @@ public abstract class FunChatFragment extends ChatBaseFragment {
                 return;
             }
             if (!messageInfo.getMessage().getAttachStr().isEmpty()) {
-                CustomMsgBean msgBean = new Gson().fromJson(messageInfo.getMessage().getAttachStr(), CustomMsgBean.class);
+                CustomMsgBean msgBean =
+                        new Gson().fromJson(messageInfo.getMessage().getAttachStr(), CustomMsgBean.class);
+                if (msgBean == null) {
+                    return;
+                }
+                if (ChatZhuanZhangHelper.isZhuanZhangMessageType(msgBean.type)) {
+                    CustomMsgBean detail = ChatZhuanZhangHelper.parseFromMessage(messageInfo);
+                    if (detail == null) {
+                        if (!TextUtils.isEmpty(msgBean.data)) {
+                            msgBean.result = new Gson().fromJson(msgBean.data, CustomMsgBean.class);
+                        }
+                        detail = msgBean.result != null ? msgBean.result : msgBean;
+                        ChatZhuanZhangHelper.normalizeDetail(detail);
+                    }
+                    ChatZhuanZhangHelper.openZhuanZhangDetail(
+                            getActivity() != null ? getActivity() : getContext(), detail);
+                    return;
+                }
                 msgBean.result = new Gson().fromJson(msgBean.data, CustomMsgBean.class);
                 if (msgBean.type == 10086) {
                     for (GroupInfoBean bean : DataUtil.getFriendInfoList()) {

@@ -1,83 +1,90 @@
 package com.netease.yunxin.kit.chatkit.ui.fun.page;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
-import android.widget.RelativeLayout;
-
+import android.widget.LinearLayout;
+import android.widget.Toast;
 import androidx.annotation.Nullable;
-
 import com.google.gson.Gson;
+import com.netease.yunxin.kit.chatkit.ui.R;
+import com.netease.yunxin.kit.chatkit.ui.common.ChatZhuanZhangHelper;
 import com.netease.yunxin.kit.chatkit.ui.databinding.ActivityFunRedPacketResultDetailBinding;
 import com.yaoxin.appbase.activity.BaseActivity;
 import com.yaoxin.appbase.model.CustomMsgBean;
 import com.yaoxin.appbase.utils.BarUtils;
-import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.GlideUtil;
-import com.yaoxin.appbase.utils.NumberUtil;
 import com.yaoxin.appbase.utils.StatusBarUtils;
 
 public class FunZhuanZhangResultActivity extends BaseActivity implements View.OnClickListener {
-    ActivityFunRedPacketResultDetailBinding binding;
-    CustomMsgBean zhuanZhangBean;
+  ActivityFunRedPacketResultDetailBinding binding;
+  CustomMsgBean zhuanZhangBean;
+  private View closeButton;
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-
-        super.onCreate(savedInstanceState);
-        if (extras != null && extras.get("bean") != null) {
-            String jsonString = (String) extras.get("bean");
-            zhuanZhangBean = new Gson().fromJson(jsonString, CustomMsgBean.class);
-        }
-        binding = ActivityFunRedPacketResultDetailBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-        _initView();
-        _updateUI();
-
-        StatusBarUtils.setStatusBarLightMode(this, true, true);
-        RelativeLayout.LayoutParams params =
-                (RelativeLayout.LayoutParams) binding.activityFunRedPacketResultDetailNav.getLayoutParams();
-        params.height = params.height + BarUtils.getStatusBarHeight();
-        binding.activityFunRedPacketResultDetailNav.setLayoutParams(params);
-        binding.activityFunRedPacketResultDetailNav.setPadding(0, BarUtils.getStatusBarHeight(), 0, 0);
+  @Override
+  protected void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    if (extras != null && extras.get("bean") != null) {
+      String jsonString = (String) extras.get("bean");
+      zhuanZhangBean = new Gson().fromJson(jsonString, CustomMsgBean.class);
+      ChatZhuanZhangHelper.normalizeDetail(zhuanZhangBean);
     }
-
-
-    void _updateUI() {
-        GlideUtil.yh_loadImageRoundedCorner(this, binding.activityFunRedPacketResultDetailSenderHeadIv, zhuanZhangBean.sendAvatar, 17);
-        binding.activityFunRedPacketResultDetailSenderTv.setText(zhuanZhangBean.sendName);
-        if (zhuanZhangBean.toUserId.equals(DataUtil.getUserid())) {
-            binding.activityFunRedPacketResultDetailGreetingTv.setText("你收到一笔转账");
-        } else {
-            binding.activityFunRedPacketResultDetailGreetingTv.setText("你发起一笔转账");
-        }
-
-        binding.activityFunRedPacketResultDetailMoneyTv.setText("￥" + NumberUtil.formartMoney(zhuanZhangBean.amount));
+    binding = ActivityFunRedPacketResultDetailBinding.inflate(getLayoutInflater());
+    setContentView(binding.getRoot());
+    if (zhuanZhangBean == null) {
+      Toast.makeText(this, R.string.msg_multi_forward_download_error_tips, Toast.LENGTH_SHORT)
+          .show();
+      finish();
+      return;
     }
+    _initView();
+    _updateUI();
 
-    @Override
-    protected void _initView() {
+    StatusBarUtils.setStatusBarLightMode(this, true, true);
+    // 与 FunRedPacketResultActivity 一致，必须用 LinearLayout.LayoutParams
+    LinearLayout.LayoutParams params =
+        (LinearLayout.LayoutParams) binding.activityFunRedPacketResultDetailNav.getLayoutParams();
+    params.height = params.height + BarUtils.getStatusBarHeight();
+    binding.activityFunRedPacketResultDetailNav.setLayoutParams(params);
+    binding.activityFunRedPacketResultDetailNav.setPadding(0, BarUtils.getStatusBarHeight(), 0, 0);
+  }
 
-        binding.activityFunRedPacketResultDetailNav.getTitleView().setText("");
-        binding.activityFunRedPacketResultDetailNav.addCloseImageButton().setOnClickListener(this);
-        binding.activityFunRedPacketResultDetailBottomLl.setVisibility(View.GONE);
-//        binding.activityFunRedPacketResultDetailRedPacketRecordTv.setOnClickListener(this);
-//        binding.activityFunRedPacketResultDetailNav.setActionText("红包记录");
-//        binding.activityFunRedPacketResultDetailRv.setLayoutManager(new LinearLayoutManager(this));
-//        binding.activityFunRedPacketResultDetailRv.setAdapter(adapter);
-
-
+  void _updateUI() {
+    if (zhuanZhangBean == null) {
+      return;
     }
-
-    @Override
-    public void onClick(View v) {
-        if (v == binding.activityFunRedPacketResultDetailNav.addCloseImageButton()) {
-            finish();
-        }
-//        else if (v == binding.activityFunRedPacketResultDetailRedPacketRecordTv) {
-//            FunRedPacketRecordListActivity.start(FunRedPacketRecordListActivity.class,this,null);
-//        }
-//        else if (v == binding.activityFunSendRedPacketPinChangeTypeLl) {
-//        }
+    if (!TextUtils.isEmpty(zhuanZhangBean.sendAvatar)) {
+      GlideUtil.yh_loadImageRoundedCorner(
+          this,
+          binding.activityFunRedPacketResultDetailSenderHeadIv,
+          zhuanZhangBean.sendAvatar,
+          17);
     }
+    boolean receiver = ChatZhuanZhangHelper.isReceiver(zhuanZhangBean);
+    String subtitle = ChatZhuanZhangHelper.getSubtitleText(this, zhuanZhangBean, receiver);
+    if (!TextUtils.isEmpty(subtitle)) {
+      binding.activityFunRedPacketResultDetailSenderTv.setText(subtitle);
+    } else if (!TextUtils.isEmpty(zhuanZhangBean.sendName)) {
+      binding.activityFunRedPacketResultDetailSenderTv.setText(zhuanZhangBean.sendName);
+    }
+    binding.activityFunRedPacketResultDetailGreetingTv.setText(
+        ChatZhuanZhangHelper.getTitleText(this, receiver));
+    binding.activityFunRedPacketResultDetailMoneyTv.setText(
+        "￥" + ChatZhuanZhangHelper.formatAmount(zhuanZhangBean.amount));
+  }
 
+  @Override
+  protected void _initView() {
+    binding.activityFunRedPacketResultDetailNav.getTitleView().setText("");
+    closeButton = binding.activityFunRedPacketResultDetailNav.addCloseImageButton();
+    closeButton.setOnClickListener(this);
+    binding.activityFunRedPacketResultDetailBottomLl.setVisibility(View.GONE);
+  }
+
+  @Override
+  public void onClick(View v) {
+    if (v == closeButton) {
+      finish();
+    }
+  }
 }

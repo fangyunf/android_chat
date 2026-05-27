@@ -21,7 +21,11 @@ public class ZhuanZhangAttachment extends CustomAttachment {
   public String body;
 
   public ZhuanZhangAttachment() {
-    super(ChatMessageType.ZhuanZhang_ATTACHMENT);
+    this(ChatMessageType.ZhuanZhang_ATTACHMENT);
+  }
+
+  protected ZhuanZhangAttachment(int type) {
+    super(type);
   }
 
   @Override
