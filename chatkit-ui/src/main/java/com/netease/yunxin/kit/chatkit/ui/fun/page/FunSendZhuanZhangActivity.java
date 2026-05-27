@@ -44,6 +44,7 @@ public class FunSendZhuanZhangActivity extends BaseActivity implements View.OnCl
     private String selectToUserId = "";
     private UserBean targetUserBean;
     private GroupInfoBean groupInfoBean;
+    private GroupInfoBean exclusiveTargetUser;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,6 +58,15 @@ public class FunSendZhuanZhangActivity extends BaseActivity implements View.OnCl
         if (extras != null && extras.get("sessionType") != null) {
             String tempSessionType = (String) extras.get("sessionType");
             sessionType = Integer.parseInt(tempSessionType);
+        }
+        if (extras != null && extras.get("userInfo") != null) {
+            try {
+                String userInfoJson = (String) extras.get("userInfo");
+                if (userInfoJson != null && !userInfoJson.isEmpty()) {
+                    exclusiveTargetUser = new Gson().fromJson(userInfoJson, GroupInfoBean.class);
+                }
+            } catch (Exception ignored) {
+            }
         }
         forwardTeamLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
             if (result.getResultCode() != Activity.RESULT_OK) {
@@ -115,6 +125,17 @@ public class FunSendZhuanZhangActivity extends BaseActivity implements View.OnCl
                 public void Failure(Call<NetData> call, Throwable t) {
                 }
             });
+            return;
+        }
+        if (sessionType == 2) {
+            binding.activityFunSendRedPacketNav.getTitleView().setText("专属转账");
+            if (exclusiveTargetUser != null) {
+                updateSelectedGroupMember(exclusiveTargetUser);
+                // 专属转账不允许在页面内切换收款人
+                binding.activityFunSendRedPacketToPeopleLl.setEnabled(false);
+            } else {
+                binding.activityFunSendRedPacketToPeopleNameTv.setText("请选择收款人");
+            }
             return;
         }
         if (sessionId == null || sessionId.isEmpty()) return;
@@ -207,7 +228,7 @@ public class FunSendZhuanZhangActivity extends BaseActivity implements View.OnCl
         bean.amount = amount;
         bean.title = (greeting == null || greeting.isEmpty()) ? "你发起了一笔转账" : greeting;
         bean.password = pwd;
-        if (sessionType == 1) {
+        if (sessionType == 1 || sessionType == 2) {
             if (selectToUserId == null || selectToUserId.isEmpty()) {
                 ToastUtils.toastMsg("请选择收款人");
                 return;

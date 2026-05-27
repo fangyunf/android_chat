@@ -919,7 +919,7 @@ public abstract class ChatBaseFragment extends BaseFragment {
                                     }
                                 }
                                 tempName = name;
-                                DialogAlertUtil.showSheetView(getActivity(), getActivity().getSupportFragmentManager(), new String[]{"@此人", "专属红包"}, new DialogAlertUtil.DialogAlertUtilCallBack() {
+                                DialogAlertUtil.showSheetView(getActivity(), getActivity().getSupportFragmentManager(), new String[]{"@此人", "专属红包", "专属转账"}, new DialogAlertUtil.DialogAlertUtilCallBack() {
                                     @Override
                                     public void clickType(int type) {
                                         if (type == 1) {
@@ -929,26 +929,26 @@ public abstract class ChatBaseFragment extends BaseFragment {
                                             HashMap map = new HashMap();
                                             map.put("sessionId", sessionID);
                                             map.put("sessionType", "2");
-                                            map.put("userInfo", new Gson().toJson(messageBean.getMessageData().getFromUser()));
+                                            GroupInfoBean target = new GroupInfoBean();
+                                            target.userId = account;
+                                            target.name = tempName;
+                                            if (messageBean.getMessageData().getFromUser() != null) {
+                                                target.avatar = messageBean.getMessageData().getFromUser().getAvatar();
+                                            }
+                                            map.put("userInfo", new Gson().toJson(target));
                                             FunSendRedPacketActivity.start(FunSendRedPacketActivity.class, getContext(), map);
                                         } else if (type == 3) {
-                                            ArrayList list = new ArrayList<>();
-                                            list.add(messageBean.getMessageData().getFromUser().getAccount());
-                                            RegisterBean registerBean = new RegisterBean();
-                                            registerBean.groupId = sessionID;
-                                            registerBean.members = list;
-                                            HttpUtil.apiW().group_outGroup(registerBean)
-                                                    .enqueue(new CommonCallback<NetData>() {
-                                                        @Override
-                                                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                                                            ToastUtils.toastMsg(body.msg);
-                                                        }
-
-                                                        @Override
-                                                        public void Failure(Call<NetData> call, Throwable t) {
-
-                                                        }
-                                                    });
+                                            HashMap map = new HashMap();
+                                            map.put("sessionId", sessionID);
+                                            map.put("sessionType", "2");
+                                            GroupInfoBean target = new GroupInfoBean();
+                                            target.userId = account;
+                                            target.name = tempName;
+                                            if (messageBean.getMessageData().getFromUser() != null) {
+                                                target.avatar = messageBean.getMessageData().getFromUser().getAvatar();
+                                            }
+                                            map.put("userInfo", new Gson().toJson(target));
+                                            FunSendZhuanZhangActivity.start(FunSendZhuanZhangActivity.class, getContext(), map);
                                         }
                                     }
                                 });
