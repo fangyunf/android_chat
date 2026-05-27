@@ -84,6 +84,7 @@ public class SettingNewActivity extends BaseActivity implements View.OnClickList
 
         viewBinding.activityMineSetNewYinsiSet.viewTitleArrowLl.setOnClickListener(this);
         viewBinding.activityMineSetNewMimaSet.viewTitleArrowLl.setOnClickListener(this);
+        viewBinding.activityMineSetNewFontSize.viewTitleArrowLl.setOnClickListener(this);
 
         viewBinding.activityMineSetNewNoticeVoice.viewTitleArrowTv.setText("通知声音");
         viewBinding.activityMineSetNewAnquanSet.viewTitleArrowTv.setText("安全设置");
@@ -99,6 +100,7 @@ public class SettingNewActivity extends BaseActivity implements View.OnClickList
         viewBinding.activityMineSetNewExchangeAcount.viewTitleArrowTv.setText("切换账号");
 
         viewBinding.activityMineSetNewMimaSet.viewTitleArrowTv.setText("密码设置");
+        viewBinding.activityMineSetNewFontSize.viewTitleArrowTv.setText("字体大小");
 
 //      viewBinding.activityMineSetNewExchangeAcount.viewTitleArrowTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.app_theme_red_color));
         viewBinding.activityMineSetNewLoginOut.viewTitleArrowTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.app_theme_red_color));
@@ -111,6 +113,8 @@ public class SettingNewActivity extends BaseActivity implements View.OnClickList
     public void onClick(View v) {
         if (v == viewBinding.activityMineSetNewMimaSet.viewTitleArrowLl) {
             Mine_Pwd_Set_ManagerActivity.start(Mine_Pwd_Set_ManagerActivity.class, this, null);
+        } else if (v == viewBinding.activityMineSetNewFontSize.viewTitleArrowLl) {
+            FontSizeSettingActivity.start(FontSizeSettingActivity.class, this, null);
         } else if (v == viewBinding.activityMineSetNewYinsiSet.viewTitleArrowLl) {
             startActivity(new Intent(SettingNewActivity.this, AccountAnQuanManagerActivity.class));
         } else if (v == viewBinding.activityMineSetNewNoticeVoice.viewTitleArrowLl) {
