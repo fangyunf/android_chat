@@ -14,6 +14,6 @@
         android:width="@dimen/dimen_32_dp"
         android:height="@dimen/dimen_32_dp" />
 
-    <solid android:color="@color/color_white" />
+    <solid android:color="@color/app_chat_receive_pop_bg" />
 
 </shape>

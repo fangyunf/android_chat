@@ -8,7 +8,7 @@
         android:top="15dp">
         <rotate android:fromDegrees="45">
             <shape android:shape="rectangle">
-                <solid android:color="@color/color_ffffff" />
+                <solid android:color="@color/fun_chat_message_replay_text_color" />
                 <size
                     android:width="1dp"
                     android:height="1dp" />
@@ -19,7 +19,7 @@
     <item android:left="7dp">
         <shape android:shape="rectangle">
             <corners android:radius="6dp" />
-            <solid android:color="@color/color_ffffff" />
+            <solid android:color="@color/fun_chat_message_replay_text_color" />
         </shape>
     </item>
 </layer-list>

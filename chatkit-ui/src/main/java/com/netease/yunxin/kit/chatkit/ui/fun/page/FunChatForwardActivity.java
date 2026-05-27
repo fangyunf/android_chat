@@ -23,8 +23,8 @@ public class FunChatForwardActivity extends ChatForwardBaseActivity {
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    changeStatusBarColor(R.color.fun_chat_page_bg_color);
-    viewBinding.forwardPageRoot.setBackgroundResource(R.color.fun_chat_page_bg_color);
+    changeStatusBarColor(R.color.color_white);
+    viewBinding.forwardPageRoot.setBackgroundResource(R.color.color_white);
   }
 
   @Override
