@@ -416,6 +416,11 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
                                                 @Override
                                                 public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                                                     ToastUtils.toastMsg(body.msg);
+                                                    if (userBean != null) {
+                                                        userBean.remark = comment;
+                                                    }
+                                                    binding.funChatSettingActivityMemo.rightTv.setText(comment);
+                                                    EventBus.getDefault().post(new BaseEvent("refresh_friend_list"));
                                                 }
 
                                                 @Override

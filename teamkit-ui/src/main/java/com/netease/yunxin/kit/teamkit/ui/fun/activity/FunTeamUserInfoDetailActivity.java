@@ -412,6 +412,7 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
                     friendBean.remark = result;
                     binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowRightTv.setText(result);
                 }
+                EventBus.getDefault().post(new BaseEvent("refresh_friend_list"));
             }
 
             @Override

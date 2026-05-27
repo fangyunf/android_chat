@@ -61,7 +61,11 @@ public class GroupInfoBean {
 
     private String index;
     public String getIndex() {
-        return FirstLetterUtil.getFirstLetter(name);
+        String displayName = name;
+        if (remark != null && !remark.isEmpty()) {
+            displayName = remark;
+        }
+        return FirstLetterUtil.getFirstLetter(displayName);
     }
 
     public String getName() {

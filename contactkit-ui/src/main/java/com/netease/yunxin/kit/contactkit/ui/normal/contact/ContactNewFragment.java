@@ -132,7 +132,7 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(BaseEvent event) {
-        if ("refresh_notice".equals(event.getTag())) {
+        if ("refresh_notice".equals(event.getTag()) || "refresh_friend_list".equals(event.getTag())) {
             _requestData();
         }
     }
@@ -161,9 +161,8 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
                 Collections.sort(mContactModels, new Comparator<GroupInfoBean>() {
                     @Override
                     public int compare(GroupInfoBean o1, GroupInfoBean o2) {
-                        // 获取name的首字母并忽略大小写比较
-                        String firstLetter = FirstLetterUtil.getFirstLetter(o1.name);
-                        String secondLetter = FirstLetterUtil.getFirstLetter(o2.name);
+                        String firstLetter = FirstLetterUtil.getFirstLetter(getSortName(o1));
+                        String secondLetter = FirstLetterUtil.getFirstLetter(getSortName(o2));
                         return firstLetter.compareTo(secondLetter);
                     }
                 });
@@ -365,6 +364,16 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
             }
         });
 
+    }
+
+    private static String getSortName(GroupInfoBean bean) {
+        if (bean == null) {
+            return "";
+        }
+        if (bean.remark != null && !bean.remark.isEmpty()) {
+            return bean.remark;
+        }
+        return bean.name == null ? "" : bean.name;
     }
 
     protected void loadTitle() {
