@@ -679,6 +679,17 @@ public abstract class ChatBaseFragment extends BaseFragment {
 
                 @Override
                 public void sendShouCang() {
+                    com.yaoxin.appbase.utils.CollectPickHolder.setListener(
+                            (content, type) -> {
+                                if (getContext() == null) {
+                                    return;
+                                }
+                                if (type == 1) {
+                                    downloadImage(content, getContext());
+                                } else {
+                                    messageProxy.sendTextMessage(content, null);
+                                }
+                            });
                     XKitRouter.withKey(Constant.CollectionListActivityKey)
                             .withParam("type", "5")
                             .withParam("pickerMode", "1")
@@ -1867,6 +1878,7 @@ public abstract class ChatBaseFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         ALog.d(LIB_TAG, LOG_TAG, "onDestroyView");
+        com.yaoxin.appbase.utils.CollectPickHolder.clear();
         super.onDestroyView();
         NIMClient.getService(AuthServiceObserver.class).observeOnlineStatus(loginObserver, false);
         if (chatView != null && chatView.getMessageListView() != null) {

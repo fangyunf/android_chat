@@ -23,6 +23,7 @@ import com.turunsi.yaoxin.databinding.ActivityMineCollectionListBinding;
 import com.turunsi.yaoxin.databinding.ViewCollectionTabItemBinding;
 import com.turunsi.yaoxin.main.mine.collection.adapter.CollectionListAdapter;
 import com.yaoxin.appbase.activity.BaseActivity;
+import com.yaoxin.appbase.utils.CollectPickHolder;
 import com.yaoxin.appbase.utils.DialogAlertUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
 
@@ -138,7 +139,7 @@ public class CollectionListActivity extends BaseActivity implements View.OnClick
             }
             if (CollectionListHelper.CONTENT_IMAGE.equals(contentType)) {
               if (isPickerMode()) {
-                returnPickerResult(content, 1);
+                deliverPickResult(content, 1);
               } else {
                 previewCollectImages(item);
               }
@@ -147,7 +148,7 @@ public class CollectionListActivity extends BaseActivity implements View.OnClick
             if (!isPickerMode()) {
               return;
             }
-            returnPickerResult(content, 0);
+            deliverPickResult(content, 0);
           }
         });
     adapter.setOnItemLongClickListener(
@@ -207,20 +208,34 @@ public class CollectionListActivity extends BaseActivity implements View.OnClick
     adapter.notifyDataSetChanged();
   }
 
-  /** 从聊天「发送收藏」进入：点击后回填并关闭 */
+  /** 从聊天「发送收藏」进入 */
   private boolean isPickerMode() {
-    if (extras != null && "1".equals(extras.get("pickerMode"))) {
+    if (extras != null && "1".equals(String.valueOf(extras.get("pickerMode")))) {
       return true;
     }
     return getIntent() != null && getIntent().getBooleanExtra("pickerMode", false);
   }
 
-  private void returnPickerResult(String content, int type) {
+  /** 选择收藏发送：不关闭当前页 */
+  private void deliverPickResult(String content, int type) {
+    CollectPickHolder.OnCollectPickListener listener = CollectPickHolder.getListener();
+    if (listener != null) {
+      listener.onPick(content, type);
+      ToastUtils.toastMsg("已发送");
+      return;
+    }
     Intent result = new Intent();
     result.putExtra("text", content);
     result.putExtra("type", type);
     setResult(RESULT_OK, result);
-    finish();
+  }
+
+  @Override
+  protected void onDestroy() {
+    if (isPickerMode()) {
+      CollectPickHolder.clear();
+    }
+    super.onDestroy();
   }
 
   /** 浏览收藏：图片点击查看大图（支持左右滑动同列表中的其他图片） */
