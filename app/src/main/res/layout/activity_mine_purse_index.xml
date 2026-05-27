@@ -185,6 +185,7 @@
                 android:id="@+id/activity_mine_purse_index_bdzfb"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 app:bgColor="#ffffff"
                 app:leftImg="@mipmap/purse_index_item_zfb"
                 app:textColor="@color/black"
@@ -194,12 +195,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginHorizontal="16dp"
-                android:background="@color/color_F2F2F2" />
+                android:background="@color/color_F2F2F2"
+                android:visibility="gone" />
 
             <com.yaoxin.appbase.view.IconTitleArrowTemplate
                 android:id="@+id/activity_mine_purse_index_wdkb"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 app:bgColor="#ffffff"
                 app:leftImg="@mipmap/purse_index_item_kabao"
                 app:textColor="@color/black"

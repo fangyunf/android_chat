@@ -243,9 +243,9 @@ public class MineFragment1 extends BaseFragment implements View.OnClickListener 
         } else if (v == walletRoot) {
             PurseIndexActivity.start(PurseIndexActivity.class, context, null);
         } else if (v == ysglRoot) {
-            AnQuanSetNewActivity.start(AnQuanSetNewActivity.class, context, null);
-        } else if (v == zhglRoot) {
             AccountAnQuanManagerActivity.start(AccountAnQuanManagerActivity.class, context, null);
+        } else if (v == zhglRoot) {
+            AnQuanSetNewActivity.start(AnQuanSetNewActivity.class, context, null);
         } else if (v == profileRoot || v == binding.cavIcon || v == binding.layoutEditUserInfo) {
             AccountDetailActivity.start(AccountDetailActivity.class, context, null);
         } else if (v == downloadRoot) {
