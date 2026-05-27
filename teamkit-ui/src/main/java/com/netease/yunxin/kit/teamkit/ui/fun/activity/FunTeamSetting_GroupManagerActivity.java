@@ -85,9 +85,13 @@ public class FunTeamSetting_GroupManagerActivity extends BaseActivity implements
 
         binding.funTeamSettingGroupManagerActivityQunzhuZhuanrang.viewTitleArrowTv.setText("转让群主");
         binding.funTeamSettingGroupManagerActivityQunzhuZhuanrang.viewTitleArrowLl.setOnClickListener(this);
+        binding.funTeamSettingGroupManagerActivityQunzhuZhuanrang.viewTitleArrowLl.setBackgroundResource(
+                com.yaoxin.appbase.R.drawable.bg_white_rounded_10);
 
         binding.funTeamSettingGroupManagerActivityGuanliyuanSet.viewTitleArrowTv.setText("设置管理员");
         binding.funTeamSettingGroupManagerActivityGuanliyuanSet.viewTitleArrowLl.setOnClickListener(this);
+        binding.funTeamSettingGroupManagerActivityGuanliyuanSet.viewTitleArrowLl.setBackgroundResource(
+                com.yaoxin.appbase.R.drawable.bg_white_rounded_10);
 
         binding.funTeamSettingGroupManagerActivityChengyuanJinyan.viewTitleDetailArrowTemplateTitleTv.setText("全员禁言");
         binding.funTeamSettingGroupManagerActivityChengyuanJinyan.viewTitleDetailArrowTemplateDetailTv.setText("启用后，群成员无法发送消息，群主管理员除外");
@@ -111,6 +115,13 @@ public class FunTeamSetting_GroupManagerActivity extends BaseActivity implements
         binding.funTeamSettingGroupManagerActivityJinzhiLingquMingdan.viewTitleArrowLl.setVisibility(View.VISIBLE);
         binding.funTeamSettingGroupManagerActivityJinzhiLingquMingdan.viewTitleArrowTv.setText("禁止领取红包名单");
         binding.funTeamSettingGroupManagerActivityJinzhiLingquMingdan.viewTitleArrowLl.setOnClickListener(this);
+        binding.funTeamSettingGroupManagerActivityJinzhiLingquMingdan.viewTitleArrowLl.setBackgroundResource(
+                com.yaoxin.appbase.R.drawable.bg_white_rounded_10);
+
+        binding.funTeamSettingGroupManagerActivityDanrenJinyan.viewTitleArrowTv.setText("单人禁言");
+        binding.funTeamSettingGroupManagerActivityDanrenJinyan.viewTitleArrowLl.setOnClickListener(this);
+        binding.funTeamSettingGroupManagerActivityDanrenJinyan.viewTitleArrowLl.setBackgroundResource(
+                com.yaoxin.appbase.R.drawable.bg_white_rounded_10);
 
         binding.funTeamSettingGroupManagerActivityQunshengji.viewTitleArrowTv.setText("群升级");
         binding.funTeamSettingGroupManagerActivityQunshengji.viewTitleArrowLl.setOnClickListener(this);
@@ -230,6 +241,10 @@ public class FunTeamSetting_GroupManagerActivity extends BaseActivity implements
             HashMap map = new HashMap();
             map.put("groupId", groupId);
             FunTeamSettingNew_ForbiddenListActivity.start(FunTeamSettingNew_ForbiddenListActivity.class, this, map);
+        } else if (view == binding.funTeamSettingGroupManagerActivityDanrenJinyan.viewTitleArrowLl) {
+            HashMap map = new HashMap();
+            map.put("groupId", groupId);
+            FunTeamSettingNew_MuteListActivity.start(FunTeamSettingNew_MuteListActivity.class, this, map);
         } else if (view == binding.funTeamSettingGroupManagerActivityQunshengji.viewTitleArrowLl) {
             XKitRouter.withKey("BuyGroupFeatureActivity")
                     .withParam("type", 0)

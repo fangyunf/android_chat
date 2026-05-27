@@ -33,6 +33,8 @@ public class GroupInfoBean {
     public String memberCode;
     public String userId;
     public int forbidState;
+    /** 单人禁言：0 未禁言，1 已禁言（来自云信 TeamMember.isMute） */
+    public int muteState;
     public String inviteMemberCode;
     public String inviteName;
 //    1是群主，2是管理员，3是普通成员

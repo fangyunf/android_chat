@@ -115,6 +115,13 @@
                         android:layout_marginTop="@dimen/dimen_10_dp" />
 
                     <include
+                        android:id="@+id/fun_team_setting_group_manager_activity_danren_jinyan"
+                        layout="@layout/view_title_arrow_template"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen_10_dp" />
+
+                    <include
                         android:id="@+id/fun_team_setting_group_manager_activity_jinzhi_lingqu_gouwuquan"
                         layout="@layout/view_title_detail_arrow_template"
                         android:layout_width="match_parent"

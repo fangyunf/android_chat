@@ -105,6 +105,8 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".fun.activity.FunTeamSettingNew_ForbiddenListActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".fun.activity.FunTeamSettingNew_MuteListActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".fun.activity.FunTeamSettingNew_Vlq_HB_ListActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".fun.activity.FunTeamUserInfoDetailActivity"
