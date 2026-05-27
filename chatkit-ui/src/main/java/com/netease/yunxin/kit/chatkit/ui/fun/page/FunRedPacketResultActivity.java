@@ -53,7 +53,7 @@ public class FunRedPacketResultActivity extends BaseActivity implements View.OnC
         params.height = params.height + BarUtils.getStatusBarHeight();
         binding.activityFunRedPacketResultDetailNav.setLayoutParams(params);
         binding.activityFunRedPacketResultDetailNav.setPadding(0, BarUtils.getStatusBarHeight(), 0, 0);
-        binding.activityFunRedPacketResultDetailNav.setActionText("购物卡记录");
+        binding.activityFunRedPacketResultDetailNav.setActionText("红包记录");
         binding.activityFunRedPacketResultDetailNav.setActionClickListener(
                 () -> FunRedPacketRecordListActivity.start(FunRedPacketRecordListActivity.class, this, null));
     }

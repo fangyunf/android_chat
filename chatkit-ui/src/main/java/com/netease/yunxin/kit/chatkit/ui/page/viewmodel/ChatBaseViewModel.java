@@ -20,6 +20,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
+import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.ResponseCode;
 import com.netease.nimlib.sdk.friend.model.Friend;
 import com.netease.nimlib.sdk.friend.model.FriendChangedNotify;
@@ -28,6 +29,7 @@ import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.attachment.FileAttachment;
 import com.netease.nimlib.sdk.msg.attachment.ImageAttachment;
 import com.netease.nimlib.sdk.msg.attachment.MsgAttachment;
+import com.netease.nimlib.sdk.msg.attachment.VideoAttachment;
 import com.netease.nimlib.sdk.msg.attachment.NotificationAttachment;
 import com.netease.nimlib.sdk.msg.constant.MsgStatusEnum;
 import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
@@ -91,6 +93,7 @@ import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.DataUtil;
+import com.yaoxin.appbase.utils.AESUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -597,9 +600,89 @@ public abstract class ChatBaseViewModel extends BaseViewModel {
     if (messageInfo == null) {
       return;
     }
-    ALog.d(LIB_TAG, TAG, "addMsgCollection:" + messageInfo.getMessage().getUuid());
-    ChatRepo.collectMessage(
-        messageInfo.getMessage(), new ChatCallback<CollectInfo>().setShowSuccess(true));
+    IMMessage msg = messageInfo.getMessage();
+    if (msg == null) {
+      return;
+    }
+    ALog.d(LIB_TAG, TAG, "addMsgCollection:" + msg.getUuid());
+    int collectType;
+    String collectData;
+    String contentType;
+    if (msg.getMsgType() == MsgTypeEnum.image && msg.getAttachment() instanceof ImageAttachment) {
+      collectType = 1;
+      contentType = "image";
+      ImageAttachment attachment = (ImageAttachment) msg.getAttachment();
+      String url = attachment.getUrl();
+      collectData = !TextUtils.isEmpty(url) ? url : attachment.getPath();
+    } else if (msg.getMsgType() == MsgTypeEnum.video && msg.getAttachment() instanceof VideoAttachment) {
+      collectType = 2;
+      contentType = "video";
+      VideoAttachment attachment = (VideoAttachment) msg.getAttachment();
+      String url = attachment.getUrl();
+      collectData = !TextUtils.isEmpty(url) ? url : attachment.getPath();
+    } else if (msg.getMsgType() == MsgTypeEnum.file && msg.getAttachment() instanceof FileAttachment) {
+      collectType = 3;
+      contentType = "file";
+      FileAttachment attachment = (FileAttachment) msg.getAttachment();
+      String fileName = attachment.getDisplayName();
+      if (TextUtils.isEmpty(fileName)) {
+        fileName = attachment.getFileName();
+      }
+      if (TextUtils.isEmpty(fileName)) {
+        fileName = "文件";
+      }
+      try {
+        collectData = AESUtil.msgAesEncrypt(fileName);
+      } catch (Exception e) {
+        collectData = fileName;
+      }
+    } else {
+      // 文本/富文本：先解密再入库，避免对密文二次加密导致收藏列表无法解密
+      collectType = 1024;
+      contentType = "text";
+      String plain = MessageHelper.getCopyablePlainText(messageInfo);
+      if (TextUtils.isEmpty(plain)) {
+        plain = AESUtil.safeMsgDecrypt(msg.getContent());
+      }
+      try {
+        collectData = AESUtil.msgAesEncrypt(plain);
+      } catch (Exception e) {
+        collectData = plain;
+      }
+    }
+
+    // ext 写入来源与分类，用于「我的收藏」列表展示与 Tab 筛选
+    String fromAccount = msg.getFromAccount();
+    String tid = msg.getSessionType() == SessionTypeEnum.Team ? msg.getSessionId() : "";
+    String fromNick = MessageHelper.getChatDisplayNameYou(tid, fromAccount);
+    HashMap<String, Object> extMap = new HashMap<>();
+    extMap.put("fromAccount", fromAccount);
+    extMap.put("fromNick", fromNick);
+    extMap.put("sessionId", msg.getSessionId());
+    extMap.put("sessionType", msg.getSessionType() == null ? "" : msg.getSessionType().name());
+    extMap.put("contentType", contentType);
+    String ext = new Gson().toJson(extMap);
+
+    // uniqueId 传消息 uuid，便于去重
+    NIMClient.getService(MsgService.class)
+        .addCollect(collectType, collectData, ext, msg.getUuid())
+        .setCallback(
+            new RequestCallback<CollectInfo>() {
+              @Override
+              public void onSuccess(CollectInfo param) {
+                ToastX.showShortToast("收藏成功");
+              }
+
+              @Override
+              public void onFailed(int code) {
+                ToastX.showShortToast("收藏失败");
+              }
+
+              @Override
+              public void onException(Throwable exception) {
+                ToastX.showShortToast("收藏失败");
+              }
+            });
   }
 
   public void sendAudioMessage(File audio, long audioLength) {

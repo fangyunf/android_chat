@@ -28,7 +28,7 @@
                 app:back_icon="@mipmap/icon_white_back"
                 app:enable_under_divider="true"
                 app:support_translucent_status_bar="false"
-                app:title="购物卡详情"
+                app:title="红包详情"
                 app:title_text_color="@color/color_white"
                 app:under_divider_color="@color/transparent" />
 

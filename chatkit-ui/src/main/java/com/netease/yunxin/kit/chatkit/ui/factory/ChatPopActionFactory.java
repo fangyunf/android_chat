@@ -111,7 +111,9 @@ public class ChatPopActionFactory {
                 actions.add(getCopyAction(message));
                 actions.add(getCollectionAction(message));
             }
-            if (message.getViewType() == MsgTypeEnum.image.getValue()) {
+            if (message.getViewType() == MsgTypeEnum.image.getValue()
+                || message.getViewType() == MsgTypeEnum.video.getValue()
+                || message.getViewType() == MsgTypeEnum.file.getValue()) {
                 actions.add(getCollectionAction(message));
             }
             addQuoteActionIfNeeded(actions, message);
