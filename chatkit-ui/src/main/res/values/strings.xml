@@ -92,7 +92,7 @@
     <string name="chat_message_multi_record_content">%s：%s</string>
 
     <string name="chat_message_action_copy">复制</string>
-    <string name="chat_message_action_reply">回复</string>
+    <string name="chat_message_action_reply">引用</string>
     <string name="chat_message_action_transmit">转发</string>
     <string name="chat_message_action_pin">标记</string>
     <string name="chat_message_action_pin_cancel">取消标记</string>
@@ -106,7 +106,7 @@
     <string name="chat_message_action_delete_this_message">删除此消息</string>
     <string name="chat_message_removed_tip">该消息已撤回或删除</string>
 
-    <string name="chat_message_reply_someone">回复 %s</string>
+    <string name="chat_message_reply_someone">%s</string>
     <string name="chat_message_action_copy_success">复制成功！</string>
 
     <string name="chat_enter_team">%s进入群聊</string>
@@ -140,6 +140,7 @@
     <string name="chat_team_appoint_manager">%s被任命为管理员</string>
     <string name="chat_team_extension_server_update">群扩展字段(服务器)被更新为</string>
     <string name="chat_you">你</string>
+    <string name="chat_me">我</string>
     <string name="chat_team_avatar_update">更新了群头像</string>
     <string name="chat_team_invitation_permission_update">更新了群权限\"邀请他人权限\"为</string>
     <string name="chat_team_invitation_permission_all">\"所有人\"</string>

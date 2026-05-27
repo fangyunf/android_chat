@@ -678,7 +678,6 @@ public class MessageBottomLayout extends FrameLayout
     this.replyMessage = messageBean;
     mBinding.llyReply.setVisibility(VISIBLE);
     String tips = MessageHelper.getReplyMessageTips(messageBean.getMessageData());
-    tips = String.format(getContext().getString(R.string.chat_message_reply_someone), tips);
     MessageHelper.identifyFaceExpression(
         getContext(),
         mBinding.tvReplyContent,

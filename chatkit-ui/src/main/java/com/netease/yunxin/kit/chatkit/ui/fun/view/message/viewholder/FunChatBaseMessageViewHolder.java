@@ -275,7 +275,6 @@ class FunChatBaseMessageViewHolder extends ChatBaseMessageViewHolder {
         baseViewBinding.messageBottomGroup.removeAllViews();
         ALog.w(TAG, TAG, "setReplyInfo, uuid=" + messageBean.getMessageData().getMessage().getUuid());
         if (messageBean.hasReply()) {
-            // 自定义回复实现
             addReplayViewToBottomGroup();
             String replyUuid = messageBean.getReplyUUid();
             if (!TextUtils.isEmpty(replyUuid)) {
@@ -298,12 +297,12 @@ class FunChatBaseMessageViewHolder extends ChatBaseMessageViewHolder {
 
                             @Override
                             public void onFailed(int code) {
-                                baseViewBinding.messageTopGroup.removeAllViews();
+                                baseViewBinding.messageBottomGroup.removeAllViews();
                             }
 
                             @Override
                             public void onException(@Nullable Throwable exception) {
-                                baseViewBinding.messageTopGroup.removeAllViews();
+                                baseViewBinding.messageBottomGroup.removeAllViews();
                             }
                         });
             }
@@ -320,7 +319,7 @@ class FunChatBaseMessageViewHolder extends ChatBaseMessageViewHolder {
             // thread 回复
             setThreadReplyInfo(messageBean);
         } else {
-            baseViewBinding.messageTopGroup.removeAllViews();
+            baseViewBinding.messageBottomGroup.removeAllViews();
         }
     }
 
@@ -332,7 +331,7 @@ class FunChatBaseMessageViewHolder extends ChatBaseMessageViewHolder {
             ALog.w(
                     TAG,
                     "no reply message found, uuid=" + messageBean.getMessageData().getMessage().getUuid());
-            baseViewBinding.messageTopGroup.removeAllViews();
+            baseViewBinding.messageBottomGroup.removeAllViews();
             return;
         }
         addReplayViewToBottomGroup();
@@ -374,7 +373,6 @@ class FunChatBaseMessageViewHolder extends ChatBaseMessageViewHolder {
         }
     }
 
-    // 添加 normal 下的回复布局
     private void addReplayViewToBottomGroup() {
         replayBinding =
                 FunChatMessageReplayViewBinding.inflate(

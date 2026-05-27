@@ -1209,7 +1209,8 @@ public abstract class ChatBaseFragment extends BaseFragment {
                             && chatConfig.popMenuClickListener.onReply(messageBean)) {
                         return true;
                     }
-                    loadReplyView(messageBean.getMessageData(), true);
+                    // 引用不自动 @，与微信一致
+                    loadReplyView(messageBean.getMessageData(), false);
                     return true;
                 }
 

@@ -8,9 +8,11 @@ import android.text.TextUtils;
 import com.netease.nimlib.sdk.msg.constant.MsgDirectionEnum;
 import com.netease.nimlib.sdk.msg.constant.MsgStatusEnum;
 import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
+import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.yunxin.kit.chatkit.ui.ChatMessageType;
 import com.netease.yunxin.kit.chatkit.ui.R;
 import com.netease.yunxin.kit.chatkit.ui.model.ChatMessageBean;
+import com.netease.yunxin.kit.chatkit.ui.common.MessageHelper;
 import com.netease.yunxin.kit.chatkit.ui.view.input.ActionConstants;
 import com.netease.yunxin.kit.chatkit.ui.view.popmenu.ChatPopMenuAction;
 import com.netease.yunxin.kit.chatkit.ui.view.popmenu.IChatPopMenu;
@@ -67,9 +69,15 @@ public class ChatPopActionFactory {
         if (viewType == 0 &&message.getMessageData().getMessage().getAttachStr() != null && !message.getMessageData().getMessage().getAttachStr().isEmpty()) {
 
             actions.add(getDeleteAction(message));
+            addQuoteActionIfNeeded(actions, message);
             if (message.getMessageData().getMessage().getAttachStr().contains("memberCode")) {
                 if (message.getMessageData().getMessage().getDirect() == MsgDirectionEnum.Out) {
-                    actions.add(getRecallAction(message));
+                    long diff =
+                            System.currentTimeMillis()
+                                    - message.getMessageData().getMessage().getTime();
+                    if (diff >= 0 && diff < MessageHelper.REVOKE_TIME_INTERVAL) {
+                        actions.add(getRecallAction(message));
+                    }
                 }
             }
             return actions;
@@ -103,22 +111,49 @@ public class ChatPopActionFactory {
                 actions.add(getCopyAction(message));
                 actions.add(getCollectionAction(message));
             }
-//      actions.add(getReplyAction(message));
             if (message.getViewType() == MsgTypeEnum.image.getValue()) {
                 actions.add(getCollectionAction(message));
             }
+            addQuoteActionIfNeeded(actions, message);
 //      actions.add(getPinAction(message));
             actions.add(getDeleteAction(message));
 //            actions.add(getMultiSelectAction(message));
 //            actions.add(getCollectionAction(message));
             if (message.getMessageData().getMessage().getDirect() == MsgDirectionEnum.Out) {
-                actions.add(getRecallAction(message));
+                long diff =
+                        System.currentTimeMillis() - message.getMessageData().getMessage().getTime();
+                if (diff >= 0 && diff < MessageHelper.REVOKE_TIME_INTERVAL) {
+                    actions.add(getRecallAction(message));
+                }
             }
         }
         if (customPopMenu != null && customPopMenu.get() != null) {
             return customPopMenu.get().customizePopMenu(actions, message);
         }
         return actions;
+    }
+
+    /** 是否支持引用（类似微信长按「引用」） */
+    private boolean canQuoteMessage(ChatMessageBean message) {
+        if (message == null || message.getMessageData() == null || message.isRevoked()) {
+            return false;
+        }
+        IMMessage msg = message.getMessageData().getMessage();
+        if (msg.getStatus() == MsgStatusEnum.fail
+                || msg.getStatus() == MsgStatusEnum.sending
+                || msg.isInBlackList()) {
+            return false;
+        }
+        int viewType = message.getViewType();
+        return viewType != MsgTypeEnum.nrtc_netcall.getValue()
+                && viewType != MsgTypeEnum.notification.getValue()
+                && viewType != MsgTypeEnum.tip.getValue();
+    }
+
+    private void addQuoteActionIfNeeded(List<ChatPopMenuAction> actions, ChatMessageBean message) {
+        if (canQuoteMessage(message)) {
+            actions.add(getReplyAction(message));
+        }
     }
 
     private ChatPopMenuAction getReplyAction(ChatMessageBean message) {

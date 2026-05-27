@@ -47,6 +47,8 @@ public class ChatCustom {
       case robot:
         return IMKitClient.getApplicationContext()
             .getString(R.string.chat_reply_message_brief_robot);
+      case text:
+        return AESUtil.safeMsgDecrypt(msg.getContent());
       case custom:
         if (msg.getAttachment() instanceof RichTextAttachment) {
           RichTextAttachment attachment = (RichTextAttachment) msg.getAttachment();

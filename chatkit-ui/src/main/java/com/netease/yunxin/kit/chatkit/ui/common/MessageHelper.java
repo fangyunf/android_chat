@@ -75,7 +75,7 @@ import org.json.JSONObject;
  */
 public class MessageHelper {
 
-    public static final int REVOKE_TIME_INTERVAL = 2 * 60 * 1000;
+    public static final int REVOKE_TIME_INTERVAL = 5 * 1000;
 
     public static final float DEF_SCALE = 0.6f;
     public static final float SMALL_SCALE = 0.4F;
@@ -202,6 +202,9 @@ public class MessageHelper {
             return "...";
         }
         String nickName = getChatMessageUserName(messageInfo);
+        if (TextUtils.equals(messageInfo.getMessage().getFromAccount(), IMKitClient.account())) {
+            nickName = IMKitClient.getApplicationContext().getString(R.string.chat_me);
+        }
         String content = getReplyMsgBrief(messageInfo);
         return nickName + ": " + content;
     }

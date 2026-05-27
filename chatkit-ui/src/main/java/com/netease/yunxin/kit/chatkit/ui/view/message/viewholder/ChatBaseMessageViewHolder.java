@@ -966,14 +966,17 @@ public abstract class ChatBaseMessageViewHolder extends CommonBaseMessageViewHol
                 return itemClickListener.onSelfIconLongClick(v, position, currentMessage);
             }
         });
-        // 设置消息内容区域长按事件
-        baseViewBinding.messageContainer.setOnLongClickListener(v -> {
-            if (isMultiSelect) {
-                return clickSelect(v);
-            } else {
-                return itemClickListener.onMessageLongClick(v, position, currentMessage);
-            }
-        });
+        View.OnLongClickListener messageLongClickListener =
+                v -> {
+                    if (isMultiSelect) {
+                        return clickSelect(v);
+                    }
+                    return itemClickListener.onMessageLongClick(v, position, currentMessage);
+                };
+        // 设置消息内容区域长按事件（含引用条，自己发送的消息在右侧也可长按）
+        baseViewBinding.messageContainer.setOnLongClickListener(messageLongClickListener);
+        baseViewBinding.messageTopGroup.setOnLongClickListener(messageLongClickListener);
+        baseViewBinding.messageBottomGroup.setOnLongClickListener(messageLongClickListener);
         // 设置消息内容区域点击事件
         baseViewBinding.messageContainer.setOnClickListener(v -> {
             if (isMultiSelect) {

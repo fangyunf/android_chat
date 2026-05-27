@@ -43,6 +43,7 @@ import com.turunsi.yaoxin.main.mine.account.AccoutCodeDetailActivity;
 import com.turunsi.yaoxin.main.mine.huiyuan.LiangHaoZoneActivity;
 import com.turunsi.yaoxin.main.mine.purse.PurseIndexActivity;
 import com.turunsi.yaoxin.main.mine.DownLoadActivity;
+import com.turunsi.yaoxin.main.mine.setting.AnQuanSetNewActivity;
 import com.turunsi.yaoxin.main.mine.setting.ExchangeAccountActivity;
 import com.turunsi.yaoxin.main.mine.setting.SettingNewActivity;
 import com.turunsi.yaoxin.utils.Constant;
@@ -132,9 +133,9 @@ public class MineFragment1 extends BaseFragment implements View.OnClickListener 
 
     private void _initItems() {
         setupSettingCard(binding.fragmentMineRenzhengView.getRoot(), R.mipmap.ic_menu1);
-        setupSettingCard(binding.fragmentMineIndexWdqbLl.getRoot(), R.mipmap.ic_menu4);
-        setupSettingCard(binding.fragmentMineYsglView.getRoot(), R.mipmap.ic_menu2);
-        setupSettingCard(binding.fragmentMineZhglView.getRoot(), R.mipmap.ic_menu3);
+        setupSettingCard(binding.fragmentMineIndexWdqbLl.getRoot(), R.mipmap.ic_menu2);
+        setupSettingCard(binding.fragmentMineYsglView.getRoot(), R.mipmap.ic_menu3);
+        setupSettingCard(binding.fragmentMineZhglView.getRoot(), R.mipmap.ic_menu4);
 
         setupOtherFuncItem(binding.fragmentMineProfileView.getRoot(), "我的资料");
         setupOtherFuncItem(binding.fragmentMineYysjView.getRoot(), "下载链接");
@@ -242,9 +243,9 @@ public class MineFragment1 extends BaseFragment implements View.OnClickListener 
         } else if (v == walletRoot) {
             PurseIndexActivity.start(PurseIndexActivity.class, context, null);
         } else if (v == ysglRoot) {
-            AccountAnQuanManagerActivity.start(AccountAnQuanManagerActivity.class, context, null);
+            AnQuanSetNewActivity.start(AnQuanSetNewActivity.class, context, null);
         } else if (v == zhglRoot) {
-            ExchangeAccountActivity.start(ExchangeAccountActivity.class, context, null);
+            AccountAnQuanManagerActivity.start(AccountAnQuanManagerActivity.class, context, null);
         } else if (v == profileRoot || v == binding.cavIcon || v == binding.layoutEditUserInfo) {
             AccountDetailActivity.start(AccountDetailActivity.class, context, null);
         } else if (v == downloadRoot) {
