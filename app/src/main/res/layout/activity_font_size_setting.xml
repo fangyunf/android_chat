@@ -162,16 +162,6 @@
                         android:visibility="gone" />
                 </LinearLayout>
             </LinearLayout>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="15dp"
-                android:layout_marginTop="12dp"
-                android:gravity="center"
-                android:text="仅展示界面，暂未生效"
-                android:textColor="@color/color_grey_999999"
-                android:textSize="12sp" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
