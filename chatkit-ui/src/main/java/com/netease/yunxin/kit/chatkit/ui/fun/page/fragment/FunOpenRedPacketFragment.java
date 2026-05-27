@@ -1,7 +1,6 @@
 package com.netease.yunxin.kit.chatkit.ui.fun.page.fragment;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +17,6 @@ import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.CustomMessageConfig;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
-import com.netease.yunxin.kit.chatkit.model.IMMessageInfo;
 import com.netease.yunxin.kit.chatkit.repo.ChatRepo;
 import com.netease.yunxin.kit.chatkit.ui.R;
 import com.netease.yunxin.kit.chatkit.ui.databinding.FragmentOpenRedPacketDialogBinding;
@@ -29,7 +27,6 @@ import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
-import com.yaoxin.appbase.utils.AppProxy;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.GlideUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
@@ -42,7 +39,7 @@ import retrofit2.Response;
 public class FunOpenRedPacketFragment extends BaseDialogFragment implements View.OnClickListener {
 
     public interface OpenRedPacketBlock {
-        public void hasOpen(IMMessage messageInfo);
+        void hasOpen(IMMessage messageInfo);
     }
 
     private OpenRedPacketBlock block;
@@ -77,9 +74,7 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                         redBean = new Gson().fromJson(body.data.toString(), CustomMsgBean.class);
-
                         updateUI();
-
                     }
 
                     @Override
@@ -96,11 +91,7 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
         }
         if (type == 1) {
             // 可领取
-            if (sendBean.type == 21) {
-                binding.fragmentOpenRedPacketDialogBgIv.setImageResource(R.drawable.chat_red_packet_open_bg_can_open_z);
-            } else {
-                binding.fragmentOpenRedPacketDialogBgIv.setImageResource(R.drawable.chat_red_packet_open_bg_can_open);
-            }
+            binding.fragmentOpenRedPacketDialogBgIv.setImageResource(R.drawable.chat_red_packet_open_bg_can_open);
             binding.fragmentOpenRedPacketDialogDetailRl.setVisibility(View.GONE);
             binding.fragmentOpenRedPacketDialogOpenRl.setVisibility(View.VISIBLE);
             GlideUtil.yh_loadImageRoundedCorner(getContext(), binding.fragmentOpenRedPacketDialogHeadIv, sendBean.result.sendAvatar, 24);
@@ -110,22 +101,14 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
         if (type == 2) {
             // 已领完
             binding.fragmentOpenRedPacketDialogGreetingTv.setText("手慢啦，红包已抢完");
-            if (sendBean.type == 21) {
-                binding.fragmentOpenRedPacketDialogBgIv.setImageResource(R.drawable.chat_red_packet_open_bg_cant_open_z);
-            } else {
-                binding.fragmentOpenRedPacketDialogBgIv.setImageResource(R.drawable.chat_red_packet_open_bg_cant_open);
-            }
+            binding.fragmentOpenRedPacketDialogBgIv.setImageResource(R.drawable.chat_red_packet_open_bg_cant_open);
             binding.fragmentOpenRedPacketDialogDetailRl.setVisibility(View.VISIBLE);
             binding.fragmentOpenRedPacketDialogOpenRl.setVisibility(View.GONE);
         }
         if (type == 3) {
             // 红包已退款，当前用户未领取
             binding.fragmentOpenRedPacketDialogGreetingTv.setText("手慢啦，红包已抢完");
-            if (sendBean.type == 21) {
-                binding.fragmentOpenRedPacketDialogBgIv.setImageResource(R.drawable.chat_red_packet_open_bg_cant_open_z);
-            } else {
-                binding.fragmentOpenRedPacketDialogBgIv.setImageResource(R.drawable.chat_red_packet_open_bg_cant_open);
-            }
+            binding.fragmentOpenRedPacketDialogBgIv.setImageResource(R.drawable.chat_red_packet_open_bg_cant_open);
             binding.fragmentOpenRedPacketDialogDetailRl.setVisibility(View.VISIBLE);
             binding.fragmentOpenRedPacketDialogOpenRl.setVisibility(View.GONE);
         }
@@ -138,12 +121,6 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
         fragment.groupId = groupId;
         fragment.sendBean = sendBean;
         fragment.block = block1;
-//        fragment.sendTipMsg();
-//        if (type == 1) {
-//            fragment. updateUI();
-//        } else {
-//            fragment._requestData();
-//        }
         fragment.showNow(fragmentManager, "FunOpenRedPacketFragment");
         if (messageInfo != null) {
             fragment.messageInfo = messageInfo;
@@ -151,14 +128,10 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
         }
     }
 
-
     @Override
     public void onClick(View v) {
-
-
         if (v == binding.fragmentOpenRedPacketDialogDetailRl) {
             gotoRedPacketDetail(false);
-
         } else if (v == binding.fragmentOpenRedPacketDialogOpenRl) {
             RegisterBean bean = new RegisterBean();
             bean.redpacketId = redPacketId;
@@ -174,41 +147,34 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
 
                             @Override
                             public void Failure(Call<NetData> call, Throwable t) {
-
                             }
                         });
             } else if (sendBean.type == 22) {
-                //type == 22 个人
                 HttpUtil.apiW().red_recivePersonRedpacket(bean)
                         .enqueue(new CommonCallback<NetData>() {
                             @Override
                             public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                                 openReusltBean = new Gson().fromJson(body.data.toString(), CustomMsgBean.class);
-
                                 gotoRedPacketDetail(true);
                                 sendTipMsg(false);
                             }
 
                             @Override
                             public void Failure(Call<NetData> call, Throwable t) {
-
                             }
                         });
             } else if (sendBean.type == 23) {
-                //type == 23 群
                 HttpUtil.apiW().red_grab(bean)
                         .enqueue(new CommonCallback<NetData>() {
                             @Override
                             public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                                 openReusltBean = new Gson().fromJson(body.data.toString(), CustomMsgBean.class);
-
                                 gotoRedPacketDetail(true);
                                 sendTipMsg(true);
                             }
 
                             @Override
                             public void Failure(Call<NetData> call, Throwable t) {
-
                             }
                         });
             }
@@ -229,9 +195,8 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
 
     void sendTipMsg(boolean isGroup) {
         boolean isExit = false;
-        if (openReusltBean != null && !openReusltBean.vos.isEmpty()) {
-            for (CustomMsgBean bean :
-                    openReusltBean.vos) {
+        if (openReusltBean != null && openReusltBean.vos != null && !openReusltBean.vos.isEmpty()) {
+            for (CustomMsgBean bean : openReusltBean.vos) {
                 if (bean.userId.equals(DataUtil.getUserid())) {
                     isExit = true;
                     break;
@@ -255,7 +220,6 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
             msg.setConfig(messageConfig);
             ChatRepo.sendMessage(msg, null);
         }
-        updateMessage();
     }
 
     void gotoRedPacketDetail(boolean needToast) {

@@ -3,7 +3,7 @@ package com.netease.yunxin.kit.chatkit.ui.fun.page.adapter;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -28,8 +28,8 @@ public class RedPacketRecordListAdapter extends BaseQuickAdapter<CustomMsgBean, 
     protected void onBindViewHolder(@NonNull QuickViewHolder quickViewHolder, int i, @Nullable CustomMsgBean bean) {
         TextView nameTv = quickViewHolder.getView(R.id.item_fun_red_packet_result_detail_username_tv);
         RoundedImageView roundedImageView = quickViewHolder.getView(R.id.item_fun_red_packet_result_detail_head_iv);
-        LinearLayout bestLl = quickViewHolder.getView(R.id.item_fun_red_packet_result_detail_best_win_ll);
-        bestLl.setVisibility( View.GONE);
+        ImageView bestWinIv = quickViewHolder.getView(R.id.item_fun_red_packet_result_detail_best_win_ll);
+        bestWinIv.setVisibility(View.GONE);
         if (_type == 0) {
             roundedImageView.setVisibility(View.VISIBLE);
 
