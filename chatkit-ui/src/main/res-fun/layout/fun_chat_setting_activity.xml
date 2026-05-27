@@ -127,6 +127,12 @@
                             android:layout_height="50dp" />
 
                         <include
+                            android:id="@+id/fun_chat_setting_activity_search_history"
+                            layout="@layout/fun_title_tf_arrow_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp" />
+
+                        <include
                             android:id="@+id/fun_chat_setting_activity_clear_history"
                             layout="@layout/fun_title_tf_arrow_view"
                             android:layout_width="match_parent"

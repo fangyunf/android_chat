@@ -86,6 +86,9 @@ public class FunChatSearchActivity extends ChatSearchBaseActivity {
   private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
   private ActivityResultLauncher<Intent> memberSelectorLauncher;
   private GroupInfoBean groupInfoBean;
+  private boolean isP2pMode;
+  private String sessionId;
+  private SessionTypeEnum sessionType = SessionTypeEnum.Team;
   private int currentFilter = FILTER_NONE;
   private String selectedMemberId = "";
   private String selectedMemberName = "";
@@ -115,6 +118,14 @@ public class FunChatSearchActivity extends ChatSearchBaseActivity {
     viewBinding.searchTitleBar.setPadding(0, BarUtils.getStatusBarHeight(), 0, 0);
     viewBinding.searchTitleBar.addCloseImageButton().setOnClickListener(v -> finish());
     viewBinding.cancelBtn.setOnClickListener(v -> finish());
+    Team teamParam = (Team) getIntent().getSerializableExtra(RouterConstant.CHAT_KRY);
+    String p2pAccId = getIntent().getStringExtra(RouterConstant.CHAT_ID_KRY);
+    isP2pMode = teamParam == null && !TextUtils.isEmpty(p2pAccId);
+    if (isP2pMode) {
+      sessionId = p2pAccId;
+      sessionType = SessionTypeEnum.P2P;
+      viewBinding.tabMemberTv.setVisibility(View.GONE);
+    }
     memberSelectorLauncher =
         registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -164,7 +175,9 @@ public class FunChatSearchActivity extends ChatSearchBaseActivity {
             }
           });
     }
-    viewBinding.tabMemberTv.setOnClickListener(v -> openMemberSelector());
+    if (!isP2pMode) {
+      viewBinding.tabMemberTv.setOnClickListener(v -> openMemberSelector());
+    }
     viewBinding.tabMediaTv.setOnClickListener(v -> toggleSimpleFilter(FILTER_MEDIA));
     viewBinding.tabFileTv.setOnClickListener(v -> toggleSimpleFilter(FILTER_FILE));
     viewBinding.tabDateTv.setOnClickListener(v -> showDatePicker());
@@ -174,11 +187,19 @@ public class FunChatSearchActivity extends ChatSearchBaseActivity {
           public boolean onClick(View v, BaseBean data, int position) {
             ALog.d(LIB_TAG, TAG, "item onClick position:" + position);
             KeyboardUtils.hideKeyboard(FunChatSearchActivity.this);
-            XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_TEAM_PAGE)
-                .withParam(data.paramKey, data.param)
-                .withParam(RouterConstant.CHAT_KRY, team)
-                .withContext(FunChatSearchActivity.this)
-                .navigate();
+            if (isP2pMode) {
+              XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_P2P_PAGE)
+                  .withParam(RouterConstant.KEY_MESSAGE, data.param)
+                  .withParam(RouterConstant.CHAT_ID_KRY, sessionId)
+                  .withContext(FunChatSearchActivity.this)
+                  .navigate();
+            } else {
+              XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_TEAM_PAGE)
+                  .withParam(data.paramKey, data.param)
+                  .withParam(RouterConstant.CHAT_KRY, team)
+                  .withContext(FunChatSearchActivity.this)
+                  .navigate();
+            }
             return true;
           }
 
@@ -197,14 +218,26 @@ public class FunChatSearchActivity extends ChatSearchBaseActivity {
   @Override
   protected void initData() {
     team = (Team) getIntent().getSerializableExtra(RouterConstant.CHAT_KRY);
-    if (team == null) {
+    String p2pAccId = getIntent().getStringExtra(RouterConstant.CHAT_ID_KRY);
+    if (team != null) {
+      isP2pMode = false;
+      sessionId = team.getId();
+      sessionType = SessionTypeEnum.Team;
+      requestGroupInfo();
+    } else if (isP2pMode) {
+      // sessionId/sessionType 已在 initViewAndSetContentView 初始化
+    } else {
       finish();
       return;
     }
-    requestGroupInfo();
     updateFilterViews();
-    showEmpty(true);
-    searchAdapter.setData(new ArrayList<>());
+    if (isP2pMode) {
+      // 私聊进入即加载本地聊天记录，无需先输入关键词或选择筛选
+      performSearch();
+    } else {
+      showEmpty(true);
+      searchAdapter.setData(new ArrayList<>());
+    }
   }
 
   public RecyclerView.ItemDecoration getItemDecoration() {
@@ -302,13 +335,17 @@ public class FunChatSearchActivity extends ChatSearchBaseActivity {
     selectedDateEnd = 0L;
     searchET.setText("");
     updateFilterViews();
-    searchAdapter.setData(new ArrayList<>());
-    showEmpty(true);
+    if (isP2pMode) {
+      performSearch();
+    } else {
+      searchAdapter.setData(new ArrayList<>());
+      showEmpty(true);
+    }
   }
 
   private void performSearch() {
     String keyword = getKeyword();
-    if (team == null || !shouldSearch(keyword)) {
+    if (TextUtils.isEmpty(sessionId) || !shouldSearch(keyword)) {
       searchRequestSerial++;
       searchAdapter.setData(new ArrayList<>());
       showEmpty(true);
@@ -324,7 +361,7 @@ public class FunChatSearchActivity extends ChatSearchBaseActivity {
             ? selectedDateEnd + 1
             : System.currentTimeMillis() + 1;
     long toTime = currentFilter == FILTER_DATE ? selectedDateStart : 0L;
-    IMMessage anchor = MessageBuilder.createEmptyMessage(team.getId(), SessionTypeEnum.Team, anchorTime);
+    IMMessage anchor = MessageBuilder.createEmptyMessage(sessionId, sessionType, anchorTime);
     NIMClient.getService(MsgService.class)
         .queryMessageListByTypesV2(
             getLocalQueryTypes(),
@@ -382,11 +419,14 @@ public class FunChatSearchActivity extends ChatSearchBaseActivity {
   }
 
   private boolean shouldSearch(String keyword) {
+    if (isP2pMode && currentFilter == FILTER_NONE && TextUtils.isEmpty(keyword)) {
+      return true;
+    }
     if (!TextUtils.isEmpty(keyword)) {
       return true;
     }
-    if (!TextUtils.isEmpty(selectedMemberId)) {
-      return !TextUtils.isEmpty(selectedMemberId);
+    if (!isP2pMode && !TextUtils.isEmpty(selectedMemberId)) {
+      return true;
     }
     if (currentFilter == FILTER_DATE) {
       return selectedDateStart > 0L && selectedDateEnd > 0L;
@@ -444,7 +484,9 @@ public class FunChatSearchActivity extends ChatSearchBaseActivity {
             || !TextUtils.isEmpty(selectedMemberId)
             || (currentFilter == FILTER_DATE && selectedDateStart > 0L);
     clearIV.setVisibility(showClear ? View.VISIBLE : View.GONE);
-    setTabSelected(viewBinding.tabMemberTv, !TextUtils.isEmpty(selectedMemberId));
+    if (!isP2pMode) {
+      setTabSelected(viewBinding.tabMemberTv, !TextUtils.isEmpty(selectedMemberId));
+    }
     setTabSelected(viewBinding.tabMediaTv, currentFilter == FILTER_MEDIA);
     setTabSelected(viewBinding.tabFileTv, currentFilter == FILTER_FILE);
     setTabSelected(viewBinding.tabDateTv, currentFilter == FILTER_DATE);

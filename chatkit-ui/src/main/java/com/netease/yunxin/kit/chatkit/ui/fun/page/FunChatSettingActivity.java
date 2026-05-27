@@ -218,6 +218,10 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
         }
         refreshView();
         binding.funChatSettingActivityMemo.titTv.setText("备注名");
+        binding.funChatSettingActivitySearchHistory.titTv.setText("查找聊天记录");
+        binding.funChatSettingActivitySearchHistory.arrowIcon.setVisibility(View.VISIBLE);
+        binding.funChatSettingActivitySearchHistory.funTitleTfArrowViewLl.setOnClickListener(
+                v -> openSearchChatHistory());
         Activity activity = this;
         Context that = this;
 
@@ -394,6 +398,16 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
             }
         });
 
+    }
+
+    private void openSearchChatHistory() {
+        if (TextUtils.isEmpty(accId)) {
+            return;
+        }
+        XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_SEARCH_PAGE)
+                .withParam(RouterConstant.CHAT_ID_KRY, accId)
+                .withContext(this)
+                .navigate();
     }
 
     private void registerResult() {
