@@ -40,6 +40,7 @@ import com.turunsi.yaoxin.login.LoginActivity;
 import com.turunsi.yaoxin.main.mine.account.AccountAnQuanManagerActivity;
 import com.turunsi.yaoxin.main.mine.account.AccountDetailActivity;
 import com.turunsi.yaoxin.main.mine.account.AccoutCodeDetailActivity;
+import com.turunsi.yaoxin.main.mine.fuhao.MyFuHaoListActivity;
 import com.turunsi.yaoxin.main.mine.huiyuan.LiangHaoZoneActivity;
 import com.turunsi.yaoxin.main.mine.purse.PurseIndexActivity;
 import com.turunsi.yaoxin.main.mine.DownLoadActivity;
@@ -139,6 +140,7 @@ public class MineFragment1 extends BaseFragment implements View.OnClickListener 
 
         setupOtherFuncItem(binding.fragmentMineProfileView.getRoot(), "我的资料");
         setupOtherFuncItem(binding.fragmentMineYysjView.getRoot(), "下载链接");
+        setupOtherFuncItem(binding.fragmentMineLianghaoView.getRoot(), "靓号专区");
         setupOtherFuncItem(binding.fragmentMineWdfhView.getRoot(), "购买生成号");
         setupOtherFuncItem(binding.fragmentMineLtszView.getRoot(), "我的收藏");
         setupOtherFuncItem(binding.fragmentMineMmszView.getRoot(), "我的设置");
@@ -151,6 +153,7 @@ public class MineFragment1 extends BaseFragment implements View.OnClickListener 
         binding.fragmentMineZhglView.getRoot().setOnClickListener(this);
         binding.fragmentMineProfileView.getRoot().setOnClickListener(this);
         binding.fragmentMineYysjView.getRoot().setOnClickListener(this);
+        binding.fragmentMineLianghaoView.getRoot().setOnClickListener(this);
         binding.fragmentMineWdfhView.getRoot().setOnClickListener(this);
         binding.fragmentMineLtszView.getRoot().setOnClickListener(this);
         binding.fragmentMineMmszView.getRoot().setOnClickListener(this);
@@ -232,6 +235,7 @@ public class MineFragment1 extends BaseFragment implements View.OnClickListener 
         View zhglRoot = binding.fragmentMineZhglView.getRoot();
         View profileRoot = binding.fragmentMineProfileView.getRoot();
         View downloadRoot = binding.fragmentMineYysjView.getRoot();
+        View lianghaoRoot = binding.fragmentMineLianghaoView.getRoot();
         View buyRoot = binding.fragmentMineWdfhView.getRoot();
         View collectRoot = binding.fragmentMineLtszView.getRoot();
         View settingRoot = binding.fragmentMineMmszView.getRoot();
@@ -250,8 +254,10 @@ public class MineFragment1 extends BaseFragment implements View.OnClickListener 
             AccountDetailActivity.start(AccountDetailActivity.class, context, null);
         } else if (v == downloadRoot) {
             DownLoadActivity.start(DownLoadActivity.class, context, null);
-        } else if (v == buyRoot) {
+        } else if (v == lianghaoRoot) {
             LiangHaoZoneActivity.start(LiangHaoZoneActivity.class, context, null);
+        } else if (v == buyRoot) {
+            MyFuHaoListActivity.start(MyFuHaoListActivity.class, context, null);
         } else if (v == collectRoot) {
             XKitRouter.withKey(com.yaoxin.appbase.net.Constant.CollectionListActivityKey)
                     .withParam("type", "5")

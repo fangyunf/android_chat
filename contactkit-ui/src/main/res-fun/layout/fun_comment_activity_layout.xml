@@ -13,6 +13,7 @@
 
     <com.netease.yunxin.kit.common.ui.widgets.BackTitleBar
         android:id="@+id/title"
+        
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/color_white"
@@ -22,7 +23,7 @@
     <com.netease.yunxin.kit.common.ui.widgets.CleanableEditText
         android:id="@+id/edt_comment"
         android:layout_width="match_parent"
-        android:maxLength="15"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:maxLength="15" />
 
 </LinearLayout>

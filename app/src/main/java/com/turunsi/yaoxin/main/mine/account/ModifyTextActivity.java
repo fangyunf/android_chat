@@ -5,8 +5,6 @@
 package com.turunsi.yaoxin.main.mine.account;
 
 import android.os.Bundle;
-import android.text.InputFilter;
-import android.text.Spanned;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -43,22 +41,6 @@ public class ModifyTextActivity extends BaseActivity implements View.OnClickList
         setContentView(binding.getRoot());
         binding.activityMineAccountModifyNav.addCloseImageButton().setOnClickListener(this);
         binding.activityMineAccountModifyRl.setOnClickListener(this);
-        // 输入时仅允许中文、字母、数字，禁止特殊字符\
-        binding.activityMineAccountModifyEt.setFilter(new InputFilter[]{new InputFilter() {
-            @Override
-            public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
-                StringBuilder sb = new StringBuilder();
-                for (int i = start; i < end; i++) {
-                    char c = source.charAt(i);
-                    if (Character.isLetterOrDigit(c) || (c >= 0x4e00 && c <= 0x9fa5)) {
-                        sb.append(c);
-                    }
-                }
-                if (sb.length() == end - start) return null;
-                if (sb.length() == 0) return "";
-                return sb;
-            }
-        }});
     }
 
     @Override

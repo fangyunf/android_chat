@@ -388,7 +388,9 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
         syncYunXinGradeToLocal(groupId);
 
 
-        adapter = new TeamSettingUserInfoAdapter(groupInfoBean.rankState == 1, maxList);
+        adapter =
+                new TeamSettingUserInfoAdapter(
+                        groupInfoBean.rankState == 1 || groupInfoBean.rankState == 2, maxList);
         CommonGridSpacingItemDecoration gridSpacingItemDecoration = new CommonGridSpacingItemDecoration(5, SizeUtils.dp2px(16), false);
         binding.funTeamSettingNewActivityMemberRv.addItemDecoration(gridSpacingItemDecoration);
         binding.funTeamSettingNewActivityMemberRv.setAdapter(adapter);
@@ -419,7 +421,7 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
         binding.layoutTtuichu.setVisibility(View.GONE);
         binding.layoutQunGuanli.setVisibility(View.GONE);
         binding.layoutQunMore.setVisibility(View.GONE);
-        if (groupInfoBean.rankState == 1) {
+        if (groupInfoBean.rankState == 1 || groupInfoBean.rankState == 2) {
             binding.layoutYaoqing.setVisibility(View.VISIBLE);
             binding.layoutTtuichu.setVisibility(View.VISIBLE);
         }

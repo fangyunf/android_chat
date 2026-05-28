@@ -63,11 +63,7 @@ public class FunTeamSetting_GroupManagerActivity extends BaseActivity implements
         }
         super.onCreate(savedInstanceState);
         binding = FunTeamSettingGroupManagerActivityBinding.inflate(getLayoutInflater());
-        if (rankState == 2) {
-            binding.funTeamSettingGroupManagerActivityQunzhuZhuanrang.viewTitleArrowLl.setVisibility(View.GONE);
-            binding.funTeamSettingGroupManagerActivityGuanliyuanSet.viewTitleArrowLl.setVisibility(View.GONE);
-            binding.funTeamSettingGroupManagerActivityJiesanTv.setVisibility(View.GONE);
-        }
+        applyManagerPermissionUi();
         setContentView(binding.getRoot());
         StatusBarUtils.transtStatusBar(this, binding.funTeamSettingGroupManagerActivityNav);
         _initView();
@@ -125,7 +121,6 @@ public class FunTeamSetting_GroupManagerActivity extends BaseActivity implements
 
         binding.funTeamSettingGroupManagerActivityQunshengji.viewTitleArrowTv.setText("群升级");
         binding.funTeamSettingGroupManagerActivityQunshengji.viewTitleArrowLl.setOnClickListener(this);
-        binding.funTeamSettingGroupManagerActivityQunshengji.viewTitleArrowLl.setVisibility(View.GONE);
 
         binding.funTeamSettingGroupManagerActivityQunheimingdan.viewTitleArrowTv.setText("群黑名单");
         binding.funTeamSettingGroupManagerActivityQunheimingdan.viewTitleArrowLl.setOnClickListener(this);
@@ -166,6 +161,16 @@ public class FunTeamSetting_GroupManagerActivity extends BaseActivity implements
                 LoadingDialog.dismissDialog();
             }
         });
+    }
+
+    /** 管理员与群主权限一致，仅转让群主、解散群聊、群升级为群主专属 */
+    private void applyManagerPermissionUi() {
+        boolean isOwner = rankState == 1;
+        binding.funTeamSettingGroupManagerActivityQunzhuZhuanrang.viewTitleArrowLl.setVisibility(
+                isOwner ? View.VISIBLE : View.GONE);
+        binding.funTeamSettingGroupManagerActivityJiesanTv.setVisibility(isOwner ? View.VISIBLE : View.GONE);
+        binding.funTeamSettingGroupManagerActivityQunshengji.viewTitleArrowLl.setVisibility(
+                isOwner ? View.VISIBLE : View.GONE);
     }
 
     void updateUI() {
