@@ -11,14 +11,14 @@ android {
     compileSdk = 33
     signingConfigs {
         create("release") {
-            keyAlias = "duoxi"
+            keyAlias = "xingyan"
             keyPassword = "123456"
-            storeFile = file("duoxi.jks")
+            storeFile = file("xingyan.jks")
             storePassword = "123456"
         }
     }
     defaultConfig {
-        applicationId = "com.turunsi.duoxi"
+        applicationId = "com.turunsi.xingyan"
         minSdk = 21
         targetSdk = 33
         versionCode = 7
