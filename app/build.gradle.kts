@@ -11,18 +11,18 @@ android {
     compileSdk = 33
     signingConfigs {
         create("release") {
-            keyAlias = "miliao"
-            keyPassword = "qqqq1111"
-            storeFile = file("xinda.jks")
-            storePassword = "qqqq1111"
+            keyAlias = "xingyan"
+            keyPassword = "123456"
+            storeFile = file("xingyan.jks")
+            storePassword = "123456"
         }
     }
     defaultConfig {
-        applicationId = "com.turunsi.xinda"
+        applicationId = "com.turunsi.xingyan"
         minSdk = 21
         targetSdk = 33
-        versionCode = 113
-        versionName = "1.1.3"
+        versionCode = 1
+        versionName = "1.0.0"
         multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
