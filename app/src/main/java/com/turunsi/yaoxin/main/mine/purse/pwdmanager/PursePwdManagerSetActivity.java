@@ -1,6 +1,5 @@
 package com.turunsi.yaoxin.main.mine.purse.pwdmanager;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
@@ -13,7 +12,6 @@ import androidx.annotation.Nullable;
 
 import com.netease.yunxin.kit.corekit.im.IMKitClient;
 import com.turunsi.yaoxin.IMApplication;
-import com.turunsi.yaoxin.R;
 import com.turunsi.yaoxin.login.LoginActivity;
 import com.yaoxin.appbase.activity.BaseActivity;
 import com.turunsi.yaoxin.databinding.ActivityMinePursePwdManagerSetBinding;
@@ -21,8 +19,11 @@ import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
+import com.yaoxin.appbase.utils.CommonNetUtil;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
+import com.yaoxin.appbase.view.loginlib.utils.LoginLoader;
+import com.yaoxin.appbase.view.loginlib.view.CountDownView;
 
 import java.util.HashMap;
 
@@ -48,15 +49,29 @@ public class PursePwdManagerSetActivity extends BaseActivity implements View.OnC
             type = Integer.parseInt(typeString);
         }
 
-        binding.activityMinePursePwdManagerGetCode.viewTitleTfWithoutBgTv.setText(
-                R.string.label_security_answer);
-        binding.activityMinePursePwdManagerGetCode.btnCaptcha.setVisibility(View.GONE);
+        binding.activityMinePursePwdManagerGetCode.viewTitleTfWithoutBgTv.setText("验证码");
+        binding.activityMinePursePwdManagerGetCode.btnCaptcha.setVisibility(View.VISIBLE);
+        CountDownView mCountDownView = binding.activityMinePursePwdManagerGetCode.btnCaptcha;
+        mCountDownView.setUserEdit(binding.activityMinePursePwdManagerSetPhone.viewTitleTfWithoutBgEt);
+        mCountDownView.setCountDownTime(60);
+        mCountDownView.setCaptchaListener(
+                new LoginLoader.CaptchaListener() {
+                    @Override
+                    public void onPre() {
+                        String phone =
+                                getTextStr(
+                                        binding.activityMinePursePwdManagerSetPhone
+                                                .viewTitleTfWithoutBgEt);
+                        CommonNetUtil.getPhoneCode(phone);
+                    }
+
+                    @Override
+                    public void onComplete(String phoneOrEmail) {}
+                });
 
         if (type == 0) {
             _initSetCell();
             binding.activityMinePursePwdManagerSetNav.setTitle("设置支付密码");
-            binding.activityMinePursePwdManagerSetPhone.getRoot().setVisibility(View.GONE);
-            binding.activityMinePursePwdManagerGetCode.getRoot().setVisibility(View.GONE);
         } else if (type == 1) {
             binding.activityMinePursePwdManagerSetNav.setTitle("修改支付密码");
             _initModifyCell();
@@ -67,59 +82,46 @@ public class PursePwdManagerSetActivity extends BaseActivity implements View.OnC
             _initForgetCell();
         } else if (type == 100) {
             binding.activityMinePursePwdManagerSetNav.setTitle("注销账号");
-            binding.activityMinePursePwdManagerSetSetPwd.viewTitleTfWithoutBgLl.setVisibility(View.GONE);
+            binding.activityMinePursePwdManagerSetSetPwd.viewTitleTfWithoutBgLl.setVisibility(
+                    View.GONE);
             binding.activityMinePursePwdManagerSetConfirmPwd.viewTitleTfWithoutBgLl.setVisibility(
                     View.GONE);
-            binding.activityMinePursePwdManagerSetPhone.viewTitleTfWithoutBgTv.setText(
-                    R.string.label_account);
+            binding.activityMinePursePwdManagerSetPhone.viewTitleTfWithoutBgTv.setText("手机号");
         }
-        updateSecurityRowVisibility();
-    }
-
-    private void updateSecurityRowVisibility() {
-        binding.activityMinePursePwdManagerGetCode
-                .getRoot()
-                .setVisibility(type == 0 || type == 100 ? View.VISIBLE : View.GONE);
     }
 
     private void _initSetCell() {
-        binding.activityMinePursePwdManagerGetCode.viewTitleTfWithoutBgTv.setText(
-                R.string.label_security_answer);
-        binding.activityMinePursePwdManagerGetCode.viewTitleTfWithoutBgEt.setHint(
-                R.string.hint_input_security_answer);
-        binding.activityMinePursePwdManagerGetCode.viewTitleTfWithoutBgEt.setInputType(
-                InputType.TYPE_CLASS_TEXT);
+        binding.activityMinePursePwdManagerSetPhone.viewTitleTfWithoutBgTv.setText("手机号");
         binding.activityMinePursePwdManagerSetSetPwd.viewTitleTfWithoutBgTv.setText("输入密码");
         binding.activityMinePursePwdManagerSetConfirmPwd.viewTitleTfWithoutBgTv.setText("确认密码");
+        binding.activityMinePursePwdManagerSetPhone.viewTitleTfWithoutBgEt.setHint("请输入手机号");
         binding.activityMinePursePwdManagerSetSetPwd.viewTitleTfWithoutBgEt.setHint("请输入密码");
         binding.activityMinePursePwdManagerSetConfirmPwd.viewTitleTfWithoutBgEt.setHint("请输入密码");
+        binding.activityMinePursePwdManagerSetPhone.viewTitleTfWithoutBgEt.setInputType(
+                InputType.TYPE_CLASS_NUMBER);
     }
 
     private void _initModifyCell() {
         binding.activityMinePursePwdManagerSetPhone.viewTitleTfWithoutBgTv.setText("原密码");
         binding.activityMinePursePwdManagerSetSetPwd.viewTitleTfWithoutBgTv.setText("新密码");
         binding.activityMinePursePwdManagerSetConfirmPwd.viewTitleTfWithoutBgTv.setText("确认密码");
-
         binding.activityMinePursePwdManagerSetPhone.viewTitleTfWithoutBgEt.setHint("请输入原密码");
         binding.activityMinePursePwdManagerSetSetPwd.viewTitleTfWithoutBgEt.setHint("请输入新密码");
         binding.activityMinePursePwdManagerSetConfirmPwd.viewTitleTfWithoutBgEt.setHint("请输入新密码");
     }
 
     private void _initForgetCell() {
-        binding.activityMinePursePwdManagerSetPhone.viewTitleTfWithoutBgTv.setText(R.string.label_account);
-        binding.activityMinePursePwdManagerSetSetPwd.viewTitleTfWithoutBgTv.setText(
-                R.string.label_security_answer);
+        binding.activityMinePursePwdManagerSetPhone.viewTitleTfWithoutBgTv.setText("手机号");
+        binding.activityMinePursePwdManagerSetSetPwd.viewTitleTfWithoutBgTv.setText("验证码");
         binding.activityMinePursePwdManagerSetConfirmPwd.viewTitleTfWithoutBgTv.setText("新密码");
-
-        binding.activityMinePursePwdManagerSetPhone.viewTitleTfWithoutBgEt.setHint(
-                R.string.hint_input_account);
-        binding.activityMinePursePwdManagerSetSetPwd.viewTitleTfWithoutBgEt.setHint(
-                R.string.hint_input_security_answer);
+        binding.activityMinePursePwdManagerSetPhone.viewTitleTfWithoutBgEt.setHint("请输入手机号");
+        binding.activityMinePursePwdManagerSetSetPwd.viewTitleTfWithoutBgEt.setHint("请输入验证码");
         binding.activityMinePursePwdManagerSetConfirmPwd.viewTitleTfWithoutBgEt.setHint("请输入新密码");
         binding.activityMinePursePwdManagerSetPhone.viewTitleTfWithoutBgEt.setInputType(
-                InputType.TYPE_CLASS_TEXT);
+                InputType.TYPE_CLASS_NUMBER);
         binding.activityMinePursePwdManagerSetSetPwd.viewTitleTfWithoutBgEt.setInputType(
-                InputType.TYPE_CLASS_TEXT);
+                InputType.TYPE_CLASS_NUMBER);
+        binding.activityMinePursePwdManagerGetCode.getRoot().setVisibility(View.GONE);
     }
 
     @Override
@@ -137,18 +139,18 @@ public class PursePwdManagerSetActivity extends BaseActivity implements View.OnC
 
     private void submit() {
         if (type == 100) {
-            String account = getTextStr(binding.activityMinePursePwdManagerSetPhone.viewTitleTfWithoutBgEt);
-            if (TextUtils.isEmpty(account)) {
-                ToastUtils.toastMsg(getString(R.string.toast_account_empty));
+            String phone = getTextStr(binding.activityMinePursePwdManagerSetPhone.viewTitleTfWithoutBgEt);
+            if (phone.length() != 11) {
+                ToastUtils.toastMsg("手机格式错误");
                 return;
             }
-            String ans = getTextStr(binding.activityMinePursePwdManagerGetCode.viewTitleTfWithoutBgEt);
-            if (TextUtils.isEmpty(ans)) {
-                ToastUtils.toastMsg(getString(R.string.toast_security_answer_empty));
+            String code = getTextStr(binding.activityMinePursePwdManagerGetCode.viewTitleTfWithoutBgEt);
+            if (TextUtils.isEmpty(code) || code.length() > 6) {
+                ToastUtils.toastMsg("验证码错误");
                 return;
             }
             RegisterBean bean = new RegisterBean();
-            bean.ans = ans;
+            bean.sms = code;
             HttpUtil.apiW()
                     .home_logout1(bean)
                     .enqueue(
@@ -166,46 +168,82 @@ public class PursePwdManagerSetActivity extends BaseActivity implements View.OnC
             return;
         }
 
-        String pwd1 = getTextStr(binding.activityMinePursePwdManagerSetSetPwd.viewTitleTfWithoutBgEt);
-        String pwd2 = getTextStr(binding.activityMinePursePwdManagerSetConfirmPwd.viewTitleTfWithoutBgEt);
-        if (type != 2 && TextUtils.isEmpty(pwd1)) {
-            ToastUtils.toastMsg("请输入密码");
+        if (type == 1) {
+            String pwd1 = getTextStr(binding.activityMinePursePwdManagerSetSetPwd.viewTitleTfWithoutBgEt);
+            String pwd2 = getTextStr(binding.activityMinePursePwdManagerSetConfirmPwd.viewTitleTfWithoutBgEt);
+            if (TextUtils.isEmpty(pwd1)) {
+                ToastUtils.toastMsg("请输入密码");
+                return;
+            }
+            if (!pwd1.equals(pwd2)) {
+                ToastUtils.toastMsg("两次密码不相同");
+                return;
+            }
+            RegisterBean registerBean = new RegisterBean();
+            registerBean.password = pwd1;
+            HttpUtil.apiW()
+                    .home_updateFullPassword(registerBean)
+                    .enqueue(
+                            new CommonCallback<NetData>() {
+                                @Override
+                                public void Successful(
+                                        Call<NetData> call, Response<NetData> response, NetData body) {
+                                    ToastUtils.toastMsg(body.msg);
+                                    finish();
+                                }
+
+                                @Override
+                                public void Failure(Call<NetData> call, Throwable t) {}
+                            });
             return;
         }
-        if (!pwd1.isEmpty() && !pwd2.isEmpty() && !pwd1.equals(pwd2)) {
-            ToastUtils.toastMsg("两次密码不相同");
+
+        String phone = getTextStr(binding.activityMinePursePwdManagerSetPhone.viewTitleTfWithoutBgEt);
+        if (phone.length() != 11) {
+            ToastUtils.toastMsg("手机格式错误");
             return;
         }
 
         RegisterBean registerBean = new RegisterBean();
-        if (type == 0) {
-            String ans = getTextStr(binding.activityMinePursePwdManagerGetCode.viewTitleTfWithoutBgEt);
-            if (TextUtils.isEmpty(ans)) {
-                ToastUtils.toastMsg(getString(R.string.toast_security_answer_empty));
+        if (type == 2) {
+            String code =
+                    getTextStr(binding.activityMinePursePwdManagerSetSetPwd.viewTitleTfWithoutBgEt);
+            if (TextUtils.isEmpty(code) || code.length() > 6) {
+                ToastUtils.toastMsg("验证码错误");
                 return;
             }
-            registerBean.ans = ans;
+            String newPwd =
+                    getTextStr(binding.activityMinePursePwdManagerSetConfirmPwd.viewTitleTfWithoutBgEt);
+            if (TextUtils.isEmpty(newPwd)) {
+                ToastUtils.toastMsg("请输入新密码");
+                return;
+            }
+            registerBean.captcha = code;
+            registerBean.password = newPwd;
+        } else {
+            String code =
+                    getTextStr(binding.activityMinePursePwdManagerGetCode.viewTitleTfWithoutBgEt);
+            if (TextUtils.isEmpty(code) || code.length() > 6) {
+                ToastUtils.toastMsg("验证码错误");
+                return;
+            }
+            String pwd1 =
+                    getTextStr(binding.activityMinePursePwdManagerSetSetPwd.viewTitleTfWithoutBgEt);
+            String pwd2 =
+                    getTextStr(binding.activityMinePursePwdManagerSetConfirmPwd.viewTitleTfWithoutBgEt);
+            if (TextUtils.isEmpty(pwd1)) {
+                ToastUtils.toastMsg("请输入密码");
+                return;
+            }
+            if (!pwd1.equals(pwd2)) {
+                ToastUtils.toastMsg("两次密码不相同");
+                return;
+            }
+            registerBean.captcha = code;
             registerBean.password = pwd1;
-        } else if (type == 1) {
-            registerBean.password = pwd1;
-        } else if (type == 2) {
-            String account = getTextStr(binding.activityMinePursePwdManagerSetPhone.viewTitleTfWithoutBgEt);
-            if (TextUtils.isEmpty(account)) {
-                ToastUtils.toastMsg(getString(R.string.toast_account_empty));
-                return;
-            }
-            String ans = getTextStr(binding.activityMinePursePwdManagerSetSetPwd.viewTitleTfWithoutBgEt);
-            if (TextUtils.isEmpty(ans)) {
-                ToastUtils.toastMsg(getString(R.string.toast_security_answer_empty));
-                return;
-            }
-            registerBean.phoneNo = account;
-            registerBean.ans = ans;
-            registerBean.password = pwd2;
         }
-
         HttpUtil.apiW()
-                .home_updateFullPasswordZh(registerBean)
+                .home_updateFullPassword(registerBean)
                 .enqueue(
                         new CommonCallback<NetData>() {
                             @Override

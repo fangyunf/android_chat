@@ -39,7 +39,7 @@ public class RegisterBean {
     public String param;
     public String password;
     public String captcha;
-    /** 密保答案（Zh 接口替代短信验证码字段） */
+    /** 密保答案（部分定制包使用；本包验证走 captcha / sms） */
     public String ans;
     public String deviceId;
     public String clientType;

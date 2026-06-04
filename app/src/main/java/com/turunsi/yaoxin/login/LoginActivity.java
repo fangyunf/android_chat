@@ -69,14 +69,27 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         binding.activityLoginIsAgreeLl.setOnClickListener(this);
 
         binding.activityLoginTf1.viewTitleTfCountTitleTv.setText(R.string.label_account);
-        binding.activityLoginTf2.viewTitleTfCountTitleTv.setText(R.string.label_security_answer);
+        binding.activityLoginTf2.viewTitleTfCountTitleTv.setText("验证码");
         binding.activityLoginTf3.viewTitleTfCountTitleTv.setText("密码");
         binding.activityLoginTf1.viewTitleTfCountEt.setHint(R.string.hint_input_account);
-        binding.activityLoginTf2.viewTitleTfCountEt.setHint(R.string.hint_input_security_answer);
+        binding.activityLoginTf2.viewTitleTfCountEt.setHint("输入验证码");
         binding.activityLoginTf3.viewTitleTfCountEt.setHint("输入密码");
         binding.activityLoginTf1.viewTitleTfCountEt.setInputType(InputType.TYPE_CLASS_TEXT);
-        binding.activityLoginTf2.viewTitleTfCountEt.setInputType(InputType.TYPE_CLASS_TEXT);
-        binding.activityLoginTf2.viewTitleTfCountCaptcha.setVisibility(View.GONE);
+        binding.activityLoginTf2.viewTitleTfCountEt.setInputType(InputType.TYPE_CLASS_NUMBER);
+        CountDownView mCountDownView = binding.activityLoginTf2.viewTitleTfCountCaptcha;
+        mCountDownView.setUserEdit(binding.activityLoginTf1.viewTitleTfCountEt);
+        mCountDownView.setCountDownTime(60);
+        mCountDownView.setCaptchaListener(
+                new LoginLoader.CaptchaListener() {
+                    @Override
+                    public void onPre() {
+                        String phone = getTextStr(binding.activityLoginTf1.viewTitleTfCountEt);
+                        CommonNetUtil.getPhoneCode(phone);
+                    }
+
+                    @Override
+                    public void onComplete(String phoneOrEmail) {}
+                });
         binding.activityLoginTf3.viewTitleTfCountEyeRl.setVisibility(View.VISIBLE);
         binding.activityLoginTf3.viewTitleTfCountEyeRl.setOnClickListener(this);
         binding.activityLoginTf3.viewTitleTfCountEyeIv.setSelected(true);
@@ -100,6 +113,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         _type = type;
         if (type == 0) {
             binding.activityLoginTf2.viewRoundTfLl.setVisibility(View.GONE);
+            binding.activityLoginTf1.viewTitleTfCountTitleTv.setText(R.string.label_account);
+            binding.activityLoginTf1.viewTitleTfCountEt.setHint(R.string.hint_input_account);
+            binding.activityLoginTf1.viewTitleTfCountEt.setInputType(InputType.TYPE_CLASS_TEXT);
             binding.activityLoginLoginTv.setText("登录");
             binding.activityLoginTitleTv.setText("登录");
             binding.activityLoginForgetTv.setText("忘记密码");
@@ -108,7 +124,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             binding.activityLoginTitleIv.setImageResource(R.mipmap.common_login_title_login);
         } else if (type == 1) {
             binding.activityLoginTf2.viewRoundTfLl.setVisibility(View.VISIBLE);
-            binding.activityLoginTf2.viewTitleTfCountCaptcha.setVisibility(View.GONE);
+            binding.activityLoginTf2.viewTitleTfCountCaptcha.setVisibility(View.VISIBLE);
+            binding.activityLoginTf1.viewTitleTfCountTitleTv.setText("手机号");
+            binding.activityLoginTf1.viewTitleTfCountEt.setHint("输入手机号");
+            binding.activityLoginTf1.viewTitleTfCountEt.setInputType(InputType.TYPE_CLASS_NUMBER);
             binding.activityLoginLoginTv.setText("注册");
             binding.activityLoginTitleTv.setText("注册");
             binding.activityLoginRegisterTv.setText("已有账号，去登录");
@@ -117,7 +136,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             binding.activityLoginTitleIv.setImageResource(R.mipmap.common_login_title_register);
         } else if (type == 2) {
             binding.activityLoginTf2.viewRoundTfLl.setVisibility(View.VISIBLE);
-            binding.activityLoginTf2.viewTitleTfCountCaptcha.setVisibility(View.GONE);
+            binding.activityLoginTf2.viewTitleTfCountCaptcha.setVisibility(View.VISIBLE);
+            binding.activityLoginTf1.viewTitleTfCountTitleTv.setText("手机号");
+            binding.activityLoginTf1.viewTitleTfCountEt.setHint("输入手机号");
+            binding.activityLoginTf1.viewTitleTfCountEt.setInputType(InputType.TYPE_CLASS_NUMBER);
             binding.activityLoginLoginTv.setText("找回密码");
             binding.activityLoginTitleTv.setText("找回密码");
             binding.activityLoginForgetTv.setVisibility(View.GONE);
@@ -222,13 +244,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     return;
                 }
                 String phone = getTextStr(binding.activityLoginTf1.viewTitleTfCountEt);
-                if (android.text.TextUtils.isEmpty(phone)) {
-                    ToastUtils.toastMsg(getString(R.string.toast_account_empty));
+                if (phone.length() != 11) {
+                    ToastUtils.toastMsg("手机格式错误");
                     return;
                 }
-                String ans = getTextStr(binding.activityLoginTf2.viewTitleTfCountEt);
-                if (android.text.TextUtils.isEmpty(ans)) {
-                    ToastUtils.toastMsg(getString(R.string.toast_security_answer_empty));
+                String code = getTextStr(binding.activityLoginTf2.viewTitleTfCountEt);
+                if (android.text.TextUtils.isEmpty(code) || code.length() > 6) {
+                    ToastUtils.toastMsg("验证码错误");
                     return;
                 }
                 String pwd1 = getTextStr(binding.activityLoginTf3.viewTitleTfCountEt);
@@ -239,14 +261,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 RegisterBean registerBean = new RegisterBean();
                 registerBean.phoneNo = phone;
                 registerBean.password = pwd1;
-                registerBean.ans = ans;
+                registerBean.captcha = code;
                 registerBean.deviceId = DeviceUtils.getDeviceId(this);
                 registerBean.clientType = Constant.clientType;
 
                 Activity that = this;
                 LoadingDialog.showDialog(getSupportFragmentManager(), "注册中");
 
-                HttpUtil.apiW().customer_registerZh(registerBean).enqueue(new CommonCallback<NetData>() {
+                HttpUtil.apiW().customer_register(registerBean).enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                         UserBean userBean = new Gson().fromJson((String) body.data, UserBean.class);
@@ -269,13 +291,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 });
             } else if (_type == 2) {
                 String phone = getTextStr(binding.activityLoginTf1.viewTitleTfCountEt);
-                if (android.text.TextUtils.isEmpty(phone)) {
-                    ToastUtils.toastMsg(getString(R.string.toast_account_empty));
+                if (phone.length() != 11) {
+                    ToastUtils.toastMsg("手机格式错误");
                     return;
                 }
-                String ans = getTextStr(binding.activityLoginTf2.viewTitleTfCountEt);
-                if (android.text.TextUtils.isEmpty(ans)) {
-                    ToastUtils.toastMsg(getString(R.string.toast_security_answer_empty));
+                String code = getTextStr(binding.activityLoginTf2.viewTitleTfCountEt);
+                if (android.text.TextUtils.isEmpty(code) || code.length() > 6) {
+                    ToastUtils.toastMsg("验证码错误");
                     return;
                 }
                 String pwd1 = getTextStr(binding.activityLoginTf3.viewTitleTfCountEt);
@@ -286,10 +308,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 RegisterBean bean = new RegisterBean();
                 bean.password = pwd1;
                 bean.phoneNo = phone;
-                bean.ans = ans;
+                bean.captcha = code;
 
                 Activity that = this;
-                HttpUtil.apiW().customer_updatePasswordZh(bean).enqueue(new CommonCallback<NetData>() {
+                HttpUtil.apiW().customer_updatePassword(bean).enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                         ToastUtils.toastMsg("修改成功");
