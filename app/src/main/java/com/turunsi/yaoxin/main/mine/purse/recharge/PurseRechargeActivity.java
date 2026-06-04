@@ -51,6 +51,7 @@ import retrofit2.Response;
 public class PurseRechargeActivity extends BaseActivity implements View.OnClickListener {
     ActivityMinePurseRechargeBinding binding;
     String payType = "alipay";
+    int smartType = 2;
     int _type = 0;
     private RecyclerView recyclerView;
     private RecyclerView recyclerView1;
@@ -164,9 +165,11 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
                 switch (adpter1.payType) {
                     case "支付宝充值":
                         payType = "alipay";
+                        smartType = 2;
                         break;
                     case "微信充值":
                         payType = "wxpay";
+                        smartType = 1;
                         break;
 //                    case "支付宝充值二":
 //                        payType = "alipay";
@@ -322,9 +325,11 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
                     if (type == 1) {
                         binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt.setText("支付宝");
                         payType = "alipay";
+                        smartType = 2;
                     } else if (type == 2) {
                         binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt.setText("微信");
                         payType = "wxpay";
+                        smartType = 1;
                     } else if (type == 3) {
                         binding.activityMinePurseRechargeRechargeType.viewTitleTfWithoutBgEt.setText("微信");
                         payType = "bank";
@@ -334,6 +339,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
         }
 
     }
+
     /**
      * 启动支付宝支付
      *
@@ -363,6 +369,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
         if ("支付宝充值".equals(adpter1.payType)) {
             RequestParamsBean registerBean = new RequestParamsBean();
             registerBean.amount = NumberUtil.formartUploadMoney(inputMoney);
+            registerBean.smartType = smartType;
             HttpUtil.apiW().pay_six(registerBean)
                     .enqueue(new CommonCallback<NetData>() {
                         @Override
@@ -377,11 +384,10 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
                         }
                     });
         } else if ("微信充值".equals(adpter1.payType)) {
-
             RequestParamsBean registerBean = new RequestParamsBean();
             registerBean.amount = NumberUtil.formartUploadMoney(inputMoney);
-            registerBean.type = payType;
-
+            //registerBean.type = payType;
+            registerBean.smartType = smartType;
             HttpUtil.apiW().pay_sixwx(registerBean)
                     .enqueue(new CommonCallback<NetData>() {
                         @Override
@@ -400,7 +406,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
 
             RequestParamsBean registerBean = new RequestParamsBean();
             registerBean.amount = NumberUtil.formartUploadMoney(inputMoney);
-            registerBean.type = payType;
+            registerBean.smartType = smartType;
 
             HttpUtil.apiW().pay_sixwx(registerBean)
                     .enqueue(new CommonCallback<NetData>() {
@@ -420,7 +426,7 @@ public class PurseRechargeActivity extends BaseActivity implements View.OnClickL
 
             RequestParamsBean registerBean = new RequestParamsBean();
             registerBean.amount = NumberUtil.formartUploadMoney(inputMoney);
-            registerBean.type = payType;
+            registerBean.smartType = smartType;
 
             HttpUtil.apiW().pay_sixL(registerBean)
                     .enqueue(new CommonCallback<NetData>() {

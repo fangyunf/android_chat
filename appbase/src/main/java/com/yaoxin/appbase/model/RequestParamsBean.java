@@ -10,6 +10,7 @@ public class RequestParamsBean {
     public String payChannel;
     public String zfb;
     public String certNo;
+    public int smartType;
     public String usdt;
     public String name;
     public String configId;
@@ -39,7 +40,8 @@ public class RequestParamsBean {
     public String token_no;
     public String in_member_id;
     public String out_member_id;
-    public RequestParamsBean(String phone1,String name1, String type1) {
+
+    public RequestParamsBean(String phone1, String name1, String type1) {
         deviceId = DeviceUtils.getDeviceId(AppProxy.getInstance().getContext());
         clientType = Constant.clientType;
         phone = phone1;
