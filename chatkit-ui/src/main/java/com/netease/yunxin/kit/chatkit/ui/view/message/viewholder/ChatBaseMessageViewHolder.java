@@ -809,21 +809,18 @@ public abstract class ChatBaseMessageViewHolder extends CommonBaseMessageViewHol
             baseViewBinding.myAvatar.setVisibility(View.GONE);
             baseViewBinding.otherUserAvatar.setVisibility(View.VISIBLE);
             baseViewBinding.otherUserAvatarRole.setVisibility(View.GONE);
-//      String targetId = "";
-            //if (messageBean.getMessageData() != null && messageBean.getMessageData().getFromUser() != null) {
-//        targetId = messageBean.getMessageData().getFromUser().getAccount();
-            //  updateUIGrade(baseViewBinding.chatBaseMessageViewHolderOtherGradeIv, false, messageBean.getMessageData().getFromUser().getAccount());
-
-            //}
-//      if (DataUtil.adminIds.contains(targetId)) {
-//        baseViewBinding.otherUserAvatarRole.setVisibility(View.VISIBLE);
-//        baseViewBinding.otherUserAvatarRole.setText("管理");
-//      } else if (DataUtil.qunzhuId.equals(targetId)) {
-//        baseViewBinding.otherUserAvatarRole.setVisibility(View.VISIBLE);
-//        baseViewBinding.otherUserAvatarRole.setText("群主");
-//      } else {
-
-//      }
+            String targetId = "";
+            if (messageBean.getMessageData() != null && messageBean.getMessageData().getFromUser() != null) {
+                targetId = messageBean.getMessageData().getFromUser().getAccount();
+                //updateUIGrade(baseViewBinding.chatBaseMessageViewHolderOtherGradeIv, false, messageBean.getMessageData().getFromUser().getAccount());
+            }
+            if (DataUtil.adminIds.contains(targetId)) {
+                baseViewBinding.otherUserAvatarRole.setVisibility(View.VISIBLE);
+                baseViewBinding.otherUserAvatarRole.setText("管理");
+            } else if (DataUtil.qunzhuId.equals(targetId)) {
+                baseViewBinding.otherUserAvatarRole.setVisibility(View.VISIBLE);
+                baseViewBinding.otherUserAvatarRole.setText("群主");
+            }
             if (grader > 0) {
                 baseViewBinding.ivOtherGrade.setVisibility(View.VISIBLE);
                 int gradeColor = ResourceHelper.getGradeColor(baseViewBinding.myAvatar.getContext(), grader);
