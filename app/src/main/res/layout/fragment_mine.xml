@@ -371,16 +371,12 @@
                             android:layout_height="wrap_content"
                             app:leftImg="@mipmap/mine_index_item_hyzx"
                             app:titleText="会员商城" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginStart="53dp"
-                            android:background="#EEEEEE" />
+                        
 
                         <com.yaoxin.appbase.view.IconTitleArrowTemplate
                             android:id="@+id/fragment_mine_wdfh_view"
                             android:layout_width="match_parent"
+                            android:visibility="gone"
                             android:layout_height="wrap_content"
                             app:leftImg="@mipmap/icon_menu7"
                             app:titleText="我的副号" />

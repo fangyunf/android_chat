@@ -76,7 +76,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="您的 DQ 号为"
+                        android:text="您的Meet号为"
                         android:textColor="#999999"
                         android:textSize="13sp" />
 
@@ -85,7 +85,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="687339296"
+                        android:text=""
                         android:textColor="@color/app_theme_color"
                         android:textSize="20sp"
                         android:textStyle="bold" />
@@ -99,6 +99,7 @@
                 android:layout_gravity="center_horizontal"
                 android:padding="2dp"
                 android:scaleType="centerCrop"
+                app:riv_border_color="@color/color_white"
                 app:riv_border_width="2dp"
                 app:riv_corner_radius="36dp" />
         </FrameLayout>
