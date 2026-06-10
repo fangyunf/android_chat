@@ -61,7 +61,7 @@
         android:id="@+id/activity_system_notice_new_qtz_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="16dp"
         android:gravity="center_vertical"
         android:paddingHorizontal="15dp">
 
@@ -97,7 +97,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:gravity="center_vertical"
-        android:paddingHorizontal="15dp">
+        android:paddingHorizontal="15dp"
+        android:visibility="gone">
 
         <ImageView
             android:layout_width="40dp"
