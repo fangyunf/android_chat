@@ -18,7 +18,7 @@ android {
         }
     }
     defaultConfig {
-        applicationId = "com.turunsi.yueyouping"
+        applicationId = "com.turunsi.meet"
         minSdk = 21
         targetSdk = 33
         versionCode = 113

@@ -39,6 +39,7 @@ import com.turunsi.yaoxin.eggs.EggSuccessDialogFragment;
 import com.turunsi.yaoxin.eggs.GroupListActivity;
 import com.turunsi.yaoxin.login.LoginActivity;
 import com.turunsi.yaoxin.login.RealNameSetActivity;
+import com.turunsi.yaoxin.login.WelcomeLoginActivity;
 import com.turunsi.yaoxin.main.mine.account.AccountAnQuanManagerActivity;
 import com.turunsi.yaoxin.main.mine.account.AccountDetailActivity;
 import com.turunsi.yaoxin.main.mine.account.AccoutCodeDetailActivity;
@@ -556,10 +557,9 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 
                     @Override
                     public void onSuccess(@Nullable Void data) {
-
                         DataUtil.deleteLoginUserInfoList(DataUtil.getUserInfo());
                         DataUtil.deleteData();
-                        startActivity(new Intent(getActivity(), LoginActivity.class));
+                        startActivity(new Intent(getActivity(), WelcomeLoginActivity.class));
                         getActivity().finish();
                     }
                 });
