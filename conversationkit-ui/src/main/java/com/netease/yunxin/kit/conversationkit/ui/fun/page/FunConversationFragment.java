@@ -7,19 +7,30 @@ package com.netease.yunxin.kit.conversationkit.ui.fun.page;
 import static com.netease.yunxin.kit.corekit.im.utils.RouterConstant.PATH_FUN_ADD_FRIEND_PAGE;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.ConcatAdapter;
@@ -36,6 +47,8 @@ import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.CustomMessageConfig;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.yunxin.kit.chatkit.model.ConversationInfo;
+import com.netease.yunxin.kit.common.ui.viewholder.BaseBean;
+import com.netease.yunxin.kit.common.ui.viewholder.ViewHolderClickListener;
 import com.netease.yunxin.kit.common.ui.widgets.ContentListPopView;
 import com.netease.yunxin.kit.common.ui.widgets.TitleBarView;
 import com.netease.yunxin.kit.common.utils.SizeUtils;
@@ -49,6 +62,7 @@ import com.netease.yunxin.kit.conversationkit.ui.fun.FunViewHolderFactory;
 import com.netease.yunxin.kit.conversationkit.ui.fun.page.Bean.ConversationCustomInfoBean;
 import com.netease.yunxin.kit.conversationkit.ui.model.ConversationBean;
 import com.netease.yunxin.kit.conversationkit.ui.page.ConversationBaseFragment;
+import com.netease.yunxin.kit.conversationkit.ui.view.ConversationView;
 import com.netease.yunxin.kit.corekit.im.IMKitClient;
 import com.netease.yunxin.kit.corekit.im.utils.PreferenceUtils;
 import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
@@ -59,6 +73,7 @@ import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
+import com.yaoxin.appbase.net.Constant;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.AppProxy;
 import com.yaoxin.appbase.utils.BarUtils;
@@ -104,6 +119,16 @@ public class FunConversationFragment extends ConversationBaseFragment {
     private int cachedTotalNoticeUnread;
     private RecyclerView.Adapter<?> headerAdapterRef;
     private int topIndex;
+    private Dialog searchDialog;
+    private View searchDialogRoot;
+    private View searchDimV;
+    private LinearLayout searchContentLl;
+    private LinearLayout searchPanelLl;
+    private EditText searchEt;
+    private ImageView searchClearIv;
+    private ConversationView searchConversationView;
+    private OnBackPressedCallback searchBackCallback;
+    private boolean searchDialogInited;
 
     ArrayList<GroupInfoBean> mContactModels = new ArrayList<>();
 
@@ -138,11 +163,6 @@ public class FunConversationFragment extends ConversationBaseFragment {
             viewBinding.funConversationFragmentTitleTv.setText("对话");
         }
         setupFixedHeader();
-        viewBinding.funConversationFragmentSearchLl.setOnClickListener(
-                v ->
-                        XKitRouter.withKey("SearchNewActivity")
-                                .withContext(requireContext())
-                                .navigate());
         StatusBarUtils.setStatusBarLightMode(getActivity(), true, true);
         ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) viewBinding.funConversationFragmentTopLl.getLayoutParams();
         layoutParams.topMargin = BarUtils.getStatusBarHeight() + SizeUtils.dp2px(20);
@@ -155,7 +175,6 @@ public class FunConversationFragment extends ConversationBaseFragment {
             }
         }, 1500);
         EventBus.getDefault().register(this);
-        searchWord();
         return viewBinding.getRoot();
     }
 
@@ -163,46 +182,281 @@ public class FunConversationFragment extends ConversationBaseFragment {
     public void onPause() {
         super.onPause();
         if (_type == 0 || _type == 3) {
-            if (!AppProxy.searchKeyWord0.isEmpty()) {
-                viewBinding.funConversationFragmentEt.setText("");
-                AppProxy.searchKeyWord0 = "";
-                conversationView.adapter.notifyDataSetChanged();
-            }
-        } else {
-            if (!AppProxy.searchKeyWord1.isEmpty()) {
-                viewBinding.funConversationFragmentEt.setText("");
-                AppProxy.searchKeyWord1 = "";
-                conversationView.adapter.notifyDataSetChanged();
-            }
+            dismissSearchOverlay();
+        } else if (!AppProxy.searchKeyWord1.isEmpty()) {
+            AppProxy.searchKeyWord1 = "";
+            conversationView.adapter.notifyDataSetChanged();
         }
-
-
     }
 
-    void searchWord() {
-        viewBinding.funConversationFragmentEt.addTextChangedListener(new TextWatcher() {
+    @Override
+    public void onDestroyView() {
+        if (searchDialog != null) {
+            searchDialog.dismiss();
+            searchDialog = null;
+            searchDialogInited = false;
+        }
+        super.onDestroyView();
+    }
+
+    private void ensureSearchDialog() {
+        if (searchDialogInited || (_type != 0 && _type != 3)) {
+            return;
+        }
+        searchDialog = new Dialog(requireContext(), android.R.style.Theme_Translucent_NoTitleBar);
+        searchDialog.setContentView(R.layout.fun_conversation_search_dialog);
+        Window dialogWindow = searchDialog.getWindow();
+        if (dialogWindow != null) {
+            dialogWindow.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            dialogWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialogWindow.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+            dialogWindow.setSoftInputMode(
+                    WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE
+                            | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        }
+        searchDialogRoot = searchDialog.findViewById(R.id.fun_conversation_search_dialog_root);
+        searchDimV = searchDialog.findViewById(R.id.fun_conversation_fragment_search_dim_v);
+        searchContentLl = searchDialog.findViewById(R.id.fun_conversation_search_content_ll);
+        searchPanelLl = searchDialog.findViewById(R.id.fun_conversation_fragment_search_panel_ll);
+        searchEt = searchDialog.findViewById(R.id.fun_conversation_fragment_et);
+        searchClearIv = searchDialog.findViewById(R.id.fun_conversation_fragment_search_clear_iv);
+        searchConversationView =
+                searchDialog.findViewById(R.id.fun_conversation_fragment_search_conversation_view);
+        searchConversationView._type = _type;
+        searchConversationView.adapter._type = _type;
+        searchConversationView.setViewHolderFactory(new FunViewHolderFactory());
+        searchConversationView.addItemDecoration(getItemDecoration());
+        searchConversationView.setItemClickListener(createConversationClickListener());
+        searchConversationView.getRecyclerView().setBackgroundColor(0xFFFFFFFF);
+        searchDimV.setOnClickListener(v -> dismissSearchOverlay());
+        searchClearIv.setOnClickListener(v -> searchEt.setText(""));
+        searchEt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
             }
 
             @Override
             public void afterTextChanged(Editable s) {
                 String string = s.toString();
-                if (_type == 0 || _type == 3) {
-                    AppProxy.getInstance().searchKeyWord0 = string;
-                } else {
-                    AppProxy.getInstance().searchKeyWord1 = string;
-                }
-
-                conversationView.adapter.notifyDataSetChanged();
+                searchClearIv.setVisibility(string.isEmpty() ? View.GONE : View.VISIBLE);
+                updateSearchDialogStyle(!string.isEmpty());
+                filterSearchResults(string);
             }
         });
+        searchDialogInited = true;
+    }
+
+    private ViewHolderClickListener createConversationClickListener() {
+        return new ViewHolderClickListener() {
+            @Override
+            public boolean onClick(View v, BaseBean data, int position) {
+                if (data.param != null) {
+                    String targetId = (String) data.param;
+                    if (targetId.equals(DataUtil.getXiaoZhuShouId())) {
+                        dismissSearchOverlay();
+                        XKitRouter.withKey(Constant.XiaoZhuShouActivityKey)
+                                .withContext(requireContext())
+                                .navigate();
+                        return true;
+                    }
+                }
+                boolean result = false;
+                if (ConversationKitClient.getConversationUIConfig() != null
+                        && ConversationKitClient.getConversationUIConfig().itemClickListener != null
+                        && data instanceof ConversationBean) {
+                    result =
+                            ConversationKitClient.getConversationUIConfig()
+                                    .itemClickListener
+                                    .onClick(
+                                            getContext(),
+                                            (ConversationBean) data,
+                                            position);
+                }
+                if (!result) {
+                    dismissSearchOverlay();
+                    XKitRouter.withKey(data.router)
+                            .withParam(data.paramKey, data.param)
+                            .withContext(requireContext())
+                            .navigate();
+                }
+                return true;
+            }
+
+            @Override
+            public boolean onAvatarClick(View v, BaseBean data, int position) {
+                if (data.param != null) {
+                    String targetId = (String) data.param;
+                    if (targetId.equals(DataUtil.getXiaoZhuShouId())) {
+                        dismissSearchOverlay();
+                        XKitRouter.withKey(Constant.XiaoZhuShouActivityKey)
+                                .withContext(requireContext())
+                                .navigate();
+                        return true;
+                    }
+                }
+                boolean result = false;
+                if (ConversationKitClient.getConversationUIConfig() != null
+                        && ConversationKitClient.getConversationUIConfig().itemClickListener != null
+                        && data instanceof ConversationBean) {
+                    result =
+                            ConversationKitClient.getConversationUIConfig()
+                                    .itemClickListener
+                                    .onAvatarClick(
+                                            getContext(),
+                                            (ConversationBean) data,
+                                            position);
+                }
+                if (!result) {
+                    dismissSearchOverlay();
+                    XKitRouter.withKey(data.router)
+                            .withParam(data.paramKey, data.param)
+                            .withContext(requireContext())
+                            .navigate();
+                }
+                return true;
+            }
+
+            @Override
+            public boolean onLongClick(View v, BaseBean data, int position) {
+                return false;
+            }
+
+            @Override
+            public boolean onAvatarLongClick(View v, BaseBean data, int position) {
+                return false;
+            }
+        };
+    }
+
+    private String getConversationDisplayName(ConversationBean data) {
+        if (data == null || data.infoData == null) {
+            return "";
+        }
+        if (data.param != null) {
+            String targetId = (String) data.param;
+            if (targetId.equals(DataUtil.getKeFuId())) {
+                return "客服";
+            }
+            if (targetId.equals(DataUtil.getXiaoZhuShouId())) {
+                return "官方小助手";
+            }
+        }
+        if (data.infoData.getTeamInfo() != null) {
+            return data.infoData.getTeamInfo().getName();
+        }
+        String name = data.infoData.getName();
+        return name == null ? "" : name;
+    }
+
+    private void filterSearchResults(String keyword) {
+        if (searchConversationView == null) {
+            return;
+        }
+        List<ConversationBean> filtered = new ArrayList<>();
+        if (!TextUtils.isEmpty(keyword)) {
+            for (ConversationBean bean : conversationList) {
+                if (getConversationDisplayName(bean).contains(keyword)) {
+                    filtered.add(bean);
+                }
+            }
+        }
+        searchConversationView.setData(filtered);
+    }
+
+    private void updateSearchDialogStyle(boolean searching) {
+        if (searchDimV == null || searchContentLl == null || searchConversationView == null) {
+            return;
+        }
+        searchDimV.setVisibility(View.VISIBLE);
+        FrameLayout.LayoutParams contentLp =
+                (FrameLayout.LayoutParams) searchContentLl.getLayoutParams();
+        contentLp.height =
+                searching ? ViewGroup.LayoutParams.MATCH_PARENT : ViewGroup.LayoutParams.WRAP_CONTENT;
+        contentLp.gravity = Gravity.TOP;
+        searchContentLl.setLayoutParams(contentLp);
+        searchConversationView.setVisibility(searching ? View.VISIBLE : View.GONE);
+    }
+
+    private void updateSearchDialogPosition() {
+        if (viewBinding == null || searchDialogRoot == null || searchContentLl == null) {
+            return;
+        }
+        searchDialogRoot.setPadding(0, 0, 0, viewBinding.bottomLayout.getHeight());
+        FrameLayout.LayoutParams contentLp =
+                (FrameLayout.LayoutParams) searchContentLl.getLayoutParams();
+        contentLp.topMargin =
+                viewBinding.topLayout.getTop()
+                        + viewBinding.funConversationFragmentTopLl.getBottom();
+        contentLp.gravity = Gravity.TOP;
+        searchContentLl.setLayoutParams(contentLp);
+    }
+
+    private void setupSearchOverlay() {
+        if (_type != 0 && _type != 3) {
+            return;
+        }
+        searchBackCallback =
+                new OnBackPressedCallback(false) {
+                    @Override
+                    public void handleOnBackPressed() {
+                        dismissSearchOverlay();
+                    }
+                };
+        requireActivity()
+                .getOnBackPressedDispatcher()
+                .addCallback(getViewLifecycleOwner(), searchBackCallback);
+    }
+
+    private void showSearchOverlay() {
+        ensureSearchDialog();
+        if (searchDialog == null) {
+            return;
+        }
+        searchEt.setText("");
+        searchClearIv.setVisibility(View.GONE);
+        filterSearchResults("");
+        updateSearchDialogStyle(false);
+        searchDialog.show();
+        viewBinding.funConversationFragmentTopLl.post(() -> {
+            updateSearchDialogPosition();
+            updateSearchDialogStyle(false);
+        });
+        if (searchBackCallback != null) {
+            searchBackCallback.setEnabled(true);
+        }
+        searchEt.requestFocus();
+        InputMethodManager imm =
+                (InputMethodManager) requireContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null) {
+            imm.showSoftInput(searchEt, InputMethodManager.SHOW_IMPLICIT);
+        }
+    }
+
+    private void dismissSearchOverlay() {
+        if (searchDialog == null || !searchDialog.isShowing()) {
+            return;
+        }
+        InputMethodManager imm =
+                (InputMethodManager) requireContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null && searchEt != null) {
+            imm.hideSoftInputFromWindow(searchEt.getWindowToken(), 0);
+        }
+        searchDialog.dismiss();
+        if (searchClearIv != null) {
+            searchClearIv.setVisibility(View.GONE);
+        }
+        updateSearchDialogStyle(false);
+        if (searchEt != null) {
+            searchEt.setText("");
+        }
+        filterSearchResults("");
+        if (searchBackCallback != null) {
+            searchBackCallback.setEnabled(false);
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -722,11 +976,16 @@ public class FunConversationFragment extends ConversationBaseFragment {
             rv.setClipToPadding(false);
         }
 
-        viewBinding.funConversationFragmentSearchIv.setOnClickListener(
-                v ->
-                        XKitRouter.withKey("SearchNewActivity")
-                                .withContext(requireContext())
-                                .navigate());
+        setupSearchOverlay();
+        viewBinding.funConversationFragmentSearchIv.setOnClickListener(v -> {
+            if (_type == 0 || _type == 3) {
+                showSearchOverlay();
+            } else {
+                XKitRouter.withKey("SearchNewActivity")
+                        .withContext(requireContext())
+                        .navigate();
+            }
+        });
         viewBinding.funConversationFragmentKefuIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

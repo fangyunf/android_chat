@@ -57,10 +57,12 @@ public class FunConversationTeamViewHolder extends FunConversationBaseViewHolder
 
         ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) viewBinding.rootLayout.getLayoutParams();
         layoutParams.height = SizeUtils.dp2px(72);
-        if (!AppProxy.searchKeyWord1.isEmpty()) {
-            if (!viewBinding.nameTv.getText().toString().contains(AppProxy.searchKeyWord1)) {
-                layoutParams.height = 0;
-            }
+        String searchKeyword = !AppProxy.searchKeyWord0.isEmpty()
+                ? AppProxy.searchKeyWord0
+                : AppProxy.searchKeyWord1;
+        if (!searchKeyword.isEmpty()
+                && !viewBinding.nameTv.getText().toString().contains(searchKeyword)) {
+            layoutParams.height = 0;
         }
 
         viewBinding.rootLayout.setLayoutParams(layoutParams);

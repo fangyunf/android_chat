@@ -371,7 +371,7 @@
                             android:layout_height="wrap_content"
                             app:leftImg="@mipmap/mine_index_item_hyzx"
                             app:titleText="会员商城" />
-                        
+
 
                         <com.yaoxin.appbase.view.IconTitleArrowTemplate
                             android:id="@+id/fragment_mine_wdfh_view"
