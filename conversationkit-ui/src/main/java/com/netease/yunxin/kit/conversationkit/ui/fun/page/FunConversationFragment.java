@@ -9,8 +9,7 @@ import static com.netease.yunxin.kit.corekit.im.utils.RouterConstant.PATH_FUN_AD
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Canvas;
-import android.graphics.Paint;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -91,6 +90,7 @@ public class FunConversationFragment extends ConversationBaseFragment {
     private int nimUnread = 0;
     private int sysNoticeUnread = 0;
     private int applyUnread = 0;
+    private int friendApplyUnread = 0;
     private int finishCount = 0; // 记录完成的请求数
     private final int TOTAL_REQUESTS = 3;
 
@@ -127,7 +127,7 @@ public class FunConversationFragment extends ConversationBaseFragment {
         viewBinding = FunConversationFragmentBinding.inflate(inflater, container, false);
         // 获取传递的参数
         if (getArguments() != null) {
-            _type = getArguments().getInt("type");
+            _type = getArguments().getInt("type", _type);
         }
         initView();
         if (_type == 1) {
@@ -137,11 +137,12 @@ public class FunConversationFragment extends ConversationBaseFragment {
         } else {
             viewBinding.funConversationFragmentTitleTv.setText("对话");
         }
-        viewBinding.funConversationFragmentSearchLl.setOnClickListener(v -> {
-            XKitRouter.withKey("SearchNewActivity")
-                    .withContext(requireContext())
-                    .navigate();
-        });
+        setupFixedHeader();
+        viewBinding.funConversationFragmentSearchLl.setOnClickListener(
+                v ->
+                        XKitRouter.withKey("SearchNewActivity")
+                                .withContext(requireContext())
+                                .navigate());
         StatusBarUtils.setStatusBarLightMode(getActivity(), true, true);
         ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) viewBinding.funConversationFragmentTopLl.getLayoutParams();
         layoutParams.topMargin = BarUtils.getStatusBarHeight() + SizeUtils.dp2px(20);
@@ -374,6 +375,7 @@ public class FunConversationFragment extends ConversationBaseFragment {
         nimUnread = 0;
         sysNoticeUnread = 0;
         applyUnread = 0;
+        friendApplyUnread = 0;
         finishCount = 0;
         // 1. 网易云信未读
         NIMClient.getService(MsgService.class).queryUnreadMessageList(DataUtil.getUserid(), SessionTypeEnum.P2P).setCallback(new RequestCallback<List<IMMessage>>() {
@@ -438,6 +440,7 @@ public class FunConversationFragment extends ConversationBaseFragment {
             @Override
             public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                 GroupInfoBean applyNumBean = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
+                friendApplyUnread = Math.max(0, applyNumBean.friendApplyNum);
                 applyUnread = Math.max(0, applyNumBean.groupApplyNum);
                 onOneRequestFinish();
             }
@@ -485,11 +488,14 @@ public class FunConversationFragment extends ConversationBaseFragment {
     private void onOneRequestFinish() {
         finishCount++;
         if (finishCount == TOTAL_REQUESTS) {
-            int totalUnread = nimUnread + sysNoticeUnread + applyUnread;
+            int noticeCardUnread = sysNoticeUnread + applyUnread + nimUnread;
+            int totalUnread = noticeCardUnread + friendApplyUnread;
             cachedTotalNoticeUnread = sysNoticeUnread;
+            updateBadge(viewBinding.funConversationFragmentNewFriendBadgeTv, friendApplyUnread);
+            updateBadge(viewBinding.funConversationFragmentNoticeBadgeTv, noticeCardUnread);
             if (totalUnread > 0) {
                 viewBinding.tvNoticeCount.setVisibility(View.VISIBLE);
-                viewBinding.tvNoticeCount.setText(totalUnread + "");
+                viewBinding.tvNoticeCount.setText(String.valueOf(totalUnread));
             } else {
                 viewBinding.tvNoticeCount.setVisibility(View.GONE);
             }
@@ -497,6 +503,18 @@ public class FunConversationFragment extends ConversationBaseFragment {
                 headerAdapterRef.notifyItemChanged(0);
             }
             finishCount = 0;
+        }
+    }
+
+    private void updateBadge(TextView badgeView, int count) {
+        if (badgeView == null) {
+            return;
+        }
+        if (count > 0) {
+            badgeView.setVisibility(View.VISIBLE);
+            badgeView.setText(String.valueOf(count));
+        } else {
+            badgeView.setVisibility(View.GONE);
         }
     }
 
@@ -700,17 +718,15 @@ public class FunConversationFragment extends ConversationBaseFragment {
             headerAdapterRef = headerAdapter;
             ConcatAdapter concatAdapter = new ConcatAdapter(headerAdapter, origin);
             rv.setAdapter(concatAdapter);
+            rv.setBackgroundColor(0xFFF1F1F1);
+            rv.setClipToPadding(false);
         }
 
-        viewBinding.funConversationFragmentSearchIv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//        XKitRouter.withKey("SearchNewActivity")
-//                .withContext(requireContext())
-//                .navigate();
-                FunSystem_Notice_New_Activity.start(FunSystem_Notice_New_Activity.class, getContext(), null);
-            }
-        });
+        viewBinding.funConversationFragmentSearchIv.setOnClickListener(
+                v ->
+                        XKitRouter.withKey("SearchNewActivity")
+                                .withContext(requireContext())
+                                .navigate());
         viewBinding.funConversationFragmentKefuIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -808,7 +824,29 @@ public class FunConversationFragment extends ConversationBaseFragment {
 //    }
     }
 
+    private void setupFixedHeader() {
+        if (viewBinding == null) {
+            return;
+        }
+        boolean showFixedHeader = _type != 1;
+        viewBinding.funConversationFragmentFixedCardsLl.setVisibility(
+                showFixedHeader ? View.VISIBLE : View.GONE);
+        if (!showFixedHeader) {
+            return;
+        }
+        viewBinding.funConversationFragmentNewFriendLl.setOnClickListener(
+                v ->
+                        XKitRouter.withKey(RouterConstant.PATH_FUN_MY_NOTIFICATION_PAGE)
+                                .withContext(requireContext())
+                                .navigate());
+        viewBinding.funConversationFragmentNoticeLl.setOnClickListener(
+                v ->
+                        FunSystem_Notice_New_Activity.start(
+                                FunSystem_Notice_New_Activity.class, getContext(), null));
+    }
+
     private void _initHeadCell() {
+        setupFixedHeader();
 //    viewBinding.funConversationFragmentHeadAll.viewConversationHeadItemIv.setImageResource(R.drawable.conversation_list_index_msg_icon);
 //    viewBinding.funConversationFragmentHeadAll.viewConversationHeadItemTv.setText("发起群聊");
 //    viewBinding.funConversationFragmentHeadAll.viewConversationHeadItemLl.setOnClickListener(new View.OnClickListener() {
@@ -879,29 +917,19 @@ public class FunConversationFragment extends ConversationBaseFragment {
 
     public RecyclerView.ItemDecoration getItemDecoration() {
         return new RecyclerView.ItemDecoration() {
-            final int topPadding = SizeUtils.dp2px(0.25f);
-            final int indent = SizeUtils.dp2px(76);
+            final int itemSpacing = SizeUtils.dp2px(2);
 
             @Override
-            public void onDrawOver(
-                    @NonNull Canvas canvas, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
-                int left = parent.getPaddingLeft() + indent;
-                int right = parent.getWidth() - parent.getPaddingRight();
-
-                int childCount = parent.getChildCount();
-                for (int i = 0; i < childCount - 1; i++) {
-                    View child = parent.getChildAt(i);
-
-                    RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
-
-                    int top = child.getBottom() + params.bottomMargin;
-                    int bottom = top + topPadding;
-
-                    Paint paint = new Paint();
-                    paint.setColor(
-                            parent.getResources().getColor(R.color.fun_conversation_item_divide_line_color));
-                    canvas.drawRect(left, top, right, bottom, paint);
+            public void getItemOffsets(
+                    @NonNull Rect outRect,
+                    @NonNull View view,
+                    @NonNull RecyclerView parent,
+                    @NonNull RecyclerView.State state) {
+                int position = parent.getChildAdapterPosition(view);
+                if (position == RecyclerView.NO_POSITION) {
+                    return;
                 }
+                outRect.bottom = itemSpacing;
             }
         };
     }

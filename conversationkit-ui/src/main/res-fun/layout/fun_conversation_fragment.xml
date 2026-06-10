@@ -9,7 +9,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fafafa">
+    android:background="#f1f1f1">
 
     <ImageView
         android:layout_width="match_parent"
@@ -21,14 +21,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#e7fcf7"
+        android:background="#f1f1f1"
         android:orientation="vertical">
 
-        <!--        android:background="@drawable/home_bg"-->
         <LinearLayout
             android:id="@+id/topLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/color_white"
             android:orientation="vertical"
             tools:ignore="MissingConstraints">
 
@@ -37,65 +37,67 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
-                android:paddingHorizontal="15dp">
+                android:gravity="center_vertical"
+                android:paddingHorizontal="16dp">
+
+                <ImageView
+                    android:id="@+id/fun_conversation_fragment_kefu_iv"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@mipmap/conversation_list_index_kefu_icon"
+                    android:visibility="gone" />
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:paddingRight="10dp">
-
-                    <ImageView
-                        android:id="@+id/fun_conversation_fragment_kefu_iv"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:layout_marginHorizontal="10dp"
-                        android:src="@mipmap/conversation_list_index_kefu_icon"
-                        android:visibility="invisible" />
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/fun_conversation_fragment_title_tv"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:paddingLeft="@dimen/dimen_35_dp"
-                        android:text="消息"
-                        android:textColor="@color/black"
-                        android:textSize="20sp" />
-
-                    <FrameLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="10dp">
+                        android:text="消息"
+                        android:textColor="@color/black"
+                        android:textSize="22sp" />
 
-                        <ImageView
-                            android:id="@+id/fun_conversation_fragment_search_iv"
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
-                            android:src="@mipmap/conversation_list_index_notice_icon" />
+                    <View
+                        android:layout_width="28dp"
+                        android:layout_height="3dp"
+                        android:layout_marginTop="2dp"
+                        android:background="@drawable/fun_conversation_title_underline" />
+                </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/tvNoticeCount"
-                            android:layout_width="wrap_content"
-                            android:layout_height="18dp"
-                            android:layout_gravity="right|top"
-                            android:background="@drawable/fun_bg_red_rounded_9"
-                            android:gravity="center"
-                            android:minWidth="18dp"
-                            android:text="99"
-                            android:textColor="@color/color_white"
-                            android:textSize="12sp"
-                            android:visibility="gone" />
-                    </FrameLayout>
+                <ImageView
+                    android:id="@+id/fun_conversation_fragment_search_iv"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="16dp"
+                    android:src="@mipmap/conversation_list_index_search_icon1" />
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
 
                     <ImageView
                         android:id="@+id/fun_conversation_fragment_more_iv"
-
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:src="@mipmap/conversation_index_pop_more" />
-                </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tvNoticeCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="18dp"
+                        android:layout_gravity="end|top"
+                        android:background="@drawable/fun_bg_red_rounded_9"
+                        android:gravity="center"
+                        android:minWidth="18dp"
+                        android:text="99"
+                        android:textColor="@color/color_white"
+                        android:textSize="12sp"
+                        android:visibility="gone" />
+                </FrameLayout>
             </LinearLayout>
 
 
@@ -105,9 +107,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="@dimen/dimen_10_dp"
-                android:background="@drawable/home_seach_bg"
-                android:gravity="center">
+                android:visibility="gone">
 
                 <EditText
                     android:id="@+id/fun_conversation_fragment_et"
@@ -115,51 +115,145 @@
                     android:layout_height="@dimen/dimen_48_dp"
                     android:autofillHints=""
                     android:background="@color/transparent"
-                    android:drawableStart="@mipmap/conversation_list_index_search_icon1"
-                    android:drawablePadding="5dp"
                     android:hint="搜索"
                     android:maxLines="1"
-                    android:paddingStart="15dp"
-                    android:paddingEnd="15dp"
                     android:textColor="@color/color_333333"
-                    android:textColorHint="#8E8E93"
                     android:textSize="16dp" />
+            </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/fun_conversation_fragment_fixed_cards_ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="4dp"
+                android:orientation="horizontal"
+                android:visibility="visible">
+
+                <FrameLayout
+                    android:id="@+id/fun_conversation_fragment_new_friend_ll"
+                    android:layout_width="0dp"
+                    android:layout_height="72dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/fun_conversation_fixed_card_bg">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="14dp">
+
+                        <ImageView
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:src="@drawable/fun_conversation_new_friend_icon" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:text="新朋友"
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/fun_conversation_fragment_new_friend_badge_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="18dp"
+                        android:layout_gravity="end|top"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:background="@drawable/fun_bg_red_rounded_9"
+                        android:gravity="center"
+                        android:minWidth="18dp"
+                        android:paddingHorizontal="4dp"
+                        android:textColor="@color/color_white"
+                        android:textSize="11sp"
+                        android:visibility="gone" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/fun_conversation_fragment_notice_ll"
+                    android:layout_width="0dp"
+                    android:layout_height="72dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/fun_conversation_fixed_card_bg">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="14dp">
+
+                        <ImageView
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:src="@drawable/system_notice_xttz" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:text="通知"
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/fun_conversation_fragment_notice_badge_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="18dp"
+                        android:layout_gravity="end|top"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:background="@drawable/fun_bg_red_rounded_9"
+                        android:gravity="center"
+                        android:minWidth="18dp"
+                        android:paddingHorizontal="4dp"
+                        android:textColor="@color/color_white"
+                        android:textSize="11sp"
+                        android:visibility="gone" />
+                </FrameLayout>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/color_white">
+                android:layout_marginTop="10dp"
+                android:background="@color/color_white"
+                android:paddingBottom="8dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/dimen_10_dp"
-                    android:layout_marginTop="@dimen/dimen_5_dp"
-                    android:layout_marginBottom="@dimen/dimen_5_dp"
-                    android:background="@drawable/note_home_bg"
+                    android:layout_marginHorizontal="12dp"
+                    android:background="@drawable/fun_conversation_marquee_bg"
                     android:gravity="center_vertical"
-                    android:paddingHorizontal="10dp">
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp">
 
                     <ImageView
-                        android:layout_width="@dimen/dimen_16_dp"
-                        android:layout_height="@dimen/dimen_16_dp"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
                         android:scaleType="fitXY"
                         android:src="@mipmap/icon_new_notice" />
 
                     <com.sunfusheng.marqueeview.MarqueeView
                         android:id="@+id/marqueeView"
                         android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:layout_marginLeft="10dp"
+                        android:layout_height="22dp"
+                        android:layout_marginStart="8dp"
                         app:mvAnimDuration="1000"
                         app:mvDirection="bottom_to_top"
                         app:mvInterval="3000"
                         app:mvSingleLine="true"
-                        app:mvTextColor="#00C591"
-                        app:mvTextSize="12sp" />
-
+                        app:mvTextColor="#5B6CFF"
+                        app:mvTextSize="10sp" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -176,6 +270,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:background="#f1f1f1"
             android:orientation="vertical"
             tools:ignore="MissingConstraints">
 
@@ -210,7 +305,8 @@
                         android:id="@+id/conversationView"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@color/color_white" />
+                        android:background="#f1f1f1"
+                        android:clipToPadding="false" />
 
                     <LinearLayout
                         android:id="@+id/emptyLayout"

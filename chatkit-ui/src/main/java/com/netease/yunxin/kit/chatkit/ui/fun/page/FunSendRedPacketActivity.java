@@ -350,7 +350,9 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
     private void _updateUI() {
         //0： 个人 1：拼手气  2：专属
         if (type == 0) {
-            binding.activityFunSendRedPacketPinLl.setVisibility(View.GONE);
+            binding.activityFunSendRedPacketPinLl.setVisibility(View.VISIBLE);
+            binding.activityFunSendRedPacketToPeopleLl.setVisibility(View.GONE);
+            binding.activityFunSendRedPacketCountLl.setVisibility(View.GONE);
             binding.activityFunSendRedPacketMoneyTv.setText("金额");
             binding.activityFunSendRedPacketGreetingLl.setVisibility(View.VISIBLE);
         } else if (type == 1) {
@@ -358,7 +360,7 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
             binding.activityFunSendRedPacketToPeopleLl.setVisibility(View.GONE);
             binding.activityFunSendRedPacketGreetingLl.setVisibility(View.VISIBLE);
             binding.activityFunSendRedPacketCountLl.setVisibility(View.VISIBLE);
-            binding.activityFunSendRedPacketNetworkFeeLl.setVisibility(View.VISIBLE);
+            binding.activityFunSendRedPacketNetworkFeeLl.setVisibility(View.GONE);
 //            binding.activityFunSendRedPacketPinChangeTypeTv.setText("拼手气红包");
         } else if (type == 2) {
             if (targetUserInfo != null) {
@@ -366,7 +368,7 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
                 GlideUtil.yh_loadImageRoundedCorner(this, binding.activityFunSendRedPacketToPeopleHeadIv, targetUserInfo.getAvatar(), 15);
                 selectToUserId = targetUserInfo.getAccount();
             }
-            binding.activityFunSendRedPacketNetworkFeeLl.setVisibility(View.VISIBLE);
+            binding.activityFunSendRedPacketNetworkFeeLl.setVisibility(View.GONE);
             binding.activityFunSendRedPacketToPeopleLl.setVisibility(View.VISIBLE);
             binding.activityFunSendRedPacketCountLl.setVisibility(View.GONE);
             binding.activityFunSendRedPacketGreetingLl.setVisibility(View.VISIBLE);
