@@ -153,7 +153,13 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 //
 //    binding.settingLl.setOnClickListener(
 //        v -> startActivity(new Intent(getContext(), SettingActivity.class)));
-        binding.tvAccount.setText("ID: " + DataUtil.getUserInfo().memberCode);
+        binding.tvAccount.setText("ID:" + DataUtil.getUserInfo().memberCode);
+        binding.fragmentMineZcqyView
+                .findViewById(com.yaoxin.appbase.R.id.icon_title_arrow_template_right_iv)
+                .setVisibility(View.GONE);
+        binding.fragmentMineGwdzView
+                .findViewById(com.yaoxin.appbase.R.id.icon_title_arrow_template_right_iv)
+                .setVisibility(View.GONE);
         _requestData();
     }
 
@@ -164,7 +170,10 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                         UserBean bean = new Gson().fromJson(body.data.toString(), UserBean.class);
-//                        binding.mineFragmentPacketMoneyDetailTv.setText("￥ " + NumberUtil.formartMoney(bean.balance));
+                        if (bean != null && binding.fragmentMineWalletBalanceTv != null) {
+                            binding.fragmentMineWalletBalanceTv.setText(
+                                    "¥" + NumberUtil.formartMoney(bean.balance));
+                        }
                     }
 
                     @Override
