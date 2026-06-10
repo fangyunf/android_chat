@@ -94,7 +94,7 @@ public class ChatRedPacketMessageViewHolder extends FunChatBaseMessageViewHolder
                     (int)
                             TypedValue.applyDimension(
                                     TypedValue.COMPLEX_UNIT_DIP,
-                                    216,
+                                    180,
                                     parent.getContext().getResources().getDisplayMetrics());
 
             int availableWidth = baseViewBinding.messageContainer.getWidth();
