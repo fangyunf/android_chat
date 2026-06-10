@@ -36,11 +36,11 @@
     <!-- replace com.turunsi.yaoxin with your package name -->
     <!-- add uses-permission into your AndroidManifest -->
     <permission
-        android:name="com.turunsi.wuyoucheng.permission.RECEIVE_MSG"
+        android:name="com.turunsi.feixun.permission.RECEIVE_MSG"
         android:protectionLevel="signature" />
 
     <!-- receive SDK broadcast， replace com.turunsi.yaoxin with your package name -->
-    <uses-permission android:name="com.turunsi.wuyoucheng.permission.RECEIVE_MSG" />
+    <uses-permission android:name="com.turunsi.feixun.permission.RECEIVE_MSG" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
 
@@ -55,9 +55,9 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <!-- xiaomi push -->
     <permission
-        android:name="com.turunsi.wuyoucheng.permission.MIPUSH_RECEIVE"
+        android:name="com.turunsi.feixun.permission.MIPUSH_RECEIVE"
         android:protectionLevel="signature" />
-    <uses-permission android:name="com.turunsi.wuyoucheng.permission.MIPUSH_RECEIVE" />
+    <uses-permission android:name="com.turunsi.feixun.permission.MIPUSH_RECEIVE" />
 
     <uses-sdk tools:overrideLibrary="com.huawei.android.hms.base,com.huawei.android.hms.push" />
     <!--    <uses-feature-->
@@ -67,15 +67,15 @@
     <!-- down Flyme5 version -->
     <uses-permission android:name="com.meizu.flyme.push.permission.RECEIVE" />
     <permission
-        android:name="com.turunsi.wuyoucheng.push.permission.MESSAGE"
+        android:name="com.turunsi.feixun.push.permission.MESSAGE"
         android:protectionLevel="signature" />
-    <uses-permission android:name="com.turunsi.wuyoucheng.push.permission.MESSAGE" />
+    <uses-permission android:name="com.turunsi.feixun.push.permission.MESSAGE" />
     <!--  Flyme3 -->
     <uses-permission android:name="com.meizu.c2dm.permission.RECEIVE" />
     <permission
-        android:name="com.turunsi.wuyoucheng.permission.C2D_MESSAGE"
+        android:name="com.turunsi.feixun.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
-    <uses-permission android:name="com.turunsi.wuyoucheng.permission.C2D_MESSAGE" />
+    <uses-permission android:name="com.turunsi.feixun.permission.C2D_MESSAGE" />
 
     <!--  oppo push-->
     <uses-permission android:name="com.coloros.mcs.permission.RECIEVE_MCS_MESSAGE" />
@@ -99,7 +99,7 @@
         <!--            android:value="2a6664a3c43a1fd51133b7dff030c575" />-->
         <meta-data
             android:name="com.netease.nim.appKey"
-            android:value="557978a75ceafb8e1bdeb45f45eddee0" />
+            android:value="68cb85c9f739faed79ba074aca82f193" />
 
         <meta-data
             android:name="com.amap.api.v2.apikey"
@@ -212,7 +212,6 @@
         <activity android:name=".main.mine.account.AccoutCodeDetailActivity" />
         <activity android:name=".main.mine.setting.AboutUsNewActivity" />
         <activity android:name=".main.mine.purse.tixian.PurseTiXianAddAccountActivity" />
-        <activity android:name=".main.mine.purse.tixian.PurseTiXianInstructionActivity" />
         <!--        <activity-->
         <!--            android:name=".main.mine.purse.recharge.PurseUSDTRechargeActivity" />-->
 
@@ -222,7 +221,6 @@
         <activity android:name=".eggs.EggListIndexActivity" />
         <activity android:name=".eggs.GroupListActivity" />
         <activity android:name=".main.mine.fuhao.BuyGroupFeatureActivity" />
-        <activity android:name=".main.mine.fuhao.GroupUpgradeRuleActivity" />
         <activity android:name=".main.mine.setting.Mine_Account_Anquan_Activity" />
         <activity android:name=".login.OtherPlaceLoginActivity" />
 
@@ -238,17 +236,16 @@
         <activity android:name=".main.mine.account.Mine_Pwd_Set_ManagerActivity" />
         <activity android:name=".main.mine.huiyuan.LiangHaoZoneActivity" />
         <activity android:name=".main.mine.huiyuan.LiangHaoZoneMoreActivity" />
-        <activity android:name=".main.mine.purse.alipay.BindBankCardActivity" />
 
         <!-- 云信 NIM SDK 进程间通信provider-->
         <provider
             android:name="com.netease.nimlib.ipc.NIMContentProvider"
-            android:authorities="com.turunsi.wuyoucheng.ipc.provider"
+            android:authorities="com.turunsi.feixun.ipc.provider"
             android:exported="false"
             android:process=":core" />
         <provider
             android:name="com.netease.nimlib.ipc.cp.provider.PreferenceContentProvider"
-            android:authorities="com.turunsi.wuyoucheng.ipc.provider.preference"
+            android:authorities="com.turunsi.feixun.ipc.provider.preference"
             android:exported="false" />
 
         <!-- 小米推送配置 -->
