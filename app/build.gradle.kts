@@ -11,9 +11,9 @@ android {
     compileSdk = 33
     signingConfigs {
         create("release") {
-            keyAlias = "yueyouping"
+            keyAlias = "meet"
             keyPassword = "123456"
-            storeFile = file("yueyouping.jks")
+            storeFile = file("meet.jks")
             storePassword = "123456"
         }
     }
@@ -21,8 +21,8 @@ android {
         applicationId = "com.turunsi.meet"
         minSdk = 21
         targetSdk = 33
-        versionCode = 113
-        versionName = "1.1.3"
+        versionCode = 100
+        versionName = "1.0.0"
         multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
