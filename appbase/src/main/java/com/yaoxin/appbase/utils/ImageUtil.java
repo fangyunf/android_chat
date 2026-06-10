@@ -161,16 +161,31 @@ public class ImageUtil {
 
             Uri collection = MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY);
             Uri item = context.getContentResolver().insert(collection, values);
+            if (item == null) {
+                ToastUtils.toastMsg("保存失败");
+                return false;
+            }
 
             try (OutputStream outstream = context.getContentResolver().openOutputStream(item)) {
+                if (outstream == null) {
+                    context.getContentResolver().delete(item, null, null);
+                    ToastUtils.toastMsg("保存失败");
+                    return false;
+                }
                 if (bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outstream)) {
                     values.clear();
                     values.put(MediaStore.Images.Media.IS_PENDING, false);
                     context.getContentResolver().update(item, values, null, null);
                     savedImageURL = item.toString();
+                } else {
+                    context.getContentResolver().delete(item, null, null);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
+                try {
+                    context.getContentResolver().delete(item, null, null);
+                } catch (Exception ignored) {
+                }
             }
         } else {
             String imagesDir =

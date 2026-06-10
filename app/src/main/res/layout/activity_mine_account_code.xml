@@ -2,16 +2,14 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tl="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@mipmap/bg_1">
+    android:layout_height="match_parent">
 
-    <!--    <ImageView-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:scaleType="fitXY"-->
-    <!--        android:src="@mipmap/common_top_bg" />-->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/mine_account_code_page_bg" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,92 +22,143 @@
             style="@style/WhiteFontToolbar"
             android:background="@color/transparent"
             app:back_icon="@mipmap/temp_ic_back"
+            app:enable_under_divider="false"
             app:support_translucent_status_bar="false"
             app:title="我的二维码"
             app:title_text_color="@color/black"
             app:under_divider_color="@android:color/transparent" />
 
-
-        <RelativeLayout
+        <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
-            <RelativeLayout
-                android:layout_width="317dp"
-                android:layout_height="345dp"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="80dp">
-
-                <!--                <ImageView-->
-                <!--                    android:layout_width="match_parent"-->
-                <!--                    android:layout_height="match_parent"-->
-                <!--                    android:src="@mipmap/account_code_bg" />-->
-
-
-            </RelativeLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="28dp">
 
             <LinearLayout
+                android:id="@+id/activity_mine_account_code_card_ll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
+                android:layout_marginTop="36dp"
+                android:background="@drawable/bg_account_code_card"
                 android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <com.makeramen.roundedimageview.RoundedImageView
-                    android:id="@+id/activity_mine_account_code_head_iv"
-                    android:layout_width="72dp"
-                    android:layout_height="72dp"
-                    android:layout_marginTop="@dimen/dimen_30_dp"
-                    android:scaleType="centerCrop"
-                    app:riv_corner_radius="29dp" />
+                android:orientation="vertical"
+                android:paddingTop="48dp">
 
                 <TextView
                     android:id="@+id/activity_mine_account_code_name_tv"
                     android:layout_width="wrap_content"
-                    android:layout_height="28dp"
-                    android:layout_marginTop="15dp"
+                    android:layout_height="wrap_content"
                     android:text="会飞的洋芋"
                     android:textColor="#ff000000"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:id="@+id/activity_mine_account_code"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="会飞的洋芋"
-                    android:textColor="@color/color_black"
-                    android:textSize="12sp" />
+                    android:textSize="18sp" />
 
                 <ImageView
                     android:id="@+id/activity_mine_account_code_code_iv"
-                    android:layout_width="240dp"
-                    android:layout_height="240dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="@dimen/dimen_30_dp" />
+                    android:layout_width="220dp"
+                    android:layout_height="220dp"
+                    android:layout_marginTop="20dp"
+                    android:scaleType="fitCenter" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/bg_account_code_card_footer"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="您的 DQ 号为"
+                        android:textColor="#999999"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/activity_mine_account_code"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="687339296"
+                        android:textColor="@color/app_theme_color"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/activity_mine_account_code_head_iv"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:layout_gravity="center_horizontal"
+                android:padding="2dp"
+                android:scaleType="centerCrop"
+                app:riv_border_width="2dp"
+                app:riv_corner_radius="36dp" />
+        </FrameLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="40dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingHorizontal="48dp">
+
+            <LinearLayout
+                android:id="@+id/activity_mine_account_code_scan_ll"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/ic_account_code_scan" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dimen_12_dp"
-                    android:text="扫一扫二维码，加我好友"
-                    android:textColor="#ff000000"
-                    android:textSize="16sp" />
+                    android:layout_marginTop="8dp"
+                    android:text="扫一扫"
+                    android:textColor="#666666"
+                    android:textSize="14sp" />
             </LinearLayout>
-        </RelativeLayout>
 
+            <LinearLayout
+                android:id="@+id/activity_mine_account_code_save_photo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/activity_mine_account_code_save_photo"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_50_dp"
-            android:layout_marginHorizontal="@dimen/dimen_20_dp"
-            android:layout_marginTop="30dp"
-            android:background="@drawable/bg_app_theme_color_rounded_10"
-            android:gravity="center"
-            android:text="保存二维码至相册"
-            android:textColor="#ffffffff"
-            android:textSize="16sp" />
+                <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/ic_account_code_save" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="保存图片"
+                    android:textColor="#666666"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
-
 </RelativeLayout>
