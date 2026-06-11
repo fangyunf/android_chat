@@ -67,6 +67,7 @@ import com.netease.yunxin.kit.chatkit.ui.custom.MingPianAttachment;
 import com.netease.yunxin.kit.chatkit.ui.custom.RichTextAttachment;
 import com.netease.yunxin.kit.chatkit.ui.dialog.ChatBaseForwardSelectDialog;
 import com.netease.yunxin.kit.chatkit.ui.fun.page.FunSendRedPacketActivity;
+import com.netease.yunxin.kit.chatkit.ui.fun.page.FunSendZhuanZhangActivity;
 import com.netease.yunxin.kit.chatkit.ui.interfaces.IChatView;
 import com.netease.yunxin.kit.chatkit.ui.interfaces.IMessageItemClickListener;
 import com.netease.yunxin.kit.chatkit.ui.interfaces.IMessageLoadHandler;
@@ -465,6 +466,19 @@ public abstract class ChatBaseFragment extends BaseFragment {
                                             map.put("sessionType", "2");
                                             map.put("userInfo", new Gson().toJson(messageBean.getMessageData().getFromUser()));
                                             FunSendRedPacketActivity.start(FunSendRedPacketActivity.class, getContext(), map);
+                                        } else if (itemText.equals("专属转账")) {
+                                            HashMap map = new HashMap();
+                                            map.put("sessionId", sessionID);
+                                            map.put("sessionType", "2");
+                                            GroupInfoBean target = new GroupInfoBean();
+                                            target.userId = account;
+                                            target.name = tempName;
+                                            if (messageBean.getMessageData().getFromUser() != null) {
+                                                target.avatar = messageBean.getMessageData().getFromUser().getAvatar();
+                                            }
+                                            map.put("userInfo", new Gson().toJson(target));
+                                            FunSendZhuanZhangActivity.start(
+                                                    FunSendZhuanZhangActivity.class, getContext(), map);
                                         } else if (position == 2 && itemText.equals("禁止抢包")) {
                                             // 禁止抢包
                                             handleForbidRedPacket(account, tempName, sessionID);
@@ -1061,6 +1075,14 @@ public abstract class ChatBaseFragment extends BaseFragment {
                 @Override
                 public void sendImageMessage(File imageFile) {
                     viewModel.sendImageMessage(imageFile);
+                }
+
+                @Override
+                public void sendZhuanZhang() {
+                    HashMap map = new HashMap();
+                    map.put("sessionId", getSessionId());
+                    map.put("sessionType", getSessionType() == SessionTypeEnum.Team ? "1" : "0");
+                    FunSendZhuanZhangActivity.start(FunSendZhuanZhangActivity.class, getContext(), map);
                 }
 
                 @Override
@@ -1946,14 +1968,11 @@ public abstract class ChatBaseFragment extends BaseFragment {
         boolean isManager = isCurrentUserManager(groupId);
 
         if (isOwner) {
-            // 群主：显示所有功能
-            return new String[]{"@此人", "专属红包", "禁止抢包", "踢除此人"};
+            return new String[]{"@此人", "专属红包", "专属转账", "禁止抢包", "踢除此人"};
         } else if (isManager) {
-            // 管理员：显示部分功能（不能踢人）
-            return new String[]{"@此人", "专属红包", "禁止抢包"};
+            return new String[]{"@此人", "专属红包", "专属转账", "禁止抢包"};
         } else {
-            // 普通成员：只显示基本功能
-            return new String[]{"@此人", "专属红包"};
+            return new String[]{"@此人", "专属红包", "专属转账"};
         }
     }
 

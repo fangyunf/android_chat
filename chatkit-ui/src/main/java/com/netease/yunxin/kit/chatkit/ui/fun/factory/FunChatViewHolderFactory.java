@@ -17,6 +17,8 @@ import com.netease.nimlib.sdk.msg.attachment.MsgAttachment;
 import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 import com.netease.yunxin.kit.alog.ALog;
 import com.netease.yunxin.kit.chatkit.ui.IChatDefaultFactory;
+import com.netease.yunxin.kit.chatkit.ui.common.ChatZhuanZhangHelper;
+import com.netease.yunxin.kit.chatkit.ui.ChatMessageType;
 import com.netease.yunxin.kit.chatkit.ui.custom.StickerAttachment;
 import com.netease.yunxin.kit.chatkit.ui.databinding.ChatBaseMessageViewHolderBinding;
 import com.netease.yunxin.kit.chatkit.ui.fun.view.message.ChatMessageViewHolderFactory;
@@ -88,13 +90,16 @@ public class FunChatViewHolderFactory extends ChatMessageViewHolderFactory
             if (msgBean.type == 526) {
               return 526;
             }
+            if (ChatZhuanZhangHelper.isZhuanZhangMessageType(msgBean.type)) {
+              return ChatMessageType.ZhuanZhang_ATTACHMENT;
+            }
           } catch (Exception exception) {
 
           }
         }
 
         if (attachment != null) {
-          return attachment.getType();
+          return ChatZhuanZhangHelper.toZhuanZhangViewType(attachment.getType());
         }
       }
     }

@@ -38,6 +38,7 @@ import com.netease.yunxin.kit.chatkit.ui.dialog.ChatBaseForwardSelectDialog;
 import com.netease.yunxin.kit.chatkit.ui.fun.FunChatForwardSelectDialog;
 import com.netease.yunxin.kit.chatkit.ui.fun.FunChatMessageForwardConfirmDialog;
 import com.netease.yunxin.kit.chatkit.ui.fun.page.FunRedPacketResultActivity;
+import com.netease.yunxin.kit.chatkit.ui.common.ChatZhuanZhangHelper;
 import com.netease.yunxin.kit.chatkit.ui.model.ChatMessageBean;
 import com.netease.yunxin.kit.chatkit.ui.page.fragment.ChatBaseFragment;
 import com.netease.yunxin.kit.chatkit.ui.view.input.ActionConstants;
@@ -183,6 +184,22 @@ public abstract class FunChatFragment extends ChatBaseFragment {
             }
             if (!messageInfo.getMessage().getAttachStr().isEmpty()) {
                 CustomMsgBean msgBean = new Gson().fromJson(messageInfo.getMessage().getAttachStr(), CustomMsgBean.class);
+                if (msgBean == null) {
+                    return;
+                }
+                if (ChatZhuanZhangHelper.isZhuanZhangMessageType(msgBean.type)) {
+                    CustomMsgBean detail = ChatZhuanZhangHelper.parseFromMessage(messageInfo);
+                    if (detail == null) {
+                        if (!TextUtils.isEmpty(msgBean.data)) {
+                            msgBean.result = new Gson().fromJson(msgBean.data, CustomMsgBean.class);
+                        }
+                        detail = msgBean.result != null ? msgBean.result : msgBean;
+                        ChatZhuanZhangHelper.normalizeDetail(detail);
+                    }
+                    ChatZhuanZhangHelper.openZhuanZhangDetail(
+                            getActivity() != null ? getActivity() : getContext(), detail);
+                    return;
+                }
                 msgBean.result = new Gson().fromJson(msgBean.data, CustomMsgBean.class);
                 if (msgBean.type == 10086) {
                     for (GroupInfoBean bean : DataUtil.getFriendInfoList()) {

@@ -243,6 +243,9 @@ public class MessageBottomLayout extends FrameLayout
       case ActionConstants.ACTION_TYPE_MING_PIAN:
         mProxy.sendMingPian();
         break;
+      case ActionConstants.ACTION_TYPE_ZHUAN_ZHANG:
+        mProxy.sendZhuanZhang();
+        break;
       case ActionConstants.ACTION_TYPE_SHOU_CANG:
         mProxy.sendShouCang();
         break;

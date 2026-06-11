@@ -41,6 +41,9 @@ public interface ChatMessageType {
   int RICH_TEXT_ATTACHMENT = 102;
   int RedPacket_ATTACHMENT = 22;
   int MingPian_ATTACHMENT = 10086;
+  int ZhuanZhang_ATTACHMENT = 28;
+  /** 群内转账 */
+  int GROUP_ZHUANZHANG_ATTACHMENT = 121;
 
   /** 自定义消息类型从1000开始 */
   int CUSTOM_START = 1000;

@@ -62,6 +62,11 @@
     <string name="chat_message_file">文件</string>
     <string name="chat_message_shopping_coupon">红包</string>
     <string name="chat_message_ming_pian">名片</string>
+    <string name="chat_message_zhuan_zhang">转账</string>
+    <string name="chat_zhuanzhang_received_title">你收到了一笔转账</string>
+    <string name="chat_zhuanzhang_sent_title">你发起了一笔转账</string>
+    <string name="chat_zhuanzhang_from">来自%s</string>
+    <string name="chat_zhuanzhang_to">转给%s</string>
     <string name="chat_message_shou_cang">收藏</string>
     <string name="chat_message_location_distance">%.0fm内&#160;|&#160;%s</string>
     <string name="chat_message_video_call">音视频通话</string>
