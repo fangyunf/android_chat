@@ -1185,6 +1185,9 @@ public abstract class ChatBaseFragment extends BaseFragment {
                             && chatConfig.popMenuClickListener.onCopy(messageBean)) {
                         return true;
                     }
+                    if (!MessageHelper.isCopyableMessage(messageBean.getMessageData())) {
+                        return false;
+                    }
                     MessageHelper.copyTextMessage(messageBean.getMessageData(), true);
                     return true;
                 }

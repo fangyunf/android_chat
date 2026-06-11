@@ -10,6 +10,7 @@ import com.netease.nimlib.sdk.msg.constant.MsgStatusEnum;
 import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 import com.netease.yunxin.kit.chatkit.ui.ChatMessageType;
 import com.netease.yunxin.kit.chatkit.ui.R;
+import com.netease.yunxin.kit.chatkit.ui.common.MessageHelper;
 import com.netease.yunxin.kit.chatkit.ui.model.ChatMessageBean;
 import com.netease.yunxin.kit.chatkit.ui.view.input.ActionConstants;
 import com.netease.yunxin.kit.chatkit.ui.view.popmenu.ChatPopMenuAction;
@@ -64,8 +65,12 @@ public class ChatPopActionFactory {
         }
         int viewType = message.getViewType();
 
-        if (viewType == 0 &&message.getMessageData().getMessage().getAttachStr() != null && !message.getMessageData().getMessage().getAttachStr().isEmpty()) {
-
+        if (viewType == 0
+                && message.getMessageData().getMessage().getAttachStr() != null
+                && !message.getMessageData().getMessage().getAttachStr().isEmpty()) {
+            if (MessageHelper.isCopyableMessage(message.getMessageData())) {
+                actions.add(getCopyAction(message));
+            }
             actions.add(getDeleteAction(message));
             if (message.getMessageData().getMessage().getAttachStr().contains("memberCode")) {
                 if (message.getMessageData().getMessage().getDirect() == MsgDirectionEnum.Out) {
@@ -80,8 +85,11 @@ public class ChatPopActionFactory {
             if (message.getMessageData().getMessage().getStatus() == MsgStatusEnum.fail
                     || message.getMessageData().getMessage().getStatus() == MsgStatusEnum.sending
                     || message.getMessageData().getMessage().isInBlackList()) {
-                if (message.getViewType() == MsgTypeEnum.text.getValue()) {
+                if (MessageHelper.isCopyableMessage(message.getMessageData())) {
                     actions.add(getCopyAction(message));
+                }
+                if (message.getViewType() == MsgTypeEnum.text.getValue()
+                        || message.getViewType() == ChatMessageType.RICH_TEXT_ATTACHMENT) {
                     actions.add(getCollectionAction(message));
                 }
                 actions.add(getDeleteAction(message));
@@ -97,10 +105,12 @@ public class ChatPopActionFactory {
             }
             // 基础消息类型都在MsgTypeEnum中定义,自定义消息类型都是MsgTypeEnum.custom，
             // 自定义消息，根据自定义消息的Type区分IMUIKIt内置从101开始，客户定义从1000开始
+            if (MessageHelper.isCopyableMessage(message.getMessageData())) {
+                actions.add(getCopyAction(message));
+            }
             if (message.getViewType() == MsgTypeEnum.text.getValue()
                     || message.getViewType() == ChatMessageType.RICH_TEXT_ATTACHMENT) {
 //                actions.add(getTransmitAction(message));
-                actions.add(getCopyAction(message));
                 actions.add(getCollectionAction(message));
             }
 //      actions.add(getReplyAction(message));

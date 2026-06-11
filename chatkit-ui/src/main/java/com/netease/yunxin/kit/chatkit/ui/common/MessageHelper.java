@@ -553,6 +553,10 @@ public class MessageHelper {
         return AESUtil.safeMsgDecrypt(message.getContent());
     }
 
+    public static boolean isCopyableMessage(IMMessageInfo messageInfo) {
+        return !TextUtils.isEmpty(getCopyablePlainText(messageInfo));
+    }
+
     public static void copyTextMessage(IMMessageInfo messageInfo, boolean showToast) {
         String content = getCopyablePlainText(messageInfo);
         if (TextUtils.isEmpty(content)) {
