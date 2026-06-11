@@ -452,7 +452,11 @@ public class FunChatView extends LinearLayout implements IChatView, AitTextChang
         if (mute) {
             hideRichInputPanel();
         }
-        binding.chatBottomInputLayout.setMuteHint(muteHint);
+        if (muteHint != null) {
+            binding.chatBottomInputLayout.setMuteHint(muteHint);
+        } else if (!mute) {
+            binding.chatBottomInputLayout.setMuteHint(null);
+        }
         binding.chatBottomInputLayout.setMute(mute);
     }
 
