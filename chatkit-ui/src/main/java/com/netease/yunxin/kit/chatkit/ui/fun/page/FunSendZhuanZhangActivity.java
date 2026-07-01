@@ -30,7 +30,7 @@ import retrofit2.Response;
 
 public class FunSendZhuanZhangActivity extends BaseActivity implements View.OnClickListener {
 
-    private static final int MAX_TRANSFER_AMOUNT = 2000 * 100;
+    //private static final int MAX_TRANSFER_AMOUNT = 2000 * 100;
     ActivityFunSendZhuanzhangPacketBinding binding;
     private String sessionId = "";
     private UserBean targetUserBean;
@@ -112,11 +112,11 @@ public class FunSendZhuanZhangActivity extends BaseActivity implements View.OnCl
                 ToastUtils.toastMsg("请输入金额");
                 return;
             }
-            int amount = NumberUtil.formartUploadMoney(moneyStr);
-            if (amount > MAX_TRANSFER_AMOUNT) {
-                ToastUtils.toastMsg("单笔转账上限2000元");
-                return;
-            }
+//            int amount = NumberUtil.formartUploadMoney(moneyStr);
+//            if (amount > MAX_TRANSFER_AMOUNT) {
+//                ToastUtils.toastMsg("单笔转账上限2000元");
+//                return;
+//            }
             PopEnterPassword popEnterPassword = new PopEnterPassword(this, new OnPasswordInputFinish() {
                 @Override
                 public void inputFinish(String password) {
@@ -140,10 +140,10 @@ public class FunSendZhuanZhangActivity extends BaseActivity implements View.OnCl
             ToastUtils.toastMsg("请输入金额");
             return;
         }
-        if (amount > MAX_TRANSFER_AMOUNT) {
-            ToastUtils.toastMsg("单笔转账上限2000元");
-            return;
-        }
+//        if (amount > MAX_TRANSFER_AMOUNT) {
+//            ToastUtils.toastMsg("单笔转账上限2000元");
+//            return;
+//        }
 
         RegisterBean bean = new RegisterBean();
         bean.amount = amount;
