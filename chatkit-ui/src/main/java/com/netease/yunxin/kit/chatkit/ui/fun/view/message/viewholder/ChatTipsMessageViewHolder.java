@@ -107,32 +107,15 @@ public class ChatTipsMessageViewHolder extends FunChatBaseMessageViewHolder {
                     if (msgBean.sendUserId == null || msgBean.receiveUserId == null) {
                         return;
                     }
-                    String myUserId = DataUtil.getUserid();
-                    // 聊天详情仅展示：我发的红包被别人领取的轨迹
-                    if (!TextUtils.equals(msgBean.sendUserId, myUserId) || TextUtils.equals(msgBean.receiveUserId, myUserId)) {
-                        collapseItem();
-                        return;
-                    }
-//                    //屏蔽领取消息：设置高度为0，不占空间
-//                    if (!TextUtils.isEmpty(msgBean.sendUserId) && !TextUtils.isEmpty(msgBean.receiveUserId)) {
-//                        textBinding.messageTipText.setText("");
-//                        // 设置根视图高度为0
-////                        ViewGroup.LayoutParams rootParams = baseViewBinding.baseRoot.getLayoutParams();
-////                        if (rootParams != null) {
-////                            rootParams.height = 0;
-////                            baseViewBinding.baseRoot.setLayoutParams(rootParams);
-////                        }
-//                        return;
-//                    }
                     String tempContent = msgBean.receiveUserName + " 领取了 " + msgBean.sendUserName + " 的红包";
-                    if (msgBean.receiveUserId.equals(DataUtil.getUserid())) {
+                    if (TextUtils.equals(msgBean.sendUserId, DataUtil.getUserid())) {
+                        tempContent = msgBean.receiveUserName + " 领取了 你 的红包";
+                    }
+                    if (TextUtils.equals(msgBean.receiveUserId, DataUtil.getUserid())) {
                         tempContent = "你 领取了 " + msgBean.sendUserName + " 的红包";
-
-                        if (msgBean.sendUserId.equals(DataUtil.getUserid())) {
+                        if (TextUtils.equals(msgBean.sendUserId, DataUtil.getUserid())) {
                             tempContent = "你 领取了 自己 的红包";
                         }
-                    } else if (msgBean.sendUserId.equals(DataUtil.getUserid())) {
-                        tempContent = msgBean.receiveUserName + " 领取了 你 的红包";
                     }
                     textBinding.messageTipText.setText(tempContent);
 //                    ViewGroup.LayoutParams rootParams = baseViewBinding.baseRoot.getLayoutParams();

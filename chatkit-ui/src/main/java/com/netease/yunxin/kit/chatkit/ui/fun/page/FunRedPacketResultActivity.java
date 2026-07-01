@@ -3,9 +3,7 @@ package com.netease.yunxin.kit.chatkit.ui.fun.page;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.InputType;
-import android.text.TextWatcher;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -38,6 +36,9 @@ import com.yaoxin.appbase.utils.NumberUtil;
 import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
 import com.yaoxin.appbase.view.actionsheet.ActionSheet;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -87,22 +88,22 @@ public class FunRedPacketResultActivity extends BaseActivity implements View.OnC
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                         redBean = new Gson().fromJson(body.data.toString(), CustomMsgBean.class);
-                        if (redBean.vos.size() == Integer.parseInt(redBean.totalNum)) {
+                        List<CustomMsgBean> claimRecords = buildClaimRecords(redBean);
+                        if (!claimRecords.isEmpty() && claimRecords.size() == parseTotalNum(redBean.totalNum)) {
                             double maxMoeny = 0;
                             int index = 0;
                             int bestIndex = 0;
-                            for (CustomMsgBean tempBean :
-                                    redBean.vos) {
+                            for (CustomMsgBean tempBean : claimRecords) {
                                 if (Double.parseDouble(tempBean.amount) > maxMoeny) {
                                     maxMoeny = Double.parseDouble(tempBean.amount);
                                     bestIndex = index;
                                 }
                                 index++;
                             }
-                            redBean.vos.get(bestIndex).isBest = true;
+                            claimRecords.get(bestIndex).isBest = true;
                         }
 
-                        adapter.setItems(redBean.vos);
+                        adapter.setItems(claimRecords);
                         adapter.notifyDataSetChanged();
                         _updateUI();
                     }
@@ -128,28 +129,73 @@ public class FunRedPacketResultActivity extends BaseActivity implements View.OnC
             binding.activityFunRedPacketResultDetailSenderTv.setText(redBean.sendName + "发出的拼手气红包");
 
         }
-        if (redBean.type == 5) {
+        List<CustomMsgBean> claimRecords = buildClaimRecords(redBean);
+        if (redBean.type == 5 && redBean.redpacketType != 22) {
             binding.activityFunRedPacketResultDetailMoneyTv.setText(NumberUtil.formartMoney(redBean.sendAmount));
             binding.activityFunRedPacketResultDetailBottomLl.setVisibility(View.GONE);
         } else {
-            if (redBean.lootAll.isEmpty()) {
-                binding.activityFunRedPacketResultDetailRvDetailTv.setText("已领取" + redBean.vos.size() + "/" + redBean.totalNum + "个  共" + NumberUtil.formartMoney(redBean.sendAmount) + "元");
+            binding.activityFunRedPacketResultDetailBottomLl.setVisibility(View.VISIBLE);
+            if (TextUtils.isEmpty(redBean.lootAll)) {
+                binding.activityFunRedPacketResultDetailRvDetailTv.setText("已领取" + claimRecords.size() + "/" + parseTotalNum(redBean.totalNum) + "个  共" + NumberUtil.formartMoney(redBean.sendAmount) + "元");
             } else {
                 binding.activityFunRedPacketResultDetailRvDetailTv.setText(redBean.totalNum + "个红包共" + NumberUtil.formartMoney(redBean.sendAmount) + "元，" + redBean.lootAll + "被抢光");
             }
             boolean hasme = false;
-            for (CustomMsgBean tempBean :
-                    redBean.vos) {
-                if (tempBean.userId.equals(DataUtil.getUserid())) {
+            for (CustomMsgBean tempBean : claimRecords) {
+                if (DataUtil.getUserid().equals(tempBean.userId)) {
                     hasme = true;
+                    binding.activityFunRedPacketResultDetailMoneyTv.setVisibility(View.VISIBLE);
                     binding.activityFunRedPacketResultDetailMoneyTv.setText(NumberUtil.formartMoney(tempBean.amount));
                     break;
                 }
             }
             if (!hasme) {
-                binding.activityFunRedPacketResultDetailMoneyTv.setVisibility(View.GONE);
-                binding.activityFunRedPacketResultDetailMoneyTv.setText("手慢了，已抢完");
+                if (redBean.redpacketType == 22 && !claimRecords.isEmpty()) {
+                    binding.activityFunRedPacketResultDetailMoneyTv.setVisibility(View.GONE);
+                } else {
+                    binding.activityFunRedPacketResultDetailMoneyTv.setVisibility(View.GONE);
+                    binding.activityFunRedPacketResultDetailMoneyTv.setText("手慢了，已抢完");
+                }
             }
+        }
+    }
+
+    private List<CustomMsgBean> buildClaimRecords(CustomMsgBean redBean) {
+        if (redBean == null) {
+            return new ArrayList<>();
+        }
+        if (redBean.vos != null && !redBean.vos.isEmpty()) {
+            return redBean.vos;
+        }
+        if (redBean.redpacketType == 22) {
+            CustomMsgBean claimRecord = new CustomMsgBean();
+            if (!TextUtils.isEmpty(redBean.userId)) {
+                claimRecord.userId = redBean.userId;
+                claimRecord.name = !TextUtils.isEmpty(redBean.name) ? redBean.name : redBean.receiveUserName;
+            } else if (!TextUtils.isEmpty(redBean.receiveUserId)) {
+                claimRecord.userId = redBean.receiveUserId;
+                claimRecord.name = redBean.receiveUserName;
+            } else {
+                return new ArrayList<>();
+            }
+            claimRecord.avatar = redBean.avatar;
+            claimRecord.amount = !TextUtils.isEmpty(redBean.reciveAmount) ? redBean.reciveAmount : redBean.amount;
+            claimRecord.reciveTime = redBean.reciveTime;
+            List<CustomMsgBean> claimRecords = new ArrayList<>();
+            claimRecords.add(claimRecord);
+            return claimRecords;
+        }
+        return new ArrayList<>();
+    }
+
+    private int parseTotalNum(String totalNum) {
+        if (TextUtils.isEmpty(totalNum)) {
+            return 1;
+        }
+        try {
+            return Integer.parseInt(totalNum);
+        } catch (NumberFormatException e) {
+            return 1;
         }
     }
 
