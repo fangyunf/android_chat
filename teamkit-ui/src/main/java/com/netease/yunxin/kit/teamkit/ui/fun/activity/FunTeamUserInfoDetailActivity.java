@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -235,44 +236,34 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
                     if (tempBean.userId.equals(groupInfoBean.userId)) {
                         isFriend = true;
                         friendBean = tempBean;
-//                                binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowLl.setVisibility(View.VISIBLE);
                         binding.funTeamUserInfoDetailBottomTv.setText("发消息");
-                        binding.funTeamUserInfoDetailBottomTv.setVisibility(View.VISIBLE);
-
                         break;
                     }
                 }
-                if (rankState == 1 || rankState == 2) {
-                    if (isFriend) {
-                        binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowRightTv.setVisibility(View.VISIBLE);
-                        if (friendBean != null) {
-                            binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowRightTv.setText(friendBean.remark);
-                        }
-                        binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowLl.setVisibility(View.VISIBLE);
+                if (isFriend && (rankState == 1 || rankState == 2)) {
+                    binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowRightTv.setVisibility(View.VISIBLE);
+                    if (friendBean != null) {
+                        binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowRightTv.setText(friendBean.remark);
                     }
-                    binding.funTeamUserInfoDetailBottomTv.setVisibility(View.VISIBLE);
-                } else {
+                    binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowLl.setVisibility(View.VISIBLE);
+                }
+                if (shouldFetchGroupManageForAddFriend()) {
                     HttpUtil.apiW().group_groupManage(groupId).enqueue(new CommonCallback<NetData>() {
                         @Override
                         public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-
-                            GroupInfoBean tempBean = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
-
-                            if (tempBean.addFriendsState == 1) {
-                                if (!isFriend) {
-                                    binding.funTeamUserInfoDetailBottomTv.setVisibility(View.VISIBLE);
-                                }
-
-                            }
+                            GroupInfoBean groupManageInfo = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
+                            addFriendsState = groupManageInfo.addFriendsState;
+                            updateAddFriendButtonVisibility();
                         }
 
                         @Override
                         public void Failure(Call<NetData> call, Throwable t) {
-
+                            updateAddFriendButtonVisibility();
                         }
                     });
+                } else {
+                    updateAddFriendButtonVisibility();
                 }
-
             }
 
             @Override
@@ -280,6 +271,47 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
 
             }
         });
+    }
+
+    /**
+     * 仅普通成员查看普通成员时需要读取群成员保护开关。
+     */
+    private boolean shouldFetchGroupManageForAddFriend() {
+        if (groupInfoBean == null) {
+            return false;
+        }
+        if (TextUtils.equals(groupInfoBean.userId, DataUtil.getUserid())) {
+            return false;
+        }
+        boolean viewerIsAdmin = rankState == 1 || rankState == 2;
+        boolean targetIsAdmin = groupInfoBean.rankState == 1 || groupInfoBean.rankState == 2;
+        return !viewerIsAdmin && !targetIsAdmin;
+    }
+
+    /**
+     * 群管理员/群主不能在群里加别人好友；
+     * 普通成员查看管理员/群主时始终显示加好友；
+     * 普通成员互看时受群成员保护模式控制（addFriendsState == 0 表示保护开启，不可互加）。
+     */
+    private void updateAddFriendButtonVisibility() {
+        binding.funTeamUserInfoDetailBottomTv.setVisibility(View.GONE);
+        if (groupInfoBean == null || TextUtils.equals(groupInfoBean.userId, DataUtil.getUserid())) {
+            return;
+        }
+        if (isFriend) {
+            binding.funTeamUserInfoDetailBottomTv.setText("发消息");
+            binding.funTeamUserInfoDetailBottomTv.setVisibility(View.VISIBLE);
+            return;
+        }
+        boolean viewerIsAdmin = rankState == 1 || rankState == 2;
+        if (viewerIsAdmin) {
+            return;
+        }
+        boolean targetIsAdmin = groupInfoBean.rankState == 1 || groupInfoBean.rankState == 2;
+        if (targetIsAdmin || addFriendsState == 1) {
+            binding.funTeamUserInfoDetailBottomTv.setText("加好友");
+            binding.funTeamUserInfoDetailBottomTv.setVisibility(View.VISIBLE);
+        }
     }
 
     private void muteMember(String teamId, String account, boolean mute) {
