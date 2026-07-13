@@ -1,7 +1,6 @@
 package com.yaoxin.appbase.net;
 
 
-
 /**
  * Created by will
  * on 2018/5/25.
@@ -16,8 +15,8 @@ public class Constant {
 //    public static final String MSG_ENCODE_KEY = "carefullanimchat";
 
 
-    public static final String BASE_URL = "http://47.122.86.112:10125/";
-    public static final String BASE_URL_H5 = "http://47.122.86.112:10125";
+    public static final String BASE_URL = "http://120.26.255.91:10125/";
+    public static final String BASE_URL_H5 = "http://120.26.255.91:10125";
     public static final String ENCODE_KEY = "wesecretpaddingg";
     public static final String MSG_ENCODE_KEY = "wallstreetimchat";
 
