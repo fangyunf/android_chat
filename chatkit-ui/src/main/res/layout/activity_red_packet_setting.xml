@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/red_packet_setting_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_58be6b"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="44dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="设置"
+                android:textColor="@color/color_white"
+                android:textSize="17sp" />
+
+            <ImageView
+                android:id="@+id/red_packet_setting_back"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="start|center_vertical"
+                android:contentDescription="@null"
+                android:paddingStart="14dp"
+                android:paddingEnd="10dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_back_white" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/red_packet_tab_send_wrap"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/red_packet_tab_send"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="发红包"
+                    android:textColor="@color/color_white"
+                    android:textSize="16sp" />
+
+                <View
+                    android:id="@+id/red_packet_tab_send_indicator"
+                    android:layout_width="36dp"
+                    android:layout_height="2dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@color/color_white" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/red_packet_tab_grab_wrap"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/red_packet_tab_grab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="抢红包"
+                    android:textColor="#CCFFFFFF"
+                    android:textSize="16sp" />
+
+                <View
+                    android:id="@+id/red_packet_tab_grab_indicator"
+                    android:layout_width="36dp"
+                    android:layout_height="2dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@color/color_white"
+                    android:visibility="invisible" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true"
+        android:overScrollMode="never">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="24dp">
+
+            <LinearLayout
+                android:id="@+id/red_packet_send_panel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    style="@style/RedPacketSettingRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/red_packet_setting_row_height">
+
+                    <TextView
+                        style="@style/RedPacketSettingLabel"
+                        android:text="自动发包间隔(秒)" />
+
+                    <View style="@style/RedPacketSettingSpacer" />
+
+                    <EditText
+                        android:id="@+id/red_packet_send_interval_et"
+                        style="@style/RedPacketSettingInput"
+                        android:hint="1"
+                        android:inputType="numberDecimal" />
+                </LinearLayout>
+
+                <View style="@style/RedPacketSettingDivider" />
+
+                <LinearLayout
+                    style="@style/RedPacketSettingRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/red_packet_setting_row_height">
+
+                    <TextView
+                        style="@style/RedPacketSettingLabel"
+                        android:text="红包金额" />
+
+                    <View style="@style/RedPacketSettingSpacer" />
+
+                    <EditText
+                        android:id="@+id/red_packet_amounts_et"
+                        style="@style/RedPacketSettingInput"
+                        android:hint="红包金额(多个用/隔开)" />
+                </LinearLayout>
+
+                <View style="@style/RedPacketSettingDivider" />
+
+                <LinearLayout
+                    style="@style/RedPacketSettingRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/red_packet_setting_row_height">
+
+                    <TextView
+                        style="@style/RedPacketSettingLabel"
+                        android:text="红包个数" />
+
+                    <View style="@style/RedPacketSettingSpacer" />
+
+                    <EditText
+                        android:id="@+id/red_packet_counts_et"
+                        style="@style/RedPacketSettingInput"
+                        android:hint="红包个数(多个用/隔开)" />
+                </LinearLayout>
+
+                <View style="@style/RedPacketSettingDivider" />
+
+                <LinearLayout
+                    style="@style/RedPacketSettingRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/red_packet_setting_row_height">
+
+                    <TextView
+                        style="@style/RedPacketSettingLabel"
+                        android:text="红包语" />
+
+                    <View style="@style/RedPacketSettingSpacer" />
+
+                    <EditText
+                        android:id="@+id/red_packet_greetings_et"
+                        style="@style/RedPacketSettingInput"
+                        android:hint="红包语(多个用/隔开)" />
+                </LinearLayout>
+
+                <View style="@style/RedPacketSettingDivider" />
+
+                <LinearLayout
+                    style="@style/RedPacketSettingRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/red_packet_setting_row_height">
+
+                    <TextView
+                        style="@style/RedPacketSettingLabel"
+                        android:text="支付密码" />
+
+                    <View style="@style/RedPacketSettingSpacer" />
+
+                    <EditText
+                        android:id="@+id/red_packet_pay_password_et"
+                        style="@style/RedPacketSettingInput"
+                        android:hint="支付密码"
+                        android:inputType="numberPassword"
+                        android:maxLength="6" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/red_packet_grab_panel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <LinearLayout
+                    style="@style/RedPacketSettingRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/red_packet_setting_row_height">
+
+                    <TextView
+                        style="@style/RedPacketSettingLabel"
+                        android:text="抢包延迟(秒)" />
+
+                    <View style="@style/RedPacketSettingSpacer" />
+
+                    <EditText
+                        android:id="@+id/red_packet_grab_delay_et"
+                        style="@style/RedPacketSettingInput"
+                        android:hint="0"
+                        android:inputType="numberDecimal" />
+                </LinearLayout>
+
+                <View style="@style/RedPacketSettingDivider" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/red_packet_setting_row_height"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="自动领取专属红包"
+                        android:textColor="@color/color_333333"
+                        android:textSize="15sp" />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/red_packet_grab_exclusive_sw"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:thumbTint="@color/color_white"
+                        app:trackTint="@color/red_packet_setting_switch_track" />
+                </LinearLayout>
+
+                <View style="@style/RedPacketSettingDivider" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/red_packet_setting_row_height"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="自动领取拼手气红包"
+                        android:textColor="@color/color_333333"
+                        android:textSize="15sp" />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/red_packet_grab_lucky_sw"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:thumbTint="@color/color_white"
+                        app:trackTint="@color/red_packet_setting_switch_track" />
+                </LinearLayout>
+
+                <View style="@style/RedPacketSettingDivider" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/red_packet_setting_row_height"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="领取成功语音播报"
+                        android:textColor="@color/color_333333"
+                        android:textSize="15sp" />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/red_packet_voice_sw"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:thumbTint="@color/color_white"
+                        app:trackTint="@color/red_packet_setting_switch_track" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/red_packet_setting_save_tv"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginHorizontal="48dp"
+                android:layout_marginTop="48dp"
+                android:background="@drawable/bg_red_packet_setting_save_btn"
+                android:gravity="center"
+                android:text="保存"
+                android:textColor="@color/color_white"
+                android:textSize="17sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="24dp"
+                android:gravity="center"
+                android:lineSpacingExtra="4dp"
+                android:text="本软件仅供个人测试使用，禁止用于任何商业用途，请勿进行任何违规操作，感谢您的理解与配合！"
+                android:textColor="@color/color_999999"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

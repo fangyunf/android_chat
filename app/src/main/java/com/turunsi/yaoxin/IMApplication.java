@@ -43,6 +43,7 @@ import com.netease.nimlib.sdk.team.model.IMMessageFilter;
 import com.netease.yunxin.kit.chatkit.model.TeamWithCurrentMember;
 import com.netease.yunxin.kit.chatkit.repo.ConversationRepo;
 import com.netease.yunxin.kit.chatkit.repo.TeamRepo;
+import com.netease.yunxin.kit.chatkit.ui.fun.redpacket.RedPacketAutoManager;
 import com.netease.yunxin.kit.corekit.im.provider.FetchCallback;
 import com.netease.yunxin.kit.teamkit.ui.fun.activity.FunTeamMemberListActivity;
 import com.netease.yunxin.kit.teamkit.ui.normal.activity.TeamMemberListActivity;
@@ -127,6 +128,7 @@ public class IMApplication extends MultiDexApplication {
         AppProxy.getInstance().init(this)
                 .setIsDebug(BuildConfig.DEBUG)
                 .setVersionName(BuildConfig.VERSION_NAME);
+        RedPacketAutoManager.get().init(this);
         initThirdPart();
         mediaPlayer = MediaPlayer.create(this, R.raw.msg);
         vibrator = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
@@ -215,6 +217,9 @@ public class IMApplication extends MultiDexApplication {
                             // 根据需要处理通知内容
                         }
                     }, true);
+            NIMClient.getService(MsgServiceObserve.class)
+                    .observeReceiveMessage((Observer<List<IMMessage>>) messages ->
+                            RedPacketAutoManager.get().handleGlobalExclusive(messages), true);
             NIMClient.getService(MsgService.class).registerIMMessageFilter(new IMMessageFilter() {
                 @Override
                 public boolean shouldIgnore(IMMessage message) {

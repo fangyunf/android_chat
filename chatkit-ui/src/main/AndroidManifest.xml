@@ -103,6 +103,10 @@
             android:screenOrientation="portrait"
              />
         <activity
+            android:name=".fun.redpacket.RedPacketSettingActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".fun.page.FunSendRedPacketActivity"
             android:screenOrientation="portrait"
              />
