@@ -21,8 +21,8 @@ android {
         applicationId = "com.turunsi.xinda"
         minSdk = 21
         targetSdk = 33
-        versionCode = 113
-        versionName = "1.1.3"
+        versionCode = 114
+        versionName = "1.1.4"
         multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
