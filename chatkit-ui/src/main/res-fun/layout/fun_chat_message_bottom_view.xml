@@ -78,7 +78,7 @@
                         android:paddingStart="@dimen/dimen_12_dp"
                         android:singleLine="true"
                         android:textColorHint="@color/color_b3b7bc"
-                        android:textCursorDrawable="@null"
+                        android:textCursorDrawable="@drawable/bg_app_edit_text_cursor"
                         android:textSize="@dimen/text_size_16"
                         android:textStyle="bold"
                         android:visibility="gone"
@@ -97,7 +97,7 @@
                         android:paddingHorizontal="@dimen/dimen_12_dp"
                         android:singleLine="true"
                         android:textColorHint="@color/color_b3b7bc"
-                        android:textCursorDrawable="@null"
+                        android:textCursorDrawable="@drawable/bg_app_edit_text_cursor"
                         android:textSize="@dimen/text_size_16"
                         tools:ignore="LabelFor" />
                 </LinearLayout>

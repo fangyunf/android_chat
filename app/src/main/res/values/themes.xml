@@ -10,6 +10,10 @@
         <!-- Status bar color. -->
         <item name="colorPrimaryDark">@color/color_white</item>
         <item name="android:windowLightStatusBar">true</item>
+        <item name="colorAccent">@color/app_theme_color</item>
+        <item name="colorControlActivated">@color/app_theme_color</item>
+        <item name="android:editTextStyle">@style/AppEditTextStyle</item>
+        <item name="editTextStyle">@style/AppEditTextStyle</item>
         <!-- Customize your theme here. -->
     </style>
 </resources>

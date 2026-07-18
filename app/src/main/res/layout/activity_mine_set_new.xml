@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tl="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/fun_page_bg_color"
     android:orientation="vertical">
 
     <com.yaoxin.appbase.navbar.NavToolbar
         android:id="@+id/activity_mine_set_new_nav"
         style="@style/WhiteFontToolbar"
-        android:background="@color/white"
+        android:background="@color/fun_page_bg_color"
         app:back_icon="@mipmap/temp_ic_back"
-        app:enable_under_divider="true"
+        app:enable_under_divider="false"
         app:support_translucent_status_bar="false"
-        app:title="我的设置"
+        app:title="设置"
         app:title_text_color="@color/color_333333"
         app:under_divider_color="@color/transparent" />
 
@@ -24,62 +23,132 @@
         android:layout_weight="1"
         android:scrollbars="none">
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="15dp"
-            android:background="@drawable/bg_f2f2f2_rounded_10"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="20dp">
 
-            <include
-                android:id="@+id/activity_mine_set_new_notice_voice"
-                layout="@layout/view_title_arrow"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-            <include
-                android:id="@+id/activity_mine_set_new_delete_cache"
-                layout="@layout/view_title_arrow"
+                <com.yaoxin.appbase.view.IconTitleArrowTemplate
+                    android:id="@+id/activity_mine_set_new_chat_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:leftImg="@mipmap/mine_index_item_ltsz"
+                    app:textColor="@color/color_333333"
+                    app:titleText="聊天设置" />
+
+                <com.yaoxin.appbase.view.IconTitleArrowTemplate
+                    android:id="@+id/activity_mine_set_new_privacy_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:leftImg="@mipmap/mine_index_item_ysgl"
+                    app:textColor="@color/color_333333"
+                    app:titleText="隐私设置" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
 
-            <include
-                android:id="@+id/activity_mine_set_new_delete_record"
-                layout="@layout/view_title_arrow"
+                <com.yaoxin.appbase.view.IconTitleArrowTemplate
+                    android:id="@+id/activity_mine_set_new_share_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:leftImg="@mipmap/mine_index_item_fxyy"
+                    app:textColor="@color/color_333333"
+                    app:titleText="分享应用" />
+
+                <com.yaoxin.appbase.view.IconTitleArrowTemplate
+                    android:id="@+id/activity_mine_set_new_update_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:leftImg="@mipmap/mine_index_item_yysj"
+                    app:textColor="@color/color_333333"
+                    app:titleText="应用升级" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
 
+                <com.yaoxin.appbase.view.IconTitleArrowTemplate
+                    android:id="@+id/activity_mine_set_new_delete_cache_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:leftImg="@mipmap/mine_index_item_message"
+                    app:textColor="@color/color_333333"
+                    app:titleText="清除缓存" />
 
-            <include
-                android:id="@+id/activity_mine_set_new_about_us"
-                layout="@layout/view_title_arrow"
+                <com.yaoxin.appbase.view.IconTitleArrowTemplate
+                    android:id="@+id/activity_mine_set_new_delete_record_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:leftImg="@mipmap/mine_index_item_mmsz"
+                    app:textColor="@color/color_333333"
+                    app:titleText="清除所有聊天记录" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
 
-            <include
-                android:id="@+id/activity_mine_set_new_download"
-                layout="@layout/view_title_arrow"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                <include
+                    android:id="@+id/activity_mine_set_new_website_view"
+                    layout="@layout/view_setting_website_item" />
 
-            <include
-                android:id="@+id/activity_mine_set_new_exchange_acount"
-                layout="@layout/view_title_arrow"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                <com.yaoxin.appbase.view.IconTitleArrowTemplate
+                    android:id="@+id/activity_mine_set_new_about_us_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:leftImg="@mipmap/mine_index_item_sz"
+                    app:textColor="@color/color_333333"
+                    app:titleText="关于我们" />
 
-            <include
-                android:id="@+id/activity_mine_set_new_zhuxiao"
-                layout="@layout/view_title_arrow"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+            </LinearLayout>
 
-            <include
-                android:id="@+id/activity_mine_set_new_login_out"
-                layout="@layout/view_title_arrow"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <com.yaoxin.appbase.view.IconTitleArrowTemplate
+                    android:id="@+id/activity_mine_set_new_exchange_acount_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:textColor="@color/color_333333"
+                    app:titleText="切换账号" />
+
+                <com.yaoxin.appbase.view.IconTitleArrowTemplate
+                    android:id="@+id/activity_mine_set_new_zhuxiao_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:textColor="@color/app_theme_red_color"
+                    app:titleText="注销账号" />
+
+                <com.yaoxin.appbase.view.IconTitleArrowTemplate
+                    android:id="@+id/activity_mine_set_new_login_out_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:textColor="@color/app_theme_red_color"
+                    app:titleText="退出登录" />
+
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>

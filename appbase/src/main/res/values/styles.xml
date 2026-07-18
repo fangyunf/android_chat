@@ -75,7 +75,15 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/app_theme_color</item>
+        <item name="colorControlActivated">@color/app_theme_color</item>
+        <item name="android:editTextStyle">@style/AppEditTextStyle</item>
+        <item name="editTextStyle">@style/AppEditTextStyle</item>
+    </style>
+
+    <style name="AppEditTextStyle" parent="Widget.AppCompat.EditText">
+        <item name="android:textCursorDrawable">@drawable/bg_app_edit_text_cursor</item>
+        <item name="android:textColorHighlight">#334184FF</item>
     </style>
 
     <style name="pop_add_ainm" parent="android:Animation">

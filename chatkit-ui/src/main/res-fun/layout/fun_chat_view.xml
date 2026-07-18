@@ -151,7 +151,7 @@
                     android:paddingStart="@dimen/dimen_16_dp"
                     android:singleLine="true"
                     android:textColorHint="@color/color_b3b7bc"
-                    android:textCursorDrawable="@null"
+                    android:textCursorDrawable="@drawable/bg_app_edit_text_cursor"
                     android:textSize="@dimen/text_size_16"
                     android:textStyle="bold"
                     tools:ignore="LabelFor" />
@@ -170,7 +170,7 @@
                     android:paddingHorizontal="@dimen/dimen_16_dp"
                     android:singleLine="false"
                     android:textColorHint="@color/color_b3b7bc"
-                    android:textCursorDrawable="@null"
+                    android:textCursorDrawable="@drawable/bg_app_edit_text_cursor"
                     android:textSize="@dimen/text_size_16"
                     tools:ignore="LabelFor" />
 

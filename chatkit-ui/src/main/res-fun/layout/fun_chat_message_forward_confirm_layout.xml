@@ -85,7 +85,7 @@
             android:singleLine="true"
             android:ellipsize="end"
             android:textColorHint="@color/color_b3b7bc"
-            android:textCursorDrawable="@null"
+            android:textCursorDrawable="@drawable/bg_app_edit_text_cursor"
             android:textSize="@dimen/text_size_16"
             android:inputType="text"
             android:hint="@string/chat_message_multi_transmit_input_hint"

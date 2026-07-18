@@ -158,7 +158,7 @@
                         android:imeOptions="actionSearch"
                         android:inputType="numberDecimal"
                         android:singleLine="true"
-                        android:textCursorDrawable="@null"
+                        android:textCursorDrawable="@drawable/bg_app_edit_text_cursor"
                         android:textSize="@dimen/text_size_16" />
                     <!-- 专属红包：元 -->
                     <TextView
@@ -213,7 +213,7 @@
                             android:hint="0"
                             android:imeOptions="actionSearch"
                             android:singleLine="true"
-                            android:textCursorDrawable="@null"
+                            android:textCursorDrawable="@drawable/bg_app_edit_text_cursor"
                             android:textSize="@dimen/text_size_16" />
 
                         <TextView
@@ -260,7 +260,7 @@
                     android:hint="恭喜发财,大吉大利"
                     android:imeOptions="actionSearch"
                     android:singleLine="true"
-                    android:textCursorDrawable="@null"
+                    android:textCursorDrawable="@drawable/bg_app_edit_text_cursor"
                     android:textSize="@dimen/text_size_16" />
 
             </LinearLayout>

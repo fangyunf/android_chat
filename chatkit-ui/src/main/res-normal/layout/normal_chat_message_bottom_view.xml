@@ -93,7 +93,7 @@
                 android:singleLine="true"
                 android:textStyle="bold"
                 android:textColorHint="@color/color_b3b7bc"
-                android:textCursorDrawable="@null"
+                android:textCursorDrawable="@drawable/bg_app_edit_text_cursor"
                 android:textSize="@dimen/text_size_16"
                 android:hint="@string/chat_message_rich_title_hint"
                 tools:ignore="LabelFor"
@@ -109,7 +109,7 @@
                 android:maxLength="2000"
                 android:paddingStart="@dimen/dimen_12_dp"
                 android:textColorHint="@color/color_b3b7bc"
-                android:textCursorDrawable="@null"
+                android:textCursorDrawable="@drawable/bg_app_edit_text_cursor"
                 android:textSize="@dimen/text_size_16"
                 android:singleLine="true"
                 tools:ignore="LabelFor" />
