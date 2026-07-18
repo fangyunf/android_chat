@@ -83,12 +83,18 @@ public class IMUtil {
     }
 
     public static void showMainActivityAndFinish(Activity context) {
-        Intent intent = new Intent();
-        intent.setClass(context, MainActivity.class);
-//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         context.startActivity(intent);
-        context.finish();
+        context.overridePendingTransition(0, 0);
+        // 等 MainActivity 先完成启动，再关闭启动页，避免 CLEAR_TASK 造成白屏
+        context.getWindow().getDecorView().post(() -> {
+            if (context.isFinishing()) {
+                return;
+            }
+            context.finishAffinity();
+            context.overridePendingTransition(0, 0);
+        });
         IMUtil.getToken();
     }
 

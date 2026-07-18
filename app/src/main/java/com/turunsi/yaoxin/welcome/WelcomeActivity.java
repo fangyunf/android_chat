@@ -16,9 +16,9 @@ import com.netease.nimlib.sdk.auth.LoginInfo;
 import com.turunsi.yaoxin.IMApplication;
 import com.turunsi.yaoxin.R;
 import com.turunsi.yaoxin.databinding.ActivityWelcomeBinding;
-import com.turunsi.yaoxin.main.MainActivity;
 import com.turunsi.yaoxin.utils.Constant;
 import com.turunsi.yaoxin.utils.DataUtils;
+import com.turunsi.yaoxin.utils.IMUtil;
 import com.netease.yunxin.kit.alog.ALog;
 import com.netease.yunxin.kit.common.ui.activities.BaseActivity;
 import com.netease.yunxin.kit.common.ui.utils.ToastX;
@@ -48,11 +48,7 @@ public class WelcomeActivity extends BaseActivity {
 
   private void showMainActivityAndFinish() {
     ALog.d(Constant.PROJECT_TAG, TAG, "showMainActivityAndFinish");
-    Intent intent = new Intent();
-    intent.setClass(this, MainActivity.class);
-    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-    this.startActivity(intent);
-    finish();
+    IMUtil.showMainActivityAndFinish(this);
   }
 
   /** start login page, you can use to launch your own login */
