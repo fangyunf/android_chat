@@ -4,16 +4,16 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.turunsi.feixun",
+  "applicationId": "com.turunsi.weiliao",
   "variantName": "release",
   "elements": [
     {
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 3,
-      "versionName": "1.0.2",
-      "outputFile": "feixun_release_v1.0.2.apk"
+      "versionCode": 1,
+      "versionName": "1.0.0",
+      "outputFile": "weiliao_release_v1.0.0.apk"
     }
   ],
   "elementType": "File"

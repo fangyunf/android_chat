@@ -5,8 +5,7 @@
 package com.netease.yunxin.kit.conversationkit.ui.fun;
 
 import static com.netease.yunxin.kit.corekit.im.utils.RouterConstant.PATH_FUN_ADD_FRIEND_PAGE;
-import static com.netease.yunxin.kit.corekit.im.utils.RouterConstant.PATH_FUN_CREATE_ADVANCED_TEAM_ACTION;
-import static com.netease.yunxin.kit.corekit.im.utils.RouterConstant.PATH_FUN_CREATE_NORMAL_TEAM_ACTION;
+import static com.netease.yunxin.kit.corekit.im.utils.RouterConstant.PATH_FUN_MY_NOTIFICATION_PAGE;
 
 import android.content.Context;
 import android.content.Intent;
@@ -40,6 +39,22 @@ public final class FunPopItemFactory {
             v -> XKitRouter.withKey(PATH_FUN_ADD_FRIEND_PAGE).withContext(context).navigate())
         .build();
   }
+
+  public static ContentListPopView.Item getJoinGroupItem(Context context) {
+    LinearLayout.LayoutParams params = getParams(context);
+    return new ContentListPopView.Item.Builder()
+        .configView(
+            getView(context, R.string.join_group_chat, R.drawable.conversation_index_pop_create_group))
+        .configParams(params)
+        .configClickListener(
+            v ->
+                XKitRouter.withKey(PATH_FUN_MY_NOTIFICATION_PAGE)
+                    .withParam("type", "1")
+                    .withContext(context)
+                    .navigate())
+        .build();
+  }
+
   public static ContentListPopView.Item getScanItem(Context context) {
     LinearLayout.LayoutParams params = getParams(context);
     return new ContentListPopView.Item.Builder()

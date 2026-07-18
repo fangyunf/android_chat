@@ -570,6 +570,8 @@ public class FunConversationFragment extends ConversationBaseFragment {
                                 .addItem(FunPopItemFactory.getDivideLineItem(context))
                                 .addItem(FunPopItemFactory.getAddFriendItem(context))
                                 .addItem(FunPopItemFactory.getDivideLineItem(context))
+                                .addItem(FunPopItemFactory.getJoinGroupItem(context))
+                                .addItem(FunPopItemFactory.getDivideLineItem(context))
                                 .addItem(FunPopItemFactory.getScanItem(context))
                                 .enableShadow(false)
                                 .backgroundRes(R.drawable.fun_conversation_view_pop_bg)
