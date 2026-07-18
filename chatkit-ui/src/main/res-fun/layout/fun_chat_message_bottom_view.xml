@@ -10,27 +10,24 @@
     android:id="@+id/chat_message_input_root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/color_white">
+    android:background="@color/fun_chat_input_bg_color">
 
     <LinearLayout
         android:id="@+id/inputBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginHorizontal="10dp"
-        android:background="@drawable/bg_f4f4f4_rounded_22"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="8dp">
 
         <FrameLayout
             android:id="@+id/inputLeftLayout"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/dimen_10_dp"
-            android:layout_marginEnd="@dimen/dimen_10_dp"
-            android:layout_marginBottom="@dimen/dimen_4_dp">
+            android:layout_marginEnd="@dimen/dimen_10_dp">
 
             <RelativeLayout
-
                 android:layout_width="@dimen/dimen_32_dp"
                 android:layout_height="44dp">
 
@@ -39,7 +36,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_centerInParent="true"
-                    android:background="@drawable/fun_ic_chat_input_audio"
+                    android:background="@drawable/fun_ic_chat_input_audio_selector"
                     android:button="@null"
                     android:checked="false"
                     android:clickable="false" />
@@ -57,12 +54,11 @@
                 android:id="@+id/inputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/color_white"
-                app:corner_radius="@dimen/dimen_4_dp"
+                android:background="@drawable/fun_bg_chat_input_edit"
+                app:corner_radius="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/replyLayout">
-
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -91,21 +87,20 @@
                     <EditText
                         android:id="@+id/inputEt"
                         android:layout_width="match_parent"
-                        android:layout_height="44dp"
-                        android:background="#f4f4f4"
+                        android:layout_height="40dp"
+                        android:background="@null"
                         android:ellipsize="end"
                         android:hint="输入信息"
                         android:imeOptions="actionSend"
                         android:inputType="text"
                         android:maxLength="2000"
-                        android:paddingStart="@dimen/dimen_12_dp"
+                        android:paddingHorizontal="@dimen/dimen_12_dp"
                         android:singleLine="true"
                         android:textColorHint="@color/color_b3b7bc"
                         android:textCursorDrawable="@null"
                         android:textSize="@dimen/text_size_16"
                         tools:ignore="LabelFor" />
                 </LinearLayout>
-
 
                 <TextView
                     android:id="@+id/inputAudioTv"
@@ -120,22 +115,6 @@
                     android:textSize="@dimen/text_size_16"
                     android:textStyle="bold"
                     android:visibility="gone" />
-
-
-                <!--                <FrameLayout-->
-                <!--                    android:id="@+id/chatMsgInputSwitchLayout"-->
-                <!--                    android:layout_width="@dimen/dimen_32_dp"-->
-                <!--                    android:layout_height="match_parent"-->
-                <!--                    android:layout_gravity="end">-->
-
-                <!--                    <ImageView-->
-                <!--                        android:id="@+id/chatMsgInputSwitch"-->
-                <!--                        android:layout_width="@dimen/dimen_20_dp"-->
-                <!--                        android:layout_height="@dimen/dimen_20_dp"-->
-                <!--                        android:layout_marginTop="@dimen/dimen_10_dp"-->
-                <!--                        android:layout_marginEnd="@dimen/dimen_10_dp"-->
-                <!--                        android:src="@drawable/ic_chat_open_rich_text" />-->
-                <!--                </FrameLayout>-->
 
                 <TextView
                     android:id="@+id/inputMuteTv"
@@ -184,16 +163,13 @@
 
             </com.netease.yunxin.kit.common.ui.widgets.RoundFrameLayout>
 
-
         </LinearLayout>
 
         <FrameLayout
             android:id="@+id/inputRightLayout"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/dimen_10_dp"
-            android:layout_marginEnd="@dimen/dimen_10_dp"
-            android:layout_marginBottom="@dimen/dimen_4_dp">
+            android:layout_marginStart="@dimen/dimen_10_dp">
 
             <RelativeLayout
                 android:layout_width="@dimen/dimen_32_dp"
@@ -204,15 +180,13 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_centerInParent="true"
-                    android:layout_gravity="bottom"
-                    android:background="@drawable/chat_fragment_toolbar_emoji"
+                    android:background="@drawable/fun_ic_chat_input_emoji_selector"
                     android:button="@null"
                     android:checked="false"
                     android:clickable="false" />
             </RelativeLayout>
 
             <RelativeLayout
-
                 android:layout_width="@dimen/dimen_32_dp"
                 android:layout_height="44dp"
                 android:layout_marginStart="@dimen/dimen_46_dp">
@@ -222,12 +196,11 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_centerInParent="true"
-                    android:background="@drawable/chat_fragment_toolbar_show_more"
+                    android:background="@drawable/fun_ic_chat_input_more_selector"
                     android:button="@null"
                     android:checked="false"
                     android:clickable="false" />
             </RelativeLayout>
-
 
         </FrameLayout>
     </LinearLayout>
@@ -236,7 +209,7 @@
         android:id="@+id/inputMoreLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#f4f4f4"
+        android:background="@color/fun_chat_input_bg_color"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/inputBarLayout">

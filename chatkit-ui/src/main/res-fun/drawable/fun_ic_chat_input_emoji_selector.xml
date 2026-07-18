@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/chat_fragment_toolbar_emoji" android:state_checked="true" />
-    <item android:drawable="@drawable/chat_fragment_toolbar_emoji" />
+    <item android:state_checked="true">
+        <bitmap
+            android:src="@drawable/chat_fragment_toolbar_emoji"
+            android:tint="@color/app_theme_color" />
+    </item>
+    <item>
+        <bitmap
+            android:src="@drawable/chat_fragment_toolbar_emoji"
+            android:tint="@color/app_theme_color" />
+    </item>
 </selector>
