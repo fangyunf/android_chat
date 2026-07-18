@@ -62,8 +62,8 @@ public class ForgetPwdActivity extends BaseActivity implements View.OnClickListe
         // 设置标题
         binding.forgetPwdActivityPhoneTf.viewTitleTfCountTitleTv.setText("输入登录账号");
         binding.forgetPwdActivityCodeTf.viewTitleTfCountTitleTv.setText("输入验证码");
-        binding.forgetPwdActivityPwdTf.viewTitleTfCountTitleTv.setText("请输入8-12位密码,数字+字母");
-        binding.forgetPwdActivityPwd2Tf.viewTitleTfCountTitleTv.setText("请再次输入8-12位密码,数字+字母");
+        binding.forgetPwdActivityPwdTf.viewTitleTfCountTitleTv.setText("输入密码");
+        binding.forgetPwdActivityPwd2Tf.viewTitleTfCountTitleTv.setText("再次输入密码");
 
         // 设置输入类型
         binding.forgetPwdActivityPhoneTf.viewTitleTfCountEt.setInputType(InputType.TYPE_CLASS_NUMBER);

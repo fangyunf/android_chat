@@ -425,7 +425,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
     @SuppressLint("UseCompatLoadingForDrawables")
     private void resetTabSkin() {
         if (mCurrentTab == activityMainBinding.contactBtnGroup) {
-            activityMainBinding.viewPager.setCurrentItem(2, false);
+            activityMainBinding.viewPager.setCurrentItem(1, false);
             activityMainBinding.contact.setTextColor(getResources().getColor(R.color.tab_checked_color));
             activityMainBinding.contact.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.mine_tabbar_txl_sel), null, null);
             changeStatusBarColor(R.color.fun_page_bg_color);

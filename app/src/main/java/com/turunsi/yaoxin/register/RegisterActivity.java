@@ -61,10 +61,10 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
     void _initTfText() {
         // 设置标题
-        binding.registerActivityPhoneTf.viewTitleTfCountTitleTv.setText("请输入11位手机号码");
-        binding.registerActivityCodeTf.viewTitleTfCountTitleTv.setText("请输入验证码");
-        binding.registerActivityPwdTf.viewTitleTfCountTitleTv.setText("请输入8-12位密码,数字+字母");
-        binding.registerActivityPwd2Tf.viewTitleTfCountTitleTv.setText("请再次输入8-12位密码,数字+字母");
+        binding.registerActivityPhoneTf.viewTitleTfCountTitleTv.setText("输入登录账号");
+        binding.registerActivityPwdTf.viewTitleTfCountTitleTv.setText("输入登录密码");
+        binding.registerActivityPwd2Tf.viewTitleTfCountTitleTv.setText("再次输入密码");
+        binding.registerActivityCodeTf.viewTitleTfCountTitleTv.setText("输入验证码");
 
         // 设置输入类型
         binding.registerActivityPhoneTf.viewTitleTfCountEt.setInputType(InputType.TYPE_CLASS_NUMBER);
