@@ -25,25 +25,25 @@
         android:paddingRight="@dimen/dimen_7_dp">
 
         <TextView
-            android:id="@+id/fun_chat_message_red_packet_view_holder_greeting_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:layout_marginTop="20dp"
-            android:text="恭喜发财,大吉大利"
-            android:textColor="#ffffffff"
-            android:textSize="16sp" />
-
-        <TextView
             android:id="@+id/fun_chat_message_red_packet_view_holder_money_tv"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:layout_marginLeft="50dp"
-            android:layout_marginTop="3dp"
+            android:layout_marginTop="@dimen/dimen_14_dp"
             android:text="0.00"
             android:textColor="@color/color_white"
-            android:textSize="16sp"
-            android:visibility="gone" />
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/fun_chat_message_red_packet_view_holder_greeting_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="@dimen/dimen_3_dp"
+            android:text="恭喜发财,大吉大利"
+            android:textColor="#ffffffff"
+            android:textSize="12sp" />
+
 
         <View
             android:layout_width="match_parent"
@@ -60,7 +60,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:layout_marginBottom="@dimen/dimen_7_dp"
+        android:layout_marginBottom="@dimen/dimen_3_dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingHorizontal="@dimen/dimen_9_dp">

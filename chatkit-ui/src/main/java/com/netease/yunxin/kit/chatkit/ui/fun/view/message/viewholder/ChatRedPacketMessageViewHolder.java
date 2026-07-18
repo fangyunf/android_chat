@@ -66,15 +66,15 @@ public class ChatRedPacketMessageViewHolder extends FunChatBaseMessageViewHolder
             viewBinding.funChatMessageRedPacketViewHolderBgIv.setImageResource((bean.type == 21) ? R.drawable.chat_redpacket_purple_bg_no_open : R.drawable.chat_red_packet_cell_bg_no_open);
             if (bean.type == 21) {
                 viewBinding.funChatMessageRedPacketViewHolderGreetingTv.setText(bean.result.toUserName);
-                viewBinding.funChatMessageRedPacketViewHolderTypeTv.setText("专属红包" + "¥" + NumberUtil.formartMoney(bean.result.amount));
+                viewBinding.funChatMessageRedPacketViewHolderTypeTv.setText("专属红包");
             } else if (bean.type == 22) {
                 viewBinding.funChatMessageRedPacketViewHolderGreetingTv.setText(bean.result.title);
-                viewBinding.funChatMessageRedPacketViewHolderTypeTv.setText("红包" + "¥" + NumberUtil.formartMoney(bean.result.amount));
+                viewBinding.funChatMessageRedPacketViewHolderTypeTv.setText("红包");
             } else {
                 viewBinding.funChatMessageRedPacketViewHolderGreetingTv.setText(bean.result.title);
-                viewBinding.funChatMessageRedPacketViewHolderTypeTv.setText("拼手气" + "¥" + NumberUtil.formartMoney(bean.result.amount));
+                viewBinding.funChatMessageRedPacketViewHolderTypeTv.setText("拼手气");
             }
-            viewBinding.funChatMessageRedPacketViewHolderTimeTv.setText(TimeUtil.stampToTime(bean.result.createTime));
+            viewBinding.funChatMessageRedPacketViewHolderTimeTv.setText(TimeUtil.stampToDate(bean.result.createTime));
 //      if (bean.type == 21) {
             viewBinding.funChatMessageRedPacketViewHolderMoneyTv.setText("¥" + NumberUtil.formartMoney(bean.result.amount));
 //      } else {
