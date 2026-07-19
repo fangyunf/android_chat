@@ -213,9 +213,11 @@
                         android:id="@+id/fragment_mine_zhgl_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen_10_dp"
                         app:leftImg="@mipmap/mine_index_item_zhgl"
                         app:textColor="@color/color_333333"
                         app:titleText="账户管理" />
+
 
                     <com.yaoxin.appbase.view.IconTitleArrowTemplate
                         android:id="@+id/fragment_mine_wdfh_view"
@@ -223,13 +225,13 @@
                         android:layout_height="wrap_content"
                         app:leftImg="@mipmap/mine_index_item_wdfh"
                         app:textColor="@color/color_333333"
-                        app:titleText="主号副号" />
+                        app:titleText="购买账号" />
 
                     <com.yaoxin.appbase.view.IconTitleArrowTemplate
                         android:id="@+id/fragment_mine_mmsz_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:leftImg="@mipmap/mine_index_item_mmsz"
+                        app:leftImg="@mipmap/found_icon_game"
                         app:textColor="@color/color_333333"
                         app:titleText="安全中心" />
 
@@ -358,12 +360,14 @@
                     android:id="@+id/fragment_mine_index_wdqb_ll"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
+                    android:orientation="horizontal"
                     android:visibility="gone" />
 
                 <LinearLayout
                     android:id="@+id/fragment_mine_index_cdsc_ll"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
+                    android:orientation="horizontal"
                     android:visibility="gone" />
 
             </LinearLayout>
