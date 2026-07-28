@@ -168,6 +168,20 @@ class MsHostBridge(context: Context) : HostBridge {
         }
     }
 
+    private fun normalizeAvatarUrl(raw: String?): String {
+        val value = raw?.trim().orEmpty()
+        if (value.isBlank() || value.equals("null", ignoreCase = true)) return ""
+        if (value.startsWith("http://", ignoreCase = true) ||
+            value.startsWith("https://", ignoreCase = true) ||
+            value.startsWith("content://", ignoreCase = true) ||
+            value.startsWith("file://", ignoreCase = true)
+        ) {
+            return value
+        }
+        if (value.startsWith("//")) return "https:$value"
+        return Constant.BASE_URL.trimEnd('/') + "/" + value.removePrefix("/")
+    }
+
     private fun mergeFanUsers(businessUsers: List<FanUser>, nimUsers: List<FanUser>): List<FanUser> {
         if (businessUsers.isEmpty()) return nimUsers
         if (nimUsers.isEmpty()) return businessUsers
@@ -180,7 +194,7 @@ class MsHostBridge(context: Context) : HostBridge {
             merged.add(
                 business.copy(
                     name = business.name.ifBlank { nim?.name ?: business.userId },
-                    avatarUrl = business.avatarUrl.orEmpty().ifBlank { nim?.avatarUrl.orEmpty() },
+                    avatarUrl = normalizeAvatarUrl(nim?.avatarUrl).ifBlank { normalizeAvatarUrl(business.avatarUrl) },
                     memberCode = business.memberCode.orEmpty().ifBlank { nim?.memberCode.orEmpty() }
                 )
             )
@@ -236,9 +250,12 @@ class MsHostBridge(context: Context) : HostBridge {
                 ?: item.teamInfo.teamNick?.takeUnless { it.isBlank() }
                 ?: account
             val avatar = item.userInfo?.avatar?.takeUnless { it.isBlank() }
+                ?: cached?.portrait?.takeUnless { it.isBlank() }
                 ?: cached?.avatar?.takeUnless { it.isBlank() }
+                ?: cached?.avatarUrl?.takeUnless { it.isBlank() }
+                ?: cached?.head?.takeUnless { it.isBlank() }
                 ?: ""
-            result.add(FanUser(account, name, avatar, cached?.memberCode ?: ""))
+            result.add(FanUser(account, name, normalizeAvatarUrl(avatar), cached?.memberCode ?: ""))
         }
         return result
     }
@@ -267,7 +284,12 @@ class MsHostBridge(context: Context) : HostBridge {
                                 !m.name.isNullOrEmpty() -> m.name
                                 else -> m.userId
                             }
-                            result.add(FanUser(m.userId, name, m.avatar ?: "", m.memberCode ?: ""))
+                            val avatar = m.portrait?.takeUnless { it.isBlank() }
+                                ?: m.avatar?.takeUnless { it.isBlank() }
+                                ?: m.avatarUrl?.takeUnless { it.isBlank() }
+                                ?: m.head?.takeUnless { it.isBlank() }
+                                ?: ""
+                            result.add(FanUser(m.userId, name, normalizeAvatarUrl(avatar), m.memberCode ?: ""))
                         }
                     }
                 } catch (e: Exception) {
@@ -428,7 +450,7 @@ class MsHostBridge(context: Context) : HostBridge {
                 toUserId = data.toUserId,
                 claimed = claimed,
                 senderDisplayName = data.sendName ?: data.sendUserName,
-                senderAvatarUrl = data.sendAvatar ?: data.avatar,
+                senderAvatarUrl = normalizeAvatarUrl(data.sendAvatar ?: data.avatar),
                 senderMemberCode = data.memberCode ?: outer.memberCode,
                 rawMessageRef = rawMessage
             )

@@ -194,6 +194,10 @@ class CompensationEngine(
 
 
     private fun trySchedule(track: CompTrack) {
+        if (!track.iHit) {
+            DiagLogStore.append(context, "Comp", "schedule skip notHit rid=${track.redPacketId}")
+            return
+        }
         if (!isAllMinesAppeared(track)) return
         if (track.scheduled) return
         track.scheduled = true
@@ -204,6 +208,11 @@ class CompensationEngine(
     }
 
     private fun execute(track: CompTrack) {
+        if (!track.iHit || !isAllMinesAppeared(track)) {
+            DiagLogStore.append(context, "Comp", "execute skip gate rid=${track.redPacketId} iHit=${track.iHit} all=${isAllMinesAppeared(track)}")
+            tracks.remove(track.redPacketId)
+            return
+        }
         if (!canStillCompensate(track.sessionId)) {
             tracks.remove(track.redPacketId)
             return

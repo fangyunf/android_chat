@@ -3,7 +3,6 @@ package com.machinesecond.ui.fan
 import android.app.AlertDialog
 import android.graphics.Color
 import android.graphics.Typeface
-import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.text.InputType
@@ -22,11 +21,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
 import com.machinesecond.MsSdk
 import com.machinesecond.fan.FanAddStatus
 import com.machinesecond.fan.FanMode
@@ -452,6 +446,11 @@ class FanUserListActivity : AppCompatActivity() {
         fanAdapter.notifyDataSetChanged()
     }
 
+    private fun usableAvatarUrl(raw: String?): String {
+        val value = raw?.trim().orEmpty()
+        return if (value.isBlank() || value.equals("null", ignoreCase = true)) "" else value
+    }
+
     private inner class FanUserAdapter : RecyclerView.Adapter<FanUserViewHolder>() {
         override fun getItemCount(): Int = if (users.isEmpty()) 1 else users.size
 
@@ -609,13 +608,12 @@ class FanUserListActivity : AppCompatActivity() {
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.MATCH_PARENT
         ))
-        val avatarUrl = user.avatarUrl.orEmpty()
+        val avatarUrl = usableAvatarUrl(user.avatarUrl)
         if (avatarUrl.isNotBlank()) {
             val image = ImageView(this).apply {
                 scaleType = ImageView.ScaleType.CENTER_CROP
                 visibility = View.GONE
             }
-            Glide.with(this@FanUserListActivity).clear(image)
             holder.addView(image, FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT
@@ -626,33 +624,10 @@ class FanUserListActivity : AppCompatActivity() {
     }
 
     private fun loadAvatar(url: String, image: ImageView) {
-        image.visibility = View.GONE
-        Glide.with(this)
+        image.visibility = View.VISIBLE
+        Glide.with(image)
             .load(url)
-            .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
             .centerCrop()
-            .listener(object : RequestListener<Drawable> {
-                override fun onLoadFailed(
-                    e: GlideException?,
-                    model: Any?,
-                    target: Target<Drawable>?,
-                    isFirstResource: Boolean
-                ): Boolean {
-                    image.visibility = View.GONE
-                    return false
-                }
-
-                override fun onResourceReady(
-                    resource: Drawable?,
-                    model: Any?,
-                    target: Target<Drawable>?,
-                    dataSource: DataSource?,
-                    isFirstResource: Boolean
-                ): Boolean {
-                    image.visibility = View.VISIBLE
-                    return false
-                }
-            })
             .into(image)
     }
 

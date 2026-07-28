@@ -102,7 +102,7 @@ public class ChatTipsMessageViewHolder extends FunChatBaseMessageViewHolder {
         String content = message.getMessageData().getMessage().getContent();
         if (content == null || content.isEmpty()) {
             // create team tip
-            Map<String, Object> extension = message.getMessageData().getMessage().getRemoteExtension();
+            Map<String, Object> extension = MessageHelper.safeGetRemoteExtension(message.getMessageData().getMessage());
             if (extension != null && extension.get(KEY_TEAM_CREATED_TIP) != null) {
                 content = extension.get(KEY_TEAM_CREATED_TIP).toString();
             }

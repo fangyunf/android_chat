@@ -1272,7 +1272,7 @@ public abstract class ChatBaseViewModel extends BaseViewModel {
       return;
     }
     Map<String, Object> remote =
-        MessageHelper.createReplyExtension(message.getRemoteExtension(), replyMsg);
+        MessageHelper.createReplyExtension(MessageHelper.safeGetRemoteExtension(message), replyMsg);
     message.setRemoteExtension(remote);
     sendMessage(message, resend, true);
   }

@@ -131,7 +131,16 @@ public class ChatUIService extends ChatService {
               }
               Map<String, Object> extension = null;
               if (params.containsKey(KEY_REMOTE_EXTENSION)) {
-                extension = (Map<String, Object>) params.get(KEY_REMOTE_EXTENSION);
+                Object remoteExtension = params.get(KEY_REMOTE_EXTENSION);
+                if (remoteExtension instanceof Map) {
+                  extension = (Map<String, Object>) remoteExtension;
+                } else {
+                  ALog.e(
+                      ChatKitUIConstant.LIB_TAG,
+                      TAG,
+                      "ignore invalid route remoteExtension type="
+                          + (remoteExtension == null ? "null" : remoteExtension.getClass().getName()));
+                }
               }
               ChatRepo.sendTeamTipWithoutUnreadExt(
                   sessionId,

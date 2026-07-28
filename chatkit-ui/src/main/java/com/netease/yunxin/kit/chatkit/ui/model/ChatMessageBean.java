@@ -13,6 +13,7 @@ import com.netease.nimlib.sdk.msg.model.MsgPinOption;
 import com.netease.yunxin.kit.alog.ALog;
 import com.netease.yunxin.kit.chatkit.model.IMMessageInfo;
 import com.netease.yunxin.kit.chatkit.ui.ChatKitUIConstant;
+import com.netease.yunxin.kit.chatkit.ui.common.MessageHelper;
 import com.netease.yunxin.kit.corekit.im.custom.CustomAttachment;
 import java.io.Serializable;
 import java.util.Map;
@@ -62,26 +63,21 @@ public class ChatMessageBean implements Serializable {
   }
 
   public boolean hasReply() {
-    return messageData != null
-        && messageData.getMessage().getRemoteExtension() != null
-        && messageData
-            .getMessage()
-            .getRemoteExtension()
-            .containsKey(ChatKitUIConstant.REPLY_REMOTE_EXTENSION_KEY);
+    if (messageData == null) {
+      return false;
+    }
+    Map<String, Object> remoteExtension = MessageHelper.safeGetRemoteExtension(messageData.getMessage());
+    return remoteExtension != null
+        && remoteExtension.containsKey(ChatKitUIConstant.REPLY_REMOTE_EXTENSION_KEY);
   }
 
   public String getReplyUUid() {
-    if (messageData != null
-        && messageData.getMessage().getRemoteExtension() != null
-        && messageData
-            .getMessage()
-            .getRemoteExtension()
-            .containsKey(ChatKitUIConstant.REPLY_REMOTE_EXTENSION_KEY)) {
-      Object replyInfo =
-          messageData
-              .getMessage()
-              .getRemoteExtension()
-              .get(ChatKitUIConstant.REPLY_REMOTE_EXTENSION_KEY);
+    if (messageData != null) {
+      Map<String, Object> remoteExtension = MessageHelper.safeGetRemoteExtension(messageData.getMessage());
+      if (remoteExtension == null || !remoteExtension.containsKey(ChatKitUIConstant.REPLY_REMOTE_EXTENSION_KEY)) {
+        return null;
+      }
+      Object replyInfo = remoteExtension.get(ChatKitUIConstant.REPLY_REMOTE_EXTENSION_KEY);
       if (replyInfo instanceof Map) {
         try {
           Map<String, Object> replyMap = (Map<String, Object>) replyInfo;

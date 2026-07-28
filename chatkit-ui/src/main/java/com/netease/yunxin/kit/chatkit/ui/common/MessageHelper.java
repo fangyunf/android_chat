@@ -85,6 +85,18 @@ public class MessageHelper {
     private static final int AT_HIGHLIGHT = R.color.color_007aff;
     private static final ChatCustom chatCustom = new ChatCustom();
 
+    public static Map<String, Object> safeGetRemoteExtension(IMMessage message) {
+        if (message == null) {
+            return null;
+        }
+        try {
+            return message.getRemoteExtension();
+        } catch (Throwable e) {
+            ALog.e(LIB_TAG, TAG, "ignore invalid remoteExtension uuid=" + message.getUuid() + " error=" + e.getMessage());
+            return null;
+        }
+    }
+
     /**
      * get nickName display
      *
@@ -366,8 +378,8 @@ public class MessageHelper {
     }
 
     public static AitContactsModel getAitBlock(IMMessage message) {
-        if (message != null && message.getRemoteExtension() != null) {
-            Map<String, Object> remoteExt = message.getRemoteExtension();
+        Map<String, Object> remoteExt = safeGetRemoteExtension(message);
+        if (remoteExt != null) {
             Object aitData = remoteExt.get(ChatKitUIConstant.AIT_REMOTE_EXTENSION_KEY);
             if (aitData instanceof Map) {
                 JSONObject aitJson = new JSONObject((Map) aitData);
@@ -518,8 +530,8 @@ public class MessageHelper {
     }
 
     public static void clearAitAndReplyInfo(IMMessage message) {
-        if (message != null && message.getRemoteExtension() != null) {
-            Map<String, Object> remote = message.getRemoteExtension();
+        Map<String, Object> remote = safeGetRemoteExtension(message);
+        if (remote != null) {
             remote.remove(ChatKitUIConstant.REPLY_REMOTE_EXTENSION_KEY);
             remote.remove(ChatKitUIConstant.AIT_REMOTE_EXTENSION_KEY);
             message.setRemoteExtension(remote);
@@ -572,7 +584,7 @@ public class MessageHelper {
         revokeMsg.setStatus(MsgStatusEnum.success);
         revokeMsg.setDirect(message.getDirect());
         revokeMsg.setFromAccount(message.getFromAccount());
-        revokeMsg.setRemoteExtension(message.getRemoteExtension());
+        revokeMsg.setRemoteExtension(safeGetRemoteExtension(message));
         CustomMessageConfig config = new CustomMessageConfig();
         config.enableUnreadCount = false;
         revokeMsg.setConfig(config);
@@ -677,7 +689,7 @@ public class MessageHelper {
         for (int index = 0; index < msgList.size(); index++) {
             IMMessageInfo info = msgList.get(index);
             // 去除转发消息中的回复消息 和 @消息
-            Map<String, Object> extension = info.getMessage().getRemoteExtension();
+            Map<String, Object> extension = safeGetRemoteExtension(info.getMessage());
             if (extension != null) {
                 if (extension.containsKey(ChatKitUIConstant.REPLY_REMOTE_EXTENSION_KEY)) {
                     Object replyContent = extension.remove(ChatKitUIConstant.REPLY_REMOTE_EXTENSION_KEY);
@@ -705,7 +717,7 @@ public class MessageHelper {
         for (int index = 0; index < msgList.size(); index++) {
             IMMessageInfo info = msgList.get(index);
             // 去除转发消息中的回复消息 和 @消息
-            Map<String, Object> extMap = info.getMessage().getRemoteExtension();
+            Map<String, Object> extMap = safeGetRemoteExtension(info.getMessage());
             if (replyMap.containsKey(info.getMessage().getUuid())) {
                 if (extMap == null) {
                     extMap = new HashMap<>();

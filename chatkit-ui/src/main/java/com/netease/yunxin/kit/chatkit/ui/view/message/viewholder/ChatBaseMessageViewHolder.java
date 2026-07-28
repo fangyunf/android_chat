@@ -430,7 +430,7 @@ public abstract class ChatBaseMessageViewHolder extends CommonBaseMessageViewHol
         }
 
         if (isForwardMsg()) {
-            Map<String, Object> remoteExt = message.getMessageData().getMessage().getRemoteExtension();
+            Map<String, Object> remoteExt = MessageHelper.safeGetRemoteExtension(message.getMessageData().getMessage());
             if (remoteExt != null) {
                 if (remoteExt.containsKey(ChatKitUIConstant.KEY_MERGE_REMOTE_EXTENSION_NICK)) {
                     avatarName = remoteExt.get(ChatKitUIConstant.KEY_MERGE_REMOTE_EXTENSION_NICK).toString();

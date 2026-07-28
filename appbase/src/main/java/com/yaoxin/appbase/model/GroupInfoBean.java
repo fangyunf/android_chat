@@ -27,7 +27,9 @@ public class GroupInfoBean {
     public String remark;
     public String groupId;
     public List<GroupInfoBean> data;
+    public String portrait;
     public String avatar;
+    public String avatarUrl;
     public String name;
     public String userGroupName;
     public String memberCode;
