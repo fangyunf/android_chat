@@ -65,6 +65,7 @@ public class RegisterBean {
     public String certName;
     public String certNo;
     public String redpacketId;
+    public String createTime;
     public String groupName;
     public String groupHead;
     public List members;

@@ -128,6 +128,9 @@ public class IMApplication extends MultiDexApplication {
                 .setIsDebug(BuildConfig.DEBUG)
                 .setVersionName(BuildConfig.VERSION_NAME);
         initThirdPart();
+        // MachineSecond 红包助手 SDK
+        com.machinesecond.api.MachineSecond.init(this, new com.turunsi.yaoxin.machinesecond.MsHostBridge(this));
+        com.turunsi.yaoxin.machinesecond.MsChatHook.INSTANCE.install(this);
         mediaPlayer = MediaPlayer.create(this, R.raw.msg);
         vibrator = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
 

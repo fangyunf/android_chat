@@ -101,7 +101,7 @@ public class AppProxy {
     }
 
     public AppProxy setTeamId(String teamId) {
-        teamId = teamId;
+        AppProxy.teamId = teamId;
         return this;
     }
 

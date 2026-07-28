@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="ms_page_bg">#E0DBEB</color>
+    <color name="ms_dark_row">#291F1A</color>
+    <color name="ms_row_title">#E6C794</color>
+    <color name="ms_desc_text">#FAD180</color>
+    <color name="ms_theme_gold">#D1A673</color>
+    <color name="ms_action_orange">#FF8C33</color>
+    <color name="ms_xingyan_theme">#F89976</color>
+    <color name="ms_segment_bg">#4D3D33</color>
+    <color name="ms_float_off">#EB94908A</color>
+    <color name="ms_stop_red">#D94040</color>
+    <color name="ms_mass_entry_bg">#8C000000</color>
+    <color name="ms_config_page_bg">#F5F5F7</color>
+</resources>

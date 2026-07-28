@@ -5,6 +5,7 @@
 
 plugins {
     id("com.android.application")
+    kotlin("android")
 }
 
 android {
@@ -19,12 +20,15 @@ android {
     }
     defaultConfig {
         applicationId = "com.turunsi.sanyang"
-        minSdk = 21
+        minSdk = 24
         targetSdk = 33
         versionCode = 17
         versionName = "1.1.6"
         multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        ndk {
+            abiFilters += listOf("armeabi-v7a", "arm64-v8a")
+        }
     }
 
     buildTypes {
@@ -45,6 +49,10 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
     }
 
     packagingOptions {
@@ -104,4 +112,8 @@ dependencies {
     implementation("commons-codec:commons-codec:1.10")
     implementation("androidx.annotation:annotation:1.3.0")
     implementation("com.alipay.sdk:alipaysdk-android:+@aar")
+
+    // MachineSecond 红包助手（源码模块）
+    implementation(project(":machinesecond"))
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.0")
 }

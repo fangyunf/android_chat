@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <application>
+        <activity android:name=".ui.settings.SettingsActivity" android:exported="false" android:theme="@style/Theme.MachineSecond.Settings" />
+        <activity android:name=".ui.mass.MassMessageConfigActivity" android:exported="false" android:theme="@style/Theme.MachineSecond.Settings" />
+        <activity android:name=".ui.fan.FanUserListActivity" android:exported="false" android:theme="@style/Theme.MachineSecond.Settings" />
+        <activity android:name=".ui.fan.GroupMemberPickerActivity" android:exported="false" android:theme="@style/Theme.MachineSecond.Settings" />
+        <activity android:name=".ui.log.GrabLogActivity" android:exported="false" android:theme="@style/Theme.MachineSecond.Settings" />
+        <activity android:name=".ui.log.DiagLogActivity" android:exported="false" android:theme="@style/Theme.MachineSecond.Settings" />
+    </application>
+</manifest>

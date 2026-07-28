@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.MachineSecond.Settings" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@color/ms_page_bg</item>
+        <item name="android:statusBarColor">@color/ms_page_bg</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="colorPrimary">@color/ms_action_orange</item>
+        <item name="colorPrimaryDark">@color/ms_page_bg</item>
+        <item name="colorAccent">@color/ms_theme_gold</item>
+    </style>
+
+    <style name="Theme.MachineSecond.Config" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@color/ms_config_page_bg</item>
+        <item name="colorPrimary">@color/ms_action_orange</item>
+        <item name="colorAccent">@color/ms_action_orange</item>
+    </style>
+</resources>
