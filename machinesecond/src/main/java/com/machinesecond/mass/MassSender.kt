@@ -66,7 +66,7 @@ class MassSender(
         }
 
         running = true
-        MsToast.show(context, "群发已开发，请稍等处理...")
+        MsToast.show(context, "群发已开始，请稍等处理...")
         sendNext(friends, 0, text, loadImagePath(), onFinished)
     }
 

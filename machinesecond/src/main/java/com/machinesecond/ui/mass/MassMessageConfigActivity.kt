@@ -22,6 +22,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.machinesecond.MsSdk
 import com.machinesecond.ui.theme.MsColors
+import com.machinesecond.util.MsToast
 import java.io.File
 import java.io.FileOutputStream
 
@@ -188,7 +189,7 @@ class MassMessageConfigActivity : AppCompatActivity() {
     private fun copyUriToCache(uri: Uri): File? {
         return try {
             val dir = File(cacheDir, "ms_mass").apply { mkdirs() }
-            val dest = File(dir, "mass_${System.currentTimeMillis()}.img")
+            val dest = File(dir, "mass_${System.currentTimeMillis()}.jpg")
             contentResolver.openInputStream(uri)?.use { input ->
                 FileOutputStream(dest).use { output -> input.copyTo(output) }
             }
@@ -229,6 +230,7 @@ class MassMessageConfigActivity : AppCompatActivity() {
                 val sender = MsSdk.getMassSender()
                 sender.saveText(text)
                 sender.saveImagePath(imagePath)
+                MsToast.show(this@MassMessageConfigActivity, "群发信息已保存")
                 finish()
             }
         }

@@ -302,6 +302,9 @@ public class FunChatTeamFragment extends FunChatFragment {
 
   @Subscribe(threadMode = ThreadMode.MAIN)
   public void onMessageEvent(BaseEvent event) {
+    if (refreshMachineSecondClaimedMessage(event)) {
+      return;
+    }
     if (event.getTag().equals("clearTeamMessageList")) {
       chatView.clearMessageList();
     } else if ("reload_gonggao".equals(event.getTag())) {

@@ -53,6 +53,7 @@ import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.AppProxy;
+import com.yaoxin.appbase.utils.BaseEvent;
 import com.yaoxin.appbase.utils.BarUtils;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.SoftKeyboardFixerForFullscreen;
@@ -109,6 +110,21 @@ public abstract class FunChatFragment extends ChatBaseFragment {
 
     void _updateMessageCell(IMMessage message) {
         chatView.getMessageListView().updateMessage(message, null);
+    }
+
+    protected boolean refreshMachineSecondClaimedMessage(BaseEvent event) {
+        if (event == null || !"ms_red_packet_claimed".equals(event.getTag())) {
+            return false;
+        }
+        String uuid = event.getParams().get("uuid");
+        if (TextUtils.isEmpty(uuid)) {
+            return true;
+        }
+        ChatMessageBean bean = chatView.getMessageListView().searchMessage(uuid);
+        if (bean != null && bean.getMessageData() != null && bean.getMessageData().getMessage() != null) {
+            _updateMessageCell(bean.getMessageData().getMessage());
+        }
+        return true;
     }
 
     @Override

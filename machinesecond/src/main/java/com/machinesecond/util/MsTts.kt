@@ -14,8 +14,8 @@ class MsTts(context: Context) {
             ready = status == TextToSpeech.SUCCESS
             if (ready) {
                 tts?.language = Locale.SIMPLIFIED_CHINESE
-                tts?.setSpeechRate(0.7f)
-                tts?.setPitch(1.1f)
+                tts?.setSpeechRate(1.25f)
+                tts?.setPitch(1.05f)
             }
         }
     }

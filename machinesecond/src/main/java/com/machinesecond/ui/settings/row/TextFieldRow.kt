@@ -6,6 +6,8 @@ import android.view.Gravity
 import android.view.View
 import android.widget.EditText
 import android.widget.LinearLayout
+import android.text.method.DigitsKeyListener
+import com.machinesecond.ui.settings.InputMode
 import com.machinesecond.ui.settings.SettingsRow
 
 object TextFieldRow {
@@ -37,6 +39,8 @@ object TextFieldRow {
             isFocusableInTouchMode = editable
             if (password) {
                 inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_VARIATION_PASSWORD
+            } else {
+                applyInputMode(row.inputMode)
             }
             if (!editable) {
                 isClickable = true
@@ -58,5 +62,19 @@ object TextFieldRow {
         )
         card.addCentered(root)
         return card
+    }
+
+    private fun EditText.applyInputMode(mode: InputMode) {
+        when (mode) {
+            InputMode.Integer -> {
+                inputType = InputType.TYPE_CLASS_NUMBER
+                keyListener = DigitsKeyListener.getInstance("0123456789")
+            }
+            InputMode.Decimal -> {
+                inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
+                keyListener = DigitsKeyListener.getInstance("0123456789.")
+            }
+            InputMode.Text -> inputType = InputType.TYPE_CLASS_TEXT
+        }
     }
 }

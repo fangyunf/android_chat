@@ -46,6 +46,7 @@ object MsSdk {
 
     fun setup(context: Context, bridge: HostBridge) {
         appContext = context.applicationContext
+        (appContext as? android.app.Application)?.let { MsToast.register(it) }
         host = bridge
         config = MsConfig.getInstance(appContext, bridge)
         config.reloadFromDisk()
@@ -96,7 +97,7 @@ object MsSdk {
         if (msg.fromUserId == host.currentUserId()) return
         if (!config.fanSwitch || !config.addPreciseCrowdEnabled) return
         val name = msg.senderDisplayName ?: msg.fromUserId
-        fanStore.appendPrecise(msg.fromUserId, name)
+        fanStore.appendPrecise(msg.fromUserId, name, msg.senderAvatarUrl ?: "", msg.senderMemberCode ?: "")
     }
 
     fun setActiveGroupId(groupId: String?, chatVisible: Boolean) {

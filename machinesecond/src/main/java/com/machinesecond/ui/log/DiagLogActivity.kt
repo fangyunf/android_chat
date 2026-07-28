@@ -89,6 +89,12 @@ class DiagLogActivity : AppCompatActivity() {
             maxLines = 1
             ellipsize = TextUtils.TruncateAt.END
         }
+        bar.addView(title, FrameLayout.LayoutParams(
+            FrameLayout.LayoutParams.MATCH_PARENT,
+            dp(44)
+        ).apply {
+            gravity = Gravity.CENTER
+        })
         bar.addView(close, FrameLayout.LayoutParams(dp(60), dp(44)).apply {
             gravity = Gravity.START or Gravity.CENTER_VERTICAL
             leftMargin = dp(12)
@@ -100,14 +106,6 @@ class DiagLogActivity : AppCompatActivity() {
         bar.addView(copy, FrameLayout.LayoutParams(dp(50), dp(44)).apply {
             gravity = Gravity.END or Gravity.CENTER_VERTICAL
             rightMargin = dp(62)
-        })
-        bar.addView(title, FrameLayout.LayoutParams(
-            FrameLayout.LayoutParams.MATCH_PARENT,
-            dp(44)
-        ).apply {
-            gravity = Gravity.CENTER
-            leftMargin = dp(72)
-            rightMargin = dp(124)
         })
         return bar
     }

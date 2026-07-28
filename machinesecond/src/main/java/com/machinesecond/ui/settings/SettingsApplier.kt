@@ -62,7 +62,7 @@ object SettingsApplier {
             }
             "autoSendPassword" -> config.setAutoSendPassword(row.value as? String ?: "")
             "autoSendInterval" -> config.autoSendInterval =
-                (row.value as? String)?.toDoubleOrNull()?.let { if (it <= 0) 5.0 else it } ?: 5.0
+                ((row.value as? String)?.toIntOrNull()?.takeIf { it > 0 } ?: 5).toDouble()
             "sendAmount" -> config.sendAmount = row.value as? String ?: ""
             "greetingAmount" -> config.greetingAmount = row.value as? String ?: ""
             "packetCount" -> {

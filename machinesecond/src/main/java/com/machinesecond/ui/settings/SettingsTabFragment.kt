@@ -90,6 +90,7 @@ class SettingsTabFragment : Fragment() {
                     } else {
                         if (changed.key !in NO_APPLY_KEYS) {
                             SettingsApplier.applyRow(MsSdk.getConfig(), changed)
+                            MsSdk.getConfig().synchronize()
                         }
                         callback?.onRowChanged(changed)
                     }

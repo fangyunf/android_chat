@@ -52,5 +52,6 @@ dependencies {
     implementation("androidx.activity:activity-ktx:1.6.1")
     implementation("androidx.fragment:fragment-ktx:1.5.5")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
+    implementation("com.github.bumptech.glide:glide:4.13.1")
     testImplementation("junit:junit:4.13.2")
 }

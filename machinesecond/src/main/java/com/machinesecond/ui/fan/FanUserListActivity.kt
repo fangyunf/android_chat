@@ -3,20 +3,30 @@ package com.machinesecond.ui.fan
 import android.app.AlertDialog
 import android.graphics.Color
 import android.graphics.Typeface
+import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.text.InputType
 import android.text.TextUtils
+import android.text.method.DigitsKeyListener
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.FrameLayout
+import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.ScrollView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.machinesecond.MsSdk
 import com.machinesecond.fan.FanAddStatus
 import com.machinesecond.fan.FanMode
@@ -26,13 +36,15 @@ import com.machinesecond.ui.theme.MsColors
 class FanUserListActivity : AppCompatActivity() {
 
     private lateinit var mode: FanMode
-    private lateinit var listContainer: LinearLayout
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var fanAdapter: FanUserAdapter
     private val selected = mutableSetOf<String>()
     private var users = listOf<FanUser>()
     private lateinit var intervalField: EditText
     private lateinit var greetingField: EditText
     private lateinit var actionBtn: TextView
     private lateinit var selectAllBtn: TextView
+    private lateinit var invertBtn: TextView
     private lateinit var clearBtn: TextView
     private lateinit var progressOverlay: FrameLayout
     private lateinit var modalProgress: TextView
@@ -55,20 +67,16 @@ class FanUserListActivity : AppCompatActivity() {
             setBackgroundColor(MsColors.pageBg)
         }
         root.addView(buildTopBar(title))
-        val scroll = ScrollView(this).apply {
-            isFillViewport = true
+        fanAdapter = FanUserAdapter()
+        recyclerView = RecyclerView(this).apply {
+            layoutManager = LinearLayoutManager(this@FanUserListActivity)
+            adapter = fanAdapter
             setPadding(dp(8), dp(6), dp(8), dp(8))
             clipToPadding = false
+            setBackgroundColor(MsColors.pageBg)
+            itemAnimator = null
         }
-        listContainer = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
-        scroll.addView(
-            listContainer,
-            FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.MATCH_PARENT,
-                FrameLayout.LayoutParams.WRAP_CONTENT
-            )
-        )
-        root.addView(scroll, LinearLayout.LayoutParams(
+        root.addView(recyclerView, LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT,
             0,
             1f
@@ -256,13 +264,11 @@ class FanUserListActivity : AppCompatActivity() {
         greetingField.isEnabled = enabled
         selectAllBtn.isEnabled = enabled
         selectAllBtn.alpha = if (enabled) 1f else 0.5f
+        invertBtn.isEnabled = enabled
+        invertBtn.alpha = if (enabled) 1f else 0.5f
         clearBtn.isEnabled = enabled
         clearBtn.alpha = if (enabled) 1f else 0.5f
-        for (i in 0 until listContainer.childCount) {
-            val row = listContainer.getChildAt(i)
-            row.isEnabled = enabled
-            row.alpha = if (enabled) 1f else 0.62f
-        }
+        fanAdapter.notifyDataSetChanged()
     }
 
     private fun updateActionButton() {
@@ -332,7 +338,20 @@ class FanUserListActivity : AppCompatActivity() {
             selected.addAll(users.map { it.userId })
             renderList()
         }
-        row1.addView(selectAllBtn, LinearLayout.LayoutParams(0, dp(34), 1f).apply { marginEnd = dp(5) })
+        row1.addView(selectAllBtn, LinearLayout.LayoutParams(0, dp(34), 1f).apply { marginEnd = dp(4) })
+        invertBtn = orangeBtn("反选") {
+            if (users.isEmpty()) return@orangeBtn
+            val current = selected.toSet()
+            selected.clear()
+            users.forEach { user ->
+                if (user.userId !in current) selected.add(user.userId)
+            }
+            renderList()
+        }
+        row1.addView(invertBtn, LinearLayout.LayoutParams(0, dp(34), 1f).apply {
+            marginStart = dp(4)
+            marginEnd = dp(4)
+        })
         clearBtn = orangeBtn("清空") {
             if (users.isEmpty()) return@orangeBtn
             AlertDialog.Builder(this)
@@ -347,10 +366,22 @@ class FanUserListActivity : AppCompatActivity() {
                 .setNegativeButton("取消", null)
                 .show()
         }
-        row1.addView(clearBtn, LinearLayout.LayoutParams(0, dp(34), 1f).apply { marginStart = dp(5) })
+        row1.addView(clearBtn, LinearLayout.LayoutParams(0, dp(34), 1f).apply { marginStart = dp(4) })
         card.addView(row1)
+        val intervalRow = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.CENTER_VERTICAL
+        }
+        intervalRow.addView(TextView(this).apply {
+            text = "爆粉间隔"
+            setTextColor(MsColors.white)
+            setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13f)
+            includeFontPadding = false
+            gravity = Gravity.CENTER_VERTICAL
+        }, LinearLayout.LayoutParams(dp(70), dp(38)))
         intervalField = styledField("默认加人间隔5秒").apply {
             inputType = InputType.TYPE_CLASS_NUMBER
+            keyListener = DigitsKeyListener.getInstance("0123456789")
             setOnFocusChangeListener { _, hasFocus ->
                 if (!hasFocus) {
                     val v = text?.toString()?.toIntOrNull() ?: 5
@@ -359,7 +390,10 @@ class FanUserListActivity : AppCompatActivity() {
                 }
             }
         }
-        card.addView(intervalField, LinearLayout.LayoutParams(
+        intervalRow.addView(intervalField, LinearLayout.LayoutParams(0, dp(38), 1f).apply {
+            marginStart = dp(4)
+        })
+        card.addView(intervalRow, LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT, dp(38)
         ).apply { topMargin = dp(8) })
         greetingField = styledField("打招呼内容").apply {
@@ -415,15 +449,39 @@ class FanUserListActivity : AppCompatActivity() {
         }
 
     private fun renderList() {
-        listContainer.removeAllViews()
-        if (users.isEmpty()) {
-            listContainer.addView(emptyView())
-            return
+        fanAdapter.notifyDataSetChanged()
+    }
+
+    private inner class FanUserAdapter : RecyclerView.Adapter<FanUserViewHolder>() {
+        override fun getItemCount(): Int = if (users.isEmpty()) 1 else users.size
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FanUserViewHolder {
+            val holder = FrameLayout(parent.context).apply {
+                layoutParams = RecyclerView.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+                )
+            }
+            return FanUserViewHolder(holder)
         }
-        users.forEachIndexed { index, user ->
-            listContainer.addView(userRow(index, user))
+
+        override fun onBindViewHolder(holder: FanUserViewHolder, position: Int) {
+            holder.container.removeAllViews()
+            val child = if (users.isEmpty()) {
+                emptyView()
+            } else {
+                userRow(position, users[position])
+            }
+            holder.container.addView(child, FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            ).apply {
+                bottomMargin = dp(if (users.isEmpty()) 8 else 6)
+            })
         }
     }
+
+    private class FanUserViewHolder(val container: FrameLayout) : RecyclerView.ViewHolder(container)
 
     private fun emptyView(): TextView = TextView(this).apply {
         text = emptyMessage()
@@ -458,18 +516,7 @@ class FanUserListActivity : AppCompatActivity() {
                 LinearLayout.LayoutParams.WRAP_CONTENT
             ).apply { setMargins(0, 0, 0, dp(6)) }
         }
-        val avatar = TextView(this).apply {
-            text = user.name.take(1).ifBlank { "?" }
-            gravity = Gravity.CENTER
-            setTextColor(MsColors.white)
-            setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16f)
-            typeface = Typeface.create("sans-serif-medium", Typeface.BOLD)
-            includeFontPadding = false
-            background = GradientDrawable().apply {
-                setColor(MsColors.themeGold)
-                shape = GradientDrawable.OVAL
-            }
-        }
+        val avatar = avatarView(user)
         row.addView(avatar, LinearLayout.LayoutParams(dp(42), dp(42)))
 
         val info = LinearLayout(this).apply {
@@ -542,6 +589,73 @@ class FanUserListActivity : AppCompatActivity() {
         return row
     }
 
+    private fun avatarView(user: FanUser): FrameLayout {
+        val holder = FrameLayout(this).apply {
+            background = GradientDrawable().apply {
+                setColor(MsColors.themeGold)
+                shape = GradientDrawable.OVAL
+            }
+            clipToOutline = true
+        }
+        val fallback = TextView(this).apply {
+            text = user.name.take(1).ifBlank { "?" }
+            gravity = Gravity.CENTER
+            setTextColor(MsColors.white)
+            setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16f)
+            typeface = Typeface.create("sans-serif-medium", Typeface.BOLD)
+            includeFontPadding = false
+        }
+        holder.addView(fallback, FrameLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT
+        ))
+        val avatarUrl = user.avatarUrl.orEmpty()
+        if (avatarUrl.isNotBlank()) {
+            val image = ImageView(this).apply {
+                scaleType = ImageView.ScaleType.CENTER_CROP
+                visibility = View.GONE
+            }
+            Glide.with(this@FanUserListActivity).clear(image)
+            holder.addView(image, FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+            ))
+            loadAvatar(avatarUrl, image)
+        }
+        return holder
+    }
+
+    private fun loadAvatar(url: String, image: ImageView) {
+        image.visibility = View.GONE
+        Glide.with(this)
+            .load(url)
+            .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+            .centerCrop()
+            .listener(object : RequestListener<Drawable> {
+                override fun onLoadFailed(
+                    e: GlideException?,
+                    model: Any?,
+                    target: Target<Drawable>?,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    image.visibility = View.GONE
+                    return false
+                }
+
+                override fun onResourceReady(
+                    resource: Drawable?,
+                    model: Any?,
+                    target: Target<Drawable>?,
+                    dataSource: DataSource?,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    image.visibility = View.VISIBLE
+                    return false
+                }
+            })
+            .into(image)
+    }
+
     private fun statusText(userId: String, status: FanAddStatus, message: String): TextView = TextView(this).apply {
         text = if (status == FanAddStatus.Idle || message.isEmpty()) "待选择" else message
         setTextColor(if (status == FanAddStatus.Idle || message.isEmpty()) MsColors.descText else statusColor(status))
@@ -564,26 +678,10 @@ class FanUserListActivity : AppCompatActivity() {
     }
 
     private fun updateRowStatus(userId: String) {
-        val target = findStatusText(listContainer, statusTag(userId))
-        if (target == null) {
-            renderList()
-            return
+        val index = users.indexOfFirst { it.userId == userId }
+        if (index >= 0) {
+            fanAdapter.notifyItemChanged(index)
         }
-        val status = statusById[userId] ?: FanAddStatus.Idle
-        val msg = statusMessageById[userId].orEmpty()
-        target.text = if (status == FanAddStatus.Idle || msg.isEmpty()) "待选择" else msg
-        target.setTextColor(if (status == FanAddStatus.Idle || msg.isEmpty()) MsColors.descText else statusColor(status))
-    }
-
-    private fun findStatusText(parent: ViewGroup, tagValue: String): TextView? {
-        for (i in 0 until parent.childCount) {
-            val child = parent.getChildAt(i)
-            if (child.tag == tagValue && child is TextView) return child
-            if (child is ViewGroup) {
-                findStatusText(child, tagValue)?.let { return it }
-            }
-        }
-        return null
     }
 
     private fun emptyMessage(): String = when (mode) {

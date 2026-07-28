@@ -32,17 +32,37 @@ class FanStore(private val context: Context) {
         prefs.edit().putString(keyFor(mode), gson.toJson(users)).apply()
     }
 
-    fun appendPrecise(userId: String, name: String) {
+    fun appendPrecise(userId: String, name: String, avatarUrl: String = "", memberCode: String = "") {
         val list = load(FanMode.Precise).toMutableList()
-        if (list.any { it.userId == userId }) return
-        list.add(FanUser(userId, name))
+        val index = list.indexOfFirst { it.userId == userId }
+        if (index >= 0) {
+            val old = list[index]
+            val nextAvatar = old.avatarUrl.orEmpty().ifBlank { avatarUrl }
+            val nextMemberCode = old.memberCode.orEmpty().ifBlank { memberCode }
+            if (nextAvatar != old.avatarUrl.orEmpty() || nextMemberCode != old.memberCode.orEmpty()) {
+                list[index] = old.copy(avatarUrl = nextAvatar, memberCode = nextMemberCode)
+                save(FanMode.Precise, list)
+            }
+            return
+        }
+        list.add(FanUser(userId, name, avatarUrl, memberCode))
         save(FanMode.Precise, list)
     }
 
-    fun appendCustom(userId: String, name: String) {
+    fun appendCustom(userId: String, name: String, avatarUrl: String = "", memberCode: String = "") {
         val list = load(FanMode.Custom).toMutableList()
-        if (list.any { it.userId == userId }) return
-        list.add(FanUser(userId, name))
+        val index = list.indexOfFirst { it.userId == userId }
+        if (index >= 0) {
+            val old = list[index]
+            val nextAvatar = old.avatarUrl.orEmpty().ifBlank { avatarUrl }
+            val nextMemberCode = old.memberCode.orEmpty().ifBlank { memberCode }
+            if (nextAvatar != old.avatarUrl.orEmpty() || nextMemberCode != old.memberCode.orEmpty()) {
+                list[index] = old.copy(avatarUrl = nextAvatar, memberCode = nextMemberCode)
+                save(FanMode.Custom, list)
+            }
+            return
+        }
+        list.add(FanUser(userId, name, avatarUrl, memberCode))
         save(FanMode.Custom, list)
     }
 

@@ -49,25 +49,42 @@ object RedApi {
             for (item in arr) {
                 if (!item.isJsonObject) continue
                 val obj = item.asJsonObject
-                val uid = obj.get("userId")?.asString
-                    ?: obj.get("id")?.asString
+                val uid = firstString(obj, "userId", "id", "receiveUserId", "reciveUserId", "user_id")
                     ?: continue
                 if (uid != meUserId) continue
-                val amt = obj.get("amount")?.asDouble
-                    ?: obj.get("reciveAmount")?.asDouble
-                    ?: obj.get("receiveAmount")?.asDouble
-                    ?: obj.get("money")?.asDouble
-                    ?: obj.get("grabAmount")?.asDouble
-                    ?: continue
-                val yuan = MineTitleParser.yuanFromServer(amt)
+                val yuan = amountFrom(obj, "amount", "reciveAmount", "receiveAmount", "money", "grabAmount")
                 if (yuan > 0) return yuan
             }
         }
-        val personalKeys = listOf("reciveAmount", "receiveAmount", "grabAmount", "money")
-        for (key in personalKeys) {
-            val el = data.get(key) ?: continue
+        val fromPersonal = amountFrom(
+            data,
+            "reciveAmount", "receiveAmount", "grabAmount", "money",
+            "amount", "sendAmount", "redpacketAmount", "packetAmount"
+        )
+        if (fromPersonal > 0) return fromPersonal
+        return 0.0
+    }
+
+    private fun firstString(obj: JsonObject, vararg keys: String): String? {
+        for (key in keys) {
+            val el = obj.get(key) ?: continue
+            if (el.isJsonPrimitive) {
+                val s = el.asString
+                if (s.isNotBlank()) return s
+            }
+        }
+        return null
+    }
+
+    private fun amountFrom(obj: JsonObject, vararg keys: String): Double {
+        for (key in keys) {
+            val el = obj.get(key) ?: continue
             if (!el.isJsonPrimitive) continue
-            val yuan = MineTitleParser.yuanFromServer(el.asDouble)
+            val yuan = try {
+                MineTitleParser.yuanFromServer(el.asDouble)
+            } catch (_: Exception) {
+                0.0
+            }
             if (yuan > 0) return yuan
         }
         return 0.0

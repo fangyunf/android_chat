@@ -23,5 +23,12 @@ data class SettingsRow(
     var segmentOptions: List<String> = emptyList(),
     var selectedIndex: Int = 0,
     var numberOptions: List<String> = emptyList(),
-    var auxValue: String = ""
+    var auxValue: String = "",
+    var inputMode: InputMode = InputMode.Text
 )
+
+enum class InputMode {
+    Text,
+    Integer,
+    Decimal
+}

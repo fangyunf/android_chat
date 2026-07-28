@@ -6,6 +6,8 @@ import android.view.Gravity
 import android.view.View
 import android.widget.EditText
 import android.widget.LinearLayout
+import android.text.method.DigitsKeyListener
+import com.machinesecond.ui.settings.InputMode
 import com.machinesecond.ui.settings.SettingsRow
 import com.machinesecond.ui.widget.MsSwitch
 
@@ -50,7 +52,7 @@ object TextFieldWithSwitchRow {
                 isClickable = true
                 setOnClickListener { onClick?.invoke() }
             } else {
-                inputType = InputType.TYPE_CLASS_TEXT
+                applyInputMode(row.inputMode)
                 setOnFocusChangeListener { _, hasFocus ->
                     if (!hasFocus) {
                         row.value = text?.toString() ?: ""
@@ -74,5 +76,19 @@ object TextFieldWithSwitchRow {
         )
         card.addCentered(line)
         return card
+    }
+
+    private fun EditText.applyInputMode(mode: InputMode) {
+        when (mode) {
+            InputMode.Integer -> {
+                inputType = InputType.TYPE_CLASS_NUMBER
+                keyListener = DigitsKeyListener.getInstance("0123456789")
+            }
+            InputMode.Decimal -> {
+                inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
+                keyListener = DigitsKeyListener.getInstance("0123456789.")
+            }
+            InputMode.Text -> inputType = InputType.TYPE_CLASS_TEXT
+        }
     }
 }

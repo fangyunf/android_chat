@@ -6,6 +6,7 @@ import android.graphics.drawable.GradientDrawable
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.MotionEvent
+import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.LinearLayout
@@ -34,7 +35,7 @@ class MemberProfilePanel(
                 setColor(MsColors.massEntryBg)
                 cornerRadius = dp(6).toFloat()
             }
-            setPadding(dp(8), dp(4), dp(8), dp(4))
+            setPadding(dp(8), 0, dp(8), 0)
         }
         val (grabRow, grabSw) = buildSwitchRow("只抢此人")
         grabSwitch = grabSw
@@ -56,11 +57,11 @@ class MemberProfilePanel(
             text = "添加到自选爆粉区"
             gravity = Gravity.CENTER
             setTextColor(MsColors.white)
-            setTextSize(TypedValue.COMPLEX_UNIT_SP, 13f)
+            setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
             minHeight = dp(34)
             background = GradientDrawable().apply {
                 setColor(MsColors.massEntryBg)
-                cornerRadius = dp(17).toFloat()
+                cornerRadius = dp(4).toFloat()
             }
             setOnClickListener {
                 if (!gate()) return@setOnClickListener
@@ -72,15 +73,16 @@ class MemberProfilePanel(
                 MsToast.show(context, "已保存到本地,请到自选人群爆粉列表查看")
             }
         }
-        panel.addView(addBtn, LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.MATCH_PARENT, dp(34)
-        ))
-        addView(panel, LayoutParams(dp(148), LayoutParams.WRAP_CONTENT).apply {
-            gravity = Gravity.END or Gravity.TOP
+        addView(panel, LayoutParams(dp(148), dp(72)).apply {
+            leftMargin = resources.displayMetrics.widthPixels - dp(158)
             topMargin = dp(80)
-            marginEnd = dp(8)
         })
-        enableDrag(this)
+        addView(addBtn, LayoutParams(dp(148), dp(34)).apply {
+            leftMargin = dp(16)
+            topMargin = dp(164)
+        })
+        enableDrag(panel)
+        enableDrag(addBtn)
     }
 
     private fun buildSwitchRow(title: String): Pair<LinearLayout, Switch> {
@@ -170,32 +172,45 @@ class MemberProfilePanel(
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    private fun enableDrag(view: ViewGroup) {
-        var dx = 0f
-        var dy = 0f
-        var sl = 0
-        var st = 0
+    private fun enableDrag(view: View) {
+        var downX = 0f
+        var downY = 0f
+        var startLeft = 0
+        var startTop = 0
+        var moved = false
+        view.isClickable = true
         view.setOnTouchListener { v, e ->
             when (e.action) {
                 MotionEvent.ACTION_DOWN -> {
-                    dx = e.rawX; dy = e.rawY
-                    sl = (v.layoutParams as LayoutParams).leftMargin
-                    st = (v.layoutParams as LayoutParams).topMargin
+                    downX = e.rawX
+                    downY = e.rawY
+                    moved = false
+                    val lp = v.layoutParams as LayoutParams
+                    startLeft = lp.leftMargin
+                    startTop = lp.topMargin
                     false
                 }
                 MotionEvent.ACTION_MOVE -> {
+                    val deltaX = e.rawX - downX
+                    val deltaY = e.rawY - downY
+                    if (!moved && kotlin.math.hypot(deltaX.toDouble(), deltaY.toDouble()) < dp(4)) {
+                        return@setOnTouchListener false
+                    }
+                    moved = true
                     val parent = v.parent as? ViewGroup ?: return@setOnTouchListener false
                     val lp = v.layoutParams as LayoutParams
                     val (left, top) = DragClamp.clampMargins(
-                        parent, v,
-                        (sl + (e.rawX - dx)).toInt(),
-                        (st + (e.rawY - dy)).toInt()
+                        parent,
+                        v,
+                        (startLeft + deltaX).toInt(),
+                        (startTop + deltaY).toInt()
                     )
                     lp.leftMargin = left
                     lp.topMargin = top
                     v.layoutParams = lp
                     true
                 }
+                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> moved
                 else -> false
             }
         }

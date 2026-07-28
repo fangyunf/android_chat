@@ -32,9 +32,12 @@ import com.yaoxin.appbase.net.CommonCallback
 import com.yaoxin.appbase.net.Constant
 import com.yaoxin.appbase.net.HttpUtil
 import com.yaoxin.appbase.utils.AESUtil
+import com.yaoxin.appbase.utils.BaseEvent
 import com.yaoxin.appbase.utils.DataUtil
 import com.yaoxin.appbase.utils.DeviceUtils
 import com.yaoxin.appbase.utils.ToastUtils
+import org.greenrobot.eventbus.EventBus
+import java.io.File
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -126,38 +129,90 @@ class MsHostBridge(context: Context) : HostBridge {
         }
     }
 
-    override fun markMessageClaimed(redPacketId: String) {}
+    override fun markMessageClaimed(redPacketId: String) {
+        DiagLogStore.append(appContext, "Host", "markMessageClaimed rid=$redPacketId")
+    }
 
-    override fun updateMessageUI(messageRef: Any) {}
+    override fun updateMessageUI(messageRef: Any) {
+        val message = messageRef as? IMMessage ?: return
+        try {
+            val ext = HashMap<String, Any>()
+            message.localExtension?.let { ext.putAll(it) }
+            ext["userId"] = currentUserId()
+            ext["hasDragDown"] = 1
+            ext["msClaimed"] = true
+            message.localExtension = ext
+            NIMClient.getService(MsgService::class.java).updateIMMessage(message)
+            EventBus.getDefault().post(BaseEvent("ms_red_packet_claimed").apply {
+                put("uuid", message.uuid ?: "")
+            })
+            DiagLogStore.append(appContext, "Host", "updateMessageUI uuid=${message.uuid ?: ""}")
+        } catch (e: Exception) {
+            DiagLogStore.append(appContext, "Host", "updateMessageUI failed ${e.message ?: ""}")
+        }
+    }
 
     override fun fetchGroupMembers(groupId: String, cb: (List<FanUser>) -> Unit) {
         DiagLogStore.append(appContext, "Host", "fetchGroupMembers start group=$groupId")
-        // 优先使用聊天页同源的 NIM 群成员列表；业务接口为空时再兜底。
+        // 业务接口有 memberCode，NIM 群成员头像更完整；两个来源合并后再保存，避免修加好友后丢头像。
+        fetchGroupMembersByBusinessApi(groupId) { businessUsers ->
+            fetchGroupMembersByNim(groupId) { nimUsers ->
+                val users = mergeFanUsers(businessUsers, nimUsers)
+                DiagLogStore.append(
+                    appContext,
+                    "Host",
+                    "members merged group=$groupId business=${businessUsers.size} nim=${nimUsers.size} result=${users.size} avatars=${users.count { it.avatarUrl.orEmpty().isNotBlank() }} memberCodes=${users.count { it.memberCode.orEmpty().isNotBlank() }}"
+                )
+                cb(users)
+            }
+        }
+    }
+
+    private fun mergeFanUsers(businessUsers: List<FanUser>, nimUsers: List<FanUser>): List<FanUser> {
+        if (businessUsers.isEmpty()) return nimUsers
+        if (nimUsers.isEmpty()) return businessUsers
+        val nimById = nimUsers.associateBy { it.userId }
+        val merged = ArrayList<FanUser>()
+        val seen = HashSet<String>()
+        for (business in businessUsers) {
+            if (!seen.add(business.userId)) continue
+            val nim = nimById[business.userId]
+            merged.add(
+                business.copy(
+                    name = business.name.ifBlank { nim?.name ?: business.userId },
+                    avatarUrl = business.avatarUrl.orEmpty().ifBlank { nim?.avatarUrl.orEmpty() },
+                    memberCode = business.memberCode.orEmpty().ifBlank { nim?.memberCode.orEmpty() }
+                )
+            )
+        }
+        for (nim in nimUsers) {
+            if (seen.add(nim.userId)) merged.add(nim)
+        }
+        return merged
+    }
+
+    private fun fetchGroupMembersByNim(groupId: String, cb: (List<FanUser>) -> Unit) {
         try {
             TeamRepo.getMemberList(groupId, object : FetchCallback<List<UserInfoWithTeam>> {
                 override fun onSuccess(param: List<UserInfoWithTeam>?) {
                     val users = param.toFanUsers()
                     DiagLogStore.append(appContext, "Host", "NIM members group=$groupId raw=${param?.size ?: 0} mapped=${users.size}")
-                    if (users.isNotEmpty()) {
-                        cb(users)
-                    } else {
-                        fetchGroupMembersByBusinessApi(groupId, cb)
-                    }
+                    cb(users)
                 }
 
                 override fun onFailed(code: Int) {
                     DiagLogStore.append(appContext, "Host", "NIM members failed group=$groupId code=$code")
-                    fetchGroupMembersByBusinessApi(groupId, cb)
+                    cb(emptyList())
                 }
 
                 override fun onException(exception: Throwable?) {
                     DiagLogStore.append(appContext, "Host", "NIM members exception group=$groupId error=${exception?.message ?: ""}")
-                    fetchGroupMembersByBusinessApi(groupId, cb)
+                    cb(emptyList())
                 }
             })
         } catch (e: Exception) {
             DiagLogStore.append(appContext, "Host", "NIM members throw group=$groupId error=${e.message ?: ""}")
-            fetchGroupMembersByBusinessApi(groupId, cb)
+            cb(emptyList())
         }
     }
 
@@ -165,18 +220,25 @@ class MsHostBridge(context: Context) : HostBridge {
         if (this.isNullOrEmpty()) return emptyList()
         val result = ArrayList<FanUser>()
         val seen = HashSet<String>()
+        val groupCache = DataUtil.getGroupMemberList()
         for (item in this) {
             val account = item.teamInfo.account ?: item.userInfo?.account ?: continue
             if (account.isEmpty() || !seen.add(account)) continue
+            val cached = groupCache.firstOrNull { it.userId == account }
             val name = try {
                 ChatUserCache.getName(item)
             } catch (_: Exception) {
                 null
             }.takeUnless { it.isNullOrBlank() }
+                ?: cached?.userGroupName?.takeUnless { it.isBlank() }
+                ?: cached?.name?.takeUnless { it.isBlank() }
                 ?: item.userInfo?.name?.takeUnless { it.isBlank() }
                 ?: item.teamInfo.teamNick?.takeUnless { it.isBlank() }
                 ?: account
-            result.add(FanUser(account, name))
+            val avatar = item.userInfo?.avatar?.takeUnless { it.isBlank() }
+                ?: cached?.avatar?.takeUnless { it.isBlank() }
+                ?: ""
+            result.add(FanUser(account, name, avatar, cached?.memberCode ?: ""))
         }
         return result
     }
@@ -195,6 +257,9 @@ class MsHostBridge(context: Context) : HostBridge {
                         body.data.toString(),
                         object : TypeToken<List<GroupInfoBean>>() {}.type
                     )
+                    if (!list.isNullOrEmpty()) {
+                        DataUtil.setGroupMemberInfoList(list)
+                    }
                     list?.forEach { m ->
                         if (!m.userId.isNullOrEmpty()) {
                             val name = when {
@@ -202,7 +267,7 @@ class MsHostBridge(context: Context) : HostBridge {
                                 !m.name.isNullOrEmpty() -> m.name
                                 else -> m.userId
                             }
-                            result.add(FanUser(m.userId, name))
+                            result.add(FanUser(m.userId, name, m.avatar ?: "", m.memberCode ?: ""))
                         }
                     }
                 } catch (e: Exception) {
@@ -231,10 +296,19 @@ class MsHostBridge(context: Context) : HostBridge {
         cb: (Boolean) -> Unit
     ) {
         try {
-            val msg = MessageBuilder.createTextMessage(toUserId, SessionTypeEnum.P2P, text)
-            ChatRepo.sendMessage(msg, true, null)
+            val textMsg = MessageBuilder.createTextMessage(toUserId, SessionTypeEnum.P2P, text)
+            ChatRepo.sendMessage(textMsg, true, null)
+            val imageFile = imagePath?.takeIf { it.isNotBlank() }?.let { File(it) }
+            if (imageFile != null && imageFile.exists() && imageFile.length() > 0) {
+                val imageMsg = MessageBuilder.createImageMessage(toUserId, SessionTypeEnum.P2P, imageFile)
+                ChatRepo.sendMessage(imageMsg, true, null)
+                DiagLogStore.append(appContext, "Mass", "send text+image to=$toUserId path=${imageFile.name}")
+            } else {
+                DiagLogStore.append(appContext, "Mass", "send text to=$toUserId image=${imagePath ?: ""}")
+            }
             cb(true)
-        } catch (_: Exception) {
+        } catch (e: Exception) {
+            DiagLogStore.append(appContext, "Mass", "send failed to=$toUserId error=${e.message ?: ""}")
             cb(false)
         }
     }
@@ -249,25 +323,35 @@ class MsHostBridge(context: Context) : HostBridge {
 
     override fun addFriendBusiness(
         userId: String,
+        memberCode: String?,
         greeting: String,
         cb: (Boolean, String?) -> Unit
     ) {
-        var memberCode = userId
-        DataUtil.getFriendInfoList()?.firstOrNull { it.userId == userId }?.memberCode?.let {
-            if (!it.isNullOrEmpty()) memberCode = it
-        }
+        val resolvedMemberCode = resolveMemberCode(userId, memberCode)
         val bean = RegisterBean()
-        bean.memberCode = memberCode
+        bean.memberCode = resolvedMemberCode
         bean.msg = if (greeting.isEmpty()) "加我通过下" else greeting
+        DiagLogStore.append(appContext, "Fan", "bizAdd start uid=$userId memberCode=$resolvedMemberCode")
         HttpUtil.apiW().friends_addFriends(bean).enqueue(object : CommonCallback<NetData<*>>() {
             override fun Successful(call: Call<NetData<*>>?, response: Response<NetData<*>>?, body: NetData<*>) {
+                DiagLogStore.append(appContext, "Fan", "bizAdd ok uid=$userId memberCode=$resolvedMemberCode msg=${body.msg ?: ""}")
                 cb(true, body.msg)
             }
 
             override fun Failure(call: Call<NetData<*>>?, t: Throwable?) {
+                DiagLogStore.append(appContext, "Fan", "bizAdd fail uid=$userId memberCode=$resolvedMemberCode error=${t?.message ?: ""}")
                 cb(false, t?.message)
             }
         })
+    }
+
+    private fun resolveMemberCode(userId: String, suppliedMemberCode: String?): String {
+        suppliedMemberCode?.takeIf { it.isNotBlank() }?.let { return it }
+        DataUtil.getGroupMemberList().firstOrNull { it.userId == userId }
+            ?.memberCode?.takeIf { it.isNotBlank() }?.let { return it }
+        DataUtil.getFriendInfoList().firstOrNull { it.userId == userId }
+            ?.memberCode?.takeIf { it.isNotBlank() }?.let { return it }
+        return userId
     }
 
     override fun addFriendIm(
@@ -344,6 +428,8 @@ class MsHostBridge(context: Context) : HostBridge {
                 toUserId = data.toUserId,
                 claimed = claimed,
                 senderDisplayName = data.sendName ?: data.sendUserName,
+                senderAvatarUrl = data.sendAvatar ?: data.avatar,
+                senderMemberCode = data.memberCode ?: outer.memberCode,
                 rawMessageRef = rawMessage
             )
         } catch (_: Exception) {

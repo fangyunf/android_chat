@@ -186,9 +186,7 @@ class GrabEngine(
 
         val personalYuan = RedApi.parsePersonalAmount(response, me, msg.customType)
         onGrabSuccessForCompensation?.invoke(msg, personalYuan)
-        if (personalYuan > 0) {
-            remind(msg.customType, personalYuan)
-        }
+        remindSuccess(msg.customType, personalYuan)
 
         GrabLogStore.append(
             context,
@@ -199,13 +197,21 @@ class GrabEngine(
     }
 
     private fun remind(type: Int, yuan: Double) {
+        remindSuccess(type, yuan)
+    }
+
+    private fun remindSuccess(type: Int, yuan: Double) {
         if (!config.redPacketReminder) return
-        val amountStr = String.format(Locale.US, "%.2f", yuan)
+        val hasAmount = yuan > 0
+        val amountStr = if (hasAmount) String.format(Locale.US, "%.2f", yuan) else ""
         val text = when (type) {
-            22 -> "领私聊:${amountStr}元"
-            21 -> "领专属:${amountStr}元"
-            23 -> "抢到红包:${amountStr}元"
-            else -> "抢到红包:${amountStr}元"
+            22 -> if (hasAmount) "领私聊:${amountStr}元" else "领私聊红包成功"
+            21 -> if (hasAmount) "领专属:${amountStr}元" else "领专属红包成功"
+            23 -> if (hasAmount) "抢到红包:${amountStr}元" else "抢到红包"
+            else -> if (hasAmount) "抢到红包:${amountStr}元" else "抢到红包"
+        }
+        if (!hasAmount) {
+            DiagLogStore.append(context, "Grab", "success amount empty type=$type")
         }
         MsToast.show(context, text)
         tts.speak(text)

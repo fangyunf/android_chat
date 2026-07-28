@@ -150,7 +150,8 @@ object SettingsDataSource {
         SettingsRow(
             "specifiedAmount", "指定金额", RowType.TextFieldWithSwitch,
             value = c.specifiedAmount, placeholder = "【只抢大于输入金额的红包】",
-            switchValue = c.specifiedAmountEnabled
+            switchValue = c.specifiedAmountEnabled,
+            inputMode = InputMode.Decimal
         ),
         SettingsRow("desc", "说明", RowType.Description, value = GRAB_DESC)
     )
@@ -162,16 +163,18 @@ object SettingsDataSource {
         ),
         SettingsRow(
             "autoSendInterval", "自动发包间隔", RowType.TextField,
-            value = c.autoSendInterval.toString(), placeholder = "输入间隔(默认5秒)"
+            value = c.autoSendInterval.toInt().toString(), placeholder = "输入间隔(默认5秒)",
+            inputMode = InputMode.Integer
         ),
-        SettingsRow("sendAmount", "输入金额", RowType.TextField, value = c.sendAmount),
+        SettingsRow("sendAmount", "输入金额", RowType.TextField, value = c.sendAmount, inputMode = InputMode.Decimal),
         SettingsRow(
             "greetingAmount", "红包语金额", RowType.TextField,
             value = c.greetingAmount, placeholder = "输入红包语金额"
         ),
         SettingsRow(
             "packetCount", "红包个数", RowType.TextField,
-            value = c.packetCount.toString(), placeholder = "输入红包个数"
+            value = c.packetCount.toString(), placeholder = "输入红包个数",
+            inputMode = InputMode.Integer
         ),
         SettingsRow(
             "separator", "分隔符", RowType.TextField,

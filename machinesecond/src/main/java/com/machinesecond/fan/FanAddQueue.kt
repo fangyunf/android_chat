@@ -68,7 +68,7 @@ class FanAddQueue(
         onProgress?.invoke(index + 1, users.size, 0)
         onCountdown?.invoke(0)
 
-        addOne(user.userId, greeting) {
+        addOne(user, greeting) {
             if (stopRequested || index + 1 >= users.size) {
                 finish()
                 return@addOne
@@ -98,18 +98,37 @@ class FanAddQueue(
         tick(seconds)
     }
 
-    private fun addOne(userId: String, greeting: String, cb: () -> Unit) {
+    private fun isTerminalBusinessFailure(message: String?): Boolean {
+        val text = message?.trim().orEmpty()
+        if (text.isEmpty()) return false
+        return listOf(
+            "好友不存在",
+            "用户不存在",
+            "账号不存在",
+            "会员不存在",
+            "该用户不存在",
+            "不存在"
+        ).any { text.contains(it) }
+    }
+
+    private fun addOne(user: FanUser, greeting: String, cb: () -> Unit) {
+        val userId = user.userId
         if (host.isFriend(userId)) {
             onItemStatus?.invoke(userId, FanAddStatus.AlreadyFriend, "已是好友")
             cb()
             return
         }
         onItemStatus?.invoke(userId, FanAddStatus.Adding, "添加中…")
-        host.addFriendBusiness(userId, greeting) { ok, businessMsg ->
+        host.addFriendBusiness(userId, user.memberCode, greeting) { ok, businessMsg ->
             if (ok) {
                 onItemStatus?.invoke(userId, FanAddStatus.Success, "已添加")
                 cb()
             } else {
+                if (isTerminalBusinessFailure(businessMsg)) {
+                    onItemStatus?.invoke(userId, FanAddStatus.Failed, businessMsg ?: "失败")
+                    cb()
+                    return@addFriendBusiness
+                }
                 host.addFriendIm(userId, greeting) { imOk, imMsg ->
                     if (imOk) {
                         onItemStatus?.invoke(userId, FanAddStatus.Success, "已添加")
