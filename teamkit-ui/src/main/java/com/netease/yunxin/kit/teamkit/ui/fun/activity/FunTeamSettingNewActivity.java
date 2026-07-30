@@ -700,32 +700,38 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Constant.REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
-            List<Uri> uris = Matisse.obtainResult(data);
-            List<String> strings = Matisse.obtainPathResult(data);
-            if (!strings.isEmpty()) {
-                UploadUtil.uploadImage(strings.get(0), "", new CommonCallBack() {
-                    @Override
-                    public void onCallBackUserBean(UserBean userBean) {
-                        RegisterBean bean = new RegisterBean();
-                        bean.groupId = groupId;
-                        bean.head = userBean.url;
-                        HttpUtil.apiW().group_updateGroupInfo(bean)
-                                .enqueue(new CommonCallback<NetData>() {
-                                    @Override
-                                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-
-                                        ToastUtils.toastMsg(body.msg);
-                                        _requestData();
-                                    }
-
-                                    @Override
-                                    public void Failure(Call<NetData> call, Throwable t) {
-
-                                    }
-                                });
-                    }
-                });
+            UploadUtil.IntentData intentData = UploadUtil.parseMatisseResult(data);
+            String imagePath = UploadUtil.resolveImagePath(this, intentData);
+            if (TextUtils.isEmpty(imagePath)) {
+                ToastUtils.toastMsg("图片获取失败，请重试");
+                return;
             }
+            UploadUtil.uploadImage(imagePath, "", new CommonCallBack() {
+                @Override
+                public void onCallBackUserBean(UserBean userBean) {
+                    if (userBean == null || TextUtils.isEmpty(userBean.url)) {
+                        ToastUtils.toastMsg("上传失败，请重试");
+                        return;
+                    }
+                    RegisterBean bean = new RegisterBean();
+                    bean.groupId = groupId;
+                    bean.head = userBean.url;
+                    HttpUtil.apiW().group_updateGroupInfo(bean)
+                            .enqueue(new CommonCallback<NetData>() {
+                                @Override
+                                public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+
+                                    ToastUtils.toastMsg(body.msg);
+                                    _requestData();
+                                }
+
+                                @Override
+                                public void Failure(Call<NetData> call, Throwable t) {
+
+                                }
+                            });
+                }
+            });
         }
     }
 

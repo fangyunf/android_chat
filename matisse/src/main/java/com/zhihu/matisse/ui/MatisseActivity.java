@@ -122,13 +122,17 @@ public class MatisseActivity extends AppCompatActivity implements
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        Drawable navigationIcon = toolbar.getNavigationIcon();
-        TypedArray ta = getTheme().obtainStyledAttributes(new int[]{R.attr.album_element_color});
-        int color = ta.getColor(0, 0);
-        ta.recycle();
-        navigationIcon.setColorFilter(color, PorterDuff.Mode.SRC_IN);
+        if (actionBar != null) {
+            actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+        Drawable navigationIcon = toolbar != null ? toolbar.getNavigationIcon() : null;
+        if (navigationIcon != null) {
+            TypedArray ta = getTheme().obtainStyledAttributes(new int[]{R.attr.album_element_color});
+            int color = ta.getColor(0, 0);
+            ta.recycle();
+            navigationIcon.setColorFilter(color, PorterDuff.Mode.SRC_IN);
+        }
 
         mButtonPreview = (TextView) findViewById(R.id.button_preview);
         mButtonApply = (TextView) findViewById(R.id.button_apply);

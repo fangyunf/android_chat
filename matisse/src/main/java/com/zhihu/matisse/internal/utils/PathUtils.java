@@ -42,10 +42,14 @@ public class PathUtils {
             } else if (isDownloadsDocument(uri)) { // DownloadsProvider
 
                 final String id = DocumentsContract.getDocumentId(uri);
-                final Uri contentUri = ContentUris.withAppendedId(
-                        Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
-
-                return getDataColumn(context, contentUri, null, null);
+                try {
+                    final Uri contentUri = ContentUris.withAppendedId(
+                            Uri.parse("content://downloads/public_downloads"), Long.parseLong(id));
+                    return getDataColumn(context, contentUri, null, null);
+                } catch (NumberFormatException e) {
+                    // Android 部分机型 downloads documentId 不是纯数字，走通用 content 查询
+                    return getDataColumn(context, uri, null, null);
+                }
             } else if (isMediaDocument(uri)) { // MediaProvider
                 final String docId = DocumentsContract.getDocumentId(uri);
                 final String[] split = docId.split(":");
