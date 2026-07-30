@@ -2,8 +2,11 @@ package com.netease.yunxin.kit.teamkit.ui.fun.activity;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.EditText;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,6 +27,7 @@ import com.netease.yunxin.kit.teamkit.ui.fun.activity.adapter.TeamRedPacketRecor
 import com.yaoxin.appbase.activity.BaseActivity;
 import com.yaoxin.appbase.model.CustomMsgBean;
 import com.yaoxin.appbase.utils.DataUtil;
+import com.yaoxin.appbase.utils.NumberUtil;
 import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
 
@@ -42,10 +46,12 @@ public class FunTeamRedPacketRecordActivity extends BaseActivity implements View
 
     private ActivityFunTeamRedPacketRecordBinding binding;
     private final List<TeamRedPacketRecordAdapter.ItemData> records = new ArrayList<>();
+    private final List<TeamRedPacketRecordAdapter.ItemData> displayRecords = new ArrayList<>();
     private final Set<String> seenMessageIds = new HashSet<>();
     private final TeamRedPacketRecordAdapter adapter = new TeamRedPacketRecordAdapter();
     private final Gson gson = new Gson();
     private String groupId;
+    private String searchKeyword = "";
     private IMMessage anchorMessage;
     private boolean loading = false;
     private boolean noMore = false;
@@ -75,6 +81,22 @@ public class FunTeamRedPacketRecordActivity extends BaseActivity implements View
         binding.activityFunTeamRedPacketRecordRefreshLayout.setEnableLoadMoreWhenContentNotFull(true);
         binding.activityFunTeamRedPacketRecordRefreshLayout.setOnRefreshListener(refreshLayout -> refreshFromStart());
         binding.activityFunTeamRedPacketRecordRefreshLayout.setOnLoadMoreListener(refreshLayout -> loadMoreFromYunXin());
+        EditText searchEt = binding.activityFunTeamRedPacketRecordSearchEt;
+        searchEt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                searchKeyword = s == null ? "" : s.toString().trim();
+                applySearchFilter();
+            }
+        });
     }
 
     @Override
@@ -95,8 +117,9 @@ public class FunTeamRedPacketRecordActivity extends BaseActivity implements View
             return;
         }
         records.clear();
+        displayRecords.clear();
         seenMessageIds.clear();
-        adapter.setItems(records);
+        adapter.setItems(displayRecords);
         adapter.notifyDataSetChanged();
         anchorMessage = null;
         noMore = false;
@@ -193,7 +216,28 @@ public class FunTeamRedPacketRecordActivity extends BaseActivity implements View
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             records.sort((a, b) -> Long.compare(b.timestamp, a.timestamp));
         }
-        adapter.setItems(records);
+        applySearchFilter();
+    }
+
+    private void applySearchFilter() {
+        displayRecords.clear();
+        if (TextUtils.isEmpty(searchKeyword)) {
+            displayRecords.addAll(records);
+        } else {
+            String key = searchKeyword.toLowerCase(Locale.CHINA);
+            for (TeamRedPacketRecordAdapter.ItemData item : records) {
+                if (item == null) {
+                    continue;
+                }
+                String sender = item.senderName == null ? "" : item.senderName.toLowerCase(Locale.CHINA);
+                String title = item.title == null ? "" : item.title.toLowerCase(Locale.CHINA);
+                String sub = item.subTitle == null ? "" : item.subTitle.toLowerCase(Locale.CHINA);
+                if (sender.contains(key) || title.contains(key) || sub.contains(key)) {
+                    displayRecords.add(item);
+                }
+            }
+        }
+        adapter.setItems(displayRecords);
         adapter.notifyDataSetChanged();
         showEmptyIfNeeded();
     }
@@ -311,7 +355,12 @@ public class FunTeamRedPacketRecordActivity extends BaseActivity implements View
         if (TextUtils.isEmpty(amount)) {
             return "¥0.00";
         }
-        return "¥" + amount;
+        // 服务端金额单位是分，展示需 /100；否则发 76 会显示成 7600
+        try {
+            return "¥" + NumberUtil.formartMoney(amount.trim());
+        } catch (Exception e) {
+            return "¥0.00";
+        }
     }
 
     private String formatDayLabel(long time) {
@@ -343,7 +392,12 @@ public class FunTeamRedPacketRecordActivity extends BaseActivity implements View
     }
 
     private void showEmptyIfNeeded() {
-        binding.activityFunTeamRedPacketRecordEmptyTv.setVisibility(records.isEmpty() ? View.VISIBLE : View.GONE);
+        binding.activityFunTeamRedPacketRecordEmptyTv.setVisibility(displayRecords.isEmpty() ? View.VISIBLE : View.GONE);
+        if (displayRecords.isEmpty() && !TextUtils.isEmpty(searchKeyword)) {
+            binding.activityFunTeamRedPacketRecordEmptyTv.setText("未找到相关群成员红包");
+        } else {
+            binding.activityFunTeamRedPacketRecordEmptyTv.setText("暂无红包记录");
+        }
     }
 
     private void openDetailPage(TeamRedPacketRecordAdapter.ItemData item) {

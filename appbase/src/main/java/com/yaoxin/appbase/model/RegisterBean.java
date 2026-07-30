@@ -31,6 +31,8 @@ public class RegisterBean {
     public String name;
     public String avatar;
     public String date;
+    /** 游标分页：红包账单 / 零钱明细下一页传入列表最后一条的 id；首页不传或传空 */
+    public String endId;
     public String requestId;
     public String certifyId;
     public String validate;

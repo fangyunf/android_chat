@@ -289,8 +289,10 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
             finish();
         } else if (v == binding.funTeamUserInfoDetailBottomTv) {
             if (isFriend) {
+                // 保留群聊页在返回栈中，避免私聊 onCreate 关闭群聊后返回落到 Tab
                 XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_P2P_PAGE)
                         .withParam(RouterConstant.CHAT_ID_KRY, groupInfoBean.userId)
+                        .withParam(Constant.KEY_KEEP_CHAT_STACK, true)
                         .withContext(FunTeamUserInfoDetailActivity.this)
                         .navigate();
                 finish();

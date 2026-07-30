@@ -13,6 +13,7 @@ import com.netease.yunxin.kit.chatkit.ui.model.CloseChatPageEvent;
 import com.netease.yunxin.kit.common.ui.activities.BaseActivity;
 import com.netease.yunxin.kit.corekit.event.EventCenter;
 import com.netease.yunxin.kit.corekit.event.EventNotify;
+import com.yaoxin.appbase.net.Constant;
 
 /** BaseActivity for Chat include P2P chat page and Team chat page */
 public abstract class ChatBaseActivity extends BaseActivity {
@@ -36,7 +37,12 @@ public abstract class ChatBaseActivity extends BaseActivity {
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(null);
-    EventCenter.notifyEventSync(new CloseChatPageEvent());
+    // 群聊内进入私聊等场景需保留原聊天页，否则返回会落到 Tab，群内专属红包等状态也丢失
+    boolean keepChatStack =
+        getIntent() != null && getIntent().getBooleanExtra(Constant.KEY_KEEP_CHAT_STACK, false);
+    if (!keepChatStack) {
+      EventCenter.notifyEventSync(new CloseChatPageEvent());
+    }
     EventCenter.registerEventNotify(closeEventNotify);
     binding = ChatActivityLayoutBinding.inflate(LayoutInflater.from(this));
     setContentView(binding.getRoot());

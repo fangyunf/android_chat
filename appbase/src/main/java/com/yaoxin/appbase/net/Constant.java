@@ -25,6 +25,8 @@ public class Constant {
     public static final String FunAddFriendVerifyActivityKey = "FunAddFriendVerifyActivityKey";
     public static final String FunSelected_User_ActivityKey = "FunSelected_User_ActivityKey";
     public static final String FunTeamUserInfoDetailActivityKey = "FunTeamUserInfoDetailActivityKey";
+    /** 打开聊天页时保留当前聊天栈（如群聊内进私聊，返回仍回到群聊） */
+    public static final String KEY_KEEP_CHAT_STACK = "KEY_KEEP_CHAT_STACK";
     public static final String TeamMemberListActivity_Router = "TeamMemberListActivity_Router";
     public static final String AccountDetailActivityKey = "AccountDetailActivityKey";
     public static final String CollectionListActivityKey = "CollectionListActivityKey";
