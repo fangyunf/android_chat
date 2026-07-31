@@ -25,7 +25,6 @@
             android:orientation="vertical"
             android:padding="10dp">
 
-            <!-- 取消按钮 -->
             <RelativeLayout
                 android:layout_marginTop="@dimen/dimen_20_dp"
                 android:layout_width="match_parent"
@@ -45,21 +44,62 @@
                     android:layout_gravity="center"
                     android:layout_centerHorizontal="true"
                     android:layout_marginLeft="5dp"
-                    android:text="请输入支付密码"
+                    android:text="请输入密码"
                     android:textColor="#000000"
                     android:textSize="18sp" />
             </RelativeLayout>
 
             <TextView
+                android:id="@+id/layout_popup_bottom_scene_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:text="发红包"
+                android:textColor="#999999"
+                android:textSize="14sp"
+                android:visibility="gone" />
+
+            <TextView
                 android:id="@+id/layout_popup_bottom_money_tv"
                 android:layout_width="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginVertical="15dp"
-                android:layout_height="37dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="8dp"
+                android:layout_height="wrap_content"
                 android:text="¥0.00"
                 android:textColor="#ff000000"
                 android:textSize="26sp"
                 />
+
+            <LinearLayout
+                android:id="@+id/layout_popup_bottom_balance_ll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="10dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/layout_popup_bottom_balance_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="零钱余额：0.00"
+                    android:textColor="#999999"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/layout_popup_bottom_network_fee_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:text="网络费0.05"
+                    android:textColor="#999999"
+                    android:textSize="13sp"
+                    android:visibility="gone" />
+            </LinearLayout>
         </LinearLayout>
 
 

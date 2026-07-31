@@ -415,15 +415,7 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
             }
 
 //            binding.activityFunSendRedPacketKeybordRl.setVisibility(View.VISIBLE);
-            PopEnterPassword popEnterPassword = new PopEnterPassword(this, new OnPasswordInputFinish() {
-                @Override
-                public void inputFinish(String password) {
-                    sendRedWithPwd(password);
-                }
-            }, moneyStr);
-            // 显示窗口
-            popEnterPassword.showAtLocation(binding.activityFunSendRedPacketLl,
-                    Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); // 设置layout在PopupWindow中显示的位置
+            showPayPasswordDialog(moneyStr);
 
 
         } else if (v == binding.activityFunSendRedPacketToPeopleLl) {
@@ -440,6 +432,45 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
 //                    .withContext(this)
 //                    .navigate(forwardTeamLauncher);
         }
+    }
+
+    private void showPayPasswordDialog(String moneyStr) {
+        final boolean showNetworkFee = PopEnterPassword.shouldShowNetworkFee(moneyStr);
+        HttpUtil.apiW().home_balance().enqueue(new CommonCallback<NetData>() {
+            @Override
+            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                String balanceFen = null;
+                try {
+                    UserBean bean = new Gson().fromJson(body.data.toString(), UserBean.class);
+                    if (bean != null) {
+                        balanceFen = bean.balance;
+                    }
+                } catch (Exception ignored) {
+                }
+                showPayPasswordDialog(moneyStr, balanceFen, showNetworkFee);
+            }
+
+            @Override
+            public void Failure(Call<NetData> call, Throwable t) {
+                showPayPasswordDialog(moneyStr, null, showNetworkFee);
+            }
+        });
+    }
+
+    private void showPayPasswordDialog(String moneyStr, String balanceFen, boolean showNetworkFee) {
+        PopEnterPassword popEnterPassword =
+                new PopEnterPassword(
+                        this,
+                        password -> sendRedWithPwd(password),
+                        moneyStr,
+                        "发红包",
+                        balanceFen,
+                        showNetworkFee);
+        popEnterPassword.showAtLocation(
+                binding.activityFunSendRedPacketLl,
+                Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL,
+                0,
+                0);
     }
 
     void sendRedWithPwd(String pwd) {

@@ -46,6 +46,10 @@ public class PasswordView extends RelativeLayout {
 
     public RelativeLayout bgRl;
     public TextView moneyTv;
+    public TextView sceneTv;
+    public View balanceLl;
+    public TextView balanceTv;
+    public TextView networkFeeTv;
 
     public PasswordView(Context context) {
         this(context, null);
@@ -61,6 +65,10 @@ public class PasswordView extends RelativeLayout {
         bgRl = (RelativeLayout) view.findViewById(R.id.layout_popup_bottom_rl);
         imgCancel = (ImageView) view.findViewById(R.id.img_cancel);
         moneyTv = (TextView) view.findViewById(R.id.layout_popup_bottom_money_tv);
+        sceneTv = (TextView) view.findViewById(R.id.layout_popup_bottom_scene_tv);
+        balanceLl = view.findViewById(R.id.layout_popup_bottom_balance_ll);
+        balanceTv = (TextView) view.findViewById(R.id.layout_popup_bottom_balance_tv);
+        networkFeeTv = (TextView) view.findViewById(R.id.layout_popup_bottom_network_fee_tv);
         gridView = virtualKeyboardView.getGridView();
 
         initValueList();
