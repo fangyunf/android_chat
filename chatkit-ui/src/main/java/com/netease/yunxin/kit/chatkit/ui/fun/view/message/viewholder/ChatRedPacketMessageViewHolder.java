@@ -64,6 +64,17 @@ public class ChatRedPacketMessageViewHolder extends FunChatBaseMessageViewHolder
                 viewBinding.funChatMessageRedPacketViewHolderMengceng.setVisibility(View.GONE);
             }
             viewBinding.funChatMessageRedPacketViewHolderBgIv.setImageResource((bean.type == 21) ? R.drawable.chat_redpacket_purple_bg_no_open : R.drawable.chat_red_packet_cell_bg_no_open);
+            // 普通红包 10dp，专属红包 50dp
+            ViewGroup.MarginLayoutParams contentLp =
+                    (ViewGroup.MarginLayoutParams) viewBinding.layoutRedContent.getLayoutParams();
+            int marginLeftDp = bean.type == 21 ? 50 : 10;
+            contentLp.leftMargin =
+                    (int)
+                            TypedValue.applyDimension(
+                                    TypedValue.COMPLEX_UNIT_DIP,
+                                    marginLeftDp,
+                                    parent.getContext().getResources().getDisplayMetrics());
+            viewBinding.layoutRedContent.setLayoutParams(contentLp);
             if (bean.type == 21) {
                 viewBinding.funChatMessageRedPacketViewHolderGreetingTv.setText(bean.result.toUserName);
                 viewBinding.funChatMessageRedPacketViewHolderTypeTv.setText("专属红包");
