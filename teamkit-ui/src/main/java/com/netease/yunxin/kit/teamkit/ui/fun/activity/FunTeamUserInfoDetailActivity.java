@@ -289,7 +289,7 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
     }
 
     /**
-     * 群管理员/群主不能在群里加别人好友；
+     * 群主/管理员不受群成员保护限制，始终可加好友；
      * 普通成员查看管理员/群主时始终显示加好友；
      * 普通成员互看时受群成员保护模式控制（addFriendsState == 0 表示保护开启，不可互加）。
      */
@@ -304,11 +304,9 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
             return;
         }
         boolean viewerIsAdmin = rankState == 1 || rankState == 2;
-        if (viewerIsAdmin) {
-            return;
-        }
         boolean targetIsAdmin = groupInfoBean.rankState == 1 || groupInfoBean.rankState == 2;
-        if (targetIsAdmin || addFriendsState == 1) {
+        // 群主/管理员不受保护限制；看管理员/群主也不受保护限制；普通成员互看看保护开关
+        if (viewerIsAdmin || targetIsAdmin || addFriendsState == 1) {
             binding.funTeamUserInfoDetailBottomTv.setText("加好友");
             binding.funTeamUserInfoDetailBottomTv.setVisibility(View.VISIBLE);
         }
