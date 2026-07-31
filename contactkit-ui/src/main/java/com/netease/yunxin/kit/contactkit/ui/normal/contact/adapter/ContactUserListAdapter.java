@@ -40,6 +40,7 @@ public class ContactUserListAdapter extends BaseQuickAdapter<GroupInfoBean, Quic
 
         if (!_isSearch && quickViewHolder.getItemViewType() == Constant.RECYCLE_VIEW_HEADER) {
             TextView numTv = quickViewHolder.getView(R.id.caontact_list_header_new_friend_num_tv);
+            TextView groupNumTv = quickViewHolder.getView(R.id.caontact_list_header_group_notice_num_tv);
             LinearLayout qunliaoLL = quickViewHolder.getView(R.id.caontact_list_header_new_qunliao_ll);
             LinearLayout haoyouLL = quickViewHolder.getView(R.id.caontact_list_header_new_haoyou_ll);
 
@@ -59,15 +60,17 @@ public class ContactUserListAdapter extends BaseQuickAdapter<GroupInfoBean, Quic
                     .withContext(getContext())
                     .navigate());
 
-//            hmd.setOnClickListener(view -> XKitRouter.withKey(RouterConstant.PATH_FUN_MY_BLACK_PAGE)
-//                    .withContext(getContext())
-//                    .navigate());
-
             if (friendApplyNum > 0) {
                 numTv.setVisibility(View.VISIBLE);
-                numTv.setText(friendApplyNum + "");
+                numTv.setText(friendApplyNum > 99 ? "99+" : String.valueOf(friendApplyNum));
             } else {
                 numTv.setVisibility(View.GONE);
+            }
+            if (groupApplyNum > 0) {
+                groupNumTv.setVisibility(View.VISIBLE);
+                groupNumTv.setText(groupApplyNum > 99 ? "99+" : String.valueOf(groupApplyNum));
+            } else {
+                groupNumTv.setVisibility(View.GONE);
             }
 
             return;

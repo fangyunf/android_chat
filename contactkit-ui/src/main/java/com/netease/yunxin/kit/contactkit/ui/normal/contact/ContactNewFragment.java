@@ -230,19 +230,15 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
                 adapter.notifyDataSetChanged();
 
                 if (applyNumBean.friendApplyNum > 0) {
-                    binding.contactNewFragmentNewFriendNumTv.setText(applyNumBean.friendApplyNum + "");
+                    binding.contactNewFragmentNewFriendNumTv.setText(
+                            applyNumBean.friendApplyNum > 99 ? "99+" : String.valueOf(applyNumBean.friendApplyNum));
                     binding.contactNewFragmentNewFriendNumTv.setVisibility(View.VISIBLE);
                 } else {
                     binding.contactNewFragmentNewFriendNumTv.setVisibility(View.GONE);
                 }
-//                        if (applyNumBean.groupApplyNum > 0) {
-//                            binding.contactNewFragmentGroupNoticeTv.setText(applyNumBean.groupApplyNum + "");
-//                            binding.contactNewFragmentGroupNoticeTv.setVisibility(View.VISIBLE);
-//                        } else {
-//                            binding.contactNewFragmentGroupNoticeTv.setVisibility(View.GONE);
-//                        }
                 if (contactCallback != null) {
-                    contactCallback.updateUnreadCount(applyNumBean.friendApplyNum);
+                    contactCallback.updateUnreadCount(
+                            applyNumBean.friendApplyNum + applyNumBean.groupApplyNum);
                 }
 
             }
@@ -415,8 +411,12 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
             _selectIndex = 2;
             resetState();
             binding.contactNewFragmentNewFriendTv.setSelected(true);
-            binding.contactNewFragmentNewFriendNumTv.setVisibility(View.GONE);
-
+            // 保留顶部角标，与「新的好友」入口红点一致，处理完申请后再刷新消失
+            if (applyNumBean != null && applyNumBean.friendApplyNum > 0) {
+                binding.contactNewFragmentNewFriendNumTv.setText(
+                        applyNumBean.friendApplyNum > 99 ? "99+" : String.valueOf(applyNumBean.friendApplyNum));
+                binding.contactNewFragmentNewFriendNumTv.setVisibility(View.VISIBLE);
+            }
 
             binding.contactNewFragmentRv.setAdapter(verifyAdapter);
             verifyAdapter.setItems(verifyList);

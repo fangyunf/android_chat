@@ -16,6 +16,7 @@ import com.netease.nimlib.sdk.msg.constant.DeleteTypeEnum;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
 import com.netease.nimlib.sdk.msg.model.StickTopSessionInfo;
+import com.netease.nimlib.sdk.team.constant.TeamMessageNotifyTypeEnum;
 import com.netease.nimlib.sdk.team.model.Team;
 import com.netease.yunxin.kit.alog.ALog;
 import com.netease.yunxin.kit.chatkit.model.ConversationInfo;
@@ -44,6 +45,7 @@ import com.netease.yunxin.kit.corekit.im.model.UserInfo;
 import com.netease.yunxin.kit.corekit.im.provider.FetchCallback;
 import com.netease.yunxin.kit.corekit.im.provider.FriendChangeType;
 import com.netease.yunxin.kit.corekit.im.provider.FriendObserver;
+import com.netease.yunxin.kit.corekit.im.provider.TeamProvider;
 import com.netease.yunxin.kit.corekit.im.provider.UserInfoObserver;
 import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
 import com.netease.yunxin.kit.corekit.route.XKitRouter;
@@ -221,15 +223,26 @@ public class ConversationViewModel extends BaseViewModel {
         int selfUnread = 0;
 
         for (RecentContact recentContact : recentContacts) {
+            int unread = recentContact.getUnreadCount();
+            if (unread <= 0) {
+                continue;
+            }
             if (recentContact.getSessionType() == SessionTypeEnum.P2P) {
-                // 包含自己给自己的会话
-                singleChatUnreadCount += recentContact.getUnreadCount();
                 if (recentContact.getContactId().equals(selfId)) {
-                    selfUnread = recentContact.getUnreadCount();
+                    selfUnread = unread;
                 }
+                // 免打扰会话不计入底部 Tab 未读
+                if (!ConversationRepo.isNotify(recentContact.getContactId(), SessionTypeEnum.P2P)) {
+                    continue;
+                }
+                singleChatUnreadCount += unread;
             } else if (recentContact.getSessionType() == SessionTypeEnum.Team) {
-                // 群组
-                groupChatUnreadCount += recentContact.getUnreadCount();
+                Team team = TeamProvider.INSTANCE.queryTeamBlock(recentContact.getContactId());
+                if (team != null
+                        && team.getMessageNotifyType() == TeamMessageNotifyTypeEnum.Mute) {
+                    continue;
+                }
+                groupChatUnreadCount += unread;
             }
         }
 
@@ -243,29 +256,6 @@ public class ConversationViewModel extends BaseViewModel {
 
         fetchResult.setData(integers);
         unreadCountLiveData.setValue(fetchResult);
-
-//    ALog.d(LIB_TAG, TAG, "getUnreadCount");
-//    ConversationRepo.getMsgUnreadCountAsync(
-//        new FetchCallback<Integer>() {
-//          @Override
-//          public void onSuccess(@Nullable Integer param) {
-//            ALog.d(LIB_TAG, TAG, "getUnreadCount,onSuccess");
-//            FetchResult<Integer> fetchResult = new FetchResult<>(LoadStatus.Success);
-//            fetchResult.setData(param);
-//            unreadCountLiveData.setValue(fetchResult);
-//          }
-//
-//          @Override
-//          public void onFailed(int code) {
-//            ALog.e(LIB_TAG, TAG, "getUnreadCount,onFailed" + code);
-//            ToastX.showShortToast(String.valueOf(code));
-//          }
-//
-//          @Override
-//          public void onException(@Nullable Throwable exception) {
-//            ALog.e(LIB_TAG, TAG, "getUnreadCount,onException");
-//          }
-//        });
     }
 
     public void fetchConversation() {
@@ -551,6 +541,8 @@ public class ConversationViewModel extends BaseViewModel {
                     FetchResult<List<Team>> result = new FetchResult<>(LoadStatus.Success);
                     result.setData(teamList);
                     teamInfoLiveData.setValue(result);
+                    // 群免打扰变更后刷新 Tab 未读
+                    getUnreadCount();
                 }
             };
 
@@ -561,6 +553,8 @@ public class ConversationViewModel extends BaseViewModel {
                     FetchResult<MuteListChangedNotify> result = new FetchResult<>(LoadStatus.Success);
                     result.setData(muteNotify);
                     muteInfoLiveData.setValue(result);
+                    // 单聊免打扰变更后刷新 Tab 未读
+                    getUnreadCount();
                 }
             };
 
