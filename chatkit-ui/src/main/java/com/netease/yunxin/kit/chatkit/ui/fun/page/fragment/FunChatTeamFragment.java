@@ -204,6 +204,9 @@ public class FunChatTeamFragment extends FunChatFragment {
                 for (GroupInfoBean groupInfoBean : tempList) {
                   if (groupInfoBean.rankState == 1) {
                     qunzhuId = groupInfoBean.userId;
+                    if (groupInfoBean.userId != null) {
+                      adminIds.add(groupInfoBean.userId);
+                    }
                   } else if (groupInfoBean.rankState == 2) {
                     if (groupInfoBean.userId != null) {
                       adminIds.add(groupInfoBean.userId);

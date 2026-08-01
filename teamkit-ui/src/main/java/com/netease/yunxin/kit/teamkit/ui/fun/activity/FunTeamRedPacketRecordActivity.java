@@ -203,6 +203,12 @@ public class FunTeamRedPacketRecordActivity extends BaseActivity implements View
                 continue;
             }
             CustomMsgBean body = parseBodyBean(wrap.data);
+            wrap.result = body;
+            // 专属红包：仅目标人 / 发包人 / 群主 / 群管理可见
+            if (!com.netease.yunxin.kit.chatkit.ui.common.RedPacketVisibilityHelper.canSee(
+                    wrap, groupId, SessionTypeEnum.Team)) {
+                continue;
+            }
             TeamRedPacketRecordAdapter.ItemData item = buildItemData(wrap, body, message);
             if (item != null) {
                 String uniqueId = readMessageUniqueId(message);

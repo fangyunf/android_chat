@@ -207,11 +207,10 @@ public class IMApplication extends MultiDexApplication {
                         try {
                             CustomMsgBean msgBean = new Gson().fromJson(message.getAttachStr(), CustomMsgBean.class);
                             msgBean.result = new Gson().fromJson(msgBean.data, CustomMsgBean.class);
+                            // 专属/个人红包按可见性过滤；拼手气全员可见
                             if (msgBean.type == 21 || msgBean.type == 22 || msgBean.type == 23) {
-                                if (DataUtil.getUserid().equals(msgBean.result.toUserId) || DataUtil.getUserid().equals(msgBean.result.fromUserId) || msgBean.result.adminIds.contains(DataUtil.getUserid())) {
-                                    return false;
-                                }
-                                return true;
+                                return !com.netease.yunxin.kit.chatkit.ui.common.RedPacketVisibilityHelper.canSee(
+                                        msgBean, message.getSessionId(), message.getSessionType());
                             }
                             return false;
                         } catch (Exception e) {

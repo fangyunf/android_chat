@@ -57,6 +57,7 @@ import com.netease.yunxin.kit.chatkit.ui.common.ChatCallback;
 import com.netease.yunxin.kit.chatkit.ui.common.ChatUserCache;
 import com.netease.yunxin.kit.chatkit.ui.common.ChatUtils;
 import com.netease.yunxin.kit.chatkit.ui.common.MessageHelper;
+import com.netease.yunxin.kit.chatkit.ui.common.RedPacketVisibilityHelper;
 import com.netease.yunxin.kit.chatkit.ui.custom.ChatConfigManager;
 import com.netease.yunxin.kit.chatkit.ui.custom.MultiForwardAttachment;
 import com.netease.yunxin.kit.chatkit.ui.custom.RichTextAttachment;
@@ -996,10 +997,12 @@ public abstract class ChatBaseViewModel extends BaseViewModel {
                                                 CustomMsgBean msgBean = new Gson().fromJson(attachStr, CustomMsgBean.class);
 
                                                 msgBean.result = new Gson().fromJson(msgBean.data, CustomMsgBean.class);
-                                                // 专属红包改为所有人可见，注释掉过滤逻辑
+                                                // 专属红包：目标人/发包人/群主/群管理可见
                                                 if (msgBean.type == 21 || msgBean.type == 22 || msgBean.type == 23) {
-                                                    if (DataUtil.getUserid().equals(msgBean.result.toUserId) || DataUtil.getUserid().equals(msgBean.result.fromUserId) || msgBean.result.adminIds.contains(DataUtil.getUserid())) {
-                                                    } else {
+                                                    if (!RedPacketVisibilityHelper.canSee(
+                                                            msgBean,
+                                                            message1.getSessionId(),
+                                                            message1.getSessionType())) {
                                                         iterator.remove();
                                                     }
                                                 }
@@ -1137,10 +1140,12 @@ public abstract class ChatBaseViewModel extends BaseViewModel {
                                             CustomMsgBean msgBean = new Gson().fromJson(attachStr, CustomMsgBean.class);
 
                                             msgBean.result = new Gson().fromJson(msgBean.data, CustomMsgBean.class);
-                                            // 专属红包改为所有人可见，注释掉过滤逻辑
+                                            // 专属红包：目标人/发包人/群主/群管理可见
                                             if (msgBean.type == 21 || msgBean.type == 22 || msgBean.type == 23) {
-                                                if (DataUtil.getUserid().equals(msgBean.result.toUserId) || DataUtil.getUserid().equals(msgBean.result.fromUserId) || msgBean.result.adminIds.contains(DataUtil.getUserid())) {
-                                                } else {
+                                                if (!RedPacketVisibilityHelper.canSee(
+                                                        msgBean,
+                                                        message1.getSessionId(),
+                                                        message1.getSessionType())) {
                                                     iterator.remove();
                                                 }
                                             }
