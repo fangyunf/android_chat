@@ -25,6 +25,7 @@ import com.netease.yunxin.kit.chatkit.ui.model.ChatMessageBean;
 import com.netease.yunxin.kit.chatkit.ui.page.ChatPinBaseActivity;
 import com.netease.yunxin.kit.chatkit.ui.view.input.ActionConstants;
 import com.netease.yunxin.kit.common.ui.dialog.BaseBottomChoiceDialog;
+import com.netease.yunxin.kit.common.ui.utils.ToastX;
 import com.netease.yunxin.kit.common.utils.SizeUtils;
 import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
 import com.netease.yunxin.kit.corekit.route.XKitRouter;
@@ -153,6 +154,7 @@ public class FunChatPinActivity extends ChatPinBaseActivity {
               viewModel.sendForwardMessage(
                   forwardMessage.getMessageData().getMessage(), inputMsg, accId, type);
             }
+            ToastX.showShortToast(R.string.chat_message_action_transmit_success);
           }
         });
     confirmDialog.show(getSupportFragmentManager(), TAG);

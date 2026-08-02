@@ -42,6 +42,7 @@ import com.netease.yunxin.kit.chatkit.ui.common.ChatZhuanZhangHelper;
 import com.netease.yunxin.kit.chatkit.ui.model.ChatMessageBean;
 import com.netease.yunxin.kit.chatkit.ui.page.fragment.ChatBaseFragment;
 import com.netease.yunxin.kit.chatkit.ui.view.input.ActionConstants;
+import com.netease.yunxin.kit.common.ui.utils.ToastX;
 import com.netease.yunxin.kit.common.utils.NetworkUtils;
 import com.netease.yunxin.kit.contactkit.ui.fun.addfriend.FunAddFriendVerifyActivity;
 import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
@@ -154,15 +155,18 @@ public abstract class FunChatFragment extends ChatBaseFragment {
                             for (String accId : sessionIds) {
                                 viewModel.sendForwardMessage(msg, inputMsg, accId, type);
                             }
+                            ToastX.showShortToast(R.string.chat_message_action_transmit_success);
                         }
                     } else if (TextUtils.equals(forwardAction, ActionConstants.ACTION_TYPE_MULTI_FORWARD)) {
                         viewModel.sendMultiForwardMessage(
                                 getSessionName(), inputMsg, sessionIds, type, ChatMsgCache.getMessageList());
                         clearMessageMultiSelectStatus();
+                        ToastX.showShortToast(R.string.chat_message_action_transmit_success);
                     } else if (TextUtils.equals(forwardAction, ActionConstants.ACTION_TYPE_SINGLE_FORWARD)) {
                         viewModel.sendForwardMessages(
                                 getSessionName(), inputMsg, sessionIds, type, ChatMsgCache.getMessageList());
                         clearMessageMultiSelectStatus();
+                        ToastX.showShortToast(R.string.chat_message_action_transmit_success);
                     }
                 });
         confirmDialog.show(getParentFragmentManager(), FunChatMessageForwardConfirmDialog.TAG);

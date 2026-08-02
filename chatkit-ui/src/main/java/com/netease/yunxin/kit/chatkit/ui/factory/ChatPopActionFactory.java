@@ -82,7 +82,6 @@ public class ChatPopActionFactory {
                     || message.getMessageData().getMessage().isInBlackList()) {
                 if (message.getViewType() == MsgTypeEnum.text.getValue()) {
                     actions.add(getCopyAction(message));
-                    actions.add(getCollectionAction(message));
                 }
                 actions.add(getDeleteAction(message));
 //        actions.add(getMultiSelectAction(message));
@@ -106,16 +105,13 @@ public class ChatPopActionFactory {
             }
             // 基础消息类型都在MsgTypeEnum中定义,自定义消息类型都是MsgTypeEnum.custom，
             // 自定义消息，根据自定义消息的Type区分IMUIKIt内置从101开始，客户定义从1000开始
-            if (message.getViewType() == MsgTypeEnum.text.getValue()
-                    || message.getViewType() == ChatMessageType.RICH_TEXT_ATTACHMENT) {
-//                actions.add(getTransmitAction(message));
+            if (isCopyable(message)) {
                 actions.add(getCopyAction(message));
-                actions.add(getCollectionAction(message));
+            }
+            if (isForwardable(message)) {
+                actions.add(getTransmitAction(message));
             }
 //      actions.add(getReplyAction(message));
-            if (message.getViewType() == MsgTypeEnum.image.getValue()) {
-                actions.add(getCollectionAction(message));
-            }
 //      actions.add(getPinAction(message));
             actions.add(getDeleteAction(message));
 //            actions.add(getMultiSelectAction(message));
@@ -128,6 +124,25 @@ public class ChatPopActionFactory {
             return customPopMenu.get().customizePopMenu(actions, message);
         }
         return actions;
+    }
+
+    /** 文本 / 富文本可复制 */
+    private boolean isCopyable(ChatMessageBean message) {
+        int viewType = message.getViewType();
+        return viewType == MsgTypeEnum.text.getValue()
+                || viewType == ChatMessageType.RICH_TEXT_ATTACHMENT;
+    }
+
+    /** 文本 / 图片 / 视频 / 文件 / 位置 / 富文本 / 合并转发 可转发；红包等业务自定义消息不可转发 */
+    private boolean isForwardable(ChatMessageBean message) {
+        int viewType = message.getViewType();
+        return viewType == MsgTypeEnum.text.getValue()
+                || viewType == MsgTypeEnum.image.getValue()
+                || viewType == MsgTypeEnum.video.getValue()
+                || viewType == MsgTypeEnum.file.getValue()
+                || viewType == MsgTypeEnum.location.getValue()
+                || viewType == ChatMessageType.RICH_TEXT_ATTACHMENT
+                || viewType == ChatMessageType.MULTI_FORWARD_ATTACHMENT;
     }
 
     private ChatPopMenuAction getReplyAction(ChatMessageBean message) {
