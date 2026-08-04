@@ -13,13 +13,17 @@ import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 
 import com.yaoxin.appbase.navbar.NavToolbar;
+import com.yaoxin.appbase.net.Constant;
 import com.yaoxin.appbase.utils.BarUtils;
 import com.yaoxin.appbase.utils.StatusBarUtils;
+import com.yaoxin.appbase.utils.ToastUtils;
+import com.yaoxin.appbase.utils.UploadUtil;
 import com.yaoxin.appbase.view.LoadingDialog;
 
 import java.util.ArrayList;
@@ -27,12 +31,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import pub.devrel.easypermissions.EasyPermissions;
+
 
 /**
  * Created by will
  * on 2018/5/25.
  */
-public class BaseActivity extends AppCompatActivity {
+public class BaseActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
     private long lastClick = 0;//上次点击时间
     protected Map parmas = new HashMap();
     protected List dataList = new ArrayList();
@@ -159,6 +165,28 @@ public class BaseActivity extends AppCompatActivity {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(
+            int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+    @Override
+    public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
+        if (requestCode == Constant.RC_PHOTO_PICKER_PERM
+                || requestCode == Constant.RC_PHOTO_CAMERA_PERM) {
+            UploadUtil.resumePendingPhotoLibrary();
+        }
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
+        if (requestCode == Constant.RC_PHOTO_PICKER_PERM) {
+            ToastUtils.toastMsg("需要相册权限才能选择收款码");
+        }
     }
 
 }

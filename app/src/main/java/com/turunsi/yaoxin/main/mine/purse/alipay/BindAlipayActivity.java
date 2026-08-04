@@ -3,28 +3,19 @@ package com.turunsi.yaoxin.main.mine.purse.alipay;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.chad.library.adapter4.BaseQuickAdapter;
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.turunsi.yaoxin.BuildConfig;
-import com.turunsi.yaoxin.databinding.ActivityMineBankCardListBinding;
 import com.turunsi.yaoxin.databinding.ActivityMineBindAlipayBinding;
-import com.turunsi.yaoxin.main.mine.purse.bankcard.PurseBankListAddActivity;
-import com.turunsi.yaoxin.main.mine.purse.bankcard.adapter.BankCardListAdapter;
-import com.turunsi.yaoxin.main.mine.purse.bankcard.bean.BankCardListBean;
 import com.yaoxin.appbase.activity.BaseActivity;
-import com.yaoxin.appbase.model.GroupInfoBean;
 import com.yaoxin.appbase.model.NetData;
-import com.yaoxin.appbase.model.ParamsBean;
 import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.model.RequestParams1Bean;
-import com.yaoxin.appbase.model.RequestParamsBean;
 import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.Constant;
@@ -33,10 +24,8 @@ import com.yaoxin.appbase.utils.CommonCallBack;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
 import com.yaoxin.appbase.utils.UploadUtil;
-import com.zhihu.matisse.Matisse;
 
 import java.lang.reflect.Type;
-import java.util.HashMap;
 import java.util.List;
 
 import retrofit2.Call;
@@ -224,16 +213,21 @@ public class BindAlipayActivity extends BaseActivity implements View.OnClickList
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Constant.REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
-            List<String> strings = Matisse.obtainPathResult(data);
-            if (!strings.isEmpty()) {
-                UploadUtil.uploadImage(strings.get(0), "", new CommonCallBack() {
-                    @Override
-                    public void onCallBackUserBean(UserBean userBean) {
-                        ToastUtils.toastMsg("上传成功");
-                        qrcodeImgUrl = userBean.url;
-                    }
-                });
+            String imagePath = UploadUtil.resolveSelectedImagePath(this, data);
+            if (TextUtils.isEmpty(imagePath)) {
+                ToastUtils.toastMsg("无法读取图片，请重新选择");
+                return;
             }
+            UploadUtil.uploadImage(imagePath, "", new CommonCallBack() {
+                @Override
+                public void onCallBackUserBean(UserBean userBean) {
+                    ToastUtils.toastMsg("上传成功");
+                    qrcodeImgUrl = userBean.url;
+                    Glide.with(BindAlipayActivity.this)
+                            .load(imagePath)
+                            .into(binding.activityPurseTixianAddAccountUploadIv);
+                }
+            });
         }
     }
 }

@@ -16,14 +16,18 @@
 package com.zhihu.matisse.internal.utils;
 
 import android.app.Activity;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.pm.ProviderInfo;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.TextUtils;
+
 import androidx.fragment.app.Fragment;
 import androidx.core.content.FileProvider;
 import androidx.core.os.EnvironmentCompat;
@@ -42,9 +46,9 @@ public class MediaStoreCompat {
 
     private final WeakReference<Activity> mContext;
     private final WeakReference<Fragment> mFragment;
-    private       CaptureStrategy         mCaptureStrategy;
-    private       Uri                     mCurrentPhotoUri;
-    private       String                  mCurrentPhotoPath;
+    private CaptureStrategy mCaptureStrategy;
+    private Uri mCurrentPhotoUri;
+    private String mCurrentPhotoPath;
 
     public MediaStoreCompat(Activity activity) {
         mContext = new WeakReference<>(activity);
@@ -56,12 +60,6 @@ public class MediaStoreCompat {
         mFragment = new WeakReference<>(fragment);
     }
 
-    /**
-     * Checks whether the device has a camera feature or not.
-     *
-     * @param context a context to check for camera feature.
-     * @return true if the device has a camera feature. false otherwise.
-     */
     public static boolean hasCameraFeature(Context context) {
         PackageManager pm = context.getApplicationContext().getPackageManager();
         return pm.hasSystemFeature(PackageManager.FEATURE_CAMERA);
@@ -83,18 +81,26 @@ public class MediaStoreCompat {
 
             if (photoFile != null) {
                 mCurrentPhotoPath = photoFile.getAbsolutePath();
-                mCurrentPhotoUri = FileProvider.getUriForFile(mContext.get(),
-                        mCaptureStrategy.authority, photoFile);
+                String authority = getValidAuthority(context);
+                mCurrentPhotoUri = FileProvider.getUriForFile(mContext.get(), authority, photoFile);
                 captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, mCurrentPhotoUri);
-                captureIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-                    List<ResolveInfo> resInfoList = context.getPackageManager()
-                            .queryIntentActivities(captureIntent, PackageManager.MATCH_DEFAULT_ONLY);
-                    for (ResolveInfo resolveInfo : resInfoList) {
-                        String packageName = resolveInfo.activityInfo.packageName;
-                        context.grantUriPermission(packageName, mCurrentPhotoUri,
-                                Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                    }
+                captureIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                        | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    captureIntent.setClipData(
+                            ClipData.newUri(context.getContentResolver(), "Image", mCurrentPhotoUri));
+                }
+                List<ResolveInfo> resInfoList = context.getPackageManager()
+                        .queryIntentActivities(captureIntent, PackageManager.MATCH_DEFAULT_ONLY);
+                for (ResolveInfo resolveInfo : resInfoList) {
+                    String packageName = resolveInfo.activityInfo.packageName;
+                    context.grantUriPermission(packageName, mCurrentPhotoUri,
+                            Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                }
+                ResolveInfo defaultCamera = context.getPackageManager()
+                        .resolveActivity(captureIntent, PackageManager.MATCH_DEFAULT_ONLY);
+                if (defaultCamera != null && defaultCamera.activityInfo != null) {
+                    captureIntent.setPackage(defaultCamera.activityInfo.packageName);
                 }
                 if (mFragment != null) {
                     mFragment.get().startActivityForResult(captureIntent, requestCode);
@@ -107,7 +113,6 @@ public class MediaStoreCompat {
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private File createImageFile() throws IOException {
-        // Create an image file name
         String timeStamp =
                 new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
         String imageFileName = String.format("JPEG_%s.jpg", timeStamp);
@@ -118,16 +123,15 @@ public class MediaStoreCompat {
             if (!storageDir.exists()) storageDir.mkdirs();
         } else {
             storageDir = mContext.get().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+            if (storageDir != null && !storageDir.exists()) storageDir.mkdirs();
         }
         if (mCaptureStrategy.directory != null) {
             storageDir = new File(storageDir, mCaptureStrategy.directory);
             if (!storageDir.exists()) storageDir.mkdirs();
         }
 
-        // Avoid joining path components manually
         File tempFile = new File(storageDir, imageFileName);
 
-        // Handle the situation that user's external storage is not ready
         if (!Environment.MEDIA_MOUNTED.equals(EnvironmentCompat.getStorageState(tempFile))) {
             return null;
         }
@@ -141,5 +145,27 @@ public class MediaStoreCompat {
 
     public String getCurrentPhotoPath() {
         return mCurrentPhotoPath;
+    }
+
+    private String getValidAuthority(Context context) {
+        String requestedAuthority = mCaptureStrategy != null ? mCaptureStrategy.authority : null;
+        PackageManager packageManager = context.getPackageManager();
+
+        if (!TextUtils.isEmpty(requestedAuthority)) {
+            ProviderInfo requestedProvider = packageManager.resolveContentProvider(requestedAuthority, 0);
+            if (requestedProvider != null
+                    && TextUtils.equals(requestedProvider.packageName, context.getPackageName())) {
+                return requestedAuthority;
+            }
+        }
+
+        String fallbackAuthority = context.getPackageName() + ".IMKitFileProvider";
+        ProviderInfo fallbackProvider = packageManager.resolveContentProvider(fallbackAuthority, 0);
+        if (fallbackProvider != null
+                && TextUtils.equals(fallbackProvider.packageName, context.getPackageName())) {
+            return fallbackAuthority;
+        }
+
+        return fallbackAuthority;
     }
 }

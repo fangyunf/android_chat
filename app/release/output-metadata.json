@@ -11,9 +11,9 @@
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 15,
-      "versionName": "1.0.5",
-      "outputFile": "yunxun_release_v1.0.5.apk"
+      "versionCode": 16,
+      "versionName": "1.0.6",
+      "outputFile": "yunxun_release_v1.0.6.apk"
     }
   ],
   "elementType": "File"
