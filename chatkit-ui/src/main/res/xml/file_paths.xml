@@ -8,12 +8,18 @@
     <external-path
         name="root"
         path="." />
+    <external-files-path
+        name="external_app_files"
+        path="." />
     <external-cache-path
         name="tempPictures"
         path="TempPictures" />
+    <external-cache-path
+        name="external_cache"
+        path="." />
     <cache-path
         name="cachePath"
-        path="/cache"/>
+        path="." />
     <external-path name="external_files" path="." />
 
     <external-path
@@ -22,7 +28,4 @@
     <external-path
         name="my_images"
         path="Pictures"/>
-    <external-path
-        name="external_files"
-        path="." />
 </paths>

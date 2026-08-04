@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.DigitsKeyListener;
 import android.view.Gravity;
@@ -17,6 +18,7 @@ import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.turunsi.yaoxin.databinding.ActivityMinePurseTixianBinding;
 import com.turunsi.yaoxin.databinding.ActivityPurseTixianAddAccountBinding;
@@ -36,9 +38,6 @@ import com.yaoxin.appbase.utils.ToastUtils;
 import com.yaoxin.appbase.utils.UploadUtil;
 import com.yaoxin.appbase.view.pwdkeyboard.Keyboard;
 import com.yaoxin.appbase.view.pwdkeyboard.PayEditText;
-import com.zhihu.matisse.Matisse;
-import com.zhihu.matisse.MimeType;
-import com.zhihu.matisse.engine.impl.GlideEngine;
 
 import java.util.List;
 
@@ -256,15 +255,21 @@ public class PurseTiXianAddAccountActivity extends BaseActivity implements View.
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Constant.REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
-            List<String> strings = Matisse.obtainPathResult(data);
-            if (!strings.isEmpty()) {
-                UploadUtil.uploadImage(strings.get(0), "", new CommonCallBack() {
-                    @Override
-                    public void onCallBackUserBean(UserBean userBean) {
-                        qrcodeImgUrl = userBean.url;
-                    }
-                });
+            String imagePath = UploadUtil.resolveSelectedImagePath(this, data);
+            if (TextUtils.isEmpty(imagePath)) {
+                ToastUtils.toastMsg("无法读取图片，请重新选择");
+                return;
             }
+            UploadUtil.uploadImage(imagePath, "", new CommonCallBack() {
+                @Override
+                public void onCallBackUserBean(UserBean userBean) {
+                    qrcodeImgUrl = userBean.url;
+                    ToastUtils.toastMsg("上传成功");
+                    Glide.with(PurseTiXianAddAccountActivity.this)
+                            .load(imagePath)
+                            .into(binding.activityPurseTixianAddAccountUploadIv);
+                }
+            });
         }
     }
 
