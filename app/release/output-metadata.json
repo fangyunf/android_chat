@@ -11,9 +11,9 @@
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 16,
-      "versionName": "1.0.6",
-      "outputFile": "shiguangji_release_v1.0.6.apk"
+      "versionCode": 17,
+      "versionName": "1.0.7",
+      "outputFile": "shiguangji_release_v1.0.7.apk"
     }
   ],
   "elementType": "File"
