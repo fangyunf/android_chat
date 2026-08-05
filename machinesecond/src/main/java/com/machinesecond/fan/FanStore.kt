@@ -37,9 +37,10 @@ class FanStore(private val context: Context) {
         val index = list.indexOfFirst { it.userId == userId }
         if (index >= 0) {
             val old = list[index]
-            val next = mergeFanUser(old, name, avatarUrl, memberCode)
-            if (next != old) {
-                list[index] = next
+            val nextAvatar = old.avatarUrl.orEmpty().ifBlank { avatarUrl }
+            val nextMemberCode = old.memberCode.orEmpty().ifBlank { memberCode }
+            if (nextAvatar != old.avatarUrl.orEmpty() || nextMemberCode != old.memberCode.orEmpty()) {
+                list[index] = old.copy(avatarUrl = nextAvatar, memberCode = nextMemberCode)
                 save(FanMode.Precise, list)
             }
             return
@@ -53,29 +54,16 @@ class FanStore(private val context: Context) {
         val index = list.indexOfFirst { it.userId == userId }
         if (index >= 0) {
             val old = list[index]
-            val next = mergeFanUser(old, name, avatarUrl, memberCode)
-            if (next != old) {
-                list[index] = next
+            val nextAvatar = old.avatarUrl.orEmpty().ifBlank { avatarUrl }
+            val nextMemberCode = old.memberCode.orEmpty().ifBlank { memberCode }
+            if (nextAvatar != old.avatarUrl.orEmpty() || nextMemberCode != old.memberCode.orEmpty()) {
+                list[index] = old.copy(avatarUrl = nextAvatar, memberCode = nextMemberCode)
                 save(FanMode.Custom, list)
             }
             return
         }
         list.add(FanUser(userId, name, avatarUrl, memberCode))
         save(FanMode.Custom, list)
-    }
-
-    /** 再次从用户详情添加时，用新的非空字段补齐头像/名称/业务 ID */
-    private fun mergeFanUser(
-        old: FanUser,
-        name: String,
-        avatarUrl: String,
-        memberCode: String
-    ): FanUser {
-        return old.copy(
-            name = name.takeIf { it.isNotBlank() } ?: old.name,
-            avatarUrl = avatarUrl.takeIf { it.isNotBlank() } ?: old.avatarUrl.orEmpty(),
-            memberCode = memberCode.takeIf { it.isNotBlank() } ?: old.memberCode.orEmpty()
-        )
     }
 
     fun saveNormalFromMembers(members: List<FanUser>) {

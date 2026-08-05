@@ -122,16 +122,10 @@ object MsSdk {
         chatFloating = null
     }
 
-    fun installMemberProfile(
-        parent: ViewGroup,
-        userId: String,
-        displayName: String,
-        avatarUrl: String = "",
-        memberCode: String = ""
-    ) {
+    fun installMemberProfile(parent: ViewGroup, userId: String, displayName: String) {
         if (!initialized) return
         uninstallMemberProfile()
-        memberPanel = MemberProfilePanel(parent.context, userId, displayName, avatarUrl, memberCode).also {
+        memberPanel = MemberProfilePanel(parent.context, userId, displayName).also {
             parent.addView(it, ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT

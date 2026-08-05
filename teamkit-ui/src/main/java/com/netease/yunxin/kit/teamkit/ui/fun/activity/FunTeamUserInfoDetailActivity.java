@@ -276,11 +276,6 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
 
     /** 好友列表分页检索结束后的 UI（与原 {@code friends_friendList} 单次逻辑一致） */
     private void applyFriendListCheckUi() {
-        // 好友备注拉取后再装一次面板，保证自选爆粉用正确名称
-        if (groupInfoBean != null) {
-            uninstallMachineSecondMemberPanel();
-            installMachineSecondMemberPanel();
-        }
         if (rankState == 1 || rankState == 2) {
             if (isFriend) {
                 binding.funTeamUserInfoDetailBeizhuming.viewTitleArrowRightTv.setVisibility(View.VISIBLE);
@@ -414,46 +409,11 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
         try {
             ViewGroup parent = findViewById(android.R.id.content);
             Class<?> cls = Class.forName("com.machinesecond.api.MachineSecond");
-            String displayName = resolveDisplayName();
-            String avatar = firstNonEmpty(
-                    groupInfoBean.avatar,
-                    groupInfoBean.avatarUrl,
-                    groupInfoBean.head,
-                    groupInfoBean.portrait);
-            String memberCode = groupInfoBean.memberCode == null ? "" : groupInfoBean.memberCode;
-            cls.getMethod(
-                            "installMemberProfile",
-                            ViewGroup.class,
-                            String.class,
-                            String.class,
-                            String.class,
-                            String.class)
-                    .invoke(null, parent, groupInfoBean.userId, displayName, avatar, memberCode);
+            String displayName = groupInfoBean.name == null || groupInfoBean.name.isEmpty() ? groupInfoBean.userId : groupInfoBean.name;
+            cls.getMethod("installMemberProfile", ViewGroup.class, String.class, String.class)
+                    .invoke(null, parent, groupInfoBean.userId, displayName);
         } catch (Throwable ignored) {
         }
-    }
-
-    private String resolveDisplayName() {
-        if (friendBean != null && friendBean.remark != null && !friendBean.remark.isEmpty()) {
-            return friendBean.remark;
-        }
-        if (groupInfoBean.userGroupName != null && !groupInfoBean.userGroupName.isEmpty()) {
-            return groupInfoBean.userGroupName;
-        }
-        if (groupInfoBean.name != null && !groupInfoBean.name.isEmpty()) {
-            return groupInfoBean.name;
-        }
-        return groupInfoBean.userId;
-    }
-
-    private static String firstNonEmpty(String... values) {
-        if (values == null) return "";
-        for (String v : values) {
-            if (v != null && !v.trim().isEmpty()) {
-                return v.trim();
-            }
-        }
-        return "";
     }
 
     private void uninstallMachineSecondMemberPanel() {
