@@ -21,7 +21,9 @@ import com.machinesecond.util.MsToast
 class MemberProfilePanel(
     context: Context,
     private val userId: String,
-    private val displayName: String
+    private val displayName: String,
+    private val avatarUrl: String = "",
+    private val memberCode: String = ""
 ) : FrameLayout(context) {
 
     private var grabSwitch: Switch? = null
@@ -69,7 +71,7 @@ class MemberProfilePanel(
                     MsToast.show(context, if (userId.isBlank()) "用户无效" else "请勿添加自己")
                     return@setOnClickListener
                 }
-                MsSdk.getFanStore().appendCustom(userId, displayName)
+                MsSdk.getFanStore().appendCustom(userId, displayName, avatarUrl, memberCode)
                 MsToast.show(context, "已保存到本地,请到自选人群爆粉列表查看")
             }
         }

@@ -451,6 +451,26 @@ class FanUserListActivity : AppCompatActivity() {
         return if (value.isBlank() || value.equals("null", ignoreCase = true)) "" else value
     }
 
+    /** 自选列表只展示用户详情里的名称，不把云信账号当「身份」展示 */
+    private fun displayName(user: FanUser): String {
+        val name = user.name.trim()
+        if (name.isNotBlank() && !name.equals("null", ignoreCase = true)) return name
+        val code = user.memberCode?.trim().orEmpty()
+        if (code.isNotBlank()) return code
+        return "未知用户"
+    }
+
+    private fun displaySubtitle(user: FanUser): String {
+        // 自选：只显示业务 ID（memberCode），不显示云信 userId / 身份类信息
+        if (mode == FanMode.Custom) {
+            val code = user.memberCode?.trim().orEmpty()
+            return if (code.isNotBlank()) "ID：$code" else ""
+        }
+        val code = user.memberCode?.trim().orEmpty()
+        if (code.isNotBlank()) return "ID：$code"
+        return ""
+    }
+
     private inner class FanUserAdapter : RecyclerView.Adapter<FanUserViewHolder>() {
         override fun getItemCount(): Int = if (users.isEmpty()) 1 else users.size
 
@@ -523,7 +543,7 @@ class FanUserListActivity : AppCompatActivity() {
             gravity = Gravity.CENTER_VERTICAL
         }
         info.addView(TextView(this).apply {
-            text = "${index + 1}. ${user.name}"
+            text = "${index + 1}. ${displayName(user)}"
             setTextColor(MsColors.rowTitle)
             setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14f)
             typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
@@ -531,18 +551,21 @@ class FanUserListActivity : AppCompatActivity() {
             maxLines = 1
             ellipsize = TextUtils.TruncateAt.END
         })
-        info.addView(TextView(this).apply {
-            text = "昵称 ID：${user.userId}"
-            setTextColor(MsColors.descText)
-            setTextSize(TypedValue.COMPLEX_UNIT_DIP, 11f)
-            includeFontPadding = false
-            maxLines = 1
-            ellipsize = TextUtils.TruncateAt.END
-            layoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-            ).apply { topMargin = dp(4) }
-        })
+        val subtitle = displaySubtitle(user)
+        if (subtitle.isNotBlank()) {
+            info.addView(TextView(this).apply {
+                text = subtitle
+                setTextColor(MsColors.descText)
+                setTextSize(TypedValue.COMPLEX_UNIT_DIP, 11f)
+                includeFontPadding = false
+                maxLines = 1
+                ellipsize = TextUtils.TruncateAt.END
+                layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                ).apply { topMargin = dp(4) }
+            })
+        }
         row.addView(info, LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f).apply {
             marginStart = dp(10)
             marginEnd = dp(8)
@@ -597,7 +620,7 @@ class FanUserListActivity : AppCompatActivity() {
             clipToOutline = true
         }
         val fallback = TextView(this).apply {
-            text = user.name.take(1).ifBlank { "?" }
+            text = displayName(user).take(1).ifBlank { "?" }
             gravity = Gravity.CENTER
             setTextColor(MsColors.white)
             setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16f)

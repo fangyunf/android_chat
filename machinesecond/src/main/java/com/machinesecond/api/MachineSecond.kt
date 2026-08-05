@@ -57,8 +57,15 @@ object MachineSecond {
     }
 
     @JvmStatic
-    fun installMemberProfile(parent: ViewGroup, userId: String, displayName: String) {
-        MsSdk.installMemberProfile(parent, userId, displayName)
+    @JvmOverloads
+    fun installMemberProfile(
+        parent: ViewGroup,
+        userId: String,
+        displayName: String,
+        avatarUrl: String = "",
+        memberCode: String = ""
+    ) {
+        MsSdk.installMemberProfile(parent, userId, displayName, avatarUrl, memberCode)
     }
 
     @JvmStatic
@@ -137,7 +144,13 @@ object MachineSecond {
     }
 
     @JvmStatic
-    fun appendCustomFanUser(userId: String, name: String) {
-        MsSdk.getFanStore().appendCustom(userId, name)
+    @JvmOverloads
+    fun appendCustomFanUser(
+        userId: String,
+        name: String,
+        avatarUrl: String = "",
+        memberCode: String = ""
+    ) {
+        MsSdk.getFanStore().appendCustom(userId, name, avatarUrl, memberCode)
     }
 }
