@@ -125,7 +125,7 @@
             android:layout_gravity="start"
             android:layout_marginLeft="30dp"
             android:layout_marginTop="14dp"
-            android:text="1.提现费率0.08外加单笔2
+            android:text="1.提现费率0.07外加单笔2
 充值时间8点至晚11点，\n2.提现时间8点至晚8点，提现100起到账时间1小时内"
             android:textColor="#666666"
             android:textSize="14sp" />
