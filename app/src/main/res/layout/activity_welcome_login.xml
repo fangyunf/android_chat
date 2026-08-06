@@ -32,12 +32,12 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.6">
 
-        <!-- 登录按钮 -->
+        <!-- 登录按钮：主题金色 -->
         <TextView
             android:id="@+id/btn_login"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="@drawable/bg_pink_gradient_capsule"
+            android:background="@drawable/bg_theme_capsule"
             android:clickable="true"
             android:focusable="true"
             android:gravity="center"
@@ -45,18 +45,18 @@
             android:textColor="#FFFFFF"
             android:textSize="16sp" />
 
-        <!-- 注册按钮 -->
+        <!-- 注册按钮：白底主题色描边 -->
         <TextView
             android:id="@+id/btn_register"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="16dp"
-            android:background="@drawable/fun_bg_gray_rounded_4"
+            android:background="@drawable/bg_theme_stroke_capsule"
             android:clickable="true"
             android:focusable="true"
             android:gravity="center"
             android:text="注册账号"
-            android:textColor="#000000"
+            android:textColor="@color/app_theme_color"
             android:textSize="16sp" />
 
     </LinearLayout>

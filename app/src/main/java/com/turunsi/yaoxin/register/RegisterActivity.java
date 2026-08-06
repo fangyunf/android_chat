@@ -12,6 +12,9 @@ import android.text.method.PasswordTransformationMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -57,33 +60,70 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         binding.activityOtherPlaceLoginNav.addCloseImageButton().setOnClickListener(view -> finish());
 
         _initTfText();
+        setupTitleText();
         setupAgreementText();
+        binding.activityRegisterIsCheckedIv.setSelected(true);
 
         binding.activityRegisterAgreeLl.setOnClickListener(this);
         binding.activityRegisterBtn.setOnClickListener(this);
     }
 
-    void _initTfText() {
-        // 设置图标和提示文本
-        binding.registerActivityPhoneTf.viewTitleTfCountIv.setImageResource(R.mipmap.login_icon_phone);
-        binding.registerActivityCodeTf.viewTitleTfCountIv.setImageResource(R.mipmap.login_icon_code);
-        binding.registerActivityUsernameTf.viewTitleTfCountIv.setImageResource(R.mipmap.login_icon_password); // 使用人物图标，如果没有可以用其他图标
-        binding.registerActivityPwdTf.viewTitleTfCountIv.setImageResource(R.mipmap.login_icon_password);
-        binding.registerActivityPwd2Tf.viewTitleTfCountIv.setImageResource(R.mipmap.login_icon_password);
+    private void styleInputField(View root, EditText et, String hint) {
+        root.setBackgroundResource(R.drawable.bg_input_stroke_capsule);
+        ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) root.getLayoutParams();
+        if (lp != null) {
+            lp.leftMargin = 0;
+            lp.rightMargin = 0;
+            root.setLayoutParams(lp);
+        }
+        root.setPadding(dp(16), 0, dp(12), 0);
+        if (root instanceof ViewGroup) {
+            ViewGroup vg = (ViewGroup) root;
+            if (vg.getChildCount() > 1) {
+                vg.getChildAt(1).setVisibility(View.GONE);
+            }
+            View row = vg.getChildAt(0);
+            if (row instanceof LinearLayout) {
+                ((LinearLayout) row).setPadding(0, 0, 0, 0);
+            }
+        }
+        ViewGroup.MarginLayoutParams etLp = (ViewGroup.MarginLayoutParams) et.getLayoutParams();
+        if (etLp != null) {
+            etLp.leftMargin = 0;
+            et.setLayoutParams(etLp);
+        }
+        et.setHint(hint);
+        et.setHintTextColor(Color.parseColor("#BBBBBB"));
+        et.setTextSize(15);
+    }
 
-        // 设置输入类型和提示文本
+    private int dp(int value) {
+        return (int) (value * getResources().getDisplayMetrics().density + 0.5f);
+    }
+
+    void _initTfText() {
+        styleInputField(binding.registerActivityPhoneTf.getRoot(),
+                binding.registerActivityPhoneTf.viewTitleTfCountEt, "请输入手机号");
+        styleInputField(binding.registerActivityCodeTf.getRoot(),
+                binding.registerActivityCodeTf.viewTitleTfCountEt, "请输入验证码");
+        styleInputField(binding.registerActivityUsernameTf.getRoot(),
+                binding.registerActivityUsernameTf.viewTitleTfCountEt, "请输入昵称");
+        styleInputField(binding.registerActivityPwdTf.getRoot(),
+                binding.registerActivityPwdTf.viewTitleTfCountEt, "请输入密码");
+        styleInputField(binding.registerActivityPwd2Tf.getRoot(),
+                binding.registerActivityPwd2Tf.viewTitleTfCountEt, "请确认密码");
+
+        binding.registerActivityPhoneTf.viewTitleTfCountIv.setVisibility(View.GONE);
+        binding.registerActivityCodeTf.viewTitleTfCountIv.setVisibility(View.GONE);
+        binding.registerActivityUsernameTf.viewTitleTfCountIv.setVisibility(View.GONE);
+        binding.registerActivityPwdTf.viewTitleTfCountIv.setVisibility(View.GONE);
+        binding.registerActivityPwd2Tf.viewTitleTfCountIv.setVisibility(View.GONE);
+
         binding.registerActivityPhoneTf.viewTitleTfCountEt.setInputType(InputType.TYPE_CLASS_NUMBER);
         binding.registerActivityCodeTf.viewTitleTfCountEt.setInputType(InputType.TYPE_CLASS_NUMBER);
         binding.registerActivityPwdTf.viewTitleTfCountEt.setTransformationMethod(PasswordTransformationMethod.getInstance());
         binding.registerActivityPwd2Tf.viewTitleTfCountEt.setTransformationMethod(PasswordTransformationMethod.getInstance());
 
-        binding.registerActivityPhoneTf.viewTitleTfCountEt.setHint("输入11位中国大陆手机*");
-        binding.registerActivityCodeTf.viewTitleTfCountEt.setHint("输入验证码*");
-        binding.registerActivityUsernameTf.viewTitleTfCountEt.setHint("输入用户名");
-        binding.registerActivityPwdTf.viewTitleTfCountEt.setHint("输入您的密码*");
-        binding.registerActivityPwd2Tf.viewTitleTfCountEt.setHint("再次输入您的密码*");
-
-        // 显示密码可见性切换按钮
         binding.registerActivityPwdTf.viewTitleTfCountEyeRl.setVisibility(View.VISIBLE);
         binding.registerActivityPwdTf.viewTitleTfCountEyeRl.setOnClickListener(this);
         binding.registerActivityPwdTf.viewTitleTfCountEyeIv.setSelected(true);
@@ -91,8 +131,8 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         binding.registerActivityPwd2Tf.viewTitleTfCountEyeRl.setOnClickListener(this);
         binding.registerActivityPwd2Tf.viewTitleTfCountEyeIv.setSelected(true);
 
-        // 显示验证码按钮
         binding.registerActivityCodeTf.viewTitleTfCountCaptcha.setVisibility(View.VISIBLE);
+        binding.registerActivityCodeTf.viewTitleTfCountCaptcha.setTextSize(14);
         CountDownView mCountDownView = binding.registerActivityCodeTf.viewTitleTfCountCaptcha;
         mCountDownView.setUserEdit(binding.registerActivityPhoneTf.viewTitleTfCountEt);
         mCountDownView.setCountDownTime(60);
@@ -109,70 +149,57 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         });
     }
 
+    private void setupTitleText() {
+        String text = "欢迎进入昌盛";
+        SpannableString spannableString = new SpannableString(text);
+        int start = text.indexOf("昌盛");
+        if (start >= 0) {
+            spannableString.setSpan(
+                    new ForegroundColorSpan(ContextCompat.getColor(this, com.yaoxin.appbase.R.color.app_theme_color)),
+                    start, start + 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        binding.activityRegisterTitleTv.setText(spannableString);
+    }
+
     private void setupAgreementText() {
-        String text = "我已阅读并接受《服务条款》《隐私政策》";
+        String text = "已阅读并同意《隐私政策》和《用户服务协议》";
         SpannableString spannableString = new SpannableString(text);
 
-        // 设置"《服务条款》"的样式和点击事件
-        String serviceAgreement = "《服务条款》";
-        int serviceStart = text.indexOf(serviceAgreement);
-        int serviceEnd = serviceStart + serviceAgreement.length();
+        bindAgreementLink(spannableString, text, "《隐私政策》", "1", "隐私政策");
+        bindAgreementLink(spannableString, text, "《用户服务协议》", "2", "用户服务协议");
 
-        if (serviceStart >= 0) {
-            // 设置颜色（绿色）
-            spannableString.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, com.yaoxin.appbase.R.color.app_theme_color)),
-                    serviceStart, serviceEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            // 设置点击事件
-            spannableString.setSpan(new ClickableSpan() {
-                @Override
-                public void onClick(@NonNull View widget) {
-                    XKitRouter.withKey(Constant.BaseWebViewActivityKey)
-                            .withParam("type", "2")
-                            .withParam("title", "服务协议")
-                            .withContext(RegisterActivity.this)
-                            .navigate();
-                }
-
-                @Override
-                public void updateDrawState(@NonNull TextPaint ds) {
-                    super.updateDrawState(ds);
-                    ds.setUnderlineText(false); // 去掉下划线
-                }
-            }, serviceStart, serviceEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        }
-
-        // 设置"《隐私政策》"的样式和点击事件
-        String privacyPolicy = "《隐私政策》";
-        int privacyStart = text.indexOf(privacyPolicy);
-        int privacyEnd = privacyStart + privacyPolicy.length();
-
-        if (privacyStart >= 0) {
-            // 设置颜色（绿色）
-            spannableString.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, com.yaoxin.appbase.R.color.app_theme_color)),
-                    privacyStart, privacyEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            // 设置点击事件
-            spannableString.setSpan(new ClickableSpan() {
-                @Override
-                public void onClick(@NonNull View widget) {
-                    XKitRouter.withKey(Constant.BaseWebViewActivityKey)
-                            .withParam("type", "1")
-                            .withParam("title", "隐私政策")
-                            .withContext(RegisterActivity.this)
-                            .navigate();
-                }
-
-                @Override
-                public void updateDrawState(@NonNull TextPaint ds) {
-                    super.updateDrawState(ds);
-                    ds.setUnderlineText(false); // 去掉下划线
-                }
-            }, privacyStart, privacyEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        }
-
-        // 设置 TextView
         binding.activityRegisterAgreeTv.setText(spannableString);
         binding.activityRegisterAgreeTv.setMovementMethod(LinkMovementMethod.getInstance());
-        binding.activityRegisterAgreeTv.setHighlightColor(Color.TRANSPARENT); // 移除点击时的背景色
+        binding.activityRegisterAgreeTv.setHighlightColor(Color.TRANSPARENT);
+    }
+
+    private void bindAgreementLink(SpannableString spannableString, String text, String link,
+                                   String type, String title) {
+        int start = text.indexOf(link);
+        if (start < 0) {
+            return;
+        }
+        int end = start + link.length();
+        spannableString.setSpan(
+                new ForegroundColorSpan(ContextCompat.getColor(this, com.yaoxin.appbase.R.color.app_theme_color)),
+                start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(new ClickableSpan() {
+            @Override
+            public void onClick(@NonNull View widget) {
+                XKitRouter.withKey(Constant.BaseWebViewActivityKey)
+                        .withParam("type", type)
+                        .withParam("title", title)
+                        .withContext(RegisterActivity.this)
+                        .navigate();
+            }
+
+            @Override
+            public void updateDrawState(@NonNull TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setUnderlineText(false);
+                ds.setColor(ContextCompat.getColor(RegisterActivity.this, com.yaoxin.appbase.R.color.app_theme_color));
+            }
+        }, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
 
     @Override
@@ -200,7 +227,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         } else if (v == binding.activityRegisterBtn) {
             // 验证协议是否同意
             if (!isAgree) {
-                ToastUtils.toastMsg("请先阅读并同意服务协议和隐私政策");
+                ToastUtils.toastMsg("请先阅读并同意隐私政策和用户服务协议");
                 return;
             }
 

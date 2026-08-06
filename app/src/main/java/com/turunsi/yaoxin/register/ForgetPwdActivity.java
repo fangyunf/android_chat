@@ -1,25 +1,25 @@
 package com.turunsi.yaoxin.register;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 
-import com.google.gson.Gson;
 import com.turunsi.yaoxin.R;
-import com.turunsi.yaoxin.utils.IMUtil;
 import com.yaoxin.appbase.activity.BaseActivity;
 import com.turunsi.yaoxin.databinding.ActivityForgetPwdBinding;
 import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.RegisterBean;
-import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.CommonNetUtil;
-import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
 import com.yaoxin.appbase.view.loginlib.utils.LoginLoader;
@@ -42,28 +42,61 @@ public class ForgetPwdActivity extends BaseActivity implements View.OnClickListe
         _initTfText();
     }
 
-    void _initTfText() {
-        // 设置图标和提示文本
-        binding.forgetPwdActivityPhoneTf.viewTitleTfCountIv.setImageResource(R.mipmap.login_icon_phone);
-        binding.forgetPwdActivityCodeTf.viewTitleTfCountIv.setImageResource(R.mipmap.login_icon_code);
-        binding.forgetPwdActivityPwdTf.viewTitleTfCountIv.setImageResource(R.mipmap.login_icon_password);
+    private void styleInputField(View root, EditText et, String hint) {
+        root.setBackgroundResource(R.drawable.bg_input_stroke_capsule);
+        ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) root.getLayoutParams();
+        if (lp != null) {
+            lp.leftMargin = 0;
+            lp.rightMargin = 0;
+            root.setLayoutParams(lp);
+        }
+        root.setPadding(dp(16), 0, dp(12), 0);
+        if (root instanceof ViewGroup) {
+            ViewGroup vg = (ViewGroup) root;
+            if (vg.getChildCount() > 1) {
+                vg.getChildAt(1).setVisibility(View.GONE);
+            }
+            View row = vg.getChildAt(0);
+            if (row instanceof LinearLayout) {
+                ((LinearLayout) row).setPadding(0, 0, 0, 0);
+            }
+        }
+        ViewGroup.MarginLayoutParams etLp = (ViewGroup.MarginLayoutParams) et.getLayoutParams();
+        if (etLp != null) {
+            etLp.leftMargin = 0;
+            et.setLayoutParams(etLp);
+        }
+        et.setHint(hint);
+        et.setHintTextColor(Color.parseColor("#BBBBBB"));
+        et.setTextSize(15);
+    }
 
-        // 设置输入类型和提示文本
+    private int dp(int value) {
+        return (int) (value * getResources().getDisplayMetrics().density + 0.5f);
+    }
+
+    void _initTfText() {
+        styleInputField(binding.forgetPwdActivityPhoneTf.getRoot(),
+                binding.forgetPwdActivityPhoneTf.viewTitleTfCountEt, "请输入手机号");
+        styleInputField(binding.forgetPwdActivityCodeTf.getRoot(),
+                binding.forgetPwdActivityCodeTf.viewTitleTfCountEt, "请输入验证码");
+        styleInputField(binding.forgetPwdActivityPwdTf.getRoot(),
+                binding.forgetPwdActivityPwdTf.viewTitleTfCountEt, "请输入新密码");
+
+        binding.forgetPwdActivityPhoneTf.viewTitleTfCountIv.setVisibility(View.GONE);
+        binding.forgetPwdActivityCodeTf.viewTitleTfCountIv.setVisibility(View.GONE);
+        binding.forgetPwdActivityPwdTf.viewTitleTfCountIv.setVisibility(View.GONE);
+
         binding.forgetPwdActivityPhoneTf.viewTitleTfCountEt.setInputType(InputType.TYPE_CLASS_NUMBER);
         binding.forgetPwdActivityCodeTf.viewTitleTfCountEt.setInputType(InputType.TYPE_CLASS_NUMBER);
         binding.forgetPwdActivityPwdTf.viewTitleTfCountEt.setTransformationMethod(PasswordTransformationMethod.getInstance());
 
-        binding.forgetPwdActivityPhoneTf.viewTitleTfCountEt.setHint("输入11位中国大陆手机*");
-        binding.forgetPwdActivityCodeTf.viewTitleTfCountEt.setHint("输入验证码*");
-        binding.forgetPwdActivityPwdTf.viewTitleTfCountEt.setHint("输入您的密码*");
-
-        // 显示密码可见性切换按钮
         binding.forgetPwdActivityPwdTf.viewTitleTfCountEyeRl.setVisibility(View.VISIBLE);
         binding.forgetPwdActivityPwdTf.viewTitleTfCountEyeRl.setOnClickListener(this);
         binding.forgetPwdActivityPwdTf.viewTitleTfCountEyeIv.setSelected(true);
 
-        // 显示验证码按钮
         binding.forgetPwdActivityCodeTf.viewTitleTfCountCaptcha.setVisibility(View.VISIBLE);
+        binding.forgetPwdActivityCodeTf.viewTitleTfCountCaptcha.setTextSize(14);
         CountDownView mCountDownView = binding.forgetPwdActivityCodeTf.viewTitleTfCountCaptcha;
         mCountDownView.setUserEdit(binding.forgetPwdActivityPhoneTf.viewTitleTfCountEt);
         mCountDownView.setCountDownTime(60);
@@ -85,7 +118,6 @@ public class ForgetPwdActivity extends BaseActivity implements View.OnClickListe
         if (v == binding.forgetPwdActivityNav.addCloseImageButton()) {
             finish();
         } else if (v == binding.forgetPwdActivityPwdTf.viewTitleTfCountEyeRl) {
-            // 切换密码可见性
             binding.forgetPwdActivityPwdTf.viewTitleTfCountEyeIv.setSelected(!binding.forgetPwdActivityPwdTf.viewTitleTfCountEyeIv.isSelected());
             if (binding.forgetPwdActivityPwdTf.viewTitleTfCountEyeIv.isSelected()) {
                 binding.forgetPwdActivityPwdTf.viewTitleTfCountEt.setTransformationMethod(PasswordTransformationMethod.getInstance());
@@ -114,7 +146,6 @@ public class ForgetPwdActivity extends BaseActivity implements View.OnClickListe
             bean.phoneNo = phone;
             bean.captcha = code;
 
-            Activity that = this;
             HttpUtil.apiW().customer_updatePassword(bean)
                     .enqueue(new CommonCallback<NetData>() {
                         @Override

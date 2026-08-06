@@ -3,17 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f2f2f2">
+    android:background="@color/white">
 
-    <!-- 导航栏 -->
     <com.yaoxin.appbase.navbar.NavToolbar
         android:id="@+id/activity_other_place_login_nav"
         style="@style/WhiteFontToolbar"
         android:background="@color/transparent"
         app:back_icon="@mipmap/temp_ic_back"
-        app:enable_under_divider="true"
+        app:enable_under_divider="false"
         app:support_translucent_status_bar="false"
-        app:title="欢迎注册"
+        app:title=""
         app:title_text_color="@color/black"
         app:under_divider_color="@color/transparent" />
 
@@ -23,127 +22,129 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/activity_other_place_login_nav"
         android:fillViewport="true"
-        android:paddingHorizontal="20dp">
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingTop="40dp"
-            android:paddingBottom="40dp">
+            android:paddingHorizontal="24dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="32dp">
 
-            <!-- 手机号输入框 -->
+            <TextView
+                android:id="@+id/activity_register_title_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="欢迎进入昌盛"
+                android:textColor="#1A1A1A"
+                android:textSize="28sp"
+                android:textStyle="bold" />
+
             <include
                 android:id="@+id/register_activity_phone_tf"
                 layout="@layout/view_title_tf_count"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="50dp"
+                android:layout_marginTop="28dp" />
 
-            <!-- 验证码输入框 -->
             <include
                 android:id="@+id/register_activity_code_tf"
                 layout="@layout/view_title_tf_count"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp" />
+                android:layout_height="50dp"
+                android:layout_marginTop="14dp" />
 
-            <!-- 用户名输入框 -->
             <include
                 android:id="@+id/register_activity_username_tf"
                 layout="@layout/view_title_tf_count"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp" />
+                android:layout_height="50dp"
+                android:layout_marginTop="14dp" />
 
-            <!-- 密码输入框 -->
             <include
                 android:id="@+id/register_activity_pwd_tf"
                 layout="@layout/view_title_tf_count"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp" />
+                android:layout_height="50dp"
+                android:layout_marginTop="14dp" />
 
-            <!-- 确认密码输入框 -->
             <include
                 android:id="@+id/register_activity_pwd2_tf"
                 layout="@layout/view_title_tf_count"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp" />
+                android:layout_height="50dp"
+                android:layout_marginTop="14dp" />
 
-            <!-- 性别选择 -->
             <RadioGroup
                 android:id="@+id/rg_gender"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="18dp"
                 android:orientation="horizontal">
 
                 <RadioButton
                     android:id="@+id/rb_male"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_gender_capsule_selector"
                     android:button="@null"
                     android:checked="true"
-                    android:drawableLeft="@drawable/app_radio_green_selector"
-                    android:drawablePadding="@dimen/dimen_10_dp"
+                    android:gravity="center"
                     android:text="男"
-                    android:textColor="@color/black"
+                    android:textColor="@color/gender_text_selector"
                     android:textSize="16sp" />
 
                 <RadioButton
                     android:id="@+id/rb_female"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="32dp"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="14dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_gender_capsule_selector"
                     android:button="@null"
-                    android:drawableLeft="@drawable/app_radio_green_selector"
-                    android:drawablePadding="@dimen/dimen_10_dp"
+                    android:gravity="center"
                     android:text="女"
-                    android:textColor="@color/black"
+                    android:textColor="@color/gender_text_selector"
                     android:textSize="16sp" />
             </RadioGroup>
 
-            <!-- 协议复选框 -->
+            <TextView
+                android:id="@+id/activity_register_btn"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="28dp"
+                android:background="@drawable/bg_theme_capsule"
+                android:gravity="center"
+                android:text="注册"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
             <LinearLayout
                 android:id="@+id/activity_register_agree_ll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <ImageView
                     android:id="@+id/activity_register_is_checked_iv"
-                    android:layout_width="@dimen/dimen_18_dp"
-                    android:layout_height="@dimen/dimen_18_dp"
-                    android:button="@null"
-                    android:drawablePadding="0dp"
-                    android:padding="0dp"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
                     android:src="@drawable/app_radio_green_selector" />
 
                 <TextView
                     android:id="@+id/activity_register_agree_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dimen_8_dp"
-                    android:text="我已阅读并接受《服务条款》《隐私政策》"
-                    android:textColor="@color/color_999999"
+                    android:layout_marginStart="8dp"
+                    android:text="已阅读并同意《隐私政策》和《用户服务协议》"
+                    android:textColor="#999999"
                     android:textSize="13sp" />
             </LinearLayout>
-
-            <!-- 提交按钮 -->
-            <TextView
-                android:id="@+id/activity_register_btn"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="32dp"
-                android:background="@drawable/bg_green_rounded_10"
-                android:gravity="center"
-                android:text="提交"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                android:textStyle="bold" />
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

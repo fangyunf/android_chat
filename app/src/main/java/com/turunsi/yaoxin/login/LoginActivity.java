@@ -1,18 +1,28 @@
 package com.turunsi.yaoxin.login;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.InputType;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 import com.google.gson.Gson;
 import com.netease.yunxin.kit.common.utils.SPUtils;
-import com.netease.yunxin.kit.common.utils.SizeUtils;
 import com.netease.yunxin.kit.corekit.route.XKitRouter;
 import com.turunsi.yaoxin.BuildConfig;
 import com.turunsi.yaoxin.R;
@@ -21,7 +31,6 @@ import com.yaoxin.appbase.activity.BaseActivity;
 import com.turunsi.yaoxin.databinding.ActivityLoginBinding;
 import com.turunsi.yaoxin.register.ForgetPwdActivity;
 import com.turunsi.yaoxin.register.RegisterActivity;
-import com.turunsi.yaoxin.fragment.OtherPlaceLoginFragment;
 import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.model.UserBean;
@@ -29,8 +38,6 @@ import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.Constant;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.net.NetServerException;
-import com.yaoxin.appbase.utils.AppProxy;
-import com.yaoxin.appbase.utils.CommonNetUtil;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.DeviceUtils;
 import com.yaoxin.appbase.utils.StatusBarUtils;
@@ -47,7 +54,7 @@ import retrofit2.Response;
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
     ActivityLoginBinding binding;
     private Handler handler;
-    boolean isAgree = false;
+    boolean isAgree = true;
 
     int _type = 0;
 
@@ -58,29 +65,30 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         setContentView(binding.getRoot());
         StatusBarUtils.transtStatusBar(this, binding.activityMineLoginNav);
         binding.activityMineLoginNav.addCloseImageButton().setOnClickListener(view -> finish());
-        //StatusBarUtils.setStatusBarLightMode(this, true, true);
-//        binding.activityLoginLoginLl.setOnClickListener(this);
-//        binding.activityLoginRegisterLl.setOnClickListener(this);
+
         binding.activityLoginForgetTv.setOnClickListener(this);
         binding.activityLoginRegisterTv.setOnClickListener(this);
         binding.activityLoginLoginTv.setOnClickListener(this);
-//        binding.activityLoginIsAgreeLl.setOnClickListener(this);
-//        binding.activityLoginIsCheckedTxt2.setOnClickListener(this);
-//        binding.activityLoginIsCheckedTxt4.setOnClickListener(this);
-//        binding.activityLoginIsAgreeLl.setOnClickListener(this);
-        binding.activityLoginTf1.viewTitleTfCountIv.setImageResource(R.mipmap.login_icon_phone);
-        binding.activityLoginTf2.viewTitleTfCountIv.setImageResource(R.mipmap.login_icon_code);
-        binding.activityLoginTf3.viewTitleTfCountIv.setImageResource(R.mipmap.login_icon_password);
-        binding.activityLoginTf1.viewTitleTfCountEt.setHint("输入手机号");
-        binding.activityLoginTf2.viewTitleTfCountEt.setHint("输入验证码");
-        binding.activityLoginTf3.viewTitleTfCountEt.setHint("输入密码");
+        binding.activityLoginAgreeLl.setOnClickListener(this);
+        binding.activityLoginIsCheckedIv.setSelected(true);
+
+        styleInputField(binding.activityLoginTf1.getRoot(),
+                binding.activityLoginTf1.viewTitleTfCountEt, "请输入手机号");
+        styleInputField(binding.activityLoginTf2.getRoot(),
+                binding.activityLoginTf2.viewTitleTfCountEt, "请输入验证码");
+        styleInputField(binding.activityLoginTf3.getRoot(),
+                binding.activityLoginTf3.viewTitleTfCountEt, "请输入密码");
+
+        binding.activityLoginTf1.viewTitleTfCountIv.setVisibility(View.GONE);
+        binding.activityLoginTf2.viewTitleTfCountIv.setVisibility(View.GONE);
+        binding.activityLoginTf3.viewTitleTfCountIv.setVisibility(View.GONE);
+
         binding.activityLoginTf1.viewTitleTfCountEt.setInputType(InputType.TYPE_CLASS_NUMBER);
         binding.activityLoginTf2.viewTitleTfCountEt.setInputType(InputType.TYPE_CLASS_NUMBER);
         binding.activityLoginTf3.viewTitleTfCountEyeRl.setVisibility(View.VISIBLE);
         binding.activityLoginTf3.viewTitleTfCountEyeRl.setOnClickListener(this);
         binding.activityLoginTf3.viewTitleTfCountEyeIv.setSelected(true);
         binding.activityLoginTf3.viewTitleTfCountEt.setTransformationMethod(PasswordTransformationMethod.getInstance());
-
 
         CountDownView mCountDownView = binding.activityLoginTf2.viewTitleTfCountCaptcha;
         mCountDownView.setUserEdit(binding.activityLoginTf1.viewTitleTfCountEt);
@@ -89,50 +97,130 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             @Override
             public void onPre() {
                 String phone = getTextStr(binding.activityLoginTf1.viewTitleTfCountEt);
-                CommonNetUtil.getPhoneCode(phone);
+                com.yaoxin.appbase.utils.CommonNetUtil.getPhoneCode(phone);
             }
 
             @Override
             public void onComplete(String phoneOrEmail) {
             }
         });
-        changeTitleWithType(0);
 
+        setupRegisterText();
+        setupAgreementText();
+        changeTitleWithType(0);
+    }
+
+    private void styleInputField(View root, EditText et, String hint) {
+        root.setBackgroundResource(R.drawable.bg_input_stroke_capsule);
+        ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) root.getLayoutParams();
+        if (lp != null) {
+            lp.leftMargin = 0;
+            lp.rightMargin = 0;
+            root.setLayoutParams(lp);
+        }
+        root.setPadding(dp(16), 0, dp(12), 0);
+        if (root instanceof ViewGroup) {
+            ViewGroup vg = (ViewGroup) root;
+            if (vg.getChildCount() > 1) {
+                vg.getChildAt(1).setVisibility(View.GONE);
+            }
+            View row = vg.getChildAt(0);
+            if (row instanceof LinearLayout) {
+                ((LinearLayout) row).setPadding(0, 0, 0, 0);
+            }
+        }
+        ViewGroup.MarginLayoutParams etLp = (ViewGroup.MarginLayoutParams) et.getLayoutParams();
+        if (etLp != null) {
+            etLp.leftMargin = 0;
+            et.setLayoutParams(etLp);
+        }
+        et.setHint(hint);
+        et.setHintTextColor(Color.parseColor("#BBBBBB"));
+        et.setTextSize(15);
+    }
+
+    private int dp(int value) {
+        return (int) (value * getResources().getDisplayMetrics().density + 0.5f);
+    }
+
+    private void setupRegisterText() {
+        String text = "没有账号？现在去注册账号";
+        SpannableString spannableString = new SpannableString(text);
+        int start = text.indexOf("现在去注册账号");
+        if (start >= 0) {
+            int end = text.length();
+            spannableString.setSpan(
+                    new ForegroundColorSpan(ContextCompat.getColor(this, com.yaoxin.appbase.R.color.app_theme_color)),
+                    start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        binding.activityLoginRegisterTv.setText(spannableString);
+    }
+
+    private void setupAgreementText() {
+        String text = "已阅读并同意《隐私政策》和《用户服务协议》";
+        SpannableString spannableString = new SpannableString(text);
+        bindAgreementLink(spannableString, text, "《隐私政策》", "1", "隐私政策");
+        bindAgreementLink(spannableString, text, "《用户服务协议》", "2", "用户服务协议");
+        binding.activityLoginAgreeTv.setText(spannableString);
+        binding.activityLoginAgreeTv.setMovementMethod(LinkMovementMethod.getInstance());
+        binding.activityLoginAgreeTv.setHighlightColor(Color.TRANSPARENT);
+    }
+
+    private void bindAgreementLink(SpannableString spannableString, String text, String link,
+                                   String type, String title) {
+        int start = text.indexOf(link);
+        if (start < 0) {
+            return;
+        }
+        int end = start + link.length();
+        spannableString.setSpan(
+                new ForegroundColorSpan(ContextCompat.getColor(this, com.yaoxin.appbase.R.color.app_theme_color)),
+                start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(new ClickableSpan() {
+            @Override
+            public void onClick(@NonNull View widget) {
+                XKitRouter.withKey(Constant.BaseWebViewActivityKey)
+                        .withParam("type", type)
+                        .withParam("title", title)
+                        .withContext(LoginActivity.this)
+                        .navigate();
+            }
+
+            @Override
+            public void updateDrawState(@NonNull TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setUnderlineText(false);
+                ds.setColor(ContextCompat.getColor(LoginActivity.this, com.yaoxin.appbase.R.color.app_theme_color));
+            }
+        }, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
 
     void changeTitleWithType(int type) {
         _type = type;
         if (type == 0) {
-            binding.activityLoginTf2.viewRoundTfLl.setVisibility(View.GONE);
+            binding.activityLoginTf2.getRoot().setVisibility(View.GONE);
             binding.activityLoginLoginTv.setText("登录");
-            binding.activityLoginTitleTv.setText("星衍");
-            binding.tvTip.setText("欢迎使用星衍");
-            binding.activityLoginForgetTv.setText("忘记密码");
-            //binding.activityLoginRegisterTv.setText("没有账号，去注册");
-            binding.activityLoginRegisterTv.setText("立即注册");
+            binding.activityLoginTitleTv.setText("欢迎回来");
+            binding.activityLoginForgetTv.setText("忘记密码？");
             binding.activityLoginForgetTv.setVisibility(View.VISIBLE);
-            binding.activityLoginRegisterTv.setVisibility(View.GONE);
-            binding.activityLoginTitleIv.setImageResource(R.mipmap.common_login_title_login);
+            binding.activityLoginRegisterTv.setVisibility(View.VISIBLE);
+            setupRegisterText();
         } else if (type == 1) {
-            binding.activityLoginTf2.viewRoundTfLl.setVisibility(View.VISIBLE);
+            binding.activityLoginTf2.getRoot().setVisibility(View.VISIBLE);
             binding.activityLoginTf2.viewTitleTfCountCaptcha.setVisibility(View.VISIBLE);
             binding.activityLoginLoginTv.setText("注册");
             binding.activityLoginTitleTv.setText("注册");
-            binding.tvTip.setText("请使用已注册的账号密码");
             binding.activityLoginRegisterTv.setText("已有账号，去登录");
             binding.activityLoginRegisterTv.setVisibility(View.VISIBLE);
             binding.activityLoginForgetTv.setVisibility(View.GONE);
-            binding.activityLoginTitleIv.setImageResource(R.mipmap.common_login_title_register);
         } else if (type == 2) {
-            binding.activityLoginTf2.viewRoundTfLl.setVisibility(View.VISIBLE);
+            binding.activityLoginTf2.getRoot().setVisibility(View.VISIBLE);
             binding.activityLoginTf2.viewTitleTfCountCaptcha.setVisibility(View.VISIBLE);
             binding.activityLoginLoginTv.setText("找回密码");
             binding.activityLoginTitleTv.setText("找回密码");
-            binding.activityLoginForgetTv.setVisibility(View.GONE);
             binding.activityLoginRegisterTv.setText("已有账号，去登录");
             binding.activityLoginRegisterTv.setVisibility(View.VISIBLE);
             binding.activityLoginForgetTv.setVisibility(View.GONE);
-            binding.activityLoginTitleIv.setImageResource(R.mipmap.common_login_title_forget);
         }
         if (BuildConfig.DEBUG) {
             binding.activityLoginTf1.viewTitleTfCountEt.setText("13761543036");
@@ -142,22 +230,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
-//        if (v == binding.activityLoginIsAgreeLl) {
-//            binding.activityLoginIsCheckedIv.setSelected(!binding.activityLoginIsCheckedIv.isSelected());
-//        }  else if (v == binding.activityLoginIsCheckedTxt2) {
-//            XKitRouter.withKey(Constant.BaseWebViewActivityKey)
-//                .withParam("type","2")
-//                .withParam("title","服务协议")
-//                .withContext(this)
-//                .navigate();
-//        }  else if (v == binding.activityLoginIsCheckedTxt4) {
-//            XKitRouter.withKey(Constant.BaseWebViewActivityKey)
-//                    .withParam("type","1")
-//                    .withParam("title","隐私政策")
-//                    .withContext(this)
-//                    .navigate();
-//        }  else
-        if (v == binding.activityLoginTf3.viewTitleTfCountEyeRl) {
+        if (v == binding.activityLoginAgreeLl) {
+            isAgree = !isAgree;
+            binding.activityLoginIsCheckedIv.setSelected(isAgree);
+        } else if (v == binding.activityLoginTf3.viewTitleTfCountEyeRl) {
             binding.activityLoginTf3.viewTitleTfCountEyeIv.setSelected(!binding.activityLoginTf3.viewTitleTfCountEyeIv.isSelected());
             if (binding.activityLoginTf3.viewTitleTfCountEyeIv.isSelected()) {
                 binding.activityLoginTf3.viewTitleTfCountEt.setTransformationMethod(PasswordTransformationMethod.getInstance());
@@ -166,29 +242,18 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             }
         } else if (v == binding.activityLoginForgetTv) {
             ForgetPwdActivity.start(ForgetPwdActivity.class, this, null);
-//            if (_type == 0) {
-//                changeTitleWithType(2);
-//            } else if (_type == 1 || _type == 2) {
-//                changeTitleWithType(0);
-//            }
-//            changeTitleWithType(_type == 0 ? 2 : 0);
         } else if (v == binding.activityLoginRegisterTv) {
-//            ForgetPwdActivity.start(ForgetPwdActivity.class, this, null);
-            RegisterActivity.start(RegisterActivity.class, this, null);
-
-//            if (_type == 0) {
-//                changeTitleWithType(1);
-//            } else {
-//                changeTitleWithType(0);
-//            }
-        } else if (v == binding.activityLoginLoginTv) {
-
             if (_type == 0) {
-
-//                if (!binding.activityLoginIsCheckedIv.isSelected()) {
-//                    ToastUtils.toastMsg("请同意协议");
-//                    return;
-//                }
+                RegisterActivity.start(RegisterActivity.class, this, null);
+            } else {
+                changeTitleWithType(0);
+            }
+        } else if (v == binding.activityLoginLoginTv) {
+            if (!isAgree) {
+                ToastUtils.toastMsg("请先阅读并同意隐私政策和用户服务协议");
+                return;
+            }
+            if (_type == 0) {
                 String phone = getTextStr(binding.activityLoginTf1.viewTitleTfCountEt);
                 if (phone.length() != 11) {
                     ToastUtils.toastMsg("手机格式错误");
@@ -217,16 +282,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     @Override
                     public void Failure(Call<NetData> call, Throwable t) {
                         if (t instanceof NetServerException) {
-
                             NetServerException exception = (NetServerException) t;
                             if (exception.getErrCode() == 601) {
-
                                 HashMap map = new HashMap<>();
                                 map.put("type", "0");
                                 map.put("phone", phone);
                                 OtherPlaceLoginActivity.start(OtherPlaceLoginActivity.class, that, map);
-//                                        OtherPlaceLoginFragment fragment = new OtherPlaceLoginFragment();
-//                                        fragment.showNow(getSupportFragmentManager(),"OtherPlaceLoginFragment");
                             }
                         }
                     }
@@ -238,10 +299,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     }
                 });
             } else if (_type == 1) {
-//                if (!binding.activityLoginIsCheckedIv.isSelected()) {
-//                    ToastUtils.toastMsg("请同意协议");
-//                    return;
-//                }
                 String phone = getTextStr(binding.activityLoginTf1.viewTitleTfCountEt);
                 if (phone.length() != 11) {
                     ToastUtils.toastMsg("手机格式错误");
@@ -309,7 +366,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 bean.phoneNo = phone;
                 bean.captcha = code;
 
-                Activity that = this;
                 HttpUtil.apiW().customer_updatePassword(bean).enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
@@ -323,15 +379,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     }
                 });
             }
-
-//            Intent intent = new Intent();
-//            intent.setClass(this, MainActivity.class);
-//            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-//            this.startActivity(intent);
-//            finish();
         }
     }
-
 
     @Override
     protected void onDestroy() {
