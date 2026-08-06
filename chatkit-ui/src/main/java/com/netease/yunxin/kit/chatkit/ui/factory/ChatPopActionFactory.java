@@ -59,18 +59,20 @@ public class ChatPopActionFactory {
      */
     public List<ChatPopMenuAction> getNormalActions(ChatMessageBean message) {
         List<ChatPopMenuAction> actions = new ArrayList<>();
-        if (message.getMessageData() == null) {
+        if (message.getMessageData() == null || message.getMessageData().getMessage() == null) {
             return actions;
         }
-        int viewType = message.getViewType();
-
-        if (viewType == 0 &&message.getMessageData().getMessage().getAttachStr() != null && !message.getMessageData().getMessage().getAttachStr().isEmpty()) {
-
+        // 业务自定义消息（红包/名片/转账等）：仅删除，自己发的名片可撤回。
+        // 注意：不能用 viewType==0（文本也是 0）判断，否则部分机型文本消息带 attachStr 时会丢掉复制/转发。
+        if (message.getMessageData().getMessage().getMsgType() == MsgTypeEnum.custom
+                && !isCopyable(message)
+                && !isForwardable(message)) {
             actions.add(getDeleteAction(message));
-            if (message.getMessageData().getMessage().getAttachStr().contains("memberCode")) {
-                if (message.getMessageData().getMessage().getDirect() == MsgDirectionEnum.Out) {
-                    actions.add(getRecallAction(message));
-                }
+            String attachStr = message.getMessageData().getMessage().getAttachStr();
+            if (attachStr != null
+                    && attachStr.contains("memberCode")
+                    && message.getMessageData().getMessage().getDirect() == MsgDirectionEnum.Out) {
+                actions.add(getRecallAction(message));
             }
             return actions;
         }
@@ -80,7 +82,7 @@ public class ChatPopActionFactory {
             if (message.getMessageData().getMessage().getStatus() == MsgStatusEnum.fail
                     || message.getMessageData().getMessage().getStatus() == MsgStatusEnum.sending
                     || message.getMessageData().getMessage().isInBlackList()) {
-                if (message.getViewType() == MsgTypeEnum.text.getValue()) {
+                if (isCopyable(message)) {
                     actions.add(getCopyAction(message));
                 }
                 actions.add(getDeleteAction(message));
@@ -126,23 +128,41 @@ public class ChatPopActionFactory {
         return actions;
     }
 
-    /** 文本 / 富文本可复制 */
+    /** 文本 / 富文本可复制；红包等业务自定义消息不可复制 */
     private boolean isCopyable(ChatMessageBean message) {
-        int viewType = message.getViewType();
-        return viewType == MsgTypeEnum.text.getValue()
-                || viewType == ChatMessageType.RICH_TEXT_ATTACHMENT;
+        if (message.getMessageData() == null || message.getMessageData().getMessage() == null) {
+            return false;
+        }
+        MsgTypeEnum msgType = message.getMessageData().getMessage().getMsgType();
+        if (msgType == MsgTypeEnum.text) {
+            return true;
+        }
+        // 自定义消息仅富文本可复制；viewType==0 不能当文本（红包解析失败时也会是 0）
+        if (msgType == MsgTypeEnum.custom) {
+            return message.getViewType() == ChatMessageType.RICH_TEXT_ATTACHMENT;
+        }
+        return false;
     }
 
-    /** 文本 / 图片 / 视频 / 文件 / 位置 / 富文本 / 合并转发 可转发；红包等业务自定义消息不可转发 */
+    /** 文本 / 图片 / 视频 / 文件 / 位置 / 富文本 / 合并转发 可转发；红包/转账/名片等不可转发 */
     private boolean isForwardable(ChatMessageBean message) {
-        int viewType = message.getViewType();
-        return viewType == MsgTypeEnum.text.getValue()
-                || viewType == MsgTypeEnum.image.getValue()
-                || viewType == MsgTypeEnum.video.getValue()
-                || viewType == MsgTypeEnum.file.getValue()
-                || viewType == MsgTypeEnum.location.getValue()
-                || viewType == ChatMessageType.RICH_TEXT_ATTACHMENT
-                || viewType == ChatMessageType.MULTI_FORWARD_ATTACHMENT;
+        if (message.getMessageData() == null || message.getMessageData().getMessage() == null) {
+            return false;
+        }
+        MsgTypeEnum msgType = message.getMessageData().getMessage().getMsgType();
+        if (msgType == MsgTypeEnum.text
+                || msgType == MsgTypeEnum.image
+                || msgType == MsgTypeEnum.video
+                || msgType == MsgTypeEnum.file
+                || msgType == MsgTypeEnum.location) {
+            return true;
+        }
+        if (msgType == MsgTypeEnum.custom) {
+            int viewType = message.getViewType();
+            return viewType == ChatMessageType.RICH_TEXT_ATTACHMENT
+                    || viewType == ChatMessageType.MULTI_FORWARD_ATTACHMENT;
+        }
+        return false;
     }
 
     private ChatPopMenuAction getReplyAction(ChatMessageBean message) {
@@ -163,7 +183,7 @@ public class ChatPopActionFactory {
                 R.string.chat_message_action_copy,
                 R.drawable.ic_message_copy,
                 (view, messageInfo) -> {
-                    if (actionListener != null) {
+                    if (actionListener != null && actionListener.get() != null) {
                         actionListener.get().onCopy(messageInfo);
                     }
                 });
@@ -179,7 +199,7 @@ public class ChatPopActionFactory {
                         ToastX.showShortToast(R.string.chat_network_error_tip);
                         return;
                     }
-                    if (actionListener != null) {
+                    if (actionListener != null && actionListener.get() != null) {
                         actionListener.get().onRecall(messageInfo);
                     }
                 });
@@ -197,7 +217,7 @@ public class ChatPopActionFactory {
                         ToastX.showShortToast(R.string.chat_network_error_tip);
                         return;
                     }
-                    if (actionListener != null) {
+                    if (actionListener != null && actionListener.get() != null) {
                         actionListener
                                 .get()
                                 .onSignal(messageInfo, !TextUtils.isEmpty(messageInfo.getPinAccid()));
@@ -211,7 +231,7 @@ public class ChatPopActionFactory {
                 R.string.chat_message_action_multi_select,
                 R.drawable.ic_message_multi_select,
                 (view, messageInfo) -> {
-                    if (actionListener != null) {
+                    if (actionListener != null && actionListener.get() != null) {
                         actionListener.get().onMultiSelected(messageInfo);
                     }
                 });
@@ -223,7 +243,7 @@ public class ChatPopActionFactory {
                 R.string.chat_message_action_collection,
                 R.drawable.ic_message_collection,
                 (view, messageInfo) -> {
-                    if (actionListener != null) {
+                    if (actionListener != null && actionListener.get() != null) {
                         actionListener.get().onCollection(messageInfo);
                     }
                 });
@@ -239,7 +259,7 @@ public class ChatPopActionFactory {
                         ToastX.showShortToast(R.string.chat_network_error_tip);
                         return;
                     }
-                    if (actionListener != null) {
+                    if (actionListener != null && actionListener.get() != null) {
                         actionListener.get().onDelete(message);
                     }
                 });
@@ -255,7 +275,7 @@ public class ChatPopActionFactory {
                         ToastX.showShortToast(R.string.chat_network_error_tip);
                         return;
                     }
-                    if (actionListener != null) {
+                    if (actionListener != null && actionListener.get() != null) {
                         actionListener.get().onForward(messageInfo);
                     }
                 });

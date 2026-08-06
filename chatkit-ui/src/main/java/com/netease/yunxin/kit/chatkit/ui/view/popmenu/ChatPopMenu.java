@@ -95,6 +95,7 @@ public class ChatPopMenu {
       GridLayoutManager gridLayoutManager =
           new GridLayoutManager(IMKitClient.getApplicationContext(), columnNum);
       layoutBinding.recyclerView.setLayoutManager(gridLayoutManager);
+      // 每列实际宽度按 item minWidth(60) 估算：28 + 16*2
       int popWidth = itemWidth * columnNum + paddingLeftRight * (columnNum * 2);
       int popHeight = itemHeight * rowCount + paddingTopBottom * (rowCount + 1);
 
@@ -110,6 +111,21 @@ public class ChatPopMenu {
         y = (int) (location[1] + anchorHeight) + Y_OFFSET;
       }
 
+      // 防止部分机型菜单超出屏幕导致复制/转发被裁切看不见
+      int screenWidth = anchorView.getResources().getDisplayMetrics().widthPixels;
+      int screenHeight = anchorView.getResources().getDisplayMetrics().heightPixels;
+      if (x < 0) {
+        x = 0;
+      } else if (x + popWidth > screenWidth) {
+        x = Math.max(0, screenWidth - popWidth);
+      }
+      if (y < 0) {
+        y = 0;
+      } else if (y + popHeight > screenHeight) {
+        y = Math.max(0, screenHeight - popHeight);
+      }
+
+      popupWindow.setClippingEnabled(false);
       popupWindow.showAtLocation(anchorView, Gravity.NO_GRAVITY, x, y);
     }
   }

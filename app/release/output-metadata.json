@@ -11,9 +11,9 @@
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 13,
-      "versionName": "1.1.2",
-      "outputFile": "weiliao_release_v1.1.2.apk"
+      "versionCode": 15,
+      "versionName": "1.1.4",
+      "outputFile": "weiliao_release_v1.1.4.apk"
     }
   ],
   "elementType": "File"
