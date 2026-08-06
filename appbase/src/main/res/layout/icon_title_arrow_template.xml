@@ -11,14 +11,14 @@
 
     <ImageView
         android:id="@+id/icon_title_arrow_template_left_iv"
-        android:layout_width="23dp"
-        android:layout_height="23dp" />
+        android:layout_width="28dp"
+        android:layout_height="28dp" />
 
     <TextView
         android:id="@+id/icon_title_arrow_template_title_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="12dp"
         android:layout_weight="1"
         android:text=""
         android:textColor="#ff1A1A1A"
@@ -28,5 +28,5 @@
         android:id="@+id/icon_title_arrow_template_right_iv"
         android:layout_width="12dp"
         android:layout_height="12dp"
-        android:src="@mipmap/mine_index_right_arrow" />
+        android:src="@mipmap/icn_setting_arrow" />
 </LinearLayout>

@@ -9,7 +9,7 @@
     android:id="@+id/rootLayout"
     android:layout_width="match_parent"
     android:layout_height="72dp"
-    android:background="@color/color_ededed"
+    android:background="@color/color_white"
     android:clickable="true"
     android:focusable="true">
 
@@ -70,8 +70,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
-                android:textColor="@color/fun_conversation_item_title_text_color"
-                android:textSize="16sp" />
+                android:textColor="#1A1A1A"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <ImageView
                 android:id="@+id/tvGrader"
@@ -122,8 +123,8 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:textColor="@color/fun_conversation_item_sub_title_text_color"
-                android:textSize="12sp" />
+                android:textColor="#999999"
+                android:textSize="13sp" />
         </LinearLayout>
 
         <TextView
@@ -135,7 +136,7 @@
             android:ellipsize="end"
             android:maxWidth="@dimen/dimen_100_dp"
             android:maxLines="1"
-            android:textColor="#6D7472"
+            android:textColor="#999999"
             android:textSize="@dimen/text_size_12" />
 
         <ImageView

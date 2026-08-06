@@ -143,8 +143,9 @@ public class FunConversationFragment extends ConversationBaseFragment {
                     .navigate();
         });
         StatusBarUtils.setStatusBarLightMode(getActivity(), true, true);
-        ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) viewBinding.funConversationFragmentTopLl.getLayoutParams();
-        layoutParams.topMargin = BarUtils.getStatusBarHeight() + SizeUtils.dp2px(20);
+        ViewGroup.MarginLayoutParams layoutParams =
+                (ViewGroup.MarginLayoutParams) viewBinding.funConversationFragmentTopLl.getLayoutParams();
+        layoutParams.topMargin = BarUtils.getStatusBarHeight() + SizeUtils.dp2px(8);
         viewBinding.funConversationFragmentTopLl.setLayoutParams(layoutParams);
         new Timer().schedule(new TimerTask() {
             @Override

@@ -297,29 +297,23 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
                     View groupLine = headerView.findViewById(R.id.contact_header_group_line);
                     View teamLine = headerView.findViewById(R.id.contact_header_team_line);
 
-                    // 重置所有状态
-                    friendTab.setSelected(false);
-                    groupTab.setSelected(false);
-                    teamTab.setSelected(false);
-
-                    friendLine.setVisibility(View.INVISIBLE);
-                    groupLine.setVisibility(View.INVISIBLE);
-                    teamLine.setVisibility(View.INVISIBLE);
-
-                    // 根据当前选中更新状态
-                    switch (_selectIndex) {
-                        case 0:
-                            friendTab.setSelected(true);
-                            friendLine.setVisibility(View.VISIBLE);
-                            break;
-                        case 1:
-                            groupTab.setSelected(true);
-                            groupLine.setVisibility(View.VISIBLE);
-                            break;
-                        case 2:
-                            teamTab.setSelected(true);
-                            teamLine.setVisibility(View.VISIBLE);
-                            break;
+                    if (friendTab != null) {
+                        friendTab.setSelected(_selectIndex == 0);
+                    }
+                    if (groupTab != null) {
+                        groupTab.setSelected(_selectIndex == 1);
+                    }
+                    if (teamTab != null) {
+                        teamTab.setSelected(_selectIndex == 2);
+                    }
+                    if (friendLine != null) {
+                        friendLine.setVisibility(_selectIndex == 0 ? View.VISIBLE : View.INVISIBLE);
+                    }
+                    if (groupLine != null) {
+                        groupLine.setVisibility(_selectIndex == 1 ? View.VISIBLE : View.INVISIBLE);
+                    }
+                    if (teamLine != null) {
+                        teamLine.setVisibility(_selectIndex == 2 ? View.VISIBLE : View.INVISIBLE);
                     }
 
                     // 更新角标
@@ -460,6 +454,13 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
         loadFriendList();
     }
 
+    private void updateEmptyView(boolean empty) {
+        if (binding == null || binding.contactNewFragmentEmptyTv == null) {
+            return;
+        }
+        binding.contactNewFragmentEmptyTv.setVisibility(empty ? View.VISIBLE : View.GONE);
+    }
+
     /**
      * 加载好友列表数据
      */
@@ -518,11 +519,15 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
                 if (_selectIndex == 0) {
                     ConcatAdapter concatAdapter = new ConcatAdapter(headerAdapter, friendAdapter);
                     binding.contactNewFragmentRv.setAdapter(concatAdapter);
+                    updateEmptyView(mContactModels == null || mContactModels.isEmpty());
                 }
             }
 
             @Override
             public void Failure(Call<NetData> call, Throwable t) {
+                if (_selectIndex == 0) {
+                    updateEmptyView(true);
+                }
             }
         });
     }
@@ -740,6 +745,7 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
         friendAdapter.contacts = filteredList;
         friendAdapter.setItems(filteredList);
         friendAdapter.notifyDataSetChanged();
+        updateEmptyView(filteredList.isEmpty());
     }
 
     /**
@@ -783,6 +789,7 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
                 friendAdapter.contacts = mContactModelsAll;
                 friendAdapter.setItems(mContactModelsAll);
                 friendAdapter.notifyDataSetChanged();
+                updateEmptyView(mContactModelsAll == null || mContactModelsAll.isEmpty());
                 break;
             case 1:
                 // 恢复分组列表

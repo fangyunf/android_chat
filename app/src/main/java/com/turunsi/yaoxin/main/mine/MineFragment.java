@@ -84,6 +84,8 @@ import com.yaoxin.appbase.utils.NumberUtil;
 import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -236,6 +238,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         binding.fragmentMineWdfhView.setOnClickListener(this);
         binding.fragmentMineZcqyView.setOnClickListener(this);
         binding.fragmentMineCardShare.setOnClickListener(this);
+        binding.fragmentMineScanView.setOnClickListener(this);
         binding.fragmentMineTyszView.setOnClickListener(this);
         binding.fragmentMineTcdlView.setOnClickListener(this);
         binding.fragmentMineCopyIos.setOnClickListener(this);
@@ -268,6 +271,13 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 //        binding.mineFragmentMyManagerItem7.viewMineFragmentItemCellIcon.setImageResource(R.mipmap.mine_fragment_index_cell_icon_kefu);
 
         binding.cavIcon.setOnClickListener(this);
+        binding.tvAccount.setOnClickListener(this);
+
+        // 官网行隐藏右侧箭头，保留复制按钮
+        View gwArrow = binding.fragmentMineGwdzView.findViewById(com.yaoxin.appbase.R.id.icon_title_arrow_template_right_iv);
+        if (gwArrow != null) {
+            gwArrow.setVisibility(View.GONE);
+        }
 
         binding.tvKaitong.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -279,7 +289,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
     }
 
     private void refreshUserInfo(String account) {
-        int cornerRadius = SizeUtils.dp2px(30);
+        int cornerRadius = SizeUtils.dp2px(40);
         binding.cavIcon.setCornerRadius(cornerRadius);
         List<String> userInfoList = new ArrayList<>();
         userInfoList.add(account);
@@ -375,7 +385,10 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                     .withContext(requireContext())
                     .navigate();
         } else if (v == binding.fragmentMineMmszView) {
-            Mine_Pwd_Set_ManagerActivity.start(Mine_Pwd_Set_ManagerActivity.class, getContext(), null);
+            // 个人信息
+            AccountDetailActivity.start(AccountDetailActivity.class, getContext(), null);
+        } else if (v == binding.fragmentMineScanView) {
+            EventBus.getDefault().post(new com.yaoxin.appbase.utils.BaseEvent("gotoScan"));
         } else if (v == binding.fragmentMineTyszView || v == binding.fragmentMineShezhiIv) {
             SettingNewActivity.start(SettingNewActivity.class, getContext(), null);
         } else if (v == binding.fragmentMineHyzxView || v == binding.fragmentMineGotoUpgradeTv) {
@@ -494,7 +507,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 //            EggListIndexActivity.start(EggListIndexActivity.class,getContext(),null);
 ////            ToastUtils.toastMsg("敬请期待,等待开放");
 //        }
-        if (v == binding.fragmentMineCopyIv) {
+        if (v == binding.fragmentMineCopyIv || v == binding.tvAccount) {
             // 获取剪切板管理器
             ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
 

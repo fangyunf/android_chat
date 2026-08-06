@@ -1,30 +1,16 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) 2022 NetEase, Inc. All rights reserved.
-  ~ Use of this source code is governed by a MIT license that can be
-  ~ found in the LICENSE file.
-  -->
-
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fafafa">
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scaleType="fitXY"
-        android:src="@mipmap/jinzita_common_page_bg"
-        android:visibility="gone" />
+    android:background="@drawable/bg_changsheng_page_gradient">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#e7fcf7"
         android:orientation="vertical">
 
-        <!--        android:background="@drawable/home_bg"-->
         <LinearLayout
             android:id="@+id/topLayout"
             android:layout_width="match_parent"
@@ -36,133 +22,124 @@
                 android:id="@+id/fun_conversation_fragment_top_ll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                android:paddingHorizontal="15dp">
+                android:gravity="center_vertical"
+                android:paddingHorizontal="16dp"
+                android:paddingTop="8dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:paddingRight="10dp">
+                <ImageView
+                    android:id="@+id/fun_conversation_fragment_kefu_iv"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/fun_conversation_fragment_title_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="消息"
+                    android:textColor="#1A1A1A"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
 
                     <ImageView
-                        android:id="@+id/fun_conversation_fragment_kefu_iv"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:layout_marginHorizontal="10dp"
-                        android:src="@mipmap/conversation_list_index_kefu_icon"
-                        android:visibility="invisible" />
+                        android:id="@+id/fun_conversation_fragment_search_iv"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:background="@drawable/bg_conversation_action_circle"
+                        android:padding="8dp"
+                        android:src="@mipmap/conversation_list_index_notice_icon" />
 
                     <TextView
-                        android:id="@+id/fun_conversation_fragment_title_tv"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:paddingLeft="@dimen/dimen_35_dp"
-                        android:text="消息"
-                        android:textColor="@color/black"
-                        android:textSize="20sp" />
-
-                    <FrameLayout
+                        android:id="@+id/tvNoticeCount"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="10dp">
+                        android:layout_height="18dp"
+                        android:layout_gravity="end|top"
+                        android:background="@drawable/fun_bg_red_rounded_9"
+                        android:gravity="center"
+                        android:minWidth="18dp"
+                        android:paddingHorizontal="4dp"
+                        android:text="99"
+                        android:textColor="@color/color_white"
+                        android:textSize="11sp"
+                        android:visibility="gone" />
+                </FrameLayout>
 
-                        <ImageView
-                            android:id="@+id/fun_conversation_fragment_search_iv"
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
-                            android:src="@mipmap/conversation_list_index_notice_icon" />
-
-                        <TextView
-                            android:id="@+id/tvNoticeCount"
-                            android:layout_width="wrap_content"
-                            android:layout_height="18dp"
-                            android:layout_gravity="right|top"
-                            android:background="@drawable/fun_bg_red_rounded_9"
-                            android:gravity="center"
-                            android:minWidth="18dp"
-                            android:text="99"
-                            android:textColor="@color/color_white"
-                            android:textSize="12sp"
-                            android:visibility="gone" />
-                    </FrameLayout>
-
-                    <ImageView
-                        android:id="@+id/fun_conversation_fragment_more_iv"
-
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:src="@mipmap/conversation_index_pop_more" />
-                </LinearLayout>
+                <ImageView
+                    android:id="@+id/fun_conversation_fragment_more_iv"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/bg_conversation_action_circle"
+                    android:padding="8dp"
+                    android:src="@mipmap/conversation_index_pop_more" />
             </LinearLayout>
-
 
             <LinearLayout
                 android:id="@+id/fun_conversation_fragment_search_ll"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="@dimen/dimen_10_dp"
-                android:background="@drawable/home_seach_bg"
-                android:gravity="center">
+                android:layout_height="48dp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/bg_conversation_search_capsule"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="16dp">
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:src="@mipmap/conversation_list_index_search_icon1" />
 
                 <EditText
                     android:id="@+id/fun_conversation_fragment_et"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dimen_48_dp"
-                    android:autofillHints=""
-                    android:background="@color/transparent"
-                    android:drawableStart="@mipmap/conversation_list_index_search_icon1"
-                    android:drawablePadding="5dp"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:background="@null"
                     android:hint="搜索"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
                     android:maxLines="1"
-                    android:paddingStart="15dp"
-                    android:paddingEnd="15dp"
-                    android:textColor="@color/color_333333"
+                    android:textColor="#1A1A1A"
                     android:textColorHint="#8E8E93"
-                    android:textSize="16dp" />
-
+                    android:textSize="15sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/color_white">
+                android:layout_height="36dp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/bg_conversation_notice_banner"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="12dp">
 
-                <LinearLayout
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/icon_new_notice" />
+
+                <com.sunfusheng.marqueeview.MarqueeView
+                    android:id="@+id/marqueeView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/dimen_10_dp"
-                    android:layout_marginTop="@dimen/dimen_5_dp"
-                    android:layout_marginBottom="@dimen/dimen_5_dp"
-                    android:background="@drawable/note_home_bg"
-                    android:gravity="center_vertical"
-                    android:paddingHorizontal="10dp">
-
-                    <ImageView
-                        android:layout_width="@dimen/dimen_16_dp"
-                        android:layout_height="@dimen/dimen_16_dp"
-                        android:scaleType="fitXY"
-                        android:src="@mipmap/icon_new_notice" />
-
-                    <com.sunfusheng.marqueeview.MarqueeView
-                        android:id="@+id/marqueeView"
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:layout_marginLeft="10dp"
-                        app:mvAnimDuration="1000"
-                        app:mvDirection="bottom_to_top"
-                        app:mvInterval="3000"
-                        app:mvSingleLine="true"
-                        app:mvTextColor="#00C591"
-                        app:mvTextSize="12sp" />
-
-                </LinearLayout>
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="8dp"
+                    app:mvAnimDuration="1000"
+                    app:mvDirection="bottom_to_top"
+                    app:mvInterval="3000"
+                    app:mvSingleLine="true"
+                    app:mvTextColor="#D4AF37"
+                    app:mvTextSize="12sp" />
             </LinearLayout>
-
         </LinearLayout>
 
         <FrameLayout
@@ -232,7 +209,6 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
                             android:text="@string/conversation_empty_tip" />
-
                     </LinearLayout>
                 </FrameLayout>
             </com.scwang.smart.refresh.layout.SmartRefreshLayout>

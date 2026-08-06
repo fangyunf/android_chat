@@ -37,22 +37,16 @@
                 <!-- 余额白卡 -->
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="120dp"
                     android:layout_marginTop="12dp"
                     android:background="@drawable/bg_white_rounded_16"
-                    android:elevation="2dp"
-                    android:padding="20dp">
-
-                    <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentTop="true"
-                        android:src="@mipmap/icn_wallet_balance_heart" />
+                    android:paddingHorizontal="20dp"
+                    android:paddingVertical="18dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
                         android:layout_toStartOf="@+id/activity_mine_purse_index_tixian_tv"
                         android:orientation="vertical"
                         android:paddingEnd="12dp">
@@ -75,12 +69,27 @@
                             android:textStyle="bold" />
                     </LinearLayout>
 
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="52dp"
+                        android:layout_marginTop="2dp"
+                        android:src="@mipmap/icn_wallet_deco_coin" />
+
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="6dp"
+                        android:src="@mipmap/icn_wallet_balance_heart" />
+
                     <TextView
                         android:id="@+id/activity_mine_purse_index_tixian_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="36dp"
                         android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
+                        android:layout_alignParentBottom="true"
                         android:background="@drawable/bg_pink_gradient_capsule"
                         android:gravity="center"
                         android:paddingHorizontal="16dp"
@@ -102,19 +111,16 @@
                         android:visibility="gone" />
                 </RelativeLayout>
 
-                <!-- 2×3 宫格 -->
+                <!-- 2×3 独立白卡宫格 -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:background="@drawable/bg_white_rounded_16"
-                    android:elevation="2dp"
-                    android:orientation="vertical"
-                    android:padding="8dp">
+                    android:layout_marginTop="12dp"
+                    android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="100dp"
+                        android:layout_height="110dp"
                         android:orientation="horizontal">
 
                         <RelativeLayout
@@ -122,21 +128,22 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:padding="12dp">
+                            android:background="@drawable/bg_white_rounded_16"
+                            android:padding="14dp">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
+                                android:layout_alignParentTop="true"
                                 android:orientation="vertical"
-                                android:paddingEnd="36dp">
+                                android:paddingEnd="40dp">
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="充值中心"
                                     android:textColor="@color/changsheng_text_main"
-                                    android:textSize="15sp"
+                                    android:textSize="16sp"
                                     android:textStyle="bold" />
 
                                 <TextView
@@ -149,8 +156,8 @@
                             </LinearLayout>
 
                             <ImageView
-                                android:layout_width="44dp"
-                                android:layout_height="44dp"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
                                 android:layout_alignParentEnd="true"
                                 android:layout_alignParentBottom="true"
                                 android:src="@mipmap/icn_wallet_grid_recharge" />
@@ -160,22 +167,24 @@
                             android:id="@+id/activity_mine_purse_index_hbjl"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
+                            android:layout_marginStart="12dp"
                             android:layout_weight="1"
-                            android:padding="12dp">
+                            android:background="@drawable/bg_white_rounded_16"
+                            android:padding="14dp">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
+                                android:layout_alignParentTop="true"
                                 android:orientation="vertical"
-                                android:paddingEnd="36dp">
+                                android:paddingEnd="40dp">
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="红包记录"
                                     android:textColor="@color/changsheng_text_main"
-                                    android:textSize="15sp"
+                                    android:textSize="16sp"
                                     android:textStyle="bold" />
 
                                 <TextView
@@ -188,8 +197,8 @@
                             </LinearLayout>
 
                             <ImageView
-                                android:layout_width="44dp"
-                                android:layout_height="44dp"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
                                 android:layout_alignParentEnd="true"
                                 android:layout_alignParentBottom="true"
                                 android:src="@mipmap/icn_wallet_grid_redpacket" />
@@ -198,7 +207,8 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="100dp"
+                        android:layout_height="110dp"
+                        android:layout_marginTop="12dp"
                         android:orientation="horizontal">
 
                         <RelativeLayout
@@ -206,21 +216,22 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:padding="12dp">
+                            android:background="@drawable/bg_white_rounded_16"
+                            android:padding="14dp">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
+                                android:layout_alignParentTop="true"
                                 android:orientation="vertical"
-                                android:paddingEnd="36dp">
+                                android:paddingEnd="40dp">
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="账单明细"
                                     android:textColor="@color/changsheng_text_main"
-                                    android:textSize="15sp"
+                                    android:textSize="16sp"
                                     android:textStyle="bold" />
 
                                 <TextView
@@ -233,8 +244,8 @@
                             </LinearLayout>
 
                             <ImageView
-                                android:layout_width="44dp"
-                                android:layout_height="44dp"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
                                 android:layout_alignParentEnd="true"
                                 android:layout_alignParentBottom="true"
                                 android:src="@mipmap/icn_wallet_grid_billing" />
@@ -244,22 +255,24 @@
                             android:id="@+id/activity_mine_purse_grid_pay_pwd"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
+                            android:layout_marginStart="12dp"
                             android:layout_weight="1"
-                            android:padding="12dp">
+                            android:background="@drawable/bg_white_rounded_16"
+                            android:padding="14dp">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
+                                android:layout_alignParentTop="true"
                                 android:orientation="vertical"
-                                android:paddingEnd="36dp">
+                                android:paddingEnd="40dp">
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="支付密码"
                                     android:textColor="@color/changsheng_text_main"
-                                    android:textSize="15sp"
+                                    android:textSize="16sp"
                                     android:textStyle="bold" />
 
                                 <TextView
@@ -272,8 +285,8 @@
                             </LinearLayout>
 
                             <ImageView
-                                android:layout_width="44dp"
-                                android:layout_height="44dp"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
                                 android:layout_alignParentEnd="true"
                                 android:layout_alignParentBottom="true"
                                 android:src="@mipmap/icn_wallet_grid_password" />
@@ -282,7 +295,8 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="100dp"
+                        android:layout_height="110dp"
+                        android:layout_marginTop="12dp"
                         android:orientation="horizontal">
 
                         <RelativeLayout
@@ -290,21 +304,22 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:padding="12dp">
+                            android:background="@drawable/bg_white_rounded_16"
+                            android:padding="14dp">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
+                                android:layout_alignParentTop="true"
                                 android:orientation="vertical"
-                                android:paddingEnd="36dp">
+                                android:paddingEnd="40dp">
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="支付宝"
                                     android:textColor="@color/changsheng_text_main"
-                                    android:textSize="15sp"
+                                    android:textSize="16sp"
                                     android:textStyle="bold" />
 
                                 <TextView
@@ -317,8 +332,8 @@
                             </LinearLayout>
 
                             <ImageView
-                                android:layout_width="44dp"
-                                android:layout_height="44dp"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
                                 android:layout_alignParentEnd="true"
                                 android:layout_alignParentBottom="true"
                                 android:src="@mipmap/icn_wallet_grid_alipay" />
@@ -328,22 +343,24 @@
                             android:id="@+id/activity_mine_purse_grid_edit_pwd"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
+                            android:layout_marginStart="12dp"
                             android:layout_weight="1"
-                            android:padding="12dp">
+                            android:background="@drawable/bg_white_rounded_16"
+                            android:padding="14dp">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
+                                android:layout_alignParentTop="true"
                                 android:orientation="vertical"
-                                android:paddingEnd="36dp">
+                                android:paddingEnd="40dp">
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="修改支付密码"
                                     android:textColor="@color/changsheng_text_main"
-                                    android:textSize="15sp"
+                                    android:textSize="16sp"
                                     android:textStyle="bold" />
 
                                 <TextView
@@ -356,8 +373,8 @@
                             </LinearLayout>
 
                             <ImageView
-                                android:layout_width="44dp"
-                                android:layout_height="44dp"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
                                 android:layout_alignParentEnd="true"
                                 android:layout_alignParentBottom="true"
                                 android:src="@mipmap/icn_wallet_grid_password_edit" />

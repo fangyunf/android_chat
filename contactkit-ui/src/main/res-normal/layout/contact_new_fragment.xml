@@ -1,225 +1,158 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) 2022 NetEase, Inc. All rights reserved.
-  ~ Use of this source code is governed by a MIT license that can be
-  ~ found in the LICENSE file.
-  -->
-
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#e7fcf7">
+    android:background="@drawable/bg_changsheng_page_gradient">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="fitXY"
-        android:src="@mipmap/jinzita_common_page_bg"
-        android:visibility="gone" />
-
-    <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/contact_new_fragment_top_ll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:gravity="center_vertical"
+            android:paddingHorizontal="16dp"
+            android:paddingTop="8dp">
 
-
-            <LinearLayout
-                android:id="@+id/contact_new_fragment_top_ll"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                android:paddingHorizontal="15dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:paddingRight="10dp"
-                    >
-
-                    <TextView
-                        android:id="@+id/fun_conversation_fragment_title_tv"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:paddingLeft="60dp"
-                        android:text="好友"
-                        android:textColor="@color/color_black"
-                        android:textSize="20sp" />
-
-                    <ImageView
-                        android:id="@+id/contact_new_fragment_search_iv"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:layout_marginHorizontal="10dp"
-                        android:src="@mipmap/conversation_list_index_notice_icon" />
-
-                    <ImageView
-                        android:id="@+id/contact_new_fragment_more_iv"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:src="@mipmap/conversation_index_pop_more" />
-                </LinearLayout>
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/fun_conversation_fragment_search_ll"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="@dimen/dimen_10_dp"
-                android:background="@drawable/home_seach_bg"
-                android:gravity="center">
-
-                <EditText
-                    android:id="@+id/fun_conversation_fragment_et"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dimen_48_dp"
-                    android:autofillHints=""
-                    android:background="@color/transparent"
-                    android:drawableStart="@mipmap/conversation_list_index_search_icon1"
-                    android:drawablePadding="5dp"
-                    android:hint="搜索"
-                    android:maxLines="1"
-                    android:paddingStart="15dp"
-                    android:paddingEnd="15dp"
-                    android:textColor="@color/color_333333"
-                    android:textColorHint="#8E8E93"
-                    android:textSize="16dp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/contact_new_fragment_search_ll"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="@dimen/dimen_16_dp"
-                android:background="@drawable/bg_white_rounded_12"
+            <TextView
+                android:id="@+id/fun_conversation_fragment_title_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:background="@drawable/bg_contact_title_pill"
                 android:gravity="center"
-                android:visibility="gone">
+                android:paddingHorizontal="18dp"
+                android:text="通讯录"
+                android:textColor="#1A1A1A"
+                android:textSize="17sp"
+                android:textStyle="bold" />
 
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginRight="10dp"
-                    android:src="@mipmap/conversation_list_index_search_icon1" />
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="搜索"
-                    android:textColor="#8E8E93"
-                    android:textSize="16sp" />
+            <ImageView
+                android:id="@+id/contact_new_fragment_search_iv"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@drawable/bg_contact_action_circle"
+                android:padding="8dp"
+                android:src="@mipmap/conversation_list_index_notice_icon" />
 
-            </LinearLayout>
-
+            <ImageView
+                android:id="@+id/contact_new_fragment_more_iv"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/bg_contact_action_circle"
+                android:padding="8dp"
+                android:src="@mipmap/conversation_index_pop_more" />
         </LinearLayout>
-        <!--        <LinearLayout-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_marginTop="15dp"-->
-        <!--            android:paddingHorizontal="10dp"-->
-        <!--            android:gravity="center_vertical"-->
-        <!--            android:layout_height="wrap_content">-->
 
-        <!--            <ImageView-->
-        <!--                android:src="@mipmap/conversation_list_index_notice_icon"-->
-        <!--                android:layout_width="25dp"-->
-        <!--                android:layout_height="25dp"/>-->
-        <!--            <com.sunfusheng.marqueeview.MarqueeView-->
-        <!--                android:id="@+id/contact_new_fragment_marqueeView"-->
-        <!--                android:layout_width="match_parent"-->
-        <!--                android:layout_height="30dp"-->
-        <!--                android:layout_marginLeft="10dp"-->
-        <!--                app:mvAnimDuration="1000"-->
-        <!--                app:mvDirection="bottom_to_top"-->
-        <!--                app:mvInterval="3000"-->
-        <!--                app:mvSingleLine="true"-->
-        <!--                app:mvTextColor="@color/color_333333"-->
-        <!--                app:mvTextSize="14sp" />-->
+        <LinearLayout
+            android:id="@+id/fun_conversation_fragment_search_ll"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="14dp"
+            android:background="@drawable/bg_contact_search_capsule"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="16dp">
 
-        <!--        </LinearLayout>-->
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@mipmap/conversation_list_index_search_icon1" />
+
+            <EditText
+                android:id="@+id/fun_conversation_fragment_et"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="搜索"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textColor="#1A1A1A"
+                android:textColorHint="#8E8E93"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <!-- 兼容旧搜索入口 -->
+        <LinearLayout
+            android:id="@+id/contact_new_fragment_search_ll"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:visibility="gone" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_marginTop="10dp"
-            android:background="@color/color_white"
             android:visibility="gone">
 
             <TextView
                 android:id="@+id/contact_new_fragment_friend_tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="好友列表"
-                android:textColor="@drawable/fun_common_text_color_selector"
-                android:textSize="18sp" />
+                android:layout_weight="1" />
 
             <TextView
                 android:id="@+id/contact_new_fragment_group_tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="群组列表"
-                android:textColor="@drawable/fun_common_text_color_selector"
-                android:textSize="18sp" />
+                android:layout_weight="1" />
 
             <LinearLayout
                 android:id="@+id/contact_new_fragment_new_friend_ll"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-
-                android:gravity="center_vertical|center">
+                android:layout_weight="1">
 
                 <TextView
                     android:id="@+id/contact_new_fragment_new_friend_tv"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="新的好友"
-                    android:textColor="@drawable/fun_common_text_color_selector"
-                    android:textSize="18sp" />
+                    android:layout_height="match_parent" />
 
                 <TextView
                     android:id="@+id/contact_new_fragment_new_friend_num_tv"
                     android:layout_width="wrap_content"
-                    android:layout_height="18dp"
-                    android:background="@drawable/fun_bg_red_rounded_9"
-                    android:gravity="center"
-                    android:minWidth="18dp"
-                    android:text=""
-                    android:textColor="@color/color_white"
-                    android:textSize="12sp"
+                    android:layout_height="wrap_content"
                     android:visibility="gone" />
-
             </LinearLayout>
         </LinearLayout>
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/main_search"
-            android:background="@color/color_white">
+            android:layout_marginTop="12dp"
+            android:background="@color/transparent">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/contact_new_fragment_rv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/transparent" />
+                android:background="@color/transparent"
+                android:clipToPadding="false"
+                android:overScrollMode="never" />
 
-            <!--字母导航栏（只在好友列表显示）-->
+            <TextView
+                android:id="@+id/contact_new_fragment_empty_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="80dp"
+                android:text="暂无联系人"
+                android:textColor="#BBBBBB"
+                android:textSize="15sp"
+                android:visibility="gone" />
+
             <com.nanchen.wavesidebar.WaveSideBarView
                 android:id="@+id/contact_new_fragment_main_side_bar"
                 android:layout_width="match_parent"
@@ -227,9 +160,6 @@
                 android:padding="8dp"
                 app:sidebar_lazy_respond="false"
                 app:sidebar_text_color="@color/black" />
-
         </FrameLayout>
-
     </LinearLayout>
-
 </RelativeLayout>

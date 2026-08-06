@@ -82,43 +82,28 @@ public class AccountDetailActivity extends BaseActivity implements View.OnClickL
 
     private void initView() {
         transtStatusBar(viewBinding.activityMineAccountDetailNav);
-    viewBinding.activityMineAccountDetailNav.addCloseImageButton().setOnClickListener(this);
-    viewBinding.activityMineAccountDetailModifyHeadTv.setOnClickListener(this);
-    viewBinding.activityMineAccountDetailModifyNameTv.setOnClickListener(this);
-//    viewBinding.activityMineAccountDetailUsername.viewTitleArrowLl.setOnClickListener(this);
-//    viewBinding.activityMineAccountDetailModifyHeadIvRl.setOnClickListener(this);
-//
-//
-//    viewBinding.activityMineAccountDetailAccountId.viewTitleArrowTv.setText("账号ID");
-//    viewBinding.activityMineAccountDetailUsername.viewTitleArrowTv.setText("用户名");
-//    viewBinding.activityMineAccountDetailPhoneNum.viewTitleArrowTv.setText("手机号");
-//
-//    viewBinding.activityMineAccountDetailAccountId.viewTitleArrowArrowIv.setVisibility(View.GONE);
-//    viewBinding.activityMineAccountDetailPhoneNum.viewTitleArrowArrowIv.setVisibility(View.GONE);
-//
-//    viewBinding.activityMineAccountDetailAccountId.viewTitleArrowRightTv.setVisibility(View.VISIBLE);
-//    viewBinding.activityMineAccountDetailPhoneNum.viewTitleArrowRightTv.setVisibility(View.VISIBLE);
-//
-//    viewBinding.activityMineAccountDetailPhoneNum.viewTitleArrowRightTv.setText("+86 "+DataUtil.getUserInfo().phoneNo);
-    viewBinding.activityMineAccountDetailIdTv.setText("ID：" + DataUtil.getUserInfo().memberCode);
-    GlideUtil.yh_loadImageRoundedCorner(this,viewBinding.activityMineAccountDetailHeadIv,DataUtil.getUserInfo().avatar,25);
-//      viewBinding.activityMineAccountDetailUsername.viewTitleArrowRightTv.setVisibility(View.VISIBLE);
-    viewBinding.activityMineAccountDetailNameTv.setText(DataUtil.getUserInfo().username);
+        viewBinding.activityMineAccountDetailNav.addCloseImageButton().setOnClickListener(this);
+        viewBinding.activityMineAccountDetailModifyHeadTv.setOnClickListener(this);
+        viewBinding.activityMineAccountDetailModifyNameTv.setOnClickListener(this);
+        viewBinding.activityMineAccountDetailQrRow.setOnClickListener(this);
 
-    viewBinding.activityMineAccountDetailDetailIdTv.setText(DataUtil.getUserInfo().memberCode);
-    viewBinding.activityMineAccountDetailPhoneNumTv.setText(DataUtil.getUserInfo().phoneNo);
-  }
+        GlideUtil.yh_loadImageRoundedCorner(
+                this, viewBinding.activityMineAccountDetailHeadIv, DataUtil.getUserInfo().avatar, 25);
+        viewBinding.activityMineAccountDetailNameTv.setText(DataUtil.getUserInfo().username);
+        viewBinding.activityMineAccountDetailDetailIdTv.setText(DataUtil.getUserInfo().memberCode);
+        viewBinding.activityMineAccountDetailPhoneNumTv.setText(DataUtil.getUserInfo().phoneNo);
+    }
 
   @Override
   public void onClick(View v) {
     if (v == viewBinding.activityMineAccountDetailModifyNameTv) {
-
-        ModifyTextActivity.start(ModifyTextActivity.class,this,null);
+        ModifyTextActivity.start(ModifyTextActivity.class, this, null);
     } else if (v == viewBinding.activityMineAccountDetailModifyHeadTv) {
         UploadUtil.openPhotoLibrary(this, Constant.REQUEST_CODE_CHOOSE);
+    } else if (v == viewBinding.activityMineAccountDetailQrRow) {
+        AccoutCodeDetailActivity.start(AccoutCodeDetailActivity.class, this, null);
     } else if (v == viewBinding.activityMineAccountDetailNav.addCloseImageButton()) {
       finish();
-
     }
   }
   @Override
