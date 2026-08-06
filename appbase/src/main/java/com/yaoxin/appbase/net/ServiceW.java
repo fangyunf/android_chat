@@ -83,6 +83,12 @@ public interface ServiceW {
             @Body RegisterBean userBean
     );
 
+    @GET("/friends/searchByUserId")
+    Call<NetData> friends_searchByUserId(
+            @Query("userId") String userId,
+            @Query("groupId") String groupId
+    );
+
     @POST("/groupMember/queryGroupMemberBanneds")
     Call<NetData> groupMember_queryGroupMemberBanneds(
             @Body RegisterBean userBean

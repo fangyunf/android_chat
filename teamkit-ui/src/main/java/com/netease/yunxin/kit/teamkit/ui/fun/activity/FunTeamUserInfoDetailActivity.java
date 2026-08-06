@@ -305,11 +305,60 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
         }
         boolean viewerIsAdmin = rankState == 1 || rankState == 2;
         boolean targetIsAdmin = groupInfoBean.rankState == 1 || groupInfoBean.rankState == 2;
-        // 群主/管理员不受保护限制；看管理员/群主也不受保护限制；普通成员互看看保护开关
+        // 群主/管理员可加普通成员；普通成员可加群主/管理员；普通成员互加看保护开关
         if (viewerIsAdmin || targetIsAdmin || addFriendsState == 1) {
             binding.funTeamUserInfoDetailBottomTv.setText("加好友");
             binding.funTeamUserInfoDetailBottomTv.setVisibility(View.VISIBLE);
         }
+    }
+
+    /**
+     * 通过 friends/searchByUserId 获取 memberCode 后再进入加好友验证页。
+     */
+    private void searchMemberCodeThenAddFriend() {
+        if (groupInfoBean == null || TextUtils.isEmpty(userId) || TextUtils.isEmpty(groupId)) {
+            ToastUtils.toastMsg("用户信息异常");
+            return;
+        }
+        HttpUtil.apiW()
+                .friends_searchByUserId(userId, groupId)
+                .enqueue(
+                        new CommonCallback<NetData>() {
+                            @Override
+                            public void Successful(
+                                    Call<NetData> call, Response<NetData> response, NetData body) {
+                                if (body == null || body.data == null) {
+                                    ToastUtils.toastMsg("获取用户信息失败");
+                                    return;
+                                }
+                                UserBean userBean =
+                                        new Gson().fromJson(body.data.toString(), UserBean.class);
+                                if (userBean == null || TextUtils.isEmpty(userBean.memberCode)) {
+                                    ToastUtils.toastMsg("获取用户ID失败");
+                                    return;
+                                }
+                                // 回填资料页展示用的 memberCode
+                                groupInfoBean.memberCode = userBean.memberCode;
+                                if (TextUtils.isEmpty(userBean.name)) {
+                                    userBean.name = groupInfoBean.name;
+                                }
+                                if (TextUtils.isEmpty(userBean.avatar)) {
+                                    userBean.avatar = groupInfoBean.avatar;
+                                }
+                                if (TextUtils.isEmpty(userBean.userId)) {
+                                    userBean.userId = groupInfoBean.userId;
+                                }
+                                XKitRouter.withKey(Constant.FunAddFriendVerifyActivityKey)
+                                        .withParam("user", new Gson().toJson(userBean))
+                                        .withContext(FunTeamUserInfoDetailActivity.this)
+                                        .navigate();
+                            }
+
+                            @Override
+                            public void Failure(Call<NetData> call, Throwable t) {
+                                ToastUtils.toastMsg("获取用户信息失败");
+                            }
+                        });
     }
 
     private void muteMember(String teamId, String account, boolean mute) {
@@ -341,19 +390,14 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
             finish();
         } else if (v == binding.funTeamUserInfoDetailBottomTv) {
             if (isFriend) {
-                XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_P2P_PAGE).withParam(RouterConstant.CHAT_ID_KRY, groupInfoBean.userId).withContext(FunTeamUserInfoDetailActivity.this).navigate();
+                XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_P2P_PAGE)
+                        .withParam(RouterConstant.CHAT_ID_KRY, groupInfoBean.userId)
+                        .withContext(FunTeamUserInfoDetailActivity.this)
+                        .navigate();
                 finish();
             } else {
-
-                XKitRouter.withKey(Constant.FunAddFriendVerifyActivityKey).withParam("user", new Gson().toJson(groupInfoBean)).withContext(FunTeamUserInfoDetailActivity.this).navigate();
-//                UserBean bean = baseQuickAdapter.getItem(i);
-//                bean.page_type = 100;
-//                HashMap map = new HashMap();
-//                map.put("user",new Gson().toJson(user));
-//                FunAddFriendVerifyActivity.start(FunAddFriendVerifyActivity.class,that,map);
+                searchMemberCodeThenAddFriend();
             }
-
-
         } else if (v == binding.funTeamUserInfoDetailJinzhi.viewTitleArrowRightTvSwitch) {
             int targetState = binding.funTeamUserInfoDetailJinzhi.viewTitleArrowRightTvSwitch.isSelected() ? 0 : 1;
             RegisterBean bean = new RegisterBean();
