@@ -59,7 +59,7 @@ public class Mine_Account_Anquan_Activity extends BaseActivity implements View.O
     viewBinding.activityMineSetNewModifyPwd.viewTitleArrowLl.setOnClickListener(this);
 
 
-    viewBinding.activityMineSetNewPhone.viewTitleArrowTv.setText("当前手机号码");
+    viewBinding.activityMineSetNewPhone.viewTitleArrowTv.setText("当前账号");
       viewBinding.activityMineSetNewPhone.viewTitleArrowRightTv.setVisibility(View.VISIBLE);
       viewBinding.activityMineSetNewPhone.viewTitleArrowRightTv.setText(DataUtil.getUserInfo().phoneNo);
     viewBinding.activityMineSetNewModifyPwd.viewTitleArrowTv.setText("修改登录密码");

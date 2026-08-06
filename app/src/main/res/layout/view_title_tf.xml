@@ -12,7 +12,7 @@
         android:id="@+id/view_title_tf_tv"
         android:layout_width="@dimen/dimen_70_dp"
         android:layout_height="@dimen/dimen_22_dp"
-        android:text="手机号号"
+        android:text="账号"
         android:textColor="@color/black"
         android:textSize="@dimen/text_size_16" />
 

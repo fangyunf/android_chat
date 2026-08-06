@@ -51,6 +51,11 @@ public interface ServiceW {
             @Body RegisterBean userBean
     );
 
+    @POST("/customer/registerZh")
+    Call<NetData> customer_registerZh(
+            @Body RegisterBean userBean
+    );
+
     @POST("/customer/login")
     Call<NetData> customer_login(
             @Body RegisterBean userBean
@@ -58,6 +63,11 @@ public interface ServiceW {
 
     @POST("/customer/updatePassword")
     Call<NetData> customer_updatePassword(
+            @Body RegisterBean userBean
+    );
+
+    @POST("/customer/updatePasswordZh")
+    Call<NetData> customer_updatePasswordZh(
             @Body RegisterBean userBean
     );
 
@@ -130,6 +140,11 @@ public interface ServiceW {
             @Body RegisterBean userBean
     );
 
+    @POST("/home/updateFullPasswordZh")
+    Call<NetData> home_updateFullPasswordZh(
+            @Body RegisterBean userBean
+    );
+
     @POST("/home/getUserByToken")
     Call<NetData> home_getUserByToken(
             @Body RegisterBean userBean
@@ -142,6 +157,11 @@ public interface ServiceW {
 
     @POST("/customer/ydCodeCheck")
     Call<NetData> customer_ydCodeCheck(
+            @Body RegisterBean userBean
+    );
+
+    @POST("/customer/ydCodeCheckZh")
+    Call<NetData> customer_ydCodeCheckZh(
             @Body RegisterBean userBean
     );
 

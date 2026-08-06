@@ -66,21 +66,22 @@
         android:paddingHorizontal="@dimen/dimen_9_dp">
 
         <TextView
-            android:id="@+id/fun_chat_message_red_packet_view_holder_type_tv"
-            android:layout_width="0dp"
+            android:id="@+id/fun_chat_message_red_packet_view_holder_time_tv"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:text="2023-11-08 19:20:30"
+            android:textColor="@color/color_white"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/fun_chat_message_red_packet_view_holder_type_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="红包"
             android:textColor="@color/color_white"
             android:textSize="11sp" />
 
-        <TextView
-            android:id="@+id/fun_chat_message_red_packet_view_holder_time_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="2023-11-08 19:20:30"
-            android:textColor="@color/color_white"
-            android:textSize="10sp" />
     </LinearLayout>
 
     <View

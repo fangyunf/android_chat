@@ -38,6 +38,7 @@ public class RegisterBean {
     public String param;
     public String password;
     public String captcha;
+    public String ans;
     public String deviceId;
     public String clientType;
     public String phoneAndCode;

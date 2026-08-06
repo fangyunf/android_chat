@@ -2,29 +2,22 @@ package com.turunsi.yaoxin.login;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 
 import androidx.annotation.Nullable;
 
-import com.alipay.face.api.ZIMFacade;
 import com.google.gson.Gson;
-import com.turunsi.yaoxin.R;
-import com.turunsi.yaoxin.databinding.ActivityMineRealNameSetBinding;
 import com.turunsi.yaoxin.databinding.ActivityOtherPlaceLoginBinding;
 import com.turunsi.yaoxin.utils.IMUtil;
-import com.turunsi.yaoxin.utils.RealNameAuthUtil;
 import com.yaoxin.appbase.activity.BaseActivity;
 import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
-import com.yaoxin.appbase.utils.CommonNetUtil;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
-import com.yaoxin.appbase.view.loginlib.utils.LoginLoader;
-import com.yaoxin.appbase.view.loginlib.view.CountDownView;
-import com.yaoxin.appbase.view.splitedittextview.OnInputListener;
 
 import java.util.HashMap;
 
@@ -53,64 +46,60 @@ public class OtherPlaceLoginActivity extends BaseActivity implements View.OnClic
             _phone = (String) extras.get("phone");
         }
         if (_type == 1) {
-            binding.activityOtherPlaceLoginTv2.setTextSize(18);
+            binding.activityOtherPlaceLoginTv2.setVisibility(View.VISIBLE);
+            binding.activityOtherPlaceLoginTv2.setTextSize(14);
             binding.activityOtherPlaceLoginGetCodeLl.setVisibility(View.VISIBLE);
             binding.activityOtherPlaceLoginTv1.setText("安全验证");
-            binding.activityOtherPlaceLoginTv2.setText(_phone);
+            binding.activityOtherPlaceLoginTv2.setText(
+                    TextUtils.isEmpty(_phone) ? "请输入密保完成验证" : ("账号：" + _phone));
             binding.activityOtherPlaceLoginVerifyLl.setVisibility(View.GONE);
             binding.activityOtherPlaceLoginNav.getTitleView().setText("安全验证");
-            Activity that = this;
-            binding.activityOtherPlaceLoginSplitEt.setOnInputListener(new OnInputListener() {
-                @Override
-                public void onInputFinished(String content) {
-                    RegisterBean registerBean = new RegisterBean();
-                    registerBean.phoneNo = _phone;
-                    registerBean.captcha = content;
-                    HttpUtil.apiW().customer_ydCodeCheck(registerBean)
-                            .enqueue(new CommonCallback<NetData>() {
-                                @Override
-                                public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                                    ToastUtils.toastMsg("验证成功");
-                                    UserBean userBean = new Gson().fromJson((String) body.data, UserBean.class);
-                                    DataUtil.putUserInfo(userBean);
-                                    DataUtil.putToken(userBean.token);
-                                    IMUtil.loginIM(that, userBean.userId, userBean.imToken);
-                                }
-
-                                @Override
-                                public void Failure(Call<NetData> call, Throwable t) {
-
-                                }
-                            });
-                }
-            });
-            CountDownView mCountDownView = binding.activityOtherPlaceLoginBtnCaptcha;
-            mCountDownView.needVerify = false;
-            mCountDownView.setCountDownTime(60);
-            mCountDownView.setCaptchaListener(new LoginLoader.CaptchaListener() {
-                @Override
-                public void onPre() {
-                    CommonNetUtil.getPhoneCode(_phone);
-                }
-
-                @Override
-                public void onComplete(String phoneOrEmail) {
-                }
-            });
+            binding.activityOtherPlaceLoginAnsConfirmTv.setOnClickListener(this);
         }
+    }
 
+    private void submitAns() {
+        String ans = getTextStr(binding.activityOtherPlaceLoginAnsEt);
+        if (TextUtils.isEmpty(ans)) {
+            ToastUtils.toastMsg("请输入密保");
+            return;
+        }
+        RegisterBean registerBean = new RegisterBean();
+        registerBean.phoneNo = _phone;
+        registerBean.ans = ans;
+        Activity that = this;
+        HttpUtil.apiW()
+                .customer_ydCodeCheckZh(registerBean)
+                .enqueue(
+                        new CommonCallback<NetData>() {
+                            @Override
+                            public void Successful(
+                                    Call<NetData> call, Response<NetData> response, NetData body) {
+                                ToastUtils.toastMsg("验证成功");
+                                UserBean userBean =
+                                        new Gson().fromJson((String) body.data, UserBean.class);
+                                DataUtil.putUserInfo(userBean);
+                                DataUtil.putToken(userBean.token);
+                                IMUtil.loginIM(that, userBean.userId, userBean.imToken);
+                            }
+
+                            @Override
+                            public void Failure(Call<NetData> call, Throwable t) {}
+                        });
     }
 
     @Override
     public void onClick(View v) {
-        if (v == binding.activityOtherPlaceLoginNav.addCloseImageButton() || binding.activityOtherPlaceLoginDontVerifyTv == v) {
+        if (v == binding.activityOtherPlaceLoginNav.addCloseImageButton()
+                || binding.activityOtherPlaceLoginDontVerifyTv == v) {
             finish();
         } else if (v == binding.activityOtherPlaceLoginVerifyTv) {
-
             HashMap map = new HashMap<>();
             map.put("type", "1");
             map.put("phone", _phone);
             OtherPlaceLoginActivity.start(OtherPlaceLoginActivity.class, this, map);
+        } else if (v == binding.activityOtherPlaceLoginAnsConfirmTv) {
+            submitAns();
         }
     }
 }

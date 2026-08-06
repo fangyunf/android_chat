@@ -43,8 +43,6 @@ import com.yaoxin.appbase.utils.DeviceUtils;
 import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
 import com.yaoxin.appbase.view.LoadingDialog;
-import com.yaoxin.appbase.view.loginlib.utils.LoginLoader;
-import com.yaoxin.appbase.view.loginlib.view.CountDownView;
 
 import java.util.HashMap;
 
@@ -73,9 +71,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         binding.activityLoginIsCheckedIv.setSelected(true);
 
         styleInputField(binding.activityLoginTf1.getRoot(),
-                binding.activityLoginTf1.viewTitleTfCountEt, "请输入手机号");
+                binding.activityLoginTf1.viewTitleTfCountEt, "请输入账号");
         styleInputField(binding.activityLoginTf2.getRoot(),
-                binding.activityLoginTf2.viewTitleTfCountEt, "请输入验证码");
+                binding.activityLoginTf2.viewTitleTfCountEt, "请输入密保");
         styleInputField(binding.activityLoginTf3.getRoot(),
                 binding.activityLoginTf3.viewTitleTfCountEt, "请输入密码");
 
@@ -83,28 +81,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         binding.activityLoginTf2.viewTitleTfCountIv.setVisibility(View.GONE);
         binding.activityLoginTf3.viewTitleTfCountIv.setVisibility(View.GONE);
 
-        binding.activityLoginTf1.viewTitleTfCountEt.setInputType(InputType.TYPE_CLASS_NUMBER);
-        binding.activityLoginTf2.viewTitleTfCountEt.setInputType(InputType.TYPE_CLASS_NUMBER);
+        binding.activityLoginTf1.viewTitleTfCountEt.setInputType(InputType.TYPE_CLASS_TEXT);
+        binding.activityLoginTf2.viewTitleTfCountEt.setInputType(InputType.TYPE_CLASS_TEXT);
         binding.activityLoginTf3.viewTitleTfCountEyeRl.setVisibility(View.VISIBLE);
         binding.activityLoginTf3.viewTitleTfCountEyeRl.setOnClickListener(this);
         binding.activityLoginTf3.viewTitleTfCountEyeIv.setSelected(true);
         binding.activityLoginTf3.viewTitleTfCountEt.setTransformationMethod(PasswordTransformationMethod.getInstance());
 
-        CountDownView mCountDownView = binding.activityLoginTf2.viewTitleTfCountCaptcha;
-        mCountDownView.setUserEdit(binding.activityLoginTf1.viewTitleTfCountEt);
-        mCountDownView.setCountDownTime(60);
-        mCountDownView.setCaptchaListener(new LoginLoader.CaptchaListener() {
-            @Override
-            public void onPre() {
-                String phone = getTextStr(binding.activityLoginTf1.viewTitleTfCountEt);
-                com.yaoxin.appbase.utils.CommonNetUtil.getPhoneCode(phone);
-            }
-
-            @Override
-            public void onComplete(String phoneOrEmail) {
-            }
-        });
-
+        binding.activityLoginTf2.viewTitleTfCountCaptcha.setVisibility(View.GONE);
         setupRegisterText();
         setupAgreementText();
         changeTitleWithType(0);
@@ -207,7 +191,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             setupRegisterText();
         } else if (type == 1) {
             binding.activityLoginTf2.getRoot().setVisibility(View.VISIBLE);
-            binding.activityLoginTf2.viewTitleTfCountCaptcha.setVisibility(View.VISIBLE);
+            binding.activityLoginTf2.viewTitleTfCountCaptcha.setVisibility(View.GONE);
             binding.activityLoginLoginTv.setText("注册");
             binding.activityLoginTitleTv.setText("注册");
             binding.activityLoginRegisterTv.setText("已有账号，去登录");
@@ -215,7 +199,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             binding.activityLoginForgetTv.setVisibility(View.GONE);
         } else if (type == 2) {
             binding.activityLoginTf2.getRoot().setVisibility(View.VISIBLE);
-            binding.activityLoginTf2.viewTitleTfCountCaptcha.setVisibility(View.VISIBLE);
+            binding.activityLoginTf2.viewTitleTfCountCaptcha.setVisibility(View.GONE);
             binding.activityLoginLoginTv.setText("找回密码");
             binding.activityLoginTitleTv.setText("找回密码");
             binding.activityLoginRegisterTv.setText("已有账号，去登录");
@@ -255,8 +239,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             }
             if (_type == 0) {
                 String phone = getTextStr(binding.activityLoginTf1.viewTitleTfCountEt);
-                if (phone.length() != 11) {
-                    ToastUtils.toastMsg("手机格式错误");
+                if (phone.isEmpty()) {
+                    ToastUtils.toastMsg("请输入账号");
                     return;
                 }
                 String pwd = getTextStr(binding.activityLoginTf3.viewTitleTfCountEt);
@@ -300,13 +284,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 });
             } else if (_type == 1) {
                 String phone = getTextStr(binding.activityLoginTf1.viewTitleTfCountEt);
-                if (phone.length() != 11) {
-                    ToastUtils.toastMsg("手机格式错误");
+                if (phone.isEmpty()) {
+                    ToastUtils.toastMsg("请输入账号");
                     return;
                 }
-                String code = getTextStr(binding.activityLoginTf2.viewTitleTfCountEt);
-                if (code.length() > 6) {
-                    ToastUtils.toastMsg("验证码错误");
+                String ans = getTextStr(binding.activityLoginTf2.viewTitleTfCountEt);
+                if (ans.isEmpty()) {
+                    ToastUtils.toastMsg("请输入密保");
                     return;
                 }
                 String pwd1 = getTextStr(binding.activityLoginTf3.viewTitleTfCountEt);
@@ -317,14 +301,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 RegisterBean registerBean = new RegisterBean();
                 registerBean.phoneNo = phone;
                 registerBean.password = pwd1;
-                registerBean.captcha = code;
+                registerBean.ans = ans;
                 registerBean.deviceId = DeviceUtils.getDeviceId(this);
                 registerBean.clientType = Constant.clientType;
 
                 Activity that = this;
                 LoadingDialog.showDialog(getSupportFragmentManager(), "注册中");
 
-                HttpUtil.apiW().customer_register(registerBean).enqueue(new CommonCallback<NetData>() {
+                HttpUtil.apiW().customer_registerZh(registerBean).enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                         UserBean userBean = new Gson().fromJson((String) body.data, UserBean.class);
@@ -347,13 +331,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 });
             } else if (_type == 2) {
                 String phone = getTextStr(binding.activityLoginTf1.viewTitleTfCountEt);
-                if (phone.length() != 11) {
-                    ToastUtils.toastMsg("手机格式错误");
+                if (phone.isEmpty()) {
+                    ToastUtils.toastMsg("请输入账号");
                     return;
                 }
-                String code = getTextStr(binding.activityLoginTf2.viewTitleTfCountEt);
-                if (code.length() > 6) {
-                    ToastUtils.toastMsg("验证码错误");
+                String ans = getTextStr(binding.activityLoginTf2.viewTitleTfCountEt);
+                if (ans.isEmpty()) {
+                    ToastUtils.toastMsg("请输入密保");
                     return;
                 }
                 String pwd1 = getTextStr(binding.activityLoginTf3.viewTitleTfCountEt);
@@ -364,9 +348,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 RegisterBean bean = new RegisterBean();
                 bean.password = pwd1;
                 bean.phoneNo = phone;
-                bean.captcha = code;
+                bean.ans = ans;
 
-                HttpUtil.apiW().customer_updatePassword(bean).enqueue(new CommonCallback<NetData>() {
+                HttpUtil.apiW().customer_updatePasswordZh(bean).enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                         ToastUtils.toastMsg("修改成功");
