@@ -96,39 +96,39 @@ public class FunTeamSetting_GroupManagerActivity extends BaseActivity implements
         binding.funTeamSettingGroupManagerActivityJiesanTv.setOnClickListener(this);
 
 
-        binding.funTeamSettingGroupManagerActivityYaoqing.viewTitleDetailArrowTemplateTitleTv.setText("入群需审核");
-        binding.funTeamSettingGroupManagerActivityYaoqing.viewTitleDetailArrowTemplateDetailTv.setText("启用后，需群主管理员确认才能邀请群成员");
+        binding.funTeamSettingGroupManagerActivityYaoqing.viewTitleDetailArrowTemplateTitleTv.setText("群聊邀请确认");
+        binding.funTeamSettingGroupManagerActivityYaoqing.viewTitleDetailArrowTemplateDetailTv.setText("启用后，群成员需要群主确认才能邀请朋友进群。扫描二维码进群将同时停用。");
         binding.funTeamSettingGroupManagerActivityYaoqing.viewTitleDetailArrowTemplateSwitch.setOnClickListener(this);
 
-        binding.funTeamSettingGroupManagerActivityQunzhuZhuanrang.viewTitleArrowTv.setText("转让群主");
+        binding.funTeamSettingGroupManagerActivityQunzhuZhuanrang.viewTitleArrowTv.setText("群主转让");
         binding.funTeamSettingGroupManagerActivityQunzhuZhuanrang.viewTitleArrowLl.setOnClickListener(this);
 
-        binding.funTeamSettingGroupManagerActivityGuanliyuanSet.viewTitleArrowTv.setText("设置管理员");
+        binding.funTeamSettingGroupManagerActivityGuanliyuanSet.viewTitleArrowTv.setText("设置群管理员");
         binding.funTeamSettingGroupManagerActivityGuanliyuanSet.viewTitleArrowLl.setOnClickListener(this);
 
 
         binding.funTeamSettingGroupManagerActivityChengyuanJinyan.viewTitleDetailArrowTemplateTitleTv.setText("全员禁言");
-        binding.funTeamSettingGroupManagerActivityChengyuanJinyan.viewTitleDetailArrowTemplateDetailTv.setText("启用后，群成员无法发送消息，群主管理员除外");
+        binding.funTeamSettingGroupManagerActivityChengyuanJinyan.viewTitleDetailArrowTemplateDetailTv.setText("开启后普通成员无法发言");
         binding.funTeamSettingGroupManagerActivityChengyuanJinyan.viewTitleDetailArrowTemplateSwitch.setOnClickListener(this);
 
 
-        binding.funTeamSettingGroupManagerActivityJinzhiLingquGouwuquan.viewTitleDetailArrowTemplateTitleTv.setText("禁止领取红包");
-        binding.funTeamSettingGroupManagerActivityJinzhiLingquGouwuquan.viewTitleDetailArrowTemplateDetailTv.setText("启用后，群成员无法通过该群领红包");
+        binding.funTeamSettingGroupManagerActivityJinzhiLingquGouwuquan.viewTitleDetailArrowTemplateTitleTv.setText("禁止群成员领取红包");
+        binding.funTeamSettingGroupManagerActivityJinzhiLingquGouwuquan.viewTitleDetailArrowTemplateDetailTv.setText("开启后，成员均无法领取红包");
         binding.funTeamSettingGroupManagerActivityJinzhiLingquGouwuquan.viewTitleDetailArrowTemplateSwitch.setOnClickListener(this);
 
 
         binding.funTeamSettingGroupManagerActivityQunchengyuanBaohu.viewTitleDetailArrowTemplateTitleTv.setText("群成员保护模式");
-        binding.funTeamSettingGroupManagerActivityQunchengyuanBaohu.viewTitleDetailArrowTemplateDetailTv.setText("启用后，群成员无法通过该群互加好友");
+        binding.funTeamSettingGroupManagerActivityQunchengyuanBaohu.viewTitleDetailArrowTemplateDetailTv.setText("开启后，普通成员无法查看资料");
         binding.funTeamSettingGroupManagerActivityQunchengyuanBaohu.viewTitleDetailArrowTemplateSwitch.setOnClickListener(this);
 
         binding.funTeamSettingGroupManagerActivityJinzhiLingquMingdan.viewTitleArrowLl.setVisibility(View.VISIBLE);
-        binding.funTeamSettingGroupManagerActivityJinzhiLingquMingdan.viewTitleArrowTv.setText("禁止领取红包名单");
+        binding.funTeamSettingGroupManagerActivityJinzhiLingquMingdan.viewTitleArrowTv.setText("设置群红包白名单");
         binding.funTeamSettingGroupManagerActivityJinzhiLingquMingdan.viewTitleArrowLl.setOnClickListener(this);
 
         binding.funTeamSettingGroupManagerActivityQunshengji.viewTitleArrowTv.setText("群升级");
         binding.funTeamSettingGroupManagerActivityQunshengji.viewTitleArrowLl.setOnClickListener(this);
 
-        binding.funTeamSettingGroupManagerActivityQunheimingdan.viewTitleArrowTv.setText("群黑名单");
+        binding.funTeamSettingGroupManagerActivityQunheimingdan.viewTitleArrowTv.setText("群成员禁言名单 (除群主和管理员)");
         binding.funTeamSettingGroupManagerActivityQunheimingdan.viewTitleArrowLl.setOnClickListener(this);
 
 

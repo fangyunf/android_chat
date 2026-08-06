@@ -46,7 +46,17 @@
     <color name="color_ffe935">#ffe935</color>
     <color name="color_ff666666">#ff666666</color>
     <!--    <color name="app_theme_color">#007AFF</color>-->
-    <color name="app_theme_color">#0AB4B4</color>
+    <!-- 昌盛主色：链接/部分强调仍可用金；主 CTA 用粉渐变 -->
+    <color name="app_theme_color">#D4AF37</color>
+    <color name="changsheng_page_top">#FFF0F5</color>
+    <color name="changsheng_page_mid">#EDF5FF</color>
+    <color name="changsheng_page_bottom">#F5F7FC</color>
+    <color name="changsheng_page_gray">#F5F6F8</color>
+    <color name="changsheng_pink_start">#FF8C73</color>
+    <color name="changsheng_pink_end">#FF59B3</color>
+    <color name="changsheng_text_main">#1A1A1A</color>
+    <color name="changsheng_text_sub">#999999</color>
+    <color name="changsheng_divider">#EFEFEF</color>
     <color name="app_chat_view_bg_color">#F1F1F1</color>
     <color name="app_chat_send_pop_bg">#377AF5</color>
     <color name="app_chat_receive_pop_bg">#FFFFFF</color>

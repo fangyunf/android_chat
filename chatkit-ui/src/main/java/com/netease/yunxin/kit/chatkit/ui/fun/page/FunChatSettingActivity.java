@@ -272,7 +272,7 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
         );
 
 
-        binding.funChatSettingActivityClearHistory.titTv.setText("清除聊天记录");
+        binding.funChatSettingActivityClearHistory.titTv.setText("清理聊天记录");
         binding.funChatSettingActivityClearHistory.funTitleTfArrowViewLl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

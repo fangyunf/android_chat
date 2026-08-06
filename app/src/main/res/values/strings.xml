@@ -26,7 +26,7 @@
     <string name="modify_username_hint">仅支持中文、字母、数字</string>
     <string name="user_info_sexual">性别</string>
     <string name="user_info_birthday">生日</string>
-    <string name="user_info_phone">手机</string>
+    <string name="user_info_phone">手机号</string>
     <string name="user_info_email">邮箱</string>
     <string name="user_info_sign">个性签名</string>
     <string name="action_copy_success">复制成功！</string>

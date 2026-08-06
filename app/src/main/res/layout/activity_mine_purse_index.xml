@@ -1,20 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tl="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/bg_2">
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="fitXY"
-        android:src="@mipmap/jinzita_common_page_bg"
-        android:visibility="gone"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    android:background="@drawable/bg_changsheng_page_gradient">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,140 +18,375 @@
             app:enable_under_divider="true"
             app:support_translucent_status_bar="false"
             app:title="我的钱包"
-            app:title_text_color="@color/color_black"
+            app:title_text_color="@color/changsheng_text_main"
             app:under_divider_color="@color/transparent" />
 
-
-        <LinearLayout
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="15dp"
-            android:layout_marginTop="@dimen/dimen_50_dp"
-            android:background="@drawable/bg_white_rounded_10"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:paddingHorizontal="20dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dimen_20_dp"
-                android:text="资金安全有保障"
-                android:textColor="@color/app_theme_color"
-                android:textSize="14sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dimen_40_dp"
-                android:text="总资产(元)"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/activity_mine_purse_index_balance_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="@dimen/dimen_30_dp"
-                android:text="¥0.00"
-                android:textColor="@color/black"
-                android:textSize="35sp" />
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:scrollbars="none">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingHorizontal="16dp"
+                android:paddingBottom="24dp">
 
-                android:layout_marginBottom="@dimen/dimen_30_dp">
+                <!-- 余额白卡 -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/bg_white_rounded_16"
+                    android:elevation="2dp"
+                    android:padding="20dp">
 
-                <TextView
-                    android:id="@+id/activity_mine_purse_index_recharge_tv"
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/bg_app_theme_color_rounded_10"
-                    android:gravity="center"
-                    android:text="充值"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_size_15" />
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentTop="true"
+                        android:src="@mipmap/icn_wallet_balance_heart" />
 
-                <TextView
-                    android:id="@+id/activity_mine_purse_index_tixian_tv"
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/bg_gray_rounded_line_10"
-                    android:gravity="center"
-                    android:text="提现"
-                    android:textColor="@color/color_black"
-                    android:textSize="@dimen/text_size_15" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toStartOf="@+id/activity_mine_purse_index_tixian_tv"
+                        android:orientation="vertical"
+                        android:paddingEnd="12dp">
 
-                <TextView
-                    android:id="@+id/activity_mine_purse_index_recharge_tv2"
-                    android:layout_width="100dp"
-                    android:layout_height="60dp"
-                    android:layout_marginLeft="15dp"
-                    android:background="#060606"
-                    android:gravity="center"
-                    android:text="充值2"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_size_15"
-                    android:visibility="gone" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="钱包余额"
+                            android:textColor="@color/changsheng_text_sub"
+                            android:textSize="14sp" />
 
+                        <TextView
+                            android:id="@+id/activity_mine_purse_index_balance_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="¥0.00"
+                            android:textColor="@color/changsheng_text_main"
+                            android:textSize="28sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
 
+                    <TextView
+                        android:id="@+id/activity_mine_purse_index_tixian_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="36dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/bg_pink_gradient_capsule"
+                        android:gravity="center"
+                        android:paddingHorizontal="16dp"
+                        android:text="立即兑换"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
+
+                    <!-- 兼容旧充值按钮 id，隐藏 -->
+                    <TextView
+                        android:id="@+id/activity_mine_purse_index_recharge_tv"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/activity_mine_purse_index_recharge_tv2"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:visibility="gone" />
+                </RelativeLayout>
+
+                <!-- 2×3 宫格 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/bg_white_rounded_16"
+                    android:elevation="2dp"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:orientation="horizontal">
+
+                        <RelativeLayout
+                            android:id="@+id/activity_mine_purse_grid_recharge"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:padding="12dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:orientation="vertical"
+                                android:paddingEnd="36dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="充值中心"
+                                    android:textColor="@color/changsheng_text_main"
+                                    android:textSize="15sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="4dp"
+                                    android:text="立即充值"
+                                    android:textColor="@color/changsheng_text_sub"
+                                    android:textSize="12sp" />
+                            </LinearLayout>
+
+                            <ImageView
+                                android:layout_width="44dp"
+                                android:layout_height="44dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentBottom="true"
+                                android:src="@mipmap/icn_wallet_grid_recharge" />
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/activity_mine_purse_index_hbjl"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:padding="12dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:orientation="vertical"
+                                android:paddingEnd="36dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="红包记录"
+                                    android:textColor="@color/changsheng_text_main"
+                                    android:textSize="15sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="4dp"
+                                    android:text="查看红包记录"
+                                    android:textColor="@color/changsheng_text_sub"
+                                    android:textSize="12sp" />
+                            </LinearLayout>
+
+                            <ImageView
+                                android:layout_width="44dp"
+                                android:layout_height="44dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentBottom="true"
+                                android:src="@mipmap/icn_wallet_grid_redpacket" />
+                        </RelativeLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:orientation="horizontal">
+
+                        <RelativeLayout
+                            android:id="@+id/activity_mine_purse_index_lqmx"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:padding="12dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:orientation="vertical"
+                                android:paddingEnd="36dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="账单明细"
+                                    android:textColor="@color/changsheng_text_main"
+                                    android:textSize="15sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="4dp"
+                                    android:text="查看账单明细"
+                                    android:textColor="@color/changsheng_text_sub"
+                                    android:textSize="12sp" />
+                            </LinearLayout>
+
+                            <ImageView
+                                android:layout_width="44dp"
+                                android:layout_height="44dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentBottom="true"
+                                android:src="@mipmap/icn_wallet_grid_billing" />
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/activity_mine_purse_grid_pay_pwd"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:padding="12dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:orientation="vertical"
+                                android:paddingEnd="36dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="支付密码"
+                                    android:textColor="@color/changsheng_text_main"
+                                    android:textSize="15sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="4dp"
+                                    android:text="设置密码"
+                                    android:textColor="@color/changsheng_text_sub"
+                                    android:textSize="12sp" />
+                            </LinearLayout>
+
+                            <ImageView
+                                android:layout_width="44dp"
+                                android:layout_height="44dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentBottom="true"
+                                android:src="@mipmap/icn_wallet_grid_password" />
+                        </RelativeLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:orientation="horizontal">
+
+                        <RelativeLayout
+                            android:id="@+id/activity_mine_purse_index_bdzfb"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:padding="12dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:orientation="vertical"
+                                android:paddingEnd="36dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="支付宝"
+                                    android:textColor="@color/changsheng_text_main"
+                                    android:textSize="15sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="4dp"
+                                    android:text="绑定支付宝"
+                                    android:textColor="@color/changsheng_text_sub"
+                                    android:textSize="12sp" />
+                            </LinearLayout>
+
+                            <ImageView
+                                android:layout_width="44dp"
+                                android:layout_height="44dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentBottom="true"
+                                android:src="@mipmap/icn_wallet_grid_alipay" />
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/activity_mine_purse_grid_edit_pwd"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:padding="12dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:orientation="vertical"
+                                android:paddingEnd="36dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="修改支付密码"
+                                    android:textColor="@color/changsheng_text_main"
+                                    android:textSize="15sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="4dp"
+                                    android:text="修改密码"
+                                    android:textColor="@color/changsheng_text_sub"
+                                    android:textSize="12sp" />
+                            </LinearLayout>
+
+                            <ImageView
+                                android:layout_width="44dp"
+                                android:layout_height="44dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentBottom="true"
+                                android:src="@mipmap/icn_wallet_grid_password_edit" />
+                        </RelativeLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- 兼容旧绑定项 id（gone） -->
+                <com.yaoxin.appbase.view.IconTitleArrowTemplate
+                    android:id="@+id/activity_mine_purse_index_smrz"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:visibility="gone"
+                    app:titleText="实名认证" />
+
+                <com.yaoxin.appbase.view.IconTitleArrowTemplate
+                    android:id="@+id/activity_mine_purse_index_bdwx"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:visibility="gone"
+                    app:titleText="绑定微信" />
+
+                <com.yaoxin.appbase.view.IconTitleArrowTemplate
+                    android:id="@+id/activity_mine_purse_index_wdkb"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:visibility="gone"
+                    app:titleText="我的卡包" />
             </LinearLayout>
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="15dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/bg_white_rounded_10"
-            android:orientation="vertical">
-
-            <com.yaoxin.appbase.view.IconTitleArrowTemplate
-                android:id="@+id/activity_mine_purse_index_hbjl"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:titleText="红包记录" />
-
-            <com.yaoxin.appbase.view.IconTitleArrowTemplate
-                android:id="@+id/activity_mine_purse_index_lqmx"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:titleText="零钱明细" />
-
-            <com.yaoxin.appbase.view.IconTitleArrowTemplate
-                android:id="@+id/activity_mine_purse_index_smrz"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="visible"
-                app:titleText="实名认证" />
-
-            <com.yaoxin.appbase.view.IconTitleArrowTemplate
-                android:id="@+id/activity_mine_purse_index_bdwx"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                app:titleText="绑定微信" />
-
-            <com.yaoxin.appbase.view.IconTitleArrowTemplate
-                android:id="@+id/activity_mine_purse_index_bdzfb"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:titleText="绑定支付宝" />
-
-            <com.yaoxin.appbase.view.IconTitleArrowTemplate
-                android:id="@+id/activity_mine_purse_index_wdkb"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                app:titleText="我的卡包" />
-        </LinearLayout>
-
+        </androidx.core.widget.NestedScrollView>
     </LinearLayout>
 </RelativeLayout>

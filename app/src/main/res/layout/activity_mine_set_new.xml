@@ -4,7 +4,7 @@
     xmlns:tl="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_F2F2F2"
+    android:background="@drawable/bg_changsheng_page_gradient"
     android:orientation="vertical">
 
     <com.yaoxin.appbase.navbar.NavToolbar
@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="15dp"
                 android:layout_marginTop="@dimen/dimen_16_dp"
-                android:background="@drawable/bg_white_rounded_10"
+                android:background="@drawable/bg_white_rounded_16"
                 android:orientation="vertical">
 
                 <include
@@ -61,6 +61,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
+                <include
+                    android:id="@+id/activity_mine_set_new_smrz"
+                    layout="@layout/view_title_arrow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -68,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="15dp"
                 android:layout_marginTop="@dimen/dimen_16_dp"
-                android:background="@drawable/bg_white_rounded_10"
+                android:background="@drawable/bg_white_rounded_16"
                 android:orientation="vertical">
 
                 <include
@@ -91,7 +97,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="15dp"
                 android:layout_marginTop="@dimen/dimen_16_dp"
-                android:background="@drawable/bg_white_rounded_10"
+                android:background="@drawable/bg_white_rounded_16"
                 android:orientation="vertical">
 
                 <include
@@ -104,7 +110,8 @@
                     android:id="@+id/activity_mine_set_new_download"
                     layout="@layout/view_title_arrow"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" />
 
                 <include
                     android:id="@+id/activity_mine_set_new_exchange_acount"

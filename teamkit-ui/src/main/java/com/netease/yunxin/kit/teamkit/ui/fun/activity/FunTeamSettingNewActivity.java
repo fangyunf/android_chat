@@ -184,7 +184,7 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
         binding.funTeamSettingNewActivityNicheng.viewTitleArrowLl.setOnClickListener(this);
         binding.funTeamSettingNewActivityNicheng.getRoot().setVisibility(View.GONE);
 
-        binding.funTeamSettingNewActivitySetGonggao.viewTitleArrowTv.setText("设置群公告");
+        binding.funTeamSettingNewActivitySetGonggao.viewTitleArrowTv.setText("群公告");
         binding.funTeamSettingNewActivitySetGonggao.viewTitleArrowLl.setOnClickListener(this);
         binding.funTeamSettingNewActivityManagerTeam.viewTitleArrowTv.setText("群管理");
         binding.funTeamSettingNewActivityManagerTeam.viewTitleArrowLl.setOnClickListener(this);
@@ -214,7 +214,7 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
         binding.funTeamSettingNewActivityMiandarao.viewTitleArrowRightTvSwitch.setOnClickListener(this);
 
 
-        binding.funTeamSettingNewActivityDelteRecord.viewTitleArrowTv.setText("清除聊天记录");
+        binding.funTeamSettingNewActivityDelteRecord.viewTitleArrowTv.setText("清理聊天记录");
         binding.funTeamSettingNewActivityDelteRecord.viewTitleArrowLl.setOnClickListener(this);
 //        binding.funTeamSettingNewActivityTousu.viewTitleArrowTv.setText("投诉");
 //        binding.funTeamSettingNewActivityTousu.viewTitleArrowLl.setOnClickListener(this);
@@ -376,7 +376,7 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
             maxList.addAll(groupInfoBean.userInfos);
 
         }
-        binding.funTeamSettingNewActivityIdTv.setText("ID: " + groupInfoBean.groupId);
+        binding.funTeamSettingNewActivityIdTv.setText("群聊 ID: " + groupInfoBean.groupId);
         adapter = new TeamSettingUserInfoAdapter(groupInfoBean.rankState == 1, maxList);
 
         binding.funTeamSettingNewActivityMemberRv.setAdapter(adapter);
@@ -431,7 +431,7 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
 //            binding.funTeamSettingNewActivitySetGonggao.viewTitleArrowLl.setVisibility(View.VISIBLE);
             binding.editIcon.setVisibility(View.VISIBLE);
         }
-        binding.funTeamSettingNewActivityQuite.setText(groupInfoBean.rankState == 1 ? "解散群组" : "退出群组");
+        binding.funTeamSettingNewActivityQuite.setText(groupInfoBean.rankState == 1 ? "解散群聊" : "删除并退出");
 
     }
 

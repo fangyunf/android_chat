@@ -37,7 +37,7 @@
             android:id="@+id/btn_login"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="@drawable/bg_green_rounded_10"
+            android:background="@drawable/bg_pink_gradient_capsule"
             android:clickable="true"
             android:focusable="true"
             android:gravity="center"

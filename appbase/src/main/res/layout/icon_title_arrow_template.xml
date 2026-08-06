@@ -21,8 +21,8 @@
         android:layout_marginLeft="10dp"
         android:layout_weight="1"
         android:text=""
-        android:textColor="#ff666666"
-        android:textSize="14sp" />
+        android:textColor="#ff1A1A1A"
+        android:textSize="15sp" />
 
     <ImageView
         android:id="@+id/icon_title_arrow_template_right_iv"
