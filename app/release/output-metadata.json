@@ -4,16 +4,16 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.turunsi.xingyan",
+  "applicationId": "com.turunsi.changsheng",
   "variantName": "release",
   "elements": [
     {
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 5,
-      "versionName": "1.0.4",
-      "outputFile": "xingyan_release_v1.0.4.apk"
+      "versionCode": 1,
+      "versionName": "1.0.0",
+      "outputFile": "changsheng_release_v1.0.0.apk"
     }
   ],
   "elementType": "File"
