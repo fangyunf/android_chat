@@ -29,27 +29,56 @@ import pub.devrel.easypermissions.EasyPermissions;
 
 public class ImageUtil {
     public static void saveImageViewToGallery(Context context, ImageView imageView) {
-        String[] permission = new String[] {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
-        // 根据系统版本判断，如果是Android13则采用Manifest.permission.READ_MEDIA_IMAGES
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            permission =
-                    new String[] {
-                            Manifest.permission.READ_MEDIA_IMAGES, Manifest.permission.READ_MEDIA_VIDEO
-                    };
-        }
-        if (!EasyPermissions.hasPermissions(context, permission)) {
-            // 请求相机权限
-            EasyPermissions.requestPermissions((Activity) context, "需要访问相册权限", Constant.RC_PHOTO_PICKER_PERM, permission);
+        if (!ensureWriteGalleryPermission(context)) {
             return;
         }
-
-        // 获取 ImageView 中的 Bitmap
         imageView.setDrawingCacheEnabled(true);
-        Bitmap bitmap = Bitmap.createBitmap(imageView.getDrawingCache());
+        Bitmap cache = imageView.getDrawingCache();
+        if (cache == null) {
+            imageView.setDrawingCacheEnabled(false);
+            ToastUtils.toastMsg("保存失败");
+            return;
+        }
+        Bitmap bitmap = Bitmap.createBitmap(cache);
         imageView.setDrawingCacheEnabled(false);
-
-        // 保存 Bitmap 到相册
         saveBitmapToGallery(context, bitmap);
+    }
+
+    /**
+     * 将整块 View 绘制成图片并保存到相册（Android 10+ 走 MediaStore，无需存储权限）
+     */
+    public static void saveViewToGallery(Context context, android.view.View view) {
+        if (view == null || view.getWidth() <= 0 || view.getHeight() <= 0) {
+            ToastUtils.toastMsg("保存失败");
+            return;
+        }
+        if (!ensureWriteGalleryPermission(context)) {
+            return;
+        }
+        Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
+        android.graphics.Canvas canvas = new android.graphics.Canvas(bitmap);
+        view.draw(canvas);
+        saveBitmapToGallery(context, bitmap);
+    }
+
+    private static boolean ensureWriteGalleryPermission(Context context) {
+        // Android 10+ 使用 MediaStore 写入公开相册，无需申请存储权限
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            return true;
+        }
+        String[] permission = new String[]{
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+        };
+        if (!EasyPermissions.hasPermissions(context, permission)) {
+            EasyPermissions.requestPermissions(
+                    (Activity) context,
+                    "需要访问相册权限",
+                    Constant.RC_PHOTO_PICKER_PERM,
+                    permission);
+            return false;
+        }
+        return true;
     }
 
     private static void saveBitmapToGallery(Context context, Bitmap bitmap) {

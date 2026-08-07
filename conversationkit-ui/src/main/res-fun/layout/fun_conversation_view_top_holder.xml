@@ -47,8 +47,7 @@
                 android:maxLines="1"
                 android:text="系统公告"
                 android:textColor="#1A1A1A"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textSize="16sp" />
 
             <TextView
                 android:layout_width="wrap_content"

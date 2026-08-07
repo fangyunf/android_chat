@@ -50,6 +50,7 @@ import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import retrofit2.Call;
@@ -115,7 +116,9 @@ public class SettingNewActivity extends BaseActivity implements View.OnClickList
         if (v == viewBinding.activityMineSetNewMimaSet.viewTitleArrowLl) {
             Mine_Pwd_Set_ManagerActivity.start(Mine_Pwd_Set_ManagerActivity.class, this, null);
         } else if (v == viewBinding.activityMineSetNewSmrz.viewTitleArrowLl) {
-            RealNameSetActivity.start(RealNameSetActivity.class, this, null);
+            HashMap<String, String> map = new HashMap<>();
+            map.put("showBack", "1");
+            RealNameSetActivity.start(RealNameSetActivity.class, this, map);
         } else if (v == viewBinding.activityMineSetNewYinsiSet.viewTitleArrowLl) {
             startActivity(new Intent(SettingNewActivity.this, AccountAnQuanManagerActivity.class));
         } else if (v == viewBinding.activityMineSetNewNoticeVoice.viewTitleArrowLl) {

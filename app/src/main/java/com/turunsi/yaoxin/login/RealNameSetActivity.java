@@ -2,37 +2,29 @@ package com.turunsi.yaoxin.login;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.text.InputType;
 import android.view.View;
 
 import androidx.annotation.Nullable;
 
 import com.alipay.face.api.ZIMFacade;
 import com.google.gson.Gson;
-import com.netease.yunxin.kit.alog.ALog;
-import com.turunsi.yaoxin.R;
-import com.turunsi.yaoxin.databinding.ActivityMinePursePwdManagerSetBinding;
 import com.turunsi.yaoxin.databinding.ActivityMineRealNameSetBinding;
-import com.turunsi.yaoxin.utils.IMUtil;
 import com.turunsi.yaoxin.utils.RealNameAuthUtil;
 import com.yaoxin.appbase.activity.BaseActivity;
 import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.RegisterBean;
-import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.Constant;
 import com.yaoxin.appbase.net.HttpUtil;
-import com.yaoxin.appbase.utils.DataUtil;
-import com.yaoxin.appbase.utils.DeviceUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
-
-import java.util.HashMap;
 
 import retrofit2.Call;
 import retrofit2.Response;
 
 public class RealNameSetActivity extends BaseActivity implements View.OnClickListener {
     ActivityMineRealNameSetBinding binding;
+    /** 从设置等入口进入时可返回；强制实名流程不可返回 */
+    private boolean canGoBack;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,32 +33,34 @@ public class RealNameSetActivity extends BaseActivity implements View.OnClickLis
         setContentView(binding.getRoot());
         binding.activityMineRealNameSetSaveRl.setOnClickListener(this);
 
-        binding.activityMineRealNameSetNav.addCloseImageButton().setVisibility(View.GONE);
+        canGoBack = extras != null && "1".equals(extras.getString("showBack"));
+        View backBtn = binding.activityMineRealNameSetNav.addCloseImageButton();
+        if (canGoBack) {
+            backBtn.setVisibility(View.VISIBLE);
+            backBtn.setOnClickListener(this);
+        } else {
+            backBtn.setVisibility(View.GONE);
+        }
 
         binding.activityMineRealNameSetName.viewTitleTfWithoutBgTv.setText("真实姓名");
         binding.activityMineRealNameSetName.viewTitleTfWithoutBgEt.setHint("请输入姓名");
-//        binding.activityMineRealNameSetName.viewTitleTfWithoutBgEt.setBackgroundColor(getResources().getColor(R.color.color_white));
-//        binding.activityMineRealNameSetName.viewTitleTfWithoutBgLl.setBackgroundColor(getResources().getColor(R.color.color_white));
-
 
         binding.activityMineRealNameSetIdentityNum.viewTitleTfWithoutBgTv.setText("身份证号");
         binding.activityMineRealNameSetIdentityNum.viewTitleTfWithoutBgEt.setHint("请输入身份证号");
-//        binding.activityMineRealNameSetIdentityNum.viewTitleTfWithoutBgEt.setBackgroundColor(getResources().getColor(R.color.color_white));
-//        binding.activityMineRealNameSetIdentityNum.viewTitleTfWithoutBgLl.setBackgroundColor(getResources().getColor(R.color.color_white));
-
-
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        // 清除Activity正在运行的标志
         Constant.isRunningRealName = false;
-
     }
+
     @Override
     public void onClick(View v) {
         if (v == binding.activityMineRealNameSetNav.addCloseImageButton()) {
-            finish();
+            if (canGoBack) {
+                finish();
+            }
         } else if (v == binding.activityMineRealNameSetSaveRl) {
             String certName = getTextStr(binding.activityMineRealNameSetName.viewTitleTfWithoutBgEt);
             if (certName.isEmpty()) {
@@ -90,7 +84,7 @@ public class RealNameSetActivity extends BaseActivity implements View.OnClickLis
                     .enqueue(new CommonCallback<NetData>() {
                         @Override
                         public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                            RegisterBean dataBean = new Gson().fromJson(body.data.toString(),RegisterBean.class);
+                            RegisterBean dataBean = new Gson().fromJson(body.data.toString(), RegisterBean.class);
 
                             RealNameAuthUtil.start(that, dataBean.certifyId, new RealNameAuthUtil.dispathBlockT() {
                                 @Override
@@ -99,7 +93,6 @@ public class RealNameSetActivity extends BaseActivity implements View.OnClickLis
                                     finish();
                                 }
                             });
-
                         }
 
                         @Override
@@ -109,10 +102,11 @@ public class RealNameSetActivity extends BaseActivity implements View.OnClickLis
                     });
         }
     }
+
     @Override
     public void onBackPressed() {
-        // 留空或者添加你希望的代码
-        // super.onBackPressed(); // 这行代码将会执行默认的返回操作，注释掉即可屏蔽返回键
+        if (canGoBack) {
+            super.onBackPressed();
+        }
     }
-
 }

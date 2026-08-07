@@ -16,12 +16,9 @@ import com.netease.yunxin.kit.common.ui.utils.ToastX;
 import com.netease.yunxin.kit.corekit.im.IMKitClient;
 import com.netease.yunxin.kit.corekit.im.login.LoginCallback;
 import com.turunsi.yaoxin.IMApplication;
-import com.turunsi.yaoxin.R;
 import com.turunsi.yaoxin.login.LoginActivity;
-import com.turunsi.yaoxin.login.RealNameSetActivity;
 import com.turunsi.yaoxin.login.WelcomeLoginActivity;
 import com.turunsi.yaoxin.main.MainActivity;
-import com.turunsi.yaoxin.main.mine.setting.SettingNewActivity;
 import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.model.UserBean;
@@ -50,7 +47,6 @@ public class IMUtil {
                             Intent intent = new Intent();
                             intent.setClass(context, WelcomeLoginActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                             context.startActivity(intent);
                             context.finish();
                         }
@@ -83,12 +79,11 @@ public class IMUtil {
     }
 
     public static void showMainActivityAndFinish(Activity context) {
-        Intent intent = new Intent();
-        intent.setClass(context, MainActivity.class);
-//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        Intent intent = new Intent(context, MainActivity.class);
+        // 不用 CLEAR_TASK，避免整栈重建导致白屏；先打开首页再清掉登录页栈
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         context.startActivity(intent);
-        context.finish();
+        context.finishAffinity();
         IMUtil.getToken();
     }
 
