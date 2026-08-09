@@ -20,7 +20,6 @@ import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
-import com.yaoxin.appbase.utils.AnsInputUtil;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
 
@@ -42,7 +41,6 @@ public class OtherPlaceLoginFragment extends BaseDialogFragment implements View.
         binding.fragmentOtherPlaceLoginInputCodeEt.setHint("请输入密保");
         binding.fragmentOtherPlaceLoginInputCodeEt.setInputType(
                 InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-        AnsInputUtil.applyAlphanumericOnly(binding.fragmentOtherPlaceLoginInputCodeEt);
         binding.fragmentOtherPlaceLoginPhoneEt.setInputType(InputType.TYPE_CLASS_TEXT);
         binding.fragmentOtherPlaceLoginConfirmBtn.setOnClickListener(this);
         return binding.getRoot();

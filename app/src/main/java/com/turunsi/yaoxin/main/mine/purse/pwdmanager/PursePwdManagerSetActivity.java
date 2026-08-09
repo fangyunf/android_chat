@@ -20,7 +20,6 @@ import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
-import com.yaoxin.appbase.utils.AnsInputUtil;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
 
@@ -54,8 +53,6 @@ public class PursePwdManagerSetActivity extends BaseActivity implements View.OnC
         binding.activityMinePursePwdManagerGetCode.btnCaptcha.setVisibility(View.GONE);
         binding.activityMinePursePwdManagerGetCode.viewTitleTfWithoutBgEt.setInputType(
                 InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-        AnsInputUtil.applyAlphanumericOnly(
-                binding.activityMinePursePwdManagerGetCode.viewTitleTfWithoutBgEt);
 
         if (type == 0) {
             _initSetCell();

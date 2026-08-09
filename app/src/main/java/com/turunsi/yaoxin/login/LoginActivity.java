@@ -38,7 +38,6 @@ import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.Constant;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.net.NetServerException;
-import com.yaoxin.appbase.utils.AnsInputUtil;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.DeviceUtils;
 import com.yaoxin.appbase.utils.StatusBarUtils;
@@ -90,7 +89,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         binding.activityLoginTf3.viewTitleTfCountEt.setTransformationMethod(PasswordTransformationMethod.getInstance());
 
         binding.activityLoginTf2.viewTitleTfCountCaptcha.setVisibility(View.GONE);
-        AnsInputUtil.applyAlphanumericOnly(binding.activityLoginTf2.viewTitleTfCountEt);
         setupRegisterText();
         setupAgreementText();
         changeTitleWithType(0);

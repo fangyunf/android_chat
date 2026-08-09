@@ -16,7 +16,6 @@ import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
-import com.yaoxin.appbase.utils.AnsInputUtil;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
 
@@ -56,7 +55,6 @@ public class OtherPlaceLoginActivity extends BaseActivity implements View.OnClic
             binding.activityOtherPlaceLoginVerifyLl.setVisibility(View.GONE);
             binding.activityOtherPlaceLoginNav.getTitleView().setText("安全验证");
             binding.activityOtherPlaceLoginAnsConfirmTv.setOnClickListener(this);
-            AnsInputUtil.applyAlphanumericOnly(binding.activityOtherPlaceLoginAnsEt);
         }
     }
 
