@@ -34,6 +34,7 @@ import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.Constant;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.AESUtil;
+import com.yaoxin.appbase.utils.AnsInputUtil;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.DeviceUtils;
 import com.yaoxin.appbase.utils.StatusBarUtils;
@@ -128,8 +129,9 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         binding.registerActivityPwd2Tf.viewTitleTfCountEyeRl.setOnClickListener(this);
         binding.registerActivityPwd2Tf.viewTitleTfCountEyeIv.setSelected(true);
 
-        // 密保：隐藏获取验证码
+        // 密保：隐藏获取验证码，仅允许数字字母
         binding.registerActivityCodeTf.viewTitleTfCountCaptcha.setVisibility(View.GONE);
+        AnsInputUtil.applyAlphanumericOnly(binding.registerActivityCodeTf.viewTitleTfCountEt);
     }
 
     private void setupTitleText() {

@@ -18,6 +18,7 @@ import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
+import com.yaoxin.appbase.utils.AnsInputUtil;
 import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
 
@@ -92,6 +93,7 @@ public class ForgetPwdActivity extends BaseActivity implements View.OnClickListe
         binding.forgetPwdActivityPwdTf.viewTitleTfCountEyeIv.setSelected(true);
 
         binding.forgetPwdActivityCodeTf.viewTitleTfCountCaptcha.setVisibility(View.GONE);
+        AnsInputUtil.applyAlphanumericOnly(binding.forgetPwdActivityCodeTf.viewTitleTfCountEt);
     }
 
     @Override

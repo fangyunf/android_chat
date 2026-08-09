@@ -1021,16 +1021,15 @@ public abstract class ChatBaseViewModel extends BaseViewModel {
                                         String content = message1.getContent();
                                         if (attachStr != null && attachStr.contains("adminIds")) {
                                             try {
-                                                CustomMsgBean msgBean = new Gson().fromJson(attachStr, CustomMsgBean.class);
-
-                                                msgBean.result = new Gson().fromJson(msgBean.data, CustomMsgBean.class);
-                                                // 专属红包改为所有人可见，注释掉过滤逻辑
-                                                if (msgBean.type == 21) {
-                                                    if (DataUtil.getUserid().equals(msgBean.result.toUserId) || DataUtil.getUserid().equals(msgBean.result.fromUserId) || msgBean.result.adminIds.contains(DataUtil.getUserid())) {
-                                                    } else {
-                                                        iterator.remove();
-                                                    }
-                                                }
+//                                                CustomMsgBean msgBean = new Gson().fromJson(attachStr, CustomMsgBean.class);
+//                                                msgBean.result = new Gson().fromJson(msgBean.data, CustomMsgBean.class);
+//                                                // 专属红包改为所有人可见，注释掉过滤逻辑
+//                                                if (msgBean.type == 21) {
+//                                                    if (DataUtil.getUserid().equals(msgBean.result.toUserId) || DataUtil.getUserid().equals(msgBean.result.fromUserId) || msgBean.result.adminIds.contains(DataUtil.getUserid())) {
+//                                                    } else {
+//                                                        iterator.remove();
+//                                                    }
+//                                                }
                                             } catch (Exception e) {
 
                                             }
@@ -1165,12 +1164,12 @@ public abstract class ChatBaseViewModel extends BaseViewModel {
                                             CustomMsgBean msgBean = new Gson().fromJson(attachStr, CustomMsgBean.class);
                                             msgBean.result = new Gson().fromJson(msgBean.data, CustomMsgBean.class);
                                             // 专属红包改为所有人可见，注释掉过滤逻辑
-                                            if (msgBean.type == 21) {
-                                                if (DataUtil.getUserid().equals(msgBean.result.toUserId) || DataUtil.getUserid().equals(msgBean.result.fromUserId) || msgBean.result.adminIds.contains(DataUtil.getUserid())) {
-                                                } else {
-                                                    iterator.remove();
-                                                }
-                                            }
+//                                            if (msgBean.type == 21) {
+//                                                if (DataUtil.getUserid().equals(msgBean.result.toUserId) || DataUtil.getUserid().equals(msgBean.result.fromUserId) || msgBean.result.adminIds.contains(DataUtil.getUserid())) {
+//                                                } else {
+//                                                    iterator.remove();
+//                                                }
+//                                            }
                                         } catch (Exception e) {
 
                                         }
