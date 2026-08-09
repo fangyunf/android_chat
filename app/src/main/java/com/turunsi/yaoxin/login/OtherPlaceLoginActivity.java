@@ -55,6 +55,9 @@ public class OtherPlaceLoginActivity extends BaseActivity implements View.OnClic
             binding.activityOtherPlaceLoginVerifyLl.setVisibility(View.GONE);
             binding.activityOtherPlaceLoginNav.getTitleView().setText("安全验证");
             binding.activityOtherPlaceLoginAnsConfirmTv.setOnClickListener(this);
+            binding.activityOtherPlaceLoginAnsEt.setInputType(
+                    android.text.InputType.TYPE_CLASS_TEXT);
+            binding.activityOtherPlaceLoginAnsEt.setTransformationMethod(null);
         }
     }
 

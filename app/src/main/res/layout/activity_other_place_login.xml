@@ -80,7 +80,7 @@
                 android:layout_marginTop="24dp"
                 android:background="@drawable/bg_input_stroke_capsule"
                 android:hint="请输入密保"
-                android:inputType="textPassword"
+                android:inputType="text"
                 android:paddingHorizontal="16dp"
                 android:textColor="@color/black"
                 android:textColorHint="#BBBBBB"

@@ -85,6 +85,7 @@ public class ForgetPwdActivity extends BaseActivity implements View.OnClickListe
 
         binding.forgetPwdActivityPhoneTf.viewTitleTfCountEt.setInputType(InputType.TYPE_CLASS_TEXT);
         binding.forgetPwdActivityCodeTf.viewTitleTfCountEt.setInputType(InputType.TYPE_CLASS_TEXT);
+        binding.forgetPwdActivityCodeTf.viewTitleTfCountEt.setTransformationMethod(null);
         binding.forgetPwdActivityPwdTf.viewTitleTfCountEt.setTransformationMethod(PasswordTransformationMethod.getInstance());
 
         binding.forgetPwdActivityPwdTf.viewTitleTfCountEyeRl.setVisibility(View.VISIBLE);

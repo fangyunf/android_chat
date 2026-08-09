@@ -52,7 +52,8 @@ public class PursePwdManagerSetActivity extends BaseActivity implements View.OnC
         binding.activityMinePursePwdManagerGetCode.viewTitleTfWithoutBgEt.setHint("请输入密保");
         binding.activityMinePursePwdManagerGetCode.btnCaptcha.setVisibility(View.GONE);
         binding.activityMinePursePwdManagerGetCode.viewTitleTfWithoutBgEt.setInputType(
-                InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                InputType.TYPE_CLASS_TEXT);
+        binding.activityMinePursePwdManagerGetCode.viewTitleTfWithoutBgEt.setTransformationMethod(null);
 
         if (type == 0) {
             _initSetCell();

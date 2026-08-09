@@ -39,8 +39,8 @@ public class OtherPlaceLoginFragment extends BaseDialogFragment implements View.
         binding.btnCaptcha.setVisibility(View.GONE);
         binding.fragmentOtherPlaceLoginPhoneEt.setHint("请输入账号");
         binding.fragmentOtherPlaceLoginInputCodeEt.setHint("请输入密保");
-        binding.fragmentOtherPlaceLoginInputCodeEt.setInputType(
-                InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        binding.fragmentOtherPlaceLoginInputCodeEt.setInputType(InputType.TYPE_CLASS_TEXT);
+        binding.fragmentOtherPlaceLoginInputCodeEt.setTransformationMethod(null);
         binding.fragmentOtherPlaceLoginPhoneEt.setInputType(InputType.TYPE_CLASS_TEXT);
         binding.fragmentOtherPlaceLoginConfirmBtn.setOnClickListener(this);
         return binding.getRoot();

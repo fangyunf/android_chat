@@ -118,6 +118,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
         binding.registerActivityPhoneTf.viewTitleTfCountEt.setInputType(InputType.TYPE_CLASS_TEXT);
         binding.registerActivityCodeTf.viewTitleTfCountEt.setInputType(InputType.TYPE_CLASS_TEXT);
+        binding.registerActivityCodeTf.viewTitleTfCountEt.setTransformationMethod(null);
         binding.registerActivityPwdTf.viewTitleTfCountEt.setTransformationMethod(PasswordTransformationMethod.getInstance());
         binding.registerActivityPwd2Tf.viewTitleTfCountEt.setTransformationMethod(PasswordTransformationMethod.getInstance());
 

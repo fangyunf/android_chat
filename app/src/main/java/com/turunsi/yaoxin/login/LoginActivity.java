@@ -83,6 +83,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
         binding.activityLoginTf1.viewTitleTfCountEt.setInputType(InputType.TYPE_CLASS_TEXT);
         binding.activityLoginTf2.viewTitleTfCountEt.setInputType(InputType.TYPE_CLASS_TEXT);
+        binding.activityLoginTf2.viewTitleTfCountEt.setTransformationMethod(null);
         binding.activityLoginTf3.viewTitleTfCountEyeRl.setVisibility(View.VISIBLE);
         binding.activityLoginTf3.viewTitleTfCountEyeRl.setOnClickListener(this);
         binding.activityLoginTf3.viewTitleTfCountEyeIv.setSelected(true);
