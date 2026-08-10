@@ -261,7 +261,18 @@ public class FunChatTeamFragment extends FunChatFragment {
     if (currentMember != null && teamInfo != null) {
       if (currentMember.getType() != TeamMemberType.Owner
           && currentMember.getType() != TeamMemberType.Manager) {
-        chatView.setInputMute(teamInfo.isAllMute());
+        boolean allMute = teamInfo.isAllMute();
+        boolean memberMute =
+            com.netease.yunxin.kit.chatkit.ui.common.TeamNimMuteHelper.isMemberMuted(
+                sessionID, currentMember.getAccount());
+        MessageBottomLayout bottomLayout = getMessageBottomLayout();
+        if (memberMute) {
+          bottomLayout.setMuteHint(getString(R.string.chat_team_member_mute));
+          chatView.setInputMute(true);
+        } else {
+          bottomLayout.setMuteHint(null);
+          chatView.setInputMute(allMute);
+        }
       } else {
         chatView.setInputMute(false);
       }

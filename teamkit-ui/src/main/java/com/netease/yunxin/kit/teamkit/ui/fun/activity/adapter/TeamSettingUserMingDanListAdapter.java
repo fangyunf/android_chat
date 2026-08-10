@@ -19,7 +19,12 @@ import java.util.List;
 
 public class TeamSettingUserMingDanListAdapter extends BaseQuickAdapter<GroupInfoBean, QuickViewHolder> {
 
-    public int opt_type = 0;
+    /** 禁止领取红包名单 */
+    public static final int OPT_FORBID_RED_PACKET = 0;
+    /** 单人禁言名单 */
+    public static final int OPT_MUTE = 1;
+
+    public int opt_type = OPT_FORBID_RED_PACKET;
     public List<GroupInfoBean> contacts;
 
     @Override
@@ -32,10 +37,25 @@ public class TeamSettingUserMingDanListAdapter extends BaseQuickAdapter<GroupInf
         GlideUtil.yh_loadImageRoundedCorner(getContext(), iv, infoBean.avatar, 22);
 
         TextView state_tv = quickViewHolder.getView(R.id.cell_fun_team_setting_users_mingdan_state_tv);
-        state_tv.setSelected(infoBean.forbidState == 1);
-        state_tv.setTextColor(getContext().getResources().getColor(infoBean.forbidState == 1 ?R.color.color_white:R.color.color_999999));
-        state_tv.setText(infoBean.forbidState == 0 ? "禁止": "禁领中");
-        if (position == 0 || !contacts.get(position-1).getIndex().equals(infoBean.getIndex())) {
+        if (opt_type == OPT_MUTE && (infoBean.rankState == 1 || infoBean.rankState == 2)) {
+            state_tv.setVisibility(View.GONE);
+        } else {
+            state_tv.setVisibility(View.VISIBLE);
+            state_tv.setSelected(infoBean.forbidState == 1);
+            state_tv.setTextColor(
+                    getContext()
+                            .getResources()
+                            .getColor(
+                                    infoBean.forbidState == 1
+                                            ? R.color.color_white
+                                            : R.color.color_999999));
+            if (opt_type == OPT_MUTE) {
+                state_tv.setText(infoBean.forbidState == 1 ? "禁言中" : "禁言");
+            } else {
+                state_tv.setText(infoBean.forbidState == 1 ? "禁领中" : "禁止");
+            }
+        }
+        if (position == 0 || !contacts.get(position - 1).getIndex().equals(infoBean.getIndex())) {
             tv.setVisibility(View.VISIBLE);
             tv.setText(infoBean.getIndex());
         } else {
@@ -49,4 +69,3 @@ public class TeamSettingUserMingDanListAdapter extends BaseQuickAdapter<GroupInf
         return new QuickViewHolder(R.layout.cell_fun_team_setting_users_mingdan, viewGroup);
     }
 }
-

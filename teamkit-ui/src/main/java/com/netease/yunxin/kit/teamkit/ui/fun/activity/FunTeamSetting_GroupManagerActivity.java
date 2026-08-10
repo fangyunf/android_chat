@@ -125,10 +125,13 @@ public class FunTeamSetting_GroupManagerActivity extends BaseActivity implements
         binding.funTeamSettingGroupManagerActivityJinzhiLingquMingdan.viewTitleArrowTv.setText("设置群红包白名单");
         binding.funTeamSettingGroupManagerActivityJinzhiLingquMingdan.viewTitleArrowLl.setOnClickListener(this);
 
+        binding.funTeamSettingGroupManagerActivityDanrenJinyanMingdan.viewTitleArrowTv.setText("单人禁言名单");
+        binding.funTeamSettingGroupManagerActivityDanrenJinyanMingdan.viewTitleArrowLl.setOnClickListener(this);
+
         binding.funTeamSettingGroupManagerActivityQunshengji.viewTitleArrowTv.setText("群升级");
         binding.funTeamSettingGroupManagerActivityQunshengji.viewTitleArrowLl.setOnClickListener(this);
 
-        binding.funTeamSettingGroupManagerActivityQunheimingdan.viewTitleArrowTv.setText("群成员禁言名单 (除群主和管理员)");
+        binding.funTeamSettingGroupManagerActivityQunheimingdan.viewTitleArrowTv.setText("群黑名单");
         binding.funTeamSettingGroupManagerActivityQunheimingdan.viewTitleArrowLl.setOnClickListener(this);
 
 
@@ -230,6 +233,10 @@ public class FunTeamSetting_GroupManagerActivity extends BaseActivity implements
             HashMap map = new HashMap();
             map.put("groupId", groupId);
             FunTeamSettingNew_ForbiddenListActivity.start(FunTeamSettingNew_ForbiddenListActivity.class, this, map);
+        } else if (view == binding.funTeamSettingGroupManagerActivityDanrenJinyanMingdan.viewTitleArrowLl) {
+            HashMap map = new HashMap();
+            map.put("groupId", groupId);
+            FunTeamSettingNew_MuteListActivity.start(FunTeamSettingNew_MuteListActivity.class, this, map);
         } else if (view == binding.funTeamSettingGroupManagerActivityQunshengji.viewTitleArrowLl) {
             XKitRouter.withKey("BuyGroupFeatureActivity")
                     .withParam("type", 0)
