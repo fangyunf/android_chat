@@ -32,10 +32,9 @@
         <FrameLayout
             android:id="@+id/inputLeftLayout"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="44dp"
             android:layout_marginStart="@dimen/dimen_10_dp"
             android:layout_marginEnd="@dimen/dimen_10_dp"
-            android:layout_marginBottom="@dimen/dimen_4_dp"
             android:gravity="center">
 
             <RelativeLayout
@@ -152,12 +151,14 @@
                 <TextView
                     android:id="@+id/inputMuteTv"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:alpha="0.8"
+                    android:layout_height="44dp"
+                    android:layout_gravity="center"
                     android:background="@color/color_e3e4e4"
-                    android:gravity="center_vertical"
-                    android:paddingStart="@dimen/dimen_12_dp"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
                     android:text="@string/chat_team_all_mute"
+                    android:textColor="@color/color_b3b7bc"
+                    android:textSize="@dimen/text_size_14"
                     android:visibility="gone" />
 
             </com.netease.yunxin.kit.common.ui.widgets.RoundFrameLayout>
@@ -200,17 +201,16 @@
         </LinearLayout>
 
         <FrameLayout
-            android:gravity="center"
             android:id="@+id/inputRightLayout"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="44dp"
             android:layout_marginStart="@dimen/dimen_10_dp"
             android:layout_marginEnd="@dimen/dimen_10_dp"
-            android:layout_marginBottom="@dimen/dimen_4_dp">
+            android:gravity="center">
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -218,7 +218,7 @@
                 <RelativeLayout
                     android:gravity="center"
                     android:layout_width="wrap_content"
-                    android:layout_height="44dp">
+                    android:layout_height="match_parent">
 
                     <RadioButton
                         android:id="@+id/inputEmojiRb"
@@ -234,7 +234,7 @@
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="44dp"
+                    android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/dimen_14_dp">
 
                     <RadioButton
@@ -278,6 +278,8 @@
         android:id="@+id/fun_chat_message_bottom_view_opt_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
         android:paddingHorizontal="30dp"
         android:paddingVertical="10dp"
         android:visibility="gone"

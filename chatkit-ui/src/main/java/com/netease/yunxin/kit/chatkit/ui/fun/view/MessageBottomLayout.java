@@ -808,38 +808,60 @@ public class MessageBottomLayout extends FrameLayout
     public void setMuteHint(String hint) {
         mMuteHint = hint;
         if (mMute) {
-            mBinding.inputMuteTv.setText(
-                    !TextUtils.isEmpty(mMuteHint)
-                            ? mMuteHint
-                            : getContext().getString(R.string.chat_team_all_mute));
+            updateMuteText();
         }
     }
 
     public void setMute(boolean mute) {
         if (mute != mMute) {
             mMute = mute;
-            mBinding.inputEt.setEnabled(!mute);
-            mBinding.inputMuteTv.setVisibility(mute ? VISIBLE : GONE);
             if (mute) {
-                String hint =
-                        !TextUtils.isEmpty(mMuteHint)
-                                ? mMuteHint
-                                : getContext().getString(R.string.chat_team_all_mute);
-                mBinding.inputMuteTv.setText(hint);
-            }
-            mBinding.inputEt.setText("");
-            mBinding.chatRichEt.setText("");
-            if (mute) {
+                mBinding.inputEt.setText("");
+                mBinding.chatRichEt.setText("");
                 collapse(true);
             }
-            mBinding.inputLayout.setBackgroundResource(mute ? R.color.color_e3e4e4 : R.color.color_white);
-            mBinding.inputAudioRb.setEnabled(!mute);
-            mBinding.inputAudioRb.setAlpha(mute ? 0.5f : 1f);
-            mBinding.inputEmojiRb.setEnabled(!mute);
-            mBinding.inputEmojiRb.setAlpha(mute ? 0.5f : 1f);
+            applyMuteUi();
+        }
+    }
+
+    private void updateMuteText() {
+        String hint =
+                !TextUtils.isEmpty(mMuteHint)
+                        ? mMuteHint
+                        : getContext().getString(R.string.chat_team_all_mute);
+        mBinding.inputMuteTv.setText(hint);
+    }
+
+    /** 禁言时隐藏语音/表情/更多等按钮，仅展示禁言提示（接近微信效果） */
+    private void applyMuteUi() {
+        if (mMute) {
+            mBinding.inputLeftLayout.setVisibility(GONE);
+            mBinding.inputRightLayout.setVisibility(GONE);
+            mBinding.inputEt.setVisibility(GONE);
+            mBinding.chatRichEt.setVisibility(GONE);
+            mBinding.inputAudioTv.setVisibility(GONE);
+            mBinding.replyLayout.setVisibility(GONE);
+            mBinding.funChatMessageBottomViewOptLl.setVisibility(GONE);
+            mBinding.inputMuteTv.setVisibility(VISIBLE);
+            mBinding.inputMuteTv.setGravity(android.view.Gravity.CENTER);
+            updateMuteText();
+            mBinding.inputLayout.setBackgroundResource(R.color.color_e3e4e4);
+            mBinding.inputBarLayout.setGravity(android.view.Gravity.CENTER);
+        } else {
+            mBinding.inputLeftLayout.setVisibility(VISIBLE);
+            mBinding.inputRightLayout.setVisibility(VISIBLE);
+            mBinding.inputEt.setVisibility(VISIBLE);
+            mBinding.inputEt.setEnabled(true);
+            mBinding.inputMuteTv.setVisibility(GONE);
+            mBinding.inputLayout.setBackgroundResource(R.color.color_white);
+            mBinding.inputBarLayout.setGravity(android.view.Gravity.CENTER_VERTICAL);
+            mBinding.inputAudioRb.setEnabled(true);
+            mBinding.inputAudioRb.setAlpha(1f);
+            mBinding.inputEmojiRb.setEnabled(true);
+            mBinding.inputEmojiRb.setAlpha(1f);
+            mBinding.inputMoreRb.setEnabled(true);
+            mBinding.inputMoreRb.setAlpha(1f);
             updateSendButtonVisibility(mBinding.inputEt.getText());
-//      mBinding.inputMoreRb.setEnabled(!mute);
-//      mBinding.inputMoreRb.setAlpha(mute ? 0.5f : 1f);
         }
     }
 
@@ -855,6 +877,9 @@ public class MessageBottomLayout extends FrameLayout
     }
 
     public void setReplyMessage(ChatMessageBean messageBean) {
+        if (mMute) {
+            return;
+        }
         this.replyMessage = messageBean;
         mBinding.replyLayout.setVisibility(VISIBLE);
         String tips = MessageHelper.getReplyMessageTips(messageBean.getMessageData());
