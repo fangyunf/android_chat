@@ -47,9 +47,12 @@
                     android:layout_height="24dp"
                     android:layout_centerInParent="true"
                     android:background="@drawable/fun_ic_chat_input_audio"
+                    android:backgroundTint="@null"
                     android:button="@null"
                     android:checked="false"
-                    android:clickable="false" />
+                    android:clickable="false"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp" />
             </RelativeLayout>
 
         </FrameLayout>
@@ -216,20 +219,22 @@
 
 
                 <RelativeLayout
-                    android:gravity="center"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:gravity="center">
 
                     <RadioButton
                         android:id="@+id/inputEmojiRb"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:layout_centerInParent="true"
-                        android:layout_gravity="bottom"
                         android:background="@drawable/chat_fragment_toolbar_emoji"
+                        android:backgroundTint="@null"
                         android:button="@null"
                         android:checked="false"
-                        android:clickable="false" />
+                        android:clickable="false"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -239,13 +244,16 @@
 
                     <RadioButton
                         android:id="@+id/inputMoreRb"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        android:layout_width="27dp"
+                        android:layout_height="27dp"
                         android:layout_centerInParent="true"
                         android:background="@drawable/chat_fragment_toolbar_show_more"
+                        android:backgroundTint="@null"
                         android:button="@null"
                         android:checked="false"
-                        android:clickable="false" />
+                        android:clickable="false"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp" />
 
                     <!-- 发送按钮在右侧区域最左边，和微信一致 -->
                     <TextView
