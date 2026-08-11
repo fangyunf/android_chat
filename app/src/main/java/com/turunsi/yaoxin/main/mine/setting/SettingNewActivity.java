@@ -67,6 +67,7 @@ public class SettingNewActivity extends BaseActivity implements View.OnClickList
         viewBinding.activityMineSetNewNav.addCloseImageButton().setOnClickListener(this);
         viewBinding.activityMineSetNewChatView.setOnClickListener(this);
         viewBinding.activityMineSetNewPrivacyView.setOnClickListener(this);
+        viewBinding.activityMineSetNewAnquanSetView.setOnClickListener(this);
         viewBinding.activityMineSetNewShareView.setOnClickListener(this);
         viewBinding.activityMineSetNewUpdateView.setOnClickListener(this);
         viewBinding.activityMineSetNewDeleteCacheView.setOnClickListener(this);
@@ -125,6 +126,8 @@ public class SettingNewActivity extends BaseActivity implements View.OnClickList
             startActivity(new Intent(this, SettingNotifyNewActivity.class));
         } else if (v == viewBinding.activityMineSetNewPrivacyView) {
             AccountAnQuanManagerActivity.start(AccountAnQuanManagerActivity.class, this, null);
+        } else if (v == viewBinding.activityMineSetNewAnquanSetView) {
+            AnQuanSetNewActivity.start(AnQuanSetNewActivity.class, this, null);
         } else if (v == viewBinding.activityMineSetNewShareView) {
             copyShareUrl(androidDownloadUrl);
         } else if (v == viewBinding.activityMineSetNewUpdateView) {

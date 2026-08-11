@@ -211,6 +211,7 @@
         <activity android:name=".main.mine.account.AccountAnQuanManagerActivity" />
         <activity android:name=".main.mine.account.AccoutCodeDetailActivity" />
         <activity android:name=".main.mine.setting.AboutUsNewActivity" />
+        <activity android:name=".main.mine.setting.AnQuanSetNewActivity" />
         <activity android:name=".main.mine.purse.tixian.PurseTiXianAddAccountActivity" />
         <!--        <activity-->
         <!--            android:name=".main.mine.purse.recharge.PurseUSDTRechargeActivity" />-->

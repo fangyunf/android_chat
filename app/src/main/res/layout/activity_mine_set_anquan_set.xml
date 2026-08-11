@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_F2F2F2"
+    android:orientation="vertical">
+
+    <com.yaoxin.appbase.navbar.NavToolbar
+        android:id="@+id/activity_mine_set_anquan_set_nav"
+        style="@style/WhiteFontToolbar"
+        android:background="@color/white"
+        app:back_icon="@mipmap/temp_ic_back"
+        app:enable_under_divider="true"
+        app:support_translucent_status_bar="false"
+        app:title="安全设置"
+        app:title_text_color="@color/color_333333"
+        app:under_divider_color="@color/transparent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_white_rounded_10"
+        android:gravity="center_vertical"
+        android:padding="20dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="修改登录锁定状态"
+                android:textColor="@color/color_333333"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="开启后，所有设备将无法登录，如您退出登录，当前设备也无法登录"
+                android:textColor="@color/color_999999"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/activity_mine_set_anquan_set_switch_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:src="@drawable/fun_common_switch_track_selector" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/activity_mine_set_anquan_set_refresh_tv"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/bg_white_rounded_10"
+        android:gravity="center"
+        android:text="刷新密钥"
+        android:textColor="@color/color_333333"
+        android:textSize="16sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="刷新密钥后其他设备将强制下线"
+        android:textColor="@color/app_theme_red_color"
+        android:textSize="16sp" />
+</LinearLayout>

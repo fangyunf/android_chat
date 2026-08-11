@@ -50,6 +50,14 @@
                     app:textColor="@color/color_333333"
                     app:titleText="隐私设置" />
 
+                <com.yaoxin.appbase.view.IconTitleArrowTemplate
+                    android:id="@+id/activity_mine_set_new_anquan_set_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:leftImg="@mipmap/mine_index_item_mmsz"
+                    app:textColor="@color/color_333333"
+                    app:titleText="安全设置" />
+
             </LinearLayout>
 
             <LinearLayout
