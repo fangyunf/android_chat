@@ -5,6 +5,8 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.text.TextUtils;
@@ -52,6 +54,10 @@ public class UploadUtil {
             @Override
             public void finishCompress(String filePath) {
                 File file = new File(filePath);
+                if (!file.exists() || file.length() <= 0) {
+                    ToastUtils.toastMsg("图片无效，请重新选择");
+                    return;
+                }
                 RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
                 MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
                 RequestBody description = RequestBody.create(MediaType.parse("multipart/form-data"), descriptionText);
@@ -90,7 +96,7 @@ public class UploadUtil {
         pendingPhotoRequestCode = requestCode;
 
         String[] permission = getAlbumPermissions();
-        if (!EasyPermissions.hasPermissions(activity, permission)) {
+        if (!hasAlbumPermission(activity)) {
             EasyPermissions.requestPermissions(
                     activity, "需要访问相册权限", Constant.RC_PHOTO_PICKER_PERM, permission);
             return;
@@ -119,7 +125,7 @@ public class UploadUtil {
         pendingPhotoRequestCode = Constant.REQUEST_CODE_CHOOSE;
 
         String[] permission = getAlbumPermissions();
-        if (!EasyPermissions.hasPermissions(activity, permission)) {
+        if (!hasAlbumPermission(activity)) {
             EasyPermissions.requestPermissions(
                     activity, "需要访问相册权限", Constant.RC_PHOTO_PICKER_PERM, permission);
             return;
@@ -138,19 +144,23 @@ public class UploadUtil {
                 .forResult(Constant.REQUEST_CODE_CHOOSE);
     }
 
+    /** 仅图片权限，避免华为上因未授视频权限导致选图打不开 */
     private static String[] getAlbumPermissions() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            return new String[] {
-                    Manifest.permission.READ_MEDIA_IMAGES, Manifest.permission.READ_MEDIA_VIDEO
-            };
+            return new String[] {Manifest.permission.READ_MEDIA_IMAGES};
         }
-        return new String[] {
-                Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE
-        };
+        return new String[] {Manifest.permission.READ_EXTERNAL_STORAGE};
+    }
+
+    private static boolean hasAlbumPermission(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            return EasyPermissions.hasPermissions(context, Manifest.permission.READ_MEDIA_IMAGES);
+        }
+        return EasyPermissions.hasPermissions(context, Manifest.permission.READ_EXTERNAL_STORAGE);
     }
 
     /**
-     * 兼容 Android 10+：Matisse path 可能为空，优先有效文件路径，否则把 Uri 拷到缓存再上传。
+     * 兼容 Android 10+ / 华为：Matisse path 可能为空，优先有效文件路径，否则把 Uri 拷到缓存再上传。
      */
     public static String resolveSelectedImagePath(Context context, Intent data) {
         if (context == null || data == null) {
@@ -181,19 +191,45 @@ public class UploadUtil {
         if (cacheDir == null) {
             return null;
         }
-        File outFile = new File(cacheDir, "upload_" + System.currentTimeMillis() + ".jpg");
-        try (InputStream inputStream = context.getContentResolver().openInputStream(uri);
-                OutputStream outputStream = new FileOutputStream(outFile)) {
-            if (inputStream == null) {
-                return null;
+        String mime = context.getContentResolver().getType(uri);
+        boolean heic =
+                mime != null && (mime.contains("heic") || mime.contains("heif"));
+        File outFile =
+                new File(
+                        cacheDir,
+                        "upload_" + System.currentTimeMillis() + ".jpg");
+        try {
+            if (heic) {
+                Bitmap bitmap;
+                try (InputStream inputStream = context.getContentResolver().openInputStream(uri)) {
+                    if (inputStream == null) {
+                        return null;
+                    }
+                    bitmap = BitmapFactory.decodeStream(inputStream);
+                }
+                if (bitmap != null) {
+                    try (OutputStream outputStream = new FileOutputStream(outFile)) {
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 92, outputStream);
+                        outputStream.flush();
+                    } finally {
+                        bitmap.recycle();
+                    }
+                    return outFile.getAbsolutePath();
+                }
             }
-            byte[] buffer = new byte[8192];
-            int len;
-            while ((len = inputStream.read(buffer)) != -1) {
-                outputStream.write(buffer, 0, len);
+            try (InputStream inputStream = context.getContentResolver().openInputStream(uri);
+                    OutputStream outputStream = new FileOutputStream(outFile)) {
+                if (inputStream == null) {
+                    return null;
+                }
+                byte[] buffer = new byte[8192];
+                int len;
+                while ((len = inputStream.read(buffer)) != -1) {
+                    outputStream.write(buffer, 0, len);
+                }
+                outputStream.flush();
+                return outFile.getAbsolutePath();
             }
-            outputStream.flush();
-            return outFile.getAbsolutePath();
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -209,6 +245,7 @@ public class UploadUtil {
         if (targetDir == null) {
             targetDir = AppProxy.getInstance().getContext().getFilesDir();
         }
+        final String originPath = imagePaths;
         Luban.with(AppProxy.getInstance().getContext())
                 .load(imagePaths)
                 .ignoreBy(100)
@@ -225,10 +262,48 @@ public class UploadUtil {
 
                     @Override
                     public void onError(Throwable e) {
-                        ToastUtils.toastMsg("图片处理失败，请重试");
+                        // 华为 HEIC 等格式 Luban 可能失败，回退原图或转 JPEG
+                        String fallback = convertToJpegIfNeeded(originPath);
+                        if (!TextUtils.isEmpty(fallback) && new File(fallback).exists()) {
+                            callBack.finishCompress(fallback);
+                        } else if (new File(originPath).exists()) {
+                            callBack.finishCompress(originPath);
+                        } else {
+                            ToastUtils.toastMsg("图片处理失败，请重试");
+                        }
                     }
                 })
                 .launch();
+    }
+
+    private static String convertToJpegIfNeeded(String path) {
+        if (TextUtils.isEmpty(path)) {
+            return null;
+        }
+        String lower = path.toLowerCase();
+        if (!(lower.endsWith(".heic") || lower.endsWith(".heif"))) {
+            return path;
+        }
+        try {
+            Bitmap bitmap = BitmapFactory.decodeFile(path);
+            if (bitmap == null) {
+                return path;
+            }
+            File cacheDir = AppProxy.getInstance().getContext().getExternalCacheDir();
+            if (cacheDir == null) {
+                cacheDir = AppProxy.getInstance().getContext().getCacheDir();
+            }
+            File out = new File(cacheDir, "upload_heic_" + System.currentTimeMillis() + ".jpg");
+            try (FileOutputStream fos = new FileOutputStream(out)) {
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 92, fos);
+                fos.flush();
+            } finally {
+                bitmap.recycle();
+            }
+            return out.getAbsolutePath();
+        } catch (Exception e) {
+            return path;
+        }
     }
 
     public interface LubanCommonCallBack {

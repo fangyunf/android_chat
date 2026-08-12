@@ -153,7 +153,7 @@ public class SelectedItemCollection {
     public List<String> asListOfString() {
         List<String> paths = new ArrayList<>();
         for (Item item : mItems) {
-            paths.add(PathUtils.getPath(mContext, item.getContentUri()));
+            paths.add(PathUtils.getReadablePath(mContext, item.getContentUri()));
         }
         return paths;
     }

@@ -125,12 +125,12 @@ public class AccountDetailActivity extends BaseActivity implements View.OnClickL
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
     if (requestCode == Constant.REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
-        List<Uri> uris = Matisse.obtainResult(data);
-        List<String> strings = Matisse.obtainPathResult(data);
-
-        if (!strings.isEmpty()) {
-            uploadImage(strings.get(0),"");
+        String imagePath = UploadUtil.resolveSelectedImagePath(this, data);
+        if (imagePath == null || imagePath.isEmpty()) {
+            ToastUtils.toastMsg("无法读取图片，请重新选择");
+            return;
         }
+        uploadImage(imagePath,"");
     }
   }
 

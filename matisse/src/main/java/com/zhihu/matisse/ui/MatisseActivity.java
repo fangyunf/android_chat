@@ -205,7 +205,7 @@ public class MatisseActivity extends AppCompatActivity implements
                 if (selected != null) {
                     for (Item item : selected) {
                         selectedUris.add(item.getContentUri());
-                        selectedPaths.add(PathUtils.getPath(this, item.getContentUri()));
+                        selectedPaths.add(PathUtils.getReadablePath(this, item.getContentUri()));
                     }
                 }
                 result.putParcelableArrayListExtra(EXTRA_RESULT_SELECTION, selectedUris);
