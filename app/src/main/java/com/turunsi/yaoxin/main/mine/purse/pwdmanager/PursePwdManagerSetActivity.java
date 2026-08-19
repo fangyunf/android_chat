@@ -69,7 +69,7 @@ public class PursePwdManagerSetActivity extends BaseActivity implements View.OnC
             @Override
             public void onPre() {
                 String phone = getTextStr(binding.activityMinePursePwdManagerSetPhone.viewTitleTfWithoutBgEt);
-                CommonNetUtil.getPhoneCode(phone);
+                CommonNetUtil.getPhoneCode(PursePwdManagerSetActivity.this, phone, mCountDownView);
             }
 
             @Override
