@@ -10,8 +10,6 @@ import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AlphaAnimation
-import android.view.animation.Animation
 import android.widget.FrameLayout
 import android.widget.TextView
 import android.widget.Toast
@@ -23,6 +21,7 @@ object MsToast {
     private var currentView: View? = null
     private var topActivity: Activity? = null
     private var lifecycleRegistered = false
+    private var hideRunnable: Runnable? = null
 
     fun register(application: Application) {
         if (lifecycleRegistered) return
@@ -42,6 +41,11 @@ object MsToast {
             override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) = Unit
             override fun onActivityDestroyed(activity: Activity) {
                 if (topActivity === activity) topActivity = null
+                // 页面销毁时清掉挂在该页上的 toast，避免第二次 add 失败
+                val v = currentView
+                if (v != null && v.context === activity) {
+                    dismissCurrent()
+                }
             }
         })
     }
@@ -53,14 +57,29 @@ object MsToast {
             if (act != null && !act.isFinishing && !act.isDestroyed) {
                 showOnActivity(act, message)
             } else {
-                showSystemTopToast(context.applicationContext, message)
+                Toast.makeText(context.applicationContext, message, Toast.LENGTH_SHORT).show()
             }
         }
     }
 
+    private fun dismissCurrent() {
+        hideRunnable?.let { MainHandler.removeCallbacks(it) }
+        hideRunnable = null
+        currentView?.let { old ->
+            old.animate().cancel()
+            (old.parent as? ViewGroup)?.removeView(old)
+        }
+        currentView = null
+    }
+
     private fun showOnActivity(activity: Activity, message: String) {
-        val decor = activity.window?.decorView as? ViewGroup ?: return
-        currentView?.let { decor.removeView(it) }
+        val decor = activity.window?.decorView as? ViewGroup ?: run {
+            Toast.makeText(activity.applicationContext, message, Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // 先清掉上一条，保证连续弹都能显示
+        dismissCurrent()
         val myToken = ++token
 
         val dm = activity.resources.displayMetrics
@@ -78,6 +97,7 @@ object MsToast {
                 setColor(Color.argb((0.78f * 255).toInt(), 0, 0, 0))
                 cornerRadius = dp(activity, 10).toFloat()
             }
+            alpha = 0f
         }
 
         tv.measure(
@@ -94,56 +114,30 @@ object MsToast {
             topMargin = (screenH * 0.22f).toInt()
         }
 
-        decor.addView(tv, lp)
+        try {
+            decor.addView(tv, lp)
+        } catch (_: Exception) {
+            Toast.makeText(activity.applicationContext, message, Toast.LENGTH_SHORT).show()
+            return
+        }
         currentView = tv
-        tv.alpha = 0f
+        tv.animate().alpha(1f).setDuration(160).start()
 
-        val fadeIn = AlphaAnimation(0f, 1f).apply {
-            duration = 180
-            fillAfter = true
-        }
-        tv.startAnimation(fadeIn)
-        tv.animate().alpha(1f).setDuration(180).start()
-
-        MainHandler.postDelayed(180 + 1600) {
-            if (myToken != token) return@postDelayed
-            val fadeOut = AlphaAnimation(1f, 0f).apply {
-                duration = 250
-                fillAfter = true
-                setAnimationListener(object : Animation.AnimationListener {
-                    override fun onAnimationStart(animation: Animation?) {}
-                    override fun onAnimationRepeat(animation: Animation?) {}
-                    override fun onAnimationEnd(animation: Animation?) {
-                        if (myToken == token) {
-                            decor.removeView(tv)
-                            if (currentView === tv) currentView = null
-                        }
+        val hide = Runnable {
+            if (myToken != token || currentView !== tv) return@Runnable
+            tv.animate()
+                .alpha(0f)
+                .setDuration(200)
+                .withEndAction {
+                    if (myToken == token && currentView === tv) {
+                        (tv.parent as? ViewGroup)?.removeView(tv)
+                        if (currentView === tv) currentView = null
                     }
-                })
-            }
-            tv.startAnimation(fadeOut)
+                }
+                .start()
         }
-    }
-
-    private fun showSystemTopToast(context: Context, message: String) {
-        val tv = TextView(context).apply {
-            text = message
-            setTextColor(Color.WHITE)
-            setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f)
-            maxLines = 2
-            gravity = Gravity.CENTER
-            setPadding(dp(context, 14), dp(context, 8), dp(context, 14), dp(context, 8))
-            background = GradientDrawable().apply {
-                setColor(Color.argb((0.78f * 255).toInt(), 0, 0, 0))
-                cornerRadius = dp(context, 10).toFloat()
-            }
-        }
-        Toast(context).apply {
-            duration = Toast.LENGTH_SHORT
-            view = tv
-            setGravity(Gravity.TOP or Gravity.CENTER_HORIZONTAL, 0, (context.resources.displayMetrics.heightPixels * 0.22f).toInt())
-            show()
-        }
+        hideRunnable = hide
+        MainHandler.postDelayed(1800, hide)
     }
 
     private fun findActivity(context: Context): Activity? {

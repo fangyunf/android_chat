@@ -47,6 +47,10 @@ object MsSdk {
         host = bridge
         config = MsConfig.getInstance(appContext, bridge)
         config.reloadFromDisk()
+        // 冷启动不恢复上次的秒抢/赔付武装，避免大退后进来仍是开启
+        config.disarmAllGrabSessions()
+        config.disarmAllCompensationSessions()
+        config.synchronize()
         MsVoiceAlert.warmUp(appContext)
         grabEngine = GrabEngine(appContext, host, config)
         sendEngine = SendEngine(appContext, host, config)
@@ -99,6 +103,31 @@ object MsSdk {
         if (!initialized) return
         sendEngine.setActiveGroupId(groupId, chatVisible)
         DiagLogStore.append(appContext, "Session", "activeGroup=${sendEngine.activeGroupId ?: ""} visible=$chatVisible input=${groupId ?: ""}")
+    }
+
+    /**
+     * 离开群聊表面：真正退出时停发包并解除该群秒抢/赔付武装。
+     * @param suppressDisarm true 时仅摘浮层（进设置页），不停自动发包、不关武装
+     */
+    fun onLeaveChat(groupId: String?, suppressDisarm: Boolean = false) {
+        if (!initialized) return
+        uninstallChatFloating()
+        if (suppressDisarm) {
+            // 进设置：保留发包状态，回群聊后浮钮会按 autoSendActive 恢复
+            DiagLogStore.append(appContext, "Session", "leave soft gid=${groupId ?: ""}")
+            return
+        }
+        sendEngine.stopAutoSend()
+        sendEngine.setActiveGroupId(groupId, false)
+        val gid = groupId?.takeIf { it.isNotBlank() }
+        if (gid != null) {
+            config.disarmGrabSession(gid)
+            config.disarmCompensationSession(gid)
+        } else {
+            config.disarmAllGrabSessions()
+        }
+        config.synchronize()
+        DiagLogStore.append(appContext, "Session", "leave disarm gid=${gid ?: "*"}")
     }
 
     fun installChatFloating(overlayParent: ViewGroup, groupId: String) {
@@ -238,6 +267,17 @@ object MsSdk {
         uninstallChatFloating()
         uninstallMemberProfile()
         uninstallMassEntry()
+        clearState()
+        config.disarmAllGrabSessions()
+        config.disarmAllCompensationSessions()
+        config.synchronize()
+        DiagLogStore.append(appContext, "SDK", "stopAll disarm runtime")
+    }
+
+    /** 进程退到后台 / 大退：关掉发包与各群武装，设置项（金额密码等）保留 */
+    fun onAppBackgrounded() {
+        if (!initialized) return
+        stopAll()
     }
 
     fun clearState() {

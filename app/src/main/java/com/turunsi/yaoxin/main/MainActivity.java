@@ -380,7 +380,6 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
 
     @Override
     protected void onDestroy() {
-        com.machinesecond.api.MachineSecond.uninstallMassEntry();
         // 清理对话框
         if (updateDialog != null && updateDialog.isShowing()) {
             updateDialog.dismiss();
@@ -428,50 +427,31 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
             activityMainBinding.contact.setTextColor(getResources().getColor(R.color.tab_checked_color));
             activityMainBinding.contact.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.mine_tabbar_txl_sel), null, null);
             changeStatusBarColor(R.color.fun_page_bg_color);
-            installMassEntryIfNeeded();
-        } else {
-            com.machinesecond.api.MachineSecond.uninstallMassEntry();
-            if (mCurrentTab == activityMainBinding.myselfBtnGroup) {
-                activityMainBinding.viewPager.setCurrentItem(4, false);
-                activityMainBinding.mine.setTextColor(getResources().getColor(R.color.tab_checked_color));
-                activityMainBinding.mine.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.mine_tabbar_mine_sel), null, null);
-                changeStatusBarColor(R.color.color_white);
-            } else if (mCurrentTab == activityMainBinding.conversationBtnGroup) {
-                activityMainBinding.viewPager.setCurrentItem(0, false);
-                activityMainBinding.conversation.setTextColor(getResources().getColor(R.color.tab_checked_color));
-                activityMainBinding.conversation.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.mine_tabbar_msg_sel), null, null);
-                changeStatusBarColor(R.color.fun_page_bg_color);
-            } else if (mCurrentTab == activityMainBinding.conversationBtnGroup1) {
-                activityMainBinding.viewPager.setCurrentItem(1, false);
-                activityMainBinding.conversation1.setTextColor(getResources().getColor(R.color.tab_checked_color));
-                activityMainBinding.conversation1.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.mine_tabbar_msg_group_sel), null, null);
-                changeStatusBarColor(R.color.fun_page_bg_color);
-            } else if (mCurrentTab == activityMainBinding.conversationBtnShop) {
-                activityMainBinding.viewPager.setCurrentItem(0, false);
-                activityMainBinding.conversationShop.setTextColor(getResources().getColor(R.color.tab_checked_color));
-                activityMainBinding.conversationShop.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.mine_tabbar_shop_sel), null, null);
-                changeStatusBarColor(R.color.fun_page_bg_color);
-            } else if (mCurrentTab == activityMainBinding.foundBtn) {
-                activityMainBinding.viewPager.setCurrentItem(3, false);
-                activityMainBinding.found.setTextColor(getResources().getColor(R.color.tab_checked_color));
-                activityMainBinding.found.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.mine_tabbar_found_sel), null, null);
-                changeStatusBarColor(R.color.color_white);
-            }
-        }
-    }
-
-    /** 通讯录 Tab 挂载「设置群发信息 / 群发」 */
-    private void installMassEntryIfNeeded() {
-        android.view.ViewGroup parent = findViewById(android.R.id.content);
-        if (parent != null) {
-            com.machinesecond.api.MachineSecond.installMassEntry(parent);
-            parent.post(() -> {
-                int last = parent.getChildCount() - 1;
-                if (last >= 0) {
-                    android.view.View child = parent.getChildAt(last);
-                    if (child != null) child.bringToFront();
-                }
-            });
+        } else if (mCurrentTab == activityMainBinding.myselfBtnGroup) {
+            activityMainBinding.viewPager.setCurrentItem(4, false);
+            activityMainBinding.mine.setTextColor(getResources().getColor(R.color.tab_checked_color));
+            activityMainBinding.mine.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.mine_tabbar_mine_sel), null, null);
+            changeStatusBarColor(R.color.color_white);
+        } else if (mCurrentTab == activityMainBinding.conversationBtnGroup) {
+            activityMainBinding.viewPager.setCurrentItem(0, false);
+            activityMainBinding.conversation.setTextColor(getResources().getColor(R.color.tab_checked_color));
+            activityMainBinding.conversation.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.mine_tabbar_msg_sel), null, null);
+            changeStatusBarColor(R.color.fun_page_bg_color);
+        } else if (mCurrentTab == activityMainBinding.conversationBtnGroup1) {
+            activityMainBinding.viewPager.setCurrentItem(1, false);
+            activityMainBinding.conversation1.setTextColor(getResources().getColor(R.color.tab_checked_color));
+            activityMainBinding.conversation1.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.mine_tabbar_msg_group_sel), null, null);
+            changeStatusBarColor(R.color.fun_page_bg_color);
+        } else if (mCurrentTab == activityMainBinding.conversationBtnShop) {
+            activityMainBinding.viewPager.setCurrentItem(0, false);
+            activityMainBinding.conversationShop.setTextColor(getResources().getColor(R.color.tab_checked_color));
+            activityMainBinding.conversationShop.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.mine_tabbar_shop_sel), null, null);
+            changeStatusBarColor(R.color.fun_page_bg_color);
+        } else if (mCurrentTab == activityMainBinding.foundBtn) {
+            activityMainBinding.viewPager.setCurrentItem(3, false);
+            activityMainBinding.found.setTextColor(getResources().getColor(R.color.tab_checked_color));
+            activityMainBinding.found.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.mine_tabbar_found_sel), null, null);
+            changeStatusBarColor(R.color.color_white);
         }
     }
 

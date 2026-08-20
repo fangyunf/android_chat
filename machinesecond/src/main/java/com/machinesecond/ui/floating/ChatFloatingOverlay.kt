@@ -2,6 +2,7 @@ package com.machinesecond.ui.floating
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.PorterDuff
 import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
 import android.util.TypedValue
@@ -10,214 +11,220 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.ImageView
 import android.widget.TextView
 import com.machinesecond.MsSdk
+import com.machinesecond.R
 import com.machinesecond.ui.theme.MsColors
 import com.machinesecond.util.DiagLogStore
-import com.machinesecond.util.DragClamp
 import com.machinesecond.util.MsToast
-import kotlin.math.max
 
+/**
+ * 聊天浮钮：专 / 拼 / 发包 / 设置 / 收起（对齐截图圆形白底样式）
+ */
 @SuppressLint("ViewConstructor")
 class ChatFloatingOverlay(
     context: Context,
     private val groupId: String
 ) : FrameLayout(context) {
 
-    private val labels = listOf("总设置", "秒开关", "发包开关", "赔付开关", "爆粉", "隐")
-    private val buttons = mutableListOf<TextView>()
+    private companion object {
+        const val IDX_ZHUAN = 0
+        const val IDX_PIN = 1
+        const val IDX_SEND = 2
+        const val IDX_SETTINGS = 3
+        const val IDX_CLOSE = 4
+    }
+
+    private val btnSize = dp(48)
+    private val gap = dp(14)
+    private val topPad = dp(72)
+    private val buttons = mutableListOf<View>()
     private var collapsed = false
-    private var unifiedWidth = dp(72)
-    private val btnHeight = dp(36)
-    private val gap = dp(12)
-    private val topPad = dp(56)
+    private var stackLeft = 0
+    private var stackTop = topPad
 
     init {
         clipChildren = false
-        post { layoutButtons() }
-        labels.forEachIndexed { index, label ->
-            val tv = TextView(context).apply {
-                text = label
-                gravity = Gravity.CENTER
-                setTextColor(MsColors.white)
-                setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12f)
-                typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
-                includeFontPadding = false
-                setPadding(dp(8), 0, dp(8), 0)
-                setOnClickListener { onButtonClick(index) }
-                enableDrag(this)
-            }
-            buttons.add(tv)
-            addView(tv)
+        clipToPadding = false
+        buttons += makeTextBtn("专") { toggleZhuan() }
+        buttons += makeTextBtn("拼") { togglePin() }
+        buttons += makeIconBtn(R.drawable.ms_ic_send) { toggleSend() }
+        buttons += makeIconBtn(R.drawable.ms_ic_gear) { MsSdk.presentSettings(context) }
+        buttons += makeIconBtn(R.drawable.ms_ic_close) {
+            collapsed = !collapsed
+            refreshState()
         }
-        refreshState()
-    }
-
-    private fun layoutButtons() {
-        unifiedWidth = max(unifiedWidth, labels.maxOf { measureLabel(it) } + dp(20))
-        val parentW = (parent as? View)?.width ?: resources.displayMetrics.widthPixels
-        val x = parentW - unifiedWidth - dp(10)
-        var y = topPad
-        buttons.forEachIndexed { i, btn ->
-            if (collapsed && i < buttons.size - 1) {
-                btn.visibility = GONE
-            } else {
-                btn.visibility = VISIBLE
-                btn.layoutParams = LayoutParams(unifiedWidth, btnHeight).apply {
-                    leftMargin = x
-                    topMargin = y
-                }
-                y += btnHeight + gap
-            }
-            styleButton(btn, i)
+        buttons.forEach { addView(it) }
+        post {
+            val parentW = (parent as? View)?.width ?: resources.displayMetrics.widthPixels
+            stackLeft = parentW - btnSize - dp(12)
+            stackTop = topPad
+            refreshState()
         }
     }
 
-    private fun measureLabel(text: String): Int {
-        val paint = android.graphics.Paint().apply { textSize = sp(13f) }
-        return paint.measureText(text).toInt()
+    private fun makeTextBtn(label: String, click: () -> Unit): TextView {
+        return TextView(context).apply {
+            text = label
+            gravity = Gravity.CENTER
+            setTextColor(MsColors.floatText)
+            setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18f)
+            typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
+            includeFontPadding = false
+            background = circleBg(false)
+            elevation = dp(4).toFloat()
+            setOnClickListener { click() }
+            enableDrag(this)
+        }
     }
 
-    private fun styleButton(btn: TextView, index: Int) {
-        val selected = isSelected(index)
-        val bg = GradientDrawable().apply {
-            cornerRadius = btnHeight / 2f
-            if (selected) {
-                setColor(MsColors.xingyanTheme)
-                setStroke(dp(1), 0x66000000.toInt()) // black @ 40%, ~1.2pt≈1dp
-            } else {
-                setColor(MsColors.floatOff)
-                setStroke(dp(1), 0x38000000.toInt()) // black @ 22%
-            }
+    private fun makeIconBtn(res: Int, click: () -> Unit): ImageView {
+        return ImageView(context).apply {
+            setImageResource(res)
+            scaleType = ImageView.ScaleType.CENTER_INSIDE
+            setPadding(dp(12), dp(12), dp(12), dp(12))
+            background = circleBg(false)
+            elevation = dp(4).toFloat()
+            setOnClickListener { click() }
+            enableDrag(this)
         }
-        btn.background = bg
-        btn.setTextColor(if (selected) MsColors.white else 0xE0FFFFFF.toInt())
+    }
+
+    private fun circleBg(on: Boolean): GradientDrawable =
+        GradientDrawable().apply {
+            shape = GradientDrawable.OVAL
+            setColor(if (on) MsColors.floatBgOn else MsColors.floatBgOff)
+            setStroke(dp(1), if (on) 0x33000000 else 0x14000000)
+        }
+
+    private fun applyToggleStyle(btn: View, on: Boolean, sendIcon: Boolean = false) {
+        btn.background = circleBg(on)
         btn.alpha = 1f
-    }
-
-    private fun isSelected(index: Int): Boolean {
-        val config = MsSdk.getConfig()
-        val send = MsSdk.getSendEngine()
-        return when (index) {
-            0, 4 -> true
-            1 -> config.isGrabArmed(groupId)
-            2 -> send.autoSendActive
-            3 -> config.isCompensationArmed(groupId)
-            5 -> !collapsed
-            else -> false
+        when (btn) {
+            is TextView -> btn.setTextColor(if (on) MsColors.floatTextOn else MsColors.floatText)
+            is ImageView -> {
+                val tint = when {
+                    on -> MsColors.white
+                    sendIcon -> MsColors.sendIcon
+                    else -> MsColors.floatIconOff
+                }
+                btn.setColorFilter(tint, PorterDuff.Mode.SRC_IN)
+            }
         }
     }
 
     fun refreshState() {
-        layoutButtons()
-    }
+        val config = MsSdk.getConfig()
+        val sendOn = MsSdk.getSendEngine().autoSendActive
+        val zhuanOn = config.isGrabArmed(groupId) && config.grabTargetedRedPacket
+        val pinOn = config.isGrabArmed(groupId) && config.grabNormalRedPacket
 
-    private fun onButtonClick(index: Int) {
-        when (index) {
-            0 -> MsSdk.presentSettings(context)
-            1 -> toggleSecond()
-            2 -> toggleSend()
-            3 -> toggleCompensation()
-            4 -> tapFan()
-            5 -> {
-                collapsed = !collapsed
-                refreshState()
+        var y = stackTop
+        buttons.forEachIndexed { i, btn ->
+            val hide = collapsed && i != IDX_CLOSE
+            btn.visibility = if (hide) GONE else VISIBLE
+            if (!hide) {
+                btn.layoutParams = LayoutParams(btnSize, btnSize).apply {
+                    leftMargin = stackLeft
+                    topMargin = y
+                }
+                y += btnSize + gap
+            }
+            when (i) {
+                IDX_ZHUAN -> applyToggleStyle(btn, zhuanOn)
+                IDX_PIN -> applyToggleStyle(btn, pinOn)
+                IDX_SEND -> applyToggleStyle(btn, sendOn, sendIcon = true)
+                IDX_SETTINGS, IDX_CLOSE -> applyToggleStyle(btn, on = false)
             }
         }
     }
 
-    private fun toggleSecond() {
-        if (!ensureMasterAuthorized()) return
-        if (!ensureGroupId()) return
-        val config = MsSdk.getConfig()
-        if (!config.secondSwitch) {
-            config.secondSwitch = true
-            config.synchronize()
-        }
-        val armed = config.toggleGrabSession(groupId)
-        config.synchronize()
-        DiagLogStore.append(context, "Float", "secondToggle group=$groupId armed=$armed")
-        refreshState()
-        if (config.isGrabArmed(groupId) && !anyGrabTypeEnabled()) {
-            toast("已开启秒抢，请到「秒抢设置」打开「抢普通红包」等类型")
-        }
-    }
-
-    private fun toggleSend() {
-        if (!ensureMasterAuthorized()) return
-        if (!ensureGroupId()) return
-        val config = MsSdk.getConfig()
-        if (!config.sendSwitch) {
-            config.sendSwitch = true
-            config.synchronize()
-        }
-        if (config.autoSendPassword.length != 6) {
-            DiagLogStore.append(context, "Float", "send reject no password group=$groupId")
-            toast("请先到「发包设置」设置支付密码")
-            return
-        }
-        if (!MsSdk.getSendEngine().isSendConfigured()) {
-            DiagLogStore.append(context, "Float", "send reject not configured group=$groupId")
-            toast("请先到「发包设置」完善金额、个数等")
-            return
-        }
-        DiagLogStore.append(context, "Float", "sendToggle group=$groupId")
-        MsSdk.getSendEngine().toggleAutoSend(groupId)
-        refreshState()
-    }
-
-    private fun toggleCompensation() {
-        if (!ensureMasterAuthorized()) return
-        if (!ensureGroupId()) return
-        val config = MsSdk.getConfig()
-        if (!config.compensationSwitch) {
-            config.compensationSwitch = true
-            config.synchronize()
-        }
-        if (config.compensationPassword.isEmpty()) {
-            DiagLogStore.append(context, "Float", "comp reject no password group=$groupId")
-            toast("请先到「赔付设置」设置赔付密码")
-            return
-        }
-        val armed = config.toggleCompensationSession(groupId)
-        config.synchronize()
-        DiagLogStore.append(context, "Float", "compToggle group=$groupId armed=$armed autoComp=${config.autoCompensation}")
-        refreshState()
-        if (config.isCompensationArmed(groupId) && !config.autoCompensation) {
-            toast("已开启赔付，请到「赔付设置」打开「自动赔付」")
-        }
-    }
-
-    private fun tapFan() {
-        if (!ensureMasterAuthorized()) return
-        if (!ensureGroupId()) return
-        MsSdk.saveNormalFanCrowd(groupId) { _, msg ->
-            MsToast.show(context, msg)
-        }
-    }
-
-    private fun ensureMasterAuthorized(): Boolean {
+    private fun ensureReady(): Boolean {
         val config = MsSdk.getConfig()
         if (!config.masterSwitch) {
-            DiagLogStore.append(context, "Float", "reject master off")
-            toast("请先打开总开关")
+            config.masterSwitch = true
+            config.synchronize()
+        }
+        if (groupId.isBlank()) {
+            toast("群会话无效")
             return false
         }
         return true
     }
 
-    private fun ensureGroupId(): Boolean {
-        if (groupId.isNotBlank()) return true
-        DiagLogStore.append(context, "Float", "reject missing groupId")
-        return false
+    private fun toggleZhuan() {
+        if (!ensureReady()) return
+        val config = MsSdk.getConfig()
+        config.secondSwitch = true
+        val turningOn = !(config.isGrabArmed(groupId) && config.grabTargetedRedPacket)
+        config.grabTargetedRedPacket = turningOn
+        if (turningOn) {
+            if (!config.isGrabArmed(groupId)) config.toggleGrabSession(groupId)
+        } else if (!config.grabNormalRedPacket && config.isGrabArmed(groupId)) {
+            config.toggleGrabSession(groupId)
+        }
+        config.synchronize()
+        DiagLogStore.append(context, "Float", "zhuan=$turningOn group=$groupId")
+        refreshState()
+        toast(if (turningOn) "已开启专属秒抢" else "已关闭专属秒抢")
     }
 
-    private fun anyGrabTypeEnabled(): Boolean {
+    private fun togglePin() {
+        if (!ensureReady()) return
         val config = MsSdk.getConfig()
-        return config.grabNormalRedPacket ||
-            config.grabTargetedRedPacket ||
-            config.grabPrivateRedPacket ||
-            config.autoReceiveTransfer
+        config.secondSwitch = true
+        val turningOn = !(config.isGrabArmed(groupId) && config.grabNormalRedPacket)
+        config.grabNormalRedPacket = turningOn
+        if (turningOn) {
+            if (!config.isGrabArmed(groupId)) config.toggleGrabSession(groupId)
+        } else if (!config.grabTargetedRedPacket && config.isGrabArmed(groupId)) {
+            config.toggleGrabSession(groupId)
+        }
+        config.synchronize()
+        DiagLogStore.append(context, "Float", "pin=$turningOn group=$groupId")
+        refreshState()
+        toast(if (turningOn) "已开启拼手气秒抢" else "已关闭拼手气秒抢")
+    }
+
+    private fun toggleSend() {
+        if (!ensureReady()) return
+        val engine = MsSdk.getSendEngine()
+        if (engine.autoSendActive) {
+            engine.toggleAutoSend(groupId)
+            refreshState()
+            toast("已关闭自动发包")
+            return
+        }
+        val config = MsSdk.getConfig()
+        val err = sendConfigError(config) ?: run {
+            if (!engine.isSendConfigured()) "请先到设置完善红包金额、个数等" else null
+        }
+        if (err != null) {
+            toast(err)
+            return
+        }
+        config.sendSwitch = true
+        config.synchronize()
+        engine.toggleAutoSend(groupId)
+        refreshState()
+        toast("已开启自动发包")
+    }
+
+    private fun sendConfigError(config: com.machinesecond.config.MsConfig): String? {
+        val amount = config.sendAmount.split("/").map { it.trim() }.firstOrNull { it.isNotEmpty() }
+        if (amount.isNullOrBlank() || amount.toDoubleOrNull() == null || amount.toDouble() <= 0) {
+            return "请先到设置填写红包金额"
+        }
+        val countRaw = config.packetCountText.trim()
+        val count = countRaw.split("/").map { it.trim() }.firstOrNull { it.isNotEmpty() }?.toIntOrNull()
+        if (count == null || count <= 0) {
+            return "请先到设置填写红包个数"
+        }
+        if (config.autoSendPassword.length != 6) {
+            return "请先到设置填写6位支付密码"
+        }
+        return null
     }
 
     private fun toast(text: String) {
@@ -225,31 +232,35 @@ class ChatFloatingOverlay(
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    private fun enableDrag(view: TextView) {
+    private fun enableDrag(view: View) {
         var downX = 0f
         var downY = 0f
-        var startLeft = 0
-        var startTop = 0
-        view.setOnTouchListener { v, e ->
+        var startStackLeft = 0
+        var startStackTop = 0
+        var moved = false
+        view.setOnTouchListener { _, e ->
             when (e.action) {
                 MotionEvent.ACTION_DOWN -> {
                     downX = e.rawX
                     downY = e.rawY
-                    startLeft = (v.layoutParams as LayoutParams).leftMargin
-                    startTop = (v.layoutParams as LayoutParams).topMargin
+                    startStackLeft = stackLeft
+                    startStackTop = stackTop
+                    moved = false
                     false
                 }
                 MotionEvent.ACTION_MOVE -> {
-                    val parent = v.parent as? ViewGroup ?: return@setOnTouchListener false
-                    val lp = v.layoutParams as LayoutParams
-                    val (left, top) = DragClamp.clampMargins(
-                        parent, v,
-                        (startLeft + (e.rawX - downX)).toInt(),
-                        (startTop + (e.rawY - downY)).toInt()
-                    )
-                    lp.leftMargin = left
-                    lp.topMargin = top
-                    v.layoutParams = lp
+                    val parent = parent as? ViewGroup ?: return@setOnTouchListener false
+                    val dx = (e.rawX - downX).toInt()
+                    val dy = (e.rawY - downY).toInt()
+                    if (!moved && (kotlin.math.abs(dx) > 8 || kotlin.math.abs(dy) > 8)) {
+                        moved = true
+                    }
+                    if (!moved) return@setOnTouchListener false
+                    val maxL = (parent.width - btnSize).coerceAtLeast(0)
+                    val maxT = (parent.height - btnSize).coerceAtLeast(0)
+                    stackLeft = (startStackLeft + dx).coerceIn(0, maxL)
+                    stackTop = (startStackTop + dy).coerceIn(0, maxT)
+                    refreshState()
                     true
                 }
                 else -> false
@@ -259,7 +270,4 @@ class ChatFloatingOverlay(
 
     private fun dp(v: Int): Int =
         TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, v.toFloat(), resources.displayMetrics).toInt()
-
-    private fun sp(v: Float): Float =
-        TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, v, resources.displayMetrics)
 }

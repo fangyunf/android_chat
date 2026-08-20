@@ -96,6 +96,8 @@ class MsConfig private constructor(
     var fixedMineIndex: Int = 0
     var grabDelayMs: Int = 0
     var packetCount: Int = 9
+    /** 红包个数原文，支持「5/6/7」多值循环 */
+    var packetCountText: String = ""
     var randomMineIndex: Int = 0
     var fanIntervalSec: Int = 5
     var compensationDelaySec: Int = 0
@@ -188,6 +190,8 @@ class MsConfig private constructor(
         fixedMineIndex = prefs.getInt("fixedMineIndex", 0)
         grabDelayMs = prefs.getInt("grabDelayMs", 0)
         packetCount = prefs.getInt("packetCount", 9).let { if (it <= 0) 9 else it }
+        packetCountText = prefs.getString("packetCountText", "") ?: ""
+        if (packetCountText.isBlank()) packetCountText = packetCount.toString()
         randomMineIndex = prefs.getInt("randomMineIndex", 0)
         fanIntervalSec = prefs.getInt("fanIntervalSec", 5).coerceAtLeast(5)
         compensationDelaySec = prefs.getInt("compensationDelaySec", 0)
@@ -263,6 +267,7 @@ class MsConfig private constructor(
         editor.putInt("fixedMineIndex", fixedMineIndex)
         editor.putInt("grabDelayMs", grabDelayMs)
         editor.putInt("packetCount", if (packetCount <= 0) 9 else packetCount)
+        editor.putString("packetCountText", packetCountText.ifBlank { packetCount.toString() })
         editor.putInt("randomMineIndex", randomMineIndex)
         editor.putInt("fanIntervalSec", fanIntervalSec.coerceAtLeast(5))
         editor.putInt("compensationDelaySec", compensationDelaySec)
@@ -311,6 +316,19 @@ class MsConfig private constructor(
     fun amountHint(): String =
         greetingAmount.takeIf { it.isNotBlank() } ?: sendAmount
 
+    fun syncPacketCountFromText() {
+        val first = packetCountText.split("/")
+            .map { it.trim() }
+            .firstOrNull { it.isNotEmpty() }
+            ?.toIntOrNull()
+        if (first != null && first > 0) {
+            packetCount = first
+        }
+        if (packetCountText.isBlank()) {
+            packetCountText = packetCount.toString()
+        }
+    }
+
     fun effectiveAutoSendIntervalSec(): Double =
         if (autoSendInterval <= 0) 5.0 else autoSendInterval
 
@@ -325,6 +343,19 @@ class MsConfig private constructor(
 
     fun isGrabArmed(sessionId: String): Boolean = grabSessionIds.contains(sessionId)
 
+    fun disarmGrabSession(sessionId: String) {
+        if (sessionId.isBlank()) return
+        grabSessionIds.remove(sessionId)
+    }
+
+    fun disarmAllGrabSessions() {
+        grabSessionIds.clear()
+    }
+
+    fun disarmAllCompensationSessions() {
+        compensationSessionIds.clear()
+    }
+
     fun toggleCompensationSession(sessionId: String): Boolean {
         if (compensationSessionIds.contains(sessionId)) {
             compensationSessionIds.remove(sessionId)
@@ -336,6 +367,11 @@ class MsConfig private constructor(
 
     fun isCompensationArmed(sessionId: String): Boolean =
         compensationSessionIds.contains(sessionId)
+
+    fun disarmCompensationSession(sessionId: String) {
+        if (sessionId.isBlank()) return
+        compensationSessionIds.remove(sessionId)
+    }
 
     fun getCompensationFactor(packetCount: Int, mineCount: Int): Double {
         val key = "${packetCount - 4}-$mineCount"

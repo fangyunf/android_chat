@@ -1,7 +1,6 @@
 package com.machinesecond.engine
 
 import android.content.Context
-import com.google.gson.JsonObject
 import com.machinesecond.config.MsConfig
 import com.machinesecond.host.HostBridge
 import com.machinesecond.net.RedApi
@@ -9,6 +8,10 @@ import com.machinesecond.util.DiagLogStore
 import com.machinesecond.util.MainHandler
 import com.machinesecond.util.MsToast
 
+/**
+ * 自动发包：点一次开启后按间隔连续发，再点关闭。
+ * 发包中不因短暂 pause / chatVisible 抖动而停表。
+ */
 class SendEngine(
     private val context: Context,
     private val host: HostBridge,
@@ -22,46 +25,72 @@ class SendEngine(
     var autoSendActive: Boolean = false
         private set
 
+    /** 自动发包钉死的群，开启后只往这里发，直到关闭 */
+    private var pinnedSendGroupId: String? = null
+
     private var sendTimerRunnable: Runnable? = null
     private var sendingInFlight = false
     private var inFlightUnlockRunnable: Runnable? = null
+    private var amountCycleIndex = 0
+    private var countCycleIndex = 0
+    private var greetingCycleIndex = 0
 
     fun clearState() {
         invalidateTimer()
         autoSendActive = false
         sendingInFlight = false
+        pinnedSendGroupId = null
         activeGroupId = null
         chatVisible = false
+        amountCycleIndex = 0
+        countCycleIndex = 0
+        greetingCycleIndex = 0
     }
 
     fun setActiveGroupId(groupId: String?, visible: Boolean) {
+        if (autoSendActive) {
+            if (!groupId.isNullOrBlank()) {
+                activeGroupId = groupId
+            }
+            // 发包中：短暂离开表面只记状态，不停表；真正退出由 stopAutoSend / onLeaveChat 处理
+            if (visible) {
+                chatVisible = true
+                if (sendTimerRunnable == null) scheduleSendTimer()
+            }
+            return
+        }
         if (!groupId.isNullOrBlank()) {
             activeGroupId = groupId
         }
         chatVisible = visible
         if (!visible) {
             invalidateTimer()
-        } else if (autoSendActive && sendTimerRunnable == null) {
-            scheduleSendTimer()
         }
     }
 
     fun startAutoSend(groupId: String) {
         if (!isSendConfigured() || !config.sendSwitch || groupId.isBlank()) return
         activeGroupId = groupId
+        pinnedSendGroupId = groupId
+        chatVisible = true
+        sendingInFlight = false
         autoSendActive = true
-        if (chatVisible) {
-            scheduleSendTimer()
-            sendOnce()
-        }
+        DiagLogStore.append(context, "Send", "startAutoSend pin=$groupId")
+        scheduleSendTimer()
+        sendOnce()
     }
 
     fun stopAutoSend() {
+        val was = autoSendActive
         autoSendActive = false
+        pinnedSendGroupId = null
         invalidateTimer()
         sendingInFlight = false
         inFlightUnlockRunnable?.let { MainHandler.removeCallbacks(it) }
         inFlightUnlockRunnable = null
+        if (was) {
+            DiagLogStore.append(context, "Send", "stopAutoSend")
+        }
     }
 
     fun toggleAutoSend(groupId: String): Boolean {
@@ -81,8 +110,12 @@ class SendEngine(
             config.fixedMineValue.isNotBlank()
 
     fun isSendConfigured(): Boolean {
-        if (config.autoSendPassword.length != 6 || config.packetCount <= 0) return false
-        if (config.sendAmount.isBlank() || (config.sendAmount.toDoubleOrNull() ?: 0.0) <= 0) return false
+        if (config.autoSendPassword.length != 6) return false
+        val amount = config.sendAmount.split("/").map { it.trim() }.firstOrNull { it.isNotEmpty() }
+            ?.toDoubleOrNull() ?: 0.0
+        val count = config.packetCountText.split("/").map { it.trim() }
+            .firstOrNull { it.isNotEmpty() }?.toIntOrNull() ?: 0
+        if (amount <= 0 || count <= 0) return false
         if (config.allMineMode) return hasMineValueSource()
         return true
     }
@@ -104,31 +137,57 @@ class SendEngine(
         return config.fixedMineValue
     }
 
+    private fun takeAmount(): Double {
+        val parts = config.sendAmount.split("/").map { it.trim() }.filter { it.isNotEmpty() }
+        if (parts.isEmpty()) return 0.0
+        val v = parts[amountCycleIndex % parts.size].toDoubleOrNull() ?: 0.0
+        amountCycleIndex++
+        return v
+    }
+
+    private fun takeCount(): Int {
+        val raw = config.packetCountText.ifBlank { config.packetCount.toString() }
+        val parts = raw.split("/").map { it.trim() }.filter { it.isNotEmpty() }
+        if (parts.isEmpty()) return 0
+        val v = parts[countCycleIndex % parts.size].toIntOrNull() ?: 0
+        countCycleIndex++
+        return v
+    }
+
+    private fun takeGreeting(): String {
+        val parts = config.greetingAmount.split("/").map { it.trim() }.filter { it.isNotEmpty() }
+        if (parts.isEmpty()) return ""
+        val v = parts[greetingCycleIndex % parts.size]
+        greetingCycleIndex++
+        return v
+    }
+
     fun sendOnce() {
         if (!autoSendActive || sendingInFlight) return
-        val gid = activeGroupId
-        if (gid.isNullOrBlank() || !chatVisible) return
+        val gid = pinnedSendGroupId?.takeIf { it.isNotBlank() } ?: return
+        // 发包中不因 SEM 误报 visible=false 而跳过
+        chatVisible = true
+        if (sendTimerRunnable == null) scheduleSendTimer()
 
         if (!config.masterSwitch || !config.sendSwitch) {
             stopAutoSend()
             return
         }
 
-        val sendYuan = config.sendAmount.toDoubleOrNull() ?: 0.0
+        val sendYuan = takeAmount()
         if (sendYuan <= 0) {
-            stopAutoSend()
+            MsToast.show(context, "红包金额无效")
             return
         }
 
-        if (config.packetCount <= 0) {
-            stopAutoSend()
+        val count = takeCount()
+        if (count <= 0) {
+            MsToast.show(context, "红包个数无效")
             return
         }
-        val count = config.packetCount
         val perPacket = sendYuan / count
         if (perPacket <= 0.01) {
             MsToast.show(context, "单包需大于0.01元")
-            stopAutoSend()
             return
         }
 
@@ -147,14 +206,16 @@ class SendEngine(
         sendingInFlight = true
         scheduleInFlightUnlock()
 
-        host.postRed(RedApi.SEND_GROUP, body, silent = false, onOk = { response ->
+        // silent：失败时自己 toast，且绝不因接口报错关掉连续发包（只有用户再点才关）
+        host.postRed(RedApi.SEND_GROUP, body, silent = true, onOk = { response ->
             MainHandler.post {
                 sendingInFlight = false
                 inFlightUnlockRunnable?.let { MainHandler.removeCallbacks(it) }
+                if (!autoSendActive) return@post
                 if (!RedApi.isSuccessCode(response)) {
                     val msg = RedApi.responseMessage(response).ifBlank { "发包失败" }
                     MsToast.show(context, msg)
-                    stopAutoSend()
+                    DiagLogStore.append(context, "Send", "bizFail keepOn $gid $msg")
                 } else {
                     DiagLogStore.append(context, "Send", "success $gid $title")
                 }
@@ -163,8 +224,9 @@ class SendEngine(
             MainHandler.post {
                 sendingInFlight = false
                 inFlightUnlockRunnable?.let { MainHandler.removeCallbacks(it) }
+                if (!autoSendActive) return@post
                 MsToast.show(context, error.message ?: "发包失败")
-                stopAutoSend()
+                DiagLogStore.append(context, "Send", "netFail keepOn $gid ${error.message}")
             }
         })
     }
@@ -172,10 +234,11 @@ class SendEngine(
     private fun buildSendTitle(mine: String): String {
         if (config.allMineMode) {
             if (mine.isNotEmpty()) return mine
-            if (config.greetingAmount.isNotBlank()) return config.greetingAmount
+            val g = takeGreeting().ifBlank { config.greetingAmount }
+            if (g.isNotBlank()) return g
             return "恭喜发财，大吉大利"
         }
-        val greeting = config.greetingAmount
+        val greeting = takeGreeting().ifBlank { config.greetingAmount }
         val sep = config.separator
         return when {
             mine.isNotEmpty() && greeting.isNotBlank() -> greeting + sep + mine
@@ -187,13 +250,14 @@ class SendEngine(
 
     private fun scheduleSendTimer() {
         invalidateTimer()
-        val intervalMs = (config.effectiveAutoSendIntervalSec() * 1000).toLong()
+        val intervalMs = (config.effectiveAutoSendIntervalSec() * 1000).toLong().coerceAtLeast(500L)
         val runnable = object : Runnable {
             override fun run() {
-                if (!autoSendActive || !chatVisible) return
+                if (!autoSendActive) return
                 sendOnce()
-                sendTimerRunnable = this
-                MainHandler.postDelayed(intervalMs, this)
+                if (autoSendActive && sendTimerRunnable === this) {
+                    MainHandler.postDelayed(intervalMs, this)
+                }
             }
         }
         sendTimerRunnable = runnable

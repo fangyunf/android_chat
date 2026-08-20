@@ -46,6 +46,13 @@ object MachineSecond {
         MsSdk.setActiveGroupId(groupId, chatVisible)
     }
 
+    /** 离开群聊：默认停发包并解除该群秒抢武装；进设置页传 suppressDisarm=true */
+    @JvmStatic
+    @JvmOverloads
+    fun onLeaveChat(groupId: String?, suppressDisarm: Boolean = false) {
+        MsSdk.onLeaveChat(groupId, suppressDisarm)
+    }
+
     @JvmStatic
     fun installChatFloating(overlayParent: ViewGroup, groupId: String) {
         MsSdk.installChatFloating(overlayParent, groupId)
@@ -105,6 +112,12 @@ object MachineSecond {
     @JvmStatic
     fun stopAll() {
         MsSdk.stopAll()
+    }
+
+    /** 应用退到后台 / 大退时调用，关闭发包与秒抢武装 */
+    @JvmStatic
+    fun onAppBackgrounded() {
+        MsSdk.onAppBackgrounded()
     }
 
     @JvmStatic
