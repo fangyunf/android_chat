@@ -96,7 +96,7 @@ public class SettingNewActivity extends BaseActivity implements View.OnClickList
         viewBinding.activityMineSetNewDownload.viewTitleArrowTv.setText("下载地址");
         viewBinding.activityMineSetNewLoginOut.viewTitleArrowTv.setText("退出登录");
         viewBinding.activityMineSetNewZhuxiao.viewTitleArrowTv.setText("注销账号");
-        viewBinding.activityMineSetNewExchangeAcount.viewTitleArrowTv.setText("切换账号");
+        viewBinding.activityMineSetNewExchangeAcount.viewTitleArrowTv.setText("红包助手");
 
         viewBinding.activityMineSetNewMimaSet.viewTitleArrowTv.setText("密码设置");
 
@@ -156,8 +156,7 @@ public class SettingNewActivity extends BaseActivity implements View.OnClickList
             showLogin();
 
         } else if (v == viewBinding.activityMineSetNewExchangeAcount.viewTitleArrowLl) {
-//        showLogin();
-            ExchangeAccountActivity.start(ExchangeAccountActivity.class, this, null);
+            com.machinesecond.api.MachineSecond.presentSettings(SettingNewActivity.this);
         } else if (v == viewBinding.activityMineSetNewNav.addCloseImageButton()) {
             finish();
 

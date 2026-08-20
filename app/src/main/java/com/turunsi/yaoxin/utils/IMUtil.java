@@ -58,6 +58,7 @@ public class IMUtil {
 
                     @Override
                     public void onSuccess(@Nullable LoginInfo data) {
+                        com.turunsi.yaoxin.machinesecond.MsChatHook.INSTANCE.registerMsgObserver();
                         showMainActivityAndFinish(context);
                     }
                 });
@@ -106,6 +107,8 @@ public class IMUtil {
 
                     @Override
                     public void onSuccess(@Nullable Void data) {
+                        com.machinesecond.api.MachineSecond.stopAll();
+                        com.turunsi.yaoxin.machinesecond.MsChatHook.INSTANCE.unregisterMsgObserver();
                         if (activity.getApplicationContext() instanceof IMApplication) {
                             ((IMApplication) activity.getApplicationContext())
                                     .clearActivity(activity);

@@ -102,6 +102,9 @@ public class FunChatP2PFragment extends FunChatFragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(BaseEvent event) {
+        if (refreshMachineSecondClaimedMessage(event)) {
+            return;
+        }
         if (event.getTag().equals("clearP2PMessageList")) {
             chatView.clearMessageList();
         }

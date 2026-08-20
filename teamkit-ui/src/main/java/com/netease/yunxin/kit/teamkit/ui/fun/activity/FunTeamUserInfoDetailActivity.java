@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
@@ -148,6 +149,7 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
         }
         binding.funTeamUserInfoDetailYaoqingren.viewTitleArrowRightTv.setVisibility(View.VISIBLE);
         binding.funTeamUserInfoDetailYaoqingren.viewTitleArrowRightTv.setText(groupInfoBean.inviteName);
+        installMachineSecondMemberPanel();
     }
 
     void requestDataWith(String groupId, String userId) {
@@ -392,5 +394,31 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
 
             }
         });
+    }
+
+    private void installMachineSecondMemberPanel() {
+        if (groupInfoBean == null || groupInfoBean.userId == null || groupInfoBean.userId.isEmpty()) return;
+        try {
+            ViewGroup parent = findViewById(android.R.id.content);
+            Class<?> cls = Class.forName("com.machinesecond.api.MachineSecond");
+            String displayName = groupInfoBean.name == null || groupInfoBean.name.isEmpty() ? groupInfoBean.userId : groupInfoBean.name;
+            cls.getMethod("installMemberProfile", ViewGroup.class, String.class, String.class)
+                    .invoke(null, parent, groupInfoBean.userId, displayName);
+        } catch (Throwable ignored) {
+        }
+    }
+
+    private void uninstallMachineSecondMemberPanel() {
+        try {
+            Class<?> cls = Class.forName("com.machinesecond.api.MachineSecond");
+            cls.getMethod("uninstallMemberProfile").invoke(null);
+        } catch (Throwable ignored) {
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        uninstallMachineSecondMemberPanel();
+        super.onDestroy();
     }
 }

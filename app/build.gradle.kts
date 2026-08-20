@@ -5,6 +5,7 @@
 
 plugins {
     id("com.android.application")
+    kotlin("android")
 }
 
 android {
@@ -47,6 +48,10 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
     packagingOptions {
         jniLibs.pickFirsts.add("lib/arm64-v8a/libc++_shared.so")
         jniLibs.pickFirsts.add("lib/armeabi-v7a/libc++_shared.so")
@@ -77,6 +82,8 @@ dependencies {
     implementation(project(":chatkit-ui"))
     implementation(project(":locationkit"))
     implementation(project(":appbase"))
+    implementation(project(":machinesecond"))
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.0")
 
 //    implementation("com.netease.yunxin.kit.contact:contactkit-ui:9.7.0")
 //    implementation("com.netease.yunxin.kit.conversation:conversationkit-ui:9.7.0")

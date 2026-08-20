@@ -181,6 +181,13 @@ public interface ServiceW {
             @Body RegisterBean userBean
     );
 
+    /** MachineSecond HostBridge 动态红包接口，path 如 red/grab */
+    @POST
+    Call<NetData> ms_postRed(
+            @retrofit2.http.Url String url,
+            @Body java.util.Map<String, Object> body
+    );
+
     @POST("/red/checkRedpacet")
     Call<NetData> red_checkRedpacet(
             @Body RegisterBean userBean

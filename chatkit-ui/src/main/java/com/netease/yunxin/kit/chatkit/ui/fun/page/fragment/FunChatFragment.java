@@ -111,6 +111,21 @@ public abstract class FunChatFragment extends ChatBaseFragment {
         chatView.getMessageListView().updateMessage(message, null);
     }
 
+    protected boolean refreshMachineSecondClaimedMessage(com.yaoxin.appbase.utils.BaseEvent event) {
+        if (event == null || !"ms_red_packet_claimed".equals(event.getTag())) {
+            return false;
+        }
+        String uuid = event.getParams().get("uuid");
+        if (TextUtils.isEmpty(uuid)) {
+            return true;
+        }
+        ChatMessageBean bean = chatView.getMessageListView().searchMessage(uuid);
+        if (bean != null && bean.getMessageData() != null && bean.getMessageData().getMessage() != null) {
+            _updateMessageCell(bean.getMessageData().getMessage());
+        }
+        return true;
+    }
+
     @Override
     public Integer getReplayMessageClickPreviewDialogBgRes() {
         return R.color.color_ededed;
