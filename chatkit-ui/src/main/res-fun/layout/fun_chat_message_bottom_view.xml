@@ -148,12 +148,13 @@
                 <TextView
                     android:id="@+id/inputMuteTv"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="44dp"
                     android:alpha="0.8"
                     android:background="@color/color_e3e4e4"
-                    android:gravity="center_vertical"
-                    android:paddingStart="@dimen/dimen_12_dp"
+                    android:gravity="center"
                     android:text="@string/chat_team_all_mute"
+                    android:textColor="#FF999999"
+                    android:textSize="@dimen/text_size_16"
                     android:visibility="gone" />
 
             </com.netease.yunxin.kit.common.ui.widgets.RoundFrameLayout>

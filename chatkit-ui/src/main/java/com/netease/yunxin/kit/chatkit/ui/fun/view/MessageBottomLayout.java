@@ -18,6 +18,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.style.ImageSpan;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -565,6 +566,9 @@ public class MessageBottomLayout extends FrameLayout
     }
 
     public void switchInput() {
+        if (mMute) {
+            return;
+        }
         if (mInputState == InputState.input) {
             return;
         }
@@ -574,6 +578,9 @@ public class MessageBottomLayout extends FrameLayout
     }
 
     public void switchRecord() {
+        if (mMute) {
+            return;
+        }
         if (mInputState == InputState.voice) {
             recordShow(false, 0);
             updateState(InputState.input);
@@ -602,6 +609,9 @@ public class MessageBottomLayout extends FrameLayout
     }
 
     public void switchEmoji() {
+        if (mMute) {
+            return;
+        }
         if (mInputState == InputState.emoji) {
             emojiShow(false, 0);
             updateState(InputState.none);
@@ -637,6 +647,9 @@ public class MessageBottomLayout extends FrameLayout
     }
 
     public void switchMore() {
+        if (mMute) {
+            return;
+        }
         if (mInputState == InputState.more) {
             morePanelShow(false, 0);
             updateState(InputState.none);
@@ -786,21 +799,42 @@ public class MessageBottomLayout extends FrameLayout
     public void setMute(boolean mute) {
         if (mute != mMute) {
             mMute = mute;
-            mBinding.inputEt.setEnabled(!mute);
-            mBinding.inputMuteTv.setVisibility(mute ? VISIBLE : GONE);
+            applyMuteUi();
+        }
+    }
+
+    private void applyMuteUi() {
+        boolean mute = mMute;
+        if (mute) {
+            collapse(true);
+            morePanelShow(false, 0);
+            emojiShow(false, 0);
+            mBinding.funChatMessageBottomViewOptLl.setVisibility(GONE);
+            mBinding.inputMoreLayout.setVisibility(GONE);
             mBinding.inputEt.setText("");
             mBinding.chatRichEt.setText("");
-            if (mute) {
-                collapse(true);
-            }
-            mBinding.inputLayout.setBackgroundResource(mute ? R.color.color_e3e4e4 : R.color.color_white);
-            mBinding.inputAudioRb.setEnabled(!mute);
-            mBinding.inputAudioRb.setAlpha(mute ? 0.5f : 1f);
-            mBinding.inputEmojiRb.setEnabled(!mute);
-            mBinding.inputEmojiRb.setAlpha(mute ? 0.5f : 1f);
-//      mBinding.inputMoreRb.setEnabled(!mute);
-//      mBinding.inputMoreRb.setAlpha(mute ? 0.5f : 1f);
+            clearReplyMsg();
+        } else {
+            mBinding.inputMoreLayout.setVisibility(VISIBLE);
         }
+
+        mBinding.inputLeftLayout.setVisibility(mute ? GONE : VISIBLE);
+        mBinding.inputRightLayout.setVisibility(mute ? GONE : VISIBLE);
+        mBinding.inputEt.setEnabled(!mute);
+        mBinding.chatRichEt.setEnabled(!mute);
+        mBinding.inputEt.setVisibility(mute ? GONE : VISIBLE);
+        mBinding.chatRichEt.setVisibility(GONE);
+        mBinding.inputAudioTv.setVisibility(GONE);
+        mBinding.inputMuteTv.setGravity(Gravity.CENTER);
+        mBinding.inputMuteTv.setVisibility(mute ? VISIBLE : GONE);
+        mBinding.inputLayout.setBackgroundResource(
+                mute ? R.color.color_e3e4e4 : R.color.color_white);
+        mBinding.inputAudioRb.setEnabled(!mute);
+        mBinding.inputAudioRb.setAlpha(1f);
+        mBinding.inputEmojiRb.setEnabled(!mute);
+        mBinding.inputEmojiRb.setAlpha(1f);
+        mBinding.inputMoreRb.setEnabled(!mute);
+        mBinding.inputMoreRb.setAlpha(1f);
     }
 
     public boolean isMute() {
@@ -815,6 +849,9 @@ public class MessageBottomLayout extends FrameLayout
     }
 
     public void setReplyMessage(ChatMessageBean messageBean) {
+        if (mMute) {
+            return;
+        }
         this.replyMessage = messageBean;
         mBinding.replyLayout.setVisibility(VISIBLE);
         String tips = MessageHelper.getReplyMessageTips(messageBean.getMessageData());

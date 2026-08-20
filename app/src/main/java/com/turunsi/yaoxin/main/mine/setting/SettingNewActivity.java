@@ -74,7 +74,7 @@ public class SettingNewActivity extends BaseActivity implements View.OnClickList
 
         viewBinding.activityMineSetNewLoginOut.viewTitleArrowLl.setOnClickListener(this);
         viewBinding.activityMineSetNewExchangeAcount.viewTitleArrowLl.setOnClickListener(this);
-        viewBinding.activityMineSetNewZhuxiao.viewTitleArrowLl.setOnClickListener(this);
+        viewBinding.activityMineSetNewZhuxiao.getRoot().setVisibility(android.view.View.GONE);
 
         viewBinding.activityMineSetNewYinsiSet.viewTitleArrowLl.setOnClickListener(this);
         viewBinding.activityMineSetNewMimaSet.viewTitleArrowLl.setOnClickListener(this);

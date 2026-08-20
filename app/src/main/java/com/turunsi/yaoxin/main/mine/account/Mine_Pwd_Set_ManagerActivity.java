@@ -54,7 +54,7 @@ public class Mine_Pwd_Set_ManagerActivity extends BaseActivity implements View.O
         setContentView(binding.getRoot());
 
         binding.activityMinePwdSetMagerNav.addCloseImageButton().setOnClickListener(this);
-        binding.activityMinePwdSetMagerSetLoginZxLl.setOnClickListener(this);
+        binding.activityMinePwdSetMagerSetLoginZxLl.setVisibility(android.view.View.GONE);
         binding.activityMinePwdSetMagerSetLoginPwdLl.setOnClickListener(this);
         binding.activityMinePwdSetMagerSetPayPwdLl.setOnClickListener(this);
 
