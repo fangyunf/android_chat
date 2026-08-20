@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.JsonObject;
@@ -129,6 +130,17 @@ public class CommonNetUtil {
         inputLp.topMargin = dp(activity, 12);
         editText.setLayoutParams(inputLp);
         root.addView(editText);
+
+        TextView tipsView = new TextView(activity);
+        tipsView.setText("提示:验证码区分大小写，请按图片原样输入");
+        tipsView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
+        tipsView.setTextColor(activity.getResources().getColor(R.color.color_999999));
+        LinearLayout.LayoutParams tipsLp =
+                new LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        tipsLp.topMargin = dp(activity, 8);
+        tipsView.setLayoutParams(tipsLp);
+        root.addView(tipsView);
 
         Glide.with(activity).load(imageUrl).into(imageView);
 
