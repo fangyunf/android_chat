@@ -15,41 +15,39 @@
     <LinearLayout
         android:id="@+id/inputBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
         android:background="@drawable/bg_f4f4f4_rounded_22"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal">
+        android:gravity="center_vertical"
+        android:minHeight="44dp"
+        android:orientation="horizontal"
+        android:paddingVertical="4dp">
 
         <FrameLayout
             android:id="@+id/inputLeftLayout"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/dimen_10_dp"
-            android:layout_marginEnd="@dimen/dimen_10_dp"
-            android:layout_marginBottom="@dimen/dimen_4_dp">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:minHeight="44dp"
+            android:paddingStart="@dimen/dimen_10_dp"
+            android:paddingEnd="@dimen/dimen_6_dp">
 
-            <RelativeLayout
-
-                android:layout_width="@dimen/dimen_32_dp"
-                android:layout_height="44dp">
-
-                <RadioButton
-                    android:id="@+id/inputAudioRb"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_centerInParent="true"
-                    android:background="@drawable/fun_ic_chat_input_audio"
-                    android:button="@null"
-                    android:checked="false"
-                    android:clickable="false" />
-            </RelativeLayout>
+            <RadioButton
+                android:id="@+id/inputAudioRb"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:background="@drawable/fun_ic_chat_input_audio"
+                android:button="@null"
+                android:checked="false"
+                android:clickable="false" />
 
         </FrameLayout>
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:orientation="vertical">
 
@@ -57,12 +55,12 @@
                 android:id="@+id/inputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/color_white"
+                android:background="@android:color/transparent"
                 app:corner_radius="@dimen/dimen_4_dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/replyLayout">
-                
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -71,14 +69,16 @@
                     <EditText
                         android:id="@+id/chatRichEt"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:background="@null"
                         android:ellipsize="end"
                         android:hint="@string/chat_message_rich_title_hint"
                         android:imeOptions="actionSend"
                         android:inputType="text"
                         android:maxLength="20"
-                        android:paddingStart="@dimen/dimen_12_dp"
+                        android:minHeight="36dp"
+                        android:paddingStart="@dimen/dimen_4_dp"
+                        android:paddingEnd="@dimen/dimen_4_dp"
                         android:scrollbars="vertical"
                         android:singleLine="true"
                         android:textColorHint="@color/color_b3b7bc"
@@ -91,12 +91,20 @@
                     <EditText
                         android:id="@+id/inputEt"
                         android:layout_width="match_parent"
-                        android:layout_height="44dp"
-                        android:background="#f4f4f4"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
                         android:ellipsize="end"
+                        android:gravity="center_vertical|start"
                         android:hint="@string/fun_chat_input_hint_tips"
-                        android:imeOptions="actionSend"
-                        android:paddingStart="@dimen/dimen_12_dp"
+                        android:imeOptions="flagNoEnterAction"
+                        android:includeFontPadding="false"
+                        android:inputType="textMultiLine|textCapSentences"
+                        android:maxLines="6"
+                        android:minHeight="36dp"
+                        android:paddingStart="@dimen/dimen_4_dp"
+                        android:paddingTop="@dimen/dimen_6_dp"
+                        android:paddingEnd="@dimen/dimen_4_dp"
+                        android:paddingBottom="@dimen/dimen_6_dp"
                         android:scrollbars="vertical"
                         android:singleLine="false"
                         android:textColorHint="@color/color_b3b7bc"
@@ -184,40 +192,43 @@
 
         </LinearLayout>
 
-        <FrameLayout
+        <LinearLayout
             android:id="@+id/inputRightLayout"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/dimen_10_dp"
-            android:layout_marginEnd="@dimen/dimen_10_dp"
-            android:layout_marginBottom="@dimen/dimen_4_dp">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:minHeight="44dp"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/dimen_6_dp"
+            android:paddingEnd="@dimen/dimen_10_dp">
 
-            <RelativeLayout
-                android:layout_width="@dimen/dimen_32_dp"
+            <FrameLayout
+                android:layout_width="32dp"
                 android:layout_height="44dp">
 
                 <RadioButton
                     android:id="@+id/inputEmojiRb"
                     android:layout_width="21dp"
                     android:layout_height="21dp"
-                    android:layout_centerInParent="true"
-                    android:layout_gravity="bottom"
+                    android:layout_gravity="center"
                     android:background="@drawable/chat_fragment_toolbar_emoji"
                     android:button="@null"
                     android:checked="false"
                     android:clickable="false" />
-            </RelativeLayout>
+            </FrameLayout>
 
-            <RelativeLayout
+            <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="44dp"
-                android:layout_marginStart="@dimen/dimen_46_dp">
+                android:layout_marginStart="@dimen/dimen_8_dp"
+                android:minWidth="32dp">
 
                 <RadioButton
                     android:id="@+id/inputMoreRb"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:layout_centerInParent="true"
+                    android:layout_gravity="center"
                     android:background="@drawable/chat_fragment_toolbar_show_more"
                     android:button="@null"
                     android:checked="false"
@@ -227,17 +238,16 @@
                     android:id="@+id/btnSend"
                     android:layout_width="@dimen/dimen_60_dp"
                     android:layout_height="@dimen/dimen_30_dp"
-                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
                     android:background="@drawable/bg_app_theme_color_rounded_10"
                     android:gravity="center"
                     android:text="发送"
                     android:textColor="@color/color_white"
                     android:visibility="gone" />
 
-            </RelativeLayout>
+            </FrameLayout>
 
-
-        </FrameLayout>
+        </LinearLayout>
     </LinearLayout>
 
     <FrameLayout

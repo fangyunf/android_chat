@@ -318,14 +318,16 @@ public class MessageBottomLayout extends FrameLayout implements IAudioRecordCall
         mBinding.inputEt.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_SEND) {
                 sendText(replyMessage);
+                return true;
             }
-            return true;
+            return false;
         });
         mBinding.chatRichEt.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_SEND) {
                 sendText(replyMessage);
+                return true;
             }
-            return true;
+            return false;
         });
 
         mBinding.btnSend.setOnClickListener(view -> {
