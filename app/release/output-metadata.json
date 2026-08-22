@@ -11,9 +11,9 @@
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 17,
-      "versionName": "1.0.7",
-      "outputFile": "yunxun_release_v1.0.7.apk"
+      "versionCode": 18,
+      "versionName": "1.0.8",
+      "outputFile": "yunxun_release_v1.0.8.apk"
     }
   ],
   "elementType": "File"
