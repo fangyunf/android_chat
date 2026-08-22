@@ -17,6 +17,7 @@ import com.turunsi.yaoxin.IMApplication;
 import com.turunsi.yaoxin.R;
 import com.turunsi.yaoxin.databinding.ActivityWelcomeBinding;
 import com.turunsi.yaoxin.main.MainActivity;
+import com.turunsi.yaoxin.utils.ChatHistoryCleaner;
 import com.turunsi.yaoxin.utils.Constant;
 import com.turunsi.yaoxin.utils.DataUtils;
 import com.netease.yunxin.kit.alog.ALog;
@@ -123,6 +124,7 @@ public class WelcomeActivity extends BaseActivity {
 
           @Override
           public void onSuccess(@Nullable LoginInfo data) {
+            ChatHistoryCleaner.clearOldHistoryIfNeeded();
             showMainActivityAndFinish();
           }
         });

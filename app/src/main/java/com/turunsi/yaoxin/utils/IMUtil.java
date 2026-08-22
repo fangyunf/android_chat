@@ -59,6 +59,7 @@ public class IMUtil {
                     @Override
                     public void onSuccess(@Nullable LoginInfo data) {
                         com.turunsi.yaoxin.machinesecond.MsChatHook.INSTANCE.registerMsgObserver();
+                        ChatHistoryCleaner.clearOldHistoryIfNeeded();
                         showMainActivityAndFinish(context);
                     }
                 });

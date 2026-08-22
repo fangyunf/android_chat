@@ -189,9 +189,8 @@ public class IMApplication extends MultiDexApplication {
             }
             IMKitClient.toggleNotification(SettingRepo.isPushNotify());
             IMKitClient.registerMixPushMessageHandler(new PushMessageHandler());
-            // 每次打开 app 检查并清除 7 天前的本地聊天记录（延迟执行以便登录态恢复后再清理）
-            new Handler(Looper.getMainLooper()).postDelayed(
-                    ChatHistoryCleaner::clearOldHistoryIfNeeded, 2000);
+            // 冷启动后尝试清理 3 天前本地聊天记录；IM 未登录时会失败，登录成功后会再触发一次
+            scheduleChatHistoryCleanup();
             // 在 Application启动时注册，保证漫游、离线消息也能够回调此过滤器进行过滤。注意，过滤器的实现不要有耗时操作。
             NIMClient.getService(MsgServiceObserve.class)
                     .observeCustomNotification(new Observer<CustomNotification>() {
@@ -439,5 +438,24 @@ public class IMApplication extends MultiDexApplication {
 
     public Activity getCurrentActivity() {
         return currentActivity;
+    }
+
+    /** Application 启动后延迟重试清理，避免 IM 尚未登录时只跑一次就永久跳过 */
+    private void scheduleChatHistoryCleanup() {
+        final Handler handler = new Handler(Looper.getMainLooper());
+        final Runnable[] task = new Runnable[1];
+        task[0] = new Runnable() {
+            int attempt = 0;
+
+            @Override
+            public void run() {
+                ChatHistoryCleaner.clearOldHistoryIfNeeded();
+                attempt++;
+                if (attempt < 8 && TextUtils.isEmpty(IMKitClient.account())) {
+                    handler.postDelayed(task[0], 3000L);
+                }
+            }
+        };
+        handler.postDelayed(task[0], 2000L);
     }
 }

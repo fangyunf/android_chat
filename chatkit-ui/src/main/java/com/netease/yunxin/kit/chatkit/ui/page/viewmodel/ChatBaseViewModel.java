@@ -91,6 +91,7 @@ import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
+import com.yaoxin.appbase.utils.ChatRetentionHelper;
 import com.yaoxin.appbase.utils.DataUtil;
 
 import java.io.File;
@@ -999,11 +1000,13 @@ public abstract class ChatBaseViewModel extends BaseViewModel {
     public void initFetch(IMMessage anchor, boolean needToScrollEnd) {
         ALog.d(LIB_TAG, TAG, "initFetch:" + (anchor == null ? "null" : anchor.getUuid()));
         registerObservers();
+        ChatRetentionHelper.cleanSession(mSessionId, mSessionType);
         if (anchor == null) {
             GetMessagesDynamicallyParam dynamicallyParam =
                     new GetMessagesDynamicallyParam(mSessionId, mSessionType);
             dynamicallyParam.setLimit(messagePageSize);
             dynamicallyParam.setDirection(GetMessageDirectionEnum.FORWARD);
+            ChatRetentionHelper.applyFetchRetention(dynamicallyParam, GetMessageDirectionEnum.FORWARD, null);
             ChatRepo.getMessagesDynamically(
                     dynamicallyParam,
                     new FetchCallback<MessageDynamicallyResult>() {
@@ -1012,48 +1015,7 @@ public abstract class ChatBaseViewModel extends BaseViewModel {
                             if (result != null) {
                                 if (result.getMessageList() != null) {
                                     Collections.reverse(result.getMessageList());
-                                    // 创建一个迭代器，移除 attachStr 不为空的消息
-                                    Iterator<IMMessageInfo> iterator = result.getMessageList().iterator();
-                                    while (iterator.hasNext()) {
-                                        IMMessageInfo message = iterator.next();
-                                        IMMessage message1 = message.getMessage();
-                                        String attachStr = message1.getAttachStr();
-                                        String content = message1.getContent();
-                                        if (attachStr != null && attachStr.contains("adminIds")) {
-                                            try {
-                                                CustomMsgBean msgBean = new Gson().fromJson(attachStr, CustomMsgBean.class);
-
-                                                msgBean.result = new Gson().fromJson(msgBean.data, CustomMsgBean.class);
-                                                // 专属红包改为所有人可见，注释掉过滤逻辑
-                                                if (msgBean.type == 21) {
-                                                    if (DataUtil.getUserid().equals(msgBean.result.toUserId) || DataUtil.getUserid().equals(msgBean.result.fromUserId) || msgBean.result.adminIds.contains(DataUtil.getUserid())) {
-                                                    } else {
-                                                        iterator.remove();
-                                                    }
-                                                }
-                                            } catch (Exception e) {
-
-                                            }
-
-                                        }
-                                        if (content != null && content.startsWith("{")) {
-                                            try {
-                                                CustomMsgBean msgBean = new Gson().fromJson(content, CustomMsgBean.class);
-
-                                                if (msgBean.sendUserId != null && msgBean.sendUserName != null && msgBean.receiveUserName != null && msgBean.receiveUserId != null) {
-                                                    {
-                                                        if (!msgBean.sendUserId.equals(DataUtil.getUserid()) && !msgBean.receiveUserId.equals(DataUtil.getUserid())) {
-                                                            iterator.remove();
-                                                        }
-
-                                                    }
-                                                }
-
-                                            } catch (Exception e) {
-
-                                            }
-                                        }
-                                    }
+                                    filterExclusiveAndRetentionMessages(result.getMessageList());
                                 }
                                 fetchPinInfo();
                                 onListFetchSuccess(result.getMessageList(), GetMessageDirectionEnum.FORWARD);
@@ -1131,6 +1093,12 @@ public abstract class ChatBaseViewModel extends BaseViewModel {
             IMMessage anchor, GetMessageDirectionEnum direction, boolean needToScrollEnd) {
         ALog.d(LIB_TAG, TAG, "fetchMoreMessage:" + " direction:" + direction);
 
+        if (direction == GetMessageDirectionEnum.FORWARD
+                && ChatRetentionHelper.shouldStopForwardFetch(anchor)) {
+            onListFetchSuccess(anchor, needToScrollEnd, new ArrayList<>(), direction);
+            return;
+        }
+
         GetMessagesDynamicallyParam dynamicallyParam =
                 new GetMessagesDynamicallyParam(mSessionId, mSessionType);
         dynamicallyParam.setLimit(messagePageSize);
@@ -1138,12 +1106,8 @@ public abstract class ChatBaseViewModel extends BaseViewModel {
         if (anchor != null) {
             dynamicallyParam.setAnchorServerId(anchor.getServerId());
             dynamicallyParam.setAnchorClientId(anchor.getUuid());
-            if (direction == GetMessageDirectionEnum.FORWARD) {
-                dynamicallyParam.setToTime(anchor.getTime());
-            } else {
-                dynamicallyParam.setFromTime(anchor.getTime());
-            }
         }
+        ChatRetentionHelper.applyFetchRetention(dynamicallyParam, direction, anchor);
 
         ChatRepo.getMessagesDynamically(
                 dynamicallyParam,
@@ -1153,46 +1117,9 @@ public abstract class ChatBaseViewModel extends BaseViewModel {
                         if (result != null && result.getMessageList() != null) {
                             if (direction == GetMessageDirectionEnum.FORWARD) {
                                 Collections.reverse(result.getMessageList());
-                                // 创建一个迭代器，移除 attachStr 不为空的消息
-                                Iterator<IMMessageInfo> iterator = result.getMessageList().iterator();
-                                while (iterator.hasNext()) {
-                                    IMMessageInfo message = iterator.next();
-                                    IMMessage message1 = message.getMessage();
-                                    String attachStr = message1.getAttachStr();
-                                    String content = message1.getContent();
-                                    if (attachStr != null && attachStr.contains("adminIds")) {
-                                        try {
-                                            CustomMsgBean msgBean = new Gson().fromJson(attachStr, CustomMsgBean.class);
-                                            msgBean.result = new Gson().fromJson(msgBean.data, CustomMsgBean.class);
-                                            // 专属红包改为所有人可见，注释掉过滤逻辑
-                                            if (msgBean.type == 21) {
-                                                if (DataUtil.getUserid().equals(msgBean.result.toUserId) || DataUtil.getUserid().equals(msgBean.result.fromUserId) || msgBean.result.adminIds.contains(DataUtil.getUserid())) {
-                                                } else {
-                                                    iterator.remove();
-                                                }
-                                            }
-                                        } catch (Exception e) {
-
-                                        }
-                                    }
-                                    if (content != null && content.startsWith("{")) {
-                                        try {
-                                            CustomMsgBean msgBean = new Gson().fromJson(content, CustomMsgBean.class);
-
-                                            if (msgBean.sendUserId != null && msgBean.sendUserName != null && msgBean.receiveUserName != null && msgBean.receiveUserId != null) {
-                                                {
-                                                    if (!msgBean.sendUserId.equals(DataUtil.getUserid()) && !msgBean.receiveUserId.equals(DataUtil.getUserid())) {
-                                                        iterator.remove();
-                                                    }
-
-                                                }
-                                            }
-
-                                        } catch (Exception e) {
-
-                                        }
-                                    }
-                                }
+                                filterExclusiveAndRetentionMessages(result.getMessageList());
+                            } else {
+                                filterRetentionOnlyMessages(result.getMessageList());
                             }
                             ALog.d(LIB_TAG, TAG, "fetchMoreMessage,reverse:" + result.getMessageList().size());
                             onListFetchSuccess(anchor, needToScrollEnd, result.getMessageList(), direction);
@@ -1262,6 +1189,67 @@ public abstract class ChatBaseViewModel extends BaseViewModel {
         messageFetchResult.setData(null);
         messageFetchResult.setTypeIndex(-1);
         messageLiveData.setValue(messageFetchResult);
+    }
+
+    private void filterRetentionOnlyMessages(List<IMMessageInfo> messageList) {
+        if (messageList == null || messageList.isEmpty()) {
+            return;
+        }
+        long cutoff = ChatRetentionHelper.cutoffTimeMs();
+        Iterator<IMMessageInfo> iterator = messageList.iterator();
+        while (iterator.hasNext()) {
+            IMMessageInfo message = iterator.next();
+            IMMessage msg = message == null ? null : message.getMessage();
+            if (msg != null && msg.getTime() < cutoff) {
+                iterator.remove();
+            }
+        }
+    }
+
+    private void filterExclusiveAndRetentionMessages(List<IMMessageInfo> messageList) {
+        if (messageList == null || messageList.isEmpty()) {
+            return;
+        }
+        long cutoff = ChatRetentionHelper.cutoffTimeMs();
+        Iterator<IMMessageInfo> iterator = messageList.iterator();
+        while (iterator.hasNext()) {
+            IMMessageInfo message = iterator.next();
+            IMMessage message1 = message.getMessage();
+            if (message1 != null && message1.getTime() < cutoff) {
+                iterator.remove();
+                continue;
+            }
+            String attachStr = message1.getAttachStr();
+            String content = message1.getContent();
+            if (attachStr != null && attachStr.contains("adminIds")) {
+                try {
+                    CustomMsgBean msgBean = new Gson().fromJson(attachStr, CustomMsgBean.class);
+                    msgBean.result = new Gson().fromJson(msgBean.data, CustomMsgBean.class);
+                    if (msgBean.type == 21) {
+                        if (!(DataUtil.getUserid().equals(msgBean.result.toUserId)
+                                || DataUtil.getUserid().equals(msgBean.result.fromUserId)
+                                || msgBean.result.adminIds.contains(DataUtil.getUserid()))) {
+                            iterator.remove();
+                        }
+                    }
+                } catch (Exception ignored) {
+                }
+            }
+            if (content != null && content.startsWith("{")) {
+                try {
+                    CustomMsgBean msgBean = new Gson().fromJson(content, CustomMsgBean.class);
+                    if (msgBean.sendUserId != null
+                            && msgBean.sendUserName != null
+                            && msgBean.receiveUserName != null
+                            && msgBean.receiveUserId != null
+                            && !msgBean.sendUserId.equals(DataUtil.getUserid())
+                            && !msgBean.receiveUserId.equals(DataUtil.getUserid())) {
+                        iterator.remove();
+                    }
+                } catch (Exception ignored) {
+                }
+            }
+        }
     }
 
     private List<ChatMessageBean> convert(List<IMMessageInfo> messageList) {

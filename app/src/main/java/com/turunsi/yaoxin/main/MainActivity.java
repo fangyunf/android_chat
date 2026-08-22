@@ -56,6 +56,7 @@ import com.turunsi.yaoxin.main.mine.MineFragment;
 import com.turunsi.yaoxin.main.mine.MineFragment1;
 import com.turunsi.yaoxin.main.mine.setting.SettingNewActivity;
 import com.turunsi.yaoxin.utils.Constant;
+import com.turunsi.yaoxin.utils.ChatHistoryCleaner;
 import com.turunsi.yaoxin.utils.DataUtils;
 import com.turunsi.yaoxin.utils.IMUtil;
 import com.turunsi.yaoxin.welcome.WelcomeActivity;
@@ -174,6 +175,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
             finish();
             return;
         }
+        ChatHistoryCleaner.clearOldHistoryIfNeeded();
         activityMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(activityMainBinding.getRoot());
         initView();
