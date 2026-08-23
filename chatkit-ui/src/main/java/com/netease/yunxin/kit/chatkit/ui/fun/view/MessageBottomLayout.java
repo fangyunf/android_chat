@@ -788,6 +788,9 @@ public class MessageBottomLayout extends FrameLayout
             mMute = mute;
             mBinding.inputEt.setEnabled(!mute);
             mBinding.inputMuteTv.setVisibility(mute ? VISIBLE : GONE);
+            mBinding.inputEt.setVisibility(mute ? GONE : VISIBLE);
+            mBinding.inputLeftLayout.setVisibility(mute ? GONE : VISIBLE);
+            mBinding.inputRightLayout.setVisibility(mute ? GONE : VISIBLE);
             mBinding.inputEt.setText("");
             mBinding.chatRichEt.setText("");
             if (mute) {
@@ -795,11 +798,11 @@ public class MessageBottomLayout extends FrameLayout
             }
             mBinding.inputLayout.setBackgroundResource(mute ? R.color.color_e3e4e4 : R.color.color_white);
             mBinding.inputAudioRb.setEnabled(!mute);
-            mBinding.inputAudioRb.setAlpha(mute ? 0.5f : 1f);
+            mBinding.inputAudioRb.setAlpha(1f);
             mBinding.inputEmojiRb.setEnabled(!mute);
-            mBinding.inputEmojiRb.setAlpha(mute ? 0.5f : 1f);
-//      mBinding.inputMoreRb.setEnabled(!mute);
-//      mBinding.inputMoreRb.setAlpha(mute ? 0.5f : 1f);
+            mBinding.inputEmojiRb.setAlpha(1f);
+            mBinding.inputMoreRb.setEnabled(!mute);
+            mBinding.inputMoreRb.setAlpha(1f);
         }
     }
 
