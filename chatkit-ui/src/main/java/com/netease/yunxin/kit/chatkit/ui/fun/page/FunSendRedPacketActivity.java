@@ -448,6 +448,8 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
         }
         RegisterBean bean = new RegisterBean();
         bean.amount = amout;
+        // 去掉备注里的换行符，避免聊天气泡 title 被撑成两行
+        greeting = greeting == null ? "" : greeting.replaceAll("[\\r\\n\\u2028\\u2029]+", "").trim();
         bean.title = greeting.isEmpty() ? "恭喜发财,大吉大利" : greeting;
         if (type == 0) {
             bean.password = pwd;

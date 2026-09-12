@@ -67,13 +67,16 @@ public class ChatRedPacketMessageViewHolder extends FunChatBaseMessageViewHolder
                 viewBinding.funChatMessageRedPacketViewHolderBgIv.setImageResource((bean.type == 21) ? R.drawable.chat_redpacket_purple_bg_no_open : R.drawable.chat_red_packet_cell_bg_no_open);
             }
             if (bean.type == 21) {
-                viewBinding.funChatMessageRedPacketViewHolderGreetingTv.setText(bean.result.toUserName);
+                viewBinding.funChatMessageRedPacketViewHolderGreetingTv.setText(
+                        sanitizeRedPacketTitle(bean.result.toUserName));
                 viewBinding.funChatMessageRedPacketViewHolderTypeTv.setText("专属红包");
             } else if (bean.type == 22) {
-                viewBinding.funChatMessageRedPacketViewHolderGreetingTv.setText(bean.result.title);
+                viewBinding.funChatMessageRedPacketViewHolderGreetingTv.setText(
+                        sanitizeRedPacketTitle(bean.result.title));
                 viewBinding.funChatMessageRedPacketViewHolderTypeTv.setText("红包");
             } else {
-                viewBinding.funChatMessageRedPacketViewHolderGreetingTv.setText(bean.result.title);
+                viewBinding.funChatMessageRedPacketViewHolderGreetingTv.setText(
+                        sanitizeRedPacketTitle(bean.result.title));
                 viewBinding.funChatMessageRedPacketViewHolderTypeTv.setText("拼手气红包");
             }
             viewBinding.funChatMessageRedPacketViewHolderTimeTv.setText(TimeUtil.stampToDate(bean.result.createTime));
@@ -91,5 +94,13 @@ public class ChatRedPacketMessageViewHolder extends FunChatBaseMessageViewHolder
     protected void onMessageBackgroundConfig(ChatMessageBean messageBean) {
         super.onMessageBackgroundConfig(messageBean);
         viewBinding.getRoot().setBackgroundResource(R.color.title_transfer);
+    }
+
+    /** 红包 title 可能带 \\r/\\n 等换行符，展示时去掉，避免气泡里多出一行空白 */
+    private static String sanitizeRedPacketTitle(String title) {
+        if (TextUtils.isEmpty(title)) {
+            return "";
+        }
+        return title.replaceAll("[\\r\\n\\u2028\\u2029]+", "").trim();
     }
 }
