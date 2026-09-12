@@ -112,7 +112,8 @@ public class FunRedPacketResultActivity extends BaseActivity implements View.OnC
     void _updateUI() {
         GlideUtil.yh_loadImageRoundedCorner(this, binding.activityFunRedPacketResultDetailSenderHeadIv, redBean.sendAvatar, 17);
         binding.activityFunRedPacketResultDetailSenderTv.setText(redBean.sendName);
-        binding.activityFunRedPacketResultDetailGreetingTv.setText(redBean.title);
+        binding.activityFunRedPacketResultDetailGreetingTv.setText(
+                redBean.title == null ? "" : redBean.title.replaceAll("[\\r\\n\\u2028\\u2029]+", "").trim());
         if (redBean.redpacketType == 21) {
             binding.activityFunRedPacketResultDetailSenderTv.setText(redBean.sendName + "发出的专属红包");
         } else if (redBean.redpacketType == 22) {

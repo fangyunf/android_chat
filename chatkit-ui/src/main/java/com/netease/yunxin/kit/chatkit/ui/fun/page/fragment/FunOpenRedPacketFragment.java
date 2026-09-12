@@ -92,7 +92,8 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
         if (redBean != null) {
             GlideUtil.yh_loadImageRoundedCorner(getContext(), binding.fragmentOpenRedPacketDialogHeadIv, redBean.sendAvatar, 24);
             binding.fragmentOpenRedPacketDialogNameTv.setText(redBean.sendName);
-            binding.fragmentOpenRedPacketDialogGreetingTv.setText(redBean.title);
+            binding.fragmentOpenRedPacketDialogGreetingTv.setText(
+                    redBean.title == null ? "" : redBean.title.replaceAll("[\\r\\n\\u2028\\u2029]+", "").trim());
         }
         if (type == 1) {
             //可领取
@@ -106,7 +107,10 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
             binding.fragmentOpenRedPacketDialogOpenRl.setVisibility(View.VISIBLE);
             GlideUtil.yh_loadImageRoundedCorner(getContext(), binding.fragmentOpenRedPacketDialogHeadIv, sendBean.result.sendAvatar, 24);
             binding.fragmentOpenRedPacketDialogNameTv.setText(sendBean.result.sendName);
-            binding.fragmentOpenRedPacketDialogGreetingTv.setText(sendBean.result.title);
+            binding.fragmentOpenRedPacketDialogGreetingTv.setText(
+                    sendBean.result.title == null
+                            ? ""
+                            : sendBean.result.title.replaceAll("[\\r\\n\\u2028\\u2029]+", "").trim());
         }
         if (type == 2) {
             //已领完

@@ -27,10 +27,13 @@
 
         <TextView
             android:id="@+id/fun_chat_message_red_packet_view_holder_greeting_tv"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="55dp"
             android:layout_marginTop="12dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:singleLine="true"
             android:text="恭喜发财,大吉大利"
             android:textColor="#ffffffff"
             android:textSize="15sp" />
@@ -40,6 +43,10 @@
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:layout_marginLeft="55dp"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:singleLine="true"
             android:text="红包"
             android:textColor="@color/color_white"
             android:textSize="14sp" />
