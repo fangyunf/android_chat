@@ -4,16 +4,16 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.turunsi.xinda",
+  "applicationId": "com.turunsi.xindada",
   "variantName": "release",
   "elements": [
     {
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 116,
-      "versionName": "1.1.6",
-      "outputFile": "xinda_release_v1.1.6.apk"
+      "versionCode": 117,
+      "versionName": "1.1.7",
+      "outputFile": "xinda_release_v1.1.7.apk"
     }
   ],
   "elementType": "File"
