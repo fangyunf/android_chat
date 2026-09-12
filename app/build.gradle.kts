@@ -18,7 +18,7 @@ android {
         }
     }
     defaultConfig {
-        applicationId = "com.turunsi.xinda"
+        applicationId = "com.turunsi.xindada"
         minSdk = 21
         targetSdk = 33
         versionCode = 115
