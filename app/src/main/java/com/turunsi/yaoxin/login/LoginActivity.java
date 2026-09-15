@@ -89,7 +89,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             @Override
             public void onPre() {
                 String phone = getTextStr(binding.activityLoginTf1.viewTitleTfCountEt);
-                CommonNetUtil.getPhoneCode(phone);
+                CommonNetUtil.getPhoneCode(LoginActivity.this, phone, mCountDownView);
             }
 
             @Override

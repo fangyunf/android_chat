@@ -1,39 +1,25 @@
 package com.turunsi.yaoxin.utils;
 
-import com.netease.yunxin.kit.alog.ALog;
-import com.yaoxin.appbase.model.NetData;
-import com.yaoxin.appbase.model.RegisterBean;
-import com.yaoxin.appbase.net.CommonCallback;
-import com.yaoxin.appbase.net.HttpUtil;
+import android.app.Activity;
+
+import com.yaoxin.appbase.utils.CommonNetUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
 
-import retrofit2.Call;
-import retrofit2.Response;
-
 public class GetPhoneCodeUtil {
-    public static void getPhoneCode(String phone) {
+    public static void getPhoneCode(Activity activity, String phone) {
         if (phone.length() != 11) {
             ToastUtils.toastMsg("手机格式错误");
             return;
         }
-        RegisterBean registerBean = new RegisterBean();
-        registerBean.phoneNo = phone;
-        HttpUtil.apiW().customer_smsCode(registerBean)
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        ToastUtils.toastMsg("发送成功");
-                    }
+        if (activity == null) {
+            ToastUtils.toastMsg("请重试");
+            return;
+        }
+        CommonNetUtil.getPhoneCode(activity, phone);
+    }
 
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
-
-                    }
-
-                    @Override
-                    public void end() {
-                        super.end();
-                    }
-                });
+    // 保留旧签名，避免外部调用崩编译
+    public static void getPhoneCode(String phone) {
+        ToastUtils.toastMsg("请升级调用方式");
     }
 }

@@ -71,7 +71,7 @@ public class ForgetPwdActivity extends BaseActivity implements View.OnClickListe
             @Override
             public void onPre() {
                 String phone = getTextStr(binding.forgetPwdActivityPhoneTf.viewTitleTfCountEt);
-                CommonNetUtil.getPhoneCode(phone);
+                CommonNetUtil.getPhoneCode(ForgetPwdActivity.this, phone, mCountDownView);
             }
 
             @Override

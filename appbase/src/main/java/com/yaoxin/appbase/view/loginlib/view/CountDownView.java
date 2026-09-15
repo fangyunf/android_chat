@@ -77,12 +77,7 @@ public class CountDownView extends androidx.appcompat.widget.AppCompatButton imp
         if (needVerify) {
             if (!checkUser()) return;
         }
-        if (mMyCountTimer == null) {
-            mMyCountTimer = new MyCountTimer(DEFAULT_COUNT_DOWN_TIME * 1000, 1000);
-        }
-
         if (flag) {
-            mMyCountTimer.start();
             onPre();
         }
     }
@@ -142,5 +137,28 @@ public class CountDownView extends androidx.appcompat.widget.AppCompatButton imp
             mCaptchaListener.onComplete(user);
             setEnabled(true);
         }
+    }
+
+    public boolean isCounting() {
+        return !flag;
+    }
+
+    public void startCountDown() {
+        if (mMyCountTimer == null) {
+            mMyCountTimer = new MyCountTimer(DEFAULT_COUNT_DOWN_TIME * 1000, 1000);
+        }
+        if (flag) {
+            setEnabled(false);
+            mMyCountTimer.start();
+        }
+    }
+
+    public void resetCountDown() {
+        if (mMyCountTimer != null) {
+            mMyCountTimer.cancel();
+        }
+        flag = true;
+        setText("获取验证码");
+        setEnabled(true);
     }
 }

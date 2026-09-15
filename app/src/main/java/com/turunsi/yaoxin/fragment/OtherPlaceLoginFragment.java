@@ -13,7 +13,6 @@ import androidx.annotation.Nullable;
 
 import com.google.gson.Gson;
 import com.turunsi.yaoxin.databinding.FragmentOtherPlaceLoginBinding;
-import com.turunsi.yaoxin.utils.GetPhoneCodeUtil;
 import com.turunsi.yaoxin.utils.IMUtil;
 import com.yaoxin.appbase.fragment.BaseDialogFragment;
 import com.yaoxin.appbase.model.NetData;
@@ -46,7 +45,10 @@ public class OtherPlaceLoginFragment extends BaseDialogFragment implements View.
             @Override
             public void onPre() {
                 String phone = getTextStr(binding.fragmentOtherPlaceLoginPhoneEt);
-                CommonNetUtil.getPhoneCode(phone);
+                Activity activity = getActivity();
+                if (activity != null) {
+                    CommonNetUtil.getPhoneCode(activity, phone, mCountDownView);
+                }
             }
 
             @Override

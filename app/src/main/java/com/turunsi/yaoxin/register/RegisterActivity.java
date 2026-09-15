@@ -100,7 +100,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             @Override
             public void onPre() {
                 String phone = getTextStr(binding.registerActivityPhoneTf.viewTitleTfCountEt);
-                CommonNetUtil.getPhoneCode(phone);
+                CommonNetUtil.getPhoneCode(RegisterActivity.this, phone, mCountDownView);
             }
 
             @Override
