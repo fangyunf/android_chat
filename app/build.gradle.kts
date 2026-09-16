@@ -18,7 +18,7 @@ android {
         }
     }
     defaultConfig {
-        applicationId = "com.turunsi.weiliao"
+        applicationId = "com.turunsi.mastercard"
         minSdk = 21
         targetSdk = 33
         versionCode = 17

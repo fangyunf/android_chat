@@ -386,7 +386,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         super.onResume();
         initContactFragment(mContactFragment);
         initConversationFragment(mConversationFragment);
-        //initConversationFragment(mConversationFragment1);
+        initConversationFragment(mConversationFragment1);
         getMessageCount();
     }
 
@@ -426,12 +426,12 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
     @SuppressLint("UseCompatLoadingForDrawables")
     private void resetTabSkin() {
         if (mCurrentTab == activityMainBinding.contactBtnGroup) {
-            activityMainBinding.viewPager.setCurrentItem(2, false);
+            activityMainBinding.viewPager.setCurrentItem(3, false);
             activityMainBinding.contact.setTextColor(getResources().getColor(R.color.tab_checked_color));
             activityMainBinding.contact.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.mine_tabbar_txl_sel), null, null);
             changeStatusBarColor(R.color.fun_page_bg_color);
         } else if (mCurrentTab == activityMainBinding.foundBtnGroup) {
-            activityMainBinding.viewPager.setCurrentItem(3, false);
+            activityMainBinding.viewPager.setCurrentItem(2, false);
             activityMainBinding.found.setTextColor(getResources().getColor(R.color.tab_checked_color));
             activityMainBinding.found.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.mine_tabbar_found_sel), null, null);
             changeStatusBarColor(R.color.fun_page_bg_color);
@@ -476,8 +476,8 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
                     }
 
                     if (conversationFragment == mConversationFragment) {
-                        if ((singleChatUnreadCount + groupChatUnreadCount) > 0) {
-                            if ((singleChatUnreadCount + groupChatUnreadCount) > 99) {
+                        if (singleChatUnreadCount > 0) {
+                            if (singleChatUnreadCount > 99) {
                                 activityMainBinding.conversationDot.setText("99+");
                             } else {
                                 activityMainBinding.conversationDot.setText((singleChatUnreadCount + groupChatUnreadCount) + "");
@@ -487,20 +487,21 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
                             activityMainBinding.conversationDot.setVisibility(View.GONE);
                         }
                     }
-//                    if (conversationFragment == mConversationFragment1) {
-//                        if (groupChatUnreadCount > 0) {
-//                            if (groupChatUnreadCount > 99) {
-//                                activityMainBinding.conversationDot1.setText("99+");
-//                            } else {
-//                                activityMainBinding.conversationDot1.setText(groupChatUnreadCount + "");
-//                            }
-//
-//                            activityMainBinding.conversationDot1.setVisibility(View.VISIBLE);
-//                        } else {
-//                            activityMainBinding.conversationDot1.setVisibility(View.GONE);
-//
-//                        }
-//                    }
+
+                    if (conversationFragment == mConversationFragment1) {
+                        if (groupChatUnreadCount > 0) {
+                            if (groupChatUnreadCount > 99) {
+                                activityMainBinding.conversationDot1.setText("99+");
+                            } else {
+                                activityMainBinding.conversationDot1.setText(groupChatUnreadCount + "");
+                            }
+
+                            activityMainBinding.conversationDot1.setVisibility(View.VISIBLE);
+                        } else {
+                            activityMainBinding.conversationDot1.setVisibility(View.GONE);
+
+                        }
+                    }
                 }
             });
         }
