@@ -358,6 +358,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         ALog.d(Constant.PROJECT_TAG, "MainActivity:initView");
         //    loadConfig();
         List<Fragment> fragments = new ArrayList<>();
+        
         //changeStatusBarColor(R.color.fun_page_bg_color);
         mConversationFragment = FunConversationFragment.newInstance(0);
         mConversationFragment1 = FunConversationFragment.newInstance(1);
