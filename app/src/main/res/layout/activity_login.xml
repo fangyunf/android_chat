@@ -32,8 +32,8 @@
         android:orientation="vertical">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/dimen_80_dp"
+            android:layout_height="@dimen/dimen_80_dp"
             android:src="@mipmap/yaoxin_icon" />
 
         <TextView

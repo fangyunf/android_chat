@@ -36,7 +36,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "weiliao"
+rootProject.name = "MasterCard"
 include(":app")
 include(":conversationkit-ui")
 include(":teamkit-ui")
