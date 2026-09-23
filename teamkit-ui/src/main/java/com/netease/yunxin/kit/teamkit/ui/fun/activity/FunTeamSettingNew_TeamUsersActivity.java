@@ -12,6 +12,7 @@ import static com.netease.yunxin.kit.teamkit.ui.activity.BaseTeamUpdateIntroduce
 import static com.netease.yunxin.kit.teamkit.ui.activity.BaseTeamUpdateNicknameActivity.KEY_TEAM_MY_NICKNAME;
 
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -25,6 +26,7 @@ import androidx.annotation.Nullable;
 import androidx.collection.ArraySet;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter4.BaseQuickAdapter;
 import com.google.gson.Gson;
@@ -51,12 +53,12 @@ import com.yaoxin.appbase.utils.BaseEvent;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.GlideUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
-import com.yaoxin.appbase.view.CommonGridSpacingItemDecoration;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import retrofit2.Call;
@@ -142,11 +144,35 @@ public class FunTeamSettingNew_TeamUsersActivity extends BaseActivity implements
                 }
             }
         });
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 6);
+        final int spanCount = 5;
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, spanCount);
         binding.funTeamSettingNewTeamUsersActivityRv.setLayoutManager(gridLayoutManager);
-        CommonGridSpacingItemDecoration gridSpacingItemDecoration =
-                new CommonGridSpacingItemDecoration(6, SizeUtils.dp2px(10), false);
-        binding.funTeamSettingNewTeamUsersActivityRv.addItemDecoration(gridSpacingItemDecoration);
+        binding.funTeamSettingNewTeamUsersActivityRv.setPadding(
+                SizeUtils.dp2px(12),
+                SizeUtils.dp2px(8),
+                SizeUtils.dp2px(12),
+                SizeUtils.dp2px(16));
+        binding.funTeamSettingNewTeamUsersActivityRv.setClipToPadding(false);
+        final int spacing = SizeUtils.dp2px(8);
+        binding.funTeamSettingNewTeamUsersActivityRv.addItemDecoration(
+                new RecyclerView.ItemDecoration() {
+                    @Override
+                    public void getItemOffsets(
+                            @NonNull Rect outRect,
+                            @NonNull View view,
+                            @NonNull RecyclerView parent,
+                            @NonNull RecyclerView.State state) {
+                        int position = parent.getChildAdapterPosition(view);
+                        if (position < 0) {
+                            return;
+                        }
+                        int column = position % spanCount;
+                        // 均分间距，避免最后一列被挤出裁切
+                        outRect.left = spacing - column * spacing / spanCount;
+                        outRect.right = (column + 1) * spacing / spanCount;
+                        outRect.top = spacing;
+                    }
+                });
         binding.funTeamSettingNewTeamUsersActivityRv.setAdapter(adapter);
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener<GroupInfoBean>() {
             @Override
@@ -192,61 +218,79 @@ public class FunTeamSettingNew_TeamUsersActivity extends BaseActivity implements
         RegisterBean bean = new RegisterBean();
         bean.groupId = groupId;
         bean.page = page + "";
-        bean.pageNo ="100";
+        bean.pageNo = "100";
         HttpUtil.apiW().group_groupUserListPost(bean)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-
-                        Type type = new TypeToken<List<GroupInfoBean>>(){}.getType();
-                        List<GroupInfoBean> tempList = new Gson().fromJson(body.data.toString(), type);
-                        if (!tempList.isEmpty()) {
-                            dataList.addAll(tempList);
-                            if (tempList.size() == 100) {
-                                _requestData((page + 1));
-                                return;
+                        Type type = new TypeToken<List<GroupInfoBean>>() {}.getType();
+                        List<GroupInfoBean> tempList = Collections.emptyList();
+                        try {
+                            if (body != null && body.data != null) {
+                                tempList = new Gson().fromJson(body.data.toString(), type);
                             }
-
+                        } catch (Exception ignore) {
+                            tempList = Collections.emptyList();
                         }
+                        if (tempList == null) {
+                            tempList = Collections.emptyList();
+                        }
+
+                        List<GroupInfoBean> pageItems = new ArrayList<>(tempList);
                         if (opt_type != null) {
-                            for (int i = dataList.size() - 1; i >= 0; i--) {
-                                GroupInfoBean tempBean = (GroupInfoBean) dataList.get(i);
-                                if ("1".equals(opt_type)) {
-                                    if (tempBean.rankState == 1) {
-                                        dataList.remove(i);
-                                    }
-                                }
-                                if ("2".equals(opt_type)) {
-                                    if ( tempBean.rankState == 1) {
-                                        dataList.remove(i);
-                                    }
+                            for (int i = pageItems.size() - 1; i >= 0; i--) {
+                                GroupInfoBean tempBean = pageItems.get(i);
+                                if (tempBean != null && tempBean.rankState == 1) {
+                                    // 选新群主/管理员时不展示当前群主
+                                    pageItems.remove(i);
                                 }
                             }
-                        } else {
-                            for (Object tempBean : dataList) {
-                                GroupInfoBean tempBean1 = (GroupInfoBean) tempBean;
-                                if (tempBean1.userId.equals(DataUtil.getUserid())) {
+                        } else if (selfBean == null) {
+                            for (GroupInfoBean tempBean1 : pageItems) {
+                                if (tempBean1 != null
+                                        && tempBean1.userId != null
+                                        && tempBean1.userId.equals(DataUtil.getUserid())) {
                                     selfBean = tempBean1;
                                     break;
                                 }
                             }
                         }
+
+                        if (page == 1) {
+                            dataList.clear();
+                        }
+                        dataList.addAll(pageItems);
+                        // 首屏立刻展示，后续页增量刷新，避免大群等全量分页
                         updateUI();
 
+                        if (tempList.size() == 100) {
+                            _requestData(page + 1);
+                        }
                     }
 
                     @Override
                     public void Failure(Call<NetData> call, Throwable t) {
-
                     }
                 });
     }
 
     void updateUI() {
-
-        adapter.setItems(dataList);
-adapter.notifyDataSetChanged();
-
+        // 搜索中时不要被分页回调冲掉当前筛选结果
+        CharSequence keyword = binding.funTeamSettingNewTeamUsersActivitySearchEt.getText();
+        if (keyword != null && keyword.length() > 0) {
+            ArrayList<GroupInfoBean> tempArr = new ArrayList<>();
+            String string = keyword.toString();
+            for (Object tempObj : dataList) {
+                GroupInfoBean temp = (GroupInfoBean) tempObj;
+                if (temp != null && temp.name != null && temp.name.contains(string)) {
+                    tempArr.add(temp);
+                }
+            }
+            adapter.setItems(tempArr);
+        } else {
+            adapter.setItems(dataList);
+        }
+        adapter.notifyDataSetChanged();
     }
 
     @Override

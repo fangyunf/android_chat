@@ -58,7 +58,7 @@ public int opt_type = 0;
     @NonNull
     @Override
     protected QuickViewHolder onCreateViewHolder(@NonNull Context context, @NonNull ViewGroup viewGroup, int i) {
-        return new QuickViewHolder(R.layout.cell_fun_team_setting_users,viewGroup);
+        return new QuickViewHolder(R.layout.cell_fun_team_setting_users_grid, viewGroup);
     }
 }
 

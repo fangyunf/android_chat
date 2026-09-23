@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingBottom="8dp">
+
+    <RelativeLayout
+        android:layout_width="52dp"
+        android:layout_height="52dp">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/cell_fun_team_setting_users_head_iv"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:scaleType="centerCrop"
+            app:riv_corner_radius="26dp" />
+
+        <TextView
+            android:id="@+id/cell_fun_team_setting_users_name_tv_role"
+            android:layout_width="31dp"
+            android:layout_height="14dp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/fun_bg_purple_rounded_7"
+            android:gravity="center"
+            android:text="管理"
+            android:textColor="#ffffffff"
+            android:textSize="10sp"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/cell_fun_team_setting_users_name_tv"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_marginTop="2dp"
+        android:ellipsize="end"
+        android:gravity="center_horizontal"
+        android:maxLines="1"
+        android:textColor="#ff000000"
+        android:textSize="12sp" />
+</LinearLayout>
