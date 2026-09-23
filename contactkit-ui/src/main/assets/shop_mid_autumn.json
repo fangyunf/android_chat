@@ -1,0 +1,157 @@
+{
+  "searchPlaceholder": "搜索中秋礼盒",
+  "sectionTitle": "中秋礼盒",
+  "banner": {
+    "image": "https://images.pexels.com/photos/34169047/pexels-photo-34169047.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    "title": "中秋礼遇",
+    "subtitle": "精选礼盒 · 茶酒坚果果篮月饼",
+    "maskAlpha": 0.28,
+    "cornerRadius": 12
+  },
+  "products": [
+    {
+      "name": "中秋团圆礼盒",
+      "price": "¥398",
+      "priceValue": 398,
+      "image": "https://images.pexels.com/photos/34169047/pexels-photo-34169047.jpeg?auto=compress&cs=tinysrgb&w=800"
+    },
+    {
+      "name": "茶点月饼礼盒",
+      "price": "¥268",
+      "priceValue": 268,
+      "image": "https://images.pexels.com/photos/9863614/pexels-photo-9863614.jpeg?auto=compress&cs=tinysrgb&w=800"
+    },
+    {
+      "name": "双黄莲蓉礼盒",
+      "price": "¥188",
+      "priceValue": 188,
+      "image": "https://images.pexels.com/photos/9863617/pexels-photo-9863617.jpeg?auto=compress&cs=tinysrgb&w=800"
+    },
+    {
+      "name": "木盘茶点礼盒",
+      "price": "¥168",
+      "priceValue": 168,
+      "image": "https://images.pexels.com/photos/9863615/pexels-photo-9863615.jpeg?auto=compress&cs=tinysrgb&w=800"
+    },
+    {
+      "name": "金秋月饼茶礼",
+      "price": "¥228",
+      "priceValue": 228,
+      "image": "https://images.pexels.com/photos/9863625/pexels-photo-9863625.jpeg?auto=compress&cs=tinysrgb&w=800"
+    },
+    {
+      "name": "玉兔茶点礼盒",
+      "price": "¥198",
+      "priceValue": 198,
+      "image": "https://images.pexels.com/photos/9863620/pexels-photo-9863620.jpeg?auto=compress&cs=tinysrgb&w=800"
+    },
+    {
+      "name": "花香月饼礼盒",
+      "price": "¥178",
+      "priceValue": 178,
+      "image": "https://images.pexels.com/photos/9863621/pexels-photo-9863621.jpeg?auto=compress&cs=tinysrgb&w=800"
+    },
+    {
+      "name": "雅致月饼礼盒",
+      "price": "¥148",
+      "priceValue": 148,
+      "image": "https://images.pexels.com/photos/9863619/pexels-photo-9863619.jpeg?auto=compress&cs=tinysrgb&w=800"
+    },
+    {
+      "name": "金黄月饼礼盒",
+      "price": "¥138",
+      "priceValue": 138,
+      "image": "https://images.pexels.com/photos/9863616/pexels-photo-9863616.jpeg?auto=compress&cs=tinysrgb&w=800"
+    },
+    {
+      "name": "月满茶礼盒",
+      "price": "¥158",
+      "priceValue": 158,
+      "image": "https://images.pexels.com/photos/9863618/pexels-photo-9863618.jpeg?auto=compress&cs=tinysrgb&w=800"
+    },
+    {
+      "name": "金勺茶点礼",
+      "price": "¥168",
+      "priceValue": 168,
+      "image": "https://images.pexels.com/photos/9863624/pexels-photo-9863624.jpeg?auto=compress&cs=tinysrgb&w=800"
+    },
+    {
+      "name": "经典月饼礼盒",
+      "price": "¥128",
+      "priceValue": 128,
+      "image": "https://images.pexels.com/photos/9863622/pexels-photo-9863622.jpeg?auto=compress&cs=tinysrgb&w=800"
+    },
+    {
+      "name": "巧克力干果礼盒",
+      "price": "¥198",
+      "priceValue": 198,
+      "image": "https://images.pexels.com/photos/7407255/pexels-photo-7407255.jpeg?auto=compress&cs=tinysrgb&w=800"
+    },
+    {
+      "name": "茶点坚果礼盒",
+      "price": "¥188",
+      "priceValue": 188,
+      "image": "https://images.pexels.com/photos/34526595/pexels-photo-34526595.jpeg?auto=compress&cs=tinysrgb&w=800"
+    },
+    {
+      "name": "精选坚果礼盒",
+      "price": "¥158",
+      "priceValue": 158,
+      "image": "https://images.pexels.com/photos/1295572/pexels-photo-1295572.jpeg?auto=compress&cs=tinysrgb&w=800"
+    },
+    {
+      "name": "缤纷果篮礼盒",
+      "price": "¥298",
+      "priceValue": 298,
+      "image": "https://images.pexels.com/photos/1132047/pexels-photo-1132047.jpeg?auto=compress&cs=tinysrgb&w=800"
+    },
+    {
+      "name": "精装礼盒套装",
+      "price": "¥258",
+      "priceValue": 258,
+      "image": "https://images.pexels.com/photos/1666065/pexels-photo-1666065.jpeg?auto=compress&cs=tinysrgb&w=800"
+    },
+    {
+      "name": "红酒果香礼盒",
+      "price": "¥368",
+      "priceValue": 368,
+      "image": "https://images.pexels.com/photos/1407846/pexels-photo-1407846.jpeg?auto=compress&cs=tinysrgb&w=800"
+    },
+    {
+      "name": "花果茶礼盒",
+      "price": "¥98",
+      "priceValue": 98,
+      "image": "https://images.pexels.com/photos/1638280/pexels-photo-1638280.jpeg?auto=compress&cs=tinysrgb&w=800"
+    },
+    {
+      "name": "清香茶礼",
+      "price": "¥88",
+      "priceValue": 88,
+      "image": "https://images.pexels.com/photos/1417945/pexels-photo-1417945.jpeg?auto=compress&cs=tinysrgb&w=800"
+    },
+    {
+      "name": "香槟酒礼盒",
+      "price": "¥328",
+      "priceValue": 328,
+      "image": "https://images.pexels.com/photos/1123260/pexels-photo-1123260.jpeg?auto=compress&cs=tinysrgb&w=800"
+    },
+    {
+      "name": "赤霞珠酒礼",
+      "price": "¥298",
+      "priceValue": 298,
+      "image": "https://images.pexels.com/photos/290316/pexels-photo-290316.jpeg?auto=compress&cs=tinysrgb&w=800"
+    },
+    {
+      "name": "金秋欢庆酒礼",
+      "price": "¥268",
+      "priceValue": 268,
+      "image": "https://images.pexels.com/photos/3171837/pexels-photo-3171837.jpeg?auto=compress&cs=tinysrgb&w=800"
+    },
+    {
+      "name": "福满月饼礼盒",
+      "price": "¥118",
+      "priceValue": 118,
+      "image": "https://images.pexels.com/photos/9863623/pexels-photo-9863623.jpeg?auto=compress&cs=tinysrgb&w=800"
+    }
+  ]
+}

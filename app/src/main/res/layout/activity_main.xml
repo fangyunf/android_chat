@@ -39,6 +39,7 @@
         tools:ignore="MissingConstraints">
 
 
+        <!-- 0 消息 -->
         <RelativeLayout
             android:id="@+id/conversation_btn_group"
             android:layout_width="match_parent"
@@ -58,16 +59,6 @@
                 android:textColor="@color/tab_checked_color"
                 android:textSize="12sp" />
 
-            <!--            <View-->
-            <!--                android:id="@+id/conversation_dot"-->
-            <!--                android:layout_width="@dimen/dimen_6_dp"-->
-            <!--                android:layout_height="@dimen/dimen_6_dp"-->
-            <!--                android:layout_alignRight="@+id/conversation"-->
-            <!--                android:layout_marginLeft="@dimen/dimen_10_dp"-->
-            <!--                android:layout_marginTop="@dimen/dimen_7_dp"-->
-            <!--                android:background="@drawable/bg_conversation_red_dot"-->
-            <!--                android:visibility="gone" />-->
-
             <TextView
                 android:id="@+id/conversation_dot"
                 android:layout_width="wrap_content"
@@ -85,98 +76,29 @@
 
         </RelativeLayout>
 
-
+        <!-- 保留旧群聊 id，避免 binding 崩溃，界面隐藏 -->
         <RelativeLayout
             android:id="@+id/conversation_btn_group1"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:onClick="tabClick">
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/conversation1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
                 android:drawableTop="@mipmap/mine_tabbar_msg_group_normal"
-                android:drawablePadding="2dp"
-                android:gravity="center"
                 android:text="群聊"
-                android:textColor="@color/tab_unchecked_color"
-                android:textSize="12sp" />
-
-            <!--            <View-->
-            <!--                android:id="@+id/conversation_dot1"-->
-            <!--                android:layout_width="@dimen/dimen_6_dp"-->
-            <!--                android:layout_height="@dimen/dimen_6_dp"-->
-            <!--                android:layout_alignRight="@+id/conversation1"-->
-            <!--                android:layout_marginLeft="@dimen/dimen_10_dp"-->
-            <!--                android:layout_marginTop="@dimen/dimen_7_dp"-->
-            <!--                android:background="@drawable/bg_conversation_red_dot"-->
-            <!--                android:visibility="gone" />-->
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/conversation_dot1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignRight="@+id/conversation1"
-                android:layout_marginTop="@dimen/dimen_7_dp"
-                android:layout_marginRight="-10dp"
-                android:background="@drawable/bg_conversation_red_dot"
-                android:gravity="center"
-                android:paddingStart="@dimen/dimen_7_dp"
-                android:paddingEnd="@dimen/dimen_7_dp"
-                android:textColor="@color/color_white"
-                android:textSize="@dimen/text_size_12"
                 android:visibility="gone" />
-
         </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/conversation_btn_shop"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:onClick="tabClick"
-            android:visibility="gone">
-
-            <TextView
-                android:id="@+id/conversation_shop"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:drawableTop="@mipmap/mine_tabbar_shop_normal"
-                android:drawablePadding="3dp"
-                android:gravity="center"
-                android:text="商城"
-                android:textColor="@color/tab_unchecked_color"
-                android:textSize="12sp" />
-
-
-        </RelativeLayout>
-
-
-        <RelativeLayout
-            android:id="@+id/found_btn_group"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:onClick="tabClick">
-
-            <TextView
-                android:id="@+id/found"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:drawableTop="@mipmap/mine_tabbar_found_normal"
-                android:drawablePadding="2dp"
-                android:gravity="center"
-                android:text="商场"
-                android:textColor="@color/tab_unchecked_color"
-                android:textSize="12sp" />
-
-        </RelativeLayout>
-
+        <!-- 1 通讯录 -->
         <RelativeLayout
             android:id="@+id/contact_btn_group"
             android:layout_width="match_parent"
@@ -196,16 +118,6 @@
                 android:textColor="@color/tab_unchecked_color"
                 android:textSize="12sp" />
 
-            <!--            <View-->
-            <!--                android:id="@+id/contact_dot"-->
-            <!--                android:layout_width="@dimen/dimen_6_dp"-->
-            <!--                android:layout_height="@dimen/dimen_6_dp"-->
-            <!--                android:layout_alignEnd="@+id/contact"-->
-            <!--                android:layout_marginTop="@dimen/dimen_7_dp"-->
-            <!--                android:layout_marginEnd="@dimen/dimen_4_dp"-->
-            <!--                android:background="@drawable/bg_conversation_red_dot"-->
-            <!--                android:visibility="gone" />-->
-
             <TextView
                 android:id="@+id/contact_dot"
                 android:layout_width="wrap_content"
@@ -223,6 +135,52 @@
 
         </RelativeLayout>
 
+        <!-- 2 商场 -->
+        <RelativeLayout
+            android:id="@+id/conversation_btn_shop"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:onClick="tabClick"
+            android:visibility="visible">
+
+            <TextView
+                android:id="@+id/conversation_shop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:drawableTop="@mipmap/mine_tabbar_shop_normal"
+                android:drawablePadding="3dp"
+                android:gravity="center"
+                android:text="商场"
+                android:textColor="@color/tab_unchecked_color"
+                android:textSize="12sp" />
+
+        </RelativeLayout>
+
+        <!-- 3 朋友圈 -->
+        <RelativeLayout
+            android:id="@+id/found_btn_group"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:onClick="tabClick">
+
+            <TextView
+                android:id="@+id/found"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:drawableTop="@mipmap/mine_tabbar_found_normal"
+                android:drawablePadding="2dp"
+                android:gravity="center"
+                android:text="朋友圈"
+                android:textColor="@color/tab_unchecked_color"
+                android:textSize="12sp" />
+
+        </RelativeLayout>
+
+        <!-- 4 我的 -->
         <RelativeLayout
             android:id="@+id/myself_btn_group"
             android:layout_width="match_parent"

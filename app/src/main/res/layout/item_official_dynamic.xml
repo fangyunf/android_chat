@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="1dp"
+    android:background="@color/color_white"
+    android:orientation="horizontal"
+    android:paddingHorizontal="16dp"
+    android:paddingTop="16dp"
+    android:paddingBottom="12dp">
+
+    <ImageView
+        android:id="@+id/item_official_dynamic_logo_iv"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:src="@mipmap/yaoxin_icon" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dimen_10_dp"
+        android:layout_marginBottom="1dp"
+        android:background="@color/color_white"
+        android:orientation="vertical">
+
+
+        <!-- 顶部：logo + 标题 + 更多 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:src="@mipmap/icon_vvvv" />
+
+                <TextView
+                    android:id="@+id/item_official_dynamic_title_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:text="米聊官方动态"
+                    android:textColor="#194290"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/item_official_dynamic_more_iv"
+                android:layout_width="4dp"
+                android:layout_height="16dp"
+                android:src="@mipmap/conversation_index_pop_more" />
+        </LinearLayout>
+
+        <!-- 内容 -->
+        <TextView
+            android:id="@+id/item_official_dynamic_content_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:ellipsize="end"
+            android:lineSpacingExtra="4dp"
+            android:maxLines="6"
+            android:textColor="#000000"
+            android:textSize="15sp"
+            tools:text="急要,可以接的联系:\n双胞胎,宝宝20天了,原月嫂临时有事急找月嫂/\n有月嫂经验的育婴师,不要管产妇,主要带宝\n宝,其他都不要做,还有家人帮忙带,无休\n15000到16000,做的好长期做下去,年龄最好" />
+
+
+        <!-- 底部：标签 + 时间 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/item_official_dynamic_tag_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_vvv_rounded_4"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="3dp"
+                android:text="米聊官方发布"
+                android:textColor="#F05745"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/item_official_dynamic_time_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="@dimen/dimen_10_dp"
+            android:layout_weight="1"
+            android:text="2025年12月01日 13:38"
+            android:textColor="#838383"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+</LinearLayout>
+

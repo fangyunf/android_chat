@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tl="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_F6F6F6"
+    android:background="#F2F2F2"
     android:orientation="vertical">
 
     <com.yaoxin.appbase.navbar.NavToolbar
@@ -14,21 +13,66 @@
         app:back_icon="@mipmap/temp_ic_back"
         app:enable_under_divider="true"
         app:support_translucent_status_bar="false"
-        app:title="密码管理"
+        app:title="支付设置"
         app:title_text_color="@color/color_333333"
-        app:under_divider_color="@color/color_d5d5d5" />
+        app:under_divider_color="@android:color/transparent" />
 
-
-    <include
-        android:id="@+id/activity_mine_purse_pwd_manager_set_pwd"
-        layout="@layout/view_title_arrow"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:orientation="vertical">
 
-    <include
-        android:id="@+id/activity_mine_purse_pwd_manager_modify_pwd"
-        layout="@layout/view_title_arrow"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <LinearLayout
+            android:id="@+id/activity_mine_purse_pwd_manager_set_pwd"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="16dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="设置支付密码"
+                android:textColor="#333333"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:src="@mipmap/mine_index_right_arrow" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginStart="16dp"
+            android:background="#EEEEEE" />
+
+        <LinearLayout
+            android:id="@+id/activity_mine_purse_pwd_manager_modify_pwd"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="16dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="修改支付密码"
+                android:textColor="#333333"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:src="@mipmap/mine_index_right_arrow" />
+        </LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>

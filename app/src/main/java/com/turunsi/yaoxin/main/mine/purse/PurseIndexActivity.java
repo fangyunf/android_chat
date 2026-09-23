@@ -9,30 +9,23 @@ import androidx.annotation.Nullable;
 
 import com.google.gson.Gson;
 import com.netease.yunxin.kit.chatkit.ui.fun.page.FunRedPacketRecordListActivity;
-import com.netease.yunxin.kit.corekit.route.XKitRouter;
-import com.turunsi.yaoxin.R;
+import com.turunsi.yaoxin.databinding.ActivityMinePurseIndexBinding;
 import com.turunsi.yaoxin.login.RealNameSetActivity;
 import com.turunsi.yaoxin.main.mine.purse.alipay.BindAlipayActivity;
-import com.turunsi.yaoxin.main.mine.purse.bill.BillDetailListActivity;
-import com.turunsi.yaoxin.main.mine.purse.pwdmanager.PursePwdManagerSetActivity;
-import com.turunsi.yaoxin.main.mine.purse.tixian.PurseTiXianAddAccountActivity;
-import com.yaoxin.appbase.activity.BaseActivity;
-import com.turunsi.yaoxin.databinding.ActivityMinePurseIndexBinding;
 import com.turunsi.yaoxin.main.mine.purse.bankcard.BankCardListActivity;
+import com.turunsi.yaoxin.main.mine.purse.bill.BillDetailListActivity;
 import com.turunsi.yaoxin.main.mine.purse.pwdmanager.PursePwdManagerActivity;
 import com.turunsi.yaoxin.main.mine.purse.recharge.PurseRechargeActivity;
 import com.turunsi.yaoxin.main.mine.purse.tixian.PurseTiXianActivity;
+import com.yaoxin.appbase.activity.BaseActivity;
 import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
-import com.yaoxin.appbase.net.Constant;
 import com.yaoxin.appbase.net.HttpUtil;
-import com.yaoxin.appbase.utils.AppProxy;
 import com.yaoxin.appbase.utils.BarUtils;
 import com.yaoxin.appbase.utils.ICallBack;
 import com.yaoxin.appbase.utils.NumberUtil;
 import com.yaoxin.appbase.utils.StatusBarUtils;
-import com.yaoxin.appbase.utils.ToastUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -55,10 +48,10 @@ public class PurseIndexActivity extends BaseActivity implements View.OnClickList
         params.height = params.height + BarUtils.getStatusBarHeight();
         binding.activityMinePurseIndexNav.setLayoutParams(params);
         binding.activityMinePurseIndexNav.setPadding(0, BarUtils.getStatusBarHeight(), 0, 0);
-        _initCell();
-        binding.activityMinePurseIndexRechargeTv.setOnClickListener(this);
-        binding.activityMinePurseIndexRechargeTv2.setOnClickListener(this);
-        binding.activityMinePurseIndexTixianTv.setOnClickListener(this);
+        android.widget.TextView billTv = binding.activityMinePurseIndexNav.setActionText("账单");
+        if (billTv != null) {
+            billTv.setTextColor(0xFF333333);
+        }
         Context that = this;
         binding.activityMinePurseIndexNav.setActionClickListener(new ICallBack() {
             @Override
@@ -66,11 +59,12 @@ public class PurseIndexActivity extends BaseActivity implements View.OnClickList
                 BillDetailListActivity.start(BillDetailListActivity.class, that, null);
             }
         });
+        _initCell();
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onResume() {
+        super.onResume();
         _requestData();
     }
 
@@ -80,45 +74,47 @@ public class PurseIndexActivity extends BaseActivity implements View.OnClickList
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                        if (body == null || body.data == null) {
+                            return;
+                        }
                         UserBean bean = new Gson().fromJson(body.data.toString(), UserBean.class);
-                        binding.activityMinePurseIndexBalanceTv.setText(NumberUtil.formartMoney(bean.balance));
+                        if (bean != null) {
+                            binding.activityMinePurseIndexBalanceTv.setText(
+                                    "¥" + NumberUtil.formartMoney(bean.balance));
+                        }
                     }
 
                     @Override
                     public void Failure(Call<NetData> call, Throwable t) {
-
                     }
                 });
     }
 
     private void _initCell() {
-
+        binding.activityMinePurseIndexLingqian.setOnClickListener(this);
+        binding.activityMinePurseIndexRechargeTv.setOnClickListener(this);
+        binding.activityMinePurseIndexTixianTv.setOnClickListener(this);
         binding.activityMinePurseIndexHbjl.setOnClickListener(this);
-        binding.activityMinePurseIndexLqmx.setOnClickListener(this);
-        binding.activityMinePurseIndexSmrz.setOnClickListener(this);
         binding.activityMinePurseIndexWdkb.setOnClickListener(this);
         binding.activityMinePurseIndexBdwx.setOnClickListener(this);
         binding.activityMinePurseIndexBdzfb.setOnClickListener(this);
+        binding.activityMinePurseIndexIdentityTv.setOnClickListener(this);
+        binding.activityMinePurseIndexPaySettingTv.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         if (v == binding.activityMinePurseIndexNav.addCloseImageButton()) {
             finish();
+        } else if (v == binding.activityMinePurseIndexLingqian
+                || v == binding.activityMinePurseIndexBalanceTv) {
+            BillDetailListActivity.start(BillDetailListActivity.class, this, null);
         } else if (v == binding.activityMinePurseIndexRechargeTv) {
             PurseRechargeActivity.start(PurseRechargeActivity.class, this, null);
-        } else if (v == binding.activityMinePurseIndexRechargeTv2) {
-            Map map = new HashMap();
-            map.put("type", "1");
-            PurseRechargeActivity.start(PurseRechargeActivity.class, this, map);
         } else if (v == binding.activityMinePurseIndexTixianTv) {
-//            ToastUtils.toastMsg("敬请期待");
             PurseTiXianActivity.start(PurseTiXianActivity.class, this, null);
         } else if (v == binding.activityMinePurseIndexHbjl) {
-//            BillDetailListActivity.start(BillDetailListActivity.class,this,null);
             FunRedPacketRecordListActivity.start(FunRedPacketRecordListActivity.class, this, null);
-        } else if (v == binding.activityMinePurseIndexLqmx) {
-            BillDetailListActivity.start(BillDetailListActivity.class, this, null);
         } else if (v == binding.activityMinePurseIndexBdzfb) {
             BindAlipayActivity.start(BindAlipayActivity.class, this, null);
         } else if (v == binding.activityMinePurseIndexBdwx) {
@@ -126,29 +122,13 @@ public class PurseIndexActivity extends BaseActivity implements View.OnClickList
             map.put("type", "1");
             BindAlipayActivity.start(BindAlipayActivity.class, this, map);
         } else if (v == binding.activityMinePurseIndexWdkb) {
-//            Map map = new HashMap();
-//            map.put("type", "3");
-//            BindAlipayActivity.start(BindAlipayActivity.class, this, map);
             BankCardListActivity.start(BankCardListActivity.class, this, null);
-
-        } else if (v == binding.activityMinePurseIndexSmrz) {
-            ToastUtils.toastMsg("已完成实名");
-//            if (!Constant.isRunningRealName) {
-//                Constant.isRunningRealName = true;
-//                XKitRouter.withKey(Constant.RealName_Router)
-//                        .withContext(AppProxy.getInstance().getContext())
-//                        .navigate();
-//            }
+        } else if (v == binding.activityMinePurseIndexIdentityTv) {
+            HashMap map = new HashMap();
+            map.put("showBack", "1");
+            RealNameSetActivity.start(RealNameSetActivity.class, this, map);
+        } else if (v == binding.activityMinePurseIndexPaySettingTv) {
+            PursePwdManagerActivity.start(PursePwdManagerActivity.class, this, null);
         }
-//        else if (v == binding.activityMinePurseIndexCell8.itemPurseIndexCellRl) {
-//            HashMap map = new HashMap();
-//            map.put("type","0");
-//            PursePwdManagerSetActivity.start(PursePwdManagerSetActivity.class,this,map);
-//        } else if (v == binding.activityMinePurseIndexCell9.itemPurseIndexCellRl) {
-//            HashMap map = new HashMap();
-//            map.put("type","1");
-//            PursePwdManagerSetActivity.start(PursePwdManagerSetActivity.class,this,map);
-//        }
     }
-
 }

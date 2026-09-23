@@ -94,12 +94,14 @@
         android:roundIcon="@mipmap/yaoxin_icon"
         android:supportsRtl="true"
         android:theme="@style/Theme.Xkit">
+
         <!--        <meta-data-->
         <!--            android:name="com.netease.nim.appKey"-->
-        <!--            android:value="2a6664a3c43a1fd51133b7dff030c575" />-->
+        <!--            android:value="68cb85c9f739faed79ba074aca82f193" />-->
+
         <meta-data
             android:name="com.netease.nim.appKey"
-            android:value="68cb85c9f739faed79ba074aca82f193" />
+            android:value="52e88fc81c6040fc49fc246c333ea948" />
 
         <meta-data
             android:name="com.amap.api.v2.apikey"
@@ -237,6 +239,7 @@
         <activity android:name=".main.mine.account.Mine_Pwd_Set_ManagerActivity" />
         <activity android:name=".main.mine.huiyuan.LiangHaoZoneActivity" />
         <activity android:name=".main.mine.huiyuan.LiangHaoZoneMoreActivity" />
+        <activity android:name=".main.mine.dynamics.OfficialDynamicsActivity" />
 
         <!-- 云信 NIM SDK 进程间通信provider-->
         <provider

@@ -19,9 +19,11 @@ import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.Constant;
 import com.yaoxin.appbase.net.HttpUtil;
+import com.yaoxin.appbase.utils.BarUtils;
 import com.yaoxin.appbase.utils.CommonNetUtil;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.DeviceUtils;
+import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
 import com.yaoxin.appbase.view.loginlib.utils.LoginLoader;
 import com.yaoxin.appbase.view.loginlib.view.CountDownView;
@@ -44,6 +46,13 @@ public class PursePwdManagerSetActivity extends BaseActivity implements View.OnC
         binding.activityMinePursePwdManagerSetNav.addCloseImageButton().setOnClickListener(this);
         binding.activityMinePursePwdManagerSetForgetPwdTv.setOnClickListener(this);
         binding.activityMineAddressAddSaveRl.setOnClickListener(this);
+        StatusBarUtils.setStatusBarLightMode(this, true, true);
+        android.widget.LinearLayout.LayoutParams params =
+                (android.widget.LinearLayout.LayoutParams)
+                        binding.activityMinePursePwdManagerSetNav.getLayoutParams();
+        params.height = params.height + BarUtils.getStatusBarHeight();
+        binding.activityMinePursePwdManagerSetNav.setLayoutParams(params);
+        binding.activityMinePursePwdManagerSetNav.setPadding(0, BarUtils.getStatusBarHeight(), 0, 0);
 
         if (extras != null) {
             String typeString = (String)extras.get("type");

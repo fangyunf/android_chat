@@ -33,6 +33,7 @@ import retrofit2.Response;
 
 public class RealNameSetActivity extends BaseActivity implements View.OnClickListener {
     ActivityMineRealNameSetBinding binding;
+    private boolean showBack;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,32 +42,33 @@ public class RealNameSetActivity extends BaseActivity implements View.OnClickLis
         setContentView(binding.getRoot());
         binding.activityMineRealNameSetSaveRl.setOnClickListener(this);
 
-        binding.activityMineRealNameSetNav.addCloseImageButton().setVisibility(View.GONE);
+        showBack = extras != null && "1".equals(extras.getString("showBack"));
+        if (showBack) {
+            binding.activityMineRealNameSetNav.addCloseImageButton().setVisibility(View.VISIBLE);
+            binding.activityMineRealNameSetNav.addCloseImageButton().setOnClickListener(this);
+        } else {
+            binding.activityMineRealNameSetNav.addCloseImageButton().setVisibility(View.GONE);
+        }
 
         binding.activityMineRealNameSetName.viewTitleTfWithoutBgTv.setText("真实姓名");
         binding.activityMineRealNameSetName.viewTitleTfWithoutBgEt.setHint("请输入姓名");
-//        binding.activityMineRealNameSetName.viewTitleTfWithoutBgEt.setBackgroundColor(getResources().getColor(R.color.color_white));
-//        binding.activityMineRealNameSetName.viewTitleTfWithoutBgLl.setBackgroundColor(getResources().getColor(R.color.color_white));
-
 
         binding.activityMineRealNameSetIdentityNum.viewTitleTfWithoutBgTv.setText("身份证号");
         binding.activityMineRealNameSetIdentityNum.viewTitleTfWithoutBgEt.setHint("请输入身份证号");
-//        binding.activityMineRealNameSetIdentityNum.viewTitleTfWithoutBgEt.setBackgroundColor(getResources().getColor(R.color.color_white));
-//        binding.activityMineRealNameSetIdentityNum.viewTitleTfWithoutBgLl.setBackgroundColor(getResources().getColor(R.color.color_white));
-
-
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        // 清除Activity正在运行的标志
         Constant.isRunningRealName = false;
-
     }
+
     @Override
     public void onClick(View v) {
         if (v == binding.activityMineRealNameSetNav.addCloseImageButton()) {
-            finish();
+            if (showBack) {
+                finish();
+            }
         } else if (v == binding.activityMineRealNameSetSaveRl) {
             String certName = getTextStr(binding.activityMineRealNameSetName.viewTitleTfWithoutBgEt);
             if (certName.isEmpty()) {
@@ -90,7 +92,7 @@ public class RealNameSetActivity extends BaseActivity implements View.OnClickLis
                     .enqueue(new CommonCallback<NetData>() {
                         @Override
                         public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                            RegisterBean dataBean = new Gson().fromJson(body.data.toString(),RegisterBean.class);
+                            RegisterBean dataBean = new Gson().fromJson(body.data.toString(), RegisterBean.class);
 
                             RealNameAuthUtil.start(that, dataBean.certifyId, new RealNameAuthUtil.dispathBlockT() {
                                 @Override
@@ -99,20 +101,19 @@ public class RealNameSetActivity extends BaseActivity implements View.OnClickLis
                                     finish();
                                 }
                             });
-
                         }
 
                         @Override
                         public void Failure(Call<NetData> call, Throwable t) {
-
                         }
                     });
         }
     }
+
     @Override
     public void onBackPressed() {
-        // 留空或者添加你希望的代码
-        // super.onBackPressed(); // 这行代码将会执行默认的返回操作，注释掉即可屏蔽返回键
+        if (showBack) {
+            super.onBackPressed();
+        }
     }
-
 }

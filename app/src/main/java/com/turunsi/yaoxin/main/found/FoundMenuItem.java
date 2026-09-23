@@ -8,6 +8,7 @@ public class FoundMenuItem {
     public static final int ACTION_DEFAULT = 0;
     public static final int ACTION_SCAN = 1;
     public static final int ACTION_ADD_FRIEND = 2;
+    public static final int ACTION_MOMENTS = 3;
 
     public final int type;
     public final String title;

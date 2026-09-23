@@ -67,6 +67,10 @@ public class FoundFragment extends BaseFragment {
 
     private void handleMenuClick(FoundMenuItem item) {
         switch (item.action) {
+            case FoundMenuItem.ACTION_MOMENTS:
+                startActivity(new android.content.Intent(requireContext(),
+                        com.turunsi.yaoxin.main.mine.dynamics.OfficialDynamicsActivity.class));
+                break;
             case FoundMenuItem.ACTION_SCAN:
                 EventBus.getDefault().post(new BaseEvent("gotoScan"));
                 break;
@@ -96,7 +100,7 @@ public class FoundFragment extends BaseFragment {
      */
     private List<FoundMenuItem> buildMenuItems() {
         List<FoundMenuItem> items = new ArrayList<>();
-        items.add(FoundMenuItem.menu("朋友圈", R.mipmap.found_icon_moments));
+        items.add(FoundMenuItem.menu("朋友圈", R.mipmap.found_icon_moments, FoundMenuItem.ACTION_MOMENTS));
         items.add(FoundMenuItem.gap());
         items.add(FoundMenuItem.menu("视频号", R.mipmap.found_icon_channels));
         items.add(FoundMenuItem.menu("直播", R.mipmap.found_icon_live));
@@ -108,8 +112,6 @@ public class FoundFragment extends BaseFragment {
         items.add(FoundMenuItem.menu("搜一搜", R.mipmap.found_icon_search, FoundMenuItem.ACTION_ADD_FRIEND));
         items.add(FoundMenuItem.gap());
         items.add(FoundMenuItem.menu("附近的人", R.mipmap.found_icon_nearby));
-        items.add(FoundMenuItem.gap());
-        items.add(FoundMenuItem.menu("游戏", R.mipmap.found_icon_game));
         items.add(FoundMenuItem.gap());
         items.add(FoundMenuItem.menu("小程序", R.mipmap.found_icon_mini_program));
         return items;
