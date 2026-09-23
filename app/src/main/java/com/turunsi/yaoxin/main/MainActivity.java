@@ -358,13 +358,13 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         ALog.d(Constant.PROJECT_TAG, "MainActivity:initView");
         //    loadConfig();
         List<Fragment> fragments = new ArrayList<>();
-        
+
         //changeStatusBarColor(R.color.fun_page_bg_color);
-        mConversationFragment = FunConversationFragment.newInstance(0);
-        mConversationFragment1 = FunConversationFragment.newInstance(1);
+        mConversationFragment = FunConversationFragment.newInstance(3);
+        //mConversationFragment1 = FunConversationFragment.newInstance(1);
         mContactFragment = new ContactNewFragment();
         fragments.add(mConversationFragment);
-        fragments.add(mConversationFragment1);
+        // fragments.add(mConversationFragment1);
         fragments.add(new ShopNewFragment());
 //        fragments.add(new FoundFragment());
         fragments.add(mContactFragment);
@@ -387,7 +387,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         super.onResume();
         initContactFragment(mContactFragment);
         initConversationFragment(mConversationFragment);
-        initConversationFragment(mConversationFragment1);
+        // initConversationFragment(mConversationFragment1);
         getMessageCount();
     }
 
@@ -477,8 +477,8 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
                     }
 
                     if (conversationFragment == mConversationFragment) {
-                        if (singleChatUnreadCount > 0) {
-                            if (singleChatUnreadCount > 99) {
+                        if ((singleChatUnreadCount + groupChatUnreadCount) > 0) {
+                            if ((singleChatUnreadCount + groupChatUnreadCount) > 99) {
                                 activityMainBinding.conversationDot.setText("99+");
                             } else {
                                 activityMainBinding.conversationDot.setText((singleChatUnreadCount + groupChatUnreadCount) + "");
