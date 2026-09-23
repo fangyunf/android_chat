@@ -92,6 +92,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -109,6 +110,9 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
     String groupId;
     GroupInfoBean groupInfoBean = new GroupInfoBean();
     TeamSettingUserInfoAdapter adapter;// = new TeamSettingUserInfoAdapter(true, new ArrayList<>());
+    /** 群成员是否已分页拉完（邀请/移除需要完整列表） */
+    private boolean membersFullyLoaded = false;
+    private boolean firstPageUiShown = false;
 
     protected ActivityResultLauncher<Intent> launcher;
 
@@ -240,72 +244,97 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
     void _requestPeople(int page) {
         RegisterBean bean = new RegisterBean();
         bean.groupId = groupId;
-        bean.page = page +"";
-        bean.pageNo ="100";
+        bean.page = page + "";
+        bean.pageNo = "100";
 
-//        LoadingDialog.showDialog(getSupportFragmentManager(),"加载中");
         HttpUtil.apiW().group_groupUserListPost(bean)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-
                         Type type = new TypeToken<List<GroupInfoBean>>() {
                         }.getType();
-                        List<GroupInfoBean> tempList = new Gson().fromJson(body.data.toString(), type);
+                        List<GroupInfoBean> tempList = Collections.emptyList();
+                        try {
+                            if (body != null && body.data != null) {
+                                tempList = new Gson().fromJson(body.data.toString(), type);
+                            }
+                        } catch (Exception ignore) {
+                            tempList = Collections.emptyList();
+                        }
+                        if (tempList == null) {
+                            tempList = Collections.emptyList();
+                        }
+                        if (groupInfoBean.userInfos == null) {
+                            groupInfoBean.userInfos = new ArrayList<>();
+                        }
                         if (!tempList.isEmpty()) {
                             groupInfoBean.userInfos.addAll(tempList);
-                            if (tempList.size() == 100) {
-                                _requestPeople((page + 1));
-                            } else {
-                                LoadingDialog.dismissDialog();
-                                requestYunXin();
-                                updateUI();
-                            }
+                        }
+
+                        // 首屏只依赖第一页（设置页仅展示 3 个头像），立刻出 UI，避免大群卡在 loading
+                        if (page == 1 && !firstPageUiShown) {
+                            firstPageUiShown = true;
+                            LoadingDialog.dismissDialog();
+                            requestYunXin();
+                            updateUI();
+                        }
+
+                        if (tempList.size() == 100) {
+                            _requestPeople(page + 1);
+                            return;
+                        }
+
+                        membersFullyLoaded = true;
+                        // 后续页拉完后只刷新人数/群昵称，避免反复重建列表闪烁
+                        if (firstPageUiShown) {
+                            refreshMemberCountAndNick();
                         } else {
                             LoadingDialog.dismissDialog();
                             requestYunXin();
                             updateUI();
-
                         }
                     }
 
                     @Override
                     public void Failure(Call<NetData> call, Throwable t) {
                         LoadingDialog.dismissDialog();
+                        // 第一页失败时也尽量用已有群资料刷新
+                        if (page == 1 && groupInfoBean != null) {
+                            firstPageUiShown = true;
+                            updateUI();
+                        }
                     }
 
                     @Override
                     public void end() {
                         super.end();
-
                     }
                 });
     }
+
     @Override
     protected void _requestData() {
         SPUtils.getInstance().put("reloadTeamSettingData", false);
-        LoadingDialog.showDialog(getSupportFragmentManager(),"加载中");
+        membersFullyLoaded = false;
+        firstPageUiShown = false;
+        LoadingDialog.showDialog(getSupportFragmentManager(), "加载中");
         HttpUtil.apiW().group_groupHomeInfo(groupId)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-
-                        groupInfoBean = new Gson().fromJson(body.data.toString(),GroupInfoBean.class);
-                        groupInfoBean.userInfos.clear();
+                        groupInfoBean = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
+                        if (groupInfoBean.userInfos == null) {
+                            groupInfoBean.userInfos = new ArrayList<>();
+                        } else {
+                            groupInfoBean.userInfos.clear();
+                        }
                         _requestPeople(1);
-
                     }
 
                     @Override
                     public void Failure(Call<NetData> call, Throwable t) {
                         LoadingDialog.dismissDialog();
                     }
-
-//                    @Override
-//                    public void end() {
-//                        super.end();
-//
-//                    }
                 });
     }
 
@@ -319,6 +348,14 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
 
                         binding.funTeamSettingNewActivityZhiding.viewTitleArrowRightTvSwitch.setSelected(param.isStickTop());
                         binding.funTeamSettingNewActivityMiandarao.viewTitleArrowRightTvSwitch.setSelected(param.getTeam().getMessageNotifyType() == TeamMessageNotifyTypeEnum.Mute);
+                        // 群人数走云信，避免等全量成员分页
+                        if (param.getTeam() != null) {
+                            int yunxinCount = param.getTeam().getMemberCount();
+                            if (yunxinCount > 0) {
+                                groupInfoBean.groupMemberNum = yunxinCount;
+                                binding.tvName.setText(groupInfoBean.name + "(" + yunxinCount + "人)");
+                            }
+                        }
                     }
 
                     @Override
@@ -333,16 +370,18 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
     void updateUI() {
         GlideUtil.yh_loadImageRoundedCorner(this,binding.funTeamSettingNewActivityTeamIcon,groupInfoBean.head,30);
 
-        binding.tvName.setText(groupInfoBean.name + "(" +groupInfoBean.userInfos.size()+"人)");
+        int memberCount = groupInfoBean.groupMemberNum > 0
+                ? groupInfoBean.groupMemberNum
+                : (groupInfoBean.userInfos == null ? 0 : groupInfoBean.userInfos.size());
+        binding.tvName.setText(groupInfoBean.name + "(" + memberCount + "人)");
 
         ArrayList<GroupInfoBean> maxList = new ArrayList<>();
-        if (groupInfoBean.userInfos.size() > 3) {
+        if (groupInfoBean.userInfos != null && groupInfoBean.userInfos.size() > 3) {
             for (int i = 0; i < 3; i++) {
                 maxList.add(groupInfoBean.userInfos.get(i));
             }
-        } else {
+        } else if (groupInfoBean.userInfos != null) {
             maxList.addAll(groupInfoBean.userInfos);
-
         }
         binding.funTeamSettingNewActivityIdTv.setText("ID: " + groupInfoBean.groupId);
         adapter = new TeamSettingUserInfoAdapter((groupInfoBean.rankState == 1 || groupInfoBean.rankState == 2),maxList);
@@ -357,22 +396,11 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
 //                    return;
 //                }
                 if (i == maxList.size()) {
-                    DataUtil.setStringValue(new Gson().toJson(groupInfoBean),"groupInfo");
-
-                    XKitRouter.withKey(Constant.FunSelected_User_ActivityKey)
-                            .withParam("type","2")
-                            .withParam("groupId",groupId)
-                            .withContext(that)
-                            .navigate();
+                    // 邀请好友：需要完整成员 id 列表做过滤
+                    openSelectUserAfterMembersReady("2");
                 } else if (i == maxList.size() + 1) {
-
-                    DataUtil.setStringValue(new Gson().toJson(groupInfoBean),"groupInfo");
-
-                    XKitRouter.withKey(Constant.FunSelected_User_ActivityKey)
-                            .withParam("type","3")
-                            .withParam("groupId",groupId)
-                            .withContext(that)
-                            .navigate();
+                    // 移除成员：需要完整成员列表
+                    openSelectUserAfterMembersReady("3");
                 } else {
                     XKitRouter.withKey(Constant.FunTeamUserInfoDetailActivityKey)
                             .withParam("groupId",groupId)
@@ -403,8 +431,58 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
 
     }
 
+    private void refreshMemberCountAndNick() {
+        if (groupInfoBean == null || binding == null) {
+            return;
+        }
+        int memberCount = groupInfoBean.groupMemberNum > 0
+                ? groupInfoBean.groupMemberNum
+                : (groupInfoBean.userInfos == null ? 0 : groupInfoBean.userInfos.size());
+        binding.tvName.setText(groupInfoBean.name + "(" + memberCount + "人)");
+        binding.funTeamSettingNewActivityNicheng.viewTitleArrowRightTv.setText(groupInfoBean.getSelfRemarkName());
+    }
+
+    /** 邀请/移除依赖完整成员列表；未拉完时短等再打开 */
+    private void openSelectUserAfterMembersReady(String type) {
+        if (membersFullyLoaded) {
+            DataUtil.setStringValue(new Gson().toJson(groupInfoBean), "groupInfo");
+            XKitRouter.withKey(Constant.FunSelected_User_ActivityKey)
+                    .withParam("type", type)
+                    .withParam("groupId", groupId)
+                    .withContext(this)
+                    .navigate();
+            return;
+        }
+        LoadingDialog.showDialog(getSupportFragmentManager(), "加载中");
+        binding.getRoot().postDelayed(new Runnable() {
+            int retry = 0;
+
+            @Override
+            public void run() {
+                if (isFinishing()) {
+                    return;
+                }
+                if (membersFullyLoaded || retry >= 40) {
+                    LoadingDialog.dismissDialog();
+                    DataUtil.setStringValue(new Gson().toJson(groupInfoBean), "groupInfo");
+                    XKitRouter.withKey(Constant.FunSelected_User_ActivityKey)
+                            .withParam("type", type)
+                            .withParam("groupId", groupId)
+                            .withContext(FunTeamSettingNewActivity.this)
+                            .navigate();
+                    return;
+                }
+                retry++;
+                binding.getRoot().postDelayed(this, 250);
+            }
+        }, 250);
+    }
+
     ArrayList<String> getTeamUserIds() {
         ArrayList<String> list = new ArrayList();
+        if (groupInfoBean.userInfos == null) {
+            return list;
+        }
         for (GroupInfoBean temp :
                 groupInfoBean.userInfos) {
             list.add(temp.userId);

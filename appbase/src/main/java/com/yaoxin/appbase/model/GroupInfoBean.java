@@ -63,8 +63,11 @@ public class GroupInfoBean {
     }
 
     public String getSelfRemarkName() {
+        if (userInfos == null) {
+            return "";
+        }
         for (GroupInfoBean temp : userInfos) {
-            if (temp.userId.equals(DataUtil.getUserid())) {
+            if (temp != null && temp.userId != null && temp.userId.equals(DataUtil.getUserid())) {
                 return temp.userGroupName;
             }
         }

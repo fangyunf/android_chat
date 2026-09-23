@@ -190,6 +190,12 @@ public interface ServiceW {
             @Query("groupId") String groupId
     );
 
+    // 单群成员资料
+    @POST("/group/dange")
+    Call<NetData> group_dange(
+            @Body RegisterBean userBean
+    );
+
     //群管理
     @GET("/group/groupManage")
     Call<NetData> group_groupManage(
