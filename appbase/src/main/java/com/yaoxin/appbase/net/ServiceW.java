@@ -110,8 +110,8 @@ public interface ServiceW {
             @Body RegisterBean userBean
     );
 
-    @POST("/friends/searchByUserIdF")
-    Call<NetData> friends_searchByUserIdF(
+    @POST("/friends/searchByUserId")
+    Call<NetData> friends_searchByUserId(
             @Body RegisterBean userBean
     );
 

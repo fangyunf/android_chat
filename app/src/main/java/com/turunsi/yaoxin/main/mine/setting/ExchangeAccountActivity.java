@@ -68,7 +68,7 @@ public class ExchangeAccountActivity extends BaseActivity implements View.OnClic
         viewBinding.activityExchangeAccountRv.setLayoutManager(new LinearLayoutManager(this));
         viewBinding.activityExchangeAccountRv.setAdapter(adapter);
 
-        viewBinding.activityExchangeAccountTuichuTv.setOnClickListener(this);
+        viewBinding.activityExchangeAccountTuichuTv.setVisibility(View.GONE);
 
         _requastData();
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener<UserBean>() {
@@ -120,9 +120,6 @@ public class ExchangeAccountActivity extends BaseActivity implements View.OnClic
     public void onClick(View v) {
         if (v == viewBinding.activityExchangeAccountNav.addCloseImageButton()) {
             finish();
-        } else if (viewBinding.activityExchangeAccountTuichuTv == v) {
-            // showLogin();
-            ZhuXiaoConfrimActivity.start(ZhuXiaoConfrimActivity.class, this, null);
         }
     }
 

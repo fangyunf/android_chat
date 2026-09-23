@@ -1,6 +1,7 @@
 package com.netease.yunxin.kit.contactkit.ui.fun.addfriend.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -18,10 +19,11 @@ public class FunAddFriendListAdapter extends BaseQuickAdapter<UserBean, QuickVie
 
     @Override
     protected void onBindViewHolder(@NonNull QuickViewHolder quickViewHolder, int i, @Nullable UserBean userInfo) {
-
-        quickViewHolder.setText(R.id.item_fun_addfriend_list_cell_name_tv,userInfo.name)
-                .setText(R.id.item_fun_addfriend_list_cell_id_tv,userInfo.memberCode);
-        GlideUtil.yh_loadImage(getContext(),quickViewHolder.getView(R.id.item_fun_addfriend_list_cell_head_iv),userInfo.avatar);
+        String memberCode = userInfo != null && userInfo.memberCode != null ? userInfo.memberCode : "";
+        quickViewHolder.setText(R.id.item_fun_addfriend_list_cell_name_tv, userInfo.name)
+                .setText(R.id.item_fun_addfriend_list_cell_id_tv, memberCode)
+                .setGone(R.id.item_fun_addfriend_list_cell_id_tv, TextUtils.isEmpty(memberCode));
+        GlideUtil.yh_loadImage(getContext(), quickViewHolder.getView(R.id.item_fun_addfriend_list_cell_head_iv), userInfo.avatar);
     }
 
     @NonNull

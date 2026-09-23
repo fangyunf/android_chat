@@ -74,9 +74,8 @@ public class FunAddFriendVerifyActivity extends BaseActivity implements View.OnC
      */
     private void fetchUserByAccountAndBind(String accountId) {
         RegisterBean bean = new RegisterBean();
-        bean.phoneAndCode = accountId;
-        bean.type = 0;
-        HttpUtil.apiW().friends_search(bean)
+        bean.userId = accountId;
+        HttpUtil.apiW().friends_searchByUserId(bean)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
@@ -101,9 +100,19 @@ public class FunAddFriendVerifyActivity extends BaseActivity implements View.OnC
         if (userBean == null) return;
         GlideUtil.yh_loadImageRoundedCorner(this, binding.funAddFriendVerifyActivityHeadIv, userBean.avatar, DensityUtils.dp2px(30));
         binding.funAddFriendVerifyActivityNameTv.setText(userBean.name);
-        binding.funAddFriendVerifyActivityAccountTv.setText("ID:" + userBean.memberCode);
-        if (userBean.page_type == 100) {
+        if (!TextUtils.isEmpty(userBean.memberCode)) {
+            binding.funAddFriendVerifyActivityAccountTv.setVisibility(View.VISIBLE);
             binding.funAddFriendVerifyActivityAccountTv.setText("ID:" + userBean.memberCode);
+        } else {
+            binding.funAddFriendVerifyActivityAccountTv.setVisibility(View.GONE);
+        }
+        if (userBean.page_type == 100) {
+            if (!TextUtils.isEmpty(userBean.memberCode)) {
+                binding.funAddFriendVerifyActivityAccountTv.setVisibility(View.VISIBLE);
+                binding.funAddFriendVerifyActivityAccountTv.setText("ID:" + userBean.memberCode);
+            } else {
+                binding.funAddFriendVerifyActivityAccountTv.setVisibility(View.GONE);
+            }
             binding.funAddFriendVerifyActivityNav.getTitleView().setText("好友验证");
             binding.funAddFriendVerifyActivitySendRl.setVisibility(View.GONE);
             binding.funAddFriendVerifyActivityTwoOptLl.setVisibility(View.VISIBLE);
@@ -115,7 +124,12 @@ public class FunAddFriendVerifyActivity extends BaseActivity implements View.OnC
             binding.funAddFriendVerifyActivityRefuseRl.setOnClickListener(this);
         } else if (userBean.page_type == 101) {
             binding.funAddFriendVerifyActivityNameTv.setText(userBean.userName);
-            binding.funAddFriendVerifyActivityAccountTv.setText("ID:" + userBean.userMemberCode);
+            if (!TextUtils.isEmpty(userBean.userMemberCode)) {
+                binding.funAddFriendVerifyActivityAccountTv.setVisibility(View.VISIBLE);
+                binding.funAddFriendVerifyActivityAccountTv.setText("ID:" + userBean.userMemberCode);
+            } else {
+                binding.funAddFriendVerifyActivityAccountTv.setVisibility(View.GONE);
+            }
             GlideUtil.yh_loadImage(this, binding.funAddFriendVerifyActivityHeadIv, userBean.userAvatar);
             binding.funAddFriendVerifyActivityNav.getTitleView().setText("入群申请");
             binding.funAddFriendVerifyActivitySendRl.setVisibility(View.GONE);
@@ -134,6 +148,10 @@ public class FunAddFriendVerifyActivity extends BaseActivity implements View.OnC
         if (v == binding.funAddFriendVerifyActivityNav.addCloseImageButton()) {
             finish();
         } else if (v == binding.funAddFriendVerifyActivitySendRl) {
+            if (TextUtils.isEmpty(userBean.memberCode)) {
+                ToastUtils.toastMsg("暂无法添加该用户");
+                return;
+            }
             RegisterBean bean = new RegisterBean();
             bean.memberCode = userBean.memberCode;
             bean.msg = getTextStr(binding.funAddFriendVerifyActivityEt);

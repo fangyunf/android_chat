@@ -134,13 +134,13 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void setupTitleText() {
-        String text = "欢迎进入昌盛";
+        String text = "欢迎进入万讯达";
         SpannableString spannableString = new SpannableString(text);
-        int start = text.indexOf("昌盛");
+        int start = text.indexOf("万讯达");
         if (start >= 0) {
             spannableString.setSpan(
                     new ForegroundColorSpan(ContextCompat.getColor(this, com.yaoxin.appbase.R.color.app_theme_color)),
-                    start, start + 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    start, start + 3, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
         binding.activityRegisterTitleTv.setText(spannableString);
     }

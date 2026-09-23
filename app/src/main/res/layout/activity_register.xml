@@ -36,7 +36,7 @@
                 android:id="@+id/activity_register_title_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="欢迎进入昌盛"
+                android:text="欢迎进入万讯达"
                 android:textColor="#1A1A1A"
                 android:textSize="28sp"
                 android:textStyle="bold" />

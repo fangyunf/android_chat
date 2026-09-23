@@ -137,12 +137,17 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
         RegisterBean bean = new RegisterBean();
         bean.userId = accId;
         LoadingDialog.showDialog(getSupportFragmentManager(), "加载中...");
-        HttpUtil.apiW().friends_searchByUserIdF(bean)
+        HttpUtil.apiW().friends_searchByUserId(bean)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                         userBean = new Gson().fromJson(body.data.toString(), UserBean.class);
-                        binding.funChatSettingActivityId.setText("ID: " + userBean.memberCode);
+                        if (!TextUtils.isEmpty(userBean.memberCode)) {
+                            binding.funChatSettingActivityId.setVisibility(View.VISIBLE);
+                            binding.funChatSettingActivityId.setText("ID: " + userBean.memberCode);
+                        } else {
+                            binding.funChatSettingActivityId.setVisibility(View.GONE);
+                        }
                         binding.nameTv.setText(userBean.name);
                         if (userBean.remark != null && !userBean.remark.isEmpty()) {
                             binding.funChatSettingActivityMemo.rightTv.setText(userBean.remark);
@@ -360,7 +365,9 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
                                 ToastUtils.toastMsg("网络错误");
                             }
                             RegisterBean bean = new RegisterBean();
-                            bean.memberCode = userBean.memberCode;
+                            bean.userId = !TextUtils.isEmpty(userBean.userId)
+                                    ? userBean.userId
+                                    : (userBean.id > 0 ? String.valueOf(userBean.id) : accId);
                             HttpUtil.apiW().friends_delFriend(bean)
                                     .enqueue(new CommonCallback<NetData>() {
                                         @Override

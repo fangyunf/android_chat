@@ -41,20 +41,13 @@ import com.turunsi.yaoxin.main.mine.account.Mine_Pwd_Set_ManagerActivity;
 import com.turunsi.yaoxin.register.ForgetPwdActivity;
 import com.turunsi.yaoxin.welcome.WelcomeActivity;
 import com.yaoxin.appbase.activity.BaseActivity;
-import com.yaoxin.appbase.model.NetData;
-import com.yaoxin.appbase.net.CommonCallback;
-import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.DialogAlertUtil;
 import com.yaoxin.appbase.utils.StatusBarUtils;
-import com.yaoxin.appbase.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Response;
 
 public class SettingNewActivity extends BaseActivity implements View.OnClickListener {
 
@@ -82,7 +75,6 @@ public class SettingNewActivity extends BaseActivity implements View.OnClickList
 
         viewBinding.activityMineSetNewLoginOut.viewTitleArrowLl.setOnClickListener(this);
         viewBinding.activityMineSetNewExchangeAcount.viewTitleArrowLl.setOnClickListener(this);
-        viewBinding.activityMineSetNewZhuxiao.viewTitleArrowLl.setOnClickListener(this);
 
         viewBinding.activityMineSetNewYinsiSet.viewTitleArrowLl.setOnClickListener(this);
         viewBinding.activityMineSetNewMimaSet.viewTitleArrowLl.setOnClickListener(this);
@@ -98,16 +90,14 @@ public class SettingNewActivity extends BaseActivity implements View.OnClickList
 
         viewBinding.activityMineSetNewDownload.viewTitleArrowTv.setText("下载地址");
         viewBinding.activityMineSetNewLoginOut.viewTitleArrowTv.setText("退出登录");
-        viewBinding.activityMineSetNewZhuxiao.viewTitleArrowTv.setText("注销账号");
         viewBinding.activityMineSetNewExchangeAcount.viewTitleArrowTv.setText("切换账号");
+        viewBinding.activityMineSetNewZhuxiao.viewTitleArrowLl.setVisibility(View.GONE);
 
         viewBinding.activityMineSetNewMimaSet.viewTitleArrowTv.setText("密码设置");
         viewBinding.activityMineSetNewSmrz.viewTitleArrowTv.setText("实名认证");
 
 //      viewBinding.activityMineSetNewExchangeAcount.viewTitleArrowTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.app_theme_red_color));
         viewBinding.activityMineSetNewLoginOut.viewTitleArrowTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.app_theme_red_color));
-
-        viewBinding.activityMineSetNewZhuxiao.viewTitleArrowTv.setTextColor(getResources().getColor(com.yaoxin.appbase.R.color.app_theme_red_color));
 
     }
 
@@ -174,28 +164,6 @@ public class SettingNewActivity extends BaseActivity implements View.OnClickList
         } else if (v == viewBinding.activityMineSetNewAnquanSet.viewTitleArrowLl) {
 
             AnQuanSetNewActivity.start(AnQuanSetNewActivity.class, this, null);
-        } else if (v == viewBinding.activityMineSetNewZhuxiao.viewTitleArrowLl) {
-            DialogAlertUtil.showAlert("确定注销账号吗？", new DialogAlertUtil.DialogAlertUtilCallBack() {
-                @Override
-                public void clickType(int type) {
-                    if (type == 1) {
-                        HttpUtil.apiW().home_logout()
-                                .enqueue(new CommonCallback<NetData>() {
-                                    @Override
-                                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                                        ToastUtils.toastMsg("注销成功");
-                                        showLogin();
-                                    }
-
-                                    @Override
-                                    public void Failure(Call<NetData> call, Throwable t) {
-
-                                    }
-                                });
-
-                    }
-                }
-            }, getSupportFragmentManager());
         }
     }
 

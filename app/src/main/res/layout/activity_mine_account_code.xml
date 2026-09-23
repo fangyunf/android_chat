@@ -93,7 +93,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="打开昌盛扫一扫，添加好友"
+                android:text="打开万讯达扫一扫，添加好友"
                 android:textColor="#999999"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"

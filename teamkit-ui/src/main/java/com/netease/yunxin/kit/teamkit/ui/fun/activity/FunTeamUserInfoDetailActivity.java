@@ -97,7 +97,11 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
         binding.funTeamUserInfoDetailBottomTv.setOnClickListener(this);
         binding.funTeamUserInfoDetailNameTv.setText(groupInfoBean.name);
         GlideUtil.yh_loadImageRoundedCorner(this, binding.funTeamUserInfoDetailHeadIv, groupInfoBean.avatar, 30);
-        binding.funTeamUserInfoDetailAccountTv.setText(groupInfoBean.memberCode);
+        if (!TextUtils.isEmpty(groupInfoBean.memberCode)) {
+            binding.funTeamUserInfoDetailAccountTv.setText(groupInfoBean.memberCode);
+        } else {
+            binding.funTeamUserInfoDetailAccountTv.setText("");
+        }
         if (groupInfoBean.grade > 0) {
             binding.funTeamUserInfoDetailGradeIv.setVisibility(View.VISIBLE);
             binding.ivGradeBg.setVisibility(View.VISIBLE);
@@ -136,7 +140,9 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
         binding.funTeamUserInfoDetailBottomTv.setVisibility(View.GONE);
         binding.funTeamUserInfoDetailAccountTv.setVisibility(View.GONE);
         if (rankState == 1 || rankState == 2) {
-            binding.funTeamUserInfoDetailAccountTv.setVisibility(View.VISIBLE);
+            if (!TextUtils.isEmpty(groupInfoBean.memberCode)) {
+                binding.funTeamUserInfoDetailAccountTv.setVisibility(View.VISIBLE);
+            }
             binding.funTeamUserInfoDetailYaoqingren.viewTitleArrowLl.setVisibility(View.VISIBLE);
             binding.funTeamUserInfoDetailJinzhi.viewTitleArrowLl.setVisibility(View.VISIBLE);
             if (canMuteTargetMember()) {
@@ -302,8 +308,7 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
                 XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_P2P_PAGE).withParam(RouterConstant.CHAT_ID_KRY, groupInfoBean.userId).withContext(FunTeamUserInfoDetailActivity.this).navigate();
                 finish();
             } else {
-
-                XKitRouter.withKey(Constant.FunAddFriendVerifyActivityKey).withParam("user", new Gson().toJson(groupInfoBean)).withContext(FunTeamUserInfoDetailActivity.this).navigate();
+                openAddFriendVerify();
 //                UserBean bean = baseQuickAdapter.getItem(i);
 //                bean.page_type = 100;
 //                HashMap map = new HashMap();
@@ -409,6 +414,52 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
                         });
     }
 
+    private void openAddFriendVerify() {
+        if (groupInfoBean == null) {
+            return;
+        }
+        if (!TextUtils.isEmpty(groupInfoBean.memberCode)) {
+            XKitRouter.withKey(Constant.FunAddFriendVerifyActivityKey)
+                    .withParam("user", new Gson().toJson(groupInfoBean))
+                    .withContext(FunTeamUserInfoDetailActivity.this)
+                    .navigate();
+            return;
+        }
+        RegisterBean bean = new RegisterBean();
+        bean.userId = groupInfoBean.userId;
+        bean.groupId = groupId;
+        HttpUtil.apiW().friends_searchByUserId(bean).enqueue(new CommonCallback<NetData>() {
+            @Override
+            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                if (body == null || body.data == null) {
+                    ToastUtils.toastMsg("暂无法添加该用户");
+                    return;
+                }
+                UserBean userBean = new Gson().fromJson(body.data.toString(), UserBean.class);
+                if (userBean == null || TextUtils.isEmpty(userBean.memberCode)) {
+                    ToastUtils.toastMsg("暂无法添加该用户");
+                    return;
+                }
+                groupInfoBean.memberCode = userBean.memberCode;
+                if (!TextUtils.isEmpty(userBean.name)) {
+                    groupInfoBean.name = userBean.name;
+                }
+                if (!TextUtils.isEmpty(userBean.avatar)) {
+                    groupInfoBean.avatar = userBean.avatar;
+                }
+                XKitRouter.withKey(Constant.FunAddFriendVerifyActivityKey)
+                        .withParam("user", new Gson().toJson(groupInfoBean))
+                        .withContext(FunTeamUserInfoDetailActivity.this)
+                        .navigate();
+            }
+
+            @Override
+            public void Failure(Call<NetData> call, Throwable t) {
+                ToastUtils.toastMsg("获取用户信息失败");
+            }
+        });
+    }
+
     void tichuuser(boolean needToast) {
         RegisterBean registerBean = new RegisterBean();
         registerBean.groupId = groupId;
@@ -437,6 +488,10 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
     protected void callBackResult(Intent data) {
         super.callBackResult(data);
         String result = data.getStringExtra("result");
+        if (TextUtils.isEmpty(groupInfoBean.memberCode)) {
+            ToastUtils.toastMsg("暂无法修改备注");
+            return;
+        }
         RegisterBean bean = new RegisterBean();
         bean.memberCode = groupInfoBean.memberCode;
         bean.alias = result;

@@ -21,8 +21,6 @@ import com.turunsi.yaoxin.databinding.ActivityMinePwdSetMagerBinding;
 import com.turunsi.yaoxin.login.LoginActivity;
 import com.turunsi.yaoxin.login.WelcomeLoginActivity;
 import com.turunsi.yaoxin.main.mine.purse.pwdmanager.PursePwdManagerSetActivity;
-import com.turunsi.yaoxin.main.mine.setting.SettingNewActivity;
-import com.turunsi.yaoxin.main.mine.setting.ZhuXiaoConfrimActivity;
 import com.turunsi.yaoxin.register.ForgetPwdActivity;
 import com.yaoxin.appbase.activity.BaseActivity;
 import com.yaoxin.appbase.model.GroupInfoBean;
@@ -55,9 +53,9 @@ public class Mine_Pwd_Set_ManagerActivity extends BaseActivity implements View.O
         setContentView(binding.getRoot());
 
         binding.activityMinePwdSetMagerNav.addCloseImageButton().setOnClickListener(this);
-        binding.activityMinePwdSetMagerSetLoginZxLl.setOnClickListener(this);
         binding.activityMinePwdSetMagerSetLoginPwdLl.setOnClickListener(this);
         binding.activityMinePwdSetMagerSetPayPwdLl.setOnClickListener(this);
+        binding.activityMinePwdSetMagerSetLoginZxLl.setVisibility(View.GONE);
 
         StatusBarUtils.transtStatusBar(this, binding.activityMinePwdSetMagerNav);
     }
@@ -67,8 +65,6 @@ public class Mine_Pwd_Set_ManagerActivity extends BaseActivity implements View.O
     public void onClick(View view) {
         if (view == binding.activityMinePwdSetMagerNav.addCloseImageButton()) {
             finish();
-        } else if (view == binding.activityMinePwdSetMagerSetLoginZxLl) {
-            ZhuXiaoConfrimActivity.start(ZhuXiaoConfrimActivity.class, this, null);
         } else if (view == binding.activityMinePwdSetMagerSetLoginPwdLl) {
             ForgetPwdActivity.start(ForgetPwdActivity.class, this, null);
         } else if (view == binding.activityMinePwdSetMagerSetPayPwdLl) {

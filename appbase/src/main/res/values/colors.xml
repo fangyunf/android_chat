@@ -46,7 +46,7 @@
     <color name="color_ffe935">#ffe935</color>
     <color name="color_ff666666">#ff666666</color>
     <!--    <color name="app_theme_color">#007AFF</color>-->
-    <!-- 昌盛主色：链接/部分强调仍可用金；主 CTA 用粉渐变 -->
+    <!-- 万讯达主色：链接/部分强调仍可用金；主 CTA 用粉渐变 -->
     <color name="app_theme_color">#D4AF37</color>
     <color name="changsheng_page_top">#FFF0F5</color>
     <color name="changsheng_page_mid">#EDF5FF</color>
