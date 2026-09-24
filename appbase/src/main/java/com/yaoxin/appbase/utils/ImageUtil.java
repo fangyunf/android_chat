@@ -52,6 +52,40 @@ public class ImageUtil {
         saveBitmapToGallery(context, bitmap);
     }
 
+    /** 将任意 View（如二维码名片卡片）截图并保存到相册 */
+    public static void saveViewToGallery(Context context, android.view.View view) {
+        if (view == null) {
+            ToastUtils.toastMsg("保存失败");
+            return;
+        }
+        String[] permission = new String[] {
+            Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE
+        };
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            permission =
+                    new String[] {
+                        Manifest.permission.READ_MEDIA_IMAGES, Manifest.permission.READ_MEDIA_VIDEO
+                    };
+        }
+        if (!EasyPermissions.hasPermissions(context, permission)) {
+            EasyPermissions.requestPermissions(
+                    (Activity) context,
+                    "需要访问相册权限",
+                    Constant.RC_PHOTO_PICKER_PERM,
+                    permission);
+            return;
+        }
+        if (view.getWidth() <= 0 || view.getHeight() <= 0) {
+            ToastUtils.toastMsg("保存失败");
+            return;
+        }
+        Bitmap bitmap =
+                Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
+        android.graphics.Canvas canvas = new android.graphics.Canvas(bitmap);
+        view.draw(canvas);
+        saveBitmapToGallery(context, bitmap);
+    }
+
     public static void saveBitmapToGallery(Context context, Bitmap bitmap) {
         // 获取外部存储路径
         String savedImageURL = null;
