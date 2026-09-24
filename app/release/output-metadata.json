@@ -4,16 +4,16 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.turunsi.changsheng",
+  "applicationId": "com.turunsi.wanxunda",
   "variantName": "release",
   "elements": [
     {
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 7,
-      "versionName": "1.0.6",
-      "outputFile": "changsheng_release_v1.0.6.apk"
+      "versionCode": 1,
+      "versionName": "1.0.0",
+      "outputFile": "wanxunda_release_v1.0.0.apk"
     }
   ],
   "elementType": "File"

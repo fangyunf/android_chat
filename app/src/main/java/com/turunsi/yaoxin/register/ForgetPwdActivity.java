@@ -1,5 +1,6 @@
 package com.turunsi.yaoxin.register;
 
+import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.InputType;
@@ -18,8 +19,11 @@ import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
+import com.yaoxin.appbase.utils.CommonNetUtil;
 import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
+import com.yaoxin.appbase.view.loginlib.utils.LoginLoader;
+import com.yaoxin.appbase.view.loginlib.view.CountDownView;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -73,9 +77,9 @@ public class ForgetPwdActivity extends BaseActivity implements View.OnClickListe
 
     void _initTfText() {
         styleInputField(binding.forgetPwdActivityPhoneTf.getRoot(),
-                binding.forgetPwdActivityPhoneTf.viewTitleTfCountEt, "请输入账号");
+                binding.forgetPwdActivityPhoneTf.viewTitleTfCountEt, "请输入手机号");
         styleInputField(binding.forgetPwdActivityCodeTf.getRoot(),
-                binding.forgetPwdActivityCodeTf.viewTitleTfCountEt, "请输入密保");
+                binding.forgetPwdActivityCodeTf.viewTitleTfCountEt, "请输入验证码");
         styleInputField(binding.forgetPwdActivityPwdTf.getRoot(),
                 binding.forgetPwdActivityPwdTf.viewTitleTfCountEt, "请输入新密码");
 
@@ -83,16 +87,30 @@ public class ForgetPwdActivity extends BaseActivity implements View.OnClickListe
         binding.forgetPwdActivityCodeTf.viewTitleTfCountIv.setVisibility(View.GONE);
         binding.forgetPwdActivityPwdTf.viewTitleTfCountIv.setVisibility(View.GONE);
 
-        binding.forgetPwdActivityPhoneTf.viewTitleTfCountEt.setInputType(InputType.TYPE_CLASS_TEXT);
-        binding.forgetPwdActivityCodeTf.viewTitleTfCountEt.setInputType(InputType.TYPE_CLASS_TEXT);
-        binding.forgetPwdActivityCodeTf.viewTitleTfCountEt.setTransformationMethod(null);
+        binding.forgetPwdActivityPhoneTf.viewTitleTfCountEt.setInputType(InputType.TYPE_CLASS_NUMBER);
+        binding.forgetPwdActivityCodeTf.viewTitleTfCountEt.setInputType(InputType.TYPE_CLASS_NUMBER);
         binding.forgetPwdActivityPwdTf.viewTitleTfCountEt.setTransformationMethod(PasswordTransformationMethod.getInstance());
 
         binding.forgetPwdActivityPwdTf.viewTitleTfCountEyeRl.setVisibility(View.VISIBLE);
         binding.forgetPwdActivityPwdTf.viewTitleTfCountEyeRl.setOnClickListener(this);
         binding.forgetPwdActivityPwdTf.viewTitleTfCountEyeIv.setSelected(true);
 
-        binding.forgetPwdActivityCodeTf.viewTitleTfCountCaptcha.setVisibility(View.GONE);
+        binding.forgetPwdActivityCodeTf.viewTitleTfCountCaptcha.setVisibility(View.VISIBLE);
+        binding.forgetPwdActivityCodeTf.viewTitleTfCountCaptcha.setTextSize(14);
+        CountDownView mCountDownView = binding.forgetPwdActivityCodeTf.viewTitleTfCountCaptcha;
+        mCountDownView.setUserEdit(binding.forgetPwdActivityPhoneTf.viewTitleTfCountEt);
+        mCountDownView.setCountDownTime(60);
+        mCountDownView.setCaptchaListener(new LoginLoader.CaptchaListener() {
+            @Override
+            public void onPre() {
+                String phone = getTextStr(binding.forgetPwdActivityPhoneTf.viewTitleTfCountEt);
+                CommonNetUtil.getPhoneCode(phone);
+            }
+
+            @Override
+            public void onComplete(String phoneOrEmail) {
+            }
+        });
     }
 
     @Override
@@ -108,13 +126,13 @@ public class ForgetPwdActivity extends BaseActivity implements View.OnClickListe
             }
         } else if (v == binding.forgetPwdActivityBtn) {
             String phone = getTextStr(binding.forgetPwdActivityPhoneTf.viewTitleTfCountEt);
-            if (phone.isEmpty()) {
-                ToastUtils.toastMsg("请输入账号");
+            if (phone.length() != 11) {
+                ToastUtils.toastMsg("手机格式错误");
                 return;
             }
-            String ans = getTextStr(binding.forgetPwdActivityCodeTf.viewTitleTfCountEt);
-            if (ans.isEmpty()) {
-                ToastUtils.toastMsg("请输入密保");
+            String code = getTextStr(binding.forgetPwdActivityCodeTf.viewTitleTfCountEt);
+            if (code.length() > 6 || code.isEmpty()) {
+                ToastUtils.toastMsg("验证码错误");
                 return;
             }
             String pwd1 = getTextStr(binding.forgetPwdActivityPwdTf.viewTitleTfCountEt);
@@ -126,9 +144,9 @@ public class ForgetPwdActivity extends BaseActivity implements View.OnClickListe
             RegisterBean bean = new RegisterBean();
             bean.password = pwd1;
             bean.phoneNo = phone;
-            bean.ans = ans;
+            bean.captcha = code;
 
-            HttpUtil.apiW().customer_updatePasswordZh(bean)
+            HttpUtil.apiW().customer_updatePassword(bean)
                     .enqueue(new CommonCallback<NetData>() {
                         @Override
                         public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
