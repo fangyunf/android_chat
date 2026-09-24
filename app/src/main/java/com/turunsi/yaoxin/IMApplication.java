@@ -83,6 +83,7 @@ import com.vivo.push.util.VivoPushException;
 import com.yaoxin.appbase.activity.BaseWebViewActivity;
 import com.yaoxin.appbase.model.CustomMsgBean;
 import com.yaoxin.appbase.utils.AppProxy;
+import com.yaoxin.appbase.utils.FontScaleUtils;
 import com.yaoxin.appbase.utils.BaseEvent;
 import com.yaoxin.appbase.utils.DataUtil;
 
@@ -108,6 +109,11 @@ public class IMApplication extends MultiDexApplication {
 
     public static int getForegroundActCount() {
         return foregroundActCount;
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(FontScaleUtils.attach(base));
     }
 
     @Override
@@ -221,20 +227,20 @@ public class IMApplication extends MultiDexApplication {
                 @Override
                 public boolean shouldIgnore(IMMessage message) {
                     if (message.getAttachStr() != null) {
-                        try {
-                            CustomMsgBean msgBean = new Gson().fromJson(message.getAttachStr(), CustomMsgBean.class);
-                            msgBean.result = new Gson().fromJson(msgBean.data, CustomMsgBean.class);
-                            if (msgBean.type == 21) {
-                                if (DataUtil.getUserid().equals(msgBean.result.toUserId) || DataUtil.getUserid().equals(msgBean.result.fromUserId) || msgBean.result.adminIds.contains(DataUtil.getUserid())) {
-                                    return false;
-                                }
-                                return true;
-
-                            }
-
-                        } catch (Exception e) {
-
-                        }
+//                        try {
+//                            CustomMsgBean msgBean = new Gson().fromJson(message.getAttachStr(), CustomMsgBean.class);
+//                            msgBean.result = new Gson().fromJson(msgBean.data, CustomMsgBean.class);
+//                            if (msgBean.type == 21) {
+//                                if (DataUtil.getUserid().equals(msgBean.result.toUserId) || DataUtil.getUserid().equals(msgBean.result.fromUserId) || msgBean.result.adminIds.contains(DataUtil.getUserid())) {
+//                                    return false;
+//                                }
+//                                return true;
+//
+//                            }
+//
+//                        } catch (Exception e) {
+//
+//                        }
                     }
 
 //                    // 领取红包等 tip：直接过滤掉，不进入聊天列表，避免隐藏后仍占高度

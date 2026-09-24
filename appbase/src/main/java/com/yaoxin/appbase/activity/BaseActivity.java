@@ -3,6 +3,7 @@ package com.yaoxin.appbase.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.yaoxin.appbase.navbar.NavToolbar;
 import com.yaoxin.appbase.utils.BarUtils;
+import com.yaoxin.appbase.utils.FontScaleUtils;
 import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.view.LoadingDialog;
 
@@ -51,6 +53,17 @@ public class BaseActivity extends AppCompatActivity {
                 }
             }
     );
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(FontScaleUtils.attach(newBase));
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(FontScaleUtils.fixedConfiguration(newConfig));
+    }
+
     public void hideKeyboard(View view) {
         InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
