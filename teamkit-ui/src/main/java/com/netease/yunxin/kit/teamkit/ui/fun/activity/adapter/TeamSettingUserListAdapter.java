@@ -15,8 +15,6 @@ import com.netease.yunxin.kit.teamkit.ui.R;
 import com.yaoxin.appbase.model.GroupInfoBean;
 import com.yaoxin.appbase.utils.GlideUtil;
 
-import java.util.List;
-
 public class TeamSettingUserListAdapter extends BaseQuickAdapter<GroupInfoBean, QuickViewHolder> {
 
     public int opt_type = 0;
@@ -26,7 +24,9 @@ public class TeamSettingUserListAdapter extends BaseQuickAdapter<GroupInfoBean, 
 
         ImageView iv = quickViewHolder.getView(R.id.cell_fun_team_setting_users_head_iv);
         TextView tv = quickViewHolder.getView(R.id.cell_fun_team_setting_users_name_tv_role);
-        quickViewHolder.setText(R.id.cell_fun_team_setting_users_name_tv, infoBean.name);
+        quickViewHolder.setText(
+                R.id.cell_fun_team_setting_users_name_tv,
+                TeamSettingUserInfoAdapter.displayMemberName(infoBean));
         GlideUtil.yh_loadImageRoundedCorner(getContext(), iv, infoBean.avatar, 26);
         tv.setVisibility(View.VISIBLE);
         if (infoBean.rankState == 1) {
@@ -36,23 +36,6 @@ public class TeamSettingUserListAdapter extends BaseQuickAdapter<GroupInfoBean, 
         } else {
             tv.setVisibility(View.GONE);
         }
-//            if (opt_type > 0) {
-//                if (opt_type == 1) {
-//                    if (infoBean.rankState == 1) {
-//                        tv.setText("群主");
-//                    } else {
-//                        tv.setVisibility(View.GONE);
-//                    }
-//                } else if (opt_type == 2) {
-//                    if (infoBean.rankState == 2) {
-//                        tv.setText("管理");
-//                    } else {
-//                        tv.setVisibility(View.GONE);
-//                    }
-//                }
-//            } else {
-//
-//            }
     }
 
     @NonNull
@@ -61,4 +44,3 @@ public class TeamSettingUserListAdapter extends BaseQuickAdapter<GroupInfoBean, 
         return new QuickViewHolder(R.layout.cell_fun_team_setting_users, viewGroup);
     }
 }
-

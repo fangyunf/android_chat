@@ -349,7 +349,8 @@ public class FunTeamSettingNewActivity extends BaseActivity implements View.OnCl
         //binding.funTeamSettingNewActivityIdTv.setText("ID: " + groupInfoBean.groupId);
 
         if (maxList.size() > 0) {
-            binding.funTeamSettingNewActivityIdTv.setText("创始人:" + maxList.get(0).name);
+            binding.funTeamSettingNewActivityIdTv.setText(
+                    "创始人:" + TeamSettingUserInfoAdapter.displayMemberName(maxList.get(0)));
         }
         
         adapter = new TeamSettingUserInfoAdapter((groupInfoBean.rankState == 1 || groupInfoBean.rankState == 2), maxList);

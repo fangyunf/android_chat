@@ -5,7 +5,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,11 +13,9 @@ import androidx.annotation.Nullable;
 import com.chad.library.adapter4.BaseQuickAdapter;
 import com.chad.library.adapter4.viewholder.QuickViewHolder;
 import com.netease.yunxin.kit.teamkit.ui.R;
-import com.yaoxin.appbase.model.CustomMsgBean;
 import com.yaoxin.appbase.model.GroupInfoBean;
+import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.GlideUtil;
-import com.yaoxin.appbase.utils.NumberUtil;
-import com.yaoxin.appbase.utils.TimeUtil;
 
 import java.util.List;
 
@@ -49,14 +46,8 @@ public class TeamSettingUserInfoAdapter extends BaseQuickAdapter<GroupInfoBean, 
             }
         } else {
             GroupInfoBean infoBean = userInfoList.get(i);
-
-            // 设置名称
-            if (!TextUtils.isEmpty(infoBean.remark)) {
-                quickViewHolder.setText(R.id.cell_fun_team_setting_users_name_tv, infoBean.remark);
-            } else {
-                quickViewHolder.setText(R.id.cell_fun_team_setting_users_name_tv, infoBean.name);
-            }
-
+            quickViewHolder.setText(
+                    R.id.cell_fun_team_setting_users_name_tv, displayMemberName(infoBean));
 
             GlideUtil.yh_loadImageRoundedCorner(getContext(), iv, infoBean.avatar, 26);
             tv.setVisibility(View.VISIBLE);
@@ -69,6 +60,42 @@ public class TeamSettingUserInfoAdapter extends BaseQuickAdapter<GroupInfoBean, 
             }
 
         }
+    }
+
+    /** 优先好友备注，其次成员自身 remark，再回退昵称 */
+    public static String displayMemberName(GroupInfoBean infoBean) {
+        if (infoBean == null) {
+            return "";
+        }
+        String friendRemark = findFriendRemark(infoBean.userId);
+        if (!TextUtils.isEmpty(friendRemark)) {
+            return friendRemark;
+        }
+        if (!TextUtils.isEmpty(infoBean.remark)) {
+            return infoBean.remark;
+        }
+        return TextUtils.isEmpty(infoBean.name) ? "" : infoBean.name;
+    }
+
+    private static String findFriendRemark(String userId) {
+        if (TextUtils.isEmpty(userId)) {
+            return "";
+        }
+        try {
+            List<GroupInfoBean> friendList = DataUtil.getFriendInfoList();
+            if (friendList == null) {
+                return "";
+            }
+            for (GroupInfoBean friend : friendList) {
+                if (friend != null
+                        && userId.equals(friend.userId)
+                        && !TextUtils.isEmpty(friend.remark)) {
+                    return friend.remark;
+                }
+            }
+        } catch (Exception ignored) {
+        }
+        return "";
     }
 
     @NonNull
@@ -84,4 +111,3 @@ public class TeamSettingUserInfoAdapter extends BaseQuickAdapter<GroupInfoBean, 
         return userInfoList.size() + 1;
     }
 }
-

@@ -1,7 +1,6 @@
 package com.netease.yunxin.kit.teamkit.ui.fun.activity.adapter;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -14,7 +13,6 @@ import com.chad.library.adapter4.BaseQuickAdapter;
 import com.chad.library.adapter4.viewholder.QuickViewHolder;
 import com.netease.yunxin.kit.teamkit.ui.R;
 import com.yaoxin.appbase.model.GroupInfoBean;
-import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.GlideUtil;
 
 public class TeamSettingUserVerticalAdapter extends BaseQuickAdapter<GroupInfoBean, QuickViewHolder> {
@@ -27,25 +25,8 @@ public class TeamSettingUserVerticalAdapter extends BaseQuickAdapter<GroupInfoBe
         TextView nameTv = quickViewHolder.getView(R.id.cell_fun_team_setting_users_vertical_name_tv);
         TextView roleTv = quickViewHolder.getView(R.id.cell_fun_team_setting_users_vertical_role_tv);
         
-        String remark = "";
-        try {
-            for (GroupInfoBean groupInfoBean : DataUtil.getFriendInfoList()) {
-                if (groupInfoBean.userId.equals(infoBean.userId)) {
-                    if (!TextUtils.isEmpty(groupInfoBean.remark)) {
-                        remark = groupInfoBean.remark;
-                    }
-                    break;
-                }
-            }
-        } catch (Exception e) {
-        }
-
-        // 设置名称
-        if (!TextUtils.isEmpty(remark)) {
-            nameTv.setText(remark);
-        } else {
-            nameTv.setText(infoBean.name);
-        }
+        // 设置名称：优先好友备注
+        nameTv.setText(TeamSettingUserInfoAdapter.displayMemberName(infoBean));
 
         // 加载方形头像（不使用圆角）
         GlideUtil.yh_loadImage(getContext(), headIv, infoBean.avatar);
