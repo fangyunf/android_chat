@@ -22,6 +22,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.msg.MsgService;
@@ -37,6 +40,7 @@ import com.netease.yunxin.kit.chatkit.ui.databinding.FunChatFragmentBinding;
 import com.netease.yunxin.kit.chatkit.ui.dialog.ChatBaseForwardSelectDialog;
 import com.netease.yunxin.kit.chatkit.ui.fun.FunChatForwardSelectDialog;
 import com.netease.yunxin.kit.chatkit.ui.fun.FunChatMessageForwardConfirmDialog;
+import com.netease.yunxin.kit.chatkit.ui.fun.page.fragment.FunOpenRedPacketFragment;
 import com.netease.yunxin.kit.chatkit.ui.fun.page.FunRedPacketResultActivity;
 import com.netease.yunxin.kit.chatkit.ui.model.ChatMessageBean;
 import com.netease.yunxin.kit.chatkit.ui.page.fragment.ChatBaseFragment;
@@ -62,6 +66,7 @@ import com.yaoxin.appbase.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -175,123 +180,194 @@ public abstract class FunChatFragment extends ChatBaseFragment {
 
     @Override
     protected void clickMessage(IMMessageInfo messageInfo, boolean isReply) {
-        if (messageInfo.getMessage().getMsgType() == MsgTypeEnum.custom) {
-            if (messageInfo.getMessage().getAttachment() instanceof MultiForwardAttachment) {
-                XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_FORWARD_PAGE)
-                        .withContext(getContext())
-                        .withParam(RouterConstant.KEY_MESSAGE, messageInfo)
-                        .navigate();
-                return;
-            }
+        if (messageInfo == null
+                || messageInfo.getMessage() == null
+                || messageInfo.getMessage().getMsgType() != MsgTypeEnum.custom) {
+            super.clickMessage(messageInfo, isReply);
+            return;
+        }
+        if (messageInfo.getMessage().getAttachment() instanceof MultiForwardAttachment) {
+            XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_FORWARD_PAGE)
+                    .withContext(getContext())
+                    .withParam(RouterConstant.KEY_MESSAGE, messageInfo)
+                    .navigate();
+            return;
+        }
 
-            //判断是否自己点击自己
-//            if (messageInfo.getFromUser() != null) {
-//                if (messageInfo.getFromUser().getAccount().equals(DataUtil.getUserid())) {
-//                    NIMClient.getService(MsgService.class).clearUnreadCount(DataUtil.getUserid(), SessionTypeEnum.P2P);
-//                    XKitRouter.withKey(Constant.XiaoZhuShouActivityKey).withContext(requireContext()).navigate();
-//                    return;
-//                }
-//            }
+        String attachStr = messageInfo.getMessage().getAttachStr();
+        if (TextUtils.isEmpty(attachStr)) {
+            super.clickMessage(messageInfo, isReply);
+            return;
+        }
 
-            if (!messageInfo.getMessage().getAttachStr().isEmpty()) {
-                CustomMsgBean msgBean = new Gson().fromJson(messageInfo.getMessage().getAttachStr(), CustomMsgBean.class);
-                msgBean.result = new Gson().fromJson(msgBean.data, CustomMsgBean.class);
-                if (msgBean.type == 10086) {
-                    for (GroupInfoBean bean : DataUtil.getFriendInfoList()) {
-                        if (bean.memberCode.equals(msgBean.result.memberCode)) {
-                            RegisterBean bean1 = new RegisterBean();
-                            bean1.phoneAndCode = msgBean.result.memberCode;
-                            bean1.type = 0;
-                            HttpUtil.apiW().friends_search(bean1)
-                                    .enqueue(new CommonCallback<NetData>() {
-                                        @Override
-                                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                                            UserBean userInfo = new Gson().fromJson(body.data.toString(), UserBean.class);
-                                            XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_SETTING_PAGE)
-                                                    .withParam(RouterConstant.CHAT_ID_KRY, userInfo.userId)
-                                                    .withContext(requireActivity())
-                                                    .navigate();
-                                        }
+        CustomMsgBean msgBean;
+        try {
+            msgBean = parseCustomMsg(attachStr);
+        } catch (Exception e) {
+            super.clickMessage(messageInfo, isReply);
+            return;
+        }
+        if (msgBean == null) {
+            super.clickMessage(messageInfo, isReply);
+            return;
+        }
 
-                                        @Override
-                                        public void Failure(Call<NetData> call, Throwable t) {
+        // 名片
+        if (msgBean.type == 10086) {
+            handleMingPianClick(msgBean);
+            return;
+        }
 
-                                        }
-                                    });
-                            return;
-                        }
-                    }
-                    RegisterBean bean = new RegisterBean();
-                    bean.phoneAndCode = msgBean.result.memberCode;
-                    bean.type = 0;
-                    HttpUtil.apiW().friends_search(bean)
-                            .enqueue(new CommonCallback<NetData>() {
-                                @Override
-                                public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                                    UserBean userInfo = new Gson().fromJson(body.data.toString(), UserBean.class);
-                                    HashMap map = new HashMap();
-                                    map.put("user", new Gson().toJson(userInfo));
-                                    FunAddFriendVerifyActivity.start(FunAddFriendVerifyActivity.class, getActivity(), map);
-                                }
+        if (msgBean.result == null || TextUtils.isEmpty(msgBean.result.id)) {
+            super.clickMessage(messageInfo, isReply);
+            return;
+        }
 
-                                @Override
-                                public void Failure(Call<NetData> call, Throwable t) {
-
-                                }
-                            });
-                    return;
-                }
-                RegisterBean bean = new RegisterBean();
-                bean.redpacketId = msgBean.result.id;
-                HttpUtil.apiW().red_checkRedpacet(bean)
-                        .enqueue(new CommonCallback<NetData>() {
+        RegisterBean bean = new RegisterBean();
+        bean.redpacketId = msgBean.result.id;
+        HttpUtil.apiW()
+                .red_checkRedpacet(bean)
+                .enqueue(
+                        new CommonCallback<NetData>() {
                             @Override
-                            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                                CustomMsgBean redBean = new Gson().fromJson(body.data.toString(), CustomMsgBean.class);
+                            public void Successful(
+                                    Call<NetData> call, Response<NetData> response, NetData body) {
+                                if (body == null || body.data == null) {
+                                    return;
+                                }
+                                CustomMsgBean redBean =
+                                        new Gson().fromJson(body.data.toString(), CustomMsgBean.class);
+                                if (redBean == null) {
+                                    return;
+                                }
                                 if (redBean.type == 1 || redBean.type == 2 || redBean.type == 3) {
-                                    //可领取
                                     if (redBean.type == 1) {
                                         redBean.redPacketId = bean.redpacketId;
                                     }
-
-
                                     if (getActivity() != null) {
                                         try {
-                                            FunOpenRedPacketFragment.showV(getActivity().getSupportFragmentManager(), bean.redpacketId, redBean.type, sessionID, msgBean, messageInfo.getMessage(), new FunOpenRedPacketFragment.OpenRedPacketBlock() {
-                                                @Override
-                                                public void hasOpen(IMMessage message) {
-                                                    _updateMessageCell(message);
-                                                }
-                                            });
-                                        } catch (Exception e) {
-
+                                            FunOpenRedPacketFragment.showV(
+                                                    getActivity().getSupportFragmentManager(),
+                                                    bean.redpacketId,
+                                                    redBean.type,
+                                                    sessionID,
+                                                    msgBean,
+                                                    messageInfo.getMessage(),
+                                                    new FunOpenRedPacketFragment.OpenRedPacketBlock() {
+                                                        @Override
+                                                        public void hasOpen(IMMessage message) {
+                                                            _updateMessageCell(message);
+                                                        }
+                                                    });
+                                        } catch (Exception ignored) {
                                         }
                                     } else {
                                         ToastUtils.toastMsg("网络错误");
                                     }
                                 }
                                 if (redBean.type == 4 || redBean.type == 5) {
-                                    /// 当前用户领取已领取过当前红包，展示领取详细信息
-                                    ///当红包是个人/专属，当前非目标领取用户，直接显示查看领取详情
                                     HashMap map = new HashMap();
                                     map.put("redpacketId", bean.redpacketId);
                                     Activity context = getActivity();
                                     if (context != null) {
-                                        FunRedPacketResultActivity.start(FunRedPacketResultActivity.class, context, map);
+                                        FunRedPacketResultActivity.start(
+                                                FunRedPacketResultActivity.class, context, map);
                                     }
                                 }
-
                             }
 
                             @Override
-                            public void Failure(Call<NetData> call, Throwable t) {
-
-                            }
+                            public void Failure(Call<NetData> call, Throwable t) {}
                         });
+    }
 
-                return;
+    /** 兼容 data 为 JSON 字符串或 JSON 对象两种名片/红包结构 */
+    private CustomMsgBean parseCustomMsg(String attachStr) {
+        JsonObject root = JsonParser.parseString(attachStr).getAsJsonObject();
+        CustomMsgBean msgBean = new CustomMsgBean();
+        if (root.has("type") && !root.get("type").isJsonNull()) {
+            msgBean.type = root.get("type").getAsInt();
+        }
+        if (!root.has("data") || root.get("data").isJsonNull()) {
+            return msgBean;
+        }
+        JsonElement dataEl = root.get("data");
+        String dataJson;
+        if (dataEl.isJsonPrimitive()) {
+            dataJson = dataEl.getAsString();
+            msgBean.data = dataJson;
+        } else {
+            dataJson = dataEl.toString();
+            msgBean.data = dataJson;
+        }
+        if (!TextUtils.isEmpty(dataJson)) {
+            msgBean.result = new Gson().fromJson(dataJson, CustomMsgBean.class);
+        }
+        return msgBean;
+    }
+
+    private void handleMingPianClick(CustomMsgBean msgBean) {
+        if (msgBean.result == null || TextUtils.isEmpty(msgBean.result.memberCode)) {
+            ToastUtils.toastMsg("名片信息异常");
+            return;
+        }
+        final String memberCode = msgBean.result.memberCode;
+        boolean isFriend = false;
+        List<GroupInfoBean> friendList = DataUtil.getFriendInfoList();
+        if (friendList != null) {
+            for (GroupInfoBean bean : friendList) {
+                if (bean != null
+                        && !TextUtils.isEmpty(bean.memberCode)
+                        && bean.memberCode.equals(memberCode)) {
+                    isFriend = true;
+                    break;
+                }
             }
         }
-        super.clickMessage(messageInfo, isReply);
+
+        RegisterBean searchBean = new RegisterBean();
+        searchBean.phoneAndCode = memberCode;
+        searchBean.type = 0;
+        final boolean openChat = isFriend;
+        HttpUtil.apiW()
+                .friends_search(searchBean)
+                .enqueue(
+                        new CommonCallback<NetData>() {
+                            @Override
+                            public void Successful(
+                                    Call<NetData> call, Response<NetData> response, NetData body) {
+                                if (body == null || body.data == null || getActivity() == null) {
+                                    return;
+                                }
+                                try {
+                                    UserBean userInfo =
+                                            new Gson()
+                                                    .fromJson(body.data.toString(), UserBean.class);
+                                    if (userInfo == null || TextUtils.isEmpty(userInfo.userId)) {
+                                        ToastUtils.toastMsg("用户不存在");
+                                        return;
+                                    }
+                                    if (openChat) {
+                                        XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_SETTING_PAGE)
+                                                .withParam(
+                                                        RouterConstant.CHAT_ID_KRY, userInfo.userId)
+                                                .withContext(requireActivity())
+                                                .navigate();
+                                    } else {
+                                        HashMap map = new HashMap();
+                                        map.put("user", new Gson().toJson(userInfo));
+                                        FunAddFriendVerifyActivity.start(
+                                                FunAddFriendVerifyActivity.class,
+                                                getActivity(),
+                                                map);
+                                    }
+                                } catch (Exception e) {
+                                    ToastUtils.toastMsg("名片信息异常");
+                                }
+                            }
+
+                            @Override
+                            public void Failure(Call<NetData> call, Throwable t) {}
+                        });
     }
 }
