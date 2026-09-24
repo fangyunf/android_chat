@@ -21,8 +21,8 @@ android {
         applicationId = "com.turunsi.mastercard"
         minSdk = 21
         targetSdk = 33
-        versionCode = 20
-        versionName = "1.2.0"
+        versionCode = 1
+        versionName = "1.0.0"
         multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
