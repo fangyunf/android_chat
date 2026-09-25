@@ -332,6 +332,10 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
                         registerBean.state = 1;
 //                        viewModel1.addBlack(accId);
                     }
+                    if (userBean == null || TextUtils.isEmpty(userBean.memberCode)) {
+                        ToastUtils.toastMsg("暂无法操作");
+                        return;
+                    }
                     registerBean.memberCode = userBean.memberCode;
                     HttpUtil.apiW().friends_changeBlackState(registerBean)
                             .enqueue(new CommonCallback<NetData>() {
@@ -423,6 +427,10 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
                                 userInfoData.friendInfo.setAlias(comment);
                                 viewModel1.updateAlias(userInfoData.data.getAccount(), comment);
                                 if (userBean != null) {
+                                    if (TextUtils.isEmpty(userBean.memberCode)) {
+                                        ToastUtils.toastMsg("暂无法修改备注");
+                                        return;
+                                    }
                                     RegisterBean bean = new RegisterBean();
                                     bean.memberCode = userBean.memberCode;
                                     bean.alias = comment;
@@ -559,7 +567,10 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
         if (view == binding.funChatSettingActivityNav.addCloseImageButton()) {
             finish();
         } else if (view == binding.funChatSettingActivityAddFriendTv) {
-
+            if (userBean == null || TextUtils.isEmpty(userBean.memberCode)) {
+                ToastUtils.toastMsg("暂无法添加该用户");
+                return;
+            }
             HashMap map = new HashMap();
             map.put("user", new Gson().toJson(userBean));
             FunAddFriendVerifyActivity.start(FunAddFriendVerifyActivity.class, this, map);

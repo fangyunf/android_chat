@@ -46,9 +46,7 @@ import com.turunsi.yaoxin.main.mine.account.AccoutCodeDetailActivity;
 import com.turunsi.yaoxin.main.mine.account.Mine_Pwd_Set_ManagerActivity;
 import com.turunsi.yaoxin.main.mine.address.AddressListActivity;
 import com.turunsi.yaoxin.main.mine.collection.CollectionListActivity;
-import com.turunsi.yaoxin.main.mine.fragment.AccountCodeDialogFragment;
 import com.turunsi.yaoxin.main.mine.fuhao.BuyGroupFeatureActivity;
-import com.turunsi.yaoxin.main.mine.fuhao.MyFuHaoListActivity;
 import com.turunsi.yaoxin.main.mine.group.GroupGradeActivity;
 import com.turunsi.yaoxin.main.mine.huiyuan.LiangHaoZoneActivity;
 import com.turunsi.yaoxin.main.mine.huiyuan.MyHuiYuanListActivity;
@@ -245,6 +243,9 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         binding.fragmentMineCopyIos.setOnClickListener(this);
         binding.fragmentMineCopyAndroid.setOnClickListener(this);
         binding.tvInfo.setOnClickListener(this);
+        if (binding.fragmentMineCollectionView != null) {
+            binding.fragmentMineCollectionView.setOnClickListener(this);
+        }
 
 //        binding.mineFragmentMyManagerItem1.viewMineFragmentItemCellCl.setOnClickListener(this);
 //        binding.mineFragmentMyManagerItem2.viewMineFragmentItemCellCl.setOnClickListener(this);
@@ -474,7 +475,10 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 //                    .navigate();
 //        }
         else if (v == binding.fragmentMineWdfhView) {
-            MyFuHaoListActivity.start(MyFuHaoListActivity.class, getActivity(), null);
+            // 副号已下线
+        } else if (binding.fragmentMineCollectionView != null
+                && v == binding.fragmentMineCollectionView) {
+            CollectionListActivity.start(CollectionListActivity.class, getActivity(), null);
         }
 //        if (v == binding.mineFragmentMyManagerItem5.viewMineFragmentItemCellCl) {
 ////            startActivity(new Intent(getContext(), SettingActivity.class));

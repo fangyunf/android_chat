@@ -25,9 +25,11 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/activity_mine_account_code_card"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="#EAF4FB">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="#EAF4FB"
+            android:minHeight="420dp"
+            android:paddingBottom="8dp">
 
             <!-- 正圆同心圆背景，与二维码同中心 -->
             <com.turunsi.yaoxin.main.mine.account.QrConcentricCircleView

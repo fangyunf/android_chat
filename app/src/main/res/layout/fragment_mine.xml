@@ -258,13 +258,22 @@
                     android:id="@+id/fragment_mine_wdfh_view"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
+                    android:visibility="gone"
                     app:leftImg="@mipmap/icn_mine_list_countermark"
                     app:titleText="我的副号" />
+
+                <com.yaoxin.appbase.view.IconTitleArrowTemplate
+                    android:id="@+id/fragment_mine_collection_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    app:leftImg="@mipmap/icn_mine_list_collection"
+                    app:titleText="我的收藏" />
 
                 <com.yaoxin.appbase.view.IconTitleArrowTemplate
                     android:id="@+id/fragment_mine_zhgl_view"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
+                    android:visibility="gone"
                     app:leftImg="@mipmap/icn_mine_list_account"
                     app:titleText="账号管理" />
 

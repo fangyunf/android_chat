@@ -112,7 +112,7 @@ public class FunTeamSetting_GroupManagerActivity extends BaseActivity implements
         binding.funTeamSettingGroupManagerActivityChengyuanJinyan.viewTitleDetailArrowTemplateSwitch.setOnClickListener(this);
 
 
-        binding.funTeamSettingGroupManagerActivityJinzhiLingquGouwuquan.viewTitleDetailArrowTemplateTitleTv.setText("禁止群成员领取红包");
+        binding.funTeamSettingGroupManagerActivityJinzhiLingquGouwuquan.viewTitleDetailArrowTemplateTitleTv.setText("禁止领取红包");
         binding.funTeamSettingGroupManagerActivityJinzhiLingquGouwuquan.viewTitleDetailArrowTemplateDetailTv.setText("开启后，成员均无法领取红包");
         binding.funTeamSettingGroupManagerActivityJinzhiLingquGouwuquan.viewTitleDetailArrowTemplateSwitch.setOnClickListener(this);
 
@@ -121,12 +121,14 @@ public class FunTeamSetting_GroupManagerActivity extends BaseActivity implements
         binding.funTeamSettingGroupManagerActivityQunchengyuanBaohu.viewTitleDetailArrowTemplateDetailTv.setText("开启后，普通成员无法查看资料");
         binding.funTeamSettingGroupManagerActivityQunchengyuanBaohu.viewTitleDetailArrowTemplateSwitch.setOnClickListener(this);
 
-        binding.funTeamSettingGroupManagerActivityJinzhiLingquMingdan.viewTitleArrowLl.setVisibility(View.VISIBLE);
-        binding.funTeamSettingGroupManagerActivityJinzhiLingquMingdan.viewTitleArrowTv.setText("设置群红包白名单");
-        binding.funTeamSettingGroupManagerActivityJinzhiLingquMingdan.viewTitleArrowLl.setOnClickListener(this);
-
+        // 与「禁止领取红包名单」同为箭头进列表页
+        binding.funTeamSettingGroupManagerActivityDanrenJinyanMingdan.viewTitleArrowLl.setVisibility(View.VISIBLE);
         binding.funTeamSettingGroupManagerActivityDanrenJinyanMingdan.viewTitleArrowTv.setText("单人禁言名单");
         binding.funTeamSettingGroupManagerActivityDanrenJinyanMingdan.viewTitleArrowLl.setOnClickListener(this);
+
+        binding.funTeamSettingGroupManagerActivityJinzhiLingquMingdan.viewTitleArrowLl.setVisibility(View.VISIBLE);
+        binding.funTeamSettingGroupManagerActivityJinzhiLingquMingdan.viewTitleArrowTv.setText("禁止领取红包名单");
+        binding.funTeamSettingGroupManagerActivityJinzhiLingquMingdan.viewTitleArrowLl.setOnClickListener(this);
 
         binding.funTeamSettingGroupManagerActivityQunshengji.viewTitleArrowTv.setText("群升级");
         binding.funTeamSettingGroupManagerActivityQunshengji.viewTitleArrowLl.setOnClickListener(this);

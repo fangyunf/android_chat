@@ -231,7 +231,7 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
 
     @Override
     protected void _initView() {
-//        binding.activityFunSendRedPacketNetworkFeeLl.setVisibility(View.GONE);
+        binding.activityFunSendRedPacketNetworkFeeLl.setVisibility(View.GONE);
         binding.activityFunSendRedPacketNav.addCloseImageButton().setOnClickListener(this);
 //        binding.activityFunSendRedPacketPinChangeTypeLl.setOnClickListener(this);
         binding.activityFunSendRedPacketSendTv.setOnClickListener(this);
@@ -321,30 +321,11 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
     }
 
     /**
-     * 根据金额计算网络费并更新显示
-     * 扣费规则: 10元以上0.01-30元以上0.02-100以上0.03-200以上0.05
+     * 已取消发红包网络费/手续费，固定展示 0 且入口隐藏。
      */
     private void updateNetworkFee(String amountStr) {
-        double networkFee = 0.0; // 默认0
-        try {
-            double amount = Double.parseDouble(amountStr);
-            if (amount >= 150) {
-                networkFee = 0.04; // 150元以上抽取0.04
-            } else if (amount >= 50) {
-                networkFee = 0.03; // 50元-149元抽取0.03
-            } else if (amount >= 30) {
-                networkFee = 0.02; // 30元-49元抽取0.02
-            } else if (amount >= 10) {
-                networkFee = 0.01; // 10元-29元抽取0.01
-            } else {
-                networkFee = 0.0; // 10元以下为0
-            }
-        } catch (Exception e) {
-            networkFee = 0.0;
-        }
-
-        String feeText = String.format("收发送方%.2f", networkFee);
-        binding.activityFunSendRedPacketNetworkFeeTv.setText(feeText);
+        binding.activityFunSendRedPacketNetworkFeeLl.setVisibility(View.GONE);
+        binding.activityFunSendRedPacketNetworkFeeTv.setText("收发送方0.00");
     }
 
     private void _updateUI() {

@@ -140,11 +140,10 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
         binding.funTeamUserInfoDetailTichu.viewTitleArrowLl.setVisibility(View.GONE);
         binding.funTeamUserInfoDetailLahei.viewTitleArrowLl.setVisibility(View.GONE);
         binding.funTeamUserInfoDetailBottomTv.setVisibility(View.GONE);
-        binding.funTeamUserInfoDetailAccountTv.setVisibility(View.GONE);
+        // 有 memberCode 就展示：管理看所有人；普通成员只能看到管理的 memberCode（接口侧已过滤）
+        binding.funTeamUserInfoDetailAccountTv.setVisibility(
+                !TextUtils.isEmpty(groupInfoBean.memberCode) ? View.VISIBLE : View.GONE);
         if (rankState == 1 || rankState == 2) {
-            if (!TextUtils.isEmpty(groupInfoBean.memberCode)) {
-                binding.funTeamUserInfoDetailAccountTv.setVisibility(View.VISIBLE);
-            }
             binding.funTeamUserInfoDetailYaoqingren.viewTitleArrowLl.setVisibility(View.VISIBLE);
             binding.funTeamUserInfoDetailJinzhi.viewTitleArrowLl.setVisibility(View.VISIBLE);
             if (canMuteTargetMember()) {

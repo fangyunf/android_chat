@@ -36,9 +36,14 @@ public class FunBottomActionFactory {
 //        new ActionItem(
 //            ActionConstants.ACTION_TYPE_FILE, R.drawable.chat_fragment_toolbar_collection, R.string.chat_message_file));
 
-        actions.add(
-                new ActionItem(
-                        ActionConstants.ACTION_TYPE_MING_PIAN, R.drawable.bottom_layout_item_2, R.string.chat_message_ming_pian));
+        // 仅单聊可推名片；群聊取消推名片
+        if (sessionType == SessionTypeEnum.P2P) {
+            actions.add(
+                    new ActionItem(
+                            ActionConstants.ACTION_TYPE_MING_PIAN,
+                            R.drawable.bottom_layout_item_2,
+                            R.string.chat_message_ming_pian));
+        }
 
         actions.add(
                 new ActionItem(

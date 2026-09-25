@@ -7,12 +7,14 @@
     android:gravity="center_vertical"
     android:orientation="horizontal"
     android:paddingHorizontal="20dp"
-    android:paddingVertical="15dp">
+    android:paddingVertical="14dp">
 
     <ImageView
         android:id="@+id/icon_title_arrow_template_left_iv"
         android:layout_width="28dp"
-        android:layout_height="28dp" />
+        android:layout_height="28dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter" />
 
     <TextView
         android:id="@+id/icon_title_arrow_template_title_tv"

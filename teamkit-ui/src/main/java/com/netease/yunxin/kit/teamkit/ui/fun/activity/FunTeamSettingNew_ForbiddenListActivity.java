@@ -80,6 +80,7 @@ public class FunTeamSettingNew_ForbiddenListActivity extends BaseActivity implem
 
     @Override
     protected void _initView() {
+        binding.funTeamSettingNewForbiddenListActivityNav.setTitle("禁止领取红包名单");
         binding.funTeamSettingNewForbiddenListActivityNav.addCloseImageButton().setOnClickListener(this);
         adapter.opt_type = TeamSettingUserMingDanListAdapter.OPT_FORBID_RED_PACKET;
         // RecyclerView设置相关
