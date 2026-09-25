@@ -555,44 +555,37 @@ public class FunConversationFragment extends ConversationBaseFragment {
 
 
     void requestKefu(String kefuId, String kefuMemberCode) {
+        if (TextUtils.isEmpty(kefuMemberCode)) {
+            return;
+        }
+        // 已是好友则跳过（好友列表可能尚未刷新，再按会话兜底）
+        List<GroupInfoBean> friends = DataUtil.getFriendInfoList();
+        if (friends != null) {
+            for (GroupInfoBean friend : friends) {
+                if (friend != null
+                        && !TextUtils.isEmpty(friend.userId)
+                        && friend.userId.equals(kefuId)) {
+                    return;
+                }
+            }
+        }
         RegisterBean bean = new RegisterBean();
-        bean.userId = kefuId;
-        HttpUtil.apiW().friends_searchByUserId(bean)
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        UserBean userBean = new Gson().fromJson(body.data.toString(), UserBean.class);
-                        if ("0".equals(userBean.friend)) {
-                            String memberCode = !TextUtils.isEmpty(kefuMemberCode)
-                                    ? kefuMemberCode
-                                    : userBean.memberCode;
-                            if (TextUtils.isEmpty(memberCode)) {
-                                return;
+        bean.memberCode = kefuMemberCode;
+        bean.msg = "客服";
+        HttpUtil.apiW()
+                .friends_addFriends(bean)
+                .enqueue(
+                        new CommonCallback<NetData>() {
+                            @Override
+                            public void Successful(
+                                    Call<NetData> call, Response<NetData> response, NetData body) {
+                                NIMClient.getService(MsgService.class)
+                                        .clearChattingHistory(kefuId, SessionTypeEnum.P2P);
                             }
-                            RegisterBean bean = new RegisterBean();
-                            bean.memberCode = memberCode;
-                            bean.msg = "客服";
-                            HttpUtil.apiW().friends_addFriends(bean)
-                                    .enqueue(new CommonCallback<NetData>() {
-                                        @Override
-                                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                                            NIMClient.getService(MsgService.class).clearChattingHistory(kefuId, SessionTypeEnum.P2P);
-//                              NIMClient.getService(MsgService.class).clearServerHistory(kefuId,SessionTypeEnum.P2P);
-                                        }
 
-                                        @Override
-                                        public void Failure(Call<NetData> call, Throwable t) {
-
-                                        }
-                                    });
-                        }
-                    }
-
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
-
-                    }
-                });
+                            @Override
+                            public void Failure(Call<NetData> call, Throwable t) {}
+                        });
     }
 
     private void sendMessage(String account) {

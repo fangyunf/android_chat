@@ -49,6 +49,9 @@ public abstract class CommonCallback<T> implements Callback<T> {
                         }
                         Successful(call, response, t);
                         break;
+                    case 5001: // 已经是好友：统一当成功；是否 toast 由业务自行决定（客服静默 / 手动加好友需提示）
+                        Successful(call, response, t);
+                        break;
                     case 900:// 版本更新
                         String msg = ((NetData) t).msg;
 //                        if (msg != null) {

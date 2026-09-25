@@ -159,7 +159,10 @@ public class FunAddFriendVerifyActivity extends BaseActivity implements View.OnC
                     .enqueue(new CommonCallback<NetData>() {
                         @Override
                         public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                            ToastUtils.toastMsg(body.msg);
+                            // 手动加好友：200 / 5001（已经是好友）都提示
+                            if (body != null && !TextUtils.isEmpty(body.msg)) {
+                                ToastUtils.toastMsg(body.msg);
+                            }
                             finish();
                         }
 
