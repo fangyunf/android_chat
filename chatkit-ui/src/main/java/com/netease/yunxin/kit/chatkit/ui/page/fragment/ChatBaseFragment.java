@@ -50,6 +50,7 @@ import com.netease.nimlib.sdk.msg.model.AttachmentProgress;
 import com.netease.nimlib.sdk.msg.model.GetMessageDirectionEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.msg.model.MsgPinOption;
+import com.netease.nimlib.sdk.team.TeamService;
 import com.netease.yunxin.kit.alog.ALog;
 import com.netease.yunxin.kit.chatkit.map.ChatLocationBean;
 import com.netease.yunxin.kit.chatkit.model.IMMessageInfo;
@@ -62,6 +63,7 @@ import com.netease.yunxin.kit.chatkit.ui.builder.IChatViewCustom;
 import com.netease.yunxin.kit.chatkit.ui.common.ChatMsgCache;
 import com.netease.yunxin.kit.chatkit.ui.common.ChatUtils;
 import com.netease.yunxin.kit.chatkit.ui.common.MessageHelper;
+import com.netease.yunxin.kit.chatkit.ui.common.TeamNimMuteHelper;
 import com.netease.yunxin.kit.chatkit.ui.common.WatchTextMessageDialog;
 import com.netease.yunxin.kit.chatkit.ui.custom.MingPianAttachment;
 import com.netease.yunxin.kit.chatkit.ui.custom.RichTextAttachment;
@@ -111,6 +113,7 @@ import com.yaoxin.appbase.net.Constant;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.BaseEvent;
 import com.yaoxin.appbase.utils.CommonCallBack;
+import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.DialogAlertUtil;
 import com.yaoxin.appbase.utils.ImageUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
@@ -743,31 +746,15 @@ public abstract class ChatBaseFragment extends BaseFragment {
                         HashMap map = new HashMap();
                         map.put("sessionId", getSessionId());
                         map.put("sessionType", "0");
-                        FunSendRedPacketActivity.start(FunSendRedPacketActivity.class, getContext(), map);
+                        FunSendRedPacketActivity.start(
+                                FunSendRedPacketActivity.class, getContext(), map);
                         return;
                     }
                     HashMap map = new HashMap();
                     map.put("sessionId", getSessionId());
                     map.put("sessionType", "1");
-                    FunSendRedPacketActivity.start(FunSendRedPacketActivity.class, getContext(), map);
-//          DialogAlertUtil.showSheetView(getContext(), getActivity().getSupportFragmentManager(), new String[]{"手气红包", "专属红包"}, new DialogAlertUtil.DialogAlertUtilCallBack() {
-//            @Override
-//            public void clickType(int type) {
-//              if (type == 1) {
-//
-//                HashMap map = new HashMap();
-//                map.put("sessionId",getSessionId());
-//                map.put("sessionType","1");
-//                FunSendRedPacketActivity.start(FunSendRedPacketActivity.class,getContext(),map);
-//              } else if (type == 2) {
-//
-//                HashMap map = new HashMap();
-//                map.put("sessionId",getSessionId());
-//                map.put("sessionType","2");
-//                FunSendRedPacketActivity.start(FunSendRedPacketActivity.class,getContext(),map);
-//              }
-//            }
-//          });
+                    FunSendRedPacketActivity.start(
+                            FunSendRedPacketActivity.class, getContext(), map);
                 }
 
                 @Override
@@ -957,39 +944,43 @@ public abstract class ChatBaseFragment extends BaseFragment {
                                     }
                                 }
                                 tempName = name;
-                                DialogAlertUtil.showSheetView(getActivity(), getActivity().getSupportFragmentManager(), new String[]{"@此人", "专属红包"}, new DialogAlertUtil.DialogAlertUtilCallBack() {
-                                    @Override
-                                    public void clickType(int type) {
-                                        if (type == 1) {
-                                            aitManager.insertReplyAit(account, tempName);
-                                        } else if (type == 2) {
-
-                                            HashMap map = new HashMap();
-                                            map.put("sessionId", sessionID);
-                                            map.put("sessionType", "2");
-                                            map.put("userInfo", new Gson().toJson(messageBean.getMessageData().getFromUser()));
-                                            FunSendRedPacketActivity.start(FunSendRedPacketActivity.class, getContext(), map);
-                                        } else if (type == 3) {
-                                            ArrayList list = new ArrayList<>();
-                                            list.add(messageBean.getMessageData().getFromUser().getAccount());
-                                            RegisterBean registerBean = new RegisterBean();
-                                            registerBean.groupId = sessionID;
-                                            registerBean.members = list;
-                                            HttpUtil.apiW().group_outGroup(registerBean)
-                                                    .enqueue(new CommonCallback<NetData>() {
-                                                        @Override
-                                                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                                                            ToastUtils.toastMsg(body.msg);
-                                                        }
-
-                                                        @Override
-                                                        public void Failure(Call<NetData> call, Throwable t) {
-
-                                                        }
-                                                    });
-                                        }
-                                    }
-                                });
+                                final String targetAccount = account;
+                                final String targetName = tempName;
+                                String[] popData = buildTeamAvatarLongClickMenus(targetAccount);
+                                DialogAlertUtil.showSheetView(
+                                        getActivity(),
+                                        getActivity().getSupportFragmentManager(),
+                                        popData,
+                                        type -> {
+                                            if (type <= 0 || type > popData.length) {
+                                                return;
+                                            }
+                                            String item = popData[type - 1];
+                                            if (TextUtils.equals(item, "@此人")) {
+                                                aitManager.insertReplyAit(targetAccount, targetName);
+                                            } else if (TextUtils.equals(item, "专属红包")) {
+                                                HashMap map = new HashMap();
+                                                map.put("sessionId", sessionID);
+                                                map.put("sessionType", "2");
+                                                map.put(
+                                                        "userInfo",
+                                                        new Gson()
+                                                                .toJson(
+                                                                        messageBean
+                                                                                .getMessageData()
+                                                                                .getFromUser()));
+                                                FunSendRedPacketActivity.start(
+                                                        FunSendRedPacketActivity.class,
+                                                        getContext(),
+                                                        map);
+                                            } else if (TextUtils.equals(item, "禁言")) {
+                                                muteTeamMember(targetAccount, true);
+                                            } else if (TextUtils.equals(item, "取消禁言")) {
+                                                muteTeamMember(targetAccount, false);
+                                            } else if (TextUtils.equals(item, "踢出群聊")) {
+                                                kickTeamMember(targetAccount, targetName);
+                                            }
+                                        });
                             }
                         }
                     }
@@ -1955,5 +1946,100 @@ public abstract class ChatBaseFragment extends BaseFragment {
     }
 
     public void updateCurrentUserInfo() {
+    }
+
+    private boolean isCurrentUserOwner() {
+        return !TextUtils.isEmpty(DataUtil.qunzhuId)
+                && TextUtils.equals(DataUtil.qunzhuId, DataUtil.getUserid());
+    }
+
+    private boolean isCurrentUserManager() {
+        return isCurrentUserOwner()
+                || (DataUtil.adminIds != null && DataUtil.adminIds.contains(DataUtil.getUserid()));
+    }
+
+    private String[] buildTeamAvatarLongClickMenus(String targetAccount) {
+        ArrayList<String> menus = new ArrayList<>();
+        menus.add("@此人");
+        menus.add("专属红包");
+        if (isCurrentUserManager()
+                && !TextUtils.equals(targetAccount, DataUtil.qunzhuId)
+                && (DataUtil.adminIds == null || !DataUtil.adminIds.contains(targetAccount))) {
+            boolean muted = TeamNimMuteHelper.isMemberMuted(sessionID, targetAccount);
+            menus.add(muted ? "取消禁言" : "禁言");
+        }
+        if (isCurrentUserOwner() && !TextUtils.equals(targetAccount, DataUtil.qunzhuId)) {
+            menus.add("踢出群聊");
+        }
+        return menus.toArray(new String[0]);
+    }
+
+    private void muteTeamMember(String account, boolean mute) {
+        if (TextUtils.isEmpty(sessionID) || TextUtils.isEmpty(account)) {
+            return;
+        }
+        NIMClient.getService(TeamService.class)
+                .muteTeamMember(sessionID, account, mute)
+                .setCallback(
+                        new RequestCallback<Void>() {
+                            @Override
+                            public void onSuccess(Void param) {
+                                ToastUtils.toastMsg(mute ? "已禁言" : "已取消禁言");
+                            }
+
+                            @Override
+                            public void onFailed(int code) {
+                                ToastUtils.toastMsg("操作失败(" + code + ")");
+                            }
+
+                            @Override
+                            public void onException(Throwable exception) {
+                                ToastUtils.toastMsg("操作失败");
+                            }
+                        });
+    }
+
+    private void kickTeamMember(String account, String name) {
+        if (TextUtils.isEmpty(sessionID) || TextUtils.isEmpty(account)) {
+            return;
+        }
+        String tip =
+                TextUtils.isEmpty(name)
+                        ? "确定将该成员移出群聊？"
+                        : "确定将「" + name + "」移出群聊？";
+        DialogAlertUtil.showAlert(
+                tip,
+                type -> {
+                    if (type != 1) {
+                        return;
+                    }
+                    RegisterBean registerBean = new RegisterBean();
+                    registerBean.groupId = sessionID;
+                    ArrayList list = new ArrayList<>();
+                    list.add(account);
+                    registerBean.members = list;
+                    HttpUtil.apiW()
+                            .group_outGroup(registerBean)
+                            .enqueue(
+                                    new CommonCallback<NetData>() {
+                                        @Override
+                                        public void Successful(
+                                                Call<NetData> call,
+                                                Response<NetData> response,
+                                                NetData body) {
+                                            ToastUtils.toastMsg(
+                                                    body != null && !TextUtils.isEmpty(body.msg)
+                                                            ? body.msg
+                                                            : "已踢出");
+                                        }
+
+                                        @Override
+                                        public void Failure(Call<NetData> call, Throwable t) {
+                                            ToastUtils.toastMsg(
+                                                    t != null ? t.getMessage() : "操作失败");
+                                        }
+                                    });
+                },
+                getActivity().getSupportFragmentManager());
     }
 }

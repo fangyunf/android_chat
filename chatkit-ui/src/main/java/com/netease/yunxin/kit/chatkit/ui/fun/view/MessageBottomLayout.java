@@ -220,7 +220,8 @@ public class MessageBottomLayout extends FrameLayout
         mBinding.funChatMessageBottomViewOpt2.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                mProxy.sendMingPian();
+                // 名片已取消，快捷入口改为收藏
+                mProxy.sendShouCang();
             }
         });
         mBinding.funChatMessageBottomViewOpt3.setOnClickListener(new OnClickListener() {
@@ -280,7 +281,8 @@ public class MessageBottomLayout extends FrameLayout
                 onCallClick();
                 break;
             case ActionConstants.ACTION_TYPE_MING_PIAN:
-                mProxy.sendMingPian();
+                // 名片功能已取消
+                Toast.makeText(getContext(), "名片功能已关闭", Toast.LENGTH_SHORT).show();
                 break;
             case ActionConstants.ACTION_TYPE_ZHUAN_ZHANG:
                 mProxy.sendZhuanZhang();

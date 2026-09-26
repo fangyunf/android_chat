@@ -68,7 +68,8 @@ public class ExchangeAccountActivity extends BaseActivity implements View.OnClic
         viewBinding.activityExchangeAccountRv.setLayoutManager(new LinearLayoutManager(this));
         viewBinding.activityExchangeAccountRv.setAdapter(adapter);
 
-        viewBinding.activityExchangeAccountTuichuTv.setVisibility(View.GONE);
+        viewBinding.activityExchangeAccountTuichuTv.setVisibility(View.VISIBLE);
+        viewBinding.activityExchangeAccountTuichuTv.setOnClickListener(this);
 
         _requastData();
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener<UserBean>() {
@@ -120,6 +121,15 @@ public class ExchangeAccountActivity extends BaseActivity implements View.OnClic
     public void onClick(View v) {
         if (v == viewBinding.activityExchangeAccountNav.addCloseImageButton()) {
             finish();
+        } else if (v == viewBinding.activityExchangeAccountTuichuTv) {
+            DialogAlertUtil.showAlert(
+                    "确定退出登录吗？",
+                    type -> {
+                        if (type == 1) {
+                            showLogin();
+                        }
+                    },
+                    getSupportFragmentManager());
         }
     }
 
@@ -141,6 +151,7 @@ public class ExchangeAccountActivity extends BaseActivity implements View.OnClic
                             ((IMApplication) getApplicationContext())
                                     .clearActivity(ExchangeAccountActivity.this);
                         }
+                        DataUtil.deleteLoginUserInfoList(DataUtil.getUserInfo());
                         DataUtil.deleteData();
                         startActivity(new Intent(ExchangeAccountActivity.this, WelcomeLoginActivity.class));
                         finish();

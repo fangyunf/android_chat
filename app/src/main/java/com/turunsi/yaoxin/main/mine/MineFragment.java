@@ -95,6 +95,7 @@ import retrofit2.Response;
 public class MineFragment extends BaseFragment implements View.OnClickListener {
     String _iosDownLoadUrl = "";
     String _androidDownLoadUrl = "";
+    String _guanWangUrl = "";
     private FragmentMineBinding binding;
     private ActivityResultLauncher<Intent> launcher;
 
@@ -196,14 +197,23 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
                         DownLoadBean downLoadBean = new Gson().fromJson(body.data.toString(), DownLoadBean.class);
-                        for (DownLoadBean tempBean : downLoadBean.linkUrl) {
-                            if (tempBean.appType.equals("IOS")) {
-                                _iosDownLoadUrl = tempBean.downloadUrl;
+                        if (downLoadBean != null) {
+                            if (!TextUtils.isEmpty(downLoadBean.guanWang)) {
+                                _guanWangUrl = downLoadBean.guanWang;
                             }
-                            if (tempBean.appType.equals("ANDROID")) {
-                                _androidDownLoadUrl = tempBean.downloadUrl;
+                            if (downLoadBean.linkUrl != null) {
+                                for (DownLoadBean tempBean : downLoadBean.linkUrl) {
+                                    if (tempBean == null || TextUtils.isEmpty(tempBean.appType)) {
+                                        continue;
+                                    }
+                                    if (tempBean.appType.equals("IOS")) {
+                                        _iosDownLoadUrl = tempBean.downloadUrl;
+                                    }
+                                    if (tempBean.appType.equals("ANDROID")) {
+                                        _androidDownLoadUrl = tempBean.downloadUrl;
+                                    }
+                                }
                             }
-
                         }
                     }
 
@@ -242,6 +252,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         binding.fragmentMineTcdlView.setOnClickListener(this);
         binding.fragmentMineCopyIos.setOnClickListener(this);
         binding.fragmentMineCopyAndroid.setOnClickListener(this);
+        binding.fragmentMineGwdzView.setOnClickListener(this);
         binding.tvInfo.setOnClickListener(this);
         if (binding.fragmentMineCollectionView != null) {
             binding.fragmentMineCollectionView.setOnClickListener(this);
@@ -541,7 +552,13 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
             ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
 
             // 创建一个ClipData对象，包含要复制的文本
-            ClipData clip = ClipData.newPlainText("label", _iosDownLoadUrl);
+            String copyText =
+                    !TextUtils.isEmpty(_iosDownLoadUrl) ? _iosDownLoadUrl : _guanWangUrl;
+            if (TextUtils.isEmpty(copyText)) {
+                ToastUtils.toastMsg("暂无链接");
+                return;
+            }
+            ClipData clip = ClipData.newPlainText("label", copyText);
 
             // 将ClipData对象放入剪切板
             clipboard.setPrimaryClip(clip);
@@ -552,11 +569,26 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
             ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
 
             // 创建一个ClipData对象，包含要复制的文本
-            ClipData clip = ClipData.newPlainText("label", _androidDownLoadUrl);
+            String copyText =
+                    !TextUtils.isEmpty(_androidDownLoadUrl) ? _androidDownLoadUrl : _guanWangUrl;
+            if (TextUtils.isEmpty(copyText)) {
+                ToastUtils.toastMsg("暂无链接");
+                return;
+            }
+            ClipData clip = ClipData.newPlainText("label", copyText);
 
             // 将ClipData对象放入剪切板
             clipboard.setPrimaryClip(clip);
             ToastUtils.toastMsg("复制成功");
+        } else if (v == binding.fragmentMineGwdzView) {
+            if (TextUtils.isEmpty(_guanWangUrl)) {
+                ToastUtils.toastMsg("暂无官网地址");
+                return;
+            }
+            ClipboardManager clipboard =
+                    (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+            clipboard.setPrimaryClip(ClipData.newPlainText("label", _guanWangUrl));
+            ToastUtils.toastMsg("官网地址已复制");
         }
 
     }
