@@ -2,6 +2,7 @@ package com.netease.yunxin.kit.contactkit.ui.normal.contact.adapter;
 
 import android.content.Context;
 import android.graphics.Outline;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewOutlineProvider;
@@ -43,9 +44,12 @@ public class ShoprListAdapter extends BaseQuickAdapter<GroupInfoBean, QuickViewH
         TextView nameTv = quickViewHolder.getView(R.id.shop_fragment_item_cell_shop_name_tv);
         TextView priceTv = quickViewHolder.getView(R.id.shop_fragment_item_cell_shop_price_tv);
         TextView tagTv = quickViewHolder.getView(R.id.shop_fragment_item_cell_tag_tv);
+        TextView soldTv = quickViewHolder.getView(R.id.shop_fragment_item_cell_sold_tv);
         nameTv.setText(infoBean.name);
-        priceTv.setText(infoBean.price1);
-        tagTv.setText("礼盒");
+        priceTv.setText(!TextUtils.isEmpty(infoBean.price1) ? infoBean.price1 : ("¥" + infoBean.price));
+        tagTv.setText(!TextUtils.isEmpty(infoBean.remark) ? infoBean.remark : "商品");
+        soldTv.setText(!TextUtils.isEmpty(infoBean.title) ? ("已售 " + infoBean.title) : "");
+        soldTv.setVisibility(TextUtils.isEmpty(infoBean.title) ? View.GONE : View.VISIBLE);
     }
 
     @NonNull

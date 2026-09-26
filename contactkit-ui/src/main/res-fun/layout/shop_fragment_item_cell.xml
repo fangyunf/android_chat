@@ -22,12 +22,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
-        android:background="@drawable/bg_shop_tag_gift"
+        android:background="@drawable/bg_shop_tag_category"
         android:paddingHorizontal="6dp"
         android:paddingVertical="2dp"
-        android:text="礼盒"
-        android:textColor="#C67A2F"
-        android:textSize="11sp" />
+        android:textColor="#1D4ED8"
+        android:textSize="11sp"
+        tools:text="键盘" />
 
     <TextView
         android:id="@+id/shop_fragment_item_cell_shop_name_tv"
@@ -37,9 +37,9 @@
         android:layout_marginTop="6dp"
         android:ellipsize="end"
         android:maxLines="1"
-        android:textColor="#222222"
+        android:textColor="#111827"
         android:textSize="14sp"
-        tools:text="中秋团圆礼盒" />
+        tools:text="青轴机械键盘 87键" />
 
     <TextView
         android:id="@+id/shop_fragment_item_cell_shop_price_tv"
@@ -47,8 +47,18 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
         android:layout_marginTop="8dp"
-        android:textColor="#E54D42"
-        android:textSize="16sp"
+        android:textColor="#DC2626"
+        android:textSize="18sp"
         android:textStyle="bold"
-        tools:text="¥398" />
+        tools:text="¥299" />
+
+    <TextView
+        android:id="@+id/shop_fragment_item_cell_sold_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="4dp"
+        android:textColor="#9CA3AF"
+        android:textSize="12sp"
+        tools:text="已售 2.1万" />
 </LinearLayout>

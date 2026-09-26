@@ -1,0 +1,304 @@
+{
+  "version": "1.0",
+  "platform": "MasterCard",
+  "updatedAt": "2026-09-26",
+  "searchPlaceholder": "搜索键盘、耳机、充电器…",
+  "banner": {
+    "image": "https://images.pexels.com/photos/1714208/pexels-photo-1714208.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    "badge": "数码精选",
+    "title": "办公好物一站购",
+    "subtitle": "键盘鼠标 · 耳机音箱 · 充电周边  全场≤¥1000"
+  },
+  "categories": [
+    "全部",
+    "键盘",
+    "鼠标",
+    "耳机",
+    "音箱",
+    "充电",
+    "摄像",
+    "配件"
+  ],
+  "theme": {
+    "background": "#F3F4F6",
+    "primary": "#1D4ED8",
+    "price": "#DC2626",
+    "title": "#111827",
+    "subtitle": "#9CA3AF",
+    "card": "#FFFFFF",
+    "tagBackground": "#EFF6FF",
+    "tagText": "#1D4ED8"
+  },
+  "goods": [
+    {
+      "id": "kb_001",
+      "name": "青轴机械键盘 87键",
+      "price": 299,
+      "priceText": "¥299",
+      "category": "键盘",
+      "sold": "2.1万",
+      "image": "https://images.pexels.com/photos/2115257/pexels-photo-2115257.jpeg?auto=compress&cs=tinysrgb&w=800"
+    },
+    {
+      "id": "kb_002",
+      "name": "无线静音办公键盘",
+      "price": 159,
+      "priceText": "¥159",
+      "category": "键盘",
+      "sold": "8600",
+      "image": "https://images.pexels.com/photos/1772123/pexels-photo-1772123.jpeg?auto=compress&cs=tinysrgb&w=800"
+    },
+    {
+      "id": "kb_003",
+      "name": "低矮键帽蓝牙键盘",
+      "price": 219,
+      "priceText": "¥219",
+      "category": "键盘",
+      "sold": "5400",
+      "image": "https://images.pexels.com/photos/3937174/pexels-photo-3937174.jpeg?auto=compress&cs=tinysrgb&w=800"
+    },
+    {
+      "id": "kb_004",
+      "name": "RGB游戏机械键盘",
+      "price": 459,
+      "priceText": "¥459",
+      "category": "键盘",
+      "sold": "1.3万",
+      "image": "https://images.pexels.com/photos/841228/pexels-photo-841228.jpeg?auto=compress&cs=tinysrgb&w=800"
+    },
+    {
+      "id": "ms_001",
+      "name": "人体工学无线鼠标",
+      "price": 99,
+      "priceText": "¥99",
+      "category": "鼠标",
+      "sold": "3.2万",
+      "image": "https://images.pexels.com/photos/2115256/pexels-photo-2115256.jpeg?auto=compress&cs=tinysrgb&w=800"
+    },
+    {
+      "id": "ms_002",
+      "name": "轻量化电竞鼠标",
+      "price": 189,
+      "priceText": "¥189",
+      "category": "鼠标",
+      "sold": "9800",
+      "image": "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=800&auto=format&fit=crop"
+    },
+    {
+      "id": "ms_003",
+      "name": "双模静音鼠标",
+      "price": 129,
+      "priceText": "¥129",
+      "category": "鼠标",
+      "sold": "1.5万",
+      "image": "https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?w=800&auto=format&fit=crop"
+    },
+    {
+      "id": "hp_001",
+      "name": "头戴式降噪耳机",
+      "price": 499,
+      "priceText": "¥499",
+      "category": "耳机",
+      "sold": "7600",
+      "image": "https://images.pexels.com/photos/3394650/pexels-photo-3394650.jpeg?auto=compress&cs=tinysrgb&w=800"
+    },
+    {
+      "id": "hp_002",
+      "name": "半入耳蓝牙耳机",
+      "price": 199,
+      "priceText": "¥199",
+      "category": "耳机",
+      "sold": "4.1万",
+      "image": "https://images.pexels.com/photos/3780681/pexels-photo-3780681.jpeg?auto=compress&cs=tinysrgb&w=800"
+    },
+    {
+      "id": "hp_003",
+      "name": "电竞有线耳机麦",
+      "price": 269,
+      "priceText": "¥269",
+      "category": "耳机",
+      "sold": "6200",
+      "image": "https://images.pexels.com/photos/3587478/pexels-photo-3587478.jpeg?auto=compress&cs=tinysrgb&w=800"
+    },
+    {
+      "id": "hp_004",
+      "name": "开放式运动耳机",
+      "price": 329,
+      "priceText": "¥329",
+      "category": "耳机",
+      "sold": "4300",
+      "image": "https://images.unsplash.com/photo-1484704849700-f032a568e944?w=800&auto=format&fit=crop"
+    },
+    {
+      "id": "sp_001",
+      "name": "便携蓝牙音箱",
+      "price": 249,
+      "priceText": "¥249",
+      "category": "音箱",
+      "sold": "8900",
+      "image": "https://images.pexels.com/photos/1279107/pexels-photo-1279107.jpeg?auto=compress&cs=tinysrgb&w=800"
+    },
+    {
+      "id": "sp_002",
+      "name": "桌面氛围音响",
+      "price": 389,
+      "priceText": "¥389",
+      "category": "音箱",
+      "sold": "2100",
+      "image": "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=800&auto=format&fit=crop"
+    },
+    {
+      "id": "sp_003",
+      "name": "迷你防水音箱",
+      "price": 159,
+      "priceText": "¥159",
+      "category": "音箱",
+      "sold": "6700",
+      "image": "https://images.unsplash.com/photo-1545454675-3531b543be5d?w=800&auto=format&fit=crop"
+    },
+    {
+      "id": "ch_001",
+      "name": "20000mAh充电宝",
+      "price": 129,
+      "priceText": "¥129",
+      "category": "充电",
+      "sold": "5.6万",
+      "image": "https://images.unsplash.com/photo-1609091839311-b74b1df041bb?w=800&auto=format&fit=crop"
+    },
+    {
+      "id": "ch_002",
+      "name": "15W磁吸无线充",
+      "price": 89,
+      "priceText": "¥89",
+      "category": "充电",
+      "sold": "2.8万",
+      "image": "https://images.unsplash.com/photo-1591290619762-c588f7cbb5ba?w=800&auto=format&fit=crop"
+    },
+    {
+      "id": "ch_003",
+      "name": "65W氮化镓快充头",
+      "price": 149,
+      "priceText": "¥149",
+      "category": "充电",
+      "sold": "1.9万",
+      "image": "https://images.unsplash.com/photo-1583863788856-4b5d1f0b0b3f?w=800&auto=format&fit=crop"
+    },
+    {
+      "id": "ch_004",
+      "name": "多口 USB-C 充电线",
+      "price": 39,
+      "priceText": "¥39",
+      "category": "充电",
+      "sold": "8.2万",
+      "image": "https://images.unsplash.com/photo-1625948515291-69613efd103f?w=800&auto=format&fit=crop"
+    },
+    {
+      "id": "cm_001",
+      "name": "1080P 网络摄像头",
+      "price": 199,
+      "priceText": "¥199",
+      "category": "摄像",
+      "sold": "5200",
+      "image": "https://images.unsplash.com/photo-1587826080692-f439cd0b70da?w=800&auto=format&fit=crop"
+    },
+    {
+      "id": "cm_002",
+      "name": "补光直播摄像头",
+      "price": 359,
+      "priceText": "¥359",
+      "category": "摄像",
+      "sold": "1800",
+      "image": "https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=800&auto=format&fit=crop"
+    },
+    {
+      "id": "cm_003",
+      "name": "桌面会议摄像头",
+      "price": 429,
+      "priceText": "¥429",
+      "category": "摄像",
+      "sold": "960",
+      "image": "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800&auto=format&fit=crop"
+    },
+    {
+      "id": "ac_001",
+      "name": "7合1 Type-C 扩展坞",
+      "price": 199,
+      "priceText": "¥199",
+      "category": "配件",
+      "sold": "1.1万",
+      "image": "https://images.unsplash.com/photo-1625723044793-122cf0552664?w=800&auto=format&fit=crop"
+    },
+    {
+      "id": "ac_002",
+      "name": "铝合金笔记本支架",
+      "price": 119,
+      "priceText": "¥119",
+      "category": "配件",
+      "sold": "3.4万",
+      "image": "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=800&auto=format&fit=crop"
+    },
+    {
+      "id": "ac_003",
+      "name": "大面积电竞鼠标垫",
+      "price": 59,
+      "priceText": "¥59",
+      "category": "配件",
+      "sold": "2.2万",
+      "image": "https://images.unsplash.com/photo-1616587226960-4a03badbe8bf?w=800&auto=format&fit=crop"
+    },
+    {
+      "id": "ac_004",
+      "name": "桌面收纳理线器",
+      "price": 29,
+      "priceText": "¥29",
+      "category": "配件",
+      "sold": "9600",
+      "image": "https://images.unsplash.com/photo-1593640408182-31c70c8268f5?w=800&auto=format&fit=crop"
+    },
+    {
+      "id": "ac_005",
+      "name": "护眼台灯显示器夹",
+      "price": 179,
+      "priceText": "¥179",
+      "category": "配件",
+      "sold": "4100",
+      "image": "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=800&auto=format&fit=crop"
+    },
+    {
+      "id": "ac_006",
+      "name": "折叠蓝牙触控板",
+      "price": 269,
+      "priceText": "¥269",
+      "category": "配件",
+      "sold": "1500",
+      "image": "https://images.pexels.com/photos/5082579/pexels-photo-5082579.jpeg?auto=compress&cs=tinysrgb&w=800"
+    },
+    {
+      "id": "ac_007",
+      "name": "M.2 固态硬盘 512G",
+      "price": 399,
+      "priceText": "¥399",
+      "category": "配件",
+      "sold": "7200",
+      "image": "https://images.pexels.com/photos/163100/circuit-circuit-board-resistor-computer-163100.jpeg?auto=compress&cs=tinysrgb&w=800"
+    },
+    {
+      "id": "kb_005",
+      "name": "无线数字小键盘",
+      "price": 79,
+      "priceText": "¥79",
+      "category": "键盘",
+      "sold": "3800",
+      "image": "https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=800&auto=format&fit=crop"
+    },
+    {
+      "id": "ac_008",
+      "name": "游戏手柄 PC/手机",
+      "price": 229,
+      "priceText": "¥229",
+      "category": "配件",
+      "sold": "6400",
+      "image": "https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=800&auto=format&fit=crop"
+    }
+  ]
+}

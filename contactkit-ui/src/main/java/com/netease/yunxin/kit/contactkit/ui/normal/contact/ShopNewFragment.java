@@ -15,11 +15,13 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.chad.library.adapter4.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.netease.yunxin.kit.common.utils.SizeUtils;
 import com.netease.yunxin.kit.contactkit.ui.databinding.ShopNewFragmentBinding;
+import com.netease.yunxin.kit.contactkit.ui.normal.contact.adapter.ShopCategoryAdapter;
 import com.netease.yunxin.kit.contactkit.ui.normal.contact.adapter.ShoprListAdapter;
 import com.yaoxin.appbase.fragment.BaseFragment;
 import com.yaoxin.appbase.model.GroupInfoBean;
@@ -37,12 +39,15 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 商城页：商品数据来自 assets/shop_mid_autumn.json
+ * 商城页：商品数据来自 assets/shop_android_export.json
  */
 public class ShopNewFragment extends BaseFragment {
     private ShopNewFragmentBinding binding;
     private final ShoprListAdapter adapter = new ShoprListAdapter();
+    private final ShopCategoryAdapter categoryAdapter = new ShopCategoryAdapter();
     private final List<GroupInfoBean> allProducts = new ArrayList<>();
+    private String selectedCategory = "全部";
+    private String keyword = "";
 
     @Nullable
     @Override
@@ -51,6 +56,13 @@ public class ShopNewFragment extends BaseFragment {
             @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
         binding = ShopNewFragmentBinding.inflate(inflater, container, false);
+
+        LinearLayoutManager categoryLm =
+                new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        binding.shopNewFragmentCategoryRv.setLayoutManager(categoryLm);
+        binding.shopNewFragmentCategoryRv.setAdapter(categoryAdapter);
+        binding.shopNewFragmentCategoryRv.setNestedScrollingEnabled(false);
+
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
         binding.shopNewFragmentRv.setLayoutManager(gridLayoutManager);
         CommonGridSpacingItemDecoration gridSpacingItemDecoration =
@@ -60,6 +72,17 @@ public class ShopNewFragment extends BaseFragment {
         binding.shopNewFragmentRv.setAdapter(adapter);
 
         loadShopData();
+
+        categoryAdapter.setOnItemClickListener(
+                (baseQuickAdapter, view, i) -> {
+                    String category = categoryAdapter.getItem(i);
+                    if (TextUtils.isEmpty(category)) {
+                        return;
+                    }
+                    categoryAdapter.setSelectedIndex(i);
+                    selectedCategory = category;
+                    applyFilter();
+                });
 
         adapter.setOnItemClickListener(
                 new BaseQuickAdapter.OnItemClickListener<GroupInfoBean>() {
@@ -85,7 +108,8 @@ public class ShopNewFragment extends BaseFragment {
 
                     @Override
                     public void afterTextChanged(Editable s) {
-                        filterProducts(s == null ? "" : s.toString().trim());
+                        keyword = s == null ? "" : s.toString().trim();
+                        applyFilter();
                     }
                 });
         return binding.getRoot();
@@ -96,13 +120,13 @@ public class ShopNewFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         ViewGroup.MarginLayoutParams layoutParams =
                 (ViewGroup.MarginLayoutParams) binding.tvTitle.getLayoutParams();
-        layoutParams.topMargin = BarUtils.getStatusBarHeight() + SizeUtils.dp2px(20);
+        layoutParams.topMargin = BarUtils.getStatusBarHeight() + SizeUtils.dp2px(12);
         binding.tvTitle.setLayoutParams(layoutParams);
     }
 
     private void loadShopData() {
         try {
-            String json = readAsset("shop_mid_autumn.json");
+            String json = readAsset("shop_android_export.json");
             ShopData shopData = new Gson().fromJson(json, ShopData.class);
             if (shopData == null) {
                 return;
@@ -110,10 +134,12 @@ public class ShopNewFragment extends BaseFragment {
             if (!TextUtils.isEmpty(shopData.searchPlaceholder)) {
                 binding.funConversationFragmentEt.setHint(shopData.searchPlaceholder);
             }
-            if (!TextUtils.isEmpty(shopData.sectionTitle)) {
-                binding.shopNewFragmentSectionTv.setText(shopData.sectionTitle);
-            }
+            binding.shopNewFragmentSectionTv.setText("热门推荐");
             if (shopData.banner != null) {
+                if (!TextUtils.isEmpty(shopData.banner.badge)) {
+                    binding.shopNewFragmentBannerBadgeTv.setText(shopData.banner.badge);
+                    binding.shopNewFragmentBannerBadgeTv.setVisibility(View.VISIBLE);
+                }
                 if (!TextUtils.isEmpty(shopData.banner.title)) {
                     binding.shopNewFragmentBannerTitleTv.setText(shopData.banner.title);
                 }
@@ -121,8 +147,6 @@ public class ShopNewFragment extends BaseFragment {
                     binding.shopNewFragmentBannerSubtitleTv.setText(shopData.banner.subtitle);
                 }
                 if (!TextUtils.isEmpty(shopData.banner.image)) {
-                    final int radiusDp =
-                            shopData.banner.cornerRadius > 0 ? shopData.banner.cornerRadius : 12;
                     GlideUtil.yh_loadImage(
                             requireContext(),
                             binding.shopNewFragmentBannerIv,
@@ -138,42 +162,67 @@ public class ShopNewFragment extends BaseFragment {
                                             0,
                                             view.getWidth(),
                                             view.getHeight(),
-                                            SizeUtils.dp2px(radiusDp));
+                                            SizeUtils.dp2px(12));
                                 }
                             });
                 }
             }
+
+            List<String> categories = shopData.categories;
+            if (categories == null || categories.isEmpty()) {
+                categories = new ArrayList<>();
+                categories.add("全部");
+            }
+            categoryAdapter.setItems(categories);
+            categoryAdapter.setSelectedIndex(0);
+            selectedCategory = categories.get(0);
+            categoryAdapter.notifyDataSetChanged();
+
             allProducts.clear();
-            if (shopData.products != null) {
-                for (ShopProduct product : shopData.products) {
+            List<ShopProduct> goods =
+                    shopData.goods != null
+                            ? shopData.goods
+                            : (shopData.products != null ? shopData.products : null);
+            if (goods != null) {
+                for (ShopProduct product : goods) {
                     if (product == null) {
                         continue;
                     }
                     GroupInfoBean bean = new GroupInfoBean();
                     bean.name = product.name;
-                    bean.price1 = product.price;
-                    bean.price = product.priceValue;
+                    int priceVal = product.price > 0 ? product.price : product.priceValue;
+                    bean.price = priceVal;
+                    if (!TextUtils.isEmpty(product.priceText)) {
+                        bean.price1 = product.priceText;
+                    } else {
+                        bean.price1 = "¥" + priceVal;
+                    }
                     bean.avatar = product.image;
+                    bean.remark = product.category;
+                    bean.title = product.sold;
                     allProducts.add(bean);
                 }
             }
-            adapter.setItems(new ArrayList<>(allProducts));
-            adapter.notifyDataSetChanged();
+            applyFilter();
         } catch (Exception ignored) {
         }
     }
 
-    private void filterProducts(String keyword) {
-        if (TextUtils.isEmpty(keyword)) {
-            adapter.setItems(new ArrayList<>(allProducts));
-            adapter.notifyDataSetChanged();
-            return;
-        }
+    private void applyFilter() {
         List<GroupInfoBean> filtered = new ArrayList<>();
         for (GroupInfoBean bean : allProducts) {
-            if (bean != null && bean.name != null && bean.name.contains(keyword)) {
-                filtered.add(bean);
+            if (bean == null) {
+                continue;
             }
+            if (!"全部".equals(selectedCategory)
+                    && (TextUtils.isEmpty(bean.remark) || !selectedCategory.equals(bean.remark))) {
+                continue;
+            }
+            if (!TextUtils.isEmpty(keyword)
+                    && (TextUtils.isEmpty(bean.name) || !bean.name.contains(keyword))) {
+                continue;
+            }
+            filtered.add(bean);
         }
         adapter.setItems(filtered);
         adapter.notifyDataSetChanged();
@@ -196,11 +245,14 @@ public class ShopNewFragment extends BaseFragment {
         public String searchPlaceholder;
         public String sectionTitle;
         public ShopBanner banner;
+        public List<String> categories;
+        public List<ShopProduct> goods;
         public List<ShopProduct> products;
     }
 
     private static class ShopBanner {
         public String image;
+        public String badge;
         public String title;
         public String subtitle;
         public float maskAlpha;
@@ -208,9 +260,13 @@ public class ShopNewFragment extends BaseFragment {
     }
 
     private static class ShopProduct {
+        public String id;
         public String name;
-        public String price;
+        public String priceText;
+        public int price;
         public int priceValue;
+        public String category;
+        public String sold;
         public String image;
     }
 }

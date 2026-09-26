@@ -1,14 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) 2022 NetEase, Inc. All rights reserved.
-  ~ Use of this source code is governed by a MIT license that can be
-  ~ found in the LICENSE file.
-  -->
-
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5"
+    android:background="#F3F4F6"
     android:orientation="vertical">
 
     <TextView
@@ -19,7 +15,7 @@
         android:paddingTop="8dp"
         android:paddingBottom="12dp"
         android:text="商场"
-        android:textColor="#111111"
+        android:textColor="#111827"
         android:textSize="17sp"
         android:textStyle="bold" />
 
@@ -44,28 +40,29 @@
                 android:background="@drawable/bg_shop_search_pill"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingStart="16dp"
+                android:paddingStart="14dp"
                 android:paddingEnd="14dp">
-
-                <EditText
-                    android:id="@+id/fun_conversation_fragment_et"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@null"
-                    android:hint="搜索中秋礼盒"
-                    android:imeOptions="actionSearch"
-                    android:inputType="text"
-                    android:maxLines="1"
-                    android:textColor="#333333"
-                    android:textColorHint="#A8A8A8"
-                    android:textSize="14sp" />
 
                 <ImageView
                     android:layout_width="18dp"
                     android:layout_height="18dp"
                     android:contentDescription="@null"
                     android:src="@mipmap/fun_contact_search_icon" />
+
+                <EditText
+                    android:id="@+id/fun_conversation_fragment_et"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:hint="搜索键盘、耳机、充电器…"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:textColor="#111827"
+                    android:textColorHint="#9CA3AF"
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <FrameLayout
@@ -96,12 +93,24 @@
                     android:paddingHorizontal="16dp">
 
                     <TextView
+                        android:id="@+id/shop_new_fragment_banner_badge_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_shop_banner_badge"
+                        android:paddingHorizontal="8dp"
+                        android:paddingVertical="3dp"
+                        android:text="数码精选"
+                        android:textColor="@android:color/white"
+                        android:textSize="11sp" />
+
+                    <TextView
                         android:id="@+id/shop_new_fragment_banner_title_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="中秋礼遇"
+                        android:layout_marginTop="8dp"
+                        android:text="办公好物一站购"
                         android:textColor="@android:color/white"
-                        android:textSize="24sp"
+                        android:textSize="22sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -109,11 +118,20 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
-                        android:text="精选礼盒 · 茶酒坚果果篮月饼"
+                        android:text="键盘鼠标 · 耳机音箱 · 充电周边  全场≤¥1000"
                         android:textColor="#F2F2F2"
-                        android:textSize="13sp" />
+                        android:textSize="12sp" />
                 </LinearLayout>
             </FrameLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/shop_new_fragment_category_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:clipToPadding="false"
+                android:overScrollMode="never"
+                android:paddingHorizontal="16dp" />
 
             <TextView
                 android:id="@+id/shop_new_fragment_section_tv"
@@ -121,8 +139,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:paddingHorizontal="16dp"
-                android:text="中秋礼盒"
-                android:textColor="#111111"
+                android:text="热门推荐"
+                android:textColor="#111827"
                 android:textSize="17sp"
                 android:textStyle="bold" />
 
