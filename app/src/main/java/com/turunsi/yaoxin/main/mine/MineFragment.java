@@ -56,6 +56,7 @@ import com.turunsi.yaoxin.main.mine.setting.SettingNewActivity;
 import com.turunsi.yaoxin.main.mine.setting.SettingNotifyActivity;
 import com.turunsi.yaoxin.main.mine.setting.SettingNotifyNewActivity;
 import com.turunsi.yaoxin.utils.Constant;
+import com.turunsi.yaoxin.utils.IMUtil;
 import com.netease.yunxin.kit.alog.ALog;
 import com.netease.yunxin.kit.common.ui.fragments.BaseFragment;
 import com.netease.yunxin.kit.common.ui.utils.AvatarColor;
@@ -210,6 +211,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         binding.fragmentMineWdfhView.setOnClickListener(this);
         binding.fragmentMineKfView.setOnClickListener(this);
         binding.fragmentMineSzView.setOnClickListener(this);
+        binding.fragmentMineTcdlView.setOnClickListener(this);
         binding.fragmentMineQbglView.setOnClickListener(this);
         binding.fragmentMineZhushouView.setOnClickListener(this);
         binding.fragmentMineTzView.setOnClickListener(this);
@@ -358,6 +360,15 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 
         } else if (v == binding.fragmentMineXtszView || v == binding.fragmentMineSzView) {
             SettingNewActivity.start(SettingNewActivity.class, getContext(), null);
+        } else if (v == binding.fragmentMineTcdlView) {
+            if (getActivity() == null) {
+                return;
+            }
+            DialogAlertUtil.showAlert("确定退出登录吗？", type -> {
+                if (type == 1 && getActivity() != null) {
+                    IMUtil.loginOut(getActivity());
+                }
+            }, getActivity().getSupportFragmentManager());
         } else if (v == binding.fragmentMineHyzxView || v == binding.fragmentMineGotoUpgradeTv) {
 //            MyHuiYuanListActivity.start(MyHuiYuanListActivity.class, context, null);
             LiangHaoZoneActivity.start(LiangHaoZoneActivity.class, context, null);
