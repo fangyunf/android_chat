@@ -165,15 +165,8 @@ public class PopEnterPassword extends PopupWindow {
         }
     }
 
-    /** 金额（元）是否达到网络费展示门槛 */
+    /** 金额（元）是否达到网络费展示门槛（已取消网络费，始终不展示） */
     public static boolean shouldShowNetworkFee(String moneyYuan) {
-        if (TextUtils.isEmpty(moneyYuan)) {
-            return false;
-        }
-        try {
-            return Double.parseDouble(moneyYuan) >= NETWORK_FEE_THRESHOLD;
-        } catch (Exception e) {
-            return false;
-        }
+        return false;
     }
 }

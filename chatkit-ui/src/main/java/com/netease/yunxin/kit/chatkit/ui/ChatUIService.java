@@ -20,6 +20,7 @@ import com.netease.yunxin.kit.alog.ALog;
 import com.netease.yunxin.kit.chatkit.ChatService;
 import com.netease.yunxin.kit.chatkit.repo.ChatRepo;
 import com.netease.yunxin.kit.chatkit.ui.custom.GroupZhuanZhangAttachment;
+import com.netease.yunxin.kit.chatkit.ui.custom.GroupZhuanZhangLegacyAttachment;
 import com.netease.yunxin.kit.chatkit.ui.custom.MingPianAttachment;
 import com.netease.yunxin.kit.chatkit.ui.custom.MultiForwardAttachment;
 import com.netease.yunxin.kit.chatkit.ui.custom.RedPacketAttachment;
@@ -105,6 +106,9 @@ public class ChatUIService extends ChatService {
     ChatKitClient.addCustomAttach(ChatMessageType.ZhuanZhang_ATTACHMENT, ZhuanZhangAttachment.class);
     ChatKitClient.addCustomAttach(
         ChatMessageType.GROUP_ZHUANZHANG_ATTACHMENT, GroupZhuanZhangAttachment.class);
+    // 兼容历史错误 type=121 的群转账消息
+    ChatKitClient.addCustomAttach(
+        ChatMessageType.GROUP_ZHUANZHANG_ATTACHMENT_LEGACY, GroupZhuanZhangLegacyAttachment.class);
     ChatKitClient.addCustomAttach(ChatMessageType.MingPian_ATTACHMENT, MingPianAttachment.class);
 
     chatKitInit(context);

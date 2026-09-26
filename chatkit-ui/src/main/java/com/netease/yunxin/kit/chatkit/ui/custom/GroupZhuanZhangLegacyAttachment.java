@@ -6,10 +6,10 @@ package com.netease.yunxin.kit.chatkit.ui.custom;
 
 import com.netease.yunxin.kit.chatkit.ui.ChatMessageType;
 
-/** 群内转账自定义消息，type=503，展示与个人转账一致 */
-public class GroupZhuanZhangAttachment extends ZhuanZhangAttachment {
+/** 兼容历史错误 type=121 的群转账消息 */
+public class GroupZhuanZhangLegacyAttachment extends ZhuanZhangAttachment {
 
-  public GroupZhuanZhangAttachment() {
-    super(ChatMessageType.GROUP_ZHUANZHANG_ATTACHMENT);
+  public GroupZhuanZhangLegacyAttachment() {
+    super(ChatMessageType.GROUP_ZHUANZHANG_ATTACHMENT_LEGACY);
   }
 }

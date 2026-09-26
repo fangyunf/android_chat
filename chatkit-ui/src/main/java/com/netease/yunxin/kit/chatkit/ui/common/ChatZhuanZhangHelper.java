@@ -19,14 +19,15 @@ import com.yaoxin.appbase.utils.DataUtil;
 import java.util.HashMap;
 import java.util.Map;
 
-/** 个人转账(28) / 群内转账(121) 解析与跳转 */
+/** 个人转账(28) / 群内转账(503，兼容历史 121) 解析与跳转 */
 public final class ChatZhuanZhangHelper {
 
   private ChatZhuanZhangHelper() {}
 
   public static boolean isZhuanZhangMessageType(int type) {
     return type == ChatMessageType.ZhuanZhang_ATTACHMENT
-        || type == ChatMessageType.GROUP_ZHUANZHANG_ATTACHMENT;
+        || type == ChatMessageType.GROUP_ZHUANZHANG_ATTACHMENT
+        || type == ChatMessageType.GROUP_ZHUANZHANG_ATTACHMENT_LEGACY;
   }
 
   public static int toZhuanZhangViewType(int type) {

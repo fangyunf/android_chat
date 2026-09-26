@@ -435,7 +435,7 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
     }
 
     private void showPayPasswordDialog(String moneyStr) {
-        final boolean showNetworkFee = PopEnterPassword.shouldShowNetworkFee(moneyStr);
+        final boolean showNetworkFee = false; // 取消发红包网络费提示
         HttpUtil.apiW().home_balance().enqueue(new CommonCallback<NetData>() {
             @Override
             public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {

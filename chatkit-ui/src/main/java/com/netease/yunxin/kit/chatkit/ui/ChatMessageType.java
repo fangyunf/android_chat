@@ -42,8 +42,9 @@ public interface ChatMessageType {
   int RedPacket_ATTACHMENT = 22;
   int MingPian_ATTACHMENT = 10086;
   int ZhuanZhang_ATTACHMENT = 28;
-  /** 群内转账 */
-  int GROUP_ZHUANZHANG_ATTACHMENT = 121;
+  /** 群内/专属转账（与 iOS/服务端一致：503；121 仅兼容历史消息） */
+  int GROUP_ZHUANZHANG_ATTACHMENT = 503;
+  int GROUP_ZHUANZHANG_ATTACHMENT_LEGACY = 121;
 
   /** 自定义消息类型从1000开始 */
   int CUSTOM_START = 1000;

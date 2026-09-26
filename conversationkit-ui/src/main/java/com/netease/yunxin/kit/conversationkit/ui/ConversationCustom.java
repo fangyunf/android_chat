@@ -79,7 +79,9 @@ public class ConversationCustom {
                                         return "[红包]";
                                     } else if (bean.type == 23) {
                                         return "[红包]";
-                                    } else if (bean.type == 28) {
+                                    } else if (bean.type == 28
+                                            || bean.type == 503
+                                            || bean.type == 121) {
                                         return "[转账]";
                                     }
                                 }

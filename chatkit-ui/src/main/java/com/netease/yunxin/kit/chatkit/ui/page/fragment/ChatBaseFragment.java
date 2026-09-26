@@ -456,17 +456,15 @@ public abstract class ChatBaseFragment extends BaseFragment {
                                 DialogAlertUtil.showPopWindow(getActivity(), view, popData, new DialogAlertUtil.PopWindowCallBack() {
                                     @Override
                                     public void onItemClick(int position, String itemText) {
-                                        if (position == 0) {
-                                            // @此人
+                                        if (TextUtils.equals(itemText, "@此人")) {
                                             aitManager.insertReplyAit(account, tempName);
-                                        } else if (position == 1) {
-                                            // 专属红包
+                                        } else if (TextUtils.equals(itemText, "专属红包")) {
                                             HashMap map = new HashMap();
                                             map.put("sessionId", sessionID);
                                             map.put("sessionType", "2");
                                             map.put("userInfo", new Gson().toJson(messageBean.getMessageData().getFromUser()));
                                             FunSendRedPacketActivity.start(FunSendRedPacketActivity.class, getContext(), map);
-                                        } else if (itemText.equals("专属转账")) {
+                                        } else if (TextUtils.equals(itemText, "专属转账")) {
                                             HashMap map = new HashMap();
                                             map.put("sessionId", sessionID);
                                             map.put("sessionType", "2");
@@ -479,11 +477,9 @@ public abstract class ChatBaseFragment extends BaseFragment {
                                             map.put("userInfo", new Gson().toJson(target));
                                             FunSendZhuanZhangActivity.start(
                                                     FunSendZhuanZhangActivity.class, getContext(), map);
-                                        } else if (position == 2 && itemText.equals("禁止抢包")) {
-                                            // 禁止抢包
+                                        } else if (TextUtils.equals(itemText, "禁止抢包")) {
                                             handleForbidRedPacket(account, tempName, sessionID);
-                                        } else if (position == 3 && itemText.equals("踢除此人")) {
-                                            // 踢除此人
+                                        } else if (TextUtils.equals(itemText, "踢除此人")) {
                                             handleKickMember(account, tempName, sessionID);
                                         }
                                     }

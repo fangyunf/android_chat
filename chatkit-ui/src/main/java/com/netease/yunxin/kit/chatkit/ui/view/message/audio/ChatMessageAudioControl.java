@@ -4,6 +4,8 @@
 
 package com.netease.yunxin.kit.chatkit.ui.view.message.audio;
 
+import android.content.Context;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import androidx.annotation.Nullable;
 import com.netease.nimlib.sdk.NIMClient;
@@ -35,7 +37,8 @@ public class ChatMessageAudioControl extends BaseAudioControl<IMMessageInfo> {
   private IMMessageInfo mItem = null;
 
   private ChatMessageAudioControl() {
-    super(true);
+    // false：默认扬声器播放，避免听筒模式音量过小
+    super(false);
   }
 
   public static ChatMessageAudioControl getInstance() {
@@ -48,6 +51,31 @@ public class ChatMessageAudioControl extends BaseAudioControl<IMMessageInfo> {
     }
 
     return mChatMessageAudioControl;
+  }
+
+  /**
+   * 扬声器播放时切到外放，避免听筒路由导致语音偏小。
+   */
+  public static void ensurePlayLoudness(Context context, boolean handsetMode) {
+    if (context == null || handsetMode) {
+      return;
+    }
+    try {
+      AudioManager am = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+      if (am == null) {
+        return;
+      }
+      am.setMode(AudioManager.MODE_NORMAL);
+      am.setSpeakerphoneOn(true);
+      int max = am.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+      int cur = am.getStreamVolume(AudioManager.STREAM_MUSIC);
+      // 若媒体音量过低，提到约 70%，避免语音几乎听不见
+      if (max > 0 && cur < max * 0.4f) {
+        am.setStreamVolume(
+            AudioManager.STREAM_MUSIC, Math.max(1, (int) (max * 0.7f)), 0);
+      }
+    } catch (Exception ignored) {
+    }
   }
 
   @Override

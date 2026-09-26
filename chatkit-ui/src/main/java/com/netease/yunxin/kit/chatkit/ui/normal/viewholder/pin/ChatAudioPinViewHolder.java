@@ -135,7 +135,9 @@ public class ChatAudioPinViewHolder extends ChatBasePinViewHolder {
     super.onBindData(data, position, payload);
     if (payload.contains(PAYLOAD_REFRESH_AUDIO_ANIM)) {
       initPlayAnim();
-      audioControl.setEarPhoneModeEnable(SettingRepo.getHandsetMode());
+      boolean handset = SettingRepo.getHandsetMode();
+      audioControl.setEarPhoneModeEnable(handset);
+      ChatMessageAudioControl.ensurePlayLoudness(parent.getContext(), handset);
       audioControl.startPlayAudioDelay(
           CLICK_TO_PLAY_AUDIO_DELAY, data.getMessageData(), onPlayListener);
     }

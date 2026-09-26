@@ -249,10 +249,10 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
 
     void sendTipMsg(boolean isGroup) {
         boolean isExit = false;
-        if (openReusltBean != null && !openReusltBean.vos.isEmpty()) {
-            for (CustomMsgBean bean :
-                    openReusltBean.vos) {
-                if (bean.userId.equals(DataUtil.getUserid())) {
+        if (openReusltBean != null && openReusltBean.vos != null && !openReusltBean.vos.isEmpty()) {
+            String myUserId = DataUtil.getUserid();
+            for (CustomMsgBean bean : openReusltBean.vos) {
+                if (bean != null && TextUtils.equals(bean.userId, myUserId)) {
                     isExit = true;
                     break;
                 }

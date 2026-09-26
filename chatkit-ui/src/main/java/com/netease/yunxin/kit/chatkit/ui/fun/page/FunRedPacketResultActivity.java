@@ -3,41 +3,28 @@ package com.netease.yunxin.kit.chatkit.ui.fun.page;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.InputType;
-import android.text.TextWatcher;
+import android.text.TextUtils;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.gson.Gson;
 import com.netease.yunxin.kit.chatkit.ui.databinding.ActivityFunRedPacketResultDetailBinding;
-import com.netease.yunxin.kit.chatkit.ui.databinding.ActivityFunSendRedPacketBinding;
 import com.netease.yunxin.kit.chatkit.ui.fun.page.adapter.RedPacketResultDetailAdapter;
-import com.netease.yunxin.kit.chatkit.ui.fun.page.fragment.FunOpenRedPacketFragment;
-import com.netease.yunxin.kit.corekit.im.model.UserInfo;
-import com.netease.yunxin.kit.corekit.route.XKitRouter;
 import com.yaoxin.appbase.activity.BaseActivity;
 import com.yaoxin.appbase.model.CustomMsgBean;
 import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.RegisterBean;
-import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
-import com.yaoxin.appbase.net.Constant;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.BarUtils;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.GlideUtil;
-import com.yaoxin.appbase.utils.ICallBack;
 import com.yaoxin.appbase.utils.NumberUtil;
 import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
-import com.yaoxin.appbase.view.actionsheet.ActionSheet;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -87,19 +74,36 @@ public class FunRedPacketResultActivity extends BaseActivity implements View.OnC
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                         redBean = new Gson().fromJson(body.data.toString(), CustomMsgBean.class);
-                        if (redBean.vos.size() == Integer.parseInt(redBean.totalNum)) {
-                            double maxMoeny = 0;
-                            int index = 0;
-                            int bestIndex = 0;
-                            for (CustomMsgBean tempBean :
-                                    redBean.vos) {
-                                if (Double.parseDouble(tempBean.amount) > maxMoeny) {
-                                    maxMoeny = Double.parseDouble(tempBean.amount);
-                                    bestIndex = index;
+                        if (redBean == null) {
+                            return;
+                        }
+                        if (redBean.vos == null) {
+                            redBean.vos = new java.util.ArrayList<>();
+                        }
+                        try {
+                            if (!redBean.vos.isEmpty()
+                                    && !TextUtils.isEmpty(redBean.totalNum)
+                                    && redBean.vos.size() == Integer.parseInt(redBean.totalNum)) {
+                                double maxMoeny = 0;
+                                int index = 0;
+                                int bestIndex = 0;
+                                for (CustomMsgBean tempBean : redBean.vos) {
+                                    if (tempBean == null || TextUtils.isEmpty(tempBean.amount)) {
+                                        index++;
+                                        continue;
+                                    }
+                                    double amount = Double.parseDouble(tempBean.amount);
+                                    if (amount > maxMoeny) {
+                                        maxMoeny = amount;
+                                        bestIndex = index;
+                                    }
+                                    index++;
                                 }
-                                index++;
+                                if (bestIndex >= 0 && bestIndex < redBean.vos.size()) {
+                                    redBean.vos.get(bestIndex).isBest = true;
+                                }
                             }
-                            redBean.vos.get(bestIndex).isBest = true;
+                        } catch (Exception ignored) {
                         }
 
                         adapter.setItems(redBean.vos);
@@ -132,17 +136,21 @@ public class FunRedPacketResultActivity extends BaseActivity implements View.OnC
             binding.activityFunRedPacketResultDetailMoneyTv.setText(NumberUtil.formartMoney(redBean.sendAmount));
             binding.activityFunRedPacketResultDetailBottomLl.setVisibility(View.GONE);
         } else {
-            if (redBean.lootAll.isEmpty()) {
+            if (TextUtils.isEmpty(redBean.lootAll)) {
                 binding.activityFunRedPacketResultDetailRvDetailTv.setText("已领取" + redBean.vos.size() + "/" + redBean.totalNum + "个  共" + NumberUtil.formartMoney(redBean.sendAmount) + "元");
             } else {
                 binding.activityFunRedPacketResultDetailRvDetailTv.setText(redBean.totalNum + "个红包共" + NumberUtil.formartMoney(redBean.sendAmount) + "元，" + redBean.lootAll + "被抢光");
             }
             boolean hasme = false;
-            for (CustomMsgBean tempBean :
-                    redBean.vos) {
-                if (tempBean.userId.equals(DataUtil.getUserid())) {
+            String myUserId = DataUtil.getUserid();
+            for (CustomMsgBean tempBean : redBean.vos) {
+                if (tempBean != null
+                        && !TextUtils.isEmpty(tempBean.userId)
+                        && TextUtils.equals(tempBean.userId, myUserId)) {
                     hasme = true;
-                    binding.activityFunRedPacketResultDetailMoneyTv.setText(NumberUtil.formartMoney(tempBean.amount));
+                    binding.activityFunRedPacketResultDetailMoneyTv.setVisibility(View.VISIBLE);
+                    binding.activityFunRedPacketResultDetailMoneyTv.setText(
+                            NumberUtil.formartMoney(tempBean.amount));
                     break;
                 }
             }
