@@ -104,11 +104,18 @@
     </RelativeLayout>
 
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/activity_fun_red_packet_record_list_rv"
+    <com.scwang.smart.refresh.layout.SmartRefreshLayout
+        android:id="@+id/activity_fun_red_packet_record_list_refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dimen_14_dp" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="@dimen/dimen_14_dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/activity_fun_red_packet_record_list_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 
 </LinearLayout>
     <LinearLayout
@@ -124,7 +131,7 @@
             android:id="@+id/activity_fun_red_packet_record_list_choose_date_tv"
             android:layout_width="wrap_content"
             android:layout_height="22dp"
-            android:text="2023-11"
+            android:text="2023-11-01"
             android:textColor="@color/app_theme_color"
             android:textSize="16sp" />
 
