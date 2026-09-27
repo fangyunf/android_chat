@@ -7,16 +7,22 @@ import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.ImageView;
 
+import androidx.annotation.Nullable;
+
+import com.bumptech.glide.Glide;
 import com.yaoxin.appbase.net.Constant;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -158,6 +164,57 @@ public class ImageUtil {
             }
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * 阻塞下载图片到 dir，返回可直接发送的本地文件；失败返回 null。不能在主线程调用。
+     * 走 Glide 与列表展示同一条加载链路，并按真实格式取后缀，避免同名文件被覆盖。
+     */
+    @Nullable
+    public static File downloadImageToFile(Context context, String imageUrl, File dir, String prefix) {
+        if (context == null || TextUtils.isEmpty(imageUrl) || dir == null) {
+            return null;
+        }
+        try {
+            File cached = Glide.with(context.getApplicationContext())
+                    .downloadOnly()
+                    .load(imageUrl)
+                    .submit()
+                    .get();
+            if (cached == null || !cached.exists() || cached.length() == 0) {
+                return null;
+            }
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true;
+            BitmapFactory.decodeFile(cached.getAbsolutePath(), options);
+            if (options.outWidth <= 0 || options.outHeight <= 0) {
+                return null;
+            }
+            String ext = ".jpg";
+            if ("image/png".equals(options.outMimeType)) {
+                ext = ".png";
+            } else if ("image/gif".equals(options.outMimeType)) {
+                ext = ".gif";
+            } else if ("image/webp".equals(options.outMimeType)) {
+                ext = ".webp";
+            }
+            if (!dir.exists() && !dir.mkdirs()) {
+                return null;
+            }
+            File target = new File(dir, prefix + System.currentTimeMillis() + ext);
+            try (InputStream in = new FileInputStream(cached);
+                 OutputStream out = new FileOutputStream(target)) {
+                byte[] buffer = new byte[8192];
+                int len;
+                while ((len = in.read(buffer)) != -1) {
+                    out.write(buffer, 0, len);
+                }
+            }
+            return target.length() > 0 ? target : null;
+        } catch (Exception e) {
+            Log.e("ImageUtil", "downloadImageToFile failed: " + imageUrl, e);
+            return null;
         }
     }
 

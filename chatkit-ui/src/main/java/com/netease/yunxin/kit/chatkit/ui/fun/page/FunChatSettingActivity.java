@@ -68,7 +68,10 @@ import com.yaoxin.appbase.view.LoadingDialog;
 
 import org.greenrobot.eventbus.EventBus;
 
+import com.yaoxin.appbase.model.GroupInfoBean;
+
 import java.util.ArrayList;
+import java.util.List;
 import java.util.HashMap;
 
 import retrofit2.Call;
@@ -427,12 +430,14 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
                                 userInfoData.friendInfo.setAlias(comment);
                                 viewModel1.updateAlias(userInfoData.data.getAccount(), comment);
                                 if (userBean != null) {
-                                    if (TextUtils.isEmpty(userBean.memberCode)) {
+                                    String memberCode = resolveFriendMemberCode();
+                                    if (TextUtils.isEmpty(memberCode)) {
                                         ToastUtils.toastMsg("暂无法修改备注");
                                         return;
                                     }
                                     RegisterBean bean = new RegisterBean();
-                                    bean.memberCode = userBean.memberCode;
+                                    bean.memberCode = memberCode;
+                                    bean.userId = accId;
                                     bean.alias = comment;
                                     HttpUtil.apiW().friends_updateRemark(bean)
                                             .enqueue(new CommonCallback<NetData>() {
@@ -450,6 +455,19 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
 
                             }
                         });
+    }
+
+    /** 备注接口按好友关系查 memberCode，searchByUserId 返回的可能对不上，优先取好友列表里的 */
+    private String resolveFriendMemberCode() {
+        List<GroupInfoBean> friendList = DataUtil.getFriendInfoList();
+        for (GroupInfoBean friend : friendList) {
+            if (friend != null
+                    && TextUtils.equals(friend.userId, accId)
+                    && !TextUtils.isEmpty(friend.memberCode)) {
+                return friend.memberCode;
+            }
+        }
+        return userBean != null ? userBean.memberCode : null;
     }
 
     private void refreshView() {

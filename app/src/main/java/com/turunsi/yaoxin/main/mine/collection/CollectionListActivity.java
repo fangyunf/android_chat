@@ -296,23 +296,25 @@ public class CollectionListActivity extends BaseActivity implements View.OnClick
             if (TextUtils.isEmpty(pendingImageUrl)) {
                 return;
             }
-            File dir = getExternalFilesDir(null);
-            if (dir == null) {
-                ToastUtils.toastMsg("发送失败");
-                return;
-            }
-            File imageFile = new File(dir, "collect_forward_" + System.currentTimeMillis() + ".jpg");
-            ImageUtil.downloadImageSync(pendingImageUrl, imageFile);
-            if (!imageFile.exists() || imageFile.length() == 0) {
-                ToastUtils.toastMsg("图片下载失败");
-                clearPendingForward();
-                return;
-            }
-            for (String sid : sessionIds) {
-                IMMessage imageMsg = MessageBuilder.createImageMessage(sid, sessionType, imageFile);
-                ChatRepo.sendMessage(imageMsg, false, null);
-            }
-            ToastUtils.toastMsg("已转发");
+            File externalDir = getExternalFilesDir(null);
+            File dir = externalDir != null ? externalDir : getCacheDir();
+            String imageUrl = pendingImageUrl;
+            clearPendingForward();
+            new Thread(() -> {
+                File imageFile = ImageUtil.downloadImageToFile(this, imageUrl, dir, "collect_forward_");
+                runOnUiThread(() -> {
+                    if (imageFile == null) {
+                        ToastUtils.toastMsg("图片下载失败，请重试");
+                        return;
+                    }
+                    for (String sid : sessionIds) {
+                        IMMessage imageMsg = MessageBuilder.createImageMessage(sid, sessionType, imageFile);
+                        ChatRepo.sendMessage(imageMsg, false, null);
+                    }
+                    ToastUtils.toastMsg("已转发");
+                });
+            }).start();
+            return;
         } else {
             if (TextUtils.isEmpty(pendingForwardText)) {
                 clearPendingForward();

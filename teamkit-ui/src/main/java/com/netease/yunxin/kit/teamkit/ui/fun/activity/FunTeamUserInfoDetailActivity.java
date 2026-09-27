@@ -521,12 +521,16 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
     protected void callBackResult(Intent data) {
         super.callBackResult(data);
         String result = data.getStringExtra("result");
-        if (TextUtils.isEmpty(groupInfoBean.memberCode)) {
+        String memberCode = friendBean != null && !TextUtils.isEmpty(friendBean.memberCode)
+                ? friendBean.memberCode
+                : groupInfoBean.memberCode;
+        if (TextUtils.isEmpty(memberCode)) {
             ToastUtils.toastMsg("暂无法修改备注");
             return;
         }
         RegisterBean bean = new RegisterBean();
-        bean.memberCode = groupInfoBean.memberCode;
+        bean.memberCode = memberCode;
+        bean.userId = groupInfoBean.userId;
         bean.alias = result;
         HttpUtil.apiW().friends_updateRemark(bean).enqueue(new CommonCallback<NetData>() {
             @Override

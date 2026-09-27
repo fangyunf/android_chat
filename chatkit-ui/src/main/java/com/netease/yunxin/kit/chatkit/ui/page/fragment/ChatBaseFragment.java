@@ -1719,9 +1719,27 @@ public abstract class ChatBaseFragment extends BaseFragment {
     }
 
     private void downloadImage(String imageUrl, Context context) {
-        File outputFile = new File(getContext().getExternalFilesDir(null), "downloaded_image.jpg");
-        ImageUtil.downloadImageSync(imageUrl, outputFile);
-        messageProxy.sendImageMessage(outputFile);
+        if (context == null || TextUtils.isEmpty(imageUrl)) {
+            ToastUtils.toastMsg("图片地址无效");
+            return;
+        }
+        Context appContext = context.getApplicationContext();
+        File dir = appContext.getExternalFilesDir(null);
+        File saveDir = dir != null ? dir : appContext.getCacheDir();
+        Handler mainHandler = new Handler(android.os.Looper.getMainLooper());
+        new Thread(() -> {
+            File imageFile = ImageUtil.downloadImageToFile(appContext, imageUrl, saveDir, "collect_");
+            mainHandler.post(() -> {
+                if (!isAdded()) {
+                    return;
+                }
+                if (imageFile == null) {
+                    ToastUtils.toastMsg("图片下载失败，请重试");
+                    return;
+                }
+                messageProxy.sendImageMessage(imageFile);
+            });
+        }).start();
     }
 
     protected abstract void initData(Bundle bundle);
