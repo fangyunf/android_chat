@@ -308,6 +308,7 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
                             XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_SETTING_PAGE)
                                     .withParam(RouterConstant.CHAT_ID_KRY, friend.userId)
                                     .withParam("type", "1")
+                                    .withParam("friend", new Gson().toJson(friend))
                                     .withContext(requireActivity())
                                     .navigate();
                         }
@@ -397,7 +398,12 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
             public void onClick(@NonNull BaseQuickAdapter<GroupInfoBean, ?> baseQuickAdapter, @NonNull View view, int i) {
                 GroupInfoBean friend = baseQuickAdapter.getItem(i);
                 if (friend != null) {
-                    XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_SETTING_PAGE).withParam(RouterConstant.CHAT_ID_KRY, friend.userId).withParam("type", "1").withContext(requireActivity()).navigate();
+                    XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_SETTING_PAGE)
+                            .withParam(RouterConstant.CHAT_ID_KRY, friend.userId)
+                            .withParam("type", "1")
+                            .withParam("friend", new Gson().toJson(friend))
+                            .withContext(requireActivity())
+                            .navigate();
                 }
             }
         });

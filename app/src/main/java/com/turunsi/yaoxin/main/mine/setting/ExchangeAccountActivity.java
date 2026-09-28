@@ -8,6 +8,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.Toast;
 
@@ -77,7 +79,9 @@ public class ExchangeAccountActivity extends BaseActivity implements View.OnClic
             public void onClick(@NonNull BaseQuickAdapter<UserBean, ?> baseQuickAdapter, @NonNull View view, int i) {
                 if (baseQuickAdapter.getItemViewType(i) == ExchangeAccountAdapter.TYPE_ITEM) {
                     UserBean item = baseQuickAdapter.getItem(i);
-                    if (!item.userId.equals(DataUtil.getUserid())) {
+                    if (item != null
+                            && item.userId != null
+                            && !item.userId.equals(DataUtil.getUserid())) {
                         DialogAlertUtil.showAlert("确认切换账号吗？", new DialogAlertUtil.DialogAlertUtilCallBack() {
                             @Override
                             public void clickType(int type) {
@@ -86,11 +90,10 @@ public class ExchangeAccountActivity extends BaseActivity implements View.OnClic
                                 }
                             }
                         }, getSupportFragmentManager());
-
                     }
-
                 } else {
-                    showLogin();
+                    // 底部「添加账号」：只退出当前会话，保留账号列表，再去登录页加号
+                    goLoginToAddAccount();
                 }
             }
         });
@@ -151,6 +154,7 @@ public class ExchangeAccountActivity extends BaseActivity implements View.OnClic
                             ((IMApplication) getApplicationContext())
                                     .clearActivity(ExchangeAccountActivity.this);
                         }
+                        // 退出登录：从账号列表移除当前号，并清会话
                         DataUtil.deleteLoginUserInfoList(DataUtil.getUserInfo());
                         DataUtil.deleteData();
                         startActivity(new Intent(ExchangeAccountActivity.this, WelcomeLoginActivity.class));
@@ -159,7 +163,41 @@ public class ExchangeAccountActivity extends BaseActivity implements View.OnClic
                 });
     }
 
+    /** 添加账号：退出当前 IM 会话，但保留本地多账号列表 */
+    void goLoginToAddAccount() {
+        IMKitClient.logoutIM(
+                new com.netease.yunxin.kit.corekit.im.login.LoginCallback<Void>() {
+                    @Override
+                    public void onError(int errorCode, @NonNull String errorMsg) {
+                        Toast.makeText(
+                                        ExchangeAccountActivity.this,
+                                        "error code is " + errorCode + ", message is " + errorMsg,
+                                        Toast.LENGTH_SHORT)
+                                .show();
+                    }
+
+                    @Override
+                    public void onSuccess(@Nullable Void data) {
+                        if (getApplicationContext() instanceof IMApplication) {
+                            ((IMApplication) getApplicationContext())
+                                    .clearActivity(ExchangeAccountActivity.this);
+                        }
+                        DataUtil.deleteData();
+                        startActivity(new Intent(ExchangeAccountActivity.this, LoginActivity.class));
+                        finish();
+                    }
+                });
+    }
+
     void exchangeLogin(UserBean userBean) {
+        if (userBean == null
+                || userBean.userId == null
+                || userBean.userId.isEmpty()
+                || userBean.imToken == null
+                || userBean.imToken.isEmpty()) {
+            ToastUtils.toastMsg("账号凭证失效，请重新登录该账号");
+            return;
+        }
         Activity that = this;
         IMKitClient.logoutIM(
                 new com.netease.yunxin.kit.corekit.im.login.LoginCallback<Void>() {
@@ -179,13 +217,16 @@ public class ExchangeAccountActivity extends BaseActivity implements View.OnClic
                                     .clearActivity(ExchangeAccountActivity.this);
                         }
                         DataUtil.deleteData();
-//                        startActivity(new Intent(ExchangeAccountActivity.this, LoginActivity.class));
-//                        finish();
-
-                        DataUtil.putUserInfo(userBean);
-                        DataUtil.putToken(userBean.token);
-//                        DataUtil.addLoginUserInfoList(userBean);
-                        IMUtil.loginIM(that, userBean.userId, userBean.imToken);
+                        // 延迟再登录，避免 SDK 未清理完旧连接导致切换失败被踢回登录页
+                        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                            if (that.isFinishing()) {
+                                return;
+                            }
+                            DataUtil.putUserInfo(userBean);
+                            DataUtil.putToken(userBean.token);
+                            DataUtil.addLoginUserInfoList(userBean);
+                            IMUtil.loginIM(that, userBean.userId, userBean.imToken);
+                        }, 450);
                     }
                 });
     }

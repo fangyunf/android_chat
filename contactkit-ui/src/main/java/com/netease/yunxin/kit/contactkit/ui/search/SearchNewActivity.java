@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.chad.library.adapter4.BaseQuickAdapter;
+import com.google.gson.Gson;
 import com.netease.yunxin.kit.contactkit.ui.databinding.FunSearchActivityNewBinding;
 import com.netease.yunxin.kit.contactkit.ui.normal.contact.adapter.ContactUserListAdapter;
 import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
@@ -42,9 +43,14 @@ public class SearchNewActivity extends BaseActivity implements View.OnClickListe
             @Override
             public void onClick(@NonNull BaseQuickAdapter<GroupInfoBean, ?> baseQuickAdapter, @NonNull View view, int i) {
                 if (baseQuickAdapter.getItemViewType(i) == Constant.RECYCLE_VIEW_ITEM) {
+                    GroupInfoBean friend = baseQuickAdapter.getItem(i);
+                    if (friend == null) {
+                        return;
+                    }
                     XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_SETTING_PAGE)
-                            .withParam(RouterConstant.CHAT_ID_KRY, baseQuickAdapter.getItem(i ).userId)
+                            .withParam(RouterConstant.CHAT_ID_KRY, friend.userId)
                             .withParam("type", "1")
+                            .withParam("friend", new Gson().toJson(friend))
                             .withContext(that)
                             .navigate();
                 }

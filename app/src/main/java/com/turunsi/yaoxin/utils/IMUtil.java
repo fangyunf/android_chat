@@ -34,6 +34,16 @@ import retrofit2.Response;
 
 public class IMUtil {
     public static void loginIM(Activity context, String account, String token) {
+        if (account == null || account.isEmpty() || token == null || token.isEmpty()) {
+            ToastUtils.toastMsg("登录凭证无效，请重新登录");
+            if (context != null && context.getClass() != LoginActivity.class) {
+                Intent intent = new Intent(context, WelcomeLoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                context.startActivity(intent);
+                context.finish();
+            }
+            return;
+        }
 
         LoginInfo loginInfo = LoginInfo.LoginInfoBuilder.loginInfoDefault(account, token)
                 .withAppKey(DataUtils.readAppKey(context))
@@ -43,6 +53,7 @@ public class IMUtil {
                 new LoginCallback<LoginInfo>() {
                     @Override
                     public void onError(int errorCode, @NonNull String errorMsg) {
+                        ToastUtils.toastMsg("切换失败(" + errorCode + ")，请重新登录该账号");
                         if (context.getClass() != LoginActivity.class) {
                             Intent intent = new Intent();
                             intent.setClass(context, WelcomeLoginActivity.class);
@@ -69,6 +80,7 @@ public class IMUtil {
                         UserBean userBean = new Gson().fromJson((String) body.data, UserBean.class);
                         DataUtil.putUserInfo(userBean);
                         DataUtil.putToken(userBean.token);
+                        DataUtil.addLoginUserInfoList(userBean);
 
                     }
 

@@ -91,6 +91,7 @@ public class OtherPlaceLoginFragment extends BaseDialogFragment implements View.
                             UserBean userBean = new Gson().fromJson((String) body.data,UserBean.class);
                             DataUtil.putUserInfo(userBean);
                             DataUtil.putToken(userBean.token);
+                            DataUtil.addLoginUserInfoList(userBean);
                             IMUtil.loginIM(that,userBean.userId,userBean.imToken);
                         }
 

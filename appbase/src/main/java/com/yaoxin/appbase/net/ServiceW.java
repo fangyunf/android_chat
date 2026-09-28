@@ -110,6 +110,7 @@ public interface ServiceW {
             @Body RegisterBean userBean
     );
 
+    /** 按 userId 查用户/好友资料（好友详情等），body 传 userId */
     @POST("/friends/searchByUserId")
     Call<NetData> friends_searchByUserId(
             @Body RegisterBean userBean

@@ -72,32 +72,56 @@ public class DataUtil {
         return arrayList;
     }
     public static void addLoginUserInfoList(UserBean userBean) {
+        if (userBean == null || userBean.userId == null || userBean.userId.isEmpty()) {
+            return;
+        }
         ArrayList<UserBean> arrayList = Hawk.get(USERInfoList);
         if (arrayList == null || arrayList.isEmpty()) {
             arrayList = new ArrayList<>();
         }
-        boolean hasUser = false;
-        for (UserBean userInfo : arrayList) {
-            if (userInfo.userId.equals(userBean.userId)) {
-                hasUser = true;
-                break;
+        for (int i = 0; i < arrayList.size(); i++) {
+            UserBean userInfo = arrayList.get(i);
+            if (userInfo != null && userBean.userId.equals(userInfo.userId)) {
+                // 刷新资料时保留本地已有的登录凭证，避免 getToken 回包没带 imToken 把切换账号凭证冲掉
+                if (isEmpty(userBean.imToken) && !isEmpty(userInfo.imToken)) {
+                    userBean.imToken = userInfo.imToken;
+                }
+                if (isEmpty(userBean.token) && !isEmpty(userInfo.token)) {
+                    userBean.token = userInfo.token;
+                }
+                if (isEmpty(userBean.avatar) && !isEmpty(userInfo.avatar)) {
+                    userBean.avatar = userInfo.avatar;
+                }
+                if (isEmpty(userBean.name) && !isEmpty(userInfo.name)) {
+                    userBean.name = userInfo.name;
+                }
+                if (isEmpty(userBean.username) && !isEmpty(userInfo.username)) {
+                    userBean.username = userInfo.username;
+                }
+                if (isEmpty(userBean.memberCode) && !isEmpty(userInfo.memberCode)) {
+                    userBean.memberCode = userInfo.memberCode;
+                }
+                arrayList.set(i, userBean);
+                Hawk.put(USERInfoList, arrayList);
+                return;
             }
         }
-        if (!hasUser) {
-            arrayList.add(userBean);
-            Hawk.put(USERInfoList, arrayList);
-        }
+        arrayList.add(userBean);
+        Hawk.put(USERInfoList, arrayList);
     }
+
     public static void deleteLoginUserInfoList(UserBean userBean) {
+        if (userBean == null || userBean.userId == null) {
+            return;
+        }
         ArrayList<UserBean> arrayList = Hawk.get(USERInfoList);
         if (arrayList == null) {
             return;
         }
-        boolean hasUser = false;
-        for (UserBean userInfo : arrayList) {
-            if (userInfo.userId.equals(userBean.userId)) {
-                hasUser = true;
-                arrayList.remove(userInfo);
+        for (int i = 0; i < arrayList.size(); i++) {
+            UserBean userInfo = arrayList.get(i);
+            if (userInfo != null && userBean.userId.equals(userInfo.userId)) {
+                arrayList.remove(i);
                 Hawk.put(USERInfoList, arrayList);
                 return;
             }
@@ -153,6 +177,10 @@ public class DataUtil {
     }
     public static String getStringValue(String key) {
         return Hawk.get(key);
+    }
+
+    private static boolean isEmpty(String s) {
+        return s == null || s.isEmpty();
     }
 
 }

@@ -330,6 +330,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         UserBean userBean = new Gson().fromJson((String) body.data, UserBean.class);
                         DataUtil.putUserInfo(userBean);
                         DataUtil.putToken(userBean.token);
+                        DataUtil.addLoginUserInfoList(userBean);
                         IMUtil.loginIM(that, userBean.userId, userBean.imToken);
                         SPUtils.getInstance().put("isRegister", true);
                     }
