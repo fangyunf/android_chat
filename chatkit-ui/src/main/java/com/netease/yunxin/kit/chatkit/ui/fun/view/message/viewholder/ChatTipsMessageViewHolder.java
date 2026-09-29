@@ -8,6 +8,7 @@ import static com.netease.yunxin.kit.corekit.im.utils.RouterConstant.KEY_TEAM_CR
 
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.view.Gravity;
@@ -105,6 +106,8 @@ public class ChatTipsMessageViewHolder extends FunChatBaseMessageViewHolder {
         }
 
         if (content != null && !content.isEmpty()) {
+            // 复用 ViewHolder 时先恢复可见，避免上一条折叠后污染当前条
+            expandItem();
             ViewGroup.MarginLayoutParams layoutParams =
                     (ViewGroup.MarginLayoutParams) baseViewBinding.baseRoot.getLayoutParams();
             layoutParams.setMargins(0, 0, 0, 0);
@@ -117,20 +120,30 @@ public class ChatTipsMessageViewHolder extends FunChatBaseMessageViewHolder {
             if (content.startsWith("{")) {
                 try {
                     CustomMsgBean msgBean = new Gson().fromJson(content, CustomMsgBean.class);
-                    textBinding.messageTipText.setText(content);
                     if (msgBean.sendUserId == null || msgBean.receiveUserId == null) {
+                        collapseItem();
                         return;
                     }
-                    String tempContent = msgBean.receiveUserName + " 领取了 " + msgBean.sendUserName + " 的红包";
-                    if (msgBean.sendUserId.equals(DataUtil.getUserid())) {
-                        tempContent = msgBean.receiveUserName + " 领取了 你 的红包";
+                    String myUserId = DataUtil.getUserid();
+                    // 脚印：只给发包人/领包人看，旁观者不可见
+                    if (!TextUtils.equals(msgBean.sendUserId, myUserId)
+                            && !TextUtils.equals(msgBean.receiveUserId, myUserId)) {
+                        collapseItem();
+                        return;
                     }
-                    if (msgBean.receiveUserId.equals(DataUtil.getUserid())) {
+                    String tempContent =
+                            msgBean.receiveUserName + " 领取了 " + msgBean.sendUserName + " 的红包";
+                    if (TextUtils.equals(msgBean.receiveUserId, myUserId)) {
                         tempContent = "你 领取了 " + msgBean.sendUserName + " 的红包";
+                        if (TextUtils.equals(msgBean.sendUserId, myUserId)) {
+                            tempContent = "你 领取了 自己 的红包";
+                        }
+                    } else if (TextUtils.equals(msgBean.sendUserId, myUserId)) {
+                        tempContent = msgBean.receiveUserName + " 领取了 你 的红包";
                     }
                     textBinding.messageTipText.setText(tempContent);
                 } catch (Exception e) {
-
+                    collapseItem();
                 }
             } else {
                 textBinding.messageTipText.setTextColor(
@@ -170,7 +183,25 @@ public class ChatTipsMessageViewHolder extends FunChatBaseMessageViewHolder {
                 }
             }
         } else {
-            baseViewBinding.baseRoot.setVisibility(View.GONE);
+            collapseItem();
+        }
+    }
+
+    private void collapseItem() {
+        baseViewBinding.baseRoot.setVisibility(View.GONE);
+        ViewGroup.LayoutParams layoutParams = baseViewBinding.baseRoot.getLayoutParams();
+        if (layoutParams != null) {
+            layoutParams.height = 0;
+            baseViewBinding.baseRoot.setLayoutParams(layoutParams);
+        }
+    }
+
+    private void expandItem() {
+        baseViewBinding.baseRoot.setVisibility(View.VISIBLE);
+        ViewGroup.LayoutParams layoutParams = baseViewBinding.baseRoot.getLayoutParams();
+        if (layoutParams != null) {
+            layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+            baseViewBinding.baseRoot.setLayoutParams(layoutParams);
         }
     }
 }
