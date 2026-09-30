@@ -220,14 +220,13 @@ public class MessageBottomLayout extends FrameLayout
         mBinding.funChatMessageBottomViewOpt2.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 名片已取消，快捷入口改为收藏
-                mProxy.sendShouCang();
+                sendRedPacket();
             }
         });
         mBinding.funChatMessageBottomViewOpt3.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendRedPacket();
+                mProxy.sendShouCang();
             }
         });
         mBinding.funChatMessageBottomViewOpt4.setOnClickListener(new OnClickListener() {

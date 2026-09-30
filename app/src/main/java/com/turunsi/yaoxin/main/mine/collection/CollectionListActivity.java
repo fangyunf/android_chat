@@ -197,38 +197,45 @@ public class CollectionListActivity extends BaseActivity implements View.OnClick
         }
     }
 
+    private boolean isOpenedFromChat() {
+        if (getCallingActivity() != null) {
+            return true;
+        }
+        Intent intent = getIntent();
+        if (intent == null) {
+            return false;
+        }
+        if (intent.getBooleanExtra("from_chat", false)) {
+            return true;
+        }
+        // XKitRouter 可能把 boolean 以 Object 形式塞进 extras
+        Object flag = intent.getExtras() != null ? intent.getExtras().get("from_chat") : null;
+        if (flag instanceof Boolean) {
+            return (Boolean) flag;
+        }
+        return "true".equalsIgnoreCase(String.valueOf(flag));
+    }
+
     private void showCollectItemActions(@Nullable CollectInfo item) {
         if (item == null) {
             return;
         }
-        boolean openedForPick = getCallingActivity() != null;
-        if (openedForPick) {
-            new AlertDialog.Builder(this)
-                    .setItems(
-                            new String[]{"插入当前会话", "转发给好友", "转发到群聊"},
-                            (d, which) -> {
-                                if (which == 0) {
-                                    finishWithInsertResult(item);
-                                } else if (which == 1) {
-                                    startForwardP2P(item);
-                                } else {
-                                    startForwardTeam(item);
-                                }
-                            })
-                    .show();
-        } else {
-            new AlertDialog.Builder(this)
-                    .setItems(
-                            new String[]{"转发给好友", "转发到群聊"},
-                            (d, which) -> {
-                                if (which == 0) {
-                                    startForwardP2P(item);
-                                } else {
-                                    startForwardTeam(item);
-                                }
-                            })
-                    .show();
+        // 聊天内打开收藏：点选后直接发到当前会话，不再二次选人
+        if (isOpenedFromChat()) {
+            finishWithInsertResult(item);
+            return;
         }
+        new AlertDialog.Builder(this)
+                .setItems(
+                        new String[]{"转发给好友", "转发到群聊"},
+                        (d, which) -> {
+                            if (which == 0) {
+                                startForwardP2P(item);
+                            } else {
+                                startForwardTeam(item);
+                            }
+                        })
+                .show();
     }
 
     private void finishWithInsertResult(CollectInfo item) {

@@ -36,6 +36,13 @@ public class FunBottomActionFactory {
 //        new ActionItem(
 //            ActionConstants.ACTION_TYPE_FILE, R.drawable.chat_fragment_toolbar_collection, R.string.chat_message_file));
 
+        // 群/单聊更多面板：收藏与红包换位后为 收藏 → 红包
+        actions.add(
+                new ActionItem(
+                        ActionConstants.ACTION_TYPE_SHOU_CANG,
+                        R.drawable.bottom_layout_item_shoucang,
+                        R.string.chat_message_shou_cang));
+
         actions.add(
                 new ActionItem(
                         ActionConstants.ACTION_TYPE_SHOPPING_COUPON,
@@ -49,12 +56,6 @@ public class FunBottomActionFactory {
                             R.drawable.bottom_layout_item_4,
                             R.string.chat_message_zhuan_zhang));
         }
-
-        actions.add(
-                new ActionItem(
-                        ActionConstants.ACTION_TYPE_SHOU_CANG,
-                        R.drawable.bottom_layout_item_shoucang,
-                        R.string.chat_message_shou_cang));
 
 //    if (sessionType == SessionTypeEnum.P2P) {
 //      actions.add(

@@ -721,7 +721,7 @@ public abstract class ChatBaseFragment extends BaseFragment {
                 public void sendShouCang() {
                     XKitRouter.withKey(Constant.CollectionListActivityKey)
                             .withParam("type", "5")
-//                  .withParam("groupId",groupId)
+                            .withParam("from_chat", true)
                             .withContext(getContext())
                             .navigate(collectionLauncher);
                 }
