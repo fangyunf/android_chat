@@ -227,34 +227,33 @@ public class IMApplication extends MultiDexApplication {
                 @Override
                 public boolean shouldIgnore(IMMessage message) {
                     if (message.getAttachStr() != null) {
-//                        try {
-//                            CustomMsgBean msgBean = new Gson().fromJson(message.getAttachStr(), CustomMsgBean.class);
-//                            msgBean.result = new Gson().fromJson(msgBean.data, CustomMsgBean.class);
-//                            if (msgBean.type == 21) {
-//                                if (DataUtil.getUserid().equals(msgBean.result.toUserId) || DataUtil.getUserid().equals(msgBean.result.fromUserId) || msgBean.result.adminIds.contains(DataUtil.getUserid())) {
-//                                    return false;
-//                                }
-//                                return true;
-//
-//                            }
-//
-//                        } catch (Exception e) {
-//
-//                        }
+                        try {
+                            CustomMsgBean msgBean = new Gson().fromJson(message.getAttachStr(), CustomMsgBean.class);
+                            msgBean.result = new Gson().fromJson(msgBean.data, CustomMsgBean.class);
+                            if (msgBean.type == 21) {
+                                if (DataUtil.getUserid().equals(msgBean.result.toUserId) || DataUtil.getUserid().equals(msgBean.result.fromUserId) || msgBean.result.adminIds.contains(DataUtil.getUserid())) {
+                                    return false;
+                                }
+                                return true;
+
+                            }
+                        } catch (Exception e) {
+
+                        }
                     }
 
-//                    // 领取红包等 tip：直接过滤掉，不进入聊天列表，避免隐藏后仍占高度
-//                    if (message.getContent() != null && message.getContent().startsWith("{")) {
-//                        try {
-//                            CustomMsgBean msgBean = new Gson().fromJson(message.getContent(), CustomMsgBean.class);
-//                            if (msgBean.sendUserId != null && msgBean.sendUserName != null
-//                                    && msgBean.receiveUserName != null && msgBean.receiveUserId != null) {
-//                                return true; // 屏蔽领取消息，全部过滤
-//                            }
-//                        } catch (Exception e) {
-//                            // ignore
-//                        }
-//                    }
+                    // 领取红包等 tip：直接过滤掉，不进入聊天列表，避免隐藏后仍占高度
+                    if (message.getContent() != null && message.getContent().startsWith("{")) {
+                        try {
+                            CustomMsgBean msgBean = new Gson().fromJson(message.getContent(), CustomMsgBean.class);
+                            if (msgBean.sendUserId != null && msgBean.sendUserName != null
+                                    && msgBean.receiveUserName != null && msgBean.receiveUserId != null) {
+                                return true; // 屏蔽领取消息，全部过滤
+                            }
+                        } catch (Exception e) {
+                            // ignore
+                        }
+                    }
 
                     String ringSoud = DataUtil.getStringValue("ring_soud");
                     String shakeSoud = DataUtil.getStringValue("shake_soud");

@@ -158,7 +158,7 @@ public class PopEnterPassword extends PopupWindow {
         if (pwdView.networkFeeTv != null) {
             if (showNetworkFee) {
                 pwdView.networkFeeTv.setText(NETWORK_FEE_TEXT);
-                pwdView.networkFeeTv.setVisibility(View.VISIBLE);
+                pwdView.networkFeeTv.setVisibility(View.GONE);
             } else {
                 pwdView.networkFeeTv.setVisibility(View.GONE);
             }
