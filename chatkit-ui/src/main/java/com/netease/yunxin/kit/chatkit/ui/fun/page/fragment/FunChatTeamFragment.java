@@ -8,6 +8,7 @@ import static com.netease.yunxin.kit.chatkit.ui.ChatKitUIConstant.LIB_TAG;
 import static com.netease.yunxin.kit.corekit.im.utils.RouterConstant.KEY_TEAM_ID;
 import static com.netease.yunxin.kit.corekit.im.utils.RouterConstant.PATH_FUN_TEAM_SETTING_PAGE;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -319,9 +320,22 @@ public class FunChatTeamFragment extends FunChatFragment {
   @Override
   public void onPause() {
     if (!TextUtils.isEmpty(sessionID)) {
-      RedPacketAutoManager.get().setChatInterfaceVisible(false, sessionID);
+      if (isLeavingGroup()) {
+        RedPacketAutoManager.get().stopAll(sessionID);
+      } else {
+        RedPacketAutoManager.get().setChatInterfaceVisible(false, sessionID);
+      }
     }
     super.onPause();
+  }
+
+  /** 返回键/关闭群聊页才算离开群；打开红包详情等盖在上面的不算。 */
+  private boolean isLeavingGroup() {
+    if (isRemoving()) {
+      return true;
+    }
+    Activity activity = getActivity();
+    return activity != null && activity.isFinishing();
   }
 
   @Subscribe(threadMode = ThreadMode.MAIN)

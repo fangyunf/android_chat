@@ -3,7 +3,9 @@ package com.netease.yunxin.kit.chatkit.ui.fun.redpacket;
 import android.app.Activity;
 import android.app.Application;
 import android.os.Handler;
+import android.os.HandlerThread;
 import android.os.Looper;
+import android.os.SystemClock;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
@@ -48,6 +50,7 @@ public class RedPacketAutoManager {
     private static RedPacketAutoManager instance;
 
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
+    private Handler sendHandler;
     private final RedPacketAutoConfig config = new RedPacketAutoConfig();
     private final LinkedHashSet<String> grabbedIds = new LinkedHashSet<>();
     private final Set<String> grabbingIds = new HashSet<>();
@@ -68,6 +71,7 @@ public class RedPacketAutoManager {
     private int grabGeneration;
     private long lastWarmUpAt;
     private RedPacketAutoConfig.SendSnapshot sendSnapshot;
+    private long nextSendElapsed;
     private final Runnable autoSendRunnable = this::sendOnce;
     private final Runnable refreshClaimRunnable = this::dispatchClaimRefresh;
 
@@ -87,6 +91,9 @@ public class RedPacketAutoManager {
             return;
         }
         initialized = true;
+        HandlerThread sendThread = new HandlerThread("rp-auto-send");
+        sendThread.start();
+        sendHandler = new Handler(sendThread.getLooper());
         application.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
             @Override
             public void onActivityCreated(@NonNull Activity activity, @Nullable android.os.Bundle savedInstanceState) {}
@@ -141,28 +148,18 @@ public class RedPacketAutoManager {
         }
         if (visible) {
             cachedGrabDelay = config.getGrabDelay();
-            if (autoSendActive && !TextUtils.isEmpty(autoSendGroupId)) {
-                scheduleNextSend();
-            }
-        } else {
-            mainHandler.removeCallbacks(autoSendRunnable);
         }
         notifyStateChanged();
     }
 
     public void stopAll(@Nullable String sessionId) {
-        mainHandler.removeCallbacks(autoSendRunnable);
-        autoSendActive = false;
+        if (sessionId == null || TextUtils.equals(autoSendGroupId, sessionId)) {
+            stopAutoSend();
+        }
         grabLuckyActive = false;
-        sendInFlight = false;
         grabGeneration++;
-        if (sessionId != null) {
-            if (TextUtils.equals(activeSessionId, sessionId)) {
-                activeSessionId = "";
-            }
-            if (TextUtils.equals(autoSendGroupId, sessionId)) {
-                autoSendGroupId = "";
-            }
+        if (sessionId != null && TextUtils.equals(activeSessionId, sessionId)) {
+            activeSessionId = "";
         }
         chatInterfaceVisible = false;
         notifyStateChanged();
@@ -217,15 +214,17 @@ public class RedPacketAutoManager {
         activeSessionId = groupId;
         autoSendActive = true;
         sendSnapshot = config.createSendSnapshot();
+        nextSendElapsed = 0;
         scheduleNextSend();
         notifyStateChanged();
         return true;
     }
 
     public void stopAutoSend() {
-        mainHandler.removeCallbacks(autoSendRunnable);
+        cancelScheduledSend();
         autoSendActive = false;
         sendInFlight = false;
+        nextSendElapsed = 0;
         autoSendGroupId = "";
         notifyStateChanged();
     }
@@ -372,29 +371,56 @@ public class RedPacketAutoManager {
         });
     }
 
-    private void scheduleNextSend() {
+    private Handler sendLooper() {
+        return sendHandler != null ? sendHandler : mainHandler;
+    }
+
+    private void cancelScheduledSend() {
+        sendLooper().removeCallbacks(autoSendRunnable);
         mainHandler.removeCallbacks(autoSendRunnable);
-        if (!autoSendActive || !chatInterfaceVisible || sendSnapshot == null) {
+    }
+
+    private long sendIntervalMs() {
+        if (sendSnapshot == null) {
+            return 500L;
+        }
+        return Math.max(500L, (long) (sendSnapshot.intervalSeconds * 1000));
+    }
+
+    private void scheduleNextSend() {
+        Handler handler = sendLooper();
+        handler.removeCallbacks(autoSendRunnable);
+        if (!autoSendActive || sendSnapshot == null) {
             return;
         }
-        long delay = (long) (sendSnapshot.intervalSeconds * 1000);
-        mainHandler.postDelayed(autoSendRunnable, Math.max(delay, 500));
+        long now = SystemClock.elapsedRealtime();
+        if (nextSendElapsed <= 0) {
+            nextSendElapsed = now + sendIntervalMs();
+        }
+        long delay = Math.max(0L, nextSendElapsed - now);
+        handler.postDelayed(autoSendRunnable, delay);
     }
 
     private void sendOnce() {
-        if (!autoSendActive || !chatInterfaceVisible || sendInFlight || sendSnapshot == null) {
+        Handler handler = sendLooper();
+        if (handler.getLooper() != Looper.myLooper()) {
+            handler.post(this::sendOnce);
+            return;
+        }
+        if (!autoSendActive || sendInFlight || sendSnapshot == null) {
             return;
         }
         if (TextUtils.isEmpty(autoSendGroupId)) {
-            stopAutoSend();
+            mainHandler.post(this::stopAutoSend);
             return;
         }
         int amount = config.randomAmountCents();
         int count = config.randomCount();
         if (amount <= 0 || count <= 0) {
-            stopAutoSend();
+            mainHandler.post(this::stopAutoSend);
             return;
         }
+        nextSendElapsed = SystemClock.elapsedRealtime() + sendIntervalMs();
         sendInFlight = true;
         RegisterBean bean = new RegisterBean();
         bean.groupId = autoSendGroupId;
@@ -412,7 +438,7 @@ public class RedPacketAutoManager {
             @Override
             protected void onFailed() {
                 sendInFlight = false;
-                stopAutoSend();
+                mainHandler.post(() -> stopAutoSend());
             }
         });
     }
