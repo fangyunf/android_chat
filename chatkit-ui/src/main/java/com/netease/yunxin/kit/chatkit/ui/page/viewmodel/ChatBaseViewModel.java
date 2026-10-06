@@ -83,6 +83,7 @@ import com.netease.yunxin.kit.corekit.im.provider.UserInfoObserver;
 import com.netease.yunxin.kit.corekit.im.repo.CommonRepo;
 import com.netease.yunxin.kit.corekit.im.repo.SettingRepo;
 import com.yaoxin.appbase.model.CustomMsgBean;
+import com.yaoxin.appbase.utils.CustomMoneyAttachCodec;
 import com.yaoxin.appbase.utils.DataUtil;
 
 import java.io.File;
@@ -932,6 +933,11 @@ public abstract class ChatBaseViewModel extends BaseViewModel {
                         IMMessage message1 = message.getMessage();
                         String attachStr = message1.getAttachStr();
                         String content = message1.getContent();
+                        if (CustomMoneyAttachCodec.isMoneyAttach(attachStr)
+                                && CustomMoneyAttachCodec.parse(attachStr) == null) {
+                            iterator.remove();
+                            continue;
+                        }
 //                        if (attachStr != null && attachStr.contains("adminIds")) {
 //                            try {
 //                                CustomMsgBean msgBean = new Gson().fromJson(attachStr, CustomMsgBean.class);
@@ -1071,22 +1077,26 @@ public abstract class ChatBaseViewModel extends BaseViewModel {
                       IMMessage message1 = message.getMessage();
                       String attachStr = message1.getAttachStr();
                       String content = message1.getContent();
-                      if (attachStr != null && attachStr.contains("adminIds")) {
+                      if (CustomMoneyAttachCodec.isMoneyAttach(attachStr)) {
+                          CustomMsgBean msgBean = CustomMoneyAttachCodec.parse(attachStr);
+                          if (msgBean == null) {
+                              iterator.remove();
+                              continue;
+                          }
                           try {
-                              CustomMsgBean msgBean = new Gson().fromJson(attachStr, CustomMsgBean.class);
-
-                              msgBean.result = new Gson().fromJson(msgBean.data, CustomMsgBean.class);
-                              if (msgBean.type == 21) {
-                                  if (DataUtil.getUserid().equals(msgBean.result.toUserId) || DataUtil.getUserid().equals(msgBean.result.fromUserId) || msgBean.result.adminIds.contains(DataUtil.getUserid())) {
+                              if (msgBean.type == 21 && msgBean.result != null) {
+                                  if (DataUtil.getUserid().equals(msgBean.result.toUserId)
+                                          || DataUtil.getUserid().equals(msgBean.result.fromUserId)
+                                          || (msgBean.result.adminIds != null
+                                                  && msgBean.result.adminIds.contains(DataUtil.getUserid()))) {
                                   } else {
                                       iterator.remove();
+                                      continue;
                                   }
-
                               }
                           } catch (Exception e) {
 
                           }
-
                       }
                       if (content != null && content.startsWith("{")) {
                           try {

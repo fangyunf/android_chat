@@ -55,6 +55,7 @@ import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.AppProxy;
 import com.yaoxin.appbase.utils.BarUtils;
+import com.yaoxin.appbase.utils.CustomMoneyAttachCodec;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.SoftKeyboardFixerForFullscreen;
 import com.yaoxin.appbase.utils.StatusBarUtils;
@@ -184,8 +185,10 @@ public abstract class FunChatFragment extends ChatBaseFragment {
                 return;
             }
             if (!messageInfo.getMessage().getAttachStr().isEmpty()) {
-                CustomMsgBean msgBean = new Gson().fromJson(messageInfo.getMessage().getAttachStr(), CustomMsgBean.class);
-                msgBean.result = new Gson().fromJson(msgBean.data, CustomMsgBean.class);
+                CustomMsgBean msgBean = CustomMoneyAttachCodec.parse(messageInfo.getMessage().getAttachStr());
+                if (msgBean == null || msgBean.result == null) {
+                    return;
+                }
                 if (msgBean.type == 28) {
                     HashMap map = new HashMap();
                     map.put("bean",new Gson().toJson(msgBean.result));

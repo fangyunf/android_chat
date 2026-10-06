@@ -10,16 +10,13 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 
-import com.google.gson.Gson;
 import com.netease.yunxin.kit.chatkit.ui.R;
-import com.netease.yunxin.kit.chatkit.ui.common.MessageHelper;
-import com.netease.yunxin.kit.chatkit.ui.custom.RedPacketAttachment;
-import com.netease.yunxin.kit.chatkit.ui.custom.RichTextAttachment;
 import com.netease.yunxin.kit.chatkit.ui.databinding.ChatBaseMessageViewHolderBinding;
 import com.netease.yunxin.kit.chatkit.ui.databinding.FunChatMessageRedPacketViewHolderBinding;
 import com.netease.yunxin.kit.chatkit.ui.databinding.FunChatMessageRichTextViewHolderBinding;
 import com.netease.yunxin.kit.chatkit.ui.model.ChatMessageBean;
 import com.yaoxin.appbase.model.CustomMsgBean;
+import com.yaoxin.appbase.utils.CustomMoneyAttachCodec;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.NumberUtil;
 import com.yaoxin.appbase.utils.TimeUtil;
@@ -54,8 +51,10 @@ public class ChatRedPacketMessageViewHolder extends FunChatBaseMessageViewHolder
         hasDraw = true;
       }
 
-      CustomMsgBean bean = new Gson().fromJson(message.getMessageData().getMessage().getAttachStr(), CustomMsgBean.class);
-      bean.result = new Gson().fromJson(bean.data, CustomMsgBean.class);
+      CustomMsgBean bean = CustomMoneyAttachCodec.parse(message.getMessageData().getMessage().getAttachStr());
+      if (bean == null || bean.result == null) {
+        return;
+      }
       if (hasDraw) {
         viewBinding.funChatMessageRedPacketViewHolderBgIv.setImageResource( (bean.type == 21) ? R.drawable.chat_redpacket_purple_bg_is_open:R.drawable.chat_red_packet_cell_bg_is_open);
 

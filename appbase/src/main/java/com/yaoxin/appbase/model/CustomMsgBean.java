@@ -11,6 +11,8 @@ public class CustomMsgBean {
     public String groupLs;//当前流水
     public String fafId;
     public String data;
+    /** 1：data 为 AES 密文；缺省或 0：可能是旧明文 JSON */
+    public int enc;
     public String sendUserId;
     public String sendUserName;
     public String receiveUserName;

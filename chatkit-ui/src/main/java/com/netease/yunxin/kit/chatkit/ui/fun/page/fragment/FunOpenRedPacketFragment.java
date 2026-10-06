@@ -3,6 +3,7 @@ package com.netease.yunxin.kit.chatkit.ui.fun.page.fragment;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.yunxin.kit.chatkit.model.IMMessageInfo;
 import com.netease.yunxin.kit.chatkit.repo.ChatRepo;
 import com.netease.yunxin.kit.chatkit.ui.R;
+import com.netease.yunxin.kit.chatkit.ui.custom.EncryptedMoneyAttachment;
 import com.netease.yunxin.kit.chatkit.ui.databinding.FragmentOpenRedPacketDialogBinding;
 import com.netease.yunxin.kit.chatkit.ui.fun.page.FunRedPacketResultActivity;
 import com.yaoxin.appbase.fragment.BaseDialogFragment;
@@ -30,6 +32,7 @@ import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.AppProxy;
+import com.yaoxin.appbase.utils.CustomMoneyAttachCodec;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.GlideUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
@@ -199,6 +202,12 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
         map.put("hasDragDown",1);
         IMMessage message = messageInfo;
         message.setLocalExtension(map);
+        if (sendBean != null && CustomMoneyAttachCodec.isMoneyType(sendBean.type)) {
+            String encoded = CustomMoneyAttachCodec.encode(sendBean);
+            if (!TextUtils.isEmpty(encoded)) {
+                message.setAttachment(new EncryptedMoneyAttachment(encoded));
+            }
+        }
         NIMClient.getService(MsgService.class).updateIMMessage(message);
         if (block != null) {
             block.hasOpen(message);

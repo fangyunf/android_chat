@@ -8,13 +8,13 @@ import android.view.LayoutInflater;
 
 import androidx.annotation.NonNull;
 
-import com.google.gson.Gson;
 import com.netease.yunxin.kit.chatkit.ui.R;
 import com.netease.yunxin.kit.chatkit.ui.databinding.ChatBaseMessageViewHolderBinding;
 import com.netease.yunxin.kit.chatkit.ui.databinding.FunChatMessageRedPacketViewHolderBinding;
 import com.netease.yunxin.kit.chatkit.ui.databinding.FunChatMessageZhuanZhangViewHolderBinding;
 import com.netease.yunxin.kit.chatkit.ui.model.ChatMessageBean;
 import com.yaoxin.appbase.model.CustomMsgBean;
+import com.yaoxin.appbase.utils.CustomMoneyAttachCodec;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.NumberUtil;
 import com.yaoxin.appbase.utils.TimeUtil;
@@ -49,8 +49,10 @@ public class ChatZhuanZhangMessageViewHolder extends FunChatBaseMessageViewHolde
         hasDraw = true;
       }
 
-      CustomMsgBean bean = new Gson().fromJson(message.getMessageData().getMessage().getAttachStr(), CustomMsgBean.class);
-      bean.result = new Gson().fromJson(bean.data, CustomMsgBean.class);
+      CustomMsgBean bean = CustomMoneyAttachCodec.parse(message.getMessageData().getMessage().getAttachStr());
+      if (bean == null || bean.result == null) {
+        return;
+      }
       if (hasDraw) {
         viewBinding.funChatMessageRedPacketViewHolderBgIv.setImageResource( R.drawable.chat_zhuanzhang_bg_is_open);
       } else {
