@@ -1001,6 +1001,8 @@ public abstract class ChatBaseViewModel extends BaseViewModel {
     public void initFetch(IMMessage anchor, boolean needToScrollEnd) {
         ALog.d(LIB_TAG, TAG, "initFetch:" + (anchor == null ? "null" : anchor.getUuid()));
         registerObservers();
+        // 进群聊先清本地 3 天前记录，避免云端漫游写回后又展示出来
+        purgeTeamHistoryOlderThanKeep();
         if (anchor == null) {
             GetMessagesDynamicallyParam dynamicallyParam =
                     new GetMessagesDynamicallyParam(mSessionId, mSessionType);
@@ -1175,6 +1177,21 @@ public abstract class ChatBaseViewModel extends BaseViewModel {
 
     private long teamHistoryFromTime() {
         return System.currentTimeMillis() - TEAM_HISTORY_KEEP_MS;
+    }
+
+    /** 删除本群本地库中 3 天前的消息；私聊不处理。 */
+    private void purgeTeamHistoryOlderThanKeep() {
+        if (!isTeamHistoryLimited() || TextUtils.isEmpty(mSessionId)) {
+            return;
+        }
+        try {
+            long endTime = teamHistoryFromTime();
+            // 开区间 (startTime, endTime)：startTime 用 -1，避免边界漏删
+            NIMClient.getService(MsgService.class)
+                    .deleteRangeHistory(mSessionId, SessionTypeEnum.Team, -1L, endTime);
+        } catch (Exception e) {
+            ALog.e(LIB_TAG, TAG, "purgeTeamHistoryOlderThanKeep:" + e.getMessage());
+        }
     }
 
     private void filterHistoryMessages(List<IMMessageInfo> messageList) {

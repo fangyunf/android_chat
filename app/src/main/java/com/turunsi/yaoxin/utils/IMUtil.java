@@ -65,6 +65,7 @@ public class IMUtil {
 
                     @Override
                     public void onSuccess(@Nullable LoginInfo data) {
+                        ChatHistoryCleaner.scheduleClear();
                         showMainActivityAndFinish(context);
                     }
                 });

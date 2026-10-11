@@ -54,6 +54,7 @@ import com.turunsi.yaoxin.login.WelcomeLoginActivity;
 import com.turunsi.yaoxin.main.mine.MineFragment;
 import com.turunsi.yaoxin.main.mine.MineFragment1;
 import com.turunsi.yaoxin.main.mine.setting.SettingNewActivity;
+import com.turunsi.yaoxin.utils.ChatHistoryCleaner;
 import com.turunsi.yaoxin.utils.Constant;
 import com.turunsi.yaoxin.utils.DataUtils;
 import com.turunsi.yaoxin.utils.IMUtil;
@@ -181,6 +182,8 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         EventBus.getDefault().register(this);
         _update();
         NIMClient.toggleNotification(false);
+        // 已登录进首页：清掉群聊 3 天前本地记录（私聊不清）
+        ChatHistoryCleaner.scheduleClear();
 
 //        if (SPUtils.getInstance().getBoolean("isRegister")) {
 //            SPUtils.getInstance().put("isRegister",false);

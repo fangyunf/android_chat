@@ -186,9 +186,9 @@ public class IMApplication extends MultiDexApplication {
             }
             IMKitClient.toggleNotification(SettingRepo.isPushNotify());
             IMKitClient.registerMixPushMessageHandler(new PushMessageHandler());
-            // 每次打开 app 检查并清除 7 天前的本地聊天记录（延迟执行以便登录态恢复后再清理）
+            // 群聊本地记录只保留 3 天（私聊不清）；延迟并重试，等 IM 登录后再清
             new Handler(Looper.getMainLooper()).postDelayed(
-                    ChatHistoryCleaner::clearOldHistoryIfNeeded, 2000);
+                    ChatHistoryCleaner::scheduleClear, 2000);
             // 在 Application启动时注册，保证漫游、离线消息也能够回调此过滤器进行过滤。注意，过滤器的实现不要有耗时操作。
             NIMClient.getService(MsgServiceObserve.class)
                     .observeCustomNotification(new Observer<CustomNotification>() {
