@@ -5,10 +5,9 @@
   ~ found in the LICENSE file.
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/color_white">
 
     <com.netease.yunxin.kit.chatkit.ui.fun.view.FunChatView
@@ -16,4 +15,4 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-</LinearLayout>
+</FrameLayout>

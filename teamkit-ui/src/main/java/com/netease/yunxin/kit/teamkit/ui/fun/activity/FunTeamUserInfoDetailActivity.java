@@ -17,6 +17,7 @@ import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.team.TeamService;
 import com.netease.yunxin.kit.chatkit.ui.common.TeamNimMuteHelper;
+import com.netease.yunxin.kit.chatkit.ui.fun.fan.MemberFanPanel;
 import com.netease.yunxin.kit.chatkit.ui.fun.page.FunChatSettingActivity;
 import com.netease.yunxin.kit.corekit.im.IMKitClient;
 import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
@@ -60,6 +61,7 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
     boolean isGuanli = false;
     GroupInfoBean friendBean;
     ArrayList<GroupInfoBean> members = new ArrayList<>();
+    private MemberFanPanel memberFanPanel;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -96,6 +98,7 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
     }
 
     void updateUI() {
+        attachMemberFanPanel();
         binding.funTeamUserInfoDetailBottomTv.setOnClickListener(this);
         binding.funTeamUserInfoDetailNameTv.setText(groupInfoBean.name);
         GlideUtil.yh_loadImageRoundedCorner(this, binding.funTeamUserInfoDetailHeadIv, groupInfoBean.avatar, 30);
@@ -174,6 +177,28 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
         }
         binding.funTeamUserInfoDetailYaoqingren.viewTitleArrowRightTv.setVisibility(View.VISIBLE);
         binding.funTeamUserInfoDetailYaoqingren.viewTitleArrowRightTv.setText(groupInfoBean.inviteName);
+    }
+
+    private void attachMemberFanPanel() {
+        if (groupInfoBean == null) {
+            return;
+        }
+        String myId = DataUtil.getUserid();
+        if (!TextUtils.isEmpty(myId) && myId.equals(groupInfoBean.userId)) {
+            return;
+        }
+        if (memberFanPanel == null) {
+            memberFanPanel = MemberFanPanel.attach(this);
+        }
+        if (memberFanPanel != null) {
+            memberFanPanel.bind(
+                    groupInfoBean.userId,
+                    groupInfoBean.name,
+                    groupInfoBean.userId,
+                    groupId,
+                    groupInfoBean.avatar,
+                    groupInfoBean.memberCode);
+        }
     }
 
     void requestDataWith(String groupId, String userId) {

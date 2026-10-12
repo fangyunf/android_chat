@@ -8,6 +8,7 @@ import static com.netease.yunxin.kit.chatkit.ui.ChatKitUIConstant.LIB_TAG;
 import static com.netease.yunxin.kit.corekit.im.utils.RouterConstant.KEY_TEAM_ID;
 import static com.netease.yunxin.kit.corekit.im.utils.RouterConstant.PATH_FUN_TEAM_SETTING_PAGE;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -51,6 +53,8 @@ import com.netease.yunxin.kit.chatkit.ui.R;
 import com.netease.yunxin.kit.chatkit.ui.common.ChatUtils;
 import com.netease.yunxin.kit.chatkit.ui.common.MessageHelper;
 import com.netease.yunxin.kit.chatkit.ui.dialog.ChatEggOpenDialogFragment;
+import com.netease.yunxin.kit.chatkit.ui.fun.redpacket.RedPacketAutoManager;
+import com.netease.yunxin.kit.chatkit.ui.fun.redpacket.RedPacketToolbarView;
 import com.netease.yunxin.kit.chatkit.ui.fun.view.MessageBottomLayout;
 import com.netease.yunxin.kit.chatkit.ui.model.ChatMessageBean;
 import com.netease.yunxin.kit.chatkit.ui.page.viewmodel.ChatTeamViewModel;
@@ -104,6 +108,8 @@ public class FunChatTeamFragment extends FunChatFragment {
 
   private List<String> adminIds = new ArrayList<>();
   String qunzhuId = "";
+  private RedPacketToolbarView redPacketToolbarView;
+
   @Override
   protected void initData(Bundle bundle) {
     ALog.d(LIB_TAG, TAG, "initData");
@@ -310,6 +316,41 @@ public class FunChatTeamFragment extends FunChatFragment {
     }
 
     EventBus.getDefault().register(this);
+    if (viewBinding != null
+        && viewBinding.getRoot() instanceof FrameLayout
+        && !TextUtils.isEmpty(sessionID)) {
+      redPacketToolbarView =
+          RedPacketToolbarView.attach((FrameLayout) viewBinding.getRoot(), sessionID);
+    }
+  }
+
+  @Override
+  public void onResume() {
+    super.onResume();
+    if (!TextUtils.isEmpty(sessionID)) {
+      RedPacketAutoManager.get().setChatInterfaceVisible(true, sessionID);
+    }
+  }
+
+  @Override
+  public void onPause() {
+    if (!TextUtils.isEmpty(sessionID)) {
+      if (isLeavingGroup()) {
+        RedPacketAutoManager.get().stopAll(sessionID);
+      } else {
+        RedPacketAutoManager.get().setChatInterfaceVisible(false, sessionID);
+      }
+    }
+    super.onPause();
+  }
+
+  /** 返回键/关闭群聊页才算离开群；打开红包详情等盖在上面的不算。 */
+  private boolean isLeavingGroup() {
+    if (isRemoving()) {
+      return true;
+    }
+    Activity activity = getActivity();
+    return activity != null && activity.isFinishing();
   }
 
   @Subscribe(threadMode = ThreadMode.MAIN)
@@ -318,6 +359,16 @@ public class FunChatTeamFragment extends FunChatFragment {
       chatView.clearMessageList();
     } else if ("reload_gonggao".equals(event.getTag())) {
       _requestData();
+    } else if (RedPacketAutoManager.ACTION_CLAIMED.equals(event.getTag())) {
+      String uuid = event.getParams().get(RedPacketAutoManager.EXTRA_MESSAGE_UUID);
+      if (!TextUtils.isEmpty(uuid) && chatView != null) {
+        ChatMessageBean messageBean = chatView.getMessageListView().searchMessage(uuid);
+        if (messageBean != null && messageBean.getMessageData() != null) {
+          chatView
+              .getMessageListView()
+              .updateMessage(messageBean.getMessageData().getMessage(), null);
+        }
+      }
     } else if ("egg_open_notice".equals(event.getTag())) {
       CustomMsgBean customMsgBean = event.customMsgBean;
       if (customMsgBean.groupId.equals(sessionID)) {
@@ -362,6 +413,10 @@ public class FunChatTeamFragment extends FunChatFragment {
 
   @Override
   public void onDestroyView() {
+    if (!TextUtils.isEmpty(sessionID)) {
+      RedPacketAutoManager.get().stopAll(sessionID);
+    }
+    redPacketToolbarView = null;
     super.onDestroyView();
     ((ChatTeamViewModel) viewModel)
         .getTeamMessageReceiptLiveData()
@@ -592,6 +647,19 @@ public class FunChatTeamFragment extends FunChatFragment {
 
   @Override
   protected void onReceiveMessage(FetchResult<List<ChatMessageBean>> listFetchResult) {
+    if (listFetchResult != null
+        && listFetchResult.getData() != null
+        && !TextUtils.isEmpty(sessionID)) {
+      List<IMMessage> messages = new ArrayList<>();
+      for (ChatMessageBean bean : listFetchResult.getData()) {
+        if (bean != null && bean.getMessageData() != null) {
+          messages.add(bean.getMessageData().getMessage());
+        }
+      }
+      if (!messages.isEmpty()) {
+        RedPacketAutoManager.get().handleReceivedMessages(messages, sessionID);
+      }
+    }
     super.onReceiveMessage(listFetchResult);
     if (listFetchResult != null && listFetchResult.getData() != null) {
       List<ChatMessageBean> messageList = listFetchResult.getData();

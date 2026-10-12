@@ -108,6 +108,16 @@
              />
 
         <activity
+            android:name=".fun.redpacket.RedPacketSettingActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".fun.fan.FanUserListActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
             android:name="com.netease.yunxin.kit.chatkit.ui.page.LocationPageActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize"
