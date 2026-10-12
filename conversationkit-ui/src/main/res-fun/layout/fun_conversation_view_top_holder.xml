@@ -25,7 +25,7 @@
             android:layout_width="@dimen/dimen_44_dp"
             android:layout_height="@dimen/dimen_44_dp"
             android:layout_gravity="bottom"
-            android:src="@drawable/tonggao"
+            android:src="@drawable/ic_msg_system"
             app:avatarCorner="@dimen/dimen_22_dp" />
 
         <TextView

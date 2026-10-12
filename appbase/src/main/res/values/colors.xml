@@ -31,7 +31,7 @@
     <color name="transparent_half">#30000000</color>
     <color name="fun_tab_checked_color">#58BE6B</color>
 
-    <color name="fun_page_bg_color">#ededed</color>
+    <color name="fun_page_bg_color">#E8F5E9</color>
     <color name="normal_page_bg_color">#FFFFFF</color>
     <color name="color_101113">#101113</color>
     <color name="color_ededed">#ededed</color>
@@ -45,9 +45,14 @@
 
     <color name="color_ffe935">#ffe935</color>
     <color name="color_ff666666">#ff666666</color>
-    <!--    <color name="app_theme_color">#007AFF</color>-->
-    <color name="app_theme_color">#0AB4B4</color>
-    <color name="app_chat_view_bg_color">#F1F1F1</color>
+    <!-- 优优主题：主色 #5B9E6F -->
+    <color name="app_theme_color">#5B9E6F</color>
+    <color name="youyou_main">#5B9E6F</color>
+    <color name="youyou_main_light">#8FBC8F</color>
+    <color name="youyou_chat_bg">#E7F0E7</color>
+    <color name="youyou_nav_top">#D9E7E0</color>
+    <color name="youyou_tab_unselected">#979798</color>
+    <color name="app_chat_view_bg_color">#E7F0E7</color>
     <color name="app_chat_send_pop_bg">#377AF5</color>
     <color name="app_chat_receive_pop_bg">#e6e8f0</color>
     <color name="app_theme_red_color">#FF0000</color>

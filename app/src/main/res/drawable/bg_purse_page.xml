@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  通栏绿色渐变（对齐 iOS / 对接包色值）
+  线性：顶 #5D9F71 → 中 #A9CCB3 → 底 #E0F0E2
+  顶部中心叠加柔光，贴近 iOS 顶部高光
+-->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="-90"
+                android:centerColor="#A9CCB3"
+                android:endColor="#E0F0E2"
+                android:startColor="#5D9F71"
+                android:type="linear" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:centerX="0.5"
+                android:centerY="0.12"
+                android:endColor="#00000000"
+                android:gradientRadius="280dp"
+                android:startColor="#66C8E6D4"
+                android:type="radial" />
+        </shape>
+    </item>
+</layer-list>

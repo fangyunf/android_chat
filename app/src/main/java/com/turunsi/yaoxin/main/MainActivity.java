@@ -40,7 +40,6 @@ import com.netease.nimlib.sdk.avsignalling.constant.ChannelType;
 import com.netease.yunxin.kit.common.utils.SPUtils;
 import com.netease.yunxin.kit.contactkit.ui.fun.addfriend.FunAddFriendVerifyActivity;
 import com.netease.yunxin.kit.contactkit.ui.normal.contact.ContactNewFragment;
-import com.netease.yunxin.kit.contactkit.ui.normal.contact.ShopNewFragment;
 import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
 import com.netease.yunxin.kit.corekit.route.XKitRouter;
 import com.turunsi.yaoxin.AppSkinConfig;
@@ -49,11 +48,11 @@ import com.turunsi.yaoxin.CustomConfig;
 import com.turunsi.yaoxin.IMApplication;
 import com.turunsi.yaoxin.R;
 import com.turunsi.yaoxin.databinding.ActivityMainBinding;
-import com.turunsi.yaoxin.fragment.FoundFragment;
 import com.turunsi.yaoxin.login.LoginActivity;
 import com.turunsi.yaoxin.login.WelcomeLoginActivity;
 import com.turunsi.yaoxin.main.mine.MineFragment;
 import com.turunsi.yaoxin.main.mine.MineFragment1;
+import com.turunsi.yaoxin.main.mine.huiyuan.LiangHaoZoneFragment;
 import com.turunsi.yaoxin.main.mine.setting.SettingNewActivity;
 import com.turunsi.yaoxin.utils.Constant;
 import com.turunsi.yaoxin.utils.DataUtils;
@@ -346,7 +345,8 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         fragments.add(mConversationFragment);
         fragments.add(mConversationFragment1);
         fragments.add(mContactFragment);
-        fragments.add(new FoundFragment());
+        // 会员商城 = 靓号专区
+        fragments.add(new LiangHaoZoneFragment());
         fragments.add(new MineFragment());
 //        fragments.add(mConversationFragment1);
         FragmentAdapter fragmentAdapter = new FragmentAdapter(this);
@@ -355,9 +355,10 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         activityMainBinding.viewPager.setAdapter(fragmentAdapter);
         activityMainBinding.viewPager.setCurrentItem(START_INDEX, false);
         activityMainBinding.viewPager.setOffscreenPageLimit(fragments.size());
-        mCurrentTab = activityMainBinding.conversationBtnShop;
+        mCurrentTab = activityMainBinding.conversationBtnGroup;
         //changeStatusBarColor(R.color.color_white);
         StatusBarUtils.setStatusBarLightMode(this, true, true);
+        resetTabStyle();
         resetTabSkin();
     }
 

@@ -20,7 +20,11 @@
     <color name="color_F6F6F6">#F6F6F6</color>
 
     <color name="tab_checked_color">@color/app_theme_color</color>
-    <color name="tab_unchecked_color">#999999</color>
+    <color name="tab_unchecked_color">#979798</color>
+    <color name="youyou_main">#5B9E6F</color>
+    <color name="youyou_main_light">#8FBC8F</color>
+    <color name="youyou_chat_bg">#E7F0E7</color>
+    <color name="youyou_nav_top">#D9E7E0</color>
     <color name="color_a6adb6">#ffa6adb6</color>
     <color name="color_666666">#666666</color>
     <color name="color_8B5FD8">#377AF5</color>
@@ -33,7 +37,7 @@
     <color name="transparent_half">#30000000</color>
     <color name="fun_tab_checked_color">#377AF5</color>
 
-    <color name="fun_page_bg_color">#ededed</color>
+    <color name="fun_page_bg_color">#E8F5E9</color>
     <color name="normal_page_bg_color">#FFFFFF</color>
     <color name="color_101113">#101113</color>
     <color name="color_ededed">#ededed</color>

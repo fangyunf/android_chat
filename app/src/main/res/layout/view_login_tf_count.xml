@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 仅登录页使用的胶囊输入框，不影响忘记密码等共用布局 -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/view_round_tf_ll"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:layout_marginHorizontal="20dp"
+    android:background="@drawable/bg_login_input_pill"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingHorizontal="20dp">
+
+    <ImageView
+        android:id="@+id/view_title_tf_count_iv"
+        android:layout_width="22dp"
+        android:layout_height="22dp" />
+
+    <EditText
+        android:id="@+id/view_title_tf_count_et"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginStart="12dp"
+        android:layout_weight="1"
+        android:background="@null"
+        android:cursorVisible="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:hint="请输入"
+        android:textColor="@color/black"
+        android:textColorHint="#B0B0B0"
+        android:textSize="15sp" />
+
+    <RelativeLayout
+        android:id="@+id/view_title_tf_count_eye_rl"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/view_title_tf_count_eye_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/common_pwd_eye_state_selector" />
+    </RelativeLayout>
+
+    <com.yaoxin.appbase.view.loginlib.view.CountDownView
+        android:id="@+id/view_title_tf_count_captcha"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:background="@color/transparent"
+        android:gravity="center"
+        android:text="获取验证码"
+        android:textColor="@color/app_theme_color"
+        android:textSize="12sp"
+        android:visibility="gone" />
+</LinearLayout>

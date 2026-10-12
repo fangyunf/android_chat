@@ -71,9 +71,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         binding.activityLoginTf1.viewTitleTfCountIv.setImageResource(R.mipmap.login_icon_phone);
         binding.activityLoginTf2.viewTitleTfCountIv.setImageResource(R.mipmap.login_icon_code);
         binding.activityLoginTf3.viewTitleTfCountIv.setImageResource(R.mipmap.login_icon_password);
-        binding.activityLoginTf1.viewTitleTfCountEt.setHint("输入手机号");
-        binding.activityLoginTf2.viewTitleTfCountEt.setHint("输入验证码");
-        binding.activityLoginTf3.viewTitleTfCountEt.setHint("输入密码");
+        binding.activityLoginTf1.viewTitleTfCountEt.setHint("请输入你的手机号码");
+        binding.activityLoginTf2.viewTitleTfCountEt.setHint("请输入验证码");
+        binding.activityLoginTf3.viewTitleTfCountEt.setHint("请输入登录密码");
         binding.activityLoginTf1.viewTitleTfCountEt.setInputType(InputType.TYPE_CLASS_NUMBER);
         binding.activityLoginTf2.viewTitleTfCountEt.setInputType(InputType.TYPE_CLASS_NUMBER);
         binding.activityLoginTf3.viewTitleTfCountEyeRl.setVisibility(View.VISIBLE);
@@ -105,10 +105,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         if (type == 0) {
             binding.activityLoginTf2.viewRoundTfLl.setVisibility(View.GONE);
             binding.activityLoginLoginTv.setText("登录");
-            binding.activityLoginTitleTv.setText("UU");
-            binding.tvTip.setText("欢迎使用UU");
-            binding.activityLoginForgetTv.setText("忘记密码");
-            //binding.activityLoginRegisterTv.setText("没有账号，去注册");
+            binding.activityLoginTitleTv.setText("优优");
+            binding.tvTip.setText("欢迎使用优优");
+            binding.activityLoginForgetTv.setText("忘记密码?");
             binding.activityLoginRegisterTv.setText("立即注册");
             binding.activityLoginForgetTv.setVisibility(View.VISIBLE);
             binding.activityLoginRegisterTv.setVisibility(View.GONE);

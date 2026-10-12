@@ -5,8 +5,12 @@
 package com.turunsi.yaoxin;
 
 import android.content.Context;
+
+import androidx.core.content.ContextCompat;
+
 import com.netease.yunxin.kit.chatkit.ui.ChatKitClient;
 import com.netease.yunxin.kit.chatkit.ui.ChatUIConfig;
+import com.netease.yunxin.kit.chatkit.ui.view.message.MessageProperties;
 import com.netease.yunxin.kit.contactkit.ui.ContactUIConfig;
 import com.netease.yunxin.kit.conversationkit.ui.ConversationKitClient;
 import com.netease.yunxin.kit.conversationkit.ui.ConversationUIConfig;
@@ -17,6 +21,10 @@ public class CustomConfig {
   public static void configChatKit(Context context) {
     // test
     ChatUIConfig chatUIConfig = new ChatUIConfig();
+    // 聊天页背景：对接包淡绿图
+    chatUIConfig.messageProperties = new MessageProperties();
+    chatUIConfig.messageProperties.chatViewBackground =
+            ContextCompat.getDrawable(context, R.mipmap.bg_chat);
 
     //    chatUIConfig.messageItemClickListener =
     //        new IMessageItemClickListener() {

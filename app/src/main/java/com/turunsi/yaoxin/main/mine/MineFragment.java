@@ -39,6 +39,7 @@ import com.turunsi.yaoxin.eggs.EggSuccessDialogFragment;
 import com.turunsi.yaoxin.eggs.GroupListActivity;
 import com.turunsi.yaoxin.login.LoginActivity;
 import com.turunsi.yaoxin.login.RealNameSetActivity;
+import com.turunsi.yaoxin.login.WelcomeLoginActivity;
 import com.turunsi.yaoxin.main.mine.account.AccountAnQuanManagerActivity;
 import com.turunsi.yaoxin.main.mine.account.AccountDetailActivity;
 import com.turunsi.yaoxin.main.mine.account.AccoutCodeDetailActivity;
@@ -163,7 +164,11 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                         UserBean bean = new Gson().fromJson(body.data.toString(), UserBean.class);
-//                        binding.mineFragmentPacketMoneyDetailTv.setText("￥ " + NumberUtil.formartMoney(bean.balance));
+                        if (bean != null && binding != null && binding.fragmentMineBalanceTv != null) {
+                            String balance = bean.balance == null ? "" : bean.balance;
+                            binding.fragmentMineBalanceTv.setText(
+                                    "¥" + NumberUtil.formartMoney(balance));
+                        }
                     }
 
                     @Override
@@ -240,6 +245,13 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         binding.fragmentMineCopyIos.setOnClickListener(this);
         binding.fragmentMineCopyAndroid.setOnClickListener(this);
         binding.tvInfo.setOnClickListener(this);
+        // 官网地址右侧是复制按钮，隐藏箭头（对齐 iOS）
+        View gwdzArrow =
+                binding.fragmentMineGwdzView.findViewById(
+                        com.yaoxin.appbase.R.id.icon_title_arrow_template_right_iv);
+        if (gwdzArrow != null) {
+            gwdzArrow.setVisibility(View.GONE);
+        }
 
 //        binding.mineFragmentMyManagerItem1.viewMineFragmentItemCellCl.setOnClickListener(this);
 //        binding.mineFragmentMyManagerItem2.viewMineFragmentItemCellCl.setOnClickListener(this);
@@ -556,10 +568,9 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 
                     @Override
                     public void onSuccess(@Nullable Void data) {
-
                         DataUtil.deleteLoginUserInfoList(DataUtil.getUserInfo());
                         DataUtil.deleteData();
-                        startActivity(new Intent(getActivity(), LoginActivity.class));
+                        startActivity(new Intent(getActivity(), WelcomeLoginActivity.class));
                         getActivity().finish();
                     }
                 });

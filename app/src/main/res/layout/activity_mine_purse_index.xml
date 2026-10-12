@@ -1,20 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tl="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/bg_2">
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="fitXY"
-        android:src="@mipmap/jinzita_common_page_bg"
-        android:visibility="gone"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    android:background="@drawable/bg_purse_page">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -32,71 +21,73 @@
             app:title_text_color="@color/color_black"
             app:under_divider_color="@color/transparent" />
 
-
+        <!-- 资产卡片 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="15dp"
-            android:layout_marginTop="@dimen/dimen_50_dp"
-            android:background="@drawable/bg_white_rounded_10"
-            android:gravity="center"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_purse_balance_card"
+            android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:paddingHorizontal="20dp">
+            android:paddingHorizontal="20dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="24dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dimen_20_dp"
                 android:text="资金安全有保障"
-                android:textColor="@color/app_theme_color"
-                android:textSize="14sp" />
+                android:textColor="#CCFFFFFF"
+                android:textSize="13sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dimen_40_dp"
-                android:text="总资产(元)"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:layout_marginTop="28dp"
+                android:text="总资产 (元)"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/activity_mine_purse_index_balance_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="@dimen/dimen_30_dp"
-                android:text="¥0.00"
-                android:textColor="@color/black"
-                android:textSize="35sp" />
+                android:layout_marginTop="8dp"
+                android:text="0.00"
+                android:textColor="@color/white"
+                android:textSize="36sp"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
-                android:layout_marginBottom="@dimen/dimen_30_dp">
+                android:layout_marginTop="28dp"
+                android:gravity="center"
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/activity_mine_purse_index_recharge_tv"
                     android:layout_width="0dp"
-                    android:layout_height="48dp"
+                    android:layout_height="44dp"
                     android:layout_weight="1"
-                    android:background="@drawable/bg_app_theme_color_rounded_10"
+                    android:background="@drawable/bg_purse_btn_recharge"
                     android:gravity="center"
                     android:text="充值"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_size_15" />
+                    android:textColor="#5B9E6F"
+                    android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/activity_mine_purse_index_tixian_tv"
                     android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_marginLeft="15dp"
+                    android:layout_height="44dp"
+                    android:layout_marginStart="16dp"
                     android:layout_weight="1"
-                    android:background="@drawable/bg_gray_rounded_line_10"
+                    android:background="@drawable/bg_purse_btn_withdraw"
                     android:gravity="center"
                     android:text="提现"
-                    android:textColor="@color/color_black"
-                    android:textSize="@dimen/text_size_15" />
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/activity_mine_purse_index_recharge_tv2"
@@ -109,18 +100,15 @@
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_size_15"
                     android:visibility="gone" />
-
-
             </LinearLayout>
-
         </LinearLayout>
 
-
+        <!-- 功能列表 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="15dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="14dp"
             android:background="@drawable/bg_white_rounded_10"
             android:orientation="vertical">
 
@@ -128,12 +116,14 @@
                 android:id="@+id/activity_mine_purse_index_hbjl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:leftImg="@mipmap/purse_index_item_hongbao"
                 app:titleText="红包记录" />
 
             <com.yaoxin.appbase.view.IconTitleArrowTemplate
                 android:id="@+id/activity_mine_purse_index_lqmx"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:leftImg="@mipmap/purse_index_item_mingxi"
                 app:titleText="零钱明细" />
 
             <com.yaoxin.appbase.view.IconTitleArrowTemplate
@@ -141,6 +131,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="visible"
+                app:leftImg="@mipmap/purse_index_item_smrz"
                 app:titleText="实名认证" />
 
             <com.yaoxin.appbase.view.IconTitleArrowTemplate
@@ -148,12 +139,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
+                app:leftImg="@mipmap/purse_index_item_wx"
                 app:titleText="绑定微信" />
 
             <com.yaoxin.appbase.view.IconTitleArrowTemplate
                 android:id="@+id/activity_mine_purse_index_bdzfb"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:leftImg="@mipmap/purse_index_item_zfb"
                 app:titleText="绑定支付宝" />
 
             <com.yaoxin.appbase.view.IconTitleArrowTemplate
@@ -161,8 +154,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
+                app:leftImg="@mipmap/purse_index_item_kabao"
                 app:titleText="我的卡包" />
         </LinearLayout>
-
     </LinearLayout>
 </RelativeLayout>
