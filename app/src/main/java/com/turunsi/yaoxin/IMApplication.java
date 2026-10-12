@@ -15,11 +15,13 @@ import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.text.TextUtils;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.multidex.MultiDexApplication;
 
+import com.beiguard.gameshield.GameshieldManager;
 import com.google.gson.Gson;
 import com.heytap.msp.push.HeytapPushManager;
 import com.huawei.hms.support.common.ActivityMgr;
@@ -105,6 +107,14 @@ public class IMApplication extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         ALog.d(Constant.PROJECT_TAG, TAG, "onCreate");
+        // SDK KEY
+        String sdkKey = "nlETwSPex1tUyT3YBTodgPsoDmKrIE9I0t3jnMnU9mMME6fkyPDqWKi7RVlFTbxAv4nl4oWdPsAcJvnec+VUX0V/YT+w0ZEWN/T5lDU+tec6zmDJujlTFhjHiiJtoEhJyVURDrK+FQOD28m+m+HdgXgIu+243fg3K6OPrqJ9yq8+7v6KwKTzv5yW11qhbemC83rZD4rKoV/yg7E/Ohb15OnShB0BXsRh/qvMHBE9oki10Qat57TeaCXXUDqfvqzAOE0rmiYK7ef5xg2zWqiG8N5pDti7lnRCPK4rL6SPlaz+QeBkMwdbSpS8uWegLDU8/tA0BOIWjQoDzaO6y/++vN+wjalUPadZkviwVnEn7pLsjzsMegzba75b5Z8xLsoZQXQ6PZY0O+0bxK6p5aMpvEpKLL57bk9/RcZZpxDIh/vYFKOKRSpxG7aJNdwx8ToD";
+        // 推荐码（非必填），若没有可以不传该参数
+        String recommendCode = "";
+        // 开启游戏盾 result为1 表示开启成功 其他为开启失败
+        int result = GameshieldManager.start(this, sdkKey);
+        Log.d(TAG, "onCreate" + result);
+
         //app init
         registerActivityLifeCycle();
         AppCrashHandler.getInstance().initCrashHandler(this);
@@ -134,10 +144,10 @@ public class IMApplication extends MultiDexApplication {
                 vibrationEffect = VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE);
                 vibrator.vibrate(vibrationEffect);
             }
-
             // 开始震动
         }
     }
+
 
     private void initThirdPart() {
         Hawk.init(this).build();
@@ -196,10 +206,10 @@ public class IMApplication extends MultiDexApplication {
                                     BaseEvent baseEvent = new BaseEvent("egg_open_notice");
                                     baseEvent.customMsgBean = msgBean;
                                     EventBus.getDefault().post(baseEvent);
-                                } else  if (msgBean.type == 18) {
+                                } else if (msgBean.type == 18) {
                                     BaseEvent baseEvent = new BaseEvent("login_out");
                                     EventBus.getDefault().post(baseEvent);
-                                } else  if (msgBean.type == 15 || msgBean.type == 2) {
+                                } else if (msgBean.type == 15 || msgBean.type == 2) {
                                     BaseEvent baseEvent = new BaseEvent("refreshFriendList");
                                     EventBus.getDefault().post(baseEvent);
                                 }

@@ -43,6 +43,8 @@ dependencies {
     api ("io.github.h07000223:flycoTabLayout:3.0.0")
     api ("io.github.cymchad:BaseRecyclerViewAdapterHelper4:4.1.4")
     api("com.github.bumptech.glide:glide:4.13.1")
+    // 网易易盾行为式验证码
+    api("io.github.yidun:captcha:3.6.9.1")
     api ("io.github.scwang90:refresh-layout-kernel:2.1.0")      //核心必须依赖
     api ("io.github.scwang90:refresh-header-material:2.1.0")      //谷歌刷新头
     api ("io.github.scwang90:refresh-footer-ball:2.1.0")      //球脉冲加载

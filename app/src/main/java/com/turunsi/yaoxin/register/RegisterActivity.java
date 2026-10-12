@@ -61,14 +61,14 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         binding.activityRegisterBtn.setOnClickListener(this);
 
         binding.registerActivityCodeTf.btnCaptcha.setVisibility(View.VISIBLE);
-        CountDownView mCountDownView = binding.registerActivityCodeTf.btnCaptcha;
+        final CountDownView mCountDownView = binding.registerActivityCodeTf.btnCaptcha;
         mCountDownView.setUserEdit(binding.registerActivityPhoneTf.viewTitleTfEt);
         mCountDownView.setCountDownTime(60);
         mCountDownView.setCaptchaListener(new LoginLoader.CaptchaListener() {
             @Override
             public void onPre() {
                 String phone = getTextStr(binding.registerActivityPhoneTf.viewTitleTfEt);
-                CommonNetUtil.getPhoneCode(phone);
+                CommonNetUtil.getPhoneCode(RegisterActivity.this, phone, mCountDownView);
             }
 
             @Override

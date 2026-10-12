@@ -20,6 +20,10 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
+## 网易易盾行为验证
+-keep public class com.netease.nis.captcha.** { *; }
+-dontwarn com.netease.nis.captcha.**
+
 ## IM SDK
 -dontwarn com.netease.nim.**
 -keep class com.netease.nim.** {*;}
@@ -188,5 +192,9 @@
 
 -keep class **.R$* {
  *;
-
 }
+
+#保持 tlschannel 的实现类不被混淆
+-keep class tlschannel.** { *; }
+#保持 java9.util 的实现类不被混淆
+-keep class java9.util.** { *; }

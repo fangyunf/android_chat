@@ -39,14 +39,20 @@ public class OtherPlaceLoginFragment extends BaseDialogFragment implements View.
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentOtherPlaceLoginBinding.inflate(inflater, container, false);
 
-        CountDownView mCountDownView = binding.btnCaptcha;
+        final CountDownView mCountDownView = binding.btnCaptcha;
         mCountDownView.setUserEdit(binding.fragmentOtherPlaceLoginPhoneEt);
         mCountDownView.setCountDownTime(60);
         mCountDownView.setCaptchaListener(new LoginLoader.CaptchaListener() {
             @Override
             public void onPre() {
                 String phone = getTextStr(binding.fragmentOtherPlaceLoginPhoneEt);
-                CommonNetUtil.getPhoneCode(phone);
+                Activity host = getActivity();
+                if (host instanceof androidx.fragment.app.FragmentActivity) {
+                    CommonNetUtil.getPhoneCode(
+                            (androidx.fragment.app.FragmentActivity) host, phone, mCountDownView);
+                } else {
+                    CommonNetUtil.getPhoneCode(phone);
+                }
             }
 
             @Override

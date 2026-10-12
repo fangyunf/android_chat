@@ -52,14 +52,14 @@ public class ForgetPwdActivity extends BaseActivity implements View.OnClickListe
 
         binding.forgetPwdActivityCodeTf.btnCaptcha.setVisibility(View.VISIBLE);
         binding.forgetPwdActivityBtn.setOnClickListener(this);
-        CountDownView mCountDownView = binding.forgetPwdActivityCodeTf.btnCaptcha;
+        final CountDownView mCountDownView = binding.forgetPwdActivityCodeTf.btnCaptcha;
         mCountDownView.setUserEdit(binding.forgetPwdActivityPhoneTf.viewTitleTfEt);
         mCountDownView.setCountDownTime(60);
         mCountDownView.setCaptchaListener(new LoginLoader.CaptchaListener() {
             @Override
             public void onPre() {
                 String phone = getTextStr(binding.forgetPwdActivityPhoneTf.viewTitleTfEt);
-                CommonNetUtil.getPhoneCode(phone);
+                CommonNetUtil.getPhoneCode(ForgetPwdActivity.this, phone, mCountDownView);
             }
 
             @Override

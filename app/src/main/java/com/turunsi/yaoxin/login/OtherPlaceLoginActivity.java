@@ -85,13 +85,13 @@ public class OtherPlaceLoginActivity extends BaseActivity implements View.OnClic
                             });
                 }
             });
-            CountDownView mCountDownView = binding.activityOtherPlaceLoginBtnCaptcha;
+            final CountDownView mCountDownView = binding.activityOtherPlaceLoginBtnCaptcha;
             mCountDownView.needVerify = false;
             mCountDownView.setCountDownTime(60);
             mCountDownView.setCaptchaListener(new LoginLoader.CaptchaListener() {
                 @Override
                 public void onPre() {
-                    CommonNetUtil.getPhoneCode(_phone);
+                    CommonNetUtil.getPhoneCode(OtherPlaceLoginActivity.this, _phone, mCountDownView);
                 }
 
                 @Override

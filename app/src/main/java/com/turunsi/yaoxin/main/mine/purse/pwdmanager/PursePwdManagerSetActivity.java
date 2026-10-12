@@ -54,14 +54,14 @@ public class PursePwdManagerSetActivity extends BaseActivity implements View.OnC
 
         binding.activityMinePursePwdManagerGetCode.btnCaptcha.setVisibility(View.VISIBLE);
 
-        CountDownView mCountDownView = binding.activityMinePursePwdManagerGetCode.btnCaptcha;
+        final CountDownView mCountDownView = binding.activityMinePursePwdManagerGetCode.btnCaptcha;
         mCountDownView.setUserEdit(binding.activityMinePursePwdManagerSetPhone.viewTitleTfWithoutBgEt);
         mCountDownView.setCountDownTime(60);
         mCountDownView.setCaptchaListener(new LoginLoader.CaptchaListener() {
             @Override
             public void onPre() {
                 String phone = getTextStr(binding.activityMinePursePwdManagerSetPhone.viewTitleTfWithoutBgEt);
-                CommonNetUtil.getPhoneCode(phone);
+                CommonNetUtil.getPhoneCode(PursePwdManagerSetActivity.this, phone, mCountDownView);
             }
 
             @Override
