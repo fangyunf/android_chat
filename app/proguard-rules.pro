@@ -24,6 +24,10 @@
 -keep public class com.netease.nis.captcha.** { *; }
 -dontwarn com.netease.nis.captcha.**
 
+## 云盾 SDK v5.4 (clinkapi)
+-keep class cn.ay.clinkapi.** { *; }
+-dontwarn cn.ay.clinkapi.**
+
 ## IM SDK
 -dontwarn com.netease.nim.**
 -keep class com.netease.nim.** {*;}
