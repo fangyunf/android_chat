@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -34,6 +35,8 @@ import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
+import com.yaoxin.appbase.pswkeyboard.OnPasswordInputFinish;
+import com.yaoxin.appbase.pswkeyboard.widget.PopEnterPassword;
 import com.yaoxin.appbase.utils.AppProxy;
 import com.yaoxin.appbase.utils.BaseEvent;
 import com.yaoxin.appbase.utils.DataUtil;
@@ -335,31 +338,48 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
                     return;
                 }
 
-                DialogAlertUtil.showInputAlert(this, "温馨提示", "请输入群聊名称", new DialogAlertUtil.InputAlertCallBack() {
-                    @Override
-                    public void inputText(String text) {
-                        RegisterBean bean = new RegisterBean();
-                        bean.members = list;
-                        bean.groupName = text;
-                        bean.groupHead = TeamIconUtils.getDefaultRandomIconUrl(true);
-                        HttpUtil.apiW().group_createGroup(bean)
-                                .enqueue(new CommonCallback<NetData>() {
-                                    @Override
-                                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                                        finish();
-                                        CustomMsgBean bean1 = new Gson().fromJson(body.data.toString(), CustomMsgBean.class);
-                                        XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_TEAM_PAGE)
-                                                .withParam(RouterConstant.CHAT_ID_KRY, bean1.groupId)
-                                                .withContext(AppProxy.getInstance().getContext())
-                                                .navigate();
-                                    }
-
-                                    @Override
-                                    public void Failure(Call<NetData> call, Throwable t) {
-                                    }
-                                });
-                    }
-                });
+                DialogAlertUtil.showInputAlert(
+                        this,
+                        "温馨提示",
+                        "请输入群聊名称",
+                        new DialogAlertUtil.InputAlertCallBack() {
+                            @Override
+                            public void inputText(String text) {
+                                // 先关掉群名输入键盘，再弹支付密码（金额 200）
+                                View focus = getCurrentFocus();
+                                if (focus != null) {
+                                    hideKeyboard(focus);
+                                    focus.clearFocus();
+                                } else {
+                                    hideKeyboard(binding.getRoot());
+                                }
+                                binding.getRoot()
+                                        .postDelayed(
+                                                () -> {
+                                                    PopEnterPassword popEnterPassword =
+                                                            new PopEnterPassword(
+                                                                    FunSelected_User_Activity.this,
+                                                                    new OnPasswordInputFinish() {
+                                                                        @Override
+                                                                        public void inputFinish(
+                                                                                String password) {
+                                                                            createGroup(
+                                                                                    list,
+                                                                                    text,
+                                                                                    password);
+                                                                        }
+                                                                    },
+                                                                    "200");
+                                                    popEnterPassword.showAtLocation(
+                                                            binding.getRoot(),
+                                                            Gravity.BOTTOM
+                                                                    | Gravity.CENTER_HORIZONTAL,
+                                                            0,
+                                                            0);
+                                                },
+                                                150);
+                            }
+                        });
 
             } else if (page_type == 2) {
                 RegisterBean bean = new RegisterBean();
@@ -402,5 +422,32 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
                         });
             }
         }
+    }
+
+    private void createGroup(ArrayList members, String groupName, String password) {
+        RegisterBean bean = new RegisterBean();
+        bean.members = members;
+        bean.groupName = groupName;
+        bean.groupHead = TeamIconUtils.getDefaultRandomIconUrl(true);
+        bean.password = password;
+        HttpUtil.apiW()
+                .group_createGroup(bean)
+                .enqueue(
+                        new CommonCallback<NetData>() {
+                            @Override
+                            public void Successful(
+                                    Call<NetData> call, Response<NetData> response, NetData body) {
+                                finish();
+                                CustomMsgBean bean1 =
+                                        new Gson().fromJson(body.data.toString(), CustomMsgBean.class);
+                                XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_TEAM_PAGE)
+                                        .withParam(RouterConstant.CHAT_ID_KRY, bean1.groupId)
+                                        .withContext(AppProxy.getInstance().getContext())
+                                        .navigate();
+                            }
+
+                            @Override
+                            public void Failure(Call<NetData> call, Throwable t) {}
+                        });
     }
 }

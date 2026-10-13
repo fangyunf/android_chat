@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import androidx.fragment.app.FragmentManager;
@@ -82,10 +83,15 @@ public class DialogAlertUtil {
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                InputMethodManager imm =
+                        (InputMethodManager)
+                                context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (imm != null) {
+                    imm.hideSoftInputFromWindow(input.getWindowToken(), 0);
+                }
+                input.clearFocus();
                 String name = input.getText().toString();
                 callBack.inputText(name);
-                // 处理输入的名字，例如显示在Toast中
-
             }
         });
 
