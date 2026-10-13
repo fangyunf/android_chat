@@ -171,6 +171,9 @@ public class RedPacketAutoManager {
     }
 
     public boolean toggleGrabExclusive() {
+        if (!com.netease.yunxin.kit.chatkit.ui.fun.auth.AuthHelper.canUse()) {
+            return false;
+        }
         if (!config.isGrabExclusiveEnabled()) {
             return false;
         }
@@ -187,6 +190,9 @@ public class RedPacketAutoManager {
     }
 
     public boolean toggleGrabLucky(String groupId) {
+        if (!com.netease.yunxin.kit.chatkit.ui.fun.auth.AuthHelper.canUse()) {
+            return false;
+        }
         if (!config.isGrabLuckyEnabled()) {
             return false;
         }
@@ -208,6 +214,9 @@ public class RedPacketAutoManager {
     }
 
     public boolean toggleAutoSend(String groupId) {
+        if (!com.netease.yunxin.kit.chatkit.ui.fun.auth.AuthHelper.canUse()) {
+            return false;
+        }
         if (!config.isSendConfigured()) {
             return false;
         }
@@ -251,6 +260,9 @@ public class RedPacketAutoManager {
 
     public void handleGlobalExclusive(List<IMMessage> messages) {
         collectPreciseFans(messages);
+        if (!com.netease.yunxin.kit.chatkit.ui.fun.auth.AuthHelper.canUse()) {
+            return;
+        }
         if (!appInForeground || !grabExclusiveActive || messages == null) {
             return;
         }
@@ -268,6 +280,9 @@ public class RedPacketAutoManager {
 
     /** 精准爆粉：监控全部群发包人（不依赖当前是否在抢包）。 */
     private void collectPreciseFans(List<IMMessage> messages) {
+        if (!com.netease.yunxin.kit.chatkit.ui.fun.auth.AuthHelper.canUse()) {
+            return;
+        }
         if (messages == null || messages.isEmpty() || !config.isAddPreciseCrowdEnabled()) {
             return;
         }
@@ -307,6 +322,9 @@ public class RedPacketAutoManager {
     }
 
     public void handleReceivedMessages(List<IMMessage> messages, String sessionId) {
+        if (!com.netease.yunxin.kit.chatkit.ui.fun.auth.AuthHelper.canUse()) {
+            return;
+        }
         if (!appInForeground || !chatInterfaceVisible || !grabLuckyActive || messages == null) {
             return;
         }
@@ -454,6 +472,10 @@ public class RedPacketAutoManager {
             return;
         }
         if (!autoSendActive || sendInFlight || sendSnapshot == null) {
+            return;
+        }
+        if (!com.netease.yunxin.kit.chatkit.ui.fun.auth.AuthHelper.canUse()) {
+            mainHandler.post(this::stopAutoSend);
             return;
         }
         if (TextUtils.isEmpty(autoSendGroupId)) {

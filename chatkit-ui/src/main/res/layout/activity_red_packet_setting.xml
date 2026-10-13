@@ -43,6 +43,30 @@
             android:orientation="horizontal">
 
             <LinearLayout
+                android:id="@+id/red_packet_tab_basic_wrap"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/red_packet_tab_basic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="基本"
+                    android:textColor="@color/color_white"
+                    android:textSize="15sp" />
+
+                <View
+                    android:id="@+id/red_packet_tab_basic_indicator"
+                    android:layout_width="36dp"
+                    android:layout_height="2dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@color/color_white" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/red_packet_tab_send_wrap"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -55,15 +79,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="发红包"
-                    android:textColor="@color/color_white"
-                    android:textSize="16sp" />
+                    android:textColor="#CCFFFFFF"
+                    android:textSize="15sp" />
 
                 <View
                     android:id="@+id/red_packet_tab_send_indicator"
                     android:layout_width="36dp"
                     android:layout_height="2dp"
                     android:layout_marginTop="4dp"
-                    android:background="@color/color_white" />
+                    android:background="@color/color_white"
+                    android:visibility="invisible" />
             </LinearLayout>
 
             <LinearLayout
@@ -80,7 +105,7 @@
                     android:layout_height="wrap_content"
                     android:text="抢红包"
                     android:textColor="#CCFFFFFF"
-                    android:textSize="16sp" />
+                    android:textSize="15sp" />
 
                 <View
                     android:id="@+id/red_packet_tab_grab_indicator"
@@ -105,7 +130,7 @@
                     android:layout_height="wrap_content"
                     android:text="爆粉"
                     android:textColor="#CCFFFFFF"
-                    android:textSize="16sp" />
+                    android:textSize="15sp" />
 
                 <View
                     android:id="@+id/red_packet_tab_fan_indicator"
@@ -132,10 +157,115 @@
             android:paddingBottom="24dp">
 
             <LinearLayout
-                android:id="@+id/red_packet_send_panel"
+                android:id="@+id/red_packet_basic_panel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/red_packet_auth_row"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:minHeight="@dimen/red_packet_setting_row_height"
+                    android:orientation="horizontal"
+                    android:paddingStart="16dp"
+                    android:paddingTop="10dp"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="10dp">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="授权码"
+                            android:textColor="@color/color_333333"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/red_packet_auth_hint_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="请授权"
+                            android:textColor="@color/color_999999"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/red_packet_auth_value_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/color_58be6b"
+                        android:textSize="13sp" />
+                </LinearLayout>
+
+                <View style="@style/RedPacketSettingDivider" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/red_packet_setting_row_height"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="总开关"
+                            android:textColor="@color/color_333333"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="【打开之后功能生效】"
+                            android:textColor="@color/color_999999"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/red_packet_master_sw"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:thumbTint="@color/color_white"
+                        app:trackTint="@color/red_packet_setting_switch_track" />
+                </LinearLayout>
+
+                <View style="@style/RedPacketSettingDivider" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:lineSpacingExtra="4dp"
+                    android:paddingStart="16dp"
+                    android:paddingTop="14dp"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="8dp"
+                    android:text="1.注意:本插件只做研究之用，请于下载测试完毕后删除，如有非法使用，后果自负!\n2.任何功能必须在使用时打开总开关并完成激活\n3.未激活时无法使用秒抢、自动发包、爆粉等功能"
+                    android:textColor="@color/color_999999"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/red_packet_send_panel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <LinearLayout
                     style="@style/RedPacketSettingRow"

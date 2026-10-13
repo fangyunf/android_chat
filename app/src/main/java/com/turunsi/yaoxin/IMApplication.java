@@ -43,6 +43,7 @@ import com.netease.nimlib.sdk.team.model.IMMessageFilter;
 import com.netease.yunxin.kit.chatkit.model.TeamWithCurrentMember;
 import com.netease.yunxin.kit.chatkit.repo.ConversationRepo;
 import com.netease.yunxin.kit.chatkit.repo.TeamRepo;
+import com.netease.yunxin.kit.chatkit.ui.fun.auth.AuthHelper;
 import com.netease.yunxin.kit.chatkit.ui.fun.redpacket.RedPacketAutoManager;
 import com.netease.yunxin.kit.corekit.im.provider.FetchCallback;
 import com.netease.yunxin.kit.teamkit.ui.fun.activity.FunTeamMemberListActivity;
@@ -129,6 +130,7 @@ public class IMApplication extends MultiDexApplication {
                 .setIsDebug(BuildConfig.DEBUG)
                 .setVersionName(BuildConfig.VERSION_NAME);
         RedPacketAutoManager.get().init(this);
+        AuthHelper.silentLoginOnStart(this);
         initThirdPart();
         mediaPlayer = MediaPlayer.create(this, R.raw.msg);
         vibrator = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);

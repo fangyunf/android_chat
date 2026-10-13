@@ -11,7 +11,10 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import android.app.Activity;
+
 import com.netease.yunxin.kit.chatkit.ui.R;
+import com.netease.yunxin.kit.chatkit.ui.fun.auth.AuthHelper;
 import com.netease.yunxin.kit.chatkit.ui.fun.fan.FanHelper;
 import com.netease.yunxin.kit.chatkit.ui.fun.fan.FanUserListActivity;
 import com.yaoxin.appbase.utils.BaseEvent;
@@ -131,7 +134,21 @@ public class RedPacketToolbarView extends FrameLayout {
         }
     }
 
+    private boolean ensureAuth() {
+        if (getContext() instanceof Activity) {
+            return AuthHelper.requireAuth((Activity) getContext());
+        }
+        if (!AuthHelper.canUse()) {
+            ToastUtils.toastMsg("请先激活并打开总开关");
+            return false;
+        }
+        return true;
+    }
+
     private void onExclusiveClick() {
+        if (!ensureAuth()) {
+            return;
+        }
         RedPacketAutoConfig config = manager.getConfig();
         if (!config.isGrabExclusiveEnabled()) {
             ToastUtils.toastMsg("请先去设置抢专属红包");
@@ -142,6 +159,9 @@ public class RedPacketToolbarView extends FrameLayout {
     }
 
     private void onLuckyClick() {
+        if (!ensureAuth()) {
+            return;
+        }
         RedPacketAutoConfig config = manager.getConfig();
         if (!config.isGrabLuckyEnabled()) {
             ToastUtils.toastMsg("请先去设置抢拼手气红包");
@@ -152,6 +172,9 @@ public class RedPacketToolbarView extends FrameLayout {
     }
 
     private void onSendClick() {
+        if (!ensureAuth()) {
+            return;
+        }
         if (!manager.getConfig().isSendConfigured()) {
             ToastUtils.toastMsg("请先去设置发红包");
             return;
@@ -161,6 +184,9 @@ public class RedPacketToolbarView extends FrameLayout {
     }
 
     private void onFanClick() {
+        if (!ensureAuth()) {
+            return;
+        }
         FanHelper.saveNormalFanCrowdWithFeedback(getContext(), groupId);
     }
 

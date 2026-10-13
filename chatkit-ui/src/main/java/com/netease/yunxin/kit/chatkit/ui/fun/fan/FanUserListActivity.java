@@ -91,6 +91,11 @@ public class FanUserListActivity extends BaseActivity implements FanAddQueue.Lis
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // 入口处已 requireAuth 弹窗；此处仅兜底，避免 finish 冲掉对话框
+        if (!com.netease.yunxin.kit.chatkit.ui.fun.auth.AuthHelper.canUse()) {
+            finish();
+            return;
+        }
         fanMode = modeFromIntent(getIntent().getIntExtra(EXTRA_MODE, MODE_NORMAL));
         store = FanStore.getInstance(this);
 

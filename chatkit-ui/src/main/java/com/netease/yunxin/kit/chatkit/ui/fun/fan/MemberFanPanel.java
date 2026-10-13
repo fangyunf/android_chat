@@ -74,6 +74,9 @@ public final class MemberFanPanel {
     }
 
     private void addToCustomFan() {
+        if (!com.netease.yunxin.kit.chatkit.ui.fun.auth.AuthHelper.requireAuth(activity)) {
+            return;
+        }
         String myId = DataUtil.getUserid();
         String listId =
                 !TextUtils.isEmpty(memberCode)

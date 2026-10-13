@@ -37,6 +37,9 @@ public final class FanHelper {
             return;
         }
         Activity activity = (Activity) context;
+        if (!com.netease.yunxin.kit.chatkit.ui.fun.auth.AuthHelper.requireAuth(activity)) {
+            return;
+        }
         if (TextUtils.isEmpty(groupId)) {
             ToastUtils.toastMsg("无当前群，请先进入群聊再点「爆粉」");
             return;
