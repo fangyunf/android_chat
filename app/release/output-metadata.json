@@ -11,9 +11,9 @@
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 119,
-      "versionName": "1.1.9",
-      "outputFile": "xinda_release_v1.1.9.apk"
+      "versionCode": 120,
+      "versionName": "1.2.0",
+      "outputFile": "xinda_release_v1.2.0.apk"
     }
   ],
   "elementType": "File"
