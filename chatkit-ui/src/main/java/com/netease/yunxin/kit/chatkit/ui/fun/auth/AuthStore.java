@@ -87,7 +87,8 @@ public final class AuthStore {
         e.putString(KEY_AUTH_STATUS, statusCode);
         e.putBoolean(KEY_REBIND, false);
         e.remove(KEY_UNAUTH_REASON);
-        e.apply();
+        // commit：授权成功后 UI 立刻 refresh，避免 apply 异步读到旧值
+        e.commit();
     }
 
     public void applyServerClock(long expireTs, long serverTs) {
@@ -95,7 +96,7 @@ public final class AuthStore {
         e.putLong(KEY_AUTH_EXPIRE_TS, Math.max(0, expireTs));
         e.putLong(KEY_AUTH_SERVER_TS, Math.max(0, serverTs));
         e.putLong(KEY_AUTH_SERVER_SYNC, System.currentTimeMillis() / 1000L);
-        e.apply();
+        e.commit();
     }
 
     public void clearAuth(String reason) {
@@ -112,14 +113,14 @@ public final class AuthStore {
         } else {
             e.remove(KEY_UNAUTH_REASON);
         }
-        e.apply();
+        e.commit();
     }
 
     public void markNeedActivate() {
         SharedPreferences.Editor e = sp.edit();
         e.putString(KEY_AUTH_STATUS, LEIDIAN_NEED_ACTIVATE_STATUS);
         e.putBoolean(KEY_REBIND, true);
-        e.apply();
+        e.commit();
     }
 
     /** 功能可用：总开关开 + 已授权未到期。 */
@@ -188,7 +189,7 @@ public final class AuthStore {
             return "本地调试已自动授权";
         }
         if (isAuthorized()) {
-            return "请授权";
+            return "已授权";
         }
         if (isRebindRequired() || LEIDIAN_NEED_ACTIVATE_STATUS.equals(getAuthStatusCode())) {
             return "需要授权";

@@ -168,8 +168,11 @@ public class RedPacketSettingActivity extends BaseActivity implements View.OnCli
     }
 
     private void refreshAuthRow() {
-        authHintTv.setText(authStore.authPlaceholder());
-        authValueTv.setText(authStore.authDisplayValue());
+        boolean authorized = authStore.isAuthorized();
+        authHintTv.setText(authorized ? "已授权" : authStore.authPlaceholder());
+        String value = authStore.authDisplayValue();
+        authValueTv.setText(value);
+        authValueTv.setVisibility(TextUtils.isEmpty(value) ? View.GONE : View.VISIBLE);
         masterSw.setChecked(authStore.isMasterSwitchOn());
     }
 

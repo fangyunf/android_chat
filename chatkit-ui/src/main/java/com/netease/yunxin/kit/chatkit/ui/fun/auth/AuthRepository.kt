@@ -14,6 +14,7 @@ class AuthRepository(
         const val LEIDIAN_STATUS = LeidianLicenseClient.STATUS
         const val LEIDIAN_NEED_ACTIVATE = LeidianLicenseClient.NEED_ACTIVATE
         const val LEIDIAN_NOT_FOUND = LeidianLicenseClient.NOT_FOUND
+        const val LEIDIAN_OPEN_UNBIND = LeidianLicenseClient.OPEN_UNBIND
 
         private fun defaultClient(): OkHttpClient =
             OkHttpClient.Builder()
@@ -21,6 +22,74 @@ class AuthRepository(
                 .readTimeout(12, TimeUnit.SECONDS)
                 .writeTimeout(12, TimeUnit.SECONDS)
                 .build()
+    }
+
+    /** 本地已有卡密时拉 /api/app/init；失败不影响授权。 */
+    fun prefetchLeidianInit(authCode: String?) {
+        if (authCode.isNullOrBlank()) return
+        if (AuthProduct.LOCAL_DEBUG_AUTH) return
+        Thread {
+            LeidianLicenseClient(client).init()
+        }.start()
+    }
+
+    /**
+     * 心跳 query。
+     * - 网络失败 / 无法识别：passed=true（不吊销）
+     * - 明确业务失败：passed=false
+     */
+    fun checkUserStatus(
+        authCode: String?,
+        onResult: (passed: Boolean, message: String?) -> Unit,
+    ) {
+        val un = authCode?.trim().orEmpty()
+        if (un.isEmpty()) {
+            AuthLog.w("leidian status skip no authCode")
+            onResult(true, null)
+            return
+        }
+        val mac = DeviceMac.normalize(deviceIdProvider())
+        AuthLog.i("leidian status query code=${AuthLog.maskCode(un)} mac=${AuthLog.maskMac(mac)}")
+        Thread {
+            val r = LeidianLicenseClient(client).query(un, mac)
+            when {
+                r.ok -> {
+                    r.expire?.let { exp ->
+                        AuthStore.get().setAuth(un, exp, LEIDIAN_STATUS)
+                        AuthStore.get().applyServerClock(r.expireTs, r.serverTs)
+                    }
+                    AuthLog.i("leidian status OK exp=${r.expire}")
+                    onResult(true, null)
+                }
+                r.needActivate -> {
+                    AuthLog.w("leidian status -411 need activate (keep key)")
+                    onResult(false, LEIDIAN_NEED_ACTIVATE)
+                }
+                r.silentClear -> {
+                    AuthLog.w("leidian status -102 silent clear")
+                    onResult(false, LEIDIAN_NOT_FOUND)
+                }
+                r.openUnbind -> {
+                    AuthLog.w("leidian status mismatch code=${r.apiCode} (no open unbind)")
+                    onResult(false, LEIDIAN_OPEN_UNBIND)
+                }
+                r.apiCode == -5 || r.message == "卡密已到期" -> {
+                    AuthLog.w("leidian status expired")
+                    onResult(false, r.message ?: "卡密已到期")
+                }
+                r.apiCode == -4 -> {
+                    onResult(false, r.message ?: "卡密已冻结或作废，请联系客服")
+                }
+                r.message?.contains("网络") == true || r.message?.contains("请求失败") == true -> {
+                    AuthLog.w("leidian status netFail=${r.message} (pass, no revoke)")
+                    onResult(true, null)
+                }
+                else -> {
+                    AuthLog.w("leidian status FAIL msg=${r.message}")
+                    onResult(false, r.message)
+                }
+            }
+        }.start()
     }
 
     fun verifyAuthCode(
