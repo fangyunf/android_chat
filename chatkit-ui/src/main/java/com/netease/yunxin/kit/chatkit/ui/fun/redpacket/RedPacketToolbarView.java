@@ -236,8 +236,9 @@ public class RedPacketToolbarView extends FrameLayout {
     }
 
     public static RedPacketToolbarView attach(FrameLayout parent, String groupId) {
-        int size = (int) TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP, 44, parent.getResources().getDisplayMetrics());
+        if (!RedPacketFeature.ENABLE || parent == null) {
+            return null;
+        }
         int margin = (int) TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP, 12, parent.getResources().getDisplayMetrics());
         int top = (int) TypedValue.applyDimension(

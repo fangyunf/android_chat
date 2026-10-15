@@ -180,6 +180,9 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
     }
 
     private void attachMemberFanPanel() {
+        if (!com.netease.yunxin.kit.chatkit.ui.fun.redpacket.RedPacketFeature.ENABLE) {
+            return;
+        }
         if (groupInfoBean == null) {
             return;
         }

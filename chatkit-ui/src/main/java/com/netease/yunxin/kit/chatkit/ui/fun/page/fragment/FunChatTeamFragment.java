@@ -316,7 +316,8 @@ public class FunChatTeamFragment extends FunChatFragment {
     }
 
     EventBus.getDefault().register(this);
-    if (viewBinding != null
+    if (com.netease.yunxin.kit.chatkit.ui.fun.redpacket.RedPacketFeature.ENABLE
+        && viewBinding != null
         && viewBinding.getRoot() instanceof FrameLayout
         && !TextUtils.isEmpty(sessionID)) {
       redPacketToolbarView =
@@ -327,14 +328,16 @@ public class FunChatTeamFragment extends FunChatFragment {
   @Override
   public void onResume() {
     super.onResume();
-    if (!TextUtils.isEmpty(sessionID)) {
+    if (com.netease.yunxin.kit.chatkit.ui.fun.redpacket.RedPacketFeature.ENABLE
+        && !TextUtils.isEmpty(sessionID)) {
       RedPacketAutoManager.get().setChatInterfaceVisible(true, sessionID);
     }
   }
 
   @Override
   public void onPause() {
-    if (!TextUtils.isEmpty(sessionID)) {
+    if (com.netease.yunxin.kit.chatkit.ui.fun.redpacket.RedPacketFeature.ENABLE
+        && !TextUtils.isEmpty(sessionID)) {
       if (isLeavingGroup()) {
         RedPacketAutoManager.get().stopAll(sessionID);
       } else {
@@ -413,7 +416,8 @@ public class FunChatTeamFragment extends FunChatFragment {
 
   @Override
   public void onDestroyView() {
-    if (!TextUtils.isEmpty(sessionID)) {
+    if (com.netease.yunxin.kit.chatkit.ui.fun.redpacket.RedPacketFeature.ENABLE
+        && !TextUtils.isEmpty(sessionID)) {
       RedPacketAutoManager.get().stopAll(sessionID);
     }
     redPacketToolbarView = null;

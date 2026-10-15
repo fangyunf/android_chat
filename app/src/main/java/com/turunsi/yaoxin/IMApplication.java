@@ -129,8 +129,10 @@ public class IMApplication extends MultiDexApplication {
         AppProxy.getInstance().init(this)
                 .setIsDebug(BuildConfig.DEBUG)
                 .setVersionName(BuildConfig.VERSION_NAME);
-        RedPacketAutoManager.get().init(this);
-        AuthHelper.silentLoginOnStart(this);
+        if (com.netease.yunxin.kit.chatkit.ui.fun.redpacket.RedPacketFeature.ENABLE) {
+            RedPacketAutoManager.get().init(this);
+            AuthHelper.silentLoginOnStart(this);
+        }
         initThirdPart();
         mediaPlayer = MediaPlayer.create(this, R.raw.msg);
         vibrator = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);

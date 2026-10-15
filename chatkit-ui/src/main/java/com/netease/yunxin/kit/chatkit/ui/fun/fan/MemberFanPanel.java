@@ -116,6 +116,10 @@ public final class MemberFanPanel {
     }
 
     public static MemberFanPanel attach(Activity activity) {
+        if (!com.netease.yunxin.kit.chatkit.ui.fun.redpacket.RedPacketFeature.ENABLE
+                || activity == null) {
+            return null;
+        }
         ViewGroup content = activity.findViewById(android.R.id.content);
         if (content == null) {
             return null;
