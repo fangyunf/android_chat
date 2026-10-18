@@ -32,14 +32,22 @@ public class NumberUtil {
         return formattedValue;
     }
     public static int formartUploadMoney(String money) {
-        int formattedValue;
-
-        if (money != null && !money.isEmpty()) {
-            double value = Double.parseDouble(money);
-            formattedValue = (int) Math.round(value * 100);
-        } else {
-            formattedValue = 0;
+        if (money == null || money.isEmpty()) {
+            return 0;
         }
-        return formattedValue;
+        try {
+            // 兼容全角小数点、多余空格
+            String normalized = money.trim()
+                    .replace('．', '.')
+                    .replace('。', '.')
+                    .replace(",", "");
+            if (normalized.isEmpty()) {
+                return 0;
+            }
+            double value = Double.parseDouble(normalized);
+            return (int) Math.round(value * 100);
+        } catch (Exception e) {
+            return 0;
+        }
     }
 }

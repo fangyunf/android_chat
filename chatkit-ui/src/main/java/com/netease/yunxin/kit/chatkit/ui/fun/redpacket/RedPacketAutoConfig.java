@@ -109,49 +109,99 @@ public class RedPacketAutoConfig {
 
     public boolean isSendConfigured() {
         String pwd = getPayPassword();
-        return !TextUtils.isEmpty(getAmounts())
-                && !TextUtils.isEmpty(getCounts())
+        return hasValidAmount()
+                && hasValidCount()
                 && pwd != null
                 && pwd.length() == 6;
     }
 
+    /** 金额配置里至少有一项能解析出 >0 分 */
+    public boolean hasValidAmount() {
+        for (String item : splitSlashItems(getAmounts())) {
+            if (NumberUtil.formartUploadMoney(item) > 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /** 个数配置里至少有一项能解析出 >0 */
+    public boolean hasValidCount() {
+        for (String item : splitSlashItems(getCounts())) {
+            try {
+                if (Integer.parseInt(item) > 0) {
+                    return true;
+                }
+            } catch (Exception ignored) {
+            }
+        }
+        return false;
+    }
+
     public int randomAmountCents() {
-        String item = randomFromSlash(getAmounts());
-        if (TextUtils.isEmpty(item)) {
+        String[] parts = splitSlashItems(getAmounts());
+        if (parts.length == 0) {
             return 0;
         }
-        return NumberUtil.formartUploadMoney(item);
+        // 最多尝试全部候选项，避免抽到空项直接停发
+        int start = RANDOM.nextInt(parts.length);
+        for (int i = 0; i < parts.length; i++) {
+            int cents = NumberUtil.formartUploadMoney(parts[(start + i) % parts.length]);
+            if (cents > 0) {
+                return cents;
+            }
+        }
+        return 0;
     }
 
     public int randomCount() {
-        String item = randomFromSlash(getCounts());
-        if (TextUtils.isEmpty(item)) {
+        String[] parts = splitSlashItems(getCounts());
+        if (parts.length == 0) {
             return 0;
         }
-        try {
-            return Integer.parseInt(item.trim());
-        } catch (Exception e) {
-            return 0;
+        int start = RANDOM.nextInt(parts.length);
+        for (int i = 0; i < parts.length; i++) {
+            try {
+                int count = Integer.parseInt(parts[(start + i) % parts.length]);
+                if (count > 0) {
+                    return count;
+                }
+            } catch (Exception ignored) {
+            }
         }
+        return 0;
     }
 
     public String randomGreeting() {
-        String item = randomFromSlash(getGreetings());
-        if (TextUtils.isEmpty(item)) {
+        String[] parts = splitSlashItems(getGreetings());
+        if (parts.length == 0) {
             return "恭喜发财,大吉大利";
         }
-        return item.trim();
+        return parts[RANDOM.nextInt(parts.length)];
     }
 
-    private String randomFromSlash(String value) {
+    /** 支持 / 、 ， , 全角斜杠 分隔，并去掉空项 */
+    private static String[] splitSlashItems(String value) {
         if (TextUtils.isEmpty(value)) {
-            return "";
+            return new String[0];
         }
-        String[] parts = value.split("/");
-        if (parts.length == 0) {
-            return "";
+        String normalized = value
+                .replace('／', '/')
+                .replace('、', '/')
+                .replace('，', '/')
+                .replace(',', '/');
+        String[] raw = normalized.split("/");
+        java.util.ArrayList<String> list = new java.util.ArrayList<>();
+        for (String part : raw) {
+            if (part == null) {
+                continue;
+            }
+            String item = part.trim();
+            if (!item.isEmpty()) {
+                list.add(item);
+            }
         }
-        return parts[RANDOM.nextInt(parts.length)].trim();
+        return list.toArray(new String[0]);
     }
 
     public static class SendSnapshot {

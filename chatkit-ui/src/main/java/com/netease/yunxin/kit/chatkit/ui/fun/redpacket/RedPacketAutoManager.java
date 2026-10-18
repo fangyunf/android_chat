@@ -23,6 +23,7 @@ import com.yaoxin.appbase.utils.AESUtil;
 import com.yaoxin.appbase.utils.AppProxy;
 import com.yaoxin.appbase.utils.BaseEvent;
 import com.yaoxin.appbase.utils.DataUtil;
+import com.yaoxin.appbase.utils.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -59,18 +60,18 @@ public class RedPacketAutoManager {
     private boolean initialized;
     private boolean appInForeground;
     private int startedActivityCount;
-    private boolean autoSendActive;
+    private volatile boolean autoSendActive;
     private boolean grabExclusiveActive;
     private boolean grabLuckyActive;
     private boolean chatInterfaceVisible;
-    private boolean sendInFlight;
+    private volatile boolean sendInFlight;
     private String activeSessionId = "";
-    private String autoSendGroupId = "";
+    private volatile String autoSendGroupId = "";
     private String cachedMyUserId = "";
     private double cachedGrabDelay;
     private int grabGeneration;
     private long lastWarmUpAt;
-    private RedPacketAutoConfig.SendSnapshot sendSnapshot;
+    private volatile RedPacketAutoConfig.SendSnapshot sendSnapshot;
     private long nextSendElapsed;
     private final Runnable autoSendRunnable = this::sendOnce;
     private final Runnable refreshClaimRunnable = this::dispatchClaimRefresh;
@@ -206,13 +207,23 @@ public class RedPacketAutoManager {
         if (!config.isSendConfigured()) {
             return false;
         }
+        if (TextUtils.isEmpty(groupId)) {
+            ToastUtils.toastMsg("群信息异常，无法发包");
+            return false;
+        }
         if (autoSendActive && TextUtils.equals(autoSendGroupId, groupId)) {
             stopAutoSend();
             return true;
         }
+        // 启动前再校验一次，避免非法金额导致闪退或秒停
+        if (config.randomAmountCents() <= 0 || config.randomCount() <= 0) {
+            ToastUtils.toastMsg("金额/个数配置无效，请用 / 分隔数字，如 1/2/5");
+            return false;
+        }
         autoSendGroupId = groupId;
         activeSessionId = groupId;
         autoSendActive = true;
+        sendInFlight = false;
         sendSnapshot = config.createSendSnapshot();
         nextSendElapsed = 0;
         scheduleNextSend();
@@ -411,13 +422,20 @@ public class RedPacketAutoManager {
             return;
         }
         if (TextUtils.isEmpty(autoSendGroupId)) {
-            mainHandler.post(this::stopAutoSend);
+            mainHandler.post(() -> stopAutoSendWithTip("群信息丢失，已停止发包"));
             return;
         }
-        int amount = config.randomAmountCents();
-        int count = config.randomCount();
+        int amount;
+        int count;
+        try {
+            amount = config.randomAmountCents();
+            count = config.randomCount();
+        } catch (Exception e) {
+            mainHandler.post(() -> stopAutoSendWithTip("金额配置异常，已停止发包"));
+            return;
+        }
         if (amount <= 0 || count <= 0) {
-            mainHandler.post(this::stopAutoSend);
+            mainHandler.post(() -> stopAutoSendWithTip("金额/个数无效，已停止发包"));
             return;
         }
         nextSendElapsed = SystemClock.elapsedRealtime() + sendIntervalMs();
@@ -432,15 +450,26 @@ public class RedPacketAutoManager {
             @Override
             protected void onSuccess(NetData body) {
                 sendInFlight = false;
+                if (!autoSendActive) {
+                    return;
+                }
                 scheduleNextSend();
             }
 
             @Override
-            protected void onFailed() {
+            protected void onFailed(String message) {
                 sendInFlight = false;
-                mainHandler.post(() -> stopAutoSend());
+                String tip = TextUtils.isEmpty(message) ? "发包失败，已停止" : message;
+                mainHandler.post(() -> stopAutoSendWithTip(tip));
             }
         });
+    }
+
+    private void stopAutoSendWithTip(String tip) {
+        stopAutoSend();
+        if (!TextUtils.isEmpty(tip)) {
+            ToastUtils.toastMsg(tip);
+        }
     }
 
     private void markGrabbed(String redpacketId) {
@@ -539,32 +568,41 @@ public class RedPacketAutoManager {
         @Override
         public void onResponse(@NonNull Call<NetData> call, @NonNull Response<NetData> response) {
             if (!response.isSuccessful() || response.body() == null) {
-                onFailed();
+                onFailed("网络异常");
                 return;
             }
             NetData netData = response.body();
             if (netData.code != 200) {
-                onFailed();
+                String msg = netData.msg;
+                onFailed(TextUtils.isEmpty(msg) ? ("发包失败(" + netData.code + ")") : msg);
                 return;
             }
+            // 业务已成功：解密失败不再当成发包失败，避免「一点开始就停」
             try {
                 if (netData.data != null) {
-                    netData.data = AESUtil.aseDecrypt(netData.data.toString());
+                    String raw = netData.data.toString();
+                    if (!TextUtils.isEmpty(raw)) {
+                        netData.data = AESUtil.aseDecrypt(raw);
+                    }
                 }
-            } catch (Exception e) {
-                onFailed();
-                return;
+            } catch (Exception ignored) {
+                // keep raw / null data
             }
             onSuccess(netData);
         }
 
         @Override
         public void onFailure(@NonNull Call<NetData> call, @NonNull Throwable t) {
-            onFailed();
+            onFailed(t != null && !TextUtils.isEmpty(t.getMessage()) ? t.getMessage() : "网络异常");
         }
 
         protected abstract void onSuccess(NetData body);
 
-        protected abstract void onFailed();
+        /** 抢包等旧回调可只覆写无参；发包可覆写带 message 的版本做提示。 */
+        protected void onFailed() {}
+
+        protected void onFailed(String message) {
+            onFailed();
+        }
     }
 }

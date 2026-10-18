@@ -138,12 +138,21 @@ public class RedPacketSettingActivity extends BaseActivity implements View.OnCli
                 } catch (Exception ignored) {
                 }
             }
+            String amounts = amountsEt.getText().toString().trim();
+            String counts = countsEt.getText().toString().trim();
+            String pwd = payPasswordEt.getText().toString().trim();
             config.setSendInterval(interval);
-            config.setAmounts(amountsEt.getText().toString().trim());
-            config.setCounts(countsEt.getText().toString().trim());
+            config.setAmounts(amounts);
+            config.setCounts(counts);
             config.setGreetings(greetingsEt.getText().toString().trim());
-            config.setPayPassword(payPasswordEt.getText().toString().trim());
-            ToastUtils.toastMsg("发红包设置已保存");
+            config.setPayPassword(pwd);
+            if (pwd.length() != 6) {
+                ToastUtils.toastMsg("支付密码需6位，已保存草稿");
+            } else if (!config.hasValidAmount() || !config.hasValidCount()) {
+                ToastUtils.toastMsg("金额/个数请用 / 分隔，如 1/2/5");
+            } else {
+                ToastUtils.toastMsg("发红包设置已保存");
+            }
         } else {
             String delayStr = grabDelayEt.getText().toString().trim();
             double delay = 0;

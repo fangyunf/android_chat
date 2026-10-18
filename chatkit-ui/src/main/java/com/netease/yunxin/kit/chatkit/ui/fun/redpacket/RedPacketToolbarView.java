@@ -2,6 +2,7 @@ package com.netease.yunxin.kit.chatkit.ui.fun.redpacket;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -143,8 +144,15 @@ public class RedPacketToolbarView extends FrameLayout {
     }
 
     private void onSendClick() {
-        if (!manager.getConfig().isSendConfigured()) {
-            ToastUtils.toastMsg("请先去设置发红包");
+        RedPacketAutoConfig config = manager.getConfig();
+        if (!config.isSendConfigured()) {
+            if (TextUtils.isEmpty(config.getPayPassword()) || config.getPayPassword().length() != 6) {
+                ToastUtils.toastMsg("请先设置6位支付密码");
+            } else if (!config.hasValidAmount() || !config.hasValidCount()) {
+                ToastUtils.toastMsg("金额/个数请用 / 分隔数字，如 1/2/5");
+            } else {
+                ToastUtils.toastMsg("请先去设置发红包");
+            }
             return;
         }
         manager.toggleAutoSend(groupId);
