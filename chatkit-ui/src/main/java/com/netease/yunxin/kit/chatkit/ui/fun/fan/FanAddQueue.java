@@ -4,11 +4,17 @@ import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.netease.yunxin.kit.chatkit.repo.ContactRepo;
+import com.netease.yunxin.kit.corekit.im.model.FriendVerifyType;
+import com.netease.yunxin.kit.corekit.im.provider.FetchCallback;
 import com.yaoxin.appbase.model.GroupInfoBean;
 import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.RegisterBean;
-import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
+import com.yaoxin.appbase.utils.AESUtil;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
 
@@ -16,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 
 /** 顺序加好友队列（对齐 qiangbao FanAddQueue）。 */
@@ -109,26 +116,93 @@ public class FanAddQueue {
         HttpUtil.apiW()
                 .friends_addFriends(bean)
                 .enqueue(
-                        new CommonCallback<NetData>() {
+                        new Callback<NetData>() {
                             @Override
-                            public void Successful(
-                                    Call<NetData> call, Response<NetData> response, NetData body) {
+                            public void onResponse(
+                                    @NonNull Call<NetData> call, @NonNull Response<NetData> response) {
                                 if (!running) {
                                     return;
                                 }
-                                index++;
-                                scheduleInterval();
+                                if (isBizOk(response)) {
+                                    advance();
+                                    return;
+                                }
+                                // 业务号失败时改走云信账号（对齐 qiangbao addFriendIm）
+                                fallbackImAdd(user);
                             }
 
                             @Override
-                            public void Failure(Call<NetData> call, Throwable t) {
+                            public void onFailure(@NonNull Call<NetData> call, @NonNull Throwable t) {
                                 if (!running) {
                                     return;
                                 }
-                                index++;
-                                scheduleInterval();
+                                fallbackImAdd(user);
                             }
                         });
+    }
+
+    /** code=200 即成功；解密失败不算失败，避免一点开始就崩。 */
+    private static boolean isBizOk(Response<NetData> response) {
+        if (response == null || !response.isSuccessful() || response.body() == null) {
+            return false;
+        }
+        NetData netData = response.body();
+        if (netData.code != 200) {
+            return false;
+        }
+        try {
+            if (netData.data != null) {
+                String raw = netData.data.toString();
+                if (!TextUtils.isEmpty(raw)) {
+                    netData.data = AESUtil.aseDecrypt(raw);
+                }
+            }
+        } catch (Exception ignored) {
+        }
+        return true;
+    }
+
+    private void fallbackImAdd(FanUser user) {
+        String imId =
+                user != null && !TextUtils.isEmpty(user.cloudId) ? user.cloudId.trim() : "";
+        if (TextUtils.isEmpty(imId) && user != null && !TextUtils.isEmpty(user.userId)) {
+            imId = user.userId.trim();
+        }
+        if (TextUtils.isEmpty(imId)) {
+            advance();
+            return;
+        }
+        try {
+            ContactRepo.addFriend(
+                    imId,
+                    FriendVerifyType.VerifyRequest,
+                    new FetchCallback<Void>() {
+                        @Override
+                        public void onSuccess(@Nullable Void param) {
+                            mainHandler.post(FanAddQueue.this::advance);
+                        }
+
+                        @Override
+                        public void onFailed(int code) {
+                            mainHandler.post(FanAddQueue.this::advance);
+                        }
+
+                        @Override
+                        public void onException(@Nullable Throwable exception) {
+                            mainHandler.post(FanAddQueue.this::advance);
+                        }
+                    });
+        } catch (Exception ignored) {
+            advance();
+        }
+    }
+
+    private void advance() {
+        if (!running) {
+            return;
+        }
+        index++;
+        scheduleInterval();
     }
 
     private void scheduleInterval() {
