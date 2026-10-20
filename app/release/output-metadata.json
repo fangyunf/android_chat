@@ -4,16 +4,16 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.turunsi.xindadada",
+  "applicationId": "com.turunsi.dadada",
   "variantName": "release",
   "elements": [
     {
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 122,
-      "versionName": "1.2.2",
-      "outputFile": "xinda_release_v1.2.2.apk"
+      "versionCode": 123,
+      "versionName": "1.2.3",
+      "outputFile": "xinda_release_v1.2.3.apk"
     }
   ],
   "elementType": "File"
