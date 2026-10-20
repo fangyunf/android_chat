@@ -116,6 +116,12 @@ public interface ServiceW {
             @Body RegisterBean userBean
     );
 
+    /** 安卓爆粉加好友：先按 userId 查用户，拿到 memberCode 再加好友 */
+    @POST("/friends/searchByUserIdAOS")
+    Call<NetData> friends_searchByUserIdAOS(
+            @Body RegisterBean userBean
+    );
+
     @POST("/groupMember/queryGroupMemberBanneds")
     Call<NetData> groupMember_queryGroupMemberBanneds(
             @Body RegisterBean userBean

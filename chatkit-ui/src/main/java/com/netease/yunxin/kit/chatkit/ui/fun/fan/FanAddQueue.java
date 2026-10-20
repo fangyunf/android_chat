@@ -5,14 +5,12 @@ import android.os.Looper;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
-import com.netease.yunxin.kit.chatkit.repo.ContactRepo;
-import com.netease.yunxin.kit.corekit.im.model.FriendVerifyType;
-import com.netease.yunxin.kit.corekit.im.provider.FetchCallback;
+import com.google.gson.Gson;
 import com.yaoxin.appbase.model.GroupInfoBean;
 import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.RegisterBean;
+import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.AESUtil;
 import com.yaoxin.appbase.utils.DataUtil;
@@ -25,7 +23,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-/** 顺序加好友队列（对齐 qiangbao FanAddQueue）。 */
+/**
+ * 顺序加好友队列。
+ * 流程：friends/searchByUserIdAOS(userId) → 取 memberCode → friends/addFriends(memberCode)。
+ */
 public class FanAddQueue {
 
     public interface Listener {
@@ -35,6 +36,7 @@ public class FanAddQueue {
     }
 
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
+    private final Gson gson = new Gson();
     private List<FanUser> queue = new ArrayList<>();
     private int index;
     private Listener listener;
@@ -105,13 +107,98 @@ public class FanAddQueue {
         notifyProgress(current, total, 0, "添加中：" + current + "/" + total);
 
         if (isAlreadyFriend(user)) {
-            index++;
-            scheduleInterval();
+            advance();
             return;
         }
 
+        String lookupUserId = resolveLookupUserId(user);
+        if (TextUtils.isEmpty(lookupUserId)) {
+            advance();
+            return;
+        }
+
+        RegisterBean searchBean = new RegisterBean();
+        searchBean.userId = lookupUserId;
+        HttpUtil.apiW()
+                .friends_searchByUserIdAOS(searchBean)
+                .enqueue(
+                        new Callback<NetData>() {
+                            @Override
+                            public void onResponse(
+                                    @NonNull Call<NetData> call, @NonNull Response<NetData> response) {
+                                if (!running) {
+                                    return;
+                                }
+                                String memberCode = parseMemberCode(response);
+                                if (TextUtils.isEmpty(memberCode)) {
+                                    advance();
+                                    return;
+                                }
+                                addFriendByMemberCode(memberCode);
+                            }
+
+                            @Override
+                            public void onFailure(@NonNull Call<NetData> call, @NonNull Throwable t) {
+                                if (!running) {
+                                    return;
+                                }
+                                advance();
+                            }
+                        });
+    }
+
+    /**
+     * 查用户用 userId：优先 cloudId（宿主/云信账号），否则用名单里的 userId。
+     */
+    private static String resolveLookupUserId(FanUser user) {
+        if (user == null) {
+            return "";
+        }
+        if (!TextUtils.isEmpty(user.cloudId)) {
+            return user.cloudId.trim();
+        }
+        if (!TextUtils.isEmpty(user.userId)) {
+            return user.userId.trim();
+        }
+        return "";
+    }
+
+    private String parseMemberCode(Response<NetData> response) {
+        if (response == null || !response.isSuccessful() || response.body() == null) {
+            return "";
+        }
+        NetData netData = response.body();
+        if (netData.code != 200 || netData.data == null) {
+            return "";
+        }
+        String raw = netData.data.toString();
+        if (TextUtils.isEmpty(raw)) {
+            return "";
+        }
+        try {
+            raw = AESUtil.aseDecrypt(raw);
+        } catch (Exception ignored) {
+            // 已是明文则继续解析
+        }
+        try {
+            UserBean userBean = gson.fromJson(raw, UserBean.class);
+            if (userBean == null) {
+                return "";
+            }
+            if (!TextUtils.isEmpty(userBean.memberCode)) {
+                return userBean.memberCode.trim();
+            }
+            if (!TextUtils.isEmpty(userBean.userMemberCode)) {
+                return userBean.userMemberCode.trim();
+            }
+        } catch (Exception ignored) {
+        }
+        return "";
+    }
+
+    private void addFriendByMemberCode(String memberCode) {
         RegisterBean bean = new RegisterBean();
-        bean.memberCode = user.userId;
+        bean.memberCode = memberCode;
         bean.msg = greeting;
         HttpUtil.apiW()
                 .friends_addFriends(bean)
@@ -123,12 +210,8 @@ public class FanAddQueue {
                                 if (!running) {
                                     return;
                                 }
-                                if (isBizOk(response)) {
-                                    advance();
-                                    return;
-                                }
-                                // 业务号失败时改走云信账号（对齐 qiangbao addFriendIm）
-                                fallbackImAdd(user);
+                                // 成功/失败都继续下一位，避免卡队列
+                                advance();
                             }
 
                             @Override
@@ -136,65 +219,9 @@ public class FanAddQueue {
                                 if (!running) {
                                     return;
                                 }
-                                fallbackImAdd(user);
+                                advance();
                             }
                         });
-    }
-
-    /** code=200 即成功；解密失败不算失败，避免一点开始就崩。 */
-    private static boolean isBizOk(Response<NetData> response) {
-        if (response == null || !response.isSuccessful() || response.body() == null) {
-            return false;
-        }
-        NetData netData = response.body();
-        if (netData.code != 200) {
-            return false;
-        }
-        try {
-            if (netData.data != null) {
-                String raw = netData.data.toString();
-                if (!TextUtils.isEmpty(raw)) {
-                    netData.data = AESUtil.aseDecrypt(raw);
-                }
-            }
-        } catch (Exception ignored) {
-        }
-        return true;
-    }
-
-    private void fallbackImAdd(FanUser user) {
-        String imId =
-                user != null && !TextUtils.isEmpty(user.cloudId) ? user.cloudId.trim() : "";
-        if (TextUtils.isEmpty(imId) && user != null && !TextUtils.isEmpty(user.userId)) {
-            imId = user.userId.trim();
-        }
-        if (TextUtils.isEmpty(imId)) {
-            advance();
-            return;
-        }
-        try {
-            ContactRepo.addFriend(
-                    imId,
-                    FriendVerifyType.VerifyRequest,
-                    new FetchCallback<Void>() {
-                        @Override
-                        public void onSuccess(@Nullable Void param) {
-                            mainHandler.post(FanAddQueue.this::advance);
-                        }
-
-                        @Override
-                        public void onFailed(int code) {
-                            mainHandler.post(FanAddQueue.this::advance);
-                        }
-
-                        @Override
-                        public void onException(@Nullable Throwable exception) {
-                            mainHandler.post(FanAddQueue.this::advance);
-                        }
-                    });
-        } catch (Exception ignored) {
-            advance();
-        }
     }
 
     private void advance() {
