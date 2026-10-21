@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Outline;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewOutlineProvider;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -23,11 +25,14 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.bumptech.glide.request.RequestOptions;
 import com.netease.yunxin.kit.chatkit.ui.fun.redpacket.RedPacketAutoConfig;
 import com.netease.yunxin.kit.chatkit.ui.fun.redpacket.RedPacketAutoManager;
+import com.yaoxin.appbase.R;
 import com.yaoxin.appbase.activity.BaseActivity;
 import com.yaoxin.appbase.utils.BarUtils;
-import com.yaoxin.appbase.utils.GlideUtil;
 import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
 
@@ -396,6 +401,15 @@ public class FanUserListActivity extends BaseActivity implements FanAddQueue.Lis
         oval.setShape(GradientDrawable.OVAL);
         avatarBox.setBackground(oval);
         int size = dp(42);
+        ViewOutlineProvider circleOutline =
+                new ViewOutlineProvider() {
+                    @Override
+                    public void getOutline(View view, Outline outline) {
+                        outline.setOval(0, 0, view.getWidth(), view.getHeight());
+                    }
+                };
+        avatarBox.setClipToOutline(true);
+        avatarBox.setOutlineProvider(circleOutline);
         TextView letterTv = new TextView(this);
         letterTv.setText(letter);
         letterTv.setGravity(Gravity.CENTER);
@@ -404,6 +418,8 @@ public class FanUserListActivity extends BaseActivity implements FanAddQueue.Lis
         letterTv.setTypeface(Typeface.create("sans-serif-medium", Typeface.BOLD));
         ImageView avatarIv = new ImageView(this);
         avatarIv.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        avatarIv.setClipToOutline(true);
+        avatarIv.setOutlineProvider(circleOutline);
         avatarIv.setVisibility(View.GONE);
         avatarBox.addView(letterTv, new FrameLayout.LayoutParams(size, size, Gravity.CENTER));
         avatarBox.addView(
@@ -412,7 +428,13 @@ public class FanUserListActivity extends BaseActivity implements FanAddQueue.Lis
                         ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         row.addView(avatarBox, new LinearLayout.LayoutParams(size, size));
         if (!TextUtils.isEmpty(user.avatar)) {
-            GlideUtil.yh_loadImage(this, avatarIv, user.avatar);
+            Glide.with(this)
+                    .load(user.avatar)
+                    .apply(
+                            new RequestOptions()
+                                    .transform(new CircleCrop())
+                                    .placeholder(R.mipmap.app_default_base_icon_geren))
+                    .into(avatarIv);
             avatarIv.setVisibility(View.VISIBLE);
         }
 

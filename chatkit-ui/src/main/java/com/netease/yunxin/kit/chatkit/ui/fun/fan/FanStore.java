@@ -8,11 +8,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-/** 爆粉名单本地持久化（对齐 qiangbao FanStore）。 */
+/** 爆粉名单本地持久化。去重只认 userId。 */
 public final class FanStore {
 
     private static final String PREFS = "yx_fan";
@@ -43,92 +41,51 @@ public final class FanStore {
         return parseJsonArray(raw);
     }
 
-    public void save(FanMode mode, List<FanUser> users) {
+    public synchronized void save(FanMode mode, List<FanUser> users) {
         JSONArray arr = new JSONArray();
         if (users != null) {
             for (FanUser u : users) {
-                if (u != null) {
+                if (u != null && !TextUtils.isEmpty(u.userId)) {
                     arr.put(u.toJson());
                 }
             }
         }
-        prefs.edit().putString(mode.storageKey(), arr.toString()).apply();
+        prefs.edit().putString(mode.storageKey(), arr.toString()).commit();
     }
 
-    /**
-     * 按群合并普通爆粉：只替换 groupId 对应成员，其它群已存数据保留。
-     *
-     * @return int[0]=合并后总人数, int[1]=本次写入人数
-     */
-    public int[] mergeGroupMembers(FanMode mode, String groupId, List<FanUser> incoming) {
-        String gid = groupId == null ? "" : groupId.trim();
-        if (TextUtils.isEmpty(gid)) {
-            return new int[] {list(mode).size(), 0};
-        }
-        List<FanUser> list = new ArrayList<>(list(mode));
-        for (int i = list.size() - 1; i >= 0; i--) {
-            FanUser u = list.get(i);
-            String ug = u.groupId == null ? "" : u.groupId.trim();
-            if (!TextUtils.isEmpty(ug) && ug.equals(gid)) {
-                list.remove(i);
-            }
-        }
-        Set<String> seen = new HashSet<>();
-        for (FanUser u : list) {
-            if (!TextUtils.isEmpty(u.userId)) {
-                seen.add(u.userId.trim());
-            }
-        }
-        int added = 0;
-        if (incoming != null) {
-            for (FanUser u : incoming) {
-                if (u == null || TextUtils.isEmpty(u.userId)) {
-                    continue;
-                }
-                String uid = u.userId.trim();
-                if (seen.add(uid)) {
-                    list.add(u);
-                    added++;
-                }
-            }
-        }
-        save(mode, list);
-        return new int[] {list.size(), added};
-    }
-
-    public boolean append(FanMode mode, FanUser user) {
+    public synchronized boolean append(FanMode mode, FanUser user) {
         if (user == null || TextUtils.isEmpty(user.userId)) {
             return false;
         }
         List<FanUser> list = new ArrayList<>(list(mode));
-        for (int i = 0; i < list.size(); i++) {
-            FanUser old = list.get(i);
-            if (user.userId.equals(old.userId)
-                    || (!TextUtils.isEmpty(user.cloudId) && user.cloudId.equals(old.cloudId))
-                    || (!TextUtils.isEmpty(user.cloudId) && user.cloudId.equals(old.userId))) {
-                boolean betterName =
-                        !TextUtils.isEmpty(user.name)
-                                && (TextUtils.isEmpty(old.name) || old.name.equals(old.userId));
-                boolean betterAvatar =
-                        !TextUtils.isEmpty(user.avatar)
-                                && !user.avatar.equals(old.avatar == null ? "" : old.avatar);
-                if (!betterName && !betterAvatar) {
-                    return false;
-                }
-                if (betterName) {
+        String uid = user.userId.trim();
+        for (FanUser old : list) {
+            if (old != null && uid.equals(old.userId == null ? "" : old.userId.trim())) {
+                // 已存在：仅在信息更完整时更新
+                boolean changed = false;
+                if (!TextUtils.isEmpty(user.name)
+                        && (TextUtils.isEmpty(old.name) || old.name.equals(old.userId))) {
                     old.name = user.name;
+                    changed = true;
                 }
-                if (betterAvatar) {
+                if (!TextUtils.isEmpty(user.avatar)
+                        && !user.avatar.equals(old.avatar == null ? "" : old.avatar)) {
                     old.avatar = user.avatar;
+                    changed = true;
                 }
-                if (!TextUtils.isEmpty(user.cloudId)) {
+                if (!TextUtils.isEmpty(user.cloudId) && TextUtils.isEmpty(old.cloudId)) {
                     old.cloudId = user.cloudId;
+                    changed = true;
                 }
                 if (!TextUtils.isEmpty(user.groupId)) {
                     old.groupId = user.groupId;
+                    changed = true;
                 }
-                save(mode, list);
-                return true;
+                if (changed) {
+                    save(mode, list);
+                    return true;
+                }
+                return false;
             }
         }
         list.add(user);
@@ -137,7 +94,7 @@ public final class FanStore {
     }
 
     public void clear(FanMode mode) {
-        prefs.edit().remove(mode.storageKey()).apply();
+        prefs.edit().remove(mode.storageKey()).commit();
     }
 
     public void remove(FanMode mode, String userId) {
@@ -160,7 +117,17 @@ public final class FanStore {
             for (int i = 0; i < arr.length(); i++) {
                 JSONObject o = arr.optJSONObject(i);
                 FanUser u = FanUser.fromJson(o);
-                if (u != null) {
+                if (u == null || TextUtils.isEmpty(u.userId)) {
+                    continue;
+                }
+                boolean dup = false;
+                for (FanUser old : out) {
+                    if (u.userId.equals(old.userId)) {
+                        dup = true;
+                        break;
+                    }
+                }
+                if (!dup) {
                     out.add(u);
                 }
             }

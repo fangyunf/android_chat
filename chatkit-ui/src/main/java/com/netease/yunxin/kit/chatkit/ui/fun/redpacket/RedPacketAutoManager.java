@@ -292,31 +292,43 @@ public class RedPacketAutoManager {
         }
         FanStore store = FanStore.getInstance(ctx);
         String myId = getMyUserId();
-        int budget = messages.size() >= 8 ? 2 : 6;
         for (IMMessage message : messages) {
-            if (budget <= 0) {
-                break;
-            }
             if (message == null || message.getSessionType() != SessionTypeEnum.Team) {
                 continue;
             }
             RedPacketAttachUtil.ParsedRedPacket parsed = RedPacketAttachUtil.parse(message);
-            // 对齐 qiangbao：拼手气发包人 type=23
-            if (parsed == null || parsed.type != 23) {
+            // 拼手气(23) + 专属(21) 发包人都进精准名单
+            if (parsed == null || (parsed.type != 23 && parsed.type != 21)) {
                 continue;
             }
-            if (TextUtils.isEmpty(parsed.fromUserId) || TextUtils.equals(parsed.fromUserId, myId)) {
+            String cloudId =
+                    !TextUtils.isEmpty(message.getFromAccount())
+                            ? message.getFromAccount().trim()
+                            : "";
+            // 查好友用宿主/云信账号；名单主键优先 fromUserId，空则退 cloudId
+            String hostUid =
+                    !TextUtils.isEmpty(parsed.fromUserId)
+                            ? parsed.fromUserId.trim()
+                            : cloudId;
+            if (TextUtils.isEmpty(hostUid)) {
                 continue;
             }
-            budget--;
-            String cloudId = message.getFromAccount();
+            if (!TextUtils.isEmpty(myId)
+                    && (TextUtils.equals(hostUid, myId)
+                            || TextUtils.equals(cloudId, myId)
+                            || TextUtils.equals(parsed.fromUserId, myId))) {
+                continue;
+            }
+            String lookup =
+                    !TextUtils.isEmpty(cloudId) ? cloudId : hostUid;
             store.append(
                     FanMode.Precise,
                     new FanUser(
-                            parsed.fromUserId,
+                            hostUid,
                             "",
-                            cloudId,
+                            lookup,
                             message.getSessionId(),
+                            null,
                             null));
         }
     }

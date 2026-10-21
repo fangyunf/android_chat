@@ -1,32 +1,29 @@
 package com.netease.yunxin.kit.chatkit.ui.fun.fan;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.text.TextUtils;
 
-import android.app.AlertDialog;
+import androidx.annotation.Nullable;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.yaoxin.appbase.model.GroupInfoBean;
-import com.yaoxin.appbase.model.NetData;
-import com.yaoxin.appbase.model.RegisterBean;
-import com.yaoxin.appbase.net.CommonCallback;
-import com.yaoxin.appbase.net.HttpUtil;
+import com.netease.yunxin.kit.chatkit.model.UserInfoWithTeam;
+import com.netease.yunxin.kit.chatkit.repo.TeamRepo;
+import com.netease.yunxin.kit.corekit.im.IMKitClient;
+import com.netease.yunxin.kit.corekit.im.model.UserInfo;
+import com.netease.yunxin.kit.corekit.im.provider.FetchCallback;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
-import retrofit2.Call;
-import retrofit2.Response;
-
-/** 爆粉：拉取群成员写入本地名单（对齐 qiangbao saveNormalFanCrowd）。 */
+/**
+ * 爆粉：用云信成员接口 {@link TeamRepo#getMemberList} 一次拉全员（与发红包页同源，不分页）。
+ */
 public final class FanHelper {
 
     private FanHelper() {}
@@ -45,127 +42,121 @@ public final class FanHelper {
             return;
         }
         ProgressDialog loading = new ProgressDialog(activity);
-        loading.setMessage("正在保存群成员...");
+        loading.setMessage("正在拉取群成员...");
         loading.setCancelable(false);
         loading.show();
 
-        fetchAllMembers(
+        TeamRepo.getMemberList(
                 groupId,
-                new ArrayList<>(),
-                1,
-                (members, err) -> {
-                    if (activity.isFinishing()) {
-                        return;
-                    }
-                    try {
-                        loading.dismiss();
-                    } catch (Exception ignored) {
-                    }
-                    if (err != null) {
-                        ToastUtils.toastMsg(err);
-                        return;
-                    }
-                    String myId = DataUtil.getUserid();
-                    Set<String> seen = new HashSet<>();
-                    List<FanUser> filtered = new ArrayList<>();
-                    for (GroupInfoBean m : members) {
-                        if (m == null) {
-                            continue;
+                new FetchCallback<List<UserInfoWithTeam>>() {
+                    @Override
+                    public void onSuccess(@Nullable List<UserInfoWithTeam> members) {
+                        if (activity.isFinishing()) {
+                            return;
                         }
-                        String memberCode =
-                                !TextUtils.isEmpty(m.memberCode) ? m.memberCode.trim() : "";
-                        String hostUid = !TextUtils.isEmpty(m.userId) ? m.userId.trim() : "";
-                        String displayId =
-                                !TextUtils.isEmpty(memberCode) ? memberCode : hostUid;
-                        if (TextUtils.isEmpty(displayId)) {
-                            continue;
+                        try {
+                            loading.dismiss();
+                        } catch (Exception ignored) {
                         }
-                        if (!TextUtils.isEmpty(myId)
-                                && (myId.equals(hostUid) || myId.equals(memberCode))) {
-                            continue;
+                        List<UserInfoWithTeam> all =
+                                members != null ? members : new ArrayList<>();
+                        List<FanUser> filtered = toFanUsers(groupId, all);
+                        if (filtered.isEmpty()) {
+                            ToastUtils.toastMsg(
+                                    all.isEmpty()
+                                            ? "暂无群成员"
+                                            : ("拉取到 " + all.size() + " 人，但无法解析有效账号"));
+                            return;
                         }
-                        if (!seen.add(displayId)) {
-                            continue;
+                        FanStore.getInstance(activity).save(FanMode.Normal, filtered);
+                        int stored =
+                                FanStore.getInstance(activity).list(FanMode.Normal).size();
+                        new AlertDialog.Builder(activity)
+                                .setMessage(
+                                        "已保存 "
+                                                + stored
+                                                + " 人（成员接口 "
+                                                + all.size()
+                                                + " 人），请到爆粉列表查看")
+                                .setNegativeButton("取消", null)
+                                .setPositiveButton(
+                                        "打开列表",
+                                        (d, w) ->
+                                                FanUserListActivity.start(
+                                                        activity,
+                                                        FanUserListActivity.MODE_NORMAL))
+                                .show();
+                    }
+
+                    @Override
+                    public void onFailed(int code) {
+                        if (activity.isFinishing()) {
+                            return;
                         }
-                        String name =
-                                !TextUtils.isEmpty(m.name)
-                                        ? m.name
-                                        : (!TextUtils.isEmpty(m.userGroupName)
-                                                ? m.userGroupName
-                                                : displayId);
-                        filtered.add(
-                                new FanUser(
-                                        displayId,
-                                        name,
-                                        hostUid,
-                                        groupId,
-                                        m.avatar));
+                        try {
+                            loading.dismiss();
+                        } catch (Exception ignored) {
+                        }
+                        ToastUtils.toastMsg("获取群成员失败(" + code + ")");
                     }
-                    if (filtered.isEmpty()) {
-                        ToastUtils.toastMsg("暂无群成员");
-                        return;
+
+                    @Override
+                    public void onException(@Nullable Throwable exception) {
+                        if (activity.isFinishing()) {
+                            return;
+                        }
+                        try {
+                            loading.dismiss();
+                        } catch (Exception ignored) {
+                        }
+                        ToastUtils.toastMsg("获取群成员失败");
                     }
-                    int[] result =
-                            FanStore.getInstance(activity)
-                                    .mergeGroupMembers(FanMode.Normal, groupId, filtered);
-                    if (result[1] <= 0 && result[0] <= 0) {
-                        ToastUtils.toastMsg("暂无群成员");
-                        return;
-                    }
-                    new AlertDialog.Builder(activity)
-                            .setMessage("已保存到本地,请到爆粉列表查看")
-                            .setNegativeButton("取消", null)
-                            .setPositiveButton(
-                                    "打开列表",
-                                    (d, w) ->
-                                            FanUserListActivity.start(
-                                                    activity, FanUserListActivity.MODE_NORMAL))
-                            .show();
                 });
     }
 
-    private interface MembersCallback {
-        void onDone(List<GroupInfoBean> members, String err);
+    private static List<FanUser> toFanUsers(String groupId, List<UserInfoWithTeam> members) {
+        Map<String, FanUser> out = new LinkedHashMap<>();
+        String myId = DataUtil.getUserid();
+        String myIm = IMKitClient.account();
+        if (members == null) {
+            return new ArrayList<>();
+        }
+        for (UserInfoWithTeam item : members) {
+            if (item == null) {
+                continue;
+            }
+            String account = "";
+            if (item.getTeamInfo() != null
+                    && !TextUtils.isEmpty(item.getTeamInfo().getAccount())) {
+                account = item.getTeamInfo().getAccount().trim();
+            }
+            UserInfo ui = item.getUserInfo();
+            if (TextUtils.isEmpty(account) && ui != null) {
+                account = safe(ui.getAccount());
+            }
+            if (TextUtils.isEmpty(account)) {
+                continue;
+            }
+            if (account.equals(myId) || account.equals(myIm)) {
+                continue;
+            }
+            if (out.containsKey(account)) {
+                continue;
+            }
+            String name = safe(item.getName());
+            if (TextUtils.isEmpty(name) && ui != null) {
+                name = safe(ui.getName());
+            }
+            if (TextUtils.isEmpty(name)) {
+                name = account;
+            }
+            String avatar = ui != null ? ui.getAvatar() : null;
+            out.put(account, new FanUser(account, name, account, groupId, avatar, null));
+        }
+        return new ArrayList<>(out.values());
     }
 
-    private static void fetchAllMembers(
-            String groupId, List<GroupInfoBean> acc, int page, MembersCallback cb) {
-        RegisterBean bean = new RegisterBean();
-        bean.groupId = groupId;
-        bean.page = String.valueOf(page);
-        bean.pageNo = "100";
-        HttpUtil.apiW()
-                .group_groupUserListPost(bean)
-                .enqueue(
-                        new CommonCallback<NetData>() {
-                            @Override
-                            public void Successful(
-                                    Call<NetData> call, Response<NetData> response, NetData body) {
-                                if (body == null || body.data == null) {
-                                    cb.onDone(acc, "暂无群成员");
-                                    return;
-                                }
-                                try {
-                                    Type type = new TypeToken<List<GroupInfoBean>>() {}.getType();
-                                    List<GroupInfoBean> pageList =
-                                            new Gson().fromJson(body.data.toString(), type);
-                                    if (pageList != null && !pageList.isEmpty()) {
-                                        acc.addAll(pageList);
-                                        if (pageList.size() >= 100) {
-                                            fetchAllMembers(groupId, acc, page + 1, cb);
-                                            return;
-                                        }
-                                    }
-                                    cb.onDone(acc, null);
-                                } catch (Exception e) {
-                                    cb.onDone(acc, "解析群成员失败");
-                                }
-                            }
-
-                            @Override
-                            public void Failure(Call<NetData> call, Throwable t) {
-                                cb.onDone(acc, "获取群成员失败");
-                            }
-                        });
+    private static String safe(String v) {
+        return v == null ? "" : v.trim();
     }
 }

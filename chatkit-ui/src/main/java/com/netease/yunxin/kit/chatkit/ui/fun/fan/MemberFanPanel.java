@@ -32,7 +32,6 @@ public final class MemberFanPanel {
     private String cloudId;
     private String groupId;
     private String avatar;
-    private String memberCode;
 
     private MemberFanPanel(Activity activity) {
         this.activity = activity;
@@ -64,13 +63,12 @@ public final class MemberFanPanel {
             String cloudId,
             String groupId,
             String avatar,
-            String memberCode) {
+            String ignoredMemberCode) {
         this.userId = userId == null ? "" : userId.trim();
         this.displayName = displayName == null ? "" : displayName.trim();
         this.cloudId = cloudId;
         this.groupId = groupId;
         this.avatar = avatar;
-        this.memberCode = memberCode;
     }
 
     private void addToCustomFan() {
@@ -78,40 +76,29 @@ public final class MemberFanPanel {
             return;
         }
         String myId = DataUtil.getUserid();
-        String listId =
-                !TextUtils.isEmpty(memberCode)
-                        ? memberCode.trim()
-                        : (!TextUtils.isEmpty(userId) ? userId : cloudId);
-        if (TextUtils.isEmpty(listId)) {
+        String hostUid =
+                !TextUtils.isEmpty(userId)
+                        ? userId.trim()
+                        : (!TextUtils.isEmpty(cloudId) ? cloudId.trim() : "");
+        if (TextUtils.isEmpty(hostUid)) {
             ToastUtils.toastMsg("暂未解析到用户账号");
             return;
         }
-        if (!TextUtils.isEmpty(myId)
-                && (myId.equals(listId)
-                        || myId.equals(userId)
-                        || myId.equals(cloudId)
-                        || myId.equals(memberCode))) {
+        if (!TextUtils.isEmpty(myId) && myId.equals(hostUid)) {
             ToastUtils.toastMsg("请勿添加自己");
             return;
         }
-        String name =
-                TextUtils.isEmpty(displayName)
-                        ? listId
-                        : displayName;
+        String name = TextUtils.isEmpty(displayName) ? hostUid : displayName;
         boolean added =
                 FanStore.getInstance(activity)
                         .append(
                                 FanMode.Custom,
-                                new FanUser(
-                                        listId,
-                                        name,
-                                        !TextUtils.isEmpty(cloudId) ? cloudId : userId,
-                                        groupId,
-                                        avatar));
+                                new FanUser(hostUid, name, hostUid, groupId, avatar));
+        int count = FanStore.getInstance(activity).list(FanMode.Custom).size();
         if (added) {
-            ToastUtils.toastMsg("已保存到本地,请到自选人群爆粉列表查看");
+            ToastUtils.toastMsg("已加入自选（当前 " + count + " 人）");
         } else {
-            ToastUtils.toastMsg("已在自选列表中");
+            ToastUtils.toastMsg("已在自选列表中（当前 " + count + " 人）");
         }
     }
 

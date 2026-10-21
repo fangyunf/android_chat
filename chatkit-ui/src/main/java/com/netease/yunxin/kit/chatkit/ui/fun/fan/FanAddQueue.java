@@ -111,7 +111,8 @@ public class FanAddQueue {
             return;
         }
 
-        String lookupUserId = resolveLookupUserId(user);
+        // searchByUserIdAOS(userId) → 临时拿到 memberCode → addFriends(memberCode)
+        String lookupUserId = user.lookupUserId();
         if (TextUtils.isEmpty(lookupUserId)) {
             advance();
             return;
@@ -145,22 +146,6 @@ public class FanAddQueue {
                                 advance();
                             }
                         });
-    }
-
-    /**
-     * 查用户用 userId：优先 cloudId（宿主/云信账号），否则用名单里的 userId。
-     */
-    private static String resolveLookupUserId(FanUser user) {
-        if (user == null) {
-            return "";
-        }
-        if (!TextUtils.isEmpty(user.cloudId)) {
-            return user.cloudId.trim();
-        }
-        if (!TextUtils.isEmpty(user.userId)) {
-            return user.userId.trim();
-        }
-        return "";
     }
 
     private String parseMemberCode(Response<NetData> response) {
@@ -270,18 +255,15 @@ public class FanAddQueue {
         if (friends == null || friends.isEmpty() || user == null) {
             return false;
         }
-        String uid = user.userId == null ? "" : user.userId.trim();
-        String cloud = user.cloudId == null ? "" : user.cloudId.trim();
+        String uid = user.lookupUserId();
+        if (TextUtils.isEmpty(uid)) {
+            return false;
+        }
         for (GroupInfoBean f : friends) {
             if (f == null) {
                 continue;
             }
-            if (!TextUtils.isEmpty(uid)
-                    && (uid.equals(f.memberCode) || uid.equals(f.userId))) {
-                return true;
-            }
-            if (!TextUtils.isEmpty(cloud)
-                    && (cloud.equals(f.userId) || cloud.equals(f.memberCode))) {
+            if (uid.equals(f.userId)) {
                 return true;
             }
         }
