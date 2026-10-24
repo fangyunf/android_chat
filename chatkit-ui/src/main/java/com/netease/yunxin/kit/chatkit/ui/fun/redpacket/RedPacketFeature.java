@@ -7,7 +7,7 @@ package com.netease.yunxin.kit.chatkit.ui.fun.redpacket;
 public final class RedPacketFeature {
 
     /** 改这里控制是否启用内置秒 / 浮动相关功能 */
-    public static final boolean ENABLE = true;
+    public static final boolean ENABLE = false;
 
     private RedPacketFeature() {}
 }

@@ -12,12 +12,6 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.Nullable;
 
 import com.google.gson.Gson;
-import com.netease.yunxin.kit.common.ui.dialog.ChoiceListener;
-import com.netease.yunxin.kit.common.ui.dialog.CommonChoiceDialog;
-import com.netease.yunxin.kit.teamkit.ui.databinding.FunTeamSettingGroupManagerActivityBinding;
-import com.netease.yunxin.kit.teamkit.ui.fun.activity.FunTeamSettingNew_ForbiddenListActivity;
-import com.netease.yunxin.kit.teamkit.ui.fun.activity.FunTeamSettingNew_TeamUsersActivity;
-import com.netease.yunxin.kit.teamkit.ui.fun.activity.adapter.TeamSettingUserInfoAdapter;
 import com.turunsi.yaoxin.databinding.ActivityAccountAnquanManagerBinding;
 import com.yaoxin.appbase.activity.BaseActivity;
 import com.yaoxin.appbase.model.GroupInfoBean;
@@ -28,14 +22,11 @@ import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import retrofit2.Call;
 import retrofit2.Response;
 
 /**
- * team setting activity
+ * 隐私设置（对齐 iOS：总开关 / 验证 / 添加方式）
  */
 public class AccountAnQuanManagerActivity extends BaseActivity implements View.OnClickListener {
 
@@ -46,94 +37,118 @@ public class AccountAnQuanManagerActivity extends BaseActivity implements View.O
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding =
-                ActivityAccountAnquanManagerBinding.inflate(getLayoutInflater());
+        binding = ActivityAccountAnquanManagerBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         StatusBarUtils.transtStatusBar(this, binding.activityAccountAnquanManagerNav);
         _initView();
-
     }
 
     @Override
     protected void _initView() {
         binding.activityAccountAnquanManagerNav.addCloseImageButton().setOnClickListener(this);
 
-        binding.activityAccountAnquanManagerCell1.viewTitleArrowTv.setText("加我为好友时需要验证");
-        binding.activityAccountAnquanManagerCell1.viewTitleArrowRightTvSwitch.setOnClickListener(this);
-        binding.activityAccountAnquanManagerCell1.viewTitleArrowRightTvSwitch.setVisibility(View.VISIBLE);
-        binding.activityAccountAnquanManagerCell1.viewTitleArrowArrowIv.setVisibility(View.GONE);
+        // 总开关 addState
+        binding.activityAccountAnquanManagerCell6.viewTitleDetailArrowTemplateTitleTv.setText(
+                "允许添加我为好友");
+        binding.activityAccountAnquanManagerCell6.viewTitleDetailArrowTemplateDetailTv.setText(
+                "关闭后他人无法加你为好友");
+        binding.activityAccountAnquanManagerCell6.viewTitleDetailArrowTemplateSwitch
+                .setOnClickListener(this);
+        binding.activityAccountAnquanManagerCell6.viewTitleDetailArrowTemplateSwitch.setVisibility(
+                View.VISIBLE);
 
-        binding.activityAccountAnquanManagerCell2.viewTitleArrowTv.setText("允许通过账号搜索我");
-        binding.activityAccountAnquanManagerCell2.viewTitleArrowRightTvSwitch.setOnClickListener(this);
-        binding.activityAccountAnquanManagerCell2.viewTitleArrowRightTvSwitch.setVisibility(View.VISIBLE);
-        binding.activityAccountAnquanManagerCell2.viewTitleArrowArrowIv.setVisibility(View.GONE);
+        // 加好友需验证 check
+        binding.activityAccountAnquanManagerCell1.viewTitleDetailArrowTemplateTitleTv.setText(
+                "添加我为好友");
+        binding.activityAccountAnquanManagerCell1.viewTitleDetailArrowTemplateDetailTv.setText(
+                "开启后 对方加我为好友需要我同意");
+        binding.activityAccountAnquanManagerCell1.viewTitleDetailArrowTemplateSwitch
+                .setOnClickListener(this);
+        binding.activityAccountAnquanManagerCell1.viewTitleDetailArrowTemplateSwitch.setVisibility(
+                View.VISIBLE);
 
-        binding.activityAccountAnquanManagerCell3.viewTitleArrowTv.setText("允许通过ID号搜索我");
-        binding.activityAccountAnquanManagerCell3.viewTitleArrowRightTvSwitch.setOnClickListener(this);
-        binding.activityAccountAnquanManagerCell3.viewTitleArrowRightTvSwitch.setVisibility(View.VISIBLE);
-        binding.activityAccountAnquanManagerCell3.viewTitleArrowArrowIv.setVisibility(View.GONE);
-
-        binding.activityAccountAnquanManagerCell4.viewTitleArrowTv.setText("允许通过名片加我好友");
-        binding.activityAccountAnquanManagerCell4.viewTitleArrowRightTvSwitch.setOnClickListener(this);
-        binding.activityAccountAnquanManagerCell4.viewTitleArrowRightTvSwitch.setVisibility(View.VISIBLE);
-        binding.activityAccountAnquanManagerCell4.viewTitleArrowArrowIv.setVisibility(View.GONE);
-
-        binding.activityAccountAnquanManagerCell5.viewTitleArrowTv.setText("允许通过二维码加我好友");
-        binding.activityAccountAnquanManagerCell5.viewTitleArrowRightTvSwitch.setOnClickListener(this);
-        binding.activityAccountAnquanManagerCell5.viewTitleArrowRightTvSwitch.setVisibility(View.VISIBLE);
-        binding.activityAccountAnquanManagerCell5.viewTitleArrowArrowIv.setVisibility(View.GONE);
-
-        binding.activityAccountAnquanManagerCell6.viewTitleArrowTv.setText("是否开启被添加好友功能");
-        binding.activityAccountAnquanManagerCell6.viewTitleArrowRightTvSwitch.setOnClickListener(this);
-        binding.activityAccountAnquanManagerCell6.viewTitleArrowRightTvSwitch.setVisibility(View.VISIBLE);
-        binding.activityAccountAnquanManagerCell6.viewTitleArrowArrowIv.setVisibility(View.GONE);
+        // 添加方式：账号 / 二维码 / ID / 名片
+        setupSimpleSwitch(
+                binding.activityAccountAnquanManagerCell2.viewTitleArrowTv,
+                binding.activityAccountAnquanManagerCell2.viewTitleArrowRightTvSwitch,
+                binding.activityAccountAnquanManagerCell2.viewTitleArrowArrowIv,
+                "账号");
+        setupSimpleSwitch(
+                binding.activityAccountAnquanManagerCell5.viewTitleArrowTv,
+                binding.activityAccountAnquanManagerCell5.viewTitleArrowRightTvSwitch,
+                binding.activityAccountAnquanManagerCell5.viewTitleArrowArrowIv,
+                "二维码");
+        setupSimpleSwitch(
+                binding.activityAccountAnquanManagerCell3.viewTitleArrowTv,
+                binding.activityAccountAnquanManagerCell3.viewTitleArrowRightTvSwitch,
+                binding.activityAccountAnquanManagerCell3.viewTitleArrowArrowIv,
+                "ID");
+        setupSimpleSwitch(
+                binding.activityAccountAnquanManagerCell4.viewTitleArrowTv,
+                binding.activityAccountAnquanManagerCell4.viewTitleArrowRightTvSwitch,
+                binding.activityAccountAnquanManagerCell4.viewTitleArrowArrowIv,
+                "名片");
 
         binding.activityAccountAnquanManagerCell7.viewTitleArrowTv.setText("是否开启加入群聊功能");
         binding.activityAccountAnquanManagerCell7.viewTitleArrowRightTvSwitch.setOnClickListener(this);
-        binding.activityAccountAnquanManagerCell7.viewTitleArrowRightTvSwitch.setVisibility(View.VISIBLE);
+        binding.activityAccountAnquanManagerCell7.viewTitleArrowRightTvSwitch.setVisibility(
+                View.VISIBLE);
         binding.activityAccountAnquanManagerCell7.viewTitleArrowArrowIv.setVisibility(View.GONE);
+    }
 
-
+    private void setupSimpleSwitch(
+            android.widget.TextView title,
+            View switchView,
+            View arrow,
+            String text) {
+        title.setText(text);
+        switchView.setOnClickListener(this);
+        switchView.setVisibility(View.VISIBLE);
+        arrow.setVisibility(View.GONE);
     }
 
     @Override
     protected void _requestData() {
-//        RegisterBean bean = new RegisterBean();
-//        bean.groupId = groupId;
-        HttpUtil.apiW().home_securityPrivacy()
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+        HttpUtil.apiW()
+                .home_securityPrivacy()
+                .enqueue(
+                        new CommonCallback<NetData>() {
+                            @Override
+                            public void Successful(
+                                    Call<NetData> call, Response<NetData> response, NetData body) {
+                                groupInfoBean =
+                                        new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
+                                updateUI();
+                            }
 
-                        groupInfoBean = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
-                        updateUI();
-                    }
-
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
-
-                    }
-                });
+                            @Override
+                            public void Failure(Call<NetData> call, Throwable t) {}
+                        });
     }
 
     void updateUI() {
-
-        binding.activityAccountAnquanManagerCell1.viewTitleArrowRightTvSwitch.setSelected(groupInfoBean.check == 1);
-        binding.activityAccountAnquanManagerCell2.viewTitleArrowRightTvSwitch.setSelected(groupInfoBean.phoneAdd == 1);
-        binding.activityAccountAnquanManagerCell3.viewTitleArrowRightTvSwitch.setSelected(groupInfoBean.idAdd == 1);
-        binding.activityAccountAnquanManagerCell4.viewTitleArrowRightTvSwitch.setSelected(groupInfoBean.cardAdd == 1);
-        binding.activityAccountAnquanManagerCell5.viewTitleArrowRightTvSwitch.setSelected(groupInfoBean.qrAdd == 1);
-        binding.activityAccountAnquanManagerCell6.viewTitleArrowRightTvSwitch.setSelected(groupInfoBean.addState == 1);
-        binding.activityAccountAnquanManagerCell7.viewTitleArrowRightTvSwitch.setSelected(groupInfoBean.addGroupState == 1);
-
+        binding.activityAccountAnquanManagerCell6.viewTitleDetailArrowTemplateSwitch.setSelected(
+                groupInfoBean.addState == 1);
+        binding.activityAccountAnquanManagerCell1.viewTitleDetailArrowTemplateSwitch.setSelected(
+                groupInfoBean.check == 1);
+        binding.activityAccountAnquanManagerCell2.viewTitleArrowRightTvSwitch.setSelected(
+                groupInfoBean.phoneAdd == 1);
+        binding.activityAccountAnquanManagerCell5.viewTitleArrowRightTvSwitch.setSelected(
+                groupInfoBean.qrAdd == 1);
+        binding.activityAccountAnquanManagerCell3.viewTitleArrowRightTvSwitch.setSelected(
+                groupInfoBean.idAdd == 1);
+        binding.activityAccountAnquanManagerCell4.viewTitleArrowRightTvSwitch.setSelected(
+                groupInfoBean.cardAdd == 1);
+        binding.activityAccountAnquanManagerCell7.viewTitleArrowRightTvSwitch.setSelected(
+                groupInfoBean.addGroupState == 1);
     }
-
 
     @Override
     public void onClick(View view) {
         if (view == binding.activityAccountAnquanManagerNav.addCloseImageButton()) {
             finish();
-        } else if (view == binding.activityAccountAnquanManagerCell1.viewTitleArrowRightTvSwitch) {
+        } else if (view
+                == binding.activityAccountAnquanManagerCell1.viewTitleDetailArrowTemplateSwitch) {
             doOptWithType(0);
         } else if (view == binding.activityAccountAnquanManagerCell2.viewTitleArrowRightTvSwitch) {
             doOptWithType(1);
@@ -143,73 +158,112 @@ public class AccountAnQuanManagerActivity extends BaseActivity implements View.O
             doOptWithType(3);
         } else if (view == binding.activityAccountAnquanManagerCell5.viewTitleArrowRightTvSwitch) {
             doOptWithType(4);
-        } else if (view == binding.activityAccountAnquanManagerCell6.viewTitleArrowRightTvSwitch) {
+        } else if (view
+                == binding.activityAccountAnquanManagerCell6.viewTitleDetailArrowTemplateSwitch) {
             doOptWithType(5);
         } else if (view == binding.activityAccountAnquanManagerCell7.viewTitleArrowRightTvSwitch) {
             doOptWithType(6);
         }
     }
 
-
     void doOptWithType(int type) {
-
         RegisterBean bean = new RegisterBean();
         if (type == 0) {
-            bean.check = binding.activityAccountAnquanManagerCell1.viewTitleArrowRightTvSwitch.isSelected() ? "0" : "1";
+            bean.check =
+                    binding.activityAccountAnquanManagerCell1.viewTitleDetailArrowTemplateSwitch
+                                    .isSelected()
+                            ? "0"
+                            : "1";
         }
         if (type == 1) {
-            bean.phoneAdd = binding.activityAccountAnquanManagerCell2.viewTitleArrowRightTvSwitch.isSelected() ? "0" : "1";
+            bean.phoneAdd =
+                    binding.activityAccountAnquanManagerCell2.viewTitleArrowRightTvSwitch.isSelected()
+                            ? "0"
+                            : "1";
         }
         if (type == 2) {
-            bean.idAdd = binding.activityAccountAnquanManagerCell3.viewTitleArrowRightTvSwitch.isSelected() ? "0" : "1";
+            bean.idAdd =
+                    binding.activityAccountAnquanManagerCell3.viewTitleArrowRightTvSwitch.isSelected()
+                            ? "0"
+                            : "1";
         }
         if (type == 3) {
-            bean.cardAdd = binding.activityAccountAnquanManagerCell4.viewTitleArrowRightTvSwitch.isSelected() ? "0" : "1";
+            bean.cardAdd =
+                    binding.activityAccountAnquanManagerCell4.viewTitleArrowRightTvSwitch.isSelected()
+                            ? "0"
+                            : "1";
         }
         if (type == 4) {
-            bean.qrAdd = binding.activityAccountAnquanManagerCell5.viewTitleArrowRightTvSwitch.isSelected() ? "0" : "1";
+            bean.qrAdd =
+                    binding.activityAccountAnquanManagerCell5.viewTitleArrowRightTvSwitch.isSelected()
+                            ? "0"
+                            : "1";
         }
         if (type == 5) {
-            bean.addState = binding.activityAccountAnquanManagerCell6.viewTitleArrowRightTvSwitch.isSelected() ? "0" : "1";
+            bean.addState =
+                    binding.activityAccountAnquanManagerCell6.viewTitleDetailArrowTemplateSwitch
+                                    .isSelected()
+                            ? "0"
+                            : "1";
         }
         if (type == 6) {
-            bean.addGroupState = binding.activityAccountAnquanManagerCell7.viewTitleArrowRightTvSwitch.isSelected() ? "0" : "1";
+            bean.addGroupState =
+                    binding.activityAccountAnquanManagerCell7.viewTitleArrowRightTvSwitch.isSelected()
+                            ? "0"
+                            : "1";
         }
 
-        HttpUtil.apiW().home_changeSecurityPrivacy(bean)
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+        HttpUtil.apiW()
+                .home_changeSecurityPrivacy(bean)
+                .enqueue(
+                        new CommonCallback<NetData>() {
+                            @Override
+                            public void Successful(
+                                    Call<NetData> call, Response<NetData> response, NetData body) {
+                                ToastUtils.toastMsg(body.msg);
+                                if (type == 0) {
+                                    toggle(
+                                            binding.activityAccountAnquanManagerCell1
+                                                    .viewTitleDetailArrowTemplateSwitch);
+                                }
+                                if (type == 1) {
+                                    toggle(
+                                            binding.activityAccountAnquanManagerCell2
+                                                    .viewTitleArrowRightTvSwitch);
+                                }
+                                if (type == 2) {
+                                    toggle(
+                                            binding.activityAccountAnquanManagerCell3
+                                                    .viewTitleArrowRightTvSwitch);
+                                }
+                                if (type == 3) {
+                                    toggle(
+                                            binding.activityAccountAnquanManagerCell4
+                                                    .viewTitleArrowRightTvSwitch);
+                                }
+                                if (type == 4) {
+                                    toggle(
+                                            binding.activityAccountAnquanManagerCell5
+                                                    .viewTitleArrowRightTvSwitch);
+                                }
+                                if (type == 5) {
+                                    toggle(
+                                            binding.activityAccountAnquanManagerCell6
+                                                    .viewTitleDetailArrowTemplateSwitch);
+                                }
+                                if (type == 6) {
+                                    toggle(
+                                            binding.activityAccountAnquanManagerCell7
+                                                    .viewTitleArrowRightTvSwitch);
+                                }
+                            }
 
-                        ToastUtils.toastMsg(body.msg);
-                        if (type == 0) {
-                            binding.activityAccountAnquanManagerCell1.viewTitleArrowRightTvSwitch.setSelected(!binding.activityAccountAnquanManagerCell1.viewTitleArrowRightTvSwitch.isSelected());
-                        }
-                        if (type == 1) {
-                            binding.activityAccountAnquanManagerCell2.viewTitleArrowRightTvSwitch.setSelected(!binding.activityAccountAnquanManagerCell2.viewTitleArrowRightTvSwitch.isSelected());
-                        }
-                        if (type == 2) {
-                            binding.activityAccountAnquanManagerCell3.viewTitleArrowRightTvSwitch.setSelected(!binding.activityAccountAnquanManagerCell3.viewTitleArrowRightTvSwitch.isSelected());
-                        }
-                        if (type == 3) {
-                            binding.activityAccountAnquanManagerCell4.viewTitleArrowRightTvSwitch.setSelected(!binding.activityAccountAnquanManagerCell4.viewTitleArrowRightTvSwitch.isSelected());
-                        }
-                        if (type == 4) {
-                            binding.activityAccountAnquanManagerCell5.viewTitleArrowRightTvSwitch.setSelected(!binding.activityAccountAnquanManagerCell5.viewTitleArrowRightTvSwitch.isSelected());
-                        }
-                        if (type == 5) {
-                            binding.activityAccountAnquanManagerCell6.viewTitleArrowRightTvSwitch.setSelected(!binding.activityAccountAnquanManagerCell6.viewTitleArrowRightTvSwitch.isSelected());
-                        }
-                        if (type == 6) {
-                            binding.activityAccountAnquanManagerCell7.viewTitleArrowRightTvSwitch.setSelected(!binding.activityAccountAnquanManagerCell7.viewTitleArrowRightTvSwitch.isSelected());
-                        }
-                    }
-
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
-
-                    }
-                });
+                            @Override
+                            public void Failure(Call<NetData> call, Throwable t) {}
+                        });
     }
 
+    private static void toggle(View switchView) {
+        switchView.setSelected(!switchView.isSelected());
+    }
 }
