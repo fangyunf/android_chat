@@ -327,25 +327,14 @@ public class FunConversationFragment extends ConversationBaseFragment {
                         @Override
                         public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
-                            String kefuId = "";
-                            String kefuMemberCode = "";
-                            try {
-                                String raw = body.data == null ? "" : body.data.toString();
-                                if (raw.startsWith("{")) {
-                                    UserBean kefuBean = new Gson().fromJson(raw, UserBean.class);
-                                    if (kefuBean != null) {
-                                        if (!TextUtils.isEmpty(kefuBean.userId)) {
-                                            kefuId = kefuBean.userId;
-                                        } else if (kefuBean.id > 0) {
-                                            kefuId = String.valueOf(kefuBean.id);
-                                        }
-                                        kefuMemberCode = kefuBean.memberCode;
-                                    }
-                                } else {
-                                    kefuId = raw.replace("\"", "");
-                                }
-                            } catch (Exception e) {
-                                kefuId = body.data.toString().replace("\"", "");
+                            UserBean kefuBean =
+                                    com.yaoxin.appbase.utils.ApiDataParseUtil.parseKefuUser(
+                                            body == null ? null : body.data);
+                            String kefuId = kefuBean == null ? "" : kefuBean.userId;
+                            String kefuMemberCode =
+                                    kefuBean == null ? "" : kefuBean.memberCode;
+                            if (TextUtils.isEmpty(kefuId) && kefuBean != null && kefuBean.id > 0) {
+                                kefuId = String.valueOf(kefuBean.id);
                             }
                             if (TextUtils.isEmpty(kefuId)) {
                                 return;
@@ -491,18 +480,9 @@ public class FunConversationFragment extends ConversationBaseFragment {
                 if (page == 1) {
                     mContactModels = new ArrayList<>();
                 }
-                List<GroupInfoBean> tempList = Collections.emptyList();
-                try {
-                    if (body != null && body.data != null) {
-                        Type type = new TypeToken<List<GroupInfoBean>>() {}.getType();
-                        tempList = new Gson().fromJson(body.data.toString(), type);
-                    }
-                } catch (Exception e) {
-                    tempList = Collections.emptyList();
-                }
-                if (tempList == null) {
-                    tempList = Collections.emptyList();
-                }
+                List<GroupInfoBean> tempList =
+                        com.yaoxin.appbase.utils.ApiDataParseUtil.parseFriendPage(
+                                body == null ? null : body.data);
                 for (GroupInfoBean tempBean : tempList) {
                     if (tempBean != null
                             && tempBean.userId != null

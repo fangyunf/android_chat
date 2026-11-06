@@ -168,20 +168,9 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
                                 if (page == 1) {
                                     mContactModels.clear();
                                 }
-                                List<GroupInfoBean> batch = Collections.emptyList();
-                                try {
-                                    if (body != null && body.data != null) {
-                                        Type type =
-                                                new TypeToken<List<GroupInfoBean>>() {
-                                                }.getType();
-                                        batch = new Gson().fromJson(body.data.toString(), type);
-                                    }
-                                } catch (Exception e) {
-                                    batch = Collections.emptyList();
-                                }
-                                if (batch == null) {
-                                    batch = Collections.emptyList();
-                                }
+                                List<GroupInfoBean> batch =
+                                        com.yaoxin.appbase.utils.ApiDataParseUtil.parseFriendPage(
+                                                body == null ? null : body.data);
                                 for (GroupInfoBean tempBean : batch) {
                                     if (tempBean != null
                                             && tempBean.userId != null

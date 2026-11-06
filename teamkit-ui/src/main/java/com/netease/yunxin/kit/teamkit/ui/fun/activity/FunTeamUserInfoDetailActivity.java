@@ -281,18 +281,9 @@ public class FunTeamUserInfoDetailActivity extends BaseActivity implements View.
         HttpUtil.apiW().friends_friendListPage(registerBean).enqueue(new CommonCallback<NetData>() {
             @Override
             public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                List<GroupInfoBean> userList = Collections.emptyList();
-                try {
-                    if (body != null && body.data != null) {
-                        Type userListType = new TypeToken<List<GroupInfoBean>>() {}.getType();
-                        userList = new Gson().fromJson(body.data.toString(), userListType);
-                    }
-                } catch (Exception e) {
-                    userList = Collections.emptyList();
-                }
-                if (userList == null) {
-                    userList = Collections.emptyList();
-                }
+                List<GroupInfoBean> userList =
+                        com.yaoxin.appbase.utils.ApiDataParseUtil.parseFriendPage(
+                                body == null ? null : body.data);
 
                 String targetUserId = groupInfoBean != null ? groupInfoBean.userId : null;
                 for (GroupInfoBean tempBean : userList) {

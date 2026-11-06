@@ -231,18 +231,9 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
                 if (page == 1) {
                     mContactModels.clear();
                 }
-                List<GroupInfoBean> tempBeanList = Collections.emptyList();
-                try {
-                    if (body != null && body.data != null) {
-                        Type type = new TypeToken<List<GroupInfoBean>>() {}.getType();
-                        tempBeanList = new Gson().fromJson(body.data.toString(), type);
-                    }
-                } catch (Exception e) {
-                    tempBeanList = Collections.emptyList();
-                }
-                if (tempBeanList == null) {
-                    tempBeanList = Collections.emptyList();
-                }
+                List<GroupInfoBean> tempBeanList =
+                        com.yaoxin.appbase.utils.ApiDataParseUtil.parseFriendPage(
+                                body == null ? null : body.data);
                 for (GroupInfoBean tempBean : tempBeanList) {
                     if (tempBean != null
                             && tempBean.userId != null

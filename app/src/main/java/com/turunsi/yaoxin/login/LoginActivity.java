@@ -284,8 +284,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         if (t instanceof NetServerException) {
                             NetServerException exception = (NetServerException) t;
                             if (exception.getErrCode() == 601) {
+                                // 异地登录：直接走手机验证码（不再走密保/二次入口）
                                 HashMap map = new HashMap<>();
-                                map.put("type", "0");
+                                map.put("type", "1");
                                 map.put("phone", phone);
                                 OtherPlaceLoginActivity.start(OtherPlaceLoginActivity.class, that, map);
                             }

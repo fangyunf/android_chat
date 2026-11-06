@@ -14,13 +14,12 @@ public class Constant {
 //    public static final String ENCODE_KEY = "frxsecretpadding";
 //    public static final String MSG_ENCODE_KEY = "carefullanimchat";
 
-    public static final String BASE_URL = "http://qkm.dfuvs.cn:17117/";
-    public static final String BASE_URL_H5 = "http://qkm.dfuvs.cn:17117";
-    public static final String CHOUJIANG_H5 = "http://qkm.dfuvs.cn:17117/gw/build/index.html#/";
+    /** 愉悦 */
+    public static final String BASE_URL = "http://yuyuexinkai116.czfczf.com:13136/";
+    public static final String BASE_URL_H5 = "http://yuyuexinkai116.czfczf.com:13136";
+    public static final String CHOUJIANG_H5 =
+            "http://yuyuexinkai116.czfczf.com:13136/gw/build/index.html#/";
 
-    //    public static final String BASE_URL = "http://106.14.134.248:17117/";
-//    public static final String BASE_URL_H5 = "http://106.14.134.248:17117";
-//    public static final String CHOUJIANG_H5 = "http://106.14.134.248:17117/gw/build/index.html#/";
     public static final String ENCODE_KEY = "wesecretpaddingg";
     public static final String MSG_ENCODE_KEY = "wallstreetimchat";
 
