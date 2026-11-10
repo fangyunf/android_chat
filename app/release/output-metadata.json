@@ -4,16 +4,16 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.turunsi.wanxunda",
+  "applicationId": "com.turunsi.yuyue",
   "variantName": "release",
   "elements": [
     {
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 20,
-      "versionName": "1.1.9",
-      "outputFile": "wanxunda_release_v1.1.9.apk"
+      "versionCode": 2,
+      "versionName": "1.0.1",
+      "outputFile": "yuyue_release_v1.0.1.apk"
     }
   ],
   "elementType": "File"

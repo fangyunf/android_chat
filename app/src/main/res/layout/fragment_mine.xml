@@ -258,7 +258,6 @@
                     android:id="@+id/fragment_mine_wdfh_view"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
-                    android:visibility="gone"
                     app:leftImg="@mipmap/icn_mine_list_countermark"
                     app:titleText="我的副号" />
 

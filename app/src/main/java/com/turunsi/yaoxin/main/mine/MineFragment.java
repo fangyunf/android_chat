@@ -47,6 +47,7 @@ import com.turunsi.yaoxin.main.mine.account.Mine_Pwd_Set_ManagerActivity;
 import com.turunsi.yaoxin.main.mine.address.AddressListActivity;
 import com.turunsi.yaoxin.main.mine.collection.CollectionListActivity;
 import com.turunsi.yaoxin.main.mine.fuhao.BuyGroupFeatureActivity;
+import com.turunsi.yaoxin.main.mine.fuhao.MyFuHaoListActivity;
 import com.turunsi.yaoxin.main.mine.group.GroupGradeActivity;
 import com.turunsi.yaoxin.main.mine.huiyuan.LiangHaoZoneActivity;
 import com.turunsi.yaoxin.main.mine.huiyuan.MyHuiYuanListActivity;
@@ -486,7 +487,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 //                    .navigate();
 //        }
         else if (v == binding.fragmentMineWdfhView) {
-            // 副号已下线
+            MyFuHaoListActivity.start(MyFuHaoListActivity.class, getActivity(), null);
         } else if (binding.fragmentMineCollectionView != null
                 && v == binding.fragmentMineCollectionView) {
             CollectionListActivity.start(CollectionListActivity.class, getActivity(), null);

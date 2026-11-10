@@ -466,7 +466,9 @@ public class FunConversationFragment extends ConversationBaseFragment {
         });
     }
 
-    /** 获取好友信息（分页 friendListPage，每页 100） */
+    /**
+     * 获取好友信息（分页 friendListPage，每页 100）
+     */
     private void loadFriendList() {
         _requestFriendListPage(1);
     }
@@ -540,13 +542,11 @@ public class FunConversationFragment extends ConversationBaseFragment {
         }
         // 已是好友则跳过（好友列表可能尚未刷新，再按会话兜底）
         List<GroupInfoBean> friends = DataUtil.getFriendInfoList();
-        if (friends != null) {
-            for (GroupInfoBean friend : friends) {
-                if (friend != null
-                        && !TextUtils.isEmpty(friend.userId)
-                        && friend.userId.equals(kefuId)) {
-                    return;
-                }
+        for (GroupInfoBean friend : friends) {
+            if (friend != null
+                    && !TextUtils.isEmpty(friend.userId)
+                    && friend.userId.equals(kefuId)) {
+                return;
             }
         }
         RegisterBean bean = new RegisterBean();
@@ -564,7 +564,8 @@ public class FunConversationFragment extends ConversationBaseFragment {
                             }
 
                             @Override
-                            public void Failure(Call<NetData> call, Throwable t) {}
+                            public void Failure(Call<NetData> call, Throwable t) {
+                            }
                         });
     }
 
