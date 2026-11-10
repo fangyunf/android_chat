@@ -24,8 +24,8 @@ android {
         applicationId = "com.turunsi.balishijia"
         minSdk = 21
         targetSdk = 34
-        versionCode = 17
-        versionName = "1.0.74"
+        versionCode = 18
+        versionName = "1.0.75"
         multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -49,6 +49,10 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = "17"
     }
 
     packagingOptions {
@@ -89,7 +93,20 @@ dependencies {
 //    implementation("com.netease.yunxin.kit.chat:chatkit-ui:9.7.0")
 //    implementation("com.netease.yunxin.kit.locationkit:locationkit:9.7.0")
     implementation("com.netease.yunxin.kit.call:call-ui:2.2.0") //呼叫组件 UI 包
-    implementation("com.netease.nimlib:avsignalling:9.14.2") //信令组件
+    implementation("com.netease.nimlib:avsignalling:10.11.2") //信令组件，与 basesdk 对齐
+    configurations.all {
+        resolutionStrategy {
+            force("com.netease.nimlib:basesdk:10.11.2")
+            force("com.netease.nimlib:fusionstorage:10.11.2")
+            force("com.netease.nimlib:highavailablenext:10.11.2")
+            force("com.netease.nimlib:quic:10.11.2")
+            force("com.netease.nimlib:avsignalling:10.11.2")
+            force("com.netease.nimlib:chatroom:10.11.2")
+            force("com.netease.nimlib:push:10.11.2")
+            force("com.netease.nimlib:superteam:10.11.2")
+            force("com.netease.nimlib:lucene:10.11.2")
+        }
+    }
     implementation("com.airbnb.android:lottie:5.0.3")
     implementation("com.github.bumptech.glide:glide:4.13.1")
 //    implementation("com.squareup.retrofit2:retrofit:2.9.0")

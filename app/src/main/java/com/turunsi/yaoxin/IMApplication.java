@@ -45,7 +45,6 @@ import com.netease.yunxin.kit.chatkit.repo.TeamRepo;
 import com.netease.yunxin.kit.corekit.im.provider.FetchCallback;
 import com.netease.yunxin.kit.teamkit.ui.fun.activity.FunTeamMemberListActivity;
 import com.netease.yunxin.kit.teamkit.ui.normal.activity.TeamMemberListActivity;
-import com.orhanobut.hawk.Hawk;
 import com.scwang.smart.refresh.footer.BallPulseFooter;
 import com.scwang.smart.refresh.header.MaterialHeader;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
@@ -71,7 +70,9 @@ import com.turunsi.yaoxin.register.RegisterActivity;
 import com.turunsi.yaoxin.splash.SplashActivity;
 import com.turunsi.yaoxin.utils.Constant;
 import com.turunsi.yaoxin.utils.DataUtils;
+import com.turunsi.yaoxin.utils.YunxinAppKeyHelper;
 import com.turunsi.yaoxin.welcome.WelcomeActivity;
+import com.orhanobut.hawk.Hawk;
 import com.netease.yunxin.kit.alog.ALog;
 import com.netease.yunxin.kit.corekit.im.IMKitClient;
 import com.netease.yunxin.kit.corekit.im.repo.SettingRepo;
@@ -117,6 +118,11 @@ public class IMApplication extends MultiDexApplication {
         AppCrashHandler.getInstance().initCrashHandler(this);
         Thread.setDefaultUncaughtExceptionHandler(AppCrashHandler.getInstance());
 
+        // NIM 初始化前需要网络拉 AppKey，先完成 AppProxy / Hawk
+        AppProxy.getInstance().init(this)
+                .setIsDebug(BuildConfig.DEBUG)
+                .setVersionName(BuildConfig.VERSION_NAME);
+        Hawk.init(this).build();
         initUIKit();
         // temp register for mine
         XKitRouter.registerRouter(RouterConstant.PATH_MINE_INFO_PAGE, MineInfoActivity.class);
@@ -127,9 +133,6 @@ public class IMApplication extends MultiDexApplication {
         XKitRouter.registerRouter(com.yaoxin.appbase.net.Constant.BaseWebViewActivityKey, BaseWebViewActivity.class);
         XKitRouter.registerRouter(com.yaoxin.appbase.net.Constant.XiaoZhuShouActivityKey, XiaoZhuShouActivity.class);
         XKitRouter.registerRouter("BuyGroupFeatureActivity", BuyGroupFeatureActivity.class);
-        AppProxy.getInstance().init(this)
-                .setIsDebug(BuildConfig.DEBUG)
-                .setVersionName(BuildConfig.VERSION_NAME);
         initThirdPart();
         mediaPlayer = MediaPlayer.create(this, R.raw.msg);
         vibrator = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
@@ -147,7 +150,6 @@ public class IMApplication extends MultiDexApplication {
 
 
     private void initThirdPart() {
-        Hawk.init(this).build();
         SmartRefreshLayout.setDefaultRefreshHeaderCreator(new DefaultRefreshHeaderCreator() {
             @NonNull
             @Override
@@ -170,10 +172,13 @@ public class IMApplication extends MultiDexApplication {
     }
 
     private void initUIKit() {
-        SDKOptions options = NimSDKOptionConfig.getSDKOptions(this, DataUtils.readAppKey(this));
+        // AppKey 由服务端 /customer/yunxinId 下发后再初始化
+        String appKeyFromServer = YunxinAppKeyHelper.fetchAndCacheAppKey(this);
+        SDKOptions options = NimSDKOptionConfig.getSDKOptions(this, appKeyFromServer);
         options.teamNotificationMessageMarkUnread = true;
+        // UIKit 内部走 NIMClient.init（V1 兼容）；安全模式与服务端 AppKey 已在 options 中配置
         IMKitClient.init(this, null, options);
-        ALog.d(Constant.PROJECT_TAG, TAG, "initUIKit");
+        ALog.d(Constant.PROJECT_TAG, TAG, "initUIKit appKeyReady=" + !TextUtils.isEmpty(appKeyFromServer));
 
         if (IMKitUtils.isMainProcess(this)) {
             ALog.d(Constant.PROJECT_TAG, TAG, "initUIKit:isMainProcess");

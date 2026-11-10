@@ -13,6 +13,8 @@ public class ParamsBean {
     public String upMsg;
     public String downloadUrl;
     public String absolutePathUrl;
+    /** 云信 AppKey，接口 /customer/yunxinId 出参 */
+    public String key;
     public String deviceId;
     public String clientType;
     public int page;

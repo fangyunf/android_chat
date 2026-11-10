@@ -34,7 +34,13 @@ public class NimSDKOptionConfig {
 
   static SDKOptions getSDKOptions(Context context, String appKey) {
     SDKOptions options = new SDKOptions();
+    // AppKey 由接入方服务端下发，请在 SDK 初始化前赋值
     options.appKey = appKey;
+    // 安全模式：公开 SDK 字段为 enableEnhancedLinkSecurity；文档字段 securityModeEnabled 一并反射设置
+    options.enableEnhancedLinkSecurity = true;
+    setBooleanField(options, "securityModeEnabled", true);
+    // 当前 UIKit 仍走 V9 登录链路，保持与 IMKitClient 兼容
+    options.disableV2Login = true;
     initStatusBarNotificationConfig(options);
     options.sdkStorageRootPath = getAppCacheDir(context);
     options.preloadAttach = true;
@@ -55,6 +61,15 @@ public class NimSDKOptionConfig {
     // 打开消息撤回未读数-1的开关
     options.shouldConsiderRevokedMessageUnreadCount = true;
     return options;
+  }
+
+  private static void setBooleanField(SDKOptions options, String fieldName, boolean value) {
+    try {
+      java.lang.reflect.Field field = options.getClass().getField(fieldName);
+      field.setBoolean(options, value);
+    } catch (Throwable ignore) {
+      // field may not exist on this SDK build
+    }
   }
 
   public static ServerAddresses configServer(Context context) {

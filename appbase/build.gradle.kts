@@ -72,8 +72,23 @@ dependencies {
 
     api("com.github.gzu-liyujiang.AndroidPicker:WheelPicker:4.1.13")
     api("com.netease.yunxin.kit.chat:chatkit:9.7.0")
+    // 云信 NIM SDK：文档要求 10.11.x 安全模式；Maven 最新 10.11.2（无 10.11.10）
+    api("com.netease.nimlib:basesdk:10.11.2")
 //    api("com.netease.yunxin.kit.common:common-ui:1.3.3")
     api("com.netease.yunxin.kit.common:common-ui:1.4.0")
+    configurations.all {
+        resolutionStrategy {
+            force("com.netease.nimlib:basesdk:10.11.2")
+            force("com.netease.nimlib:fusionstorage:10.11.2")
+            force("com.netease.nimlib:highavailablenext:10.11.2")
+            force("com.netease.nimlib:quic:10.11.2")
+            force("com.netease.nimlib:avsignalling:10.11.2")
+            force("com.netease.nimlib:chatroom:10.11.2")
+            force("com.netease.nimlib:push:10.11.2")
+            force("com.netease.nimlib:superteam:10.11.2")
+            force("com.netease.nimlib:lucene:10.11.2")
+        }
+    }
     api("org.greenrobot:eventbus:3.1.1")
     api("com.makeramen:roundedimageview:2.3.0")
 //    api("com.github.jenly1314:zxing-lite:3.0.1")

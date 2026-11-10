@@ -301,6 +301,12 @@ public interface ServiceW {
             @Body RegisterBean userBean
     );
 
+    // 获取云信 AppKey（出参 key）
+    @POST("/customer/yunxinId")
+    Call<NetData> customer_yunxinId(
+            @Body RegisterBean userBean
+    );
+
     //   转让群主
     @GET("/customer/versionCkeck")
     Call<NetData> customer_versionCkeck(

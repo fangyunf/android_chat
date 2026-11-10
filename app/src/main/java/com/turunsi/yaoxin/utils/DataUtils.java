@@ -8,36 +8,65 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.text.TextUtils;
 
 public class DataUtils {
 
   private static String appKey = null;
   private static int serverConfig = -1;
 
-  /** read appKey from manifest */
+  /** Prefer server-issued AppKey; fall back to manifest. */
   public static String readAppKey(Context context) {
-    if (appKey != null) {
+    if (!TextUtils.isEmpty(appKey)) {
       return appKey;
     }
-    if (context != null) {
-
-      try {
-        ApplicationInfo appInfo =
-            context
-                .getPackageManager()
-                .getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
-        if (appInfo != null) {
-          String keyStr =
-              getServerConfigType(context) == Constant.CHINA_CONFIG
-                  ? Constant.CONFIG_APPKEY_KEY
-                  : Constant.CONFIG_APPKEY_KEY_OVERSEA;
-          appKey = appInfo.metaData.getString(keyStr);
-        }
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
+    String cached = readCachedYunxinAppKey(context);
+    if (!TextUtils.isEmpty(cached)) {
+      appKey = cached;
+      return appKey;
     }
-    return appKey;
+    return readManifestAppKey(context);
+  }
+
+  public static void setYunxinAppKey(Context context, String key) {
+    if (TextUtils.isEmpty(key)) {
+      return;
+    }
+    appKey = key.trim();
+    getConfigShared(context)
+        .edit()
+        .putString(Constant.YUNXIN_APPKEY_CACHE, appKey)
+        .apply();
+  }
+
+  public static String readCachedYunxinAppKey(Context context) {
+    if (context == null) {
+      return null;
+    }
+    return getConfigShared(context).getString(Constant.YUNXIN_APPKEY_CACHE, null);
+  }
+
+  /** read appKey from manifest */
+  public static String readManifestAppKey(Context context) {
+    if (context == null) {
+      return appKey;
+    }
+    try {
+      ApplicationInfo appInfo =
+          context
+              .getPackageManager()
+              .getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+      if (appInfo != null) {
+        String keyStr =
+            getServerConfigType(context) == Constant.CHINA_CONFIG
+                ? Constant.CONFIG_APPKEY_KEY
+                : Constant.CONFIG_APPKEY_KEY_OVERSEA;
+        return appInfo.metaData.getString(keyStr);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return null;
   }
 
   public static int getServerConfigType(Context context) {
