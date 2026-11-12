@@ -25,7 +25,7 @@
             android:textSize="20sp" />
     </LinearLayout>
 
-    <!-- 专区介绍卡片 -->
+    <!-- 66：删除靓号兑换、幸运抽奖入口
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -36,7 +36,6 @@
 
         <FrameLayout
             android:id="@+id/layoutLiangHaoLast"
-            android:visibility="gone"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1">
@@ -60,7 +59,6 @@
 
         <FrameLayout
             android:id="@+id/layoutLiangHaoCj"
-            android:visibility="gone"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dimen_20_dp"
@@ -83,6 +81,17 @@
                 android:textSize="16sp" />
         </FrameLayout>
     </LinearLayout>
+    -->
+    <FrameLayout
+        android:id="@+id/layoutLiangHaoLast"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone" />
+    <FrameLayout
+        android:id="@+id/layoutLiangHaoCj"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone" />
 
     <LinearLayout
         android:layout_width="match_parent"

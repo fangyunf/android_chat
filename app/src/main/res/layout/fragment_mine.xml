@@ -364,7 +364,6 @@
                             android:id="@+id/fragment_mine_hyzx_view"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:visibility="gone"
                             app:leftImg="@mipmap/mine_index_item_hyzx"
                             app:titleText="会员商城" />
 
