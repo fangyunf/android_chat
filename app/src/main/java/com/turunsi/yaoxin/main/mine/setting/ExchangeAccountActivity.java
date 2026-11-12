@@ -72,6 +72,7 @@ public class ExchangeAccountActivity extends BaseActivity implements View.OnClic
 
         viewBinding.activityExchangeAccountTuichuTv.setVisibility(View.VISIBLE);
         viewBinding.activityExchangeAccountTuichuTv.setOnClickListener(this);
+        viewBinding.activityExchangeAccountZhuxiaoTv.setOnClickListener(this);
 
         _requastData();
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener<UserBean>() {
@@ -133,6 +134,42 @@ public class ExchangeAccountActivity extends BaseActivity implements View.OnClic
                         }
                     },
                     getSupportFragmentManager());
+        } else if (v == viewBinding.activityExchangeAccountZhuxiaoTv) {
+            // 有零钱时拦截注销
+            HttpUtil.apiW()
+                    .home_balance()
+                    .enqueue(
+                            new CommonCallback<NetData>() {
+                                @Override
+                                public void Successful(
+                                        Call<NetData> call, Response<NetData> response, NetData body) {
+                                    try {
+                                        UserBean bean =
+                                                new Gson().fromJson(body.data.toString(), UserBean.class);
+                                        double balance = 0;
+                                        if (bean != null && bean.balance != null && !bean.balance.isEmpty()) {
+                                            balance = Double.parseDouble(bean.balance);
+                                        }
+                                        if (balance > 0) {
+                                            ToastUtils.toastMsg("账户仍有零钱，请先提现后再注销");
+                                            return;
+                                        }
+                                    } catch (Exception ignore) {
+                                    }
+                                    ZhuXiaoConfrimActivity.start(
+                                            ZhuXiaoConfrimActivity.class,
+                                            ExchangeAccountActivity.this,
+                                            null);
+                                }
+
+                                @Override
+                                public void Failure(Call<NetData> call, Throwable t) {
+                                    ZhuXiaoConfrimActivity.start(
+                                            ZhuXiaoConfrimActivity.class,
+                                            ExchangeAccountActivity.this,
+                                            null);
+                                }
+                            });
         }
     }
 
