@@ -39,7 +39,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         tools:ignore="MissingConstraints">
 
-        <!-- 优优五栏：消息 → 好友 → 群聊 → 会员商城 → 我的 -->
+        <!-- 66：消息 → 群聊 → 好友 → 我的 -->
         <RelativeLayout
             android:id="@+id/conversation_btn_group"
             android:layout_width="match_parent"
@@ -64,6 +64,37 @@
                 android:layout_width="@dimen/dimen_6_dp"
                 android:layout_height="@dimen/dimen_6_dp"
                 android:layout_alignRight="@+id/conversation"
+                android:layout_marginLeft="@dimen/dimen_10_dp"
+                android:layout_marginTop="@dimen/dimen_7_dp"
+                android:background="@drawable/bg_conversation_red_dot"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/conversation_btn_group1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:onClick="tabClick">
+
+            <TextView
+                android:id="@+id/conversation1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:drawableTop="@mipmap/mine_tabbar_msg_group_normal"
+                android:drawablePadding="-2dp"
+                android:gravity="center"
+                android:text="群聊"
+                android:textColor="@color/tab_unchecked_color"
+                android:textSize="12sp" />
+
+            <View
+                android:id="@+id/conversation_dot1"
+                android:layout_width="@dimen/dimen_6_dp"
+                android:layout_height="@dimen/dimen_6_dp"
+                android:layout_alignRight="@+id/conversation1"
                 android:layout_marginLeft="@dimen/dimen_10_dp"
                 android:layout_marginTop="@dimen/dimen_7_dp"
                 android:background="@drawable/bg_conversation_red_dot"
@@ -97,37 +128,6 @@
                 android:layout_alignEnd="@+id/contact"
                 android:layout_marginTop="@dimen/dimen_7_dp"
                 android:layout_marginEnd="@dimen/dimen_4_dp"
-                android:background="@drawable/bg_conversation_red_dot"
-                android:visibility="gone" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/conversation_btn_group1"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:onClick="tabClick">
-
-            <TextView
-                android:id="@+id/conversation1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:drawableTop="@mipmap/mine_tabbar_msg_group_normal"
-                android:drawablePadding="-2dp"
-                android:gravity="center"
-                android:text="群聊"
-                android:textColor="@color/tab_unchecked_color"
-                android:textSize="12sp" />
-
-            <View
-                android:id="@+id/conversation_dot1"
-                android:layout_width="@dimen/dimen_6_dp"
-                android:layout_height="@dimen/dimen_6_dp"
-                android:layout_alignRight="@+id/conversation1"
-                android:layout_marginLeft="@dimen/dimen_10_dp"
-                android:layout_marginTop="@dimen/dimen_7_dp"
                 android:background="@drawable/bg_conversation_red_dot"
                 android:visibility="gone" />
 
