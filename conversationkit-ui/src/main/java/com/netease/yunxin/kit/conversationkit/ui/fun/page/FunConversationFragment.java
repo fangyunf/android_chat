@@ -656,7 +656,7 @@ public class FunConversationFragment extends ConversationBaseFragment {
         _initTopStatus(0);
         conversationView.setData(conversationList);
         // --- Add scrolling header for P2P tab (_type == 0) using ConcatAdapter ---
-        if (_type == 0 || _type == 3) {
+        if (false) { // 66: 去掉系统公告固定列表头
             RecyclerView rv = conversationView.getRecyclerView();
             RecyclerView.Adapter<?> origin = conversationView.getAdapter();
             RecyclerView.Adapter<RecyclerView.ViewHolder> headerAdapter = new RecyclerView.Adapter<RecyclerView.ViewHolder>() {

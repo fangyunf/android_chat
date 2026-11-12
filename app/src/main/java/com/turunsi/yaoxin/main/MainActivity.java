@@ -52,7 +52,6 @@ import com.turunsi.yaoxin.login.LoginActivity;
 import com.turunsi.yaoxin.login.WelcomeLoginActivity;
 import com.turunsi.yaoxin.main.mine.MineFragment;
 import com.turunsi.yaoxin.main.mine.MineFragment1;
-import com.turunsi.yaoxin.main.mine.huiyuan.LiangHaoZoneFragment;
 import com.turunsi.yaoxin.main.mine.setting.SettingNewActivity;
 import com.turunsi.yaoxin.utils.Constant;
 import com.turunsi.yaoxin.utils.DataUtils;
@@ -345,8 +344,6 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         fragments.add(mConversationFragment);
         fragments.add(mConversationFragment1);
         fragments.add(mContactFragment);
-        // 会员商城 = 靓号专区
-        fragments.add(new LiangHaoZoneFragment());
         fragments.add(new MineFragment());
 //        fragments.add(mConversationFragment1);
         FragmentAdapter fragmentAdapter = new FragmentAdapter(this);
@@ -429,7 +426,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
             activityMainBinding.contact.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.mine_tabbar_txl_sel), null, null);
             changeStatusBarColor(R.color.fun_page_bg_color);
         } else if (mCurrentTab == activityMainBinding.myselfBtnGroup) {
-            activityMainBinding.viewPager.setCurrentItem(4, false);
+            activityMainBinding.viewPager.setCurrentItem(3, false);
             activityMainBinding.mine.setTextColor(getResources().getColor(R.color.tab_checked_color));
             activityMainBinding.mine.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.mine_tabbar_mine_sel), null, null);
             changeStatusBarColor(R.color.color_white);

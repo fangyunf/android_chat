@@ -59,15 +59,11 @@ public class ChatRedPacketMessageViewHolder extends FunChatBaseMessageViewHolder
 
             CustomMsgBean bean = new Gson().fromJson(message.getMessageData().getMessage().getAttachStr(), CustomMsgBean.class);
             bean.result = new Gson().fromJson(bean.data, CustomMsgBean.class);
-            if (hasDraw) {
-                viewBinding.funChatMessageRedPacketViewHolderBgIv.setImageResource((bean.type == 21) ? R.drawable.chat_redpacket_purple_bg_is_open : R.drawable.chat_red_packet_cell_bg_is_open);
-                viewBinding.funChatMessageRedPacketViewHolderBgIv.setImageAlpha(128);
-                /*viewBinding.funChatMessageRedPacketViewHolderBgIv.setImageAlpha(80);*/
-            } else {
-//                viewBinding.funChatMessageRedPacketViewHolderBgIv.setImageAlpha(100);
-                viewBinding.funChatMessageRedPacketViewHolderBgIv.setImageAlpha(255);
-                viewBinding.funChatMessageRedPacketViewHolderBgIv.setImageResource((bean.type == 21) ? R.drawable.chat_redpacket_purple_bg_no_open : R.drawable.chat_red_packet_cell_bg_no_open);
-            }
+            int bgRes = (bean.type == 21)
+                    ? R.drawable.chat_redpacket_purple_bg_no_open
+                    : R.drawable.chat_red_packet_cell_bg_no_open;
+            viewBinding.funChatMessageRedPacketViewHolderBgIv.setImageResource(bgRes);
+            viewBinding.funChatMessageRedPacketViewHolderBgIv.setImageAlpha(hasDraw ? 128 : 255);
             if (bean.type == 21) {
                 viewBinding.funChatMessageRedPacketViewHolderGreetingTv.setText(bean.result.toUserName);
                 viewBinding.funChatMessageRedPacketViewHolderTypeTv.setText("专属红包" + "¥" + NumberUtil.formartMoney(bean.result.amount));

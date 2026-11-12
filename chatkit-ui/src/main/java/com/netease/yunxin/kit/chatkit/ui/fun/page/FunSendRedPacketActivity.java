@@ -54,7 +54,25 @@ import retrofit2.Response;
 
 public class FunSendRedPacketActivity extends BaseActivity implements View.OnClickListener {
     private static final String[] KEY = new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "<<", "0", "完成"};
-    private static final int MAX_RED_PACKET_AMOUNT = 2000 * 100;
+    private int getMaxAmountCents() {
+        if (type == 1) {
+            return 200 * 100;
+        }
+        if (type == 2) {
+            return 10000 * 100;
+        }
+        return 1000 * 100;
+    }
+
+    private String getMaxAmountTip() {
+        if (type == 1) {
+            return "单笔红包上限200元";
+        }
+        if (type == 2) {
+            return "单笔红包上限10000元";
+        }
+        return "单笔红包上限1000元";
+    }
     protected ActivityResultLauncher<Intent> forwardTeamLauncher;
     ActivityFunSendRedPacketBinding binding;
     ArrayList<GroupInfoBean> userList = new ArrayList<>();
@@ -412,16 +430,9 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
             }
             int amount = NumberUtil.formartUploadMoney(moneyStr);
 
-            if (type == 1) {
-                if (amount > 200 * 100) {
-                    ToastUtils.toastMsg("单笔红包上限200元");
-                    return;
-                }
-            } else {
-                if (amount > MAX_RED_PACKET_AMOUNT) {
-                    ToastUtils.toastMsg("单笔红包上限2000元");
-                    return;
-                }
+            if (amount > getMaxAmountCents()) {
+                ToastUtils.toastMsg(getMaxAmountTip());
+                return;
             }
 
 //            binding.activityFunSendRedPacketKeybordRl.setVisibility(View.VISIBLE);
@@ -461,16 +472,9 @@ public class FunSendRedPacketActivity extends BaseActivity implements View.OnCli
             ToastUtils.toastMsg("请输入金额");
             return;
         }
-        if (type == 1) {
-            if (amout > 200 * 100) {
-                ToastUtils.toastMsg("单笔红包上限200元");
-                return;
-            }
-        } else {
-            if (amout > MAX_RED_PACKET_AMOUNT) {
-                ToastUtils.toastMsg("单笔红包上限2000元");
-                return;
-            }
+        if (amout > getMaxAmountCents()) {
+            ToastUtils.toastMsg(getMaxAmountTip());
+            return;
         }
         RegisterBean bean = new RegisterBean();
         bean.amount = amout;

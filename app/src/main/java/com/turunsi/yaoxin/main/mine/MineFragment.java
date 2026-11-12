@@ -95,6 +95,7 @@ import retrofit2.Response;
 public class MineFragment extends BaseFragment implements View.OnClickListener {
     String _iosDownLoadUrl = "";
     String _androidDownLoadUrl = "";
+    String _downloadLinkUrl = "";
     private FragmentMineBinding binding;
     private ActivityResultLauncher<Intent> launcher;
 
@@ -207,7 +208,13 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                             if (tempBean.appType.equals("ANDROID")) {
                                 _androidDownLoadUrl = tempBean.downloadUrl;
                             }
-
+                        }
+                        if (!TextUtils.isEmpty(_androidDownLoadUrl)) {
+                            _downloadLinkUrl = _androidDownLoadUrl;
+                        } else if (!TextUtils.isEmpty(_iosDownLoadUrl)) {
+                            _downloadLinkUrl = _iosDownLoadUrl;
+                        } else if (downLoadBean.linkUrl != null && !downLoadBean.linkUrl.isEmpty()) {
+                            _downloadLinkUrl = downLoadBean.linkUrl.get(0).downloadUrl;
                         }
                     }
 
@@ -540,14 +547,12 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
             clipboard.setPrimaryClip(clip);
             ToastUtils.toastMsg("复制成功");
         } else if (v == binding.fragmentMineCopyAndroid) {
-
-            // 获取剪切板管理器
+            if (TextUtils.isEmpty(_downloadLinkUrl)) {
+                ToastUtils.toastMsg("链接加载中，请稍后再试");
+                return;
+            }
             ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-
-            // 创建一个ClipData对象，包含要复制的文本
-            ClipData clip = ClipData.newPlainText("label", _androidDownLoadUrl);
-
-            // 将ClipData对象放入剪切板
+            ClipData clip = ClipData.newPlainText("label", _downloadLinkUrl);
             clipboard.setPrimaryClip(clip);
             ToastUtils.toastMsg("复制成功");
         }

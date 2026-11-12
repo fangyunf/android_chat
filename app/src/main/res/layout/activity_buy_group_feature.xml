@@ -31,9 +31,9 @@
             android:background="@drawable/bg_f2f2f2_rounded_10"
             android:padding="15dp"
             android:text="规则说明：\n
-\n每个群只能拉20个人，如若想再拉人，须购买升级才能增加群成员
-\n升级1000人数200元
-\n升级人数永久生效，如解散群将失效；"
+\n每个群默认上限20人，如需继续拉人请购买群升级
+\n500元升级至1000人，并赠送15副号
+\n升级人数永久生效，解散群后失效"
             android:textColor="#ff000000"
             android:textSize="14sp"
             android:visibility="gone" />

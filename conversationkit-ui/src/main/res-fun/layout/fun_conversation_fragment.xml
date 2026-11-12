@@ -67,7 +67,8 @@
                     <FrameLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="10dp">
+                        android:layout_marginHorizontal="10dp"
+                        android:visibility="gone">
 
                         <ImageView
                             android:id="@+id/fun_conversation_fragment_search_iv"

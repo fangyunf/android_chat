@@ -26,7 +26,9 @@ import com.yaoxin.appbase.activity.BaseActivity;
 import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
+import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.utils.DataUtil;
+import com.yaoxin.appbase.utils.NumberUtil;
 import com.yaoxin.appbase.utils.DialogAlertUtil;
 import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
@@ -86,6 +88,10 @@ public class ZhuXiaoConfrimActivity extends BaseActivity implements View.OnClick
             finish();
 
         } else if (v == viewBinding.activityMineZhuxiaoConfirmTv) {
+            if (hasWalletBalance()) {
+                ToastUtils.toastMsg("账户仍有余额，请先提现后再注销");
+                return;
+            }
             DialogAlertUtil.showAlert("确定注销账号吗？", new DialogAlertUtil.DialogAlertUtilCallBack() {
                 @Override
                 public void clickType(int type) {
@@ -107,6 +113,19 @@ public class ZhuXiaoConfrimActivity extends BaseActivity implements View.OnClick
                     }
                 }
             }, getSupportFragmentManager());
+        }
+    }
+
+    private boolean hasWalletBalance() {
+        UserBean user = DataUtil.getUserInfo();
+        if (user == null || TextUtils.isEmpty(user.balance)) {
+            return false;
+        }
+        try {
+            return Double.parseDouble(user.balance) > 0;
+        } catch (NumberFormatException e) {
+            String display = NumberUtil.formartMoney(user.balance);
+            return NumberUtil.formartUploadMoney(display) > 0;
         }
     }
 

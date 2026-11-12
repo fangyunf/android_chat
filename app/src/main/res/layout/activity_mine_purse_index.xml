@@ -130,7 +130,7 @@
                 android:id="@+id/activity_mine_purse_index_smrz"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="visible"
+                android:visibility="gone"
                 app:leftImg="@mipmap/purse_index_item_smrz"
                 app:titleText="实名认证" />
 

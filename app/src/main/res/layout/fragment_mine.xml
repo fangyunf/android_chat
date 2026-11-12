@@ -364,6 +364,7 @@
                             android:id="@+id/fragment_mine_hyzx_view"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:visibility="gone"
                             app:leftImg="@mipmap/mine_index_item_hyzx"
                             app:titleText="会员商城" />
 
@@ -371,6 +372,7 @@
                             android:id="@+id/fragment_mine_wdfh_view"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:visibility="gone"
                             app:leftImg="@mipmap/mine_index_item_wdfh"
                             app:titleText="我的副号" />
 
@@ -385,6 +387,7 @@
                             android:id="@+id/fragment_mine_mmsz_view"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:visibility="gone"
                             app:leftImg="@mipmap/mine_index_item_mmsz"
                             app:titleText="密码管理" />
 
@@ -404,7 +407,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 app:leftImg="@mipmap/mine_index_item_gwdz"
-                                app:titleText="官网地址" />
+                                app:titleText="下载链接" />
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
@@ -419,7 +422,8 @@
                                     android:gravity="center"
                                     android:text="iOS复制"
                                     android:textColor="#999999"
-                                    android:textSize="13sp" />
+                                    android:textSize="13sp"
+                                    android:visibility="gone" />
 
                                 <TextView
                                     android:id="@+id/fragment_mine_copy_android"
@@ -428,7 +432,7 @@
                                     android:layout_marginLeft="12dp"
                                     android:layout_marginRight="16dp"
                                     android:gravity="center"
-                                    android:text="android复制"
+                                    android:text="复制链接"
                                     android:textColor="#999999"
                                     android:textSize="13sp" />
                             </LinearLayout>

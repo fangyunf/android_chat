@@ -94,6 +94,14 @@
                     android:text="3.您的钱包、记录、银行卡等"
                     android:textColor="@color/color_333333"
                     android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="4.同一手机号只能注册两次"
+                    android:textColor="@color/color_333333"
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <!-- 强调警告 -->

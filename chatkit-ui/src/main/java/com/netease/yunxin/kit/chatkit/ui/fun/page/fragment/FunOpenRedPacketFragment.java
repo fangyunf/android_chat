@@ -101,7 +101,6 @@ public class FunOpenRedPacketFragment extends BaseDialogFragment implements View
             } else {
                 binding.fragmentOpenRedPacketDialogBgIv.setImageResource(R.drawable.chat_red_packet_open_bg_can_open);
             }
-            binding.fragmentOpenRedPacketDialogBgIv.setImageResource(R.drawable.chat_red_packet_open_bg_can_open);
             binding.fragmentOpenRedPacketDialogDetailRl.setVisibility(View.GONE);
             binding.fragmentOpenRedPacketDialogOpenRl.setVisibility(View.VISIBLE);
             GlideUtil.yh_loadImageRoundedCorner(getContext(), binding.fragmentOpenRedPacketDialogHeadIv, sendBean.result.sendAvatar, 24);

@@ -226,6 +226,15 @@ public class RedPacketAutoManager {
         sendInFlight = false;
         sendSnapshot = config.createSendSnapshot();
         nextSendElapsed = 0;
+        // 66：点「发包」同时自动开启拼手气 + 专属领包
+        config.setGrabLuckyEnabled(true);
+        config.setGrabExclusiveEnabled(true);
+        grabLuckyActive = true;
+        grabExclusiveActive = true;
+        cachedMyUserId = DataUtil.getUserid();
+        cachedGrabDelay = config.getGrabDelay();
+        grabGeneration++;
+        warmUpConnection();
         scheduleNextSend();
         notifyStateChanged();
         return true;

@@ -57,7 +57,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
-                android:text="优优"
+                android:text="66"
                 android:textColor="#305838"
                 android:textSize="28sp"
                 android:textStyle="bold" />
@@ -67,7 +67,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
-                android:text="欢迎使用优优"
+                android:text="欢迎使用66"
                 android:textColor="#8AA090"
                 android:textSize="14sp" />
 

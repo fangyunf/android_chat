@@ -14,19 +14,18 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * 每次打开 app 时检查并清除 7 天前的本地聊天记录。
+ * 每次打开 app 时检查并清除 48 小时前的本地聊天记录。
  * 使用 NIM MsgService.deleteRangeHistory 按会话删除指定时间段的本地消息。
  */
 public final class ChatHistoryCleaner {
 
     private static final String TAG = "ChatHistoryCleaner";
-    private static final long DAY_MS = 24 * 60 * 60 * 1000L;
-    private static final int RETENTION_DAYS = 3;
+    private static final long RETENTION_MS = 48 * 60 * 60 * 1000L;
 
     private static final AtomicBoolean sCleanedThisProcess = new AtomicBoolean(false);
 
     /**
-     * 在后台线程执行一次清理：删除所有会话中 7 天前的本地消息。
+     * 在后台线程执行一次清理：删除所有会话中 48 小时前的本地消息。
      * 同一进程内多次调用只会实际执行一次。
      */
     public static void clearOldHistoryIfNeeded() {
@@ -40,7 +39,7 @@ public final class ChatHistoryCleaner {
                     ALog.d(Constant.PROJECT_TAG, TAG, "clearOldHistory: skip, not logged in");
                     return;
                 }
-                long endTime = System.currentTimeMillis() - RETENTION_DAYS * DAY_MS;
+                long endTime = System.currentTimeMillis() - RETENTION_MS;
                 List<RecentContact> recentContacts = NIMClient.getService(MsgService.class).queryRecentContactsBlock();
                 if (recentContacts == null || recentContacts.isEmpty()) {
                     ALog.d(Constant.PROJECT_TAG, TAG, "clearOldHistory: no sessions");
@@ -51,7 +50,7 @@ public final class ChatHistoryCleaner {
                     try {
                         String contactId = recent.getContactId();
                         SessionTypeEnum sessionType = recent.getSessionType();
-                        // 删除该会话中 [0, endTime) 时间段的本地消息，即 7 天前的消息
+                        // 删除该会话中 [0, endTime) 时间段的本地消息，即 48 小时前的消息
                         msgService.deleteRangeHistory(contactId, sessionType, 0, endTime);
                         ALog.d(Constant.PROJECT_TAG, TAG, "clearOldHistory: " + sessionType + " " + contactId);
                     } catch (Exception e) {
