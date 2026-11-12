@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:text="66"
-            android:textColor="#305838"
+            android:textColor="#009CFC"
             android:textSize="32sp"
             android:textStyle="bold" />
 
@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="轻松聊天 · 护眼陪伴"
-            android:textColor="#8AA090"
+            android:textColor="#7AA8C4"
             android:textSize="15sp" />
     </LinearLayout>
 
@@ -79,7 +79,7 @@
             android:focusable="true"
             android:gravity="center"
             android:text="注册账号"
-            android:textColor="#305838"
+            android:textColor="#009CFC"
             android:textSize="16sp" />
     </LinearLayout>
 

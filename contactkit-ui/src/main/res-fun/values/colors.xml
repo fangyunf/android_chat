@@ -2,7 +2,7 @@
 <resources>
     <color name="fun_contact_page_bg_color">#ededed</color>
     <!-- search page-->
-    <color name="fun_contact_search_hit_text_color">#58BE6B</color>
+    <color name="fun_contact_search_hit_text_color">#009CFC</color>
     <color name="fun_contact_search_edit_bg_color">#FFFFFF</color>
     <color name="fun_contact_search_item_bg_color">#FFFFFF</color>
     <color name="fun_contact_search_item_title_color">#737373</color>

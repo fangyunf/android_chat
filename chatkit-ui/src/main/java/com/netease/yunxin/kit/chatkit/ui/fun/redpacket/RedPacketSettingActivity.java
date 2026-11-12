@@ -22,7 +22,7 @@ import com.yaoxin.appbase.utils.ToastUtils;
 
 public class RedPacketSettingActivity extends BaseActivity implements View.OnClickListener {
 
-    private static final int COLOR_GREEN = Color.parseColor("#58BE6B");
+    private static final int COLOR_GREEN = Color.parseColor("#009CFC");
     private static final int COLOR_TAB_UNSELECTED = Color.parseColor("#CCFFFFFF");
 
     private RedPacketAutoConfig config;

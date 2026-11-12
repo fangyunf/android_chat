@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  通栏绿色渐变（对齐 iOS / 对接包色值）
-  线性：顶 #5D9F71 → 中 #A9CCB3 → 底 #E0F0E2
-  顶部中心叠加柔光，贴近 iOS 顶部高光
+  通栏蓝色渐变（66 主题）
+  线性：顶 #009CFC → 中 #4DC4FD → 底 #E8F4FC
 -->
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape android:shape="rectangle">
             <gradient
                 android:angle="-90"
-                android:centerColor="#A9CCB3"
-                android:endColor="#E0F0E2"
-                android:startColor="#5D9F71"
+                android:centerColor="#4DC4FD"
+                android:endColor="#E8F4FC"
+                android:startColor="#009CFC"
                 android:type="linear" />
         </shape>
     </item>
@@ -22,7 +21,7 @@
                 android:centerY="0.12"
                 android:endColor="#00000000"
                 android:gradientRadius="280dp"
-                android:startColor="#66C8E6D4"
+                android:startColor="#66B8E8FC"
                 android:type="radial" />
         </shape>
     </item>

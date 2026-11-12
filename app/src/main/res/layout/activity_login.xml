@@ -58,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
                 android:text="66"
-                android:textColor="#305838"
+                android:textColor="#009CFC"
                 android:textSize="28sp"
                 android:textStyle="bold" />
 
@@ -68,7 +68,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:text="欢迎使用66"
-                android:textColor="#8AA090"
+                android:textColor="#7AA8C4"
                 android:textSize="14sp" />
 
             <!-- 输入区 -->
@@ -119,7 +119,7 @@
                     android:background="@drawable/bg_welcome_btn_register"
                     android:gravity="center"
                     android:text="立即注册"
-                    android:textColor="#305838"
+                    android:textColor="#009CFC"
                     android:textSize="15sp"
                     android:visibility="gone" />
 
@@ -129,7 +129,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="18dp"
                     android:text="忘记密码?"
-                    android:textColor="#5C9C6C"
+                    android:textColor="#4DC4FD"
                     android:textSize="14sp" />
             </LinearLayout>
         </LinearLayout>
