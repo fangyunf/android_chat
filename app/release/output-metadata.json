@@ -4,16 +4,16 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.turunsi.dadada",
+  "applicationId": "com.turunsi.sixsix",
   "variantName": "release",
   "elements": [
     {
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 123,
-      "versionName": "1.2.3",
-      "outputFile": "xinda_release_v1.2.3.apk"
+      "versionCode": 100,
+      "versionName": "1.0.0",
+      "outputFile": "sixsix_release_v1.0.0.apk"
     }
   ],
   "elementType": "File"
