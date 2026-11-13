@@ -72,7 +72,7 @@ public class FunSendZhuanZhangActivity extends BaseActivity implements View.OnCl
         if (sessionId == null || sessionId.isEmpty()) return;
         RegisterBean bean = new RegisterBean();
         bean.userId = sessionId;
-        HttpUtil.apiW().friends_searchByUserIdF(bean).enqueue(new CommonCallback<NetData>() {
+        HttpUtil.apiW().friends_searchByUserId(bean).enqueue(new CommonCallback<NetData>() {
             @Override
             public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                 if (body != null && body.data != null) {

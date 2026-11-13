@@ -646,6 +646,62 @@ public abstract class ChatBaseFragment extends BaseFragment {
                                 });
 
                 void sendMsg(GroupInfoBean infoBean) {
+                    if (infoBean == null) {
+                        return;
+                    }
+                    // friendListPage 不再返回 memberCode，发名片前按 userId 补齐
+                    if (!android.text.TextUtils.isEmpty(infoBean.memberCode)) {
+                        doSendMingPian(infoBean);
+                        return;
+                    }
+                    if (android.text.TextUtils.isEmpty(infoBean.userId)) {
+                        ToastUtils.toastMsg("暂无法发送该名片");
+                        return;
+                    }
+                    RegisterBean bean = new RegisterBean();
+                    bean.userId = infoBean.userId;
+                    HttpUtil.apiW()
+                            .friends_searchByUserId(bean)
+                            .enqueue(
+                                    new CommonCallback<NetData>() {
+                                        @Override
+                                        public void Successful(
+                                                Call<NetData> call,
+                                                Response<NetData> response,
+                                                NetData body) {
+                                            if (body == null || body.data == null) {
+                                                ToastUtils.toastMsg("暂无法发送该名片");
+                                                return;
+                                            }
+                                            UserBean userBean =
+                                                    new Gson()
+                                                            .fromJson(
+                                                                    body.data.toString(),
+                                                                    UserBean.class);
+                                            if (userBean == null
+                                                    || android.text.TextUtils.isEmpty(
+                                                            userBean.memberCode)) {
+                                                ToastUtils.toastMsg("暂无法发送该名片");
+                                                return;
+                                            }
+                                            infoBean.memberCode = userBean.memberCode;
+                                            if (!android.text.TextUtils.isEmpty(userBean.name)) {
+                                                infoBean.name = userBean.name;
+                                            }
+                                            if (!android.text.TextUtils.isEmpty(userBean.avatar)) {
+                                                infoBean.avatar = userBean.avatar;
+                                            }
+                                            doSendMingPian(infoBean);
+                                        }
+
+                                        @Override
+                                        public void Failure(Call<NetData> call, Throwable t) {
+                                            ToastUtils.toastMsg("暂无法发送该名片");
+                                        }
+                                    });
+                }
+
+                void doSendMingPian(GroupInfoBean infoBean) {
                     MingPianAttachment attachment = new MingPianAttachment();
                     attachment.avatar = infoBean.avatar;
                     attachment.name = infoBean.name;

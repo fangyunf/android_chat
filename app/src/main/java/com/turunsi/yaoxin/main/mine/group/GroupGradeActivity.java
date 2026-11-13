@@ -142,7 +142,8 @@ public class GroupGradeActivity extends BaseActivity {
                         if (userBean != null) {
                             GlideUtil.yh_loadImageRoundedCorner(GroupGradeActivity.this, binding.activityGroupGradeAvatarIv, userBean.avatar, 10);
                             binding.activityGroupGradeNameTv.setText(userBean.username);
-                            binding.activityGroupGradeIdTv.setText("ID:" + userBean.memberCode);
+                            binding.activityGroupGradeIdTv.setText(
+                                    "ID:" + DataUtil.displayMemberCode(userBean.memberCode));
                         }
                     }
 

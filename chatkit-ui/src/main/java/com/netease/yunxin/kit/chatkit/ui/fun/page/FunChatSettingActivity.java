@@ -137,12 +137,13 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
         RegisterBean bean = new RegisterBean();
         bean.userId = accId;
         LoadingDialog.showDialog(getSupportFragmentManager(), "加载中...");
-        HttpUtil.apiW().friends_searchByUserIdF(bean)
+        HttpUtil.apiW().friends_searchByUserId(bean)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                         userBean = new Gson().fromJson(body.data.toString(), UserBean.class);
-                        binding.funChatSettingActivityId.setText("ID: " + userBean.memberCode);
+                        binding.funChatSettingActivityId.setText(
+                                "ID: " + DataUtil.displayMemberCode(userBean.memberCode));
                         binding.nameTv.setText(userBean.name);
                         if (userBean.remark != null && !userBean.remark.isEmpty()) {
                             binding.funChatSettingActivityMemo.rightTv.setText(userBean.remark);
@@ -327,7 +328,10 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
                         registerBean.state = 1;
 //                        viewModel1.addBlack(accId);
                     }
-                    registerBean.memberCode = userBean.memberCode;
+                    // 黑名单改传 userId
+                    registerBean.userId = !TextUtils.isEmpty(userBean.userId)
+                            ? userBean.userId
+                            : accId;
                     HttpUtil.apiW().friends_changeBlackState(registerBean)
                             .enqueue(new CommonCallback<NetData>() {
                                 @Override
@@ -360,7 +364,10 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
                                 ToastUtils.toastMsg("网络错误");
                             }
                             RegisterBean bean = new RegisterBean();
-                            bean.memberCode = userBean.memberCode;
+                            // 列表不再返回 memberCode：删友改传 userId
+                            bean.userId = !TextUtils.isEmpty(userBean.userId)
+                                    ? userBean.userId
+                                    : accId;
                             HttpUtil.apiW().friends_delFriend(bean)
                                     .enqueue(new CommonCallback<NetData>() {
                                         @Override
@@ -417,7 +424,10 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
                                 viewModel1.updateAlias(userInfoData.data.getAccount(), comment);
                                 if (userBean != null) {
                                     RegisterBean bean = new RegisterBean();
-                                    bean.memberCode = userBean.memberCode;
+                                    // 备注改传 userId
+                                    bean.userId = !TextUtils.isEmpty(userBean.userId)
+                                            ? userBean.userId
+                                            : accId;
                                     bean.alias = comment;
                                     HttpUtil.apiW().friends_updateRemark(bean)
                                             .enqueue(new CommonCallback<NetData>() {

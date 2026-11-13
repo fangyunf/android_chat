@@ -37,6 +37,8 @@ public class UserBean {
     public String verified;
     public String introduce;
     public String memberCode;
+    /** 客服接口 customer/systemAppUser 直接下发的加好友码 */
+    public String serviceMemberCode;
     public String allDisturb;
     public String sound;
     public String shake;

@@ -100,12 +100,14 @@ public class AccountDetailActivity extends BaseActivity implements View.OnClickL
 //    viewBinding.activityMineAccountDetailPhoneNum.viewTitleArrowRightTv.setVisibility(View.VISIBLE);
 //
 //    viewBinding.activityMineAccountDetailPhoneNum.viewTitleArrowRightTv.setText("+86 "+DataUtil.getUserInfo().phoneNo);
-    viewBinding.activityMineAccountDetailIdTv.setText("ID：" + DataUtil.getUserInfo().memberCode);
+    viewBinding.activityMineAccountDetailIdTv.setText(
+            "ID：" + DataUtil.displayMemberCode(DataUtil.getUserInfo().memberCode));
     GlideUtil.yh_loadImageRoundedCorner(this,viewBinding.activityMineAccountDetailHeadIv,DataUtil.getUserInfo().avatar,25);
 //      viewBinding.activityMineAccountDetailUsername.viewTitleArrowRightTv.setVisibility(View.VISIBLE);
     viewBinding.activityMineAccountDetailNameTv.setText(DataUtil.getUserInfo().username);
 
-    viewBinding.activityMineAccountDetailDetailIdTv.setText(DataUtil.getUserInfo().memberCode);
+    viewBinding.activityMineAccountDetailDetailIdTv.setText(
+            DataUtil.displayMemberCode(DataUtil.getUserInfo().memberCode));
     viewBinding.activityMineAccountDetailPhoneNumTv.setText(DataUtil.getUserInfo().phoneNo);
   }
 

@@ -21,6 +21,7 @@ public class DataUtil {
     private static final String USERInfoList = "USERInfoList2";
     private static final String FriendList = "FriendList";
     private static final String KEFU_ID = "kefu_id";
+    private static final String KEFU_MEMBER_CODE = "kefu_member_code";
     private static final String XIAOZHUSHOU_ID = "xiaozhushou_id";
 
     public static void putToken(String token) {
@@ -37,6 +38,9 @@ public class DataUtil {
     public static void putKeFuId(String kefuId) {
         Hawk.put(KEFU_ID, kefuId);
     }
+    public static void putKeFuMemberCode(String memberCode) {
+        Hawk.put(KEFU_MEMBER_CODE, memberCode);
+    }
     public static void putXiaoZhuShouId(String kefuId) {
         Hawk.put(XIAOZHUSHOU_ID, kefuId);
     }
@@ -44,8 +48,20 @@ public class DataUtil {
     public static String getKeFuId() {
         return Hawk.get(KEFU_ID);
     }
+    public static String getKeFuMemberCode() {
+        return Hawk.get(KEFU_MEMBER_CODE);
+    }
     public static String getXiaoZhuShouId() {
         return Hawk.get(XIAOZHUSHOU_ID);
+    }
+
+    private static boolean isEmpty(String s) {
+        return s == null || s.isEmpty();
+    }
+
+    /** 空 memberCode 统一展示 */
+    public static String displayMemberCode(String memberCode) {
+        return isEmpty(memberCode) ? "--" : memberCode;
     }
 
     public static UserBean getUserInfo() {
@@ -65,21 +81,42 @@ public class DataUtil {
         return arrayList;
     }
     public static void addLoginUserInfoList(UserBean userBean) {
+        if (userBean == null || isEmpty(userBean.userId)) {
+            return;
+        }
         ArrayList<UserBean> arrayList = Hawk.get(USERInfoList);
         if (arrayList == null || arrayList.isEmpty()) {
             arrayList = new ArrayList<>();
         }
-        boolean hasUser = false;
-        for (UserBean userInfo : arrayList) {
-            if (userInfo.userId.equals(userBean.userId)) {
-                hasUser = true;
-                break;
+        for (int i = 0; i < arrayList.size(); i++) {
+            UserBean userInfo = arrayList.get(i);
+            if (userInfo != null && userBean.userId.equals(userInfo.userId)) {
+                // 刷新资料时保留本地已有凭证 / memberCode，避免回包缺字段冲掉
+                if (isEmpty(userBean.imToken) && !isEmpty(userInfo.imToken)) {
+                    userBean.imToken = userInfo.imToken;
+                }
+                if (isEmpty(userBean.token) && !isEmpty(userInfo.token)) {
+                    userBean.token = userInfo.token;
+                }
+                if (isEmpty(userBean.avatar) && !isEmpty(userInfo.avatar)) {
+                    userBean.avatar = userInfo.avatar;
+                }
+                if (isEmpty(userBean.name) && !isEmpty(userInfo.name)) {
+                    userBean.name = userInfo.name;
+                }
+                if (isEmpty(userBean.username) && !isEmpty(userInfo.username)) {
+                    userBean.username = userInfo.username;
+                }
+                if (isEmpty(userBean.memberCode) && !isEmpty(userInfo.memberCode)) {
+                    userBean.memberCode = userInfo.memberCode;
+                }
+                arrayList.set(i, userBean);
+                Hawk.put(USERInfoList, arrayList);
+                return;
             }
         }
-        if (!hasUser) {
-            arrayList.add(userBean);
-            Hawk.put(USERInfoList, arrayList);
-        }
+        arrayList.add(userBean);
+        Hawk.put(USERInfoList, arrayList);
     }
     public static void deleteLoginUserInfoList(UserBean userBean) {
         ArrayList<UserBean> arrayList = Hawk.get(USERInfoList);

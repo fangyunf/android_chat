@@ -109,17 +109,12 @@ public class ChatTipsMessageViewHolder extends NormalChatBaseMessageViewHolder {
               new ClickableSpan() {
                 @Override
                 public void onClick(@NonNull View widget) {
-                  String account = sessionId;
-                  UserInfo userInfo = MessageHelper.getChatMessageUserInfo(account);
-                  UserBean userBean = new UserBean();
-                  userBean.userId = account;
-                  userBean.memberCode = account;
-                  userBean.name = userInfo != null && userInfo.getName() != null ? userInfo.getName() : account;
-                  userBean.avatar = userInfo != null && userInfo.getAvatar() != null ? userInfo.getAvatar() : "";
-                  String userJson = new Gson().toJson(userBean);
+                  // 云信账户不再带 memberCode，按账号拉取业务用户信息后再加好友
                   XKitRouter.withKey(com.yaoxin.appbase.net.Constant.FunAddFriendVerifyActivityKey)
                       .withContext(widget.getContext())
-                      .withParam("user", userJson)
+                      .withParam(
+                          com.netease.yunxin.kit.corekit.im.utils.RouterConstant.KEY_ACCOUNT_ID_KEY,
+                          sessionId)
                       .navigate();
                 }
               };

@@ -154,7 +154,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 //
 //    binding.settingLl.setOnClickListener(
 //        v -> startActivity(new Intent(getContext(), SettingActivity.class)));
-        binding.tvAccount.setText("ID: " + DataUtil.getUserInfo().memberCode);
+        binding.tvAccount.setText("ID: " + DataUtil.displayMemberCode(DataUtil.getUserInfo().memberCode));
         _requestData();
     }
 

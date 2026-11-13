@@ -73,7 +73,8 @@ public class AccoutCodeDetailActivity extends BaseActivity implements View.OnCli
             viewBinding.activityMineAccountCodeCodeIv.setImageBitmap(bitmap);
         }
         viewBinding.activityMineAccountCodeNameTv.setText(DataUtil.getUserInfo().username);
-        viewBinding.activityMineAccountCode.setText("ID:" + DataUtil.getUserInfo().memberCode);
+        viewBinding.activityMineAccountCode.setText(
+                "ID:" + DataUtil.displayMemberCode(DataUtil.getUserInfo().memberCode));
         GlideUtil.yh_loadImageRoundedCorner(this, viewBinding.activityMineAccountCodeHeadIv, DataUtil.getUserInfo().avatar, 2);
     }
 

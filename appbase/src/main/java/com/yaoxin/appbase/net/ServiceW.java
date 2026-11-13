@@ -100,8 +100,9 @@ public interface ServiceW {
             @Body RegisterBean userBean
     );
 
-    @POST("/friends/searchByUserIdF")
-    Call<NetData> friends_searchByUserIdF(
+    /** 按 userId 查用户/好友资料，body 传 userId（列表不再返回 memberCode 时用此补齐） */
+    @POST("/friends/searchByUserId")
+    Call<NetData> friends_searchByUserId(
             @Body RegisterBean userBean
     );
 

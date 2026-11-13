@@ -75,7 +75,8 @@ public class FunBlackList_NewActivity extends BaseActivity implements View.OnCli
                 if (_groupId == null) {
                     RegisterBean registerBean = new RegisterBean();
                     registerBean.state = 0;
-                    registerBean.memberCode = baseQuickAdapter.getItem(i).memberCode;
+                    // 列表不再返回 memberCode：黑名单操作改传 userId
+                    registerBean.userId = baseQuickAdapter.getItem(i).userId;
                     HttpUtil.apiW().friends_changeBlackState(registerBean)
                             .enqueue(new CommonCallback<NetData>() {
                                 @Override
