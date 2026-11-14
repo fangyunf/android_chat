@@ -52,6 +52,7 @@ import com.netease.yunxin.kit.corekit.im.model.FriendInfo;
 import com.netease.yunxin.kit.corekit.im.model.UserInfo;
 import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
 import com.netease.yunxin.kit.corekit.route.XKitRouter;
+import com.yaoxin.appbase.model.GroupInfoBean;
 import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.model.UserBean;
@@ -64,12 +65,12 @@ import com.yaoxin.appbase.utils.GlideUtil;
 import com.yaoxin.appbase.utils.ResourceHelper;
 import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
-import com.yaoxin.appbase.view.LoadingDialog;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -133,48 +134,80 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
         binding.funChatSettingActivityAddFriendTv.setOnClickListener(this);
     }
 
-    void _reuestInfo() {
-        RegisterBean bean = new RegisterBean();
-        bean.userId = accId;
-        LoadingDialog.showDialog(getSupportFragmentManager(), "加载中...");
-        HttpUtil.apiW().friends_searchByUserId(bean)
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        userBean = new Gson().fromJson(body.data.toString(), UserBean.class);
-                        binding.funChatSettingActivityId.setText(
-                                "ID: " + DataUtil.displayMemberCode(userBean.memberCode));
-                        binding.nameTv.setText(userBean.name);
-                        if (userBean.remark != null && !userBean.remark.isEmpty()) {
-                            binding.funChatSettingActivityMemo.rightTv.setText(userBean.remark);
-                            binding.funChatSettingActivityMemo.rightTv.setVisibility(View.VISIBLE);
-                        }
-                        if ("0".equals(userBean.friend)) {
-                            binding.funChatSettingActivityContentLl.setVisibility(View.GONE);
-                            binding.funChatSettingActivitySendMsgRl.setVisibility(View.GONE);
-                            binding.funChatSettingActivityAddFriendTv.setVisibility(View.VISIBLE);
-                        }
+    /** 用列表/缓存好友数据填充详情；不走 friends/searchByUserId（易 8002） */
+    private void bindFromFriendList() {
+        GroupInfoBean friend = resolveFriendFromList();
+        if (friend == null) {
+            if (userBean == null) {
+                userBean = new UserBean();
+                userBean.userId = accId;
+            }
+            binding.funChatSettingActivityId.setText(
+                    "ID: " + DataUtil.displayMemberCode(userBean.memberCode));
+            return;
+        }
+        if (userBean == null) {
+            userBean = new UserBean();
+        }
+        userBean.userId = !TextUtils.isEmpty(friend.userId) ? friend.userId : accId;
+        userBean.memberCode = friend.memberCode;
+        userBean.name = friend.name;
+        userBean.avatar = friend.avatar;
+        userBean.remark = friend.remark;
+        userBean.grade = friend.grade;
+        userBean.friend = "1";
 
-                        if (userBean.grade > 0) {
-                            binding.funTeamUserInfoDetailGradeIv.setVisibility(View.VISIBLE);
-                            binding.ivGradeBg.setVisibility(View.VISIBLE);
-                            binding.funTeamUserInfoDetailGradeIv.setImageDrawable(ResourceHelper.getGradeDrawable(FunChatSettingActivity.this, userBean.grade));
-                            binding.nameTv.setTextColor(ResourceHelper.getGradeColor(FunChatSettingActivity.this, userBean.grade));
-                            binding.ivGradeBg.setImageDrawable(ResourceHelper.getGradeBackground(FunChatSettingActivity.this, userBean.grade));
-                        }
-                    }
+        binding.funChatSettingActivityId.setVisibility(View.VISIBLE);
+        binding.funChatSettingActivityId.setText(
+                "ID: " + DataUtil.displayMemberCode(userBean.memberCode));
+        if (!TextUtils.isEmpty(userBean.name)) {
+            binding.nameTv.setText(userBean.name);
+        }
+        if (!TextUtils.isEmpty(userBean.avatar)) {
+            GlideUtil.yh_loadImageRoundedCorner(
+                    this, binding.funChatSettingActivityAvatarView, userBean.avatar, 0);
+        }
+        if (!TextUtils.isEmpty(userBean.remark)) {
+            binding.funChatSettingActivityMemo.rightTv.setText(userBean.remark);
+            binding.funChatSettingActivityMemo.rightTv.setVisibility(View.VISIBLE);
+        }
+        binding.funChatSettingActivityContentLl.setVisibility(View.VISIBLE);
+        binding.funChatSettingActivitySendMsgRl.setVisibility(View.VISIBLE);
+        binding.funChatSettingActivityAddFriendTv.setVisibility(View.GONE);
 
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
+        if (userBean.grade > 0) {
+            binding.funTeamUserInfoDetailGradeIv.setVisibility(View.VISIBLE);
+            binding.ivGradeBg.setVisibility(View.VISIBLE);
+            binding.funTeamUserInfoDetailGradeIv.setImageDrawable(
+                    ResourceHelper.getGradeDrawable(this, userBean.grade));
+            binding.nameTv.setTextColor(ResourceHelper.getGradeColor(this, userBean.grade));
+            binding.ivGradeBg.setImageDrawable(
+                    ResourceHelper.getGradeBackground(this, userBean.grade));
+        }
+    }
 
-                    }
-
-                    @Override
-                    public void end() {
-                        super.end();
-                        LoadingDialog.dismissDialog();
-                    }
-                });
+    @Nullable
+    private GroupInfoBean resolveFriendFromList() {
+        String friendJson = getIntent().getStringExtra("friend");
+        if (!TextUtils.isEmpty(friendJson)) {
+            try {
+                GroupInfoBean friend = new Gson().fromJson(friendJson, GroupInfoBean.class);
+                if (friend != null) {
+                    return friend;
+                }
+            } catch (Exception ignored) {
+            }
+        }
+        List<GroupInfoBean> friendList = DataUtil.getFriendInfoList();
+        if (friendList == null) {
+            return null;
+        }
+        for (GroupInfoBean friend : friendList) {
+            if (friend != null && TextUtils.equals(friend.userId, accId)) {
+                return friend;
+            }
+        }
+        return null;
     }
 
     private void initRequest() {
@@ -210,6 +243,7 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
         if (TextUtils.isEmpty(accId)) {
             accId = userInfo.getAccount();
         }
+        bindFromFriendList();
         refreshView();
         binding.funChatSettingActivityMemo.titTv.setText("备注名");
         Activity activity = this;
@@ -284,8 +318,11 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
                         if (type == 1) {
 
 
-                            NIMClient.getService(MsgService.class).clearChattingHistory(userBean.userId, SessionTypeEnum.P2P);
-                            NIMClient.getService(MsgService.class).clearServerHistory(userBean.userId, SessionTypeEnum.P2P);
+                            String clearId = (userBean != null && !TextUtils.isEmpty(userBean.userId))
+                                    ? userBean.userId
+                                    : accId;
+                            NIMClient.getService(MsgService.class).clearChattingHistory(clearId, SessionTypeEnum.P2P);
+                            NIMClient.getService(MsgService.class).clearServerHistory(clearId, SessionTypeEnum.P2P);
 
                             EventBus.getDefault().post(new BaseEvent("clearP2PMessageList"));
                         }
@@ -329,7 +366,7 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
 //                        viewModel1.addBlack(accId);
                     }
                     // 黑名单改传 userId
-                    registerBean.userId = !TextUtils.isEmpty(userBean.userId)
+                    registerBean.userId = (userBean != null && !TextUtils.isEmpty(userBean.userId))
                             ? userBean.userId
                             : accId;
                     HttpUtil.apiW().friends_changeBlackState(registerBean)
@@ -360,12 +397,13 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
                     @Override
                     public void clickType(int type) {
                         if (type == 1) {
-                            if (userBean == null) {
+                            if (userBean == null && TextUtils.isEmpty(accId)) {
                                 ToastUtils.toastMsg("网络错误");
+                                return;
                             }
                             RegisterBean bean = new RegisterBean();
                             // 列表不再返回 memberCode：删友改传 userId
-                            bean.userId = !TextUtils.isEmpty(userBean.userId)
+                            bean.userId = (userBean != null && !TextUtils.isEmpty(userBean.userId))
                                     ? userBean.userId
                                     : accId;
                             HttpUtil.apiW().friends_delFriend(bean)
@@ -489,7 +527,7 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
                             if (result.getLoadStatus() == LoadStatus.Success) {
                                 friendInfo = result.getData();
                                 refreshView();
-                                _reuestInfo();
+                                bindFromFriendList();
                             }
                         });
         viewModel.getUserInfo(accId);
