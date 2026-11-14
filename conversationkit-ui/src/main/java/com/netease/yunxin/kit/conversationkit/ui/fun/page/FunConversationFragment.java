@@ -480,29 +480,49 @@ public class FunConversationFragment extends ConversationBaseFragment {
         });
     }
 
+    /**
+     * 获取好友信息（分页 friendListPage，每页 100）
+     */
     private void loadFriendList() {
-        HttpUtil.apiW().friends_friendList(new RegisterBean()).enqueue(new CommonCallback<NetData>() {
+        _requestFriendListPage(1);
+    }
+
+    private void _requestFriendListPage(int page) {
+        com.yaoxin.appbase.model.ParamsBean registerBean = new com.yaoxin.appbase.model.ParamsBean();
+        registerBean.page = page;
+        HttpUtil.apiW().friends_friendListPage(registerBean).enqueue(new CommonCallback<NetData>() {
             @Override
             public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                Type type = new TypeToken<List<GroupInfoBean>>() {
-                }.getType();
-                List<GroupInfoBean> tempList = new Gson().fromJson(body.data.toString(), type);
-                // 移除客服（使用迭代器避免 ConcurrentModificationException）
-                mContactModels = new ArrayList<>();
+                if (page == 1) {
+                    mContactModels = new ArrayList<>();
+                }
+                List<GroupInfoBean> tempList =
+                        com.yaoxin.appbase.utils.ApiDataParseUtil.parseFriendPage(
+                                body == null ? null : body.data);
                 for (GroupInfoBean tempBean : tempList) {
-                    if (tempBean != null && !tempBean.userId.equals(DataUtil.getKeFuId())) {
+                    if (tempBean != null
+                            && tempBean.userId != null
+                            && !tempBean.userId.equals(DataUtil.getKeFuId())) {
                         mContactModels.add(tempBean);
                     }
                 }
-                // 排序
-                Collections.sort(mContactModels, new Comparator<GroupInfoBean>() {
-                    @Override
-                    public int compare(GroupInfoBean o1, GroupInfoBean o2) {
-                        String firstLetter = FirstLetterUtil.getFirstLetter(o1.name);
-                        String secondLetter = FirstLetterUtil.getFirstLetter(o2.name);
-                        return firstLetter.compareTo(secondLetter);
-                    }
-                });
+                if (tempList.size() == 100) {
+                    _requestFriendListPage(page + 1);
+                    return;
+                }
+                Collections.sort(
+                        mContactModels,
+                        new Comparator<GroupInfoBean>() {
+                            @Override
+                            public int compare(GroupInfoBean o1, GroupInfoBean o2) {
+                                if (o1 == null || o2 == null) {
+                                    return 0;
+                                }
+                                String firstLetter = FirstLetterUtil.getFirstLetter(o1.name);
+                                String secondLetter = FirstLetterUtil.getFirstLetter(o2.name);
+                                return firstLetter.compareTo(secondLetter);
+                            }
+                        });
                 DataUtil.setFriendInfoList(mContactModels);
             }
 
