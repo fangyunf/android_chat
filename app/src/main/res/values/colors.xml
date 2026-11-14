@@ -5,13 +5,13 @@
   -->
 
 <resources>
-    <color name="pasc_primary">#009CFC</color>
+    <color name="pasc_primary">#0B9AFA</color>
     <color name="black">#FF000000</color>
     <color name="color_F2F2F2">#F2F2F2</color>
     <color name="color_white">#FFFFFFFF</color>
     <color name="color_00C00E">#00C00E</color>
     <color name="color_333333">#ff333333</color>
-    <color name="color_884EEF">#009CFC</color>
+    <color name="color_884EEF">#0B9AFA</color>
     <color name="color_E8E8E8">#E8E8E8</color>
     <color name="color_9D9D9D">#9D9D9D</color>
     <color name="color_FF8A0B">#FF8A0B</color>
@@ -21,13 +21,13 @@
 
     <color name="tab_checked_color">@color/app_theme_color</color>
     <color name="tab_unchecked_color">#979798</color>
-    <color name="youyou_main">#009CFC</color>
-    <color name="youyou_main_light">#4DC4FD</color>
-    <color name="youyou_chat_bg">#E8F4FC</color>
-    <color name="youyou_nav_top">#E8F4FC</color>
+    <color name="youyou_main">#0B9AFA</color>
+    <color name="youyou_main_light">#5CC4FC</color>
+    <color name="youyou_chat_bg">#E8F2FC</color>
+    <color name="youyou_nav_top">#E8F2FC</color>
     <color name="color_a6adb6">#ffa6adb6</color>
     <color name="color_666666">#666666</color>
-    <color name="color_8B5FD8">#009CFC</color>
+    <color name="color_8B5FD8">#0B9AFA</color>
     <color name="color_FF3A3A">#FF3A3A</color>
     <color name="color_24CE70">#24CE70</color>
     <color name="color_e9eff5">#E9EFF5</color>
@@ -35,14 +35,14 @@
     <color name="color_eff1f4">#EFF1F4</color>
     <color name="transparent">#00000000</color>
     <color name="transparent_half">#30000000</color>
-    <color name="fun_tab_checked_color">#009CFC</color>
+    <color name="fun_tab_checked_color">#0B9AFA</color>
 
-    <color name="fun_page_bg_color">#E8F4FC</color>
+    <color name="fun_page_bg_color">#E8F2FC</color>
     <color name="normal_page_bg_color">#FFFFFF</color>
     <color name="color_101113">#101113</color>
     <color name="color_ededed">#ededed</color>
-    <color name="color_58be6b">#009CFC</color>
-    <color name="color_9A75DB">#4DC4FD</color>
+    <color name="color_58be6b">#0B9AFA</color>
+    <color name="color_9A75DB">#5CC4FC</color>
 
     <color name="color_999999">#999999</color>
 </resources>

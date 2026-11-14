@@ -43,14 +43,23 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:paddingBottom="40dp">
+            android:paddingBottom="40dp"
+            android:paddingTop="28dp">
 
-            <!-- Logo / 标题 -->
-            <ImageView
+            <!-- Logo 圆角 -->
+            <androidx.cardview.widget.CardView
                 android:layout_width="88dp"
                 android:layout_height="88dp"
-                android:layout_marginTop="28dp"
-                android:src="@mipmap/ic_welcome_logo" />
+                app:cardBackgroundColor="@color/transparent"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="0dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/ic_welcome_logo" />
+            </androidx.cardview.widget.CardView>
 
             <TextView
                 android:id="@+id/activity_login_title_tv"
@@ -58,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
                 android:text="66"
-                android:textColor="#009CFC"
+                android:textColor="@color/app_theme_color"
                 android:textSize="28sp"
                 android:textStyle="bold" />
 
@@ -68,10 +77,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:text="欢迎使用66"
-                android:textColor="#7AA8C4"
+                android:textColor="@color/app_theme_color_light"
                 android:textSize="14sp" />
 
-            <!-- 输入区 -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -119,7 +127,7 @@
                     android:background="@drawable/bg_welcome_btn_register"
                     android:gravity="center"
                     android:text="立即注册"
-                    android:textColor="#009CFC"
+                    android:textColor="@color/app_theme_color"
                     android:textSize="15sp"
                     android:visibility="gone" />
 
@@ -129,7 +137,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="18dp"
                     android:text="忘记密码?"
-                    android:textColor="#4DC4FD"
+                    android:textColor="@color/app_theme_color_light"
                     android:textSize="14sp" />
             </LinearLayout>
         </LinearLayout>

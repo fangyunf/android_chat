@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 始终用黑色下箭头，不切换成 + -->
     <item android:drawable="@drawable/chat_fragment_toolbar_show_more" android:state_checked="true" />
     <item android:drawable="@drawable/chat_fragment_toolbar_show_more" />
 </selector>

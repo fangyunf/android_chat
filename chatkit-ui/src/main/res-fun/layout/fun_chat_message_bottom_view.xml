@@ -219,8 +219,8 @@
 
                     <RadioButton
                         android:id="@+id/inputEmojiRb"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:layout_centerInParent="true"
                         android:layout_gravity="bottom"
                         android:background="@drawable/chat_fragment_toolbar_emoji"
@@ -236,8 +236,8 @@
 
                     <RadioButton
                         android:id="@+id/inputMoreRb"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:layout_centerInParent="true"
                         android:background="@drawable/chat_fragment_toolbar_show_more"
                         android:button="@null"

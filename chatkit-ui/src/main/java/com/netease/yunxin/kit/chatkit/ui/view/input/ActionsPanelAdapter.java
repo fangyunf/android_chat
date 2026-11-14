@@ -78,7 +78,10 @@ public class ActionsPanelAdapter extends RecyclerView.Adapter<ActionsPanelAdapte
     param.columnSpec = GridLayout.spec(i % COLUMN_COUNT);
     param.rowSpec = GridLayout.spec(i / COLUMN_COUNT);
     binding.getRoot().setLayoutParams(param);
-    binding.actionIcon.setBackgroundResource(item.getIconResId());
+    // 直接显示 icon，不套白色圆角背景
+    binding.actionBg.setBackground(null);
+    binding.actionIcon.setBackground(null);
+    binding.actionIcon.setImageResource(item.getIconResId());
     if (item.getTitleResId() != 0) {
       binding.actionText.setText(item.getTitleResId());
     }

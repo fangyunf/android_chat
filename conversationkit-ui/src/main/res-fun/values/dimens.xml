@@ -2,7 +2,8 @@
 <resources>
     <dimen name="fun_add_pop_item_height">50dp</dimen>
     <dimen name="fun_add_pop_item_width">126dp</dimen>
-    <dimen name="fun_add_pop_item_margin_right_top">16dp</dimen>
-    <dimen name="fun_add_pop_item_padding">8dp</dimen>
+    <!-- 弹窗彩色 icon 略放大 -->
+    <dimen name="fun_add_pop_item_margin_right_top">22dp</dimen>
+    <dimen name="fun_add_pop_item_padding">6dp</dimen>
 
 </resources>

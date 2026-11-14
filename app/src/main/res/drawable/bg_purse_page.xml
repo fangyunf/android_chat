@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   通栏蓝色渐变（66 主题）
-  线性：顶 #009CFC → 中 #4DC4FD → 底 #E8F4FC
+  线性：顶 #0B9AFA → 中 #5CC4FC → 底 #E8F4FC
 -->
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape android:shape="rectangle">
             <gradient
                 android:angle="-90"
-                android:centerColor="#4DC4FD"
+                android:centerColor="#5CC4FC"
                 android:endColor="#E8F4FC"
-                android:startColor="#009CFC"
+                android:startColor="#0B9AFA"
                 android:type="linear" />
         </shape>
     </item>

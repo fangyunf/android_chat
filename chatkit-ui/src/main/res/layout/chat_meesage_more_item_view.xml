@@ -10,21 +10,21 @@
     android:layout_height="wrap_content"
     android:paddingBottom="@dimen/dimen_16_dp">
 
-    <!--    android:background="@drawable/bg_more_item"-->
+    <!-- 无白色圆角底，直接显示 icon（对齐 changsheng） -->
 
     <ImageView
         android:id="@+id/action_bg"
         android:layout_width="@dimen/dimen_50_dp"
         android:layout_height="@dimen/dimen_50_dp"
-        android:background="@drawable/bg_white_rounded_10"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/action_icon"
-        android:layout_width="@dimen/dimen_30_dp"
-        android:layout_height="@dimen/dimen_30_dp"
+        android:layout_width="@dimen/dimen_50_dp"
+        android:layout_height="@dimen/dimen_50_dp"
+        android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="@id/action_bg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
