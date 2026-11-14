@@ -59,18 +59,20 @@ public class ChatPopActionFactory {
      */
     public List<ChatPopMenuAction> getNormalActions(ChatMessageBean message) {
         List<ChatPopMenuAction> actions = new ArrayList<>();
-        if (message.getMessageData() == null) {
+        if (message.getMessageData() == null
+                || message.getMessageData().getMessage() == null) {
             return actions;
         }
-        int viewType = message.getViewType();
 
-        if (viewType == 0 &&message.getMessageData().getMessage().getAttachStr() != null && !message.getMessageData().getMessage().getAttachStr().isEmpty()) {
-
+        // 业务自定义消息（红包/名片等）：精简菜单。
+        // 不能用 viewType==0（文本也是 0），否则文本带 attachStr 时会丢掉复制/撤回。
+        if (message.getMessageData().getMessage().getMsgType() == MsgTypeEnum.custom) {
             actions.add(getDeleteAction(message));
-            if (message.getMessageData().getMessage().getAttachStr().contains("memberCode")) {
-                if (message.getMessageData().getMessage().getDirect() == MsgDirectionEnum.Out) {
-                    actions.add(getRecallAction(message));
-                }
+            String attachStr = message.getMessageData().getMessage().getAttachStr();
+            if (attachStr != null
+                    && attachStr.contains("memberCode")
+                    && message.getMessageData().getMessage().getDirect() == MsgDirectionEnum.Out) {
+                actions.add(getRecallAction(message));
             }
             return actions;
         }

@@ -280,8 +280,7 @@ public class MessageBottomLayout extends FrameLayout
                 onCallClick();
                 break;
             case ActionConstants.ACTION_TYPE_MING_PIAN:
-                // 名片功能已取消
-                Toast.makeText(getContext(), "名片功能已关闭", Toast.LENGTH_SHORT).show();
+                mProxy.sendMingPian();
                 break;
             case ActionConstants.ACTION_TYPE_ZHUAN_ZHANG:
                 mProxy.sendZhuanZhang();

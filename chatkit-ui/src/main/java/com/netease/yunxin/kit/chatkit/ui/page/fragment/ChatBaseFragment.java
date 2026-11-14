@@ -714,6 +714,8 @@ public abstract class ChatBaseFragment extends BaseFragment {
                                     messageProxy.getSessionId(),
                                     messageProxy.getSessionType(),
                                     attachment);
+                    // 推送文案，否则收不到名片推送
+                    message.setPushContent(attachment.getContent());
                     ChatRepo.sendMessage(message, null);
                 }
 

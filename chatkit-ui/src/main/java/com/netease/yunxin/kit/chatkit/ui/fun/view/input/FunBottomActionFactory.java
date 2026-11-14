@@ -36,7 +36,13 @@ public class FunBottomActionFactory {
 //        new ActionItem(
 //            ActionConstants.ACTION_TYPE_FILE, R.drawable.chat_fragment_toolbar_collection, R.string.chat_message_file));
 
-        // 群/单聊更多面板：收藏与红包换位后为 收藏 → 红包
+        // 群/单聊更多面板：名片 → 收藏 → 红包
+        actions.add(
+                new ActionItem(
+                        ActionConstants.ACTION_TYPE_MING_PIAN,
+                        R.drawable.bottom_layout_item_2,
+                        R.string.chat_message_ming_pian));
+
         actions.add(
                 new ActionItem(
                         ActionConstants.ACTION_TYPE_SHOU_CANG,
