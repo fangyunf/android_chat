@@ -106,6 +106,10 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
             binding.activityFunSelectedUserNav.getTitleView().setText("转发");
             binding.activityFunSelectedUserConfirmTv.setVisibility(View.GONE);
         }
+        if (page_type == 7) {
+            binding.activityFunSelectedUserNav.getTitleView().setText("推荐给好友");
+            binding.activityFunSelectedUserConfirmTv.setVisibility(View.GONE);
+        }
         _requestData1();
         _initView();
     }
@@ -265,8 +269,8 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
                     finish();
                     return;
                 }
-                if (page_type == 6) {
-                    //发送名片
+                if (page_type == 6 || page_type == 7) {
+                    // 转发 / 推荐给好友：回传选中的好友
                     Intent result = new Intent();
                     ArrayList<String> array = new ArrayList<>();
                     array.add(baseQuickAdapter.getItem(i).userId);

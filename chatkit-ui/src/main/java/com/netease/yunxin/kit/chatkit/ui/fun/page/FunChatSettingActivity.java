@@ -23,15 +23,19 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.gson.Gson;
 import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.msg.MessageBuilder;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.constant.DeleteTypeEnum;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
+import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
 import com.netease.nimlib.sdk.msg.model.StickTopSessionInfo;
 import com.netease.yunxin.kit.alog.ALog;
+import com.netease.yunxin.kit.chatkit.repo.ChatRepo;
 import com.netease.yunxin.kit.chatkit.repo.ConversationRepo;
 import com.netease.yunxin.kit.chatkit.ui.R;
 import com.netease.yunxin.kit.chatkit.ui.common.ChatCallback;
+import com.netease.yunxin.kit.chatkit.ui.custom.MingPianAttachment;
 import com.netease.yunxin.kit.chatkit.ui.databinding.FunChatSettingActivityBinding;
 import com.netease.yunxin.kit.chatkit.ui.model.CloseChatPageEvent;
 import com.netease.yunxin.kit.chatkit.ui.page.viewmodel.ChatSettingViewModel;
@@ -56,6 +60,7 @@ import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
+import com.yaoxin.appbase.net.Constant;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.BaseEvent;
 import com.yaoxin.appbase.utils.DataUtil;
@@ -89,6 +94,7 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
     protected ContactUserInfoBean userInfoData;
     protected UserBean userBean;
     protected ActivityResultLauncher<Intent> commentLauncher;
+    protected ActivityResultLauncher<Intent> recommendLauncher;
 
     UserInfo userInfo;
     FriendInfo friendInfo;
@@ -265,7 +271,22 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
                 }
         );
 
-//        binding.funChatSettingActivityRecommand.titTv.setText("推荐好友");
+        binding.funChatSettingActivityRecommand.titTv.setText("推荐给好友");
+        binding.funChatSettingActivityRecommand.funTitleTfArrowViewLl.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String memberCode = resolveFriendMemberCode();
+                        if (TextUtils.isEmpty(memberCode)) {
+                            ToastUtils.toastMsg("暂无法推荐该好友");
+                            return;
+                        }
+                        XKitRouter.withKey(Constant.FunSelected_User_ActivityKey)
+                                .withParam("type", "7")
+                                .withContext(that)
+                                .navigate(recommendLauncher);
+                    }
+                });
         binding.funChatSettingActivityToTop.titTv.setText("置顶聊天");
         binding.funChatSettingActivityToTop.funTitleTfArrowViewSwitch.setVisibility(View.VISIBLE);
         binding.funChatSettingActivityToTop.arrowIcon.setVisibility(View.GONE);
@@ -483,6 +504,59 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
 
                             }
                         });
+        recommendLauncher =
+                registerForActivityResult(
+                        new ActivityResultContracts.StartActivityForResult(),
+                        result -> {
+                            if (result.getResultCode() != Activity.RESULT_OK || result.getData() == null) {
+                                return;
+                            }
+                            ArrayList<String> selected =
+                                    result.getData()
+                                            .getStringArrayListExtra(
+                                                    RouterConstant.REQUEST_CONTACT_SELECTOR_KEY);
+                            if (selected == null || selected.isEmpty()) {
+                                return;
+                            }
+                            sendRecommendMingPian(selected);
+                        });
+    }
+
+    /** 把当前好友名片发给选中的好友 */
+    private void sendRecommendMingPian(ArrayList<String> targetUserIds) {
+        String memberCode = resolveFriendMemberCode();
+        if (TextUtils.isEmpty(memberCode)) {
+            ToastUtils.toastMsg("暂无法推荐该好友");
+            return;
+        }
+        MingPianAttachment attachment = new MingPianAttachment();
+        attachment.memberCode = memberCode;
+        if (userBean != null) {
+            attachment.avatar = userBean.avatar;
+            attachment.name = !TextUtils.isEmpty(userBean.name) ? userBean.name : getName();
+        } else {
+            attachment.name = getName();
+            if (friendInfo != null) {
+                attachment.avatar = friendInfo.getAvatar();
+            } else if (userInfo != null) {
+                attachment.avatar = userInfo.getAvatar();
+            }
+        }
+        String selfId = IMKitClient.account();
+        int sent = 0;
+        for (String targetId : targetUserIds) {
+            if (TextUtils.isEmpty(targetId)
+                    || TextUtils.equals(targetId, accId)
+                    || TextUtils.equals(targetId, selfId)) {
+                continue;
+            }
+            IMMessage message =
+                    MessageBuilder.createCustomMessage(targetId, SessionTypeEnum.P2P, attachment);
+            message.setPushContent(attachment.getContent());
+            ChatRepo.sendMessage(message, null);
+            sent++;
+        }
+        ToastUtils.toastMsg(sent > 0 ? "已推荐给好友" : "请选择其他好友");
     }
 
     /** 备注接口按好友关系查 memberCode，searchByUserId 返回的可能对不上，优先取好友列表里的 */

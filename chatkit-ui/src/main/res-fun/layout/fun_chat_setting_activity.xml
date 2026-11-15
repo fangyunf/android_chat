@@ -148,11 +148,12 @@
                     layout="@layout/fun_title_tf_arrow_view"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dimen_58_dp" />
-                <!--            <include-->
-                <!--                android:id="@+id/fun_chat_setting_activity_recommand"-->
-                <!--                layout="@layout/fun_title_tf_arrow_view"-->
-                <!--                android:layout_width="match_parent"-->
-                <!--                android:layout_height="@dimen/dimen_58_dp" />-->
+
+                <include
+                    android:id="@+id/fun_chat_setting_activity_recommand"
+                    layout="@layout/fun_title_tf_arrow_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_58_dp" />
 
                 <include
                     android:id="@+id/fun_chat_setting_activity_clear_dont_notice_msg"
