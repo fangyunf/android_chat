@@ -36,19 +36,28 @@ public class FunBottomActionFactory {
 //        new ActionItem(
 //            ActionConstants.ACTION_TYPE_FILE, R.drawable.chat_fragment_toolbar_collection, R.string.chat_message_file));
 
-        actions.add(
-                new ActionItem(
-                        ActionConstants.ACTION_TYPE_MING_PIAN, R.drawable.chat_fragment_toolbar_person_card, R.string.chat_message_ming_pian));
+        // 关闭爆粉后群聊取消推名片；单聊保留
+        if (sessionType == SessionTypeEnum.P2P) {
+            actions.add(
+                    new ActionItem(
+                            ActionConstants.ACTION_TYPE_MING_PIAN,
+                            R.drawable.chat_fragment_toolbar_person_card,
+                            R.string.chat_message_ming_pian));
+        }
 
         actions.add(
                 new ActionItem(
-                        ActionConstants.ACTION_TYPE_SHOPPING_COUPON, R.drawable.chat_fragment_toolbar_redpacket, R.string.chat_message_shopping_coupon));
-
-        actions.add(
-                new ActionItem(
-                        ActionConstants.ACTION_TYPE_ZHUAN_ZHANG,
+                        ActionConstants.ACTION_TYPE_SHOPPING_COUPON,
                         R.drawable.chat_fragment_toolbar_redpacket,
-                        R.string.chat_message_zhuan_zhang));
+                        R.string.chat_message_shopping_coupon));
+
+        if (sessionType == SessionTypeEnum.P2P) {
+            actions.add(
+                    new ActionItem(
+                            ActionConstants.ACTION_TYPE_ZHUAN_ZHANG,
+                            R.drawable.chat_fragment_toolbar_redpacket,
+                            R.string.chat_message_zhuan_zhang));
+        }
 
 //        actions.add(
 //                new ActionItem(

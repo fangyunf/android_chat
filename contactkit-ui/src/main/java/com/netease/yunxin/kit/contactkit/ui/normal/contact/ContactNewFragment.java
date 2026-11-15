@@ -128,7 +128,7 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
     protected void _requestMemeber(int page) {
         ParamsBean registerBean = new ParamsBean();
         registerBean.page = page;
-        HttpUtil.apiW().friends_friendLists(registerBean).enqueue(new CommonCallback<NetData>() {
+        HttpUtil.apiW().friends_friendListPage(registerBean).enqueue(new CommonCallback<NetData>() {
             @Override
             public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
 
@@ -329,7 +329,13 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
             @Override
             public void onClick(@NonNull BaseQuickAdapter<GroupInfoBean, ?> baseQuickAdapter, @NonNull View view, int i) {
                 if (baseQuickAdapter.getItemViewType(i) == Constant.RECYCLE_VIEW_ITEM) {
-                    XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_SETTING_PAGE).withParam(RouterConstant.CHAT_ID_KRY, baseQuickAdapter.getItem(i - 1).userId).withParam("type", "1").withContext(requireActivity()).navigate();
+                    GroupInfoBean friend = baseQuickAdapter.getItem(i - 1);
+                    XKitRouter.withKey(RouterConstant.PATH_FUN_CHAT_SETTING_PAGE)
+                            .withParam(RouterConstant.CHAT_ID_KRY, friend.userId)
+                            .withParam("type", "1")
+                            .withParam("friend", new Gson().toJson(friend))
+                            .withContext(requireActivity())
+                            .navigate();
                 }
             }
         });

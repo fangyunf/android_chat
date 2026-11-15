@@ -1,6 +1,7 @@
 package com.netease.yunxin.kit.contactkit.ui.fun.addfriend;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -53,9 +54,9 @@ public class FunAddFriendVerifyActivity extends BaseActivity implements View.OnC
 
             GlideUtil.yh_loadImageRoundedCorner(this,binding.funAddFriendVerifyActivityHeadIv,userBean.avatar, DensityUtils.dp2px(30));
             binding.funAddFriendVerifyActivityNameTv.setText(userBean.name);
-            binding.funAddFriendVerifyActivityAccountTv.setText("ID:"+userBean.memberCode);
+            bindMemberCodeUi(userBean.memberCode);
             if (userBean.page_type == 100) {
-                binding.funAddFriendVerifyActivityAccountTv.setText("ID:"+userBean.memberCode);
+                bindMemberCodeUi(userBean.memberCode);
                 binding.funAddFriendVerifyActivityNav.getTitleView().setText("好友验证");
                 binding.funAddFriendVerifyActivitySendRl.setVisibility(View.GONE);
                 binding.funAddFriendVerifyActivityTwoOptLl.setVisibility(View.VISIBLE);
@@ -67,7 +68,7 @@ public class FunAddFriendVerifyActivity extends BaseActivity implements View.OnC
                 binding.funAddFriendVerifyActivityRefuseRl.setOnClickListener(this);
             } else if (userBean.page_type == 101) {
                 binding.funAddFriendVerifyActivityNameTv.setText(userBean.userName);
-                binding.funAddFriendVerifyActivityAccountTv.setText("ID:"+userBean.userMemberCode);
+                bindMemberCodeUi(userBean.userMemberCode);
                 GlideUtil.yh_loadImage(this,binding.funAddFriendVerifyActivityHeadIv,userBean.userAvatar);
                 binding.funAddFriendVerifyActivityNav.getTitleView().setText("入群申请");
                 binding.funAddFriendVerifyActivitySendRl.setVisibility(View.GONE);
@@ -83,11 +84,27 @@ public class FunAddFriendVerifyActivity extends BaseActivity implements View.OnC
 
     }
 
+    /** 关闭爆粉后列表常无码：空码显示 --，禁止用空码发申请 */
+    private void bindMemberCodeUi(String memberCode) {
+        binding.funAddFriendVerifyActivityAccountTv.setVisibility(View.VISIBLE);
+        if (!TextUtils.isEmpty(memberCode) && !"0".equals(memberCode)) {
+            binding.funAddFriendVerifyActivityAccountTv.setText("ID:" + memberCode);
+        } else {
+            binding.funAddFriendVerifyActivityAccountTv.setText("ID:--");
+        }
+    }
+
     @Override
     public void onClick(View v) {
         if (v == binding.funAddFriendVerifyActivityNav.addCloseImageButton()) {
             finish();
         } else if (v == binding.funAddFriendVerifyActivitySendRl) {
+            if (userBean == null
+                    || TextUtils.isEmpty(userBean.memberCode)
+                    || "0".equals(userBean.memberCode)) {
+                ToastUtils.toastMsg("暂无法添加该用户");
+                return;
+            }
             RegisterBean bean = new RegisterBean();
             bean.memberCode = userBean.memberCode;
             bean.msg = getTextStr(binding.funAddFriendVerifyActivityEt);

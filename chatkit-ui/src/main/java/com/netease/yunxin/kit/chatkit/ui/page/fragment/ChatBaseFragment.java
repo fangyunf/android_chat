@@ -1042,21 +1042,27 @@ public abstract class ChatBaseFragment extends BaseFragment {
                 }
 
                 void sendMsg(GroupInfoBean infoBean) {
+                    if (infoBean == null) {
+                        return;
+                    }
+                    // 关闭爆粉：friendListPage 常无 memberCode，禁止再 searchByUserId 反查补码
+                    if (TextUtils.isEmpty(infoBean.memberCode)
+                            || "0".equals(infoBean.memberCode)) {
+                        ToastUtils.toastMsg("暂无法发送该名片");
+                        return;
+                    }
                     MingPianAttachment attachment = new MingPianAttachment();
                     attachment.avatar = infoBean.avatar;
                     attachment.name = infoBean.name;
                     attachment.memberCode = infoBean.memberCode;
 
-                    // 创建自定义消息
-                    IMMessage message = MessageBuilder.createCustomMessage(
-                            messageProxy.getSessionId(),           // 接收者账号
-                            messageProxy.getSessionType(),  // 会话类型：点对点
-                            attachment        // 自定义消息附件
-                    );
-
-                    // 发送消息
+                    IMMessage message =
+                            MessageBuilder.createCustomMessage(
+                                    messageProxy.getSessionId(),
+                                    messageProxy.getSessionType(),
+                                    attachment);
+                    message.setPushContent(attachment.getContent());
                     ChatRepo.sendMessage(message, null);
-
                 }
 
                 @Override

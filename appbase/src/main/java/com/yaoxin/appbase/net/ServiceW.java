@@ -78,13 +78,18 @@ public interface ServiceW {
             @Body RegisterBean userBean
     );
 
-    @POST("/friends/searchByUserIdF")
-    Call<NetData> friends_searchByUserIdF(
+    /**
+     * 按 userId 查用户/好友资料（好友详情等），body 传 userId。
+     * 关闭爆粉后：无 groupId 时不要用此接口反查码再加好友。
+     */
+    @POST("/friends/searchByUserId")
+    Call<NetData> friends_searchByUserId(
             @Body RegisterBean userBean
     );
 
+    /** 群内加好友补码：必须带 groupId */
     @GET("/friends/searchByUserId")
-    Call<NetData> friends_searchByUserId(
+    Call<NetData> friends_searchByUserIdInGroup(
             @Query("userId") String userId,
             @Query("groupId") String groupId
     );
@@ -389,7 +394,7 @@ public interface ServiceW {
     );
 
     @POST("/friends/friendListPage")
-    Call<NetData> friends_friendLists(
+    Call<NetData> friends_friendListPage(
             @Body ParamsBean userBean
     );
 

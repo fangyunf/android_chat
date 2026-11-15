@@ -13,6 +13,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -310,36 +311,49 @@ public class FunConversationFragment extends ConversationBaseFragment {
                     .enqueue(new CommonCallback<NetData>() {
                         @Override
                         public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-
-                            String kefuId = body.data.toString().replace("\"", "");
-                            requestKefu(kefuId);
+                            String kefuId = "";
+                            String kefuMemberCode = "";
+                            try {
+                                String raw = body.data == null ? "" : body.data.toString();
+                                if (raw.startsWith("{")) {
+                                    UserBean kefuBean = new Gson().fromJson(raw, UserBean.class);
+                                    if (kefuBean != null) {
+                                        if (!TextUtils.isEmpty(kefuBean.userId)) {
+                                            kefuId = kefuBean.userId;
+                                        } else if (kefuBean.id > 0) {
+                                            kefuId = String.valueOf(kefuBean.id);
+                                        }
+                                        // 关闭爆粉：直接用接口下发的码，禁止再 searchByUserId 反查
+                                        if (!TextUtils.isEmpty(kefuBean.serviceMemberCode)) {
+                                            kefuMemberCode = kefuBean.serviceMemberCode;
+                                        } else {
+                                            kefuMemberCode = kefuBean.memberCode;
+                                        }
+                                    }
+                                } else {
+                                    kefuId = raw.replace("\"", "");
+                                }
+                            } catch (Exception e) {
+                                kefuId = body.data.toString().replace("\"", "");
+                            }
+                            if (TextUtils.isEmpty(kefuId)) {
+                                return;
+                            }
+                            DataUtil.putKeFuId(kefuId);
+                            if (!TextUtils.isEmpty(kefuMemberCode)) {
+                                DataUtil.putKeFuMemberCode(kefuMemberCode);
+                            }
+                            requestKefu(kefuId, kefuMemberCode);
 
                             String xiaozhushouId = "10086";
-                            DataUtil.putKeFuId(kefuId);
                             DataUtil.putXiaoZhuShouId(xiaozhushouId);
 
-                            boolean hasKefu = false;
                             boolean hasXiaoZhushou = false;
-
-                            for (ConversationBean tempBean :
-                                    conversationList) {
-                                if (tempBean.infoData.getContactId().equals(kefuId)) {
-                                    hasKefu = true;
-
-                                }
-                            }
-                            for (ConversationBean tempBean :
-                                    conversationList) {
+                            for (ConversationBean tempBean : conversationList) {
                                 if (tempBean.infoData.getContactId().equals(xiaozhushouId)) {
                                     hasXiaoZhushou = true;
-
                                 }
                             }
-
-//                            if (!hasKefu) {
-//                                sendMessage(kefuId);
-//                            }
-
                             if (!hasXiaoZhushou) {
                                 sendMessage(xiaozhushouId);
                             }
@@ -359,7 +373,7 @@ public class FunConversationFragment extends ConversationBaseFragment {
     protected void _requestMemeber(int page) {
         ParamsBean registerBean = new ParamsBean();
         registerBean.page = page;
-        HttpUtil.apiW().friends_friendLists(registerBean).enqueue(new CommonCallback<NetData>() {
+        HttpUtil.apiW().friends_friendListPage(registerBean).enqueue(new CommonCallback<NetData>() {
             @Override
             public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
                 if (page == 1) {
@@ -387,39 +401,38 @@ public class FunConversationFragment extends ConversationBaseFragment {
         });
     }
 
-    void requestKefu(String kefuId) {
+    /** 客服加好友：只用接口直接给的 serviceMemberCode/memberCode，禁止 searchByUserIdF 反查 */
+    void requestKefu(String kefuId, String kefuMemberCode) {
+        if (TextUtils.isEmpty(kefuMemberCode) || "0".equals(kefuMemberCode)) {
+            return;
+        }
+        List<GroupInfoBean> friends = DataUtil.getFriendInfoList();
+        if (friends != null) {
+            for (GroupInfoBean friend : friends) {
+                if (friend != null
+                        && !TextUtils.isEmpty(friend.userId)
+                        && friend.userId.equals(kefuId)) {
+                    return;
+                }
+            }
+        }
         RegisterBean bean = new RegisterBean();
-        bean.userId = kefuId;
-        HttpUtil.apiW().friends_searchByUserIdF(bean)
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        UserBean userBean = new Gson().fromJson(body.data.toString(), UserBean.class);
-                        if ("0".equals(userBean.friend)) {
-                            RegisterBean bean = new RegisterBean();
-                            bean.memberCode = userBean.memberCode;
-                            bean.msg = "客服";
-                            HttpUtil.apiW().friends_addFriends(bean)
-                                    .enqueue(new CommonCallback<NetData>() {
-                                        @Override
-                                        public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                                            NIMClient.getService(MsgService.class).clearChattingHistory(kefuId, SessionTypeEnum.P2P);
-//                              NIMClient.getService(MsgService.class).clearServerHistory(kefuId,SessionTypeEnum.P2P);
-                                        }
+        bean.memberCode = kefuMemberCode;
+        bean.msg = "客服";
+        HttpUtil.apiW()
+                .friends_addFriends(bean)
+                .enqueue(
+                        new CommonCallback<NetData>() {
+                            @Override
+                            public void Successful(
+                                    Call<NetData> call, Response<NetData> response, NetData body) {
+                                NIMClient.getService(MsgService.class)
+                                        .clearChattingHistory(kefuId, SessionTypeEnum.P2P);
+                            }
 
-                                        @Override
-                                        public void Failure(Call<NetData> call, Throwable t) {
-
-                                        }
-                                    });
-                        }
-                    }
-
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
-
-                    }
-                });
+                            @Override
+                            public void Failure(Call<NetData> call, Throwable t) {}
+                        });
     }
 
     private void sendMessage(String account) {

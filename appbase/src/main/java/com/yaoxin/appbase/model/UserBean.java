@@ -39,6 +39,8 @@ public class UserBean implements Serializable {
     public String verified;
     public String introduce;
     public String memberCode;
+    /** 客服等接口直接下发的业务码（关闭爆粉后优先用，勿再 searchByUserId 反查） */
+    public String serviceMemberCode;
     public String allDisturb;
     public String sound;
     public String shake;

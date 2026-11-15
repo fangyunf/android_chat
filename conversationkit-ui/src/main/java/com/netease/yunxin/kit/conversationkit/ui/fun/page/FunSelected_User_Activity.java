@@ -199,7 +199,7 @@ public class FunSelected_User_Activity extends BaseActivity implements View.OnCl
     private void _requestFriendListPage(int page) {
         ParamsBean paramsBean = new ParamsBean();
         paramsBean.page = page;
-        HttpUtil.apiW().friends_friendLists(paramsBean)
+        HttpUtil.apiW().friends_friendListPage(paramsBean)
                 .enqueue(new CommonCallback<NetData>() {
                     @Override
                     public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {

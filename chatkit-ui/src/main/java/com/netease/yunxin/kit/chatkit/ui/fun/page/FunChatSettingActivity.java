@@ -52,21 +52,23 @@ import com.netease.yunxin.kit.corekit.im.model.FriendInfo;
 import com.netease.yunxin.kit.corekit.im.model.UserInfo;
 import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
 import com.netease.yunxin.kit.corekit.route.XKitRouter;
+import com.yaoxin.appbase.model.GroupInfoBean;
 import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.RegisterBean;
 import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.BaseEvent;
+import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.DialogAlertUtil;
 import com.yaoxin.appbase.utils.StatusBarUtils;
 import com.yaoxin.appbase.utils.ToastUtils;
-import com.yaoxin.appbase.view.LoadingDialog;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -130,38 +132,73 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
         binding.funChatSettingActivityAddFriendTv.setOnClickListener(this);
     }
 
-    void _reuestInfo() {
-        RegisterBean bean = new RegisterBean();
-        bean.userId = accId;
-        LoadingDialog.showDialog(getSupportFragmentManager(), "加载中...");
-        HttpUtil.apiW().friends_searchByUserIdF(bean)
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        userBean = new Gson().fromJson(body.data.toString(), UserBean.class);
-                        binding.funChatSettingActivityId.setText("ID: " + userBean.memberCode);
-                        binding.nameTv.setText(userBean.name);
-                        if (!TextUtils.isEmpty(userBean.remark)) {
-                            binding.funChatSettingActivityMemo.rightTv.setText(userBean.remark);
-                            binding.funChatSettingActivityMemo.rightTv.setVisibility(View.VISIBLE);
-                        }
-                        if ("0".equals(userBean.friend)) {
-                            binding.funChatSettingActivityContentLl.setVisibility(View.GONE);
-                            binding.funChatSettingActivityAddFriendTv.setVisibility(View.VISIBLE);
-                        }
-                    }
+    /**
+     * 关闭爆粉（对齐 changsheng）：好友详情不走 searchByUserIdF 反查码。
+     * 用本地 friendListPage 缓存填充；无码 UI 显示 --；备注/删友传 userId。
+     */
+    private void bindFromFriendList() {
+        GroupInfoBean friend = resolveFriendFromList();
+        if (friend == null) {
+            if (userBean == null) {
+                userBean = new UserBean();
+                userBean.userId = accId;
+            }
+            binding.funChatSettingActivityId.setVisibility(View.VISIBLE);
+            binding.funChatSettingActivityId.setText("ID: --");
+            return;
+        }
+        if (userBean == null) {
+            userBean = new UserBean();
+        }
+        userBean.userId = !TextUtils.isEmpty(friend.userId) ? friend.userId : accId;
+        userBean.memberCode = friend.memberCode;
+        userBean.name = friend.name;
+        userBean.avatar = friend.avatar;
+        userBean.remark = friend.remark;
+        userBean.grade = friend.grade;
+        userBean.friend = "1";
 
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
+        String code = userBean.memberCode;
+        binding.funChatSettingActivityId.setVisibility(View.VISIBLE);
+        if (!TextUtils.isEmpty(code) && !"0".equals(code)) {
+            binding.funChatSettingActivityId.setText("ID: " + code);
+        } else {
+            binding.funChatSettingActivityId.setText("ID: --");
+        }
+        if (!TextUtils.isEmpty(userBean.name)) {
+            binding.nameTv.setText(userBean.name);
+        }
+        if (!TextUtils.isEmpty(userBean.remark)) {
+            binding.funChatSettingActivityMemo.rightTv.setText(userBean.remark);
+            binding.funChatSettingActivityMemo.rightTv.setVisibility(View.VISIBLE);
+        }
+        binding.funChatSettingActivityContentLl.setVisibility(View.VISIBLE);
+        binding.funChatSettingActivitySendMsgRl.setVisibility(View.VISIBLE);
+        binding.funChatSettingActivityAddFriendTv.setVisibility(View.GONE);
+    }
 
-                    }
-
-                    @Override
-                    public void end() {
-                        super.end();
-                        LoadingDialog.dismissDialog();
-                    }
-                });
+    @Nullable
+    private GroupInfoBean resolveFriendFromList() {
+        String friendJson = getIntent().getStringExtra("friend");
+        if (!TextUtils.isEmpty(friendJson)) {
+            try {
+                GroupInfoBean friend = new Gson().fromJson(friendJson, GroupInfoBean.class);
+                if (friend != null) {
+                    return friend;
+                }
+            } catch (Exception ignored) {
+            }
+        }
+        List<GroupInfoBean> friendList = DataUtil.getFriendInfoList();
+        if (friendList == null) {
+            return null;
+        }
+        for (GroupInfoBean friend : friendList) {
+            if (friend != null && TextUtils.equals(friend.userId, accId)) {
+                return friend;
+            }
+        }
+        return null;
     }
 
     private void initRequest() {
@@ -198,6 +235,7 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
             accId = userInfo.getAccount();
         }
         refreshView();
+        bindFromFriendList();
         binding.funChatSettingActivityMemo.titTv.setText("备注名");
         Activity activity = this;
         Context that = this;
@@ -271,8 +309,14 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
                         if (type == 1) {
 
 
-                            NIMClient.getService(MsgService.class).clearChattingHistory(userBean.userId, SessionTypeEnum.P2P);
-                            NIMClient.getService(MsgService.class).clearServerHistory(userBean.userId, SessionTypeEnum.P2P);
+                            String clearId =
+                                    userBean != null && !TextUtils.isEmpty(userBean.userId)
+                                            ? userBean.userId
+                                            : accId;
+                            NIMClient.getService(MsgService.class)
+                                    .clearChattingHistory(clearId, SessionTypeEnum.P2P);
+                            NIMClient.getService(MsgService.class)
+                                    .clearServerHistory(clearId, SessionTypeEnum.P2P);
 
                             EventBus.getDefault().post(new BaseEvent("clearP2PMessageList"));
                         }
@@ -308,18 +352,21 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
         binding.funChatSettingActivityClearAddBlackList.funTitleTfArrowViewSwitch.setOnClickListener(
                 (View v) -> {
                     if (userBean == null) {
-                        finish();
+                        ToastUtils.toastMsg("暂无法操作");
                         return;
                     }
                     RegisterBean registerBean = new RegisterBean();
                     if (binding.funChatSettingActivityClearAddBlackList.funTitleTfArrowViewSwitch.isSelected()) {
                         registerBean.state = 0;
-//                        viewModel1.removeBlack(accId);
                     } else {
                         registerBean.state = 1;
-//                        viewModel1.addBlack(accId);
                     }
-                    registerBean.memberCode = userBean.memberCode;
+                    // 列表常无 memberCode：优先 userId
+                    registerBean.userId =
+                            !TextUtils.isEmpty(userBean.userId) ? userBean.userId : accId;
+                    if (!TextUtils.isEmpty(userBean.memberCode) && !"0".equals(userBean.memberCode)) {
+                        registerBean.memberCode = userBean.memberCode;
+                    }
                     HttpUtil.apiW().friends_changeBlackState(registerBean)
                             .enqueue(new CommonCallback<NetData>() {
                                 @Override
@@ -348,11 +395,15 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
                     @Override
                     public void clickType(int type) {
                         if (type == 1) {
-                            if (userBean == null) {
-                                ToastUtils.toastMsg("网络错误");
+                            if (userBean == null && TextUtils.isEmpty(accId)) {
+                                ToastUtils.toastMsg("暂无法删除");
+                                return;
                             }
                             RegisterBean bean = new RegisterBean();
-                            bean.memberCode = userBean.memberCode;
+                            bean.userId =
+                                    userBean != null && !TextUtils.isEmpty(userBean.userId)
+                                            ? userBean.userId
+                                            : accId;
                             HttpUtil.apiW().friends_delFriend(bean)
                                     .enqueue(new CommonCallback<NetData>() {
                                         @Override
@@ -370,8 +421,6 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
                         }
                     }
                 }, getSupportFragmentManager());
-
-//                viewModel1.deleteFriend(userInfoData.data.getAccount());
             }
         });
 
@@ -406,24 +455,32 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
                                 String comment =
                                         result.getData().getStringExtra(BaseCommentActivity.REQUEST_COMMENT_NAME_KEY);
                                 userInfoData.friendInfo.setAlias(comment);
-                                viewModel1.updateAlias(userInfoData.data.getAccount(), comment);
-                                if (userBean != null) {
-                                    RegisterBean bean = new RegisterBean();
+                                // 备注：以 userId 为主（friendListPage 常无 memberCode）
+                                RegisterBean bean = new RegisterBean();
+                                bean.userId =
+                                        userBean != null && !TextUtils.isEmpty(userBean.userId)
+                                                ? userBean.userId
+                                                : accId;
+                                if (userBean != null
+                                        && !TextUtils.isEmpty(userBean.memberCode)
+                                        && !"0".equals(userBean.memberCode)) {
                                     bean.memberCode = userBean.memberCode;
-                                    bean.alias = comment;
-                                    HttpUtil.apiW().friends_updateRemark(bean)
-                                            .enqueue(new CommonCallback<NetData>() {
-                                                @Override
-                                                public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                                                    ToastUtils.toastMsg(body.msg);
-                                                }
-
-                                                @Override
-                                                public void Failure(Call<NetData> call, Throwable t) {
-
-                                                }
-                                            });
                                 }
+                                bean.alias = comment;
+                                HttpUtil.apiW().friends_updateRemark(bean)
+                                        .enqueue(new CommonCallback<NetData>() {
+                                            @Override
+                                            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                                                ToastUtils.toastMsg(body.msg);
+                                                binding.funChatSettingActivityMemo.rightTv.setText(comment);
+                                                binding.funChatSettingActivityMemo.rightTv.setVisibility(View.VISIBLE);
+                                            }
+
+                                            @Override
+                                            public void Failure(Call<NetData> call, Throwable t) {
+
+                                            }
+                                        });
 
                             }
                         });
@@ -468,7 +525,7 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
                             if (result.getLoadStatus() == LoadStatus.Success) {
                                 friendInfo = result.getData();
                                 refreshView();
-                                _reuestInfo();
+                                bindFromFriendList();
                             }
                         });
         viewModel.getUserInfo(accId);
@@ -541,7 +598,12 @@ public class FunChatSettingActivity extends BaseActivity implements View.OnClick
         if (view == binding.funChatSettingActivityNav.addCloseImageButton()) {
             finish();
         } else if (view == binding.funChatSettingActivityAddFriendTv) {
-
+            if (userBean == null
+                    || TextUtils.isEmpty(userBean.memberCode)
+                    || "0".equals(userBean.memberCode)) {
+                ToastUtils.toastMsg("暂无法添加该用户");
+                return;
+            }
             HashMap map = new HashMap();
             map.put("user", new Gson().toJson(userBean));
             FunAddFriendVerifyActivity.start(FunAddFriendVerifyActivity.class, this, map);

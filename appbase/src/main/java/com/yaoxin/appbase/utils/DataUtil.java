@@ -20,6 +20,7 @@ public class DataUtil {
     private static final String USERInfoList = "USERInfoList2";
     private static final String FriendList = "FriendList";
     private static final String KEFU_ID = "kefu_id";
+    private static final String KEFU_MEMBER_CODE = "kefu_member_code";
     private static final String XIAOZHUSHOU_ID = "xiaozhushou_id";
 
     public static void putToken(String token) {
@@ -38,12 +39,20 @@ public class DataUtil {
         Hawk.put(KEFU_ID, kefuId);
     }
 
+    public static void putKeFuMemberCode(String memberCode) {
+        Hawk.put(KEFU_MEMBER_CODE, memberCode);
+    }
+
     public static void putXiaoZhuShouId(String kefuId) {
         Hawk.put(XIAOZHUSHOU_ID, kefuId);
     }
 
     public static String getKeFuId() {
         return Hawk.get(KEFU_ID);
+    }
+
+    public static String getKeFuMemberCode() {
+        return Hawk.get(KEFU_MEMBER_CODE);
     }
 
     public static String getXiaoZhuShouId() {
