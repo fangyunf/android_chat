@@ -442,37 +442,40 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         if (conversationFragment != null) {
             conversationFragment.setConversationCallback(count -> {
                 if (count == null) {
-                    activityMainBinding.conversationDot.setVisibility(View.GONE);
-                } else {
-                    int singleChatUnreadCount = 0;
-                    int groupChatUnreadCount = 0;
-
-                    if (count.size() == 2) {
-                        singleChatUnreadCount = count.get(0);
-                        groupChatUnreadCount = count.get(1);
-                    }
-
-                    // 合并消息：单聊+群聊任一有未读即显示红点
-                    if ((singleChatUnreadCount + groupChatUnreadCount) > 0) {
-                        activityMainBinding.conversationDot.setVisibility(View.VISIBLE);
-                    } else {
-                        activityMainBinding.conversationDot.setVisibility(View.GONE);
-                    }
+                    setTabBadge(activityMainBinding.conversationDot, 0);
+                    return;
                 }
+                int singleChatUnreadCount = 0;
+                int groupChatUnreadCount = 0;
+                if (count.size() == 2) {
+                    singleChatUnreadCount = count.get(0);
+                    groupChatUnreadCount = count.get(1);
+                }
+                setTabBadge(
+                        activityMainBinding.conversationDot,
+                        singleChatUnreadCount + groupChatUnreadCount);
             });
         }
     }
 
     private void initContactFragment(ContactNewFragment contactFragment) {
         if (contactFragment != null) {
-            contactFragment.setContactCallback(count -> {
-                if (count > 0) {
-                    activityMainBinding.contactDot.setVisibility(View.VISIBLE);
-                } else {
-                    activityMainBinding.contactDot.setVisibility(View.GONE);
-                }
-            });
+            contactFragment.setContactCallback(
+                    count -> setTabBadge(activityMainBinding.contactDot, count));
         }
+    }
+
+    /** Tab 角标显示数字，超过 99 显示 99+ */
+    private void setTabBadge(android.widget.TextView badgeView, int count) {
+        if (badgeView == null) {
+            return;
+        }
+        if (count <= 0) {
+            badgeView.setVisibility(View.GONE);
+            return;
+        }
+        badgeView.setText(count > 99 ? "99+" : String.valueOf(count));
+        badgeView.setVisibility(View.VISIBLE);
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
