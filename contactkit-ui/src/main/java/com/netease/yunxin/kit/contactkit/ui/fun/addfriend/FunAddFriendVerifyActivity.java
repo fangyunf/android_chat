@@ -8,7 +8,6 @@ import androidx.annotation.Nullable;
 
 import com.google.gson.Gson;
 import com.netease.yunxin.kit.contactkit.ui.databinding.FunAddFriendVerifyActivityBinding;
-import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
 import com.yaoxin.appbase.activity.BaseActivity;
 import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.RegisterBean;
@@ -17,7 +16,6 @@ import com.yaoxin.appbase.net.CommonCallback;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.DensityUtils;
-import com.yaoxin.appbase.utils.DeviceUtils;
 import com.yaoxin.appbase.utils.GlideUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
 
@@ -42,16 +40,11 @@ public class FunAddFriendVerifyActivity extends BaseActivity implements View.OnC
         if (extras != null && extras.get("user") != null) {
             result = (String) extras.get("user");
         }
-        // 从聊天「非好友」tip 跳转时只传了账号，需先拉取用户信息
+        // 关闭爆粉：禁止仅凭 userId 反查 searchByUserId
         if (TextUtils.isEmpty(result)) {
-            String accountId = getIntent().getStringExtra(RouterConstant.KEY_ACCOUNT_ID_KEY);
-            if (extras != null && extras.getString(RouterConstant.KEY_ACCOUNT_ID_KEY) != null) {
-                accountId = extras.getString(RouterConstant.KEY_ACCOUNT_ID_KEY);
-            }
-            if (!TextUtils.isEmpty(accountId)) {
-                fetchUserByAccountAndBind(accountId);
-                return;
-            }
+            ToastUtils.toastMsg("该用户目前不是您的好友");
+            finish();
+            return;
         }
 
         if (result != null) {
@@ -68,33 +61,6 @@ public class FunAddFriendVerifyActivity extends BaseActivity implements View.OnC
             userBean = new Gson().fromJson(userBeanString, UserBean.class);
             bindUserBean();
         }
-    }
-
-    /**
-     * 仅传入账号时（如从聊天非好友 tip 进入），先搜索用户再绑定 UI
-     */
-    private void fetchUserByAccountAndBind(String accountId) {
-        RegisterBean bean = new RegisterBean();
-        bean.userId = accountId;
-        HttpUtil.apiW().friends_searchByUserId(bean)
-                .enqueue(new CommonCallback<NetData>() {
-                    @Override
-                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                        if (body != null && body.data != null) {
-                            userBean = new Gson().fromJson(body.data.toString(), UserBean.class);
-                            bindUserBean();
-                        } else {
-                            ToastUtils.toastMsg("未找到该用户");
-                            finish();
-                        }
-                    }
-
-                    @Override
-                    public void Failure(Call<NetData> call, Throwable t) {
-                        ToastUtils.toastMsg("获取用户信息失败");
-                        finish();
-                    }
-                });
     }
 
     private void bindUserBean() {

@@ -8,6 +8,7 @@ import static com.netease.yunxin.kit.corekit.im.utils.RouterConstant.KEY_TEAM_CR
 
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.view.Gravity;
@@ -25,7 +26,11 @@ import com.netease.yunxin.kit.chatkit.ui.common.MessageHelper;
 import com.netease.yunxin.kit.corekit.im.IMKitClient;
 import com.netease.yunxin.kit.corekit.im.model.UserInfo;
 import com.netease.yunxin.kit.corekit.route.XKitRouter;
+import com.yaoxin.appbase.model.GroupInfoBean;
 import com.yaoxin.appbase.model.UserBean;
+import com.yaoxin.appbase.utils.DataUtil;
+import com.yaoxin.appbase.utils.ToastUtils;
+import java.util.List;
 import java.util.Map;
 
 /** view holder for Text message */
@@ -105,17 +110,30 @@ public class ChatTipsMessageViewHolder extends NormalChatBaseMessageViewHolder {
         if (start >= 0) {
           SpannableString spannable = new SpannableString(content);
           final String sessionId = message.getMessageData().getMessage().getSessionId();
-          ClickableSpan clickableSpan =
+              ClickableSpan clickableSpan =
               new ClickableSpan() {
                 @Override
                 public void onClick(@NonNull View widget) {
-                  // 云信账户不再带 memberCode，按账号拉取业务用户信息后再加好友
-                  XKitRouter.withKey(com.yaoxin.appbase.net.Constant.FunAddFriendVerifyActivityKey)
-                      .withContext(widget.getContext())
-                      .withParam(
-                          com.netease.yunxin.kit.corekit.im.utils.RouterConstant.KEY_ACCOUNT_ID_KEY,
-                          sessionId)
-                      .navigate();
+                  // 关闭爆粉：只用本地好友缓存里的 memberCode 发加好友，不调 searchByUserId
+                  GroupInfoBean friend = null;
+                  List<GroupInfoBean> friendList = DataUtil.getFriendInfoList();
+                  if (friendList != null && !TextUtils.isEmpty(sessionId)) {
+                    for (GroupInfoBean item : friendList) {
+                      if (item != null && TextUtils.equals(sessionId, item.userId)) {
+                        friend = item;
+                        break;
+                      }
+                    }
+                  }
+                  if (friend != null && !TextUtils.isEmpty(friend.memberCode)) {
+                    XKitRouter.withKey(
+                            com.yaoxin.appbase.net.Constant.FunAddFriendVerifyActivityKey)
+                        .withContext(widget.getContext())
+                        .withParam("user", new Gson().toJson(friend))
+                        .navigate();
+                  } else {
+                    ToastUtils.toastMsg("该用户目前不是您的好友");
+                  }
                 }
               };
           spannable.setSpan(
