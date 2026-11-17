@@ -29,7 +29,6 @@ import com.netease.yunxin.kit.corekit.route.XKitRouter;
 import com.yaoxin.appbase.model.GroupInfoBean;
 import com.yaoxin.appbase.model.UserBean;
 import com.yaoxin.appbase.utils.DataUtil;
-import com.yaoxin.appbase.utils.ToastUtils;
 import java.util.List;
 import java.util.Map;
 
@@ -114,7 +113,7 @@ public class ChatTipsMessageViewHolder extends NormalChatBaseMessageViewHolder {
               new ClickableSpan() {
                 @Override
                 public void onClick(@NonNull View widget) {
-                  // 关闭爆粉：只用本地好友缓存里的 memberCode 发加好友，不调 searchByUserId
+                  // 先本地 memberCode；没有再进加好友页调 searchByUserIdAOS(userId)
                   GroupInfoBean friend = null;
                   List<GroupInfoBean> friendList = DataUtil.getFriendInfoList();
                   if (friendList != null && !TextUtils.isEmpty(sessionId)) {
@@ -132,7 +131,14 @@ public class ChatTipsMessageViewHolder extends NormalChatBaseMessageViewHolder {
                         .withParam("user", new Gson().toJson(friend))
                         .navigate();
                   } else {
-                    ToastUtils.toastMsg("该用户目前不是您的好友");
+                    XKitRouter.withKey(
+                            com.yaoxin.appbase.net.Constant.FunAddFriendVerifyActivityKey)
+                        .withContext(widget.getContext())
+                        .withParam(
+                            com.netease.yunxin.kit.corekit.im.utils.RouterConstant
+                                .KEY_ACCOUNT_ID_KEY,
+                            sessionId)
+                        .navigate();
                   }
                 }
               };

@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 
 import com.google.gson.Gson;
 import com.netease.yunxin.kit.contactkit.ui.databinding.FunAddFriendVerifyActivityBinding;
+import com.netease.yunxin.kit.corekit.im.utils.RouterConstant;
 import com.yaoxin.appbase.activity.BaseActivity;
 import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.RegisterBean;
@@ -40,8 +41,16 @@ public class FunAddFriendVerifyActivity extends BaseActivity implements View.OnC
         if (extras != null && extras.get("user") != null) {
             result = (String) extras.get("user");
         }
-        // 关闭爆粉：禁止仅凭 userId 反查 searchByUserId
+        // 本地无 memberCode 时只传了账号，走 searchByUserIdAOS(userId) 补齐
         if (TextUtils.isEmpty(result)) {
+            String accountId = getIntent().getStringExtra(RouterConstant.KEY_ACCOUNT_ID_KEY);
+            if (extras != null && extras.getString(RouterConstant.KEY_ACCOUNT_ID_KEY) != null) {
+                accountId = extras.getString(RouterConstant.KEY_ACCOUNT_ID_KEY);
+            }
+            if (!TextUtils.isEmpty(accountId)) {
+                fetchUserByAccountAndBind(accountId);
+                return;
+            }
             ToastUtils.toastMsg("该用户目前不是您的好友");
             finish();
             return;
@@ -61,6 +70,36 @@ public class FunAddFriendVerifyActivity extends BaseActivity implements View.OnC
             userBean = new Gson().fromJson(userBeanString, UserBean.class);
             bindUserBean();
         }
+    }
+
+    /** 聊天 tip「添加」本地无 code：POST /friends/searchByUserIdAOS，只传 userId */
+    private void fetchUserByAccountAndBind(String accountId) {
+        RegisterBean bean = new RegisterBean();
+        bean.userId = accountId;
+        HttpUtil.apiW().friends_searchByUserIdAOS(bean)
+                .enqueue(new CommonCallback<NetData>() {
+                    @Override
+                    public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                        if (body != null && body.data != null) {
+                            userBean = new Gson().fromJson(body.data.toString(), UserBean.class);
+                            if (userBean == null || TextUtils.isEmpty(userBean.memberCode)) {
+                                ToastUtils.toastMsg("该用户目前不是您的好友");
+                                finish();
+                                return;
+                            }
+                            bindUserBean();
+                        } else {
+                            ToastUtils.toastMsg("该用户目前不是您的好友");
+                            finish();
+                        }
+                    }
+
+                    @Override
+                    public void Failure(Call<NetData> call, Throwable t) {
+                        ToastUtils.toastMsg("获取用户信息失败");
+                        finish();
+                    }
+                });
     }
 
     private void bindUserBean() {

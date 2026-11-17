@@ -106,6 +106,12 @@ public interface ServiceW {
             @Body RegisterBean userBean
     );
 
+    /** 聊天 tip「添加」等：本地无 memberCode 时按 userId 补齐（只传 userId） */
+    @POST("/friends/searchByUserIdAOS")
+    Call<NetData> friends_searchByUserIdAOS(
+            @Body RegisterBean userBean
+    );
+
     @POST("/groupMember/queryGroupMemberBanneds")
     Call<NetData> groupMember_queryGroupMemberBanneds(
             @Body RegisterBean userBean
