@@ -70,14 +70,9 @@ import com.yaoxin.appbase.net.Constant;
 import com.yaoxin.appbase.net.HttpUtil;
 import com.yaoxin.appbase.utils.AppProxy;
 import com.yaoxin.appbase.utils.BarUtils;
-import com.yaoxin.appbase.utils.BaseEvent;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.PinnedHeaderDecoration;
 import com.yaoxin.appbase.utils.StatusBarUtils;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -131,23 +126,43 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
 
         _initViews();
         _requestData();
-        EventBus.getDefault().register(this);
 
         return binding.getRoot();
     }
 
-    @Override
-    public void onDestroyView() {
-        EventBus.getDefault().unregister(this);
-        super.onDestroyView();
-    }
+    /**
+     * 刷新申请数量与「新的好友」角标；由 MainActivity 收到 refreshFriendList 后调用。
+     *
+     * @param reloadFriendList 是否在角标更新后再拉好友列表
+     */
+    public void refreshApplyCount(boolean reloadFriendList) {
+        HttpUtil.apiW().friends_applyListNum(new RegisterBean()).enqueue(new CommonCallback<NetData>() {
+            @Override
+            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                if (body == null || body.data == null) {
+                    return;
+                }
+                applyNumBean = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
+                if (contactCallback != null && applyNumBean != null) {
+                    contactCallback.updateUnreadCount(
+                            applyNumBean.friendApplyNum + applyNumBean.groupApplyNum);
+                }
+                updateHeaderBadge();
+                if (headerAdapter != null && isAdded() && getView() != null) {
+                    try {
+                        headerAdapter.notifyItemChanged(0);
+                    } catch (Exception ignored) {
+                    }
+                }
+                if (reloadFriendList) {
+                    loadFriendList();
+                }
+            }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(BaseEvent event) {
-        if (event != null && "refreshFriendList".equals(event.getTag())) {
-            getMessageCount();
-            loadFriendList();
-        }
+            @Override
+            public void Failure(Call<NetData> call, Throwable t) {
+            }
+        });
     }
 
     @Override
@@ -172,33 +187,7 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
 
 
     private void getMessageCount() {
-        HttpUtil.apiW().friends_applyListNum(new RegisterBean()).enqueue(new CommonCallback<NetData>() {
-            @Override
-            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
-                applyNumBean = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
-//                        friendAdapter.friendApplyNum = applyNumBean.friendApplyNum;
-//                        friendAdapter.groupApplyNum = applyNumBean.groupApplyNum;
-                // friendAdapter.notifyDataSetChanged();
-                if (headerAdapter != null) {
-                    headerAdapter.notifyItemChanged(0);
-                }
-//                        if (applyNumBean.groupApplyNum > 0) {
-//                            binding.contactNewFragmentGroupNoticeTv.setText(applyNumBean.groupApplyNum + "");
-//                            binding.contactNewFragmentGroupNoticeTv.setVisibility(View.VISIBLE);
-//                        } else {
-//                            binding.contactNewFragmentGroupNoticeTv.setVisibility(View.GONE);
-//                        }
-                if (contactCallback != null) {
-                    contactCallback.updateUnreadCount(applyNumBean.friendApplyNum);
-                }
-
-            }
-
-            @Override
-            public void Failure(Call<NetData> call, Throwable t) {
-
-            }
-        });
+        refreshApplyCount(false);
     }
 
     @Override
@@ -328,6 +317,8 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
             ConcatAdapter concatAdapter = new ConcatAdapter(headerAdapter, friendAdapter);
             binding.contactNewFragmentRv.setAdapter(concatAdapter);
             updateEmptyView(mContactModels == null || mContactModels.isEmpty());
+            // setAdapter 后 header 重建，补刷一次「新的好友」角标
+            binding.contactNewFragmentRv.post(this::updateHeaderBadge);
         }
     }
 
@@ -493,11 +484,26 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
      * 更新 header 中的角标
      */
     private void updateHeaderBadge() {
-        if (headerView == null) return;
-        TextView badgeTv = headerView.findViewById(R.id.contact_header_new_friend_num_tv);
+        if (applyNumBean == null) return;
+        // 优先刷列表里正在展示的 header，避免 setAdapter 后 headerView 字段指向旧实例
+        TextView badgeTv = null;
+        if (binding != null && binding.contactNewFragmentRv != null) {
+            RecyclerView.ViewHolder vh =
+                    binding.contactNewFragmentRv.findViewHolderForAdapterPosition(0);
+            if (vh != null) {
+                badgeTv = vh.itemView.findViewById(R.id.contact_header_new_friend_num_tv);
+            }
+        }
+        if (badgeTv == null && headerView != null) {
+            badgeTv = headerView.findViewById(R.id.contact_header_new_friend_num_tv);
+        }
+        if (badgeTv == null) return;
         if (applyNumBean.friendApplyNum > 0) {
             badgeTv.setVisibility(View.VISIBLE);
-            badgeTv.setText(String.valueOf(applyNumBean.friendApplyNum));
+            badgeTv.setText(
+                    applyNumBean.friendApplyNum > 99
+                            ? "99+"
+                            : String.valueOf(applyNumBean.friendApplyNum));
         } else {
             badgeTv.setVisibility(View.GONE);
         }

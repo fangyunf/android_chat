@@ -367,6 +367,31 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         super.onResume();
         initContactFragment(mContactFragment);
         initConversationFragment(mConversationFragment);
+        // 不依赖是否停在通讯录页，回前台直接刷底部角标
+        getMessageCount();
+    }
+
+    /** 底部通讯录角标：直接拉 applyListNum，不依赖进入联系人页 */
+    private void getMessageCount() {
+        HttpUtil.apiW().friends_applyListNum(new RegisterBean()).enqueue(new CommonCallback<NetData>() {
+            @Override
+            public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                if (body == null || body.data == null || activityMainBinding == null) {
+                    return;
+                }
+                GroupInfoBean applyNumBean = new Gson().fromJson(body.data.toString(), GroupInfoBean.class);
+                if (applyNumBean == null) {
+                    return;
+                }
+                setTabBadge(
+                        activityMainBinding.contactDot,
+                        applyNumBean.friendApplyNum + applyNumBean.groupApplyNum);
+            }
+
+            @Override
+            public void Failure(Call<NetData> call, Throwable t) {
+            }
+        });
     }
 
     @Override
@@ -578,6 +603,13 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
             IMUtil.loginOut(this);
         } else if ("add_friend".equals(event.getTag())) {
             XKitRouter.withKey(RouterConstant.PATH_FUN_ADD_FRIEND_PAGE).withContext(this).navigate();
+        } else if ("refreshFriendList".equals(event.getTag())
+                || "refresh_notice".equals(event.getTag())) {
+            // Tab 角标 + 联系人页内「新的好友」角标一起刷
+            getMessageCount();
+            if (mContactFragment != null) {
+                mContactFragment.refreshApplyCount(true);
+            }
         }
     }
 
