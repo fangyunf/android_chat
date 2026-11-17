@@ -13,6 +13,7 @@ import android.text.TextWatcher;
 import android.text.style.ImageSpan;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.FrameLayout;
@@ -67,6 +68,7 @@ public class FunChatView extends LinearLayout implements IChatView, AitTextChang
     private boolean canRender = true;
 
     protected boolean isMultiSelect;
+    private Runnable userInteractionCallback;
 
     protected IMessageProxy messageProxy;
 
@@ -498,6 +500,21 @@ public class FunChatView extends LinearLayout implements IChatView, AitTextChang
 
     public View getRootView() {
         return binding.getRoot();
+    }
+
+    @Override
+    public void setUserInteractionCallback(@Nullable Runnable callback) {
+        this.userInteractionCallback = callback;
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (userInteractionCallback != null
+                && ev != null
+                && ev.getActionMasked() == MotionEvent.ACTION_DOWN) {
+            userInteractionCallback.run();
+        }
+        return super.dispatchTouchEvent(ev);
     }
 
     private TextWatcher richTitleInputTextWatcher =

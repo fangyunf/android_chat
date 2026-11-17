@@ -159,6 +159,10 @@ public abstract class ChatBaseFragment extends BaseFragment {
 
     protected Handler mHandler;
 
+    /** 聊天页无操作 1 分钟后自动滚到底部 */
+    private static final long IDLE_SCROLL_TO_BOTTOM_MS = 60_000L;
+    private final Runnable idleScrollToBottomRunnable = this::onIdleScrollToBottom;
+
     protected ChatMessageBean forwardMessage;
 
     protected ActivityResultLauncher<String> pickMediaLauncher;
@@ -222,6 +226,9 @@ public abstract class ChatBaseFragment extends BaseFragment {
             @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
         rootView = initViewAndGetRootView(inflater, container);
+        if (mHandler == null) {
+            mHandler = new Handler();
+        }
         initView();
         loadConfig();
         NetworkUtils.registerNetworkStatusChangedListener(networkStateListener);
@@ -235,7 +242,9 @@ public abstract class ChatBaseFragment extends BaseFragment {
         if (getArguments() != null) {
             initData(getArguments());
         }
-        mHandler = new Handler();
+        if (mHandler == null) {
+            mHandler = new Handler();
+        }
         NIMClient.getService(AuthServiceObserver.class).observeOnlineStatus(loginObserver, true);
         initViewModel();
         initDataObserver();
@@ -332,6 +341,48 @@ public abstract class ChatBaseFragment extends BaseFragment {
                                 }
                             }
                         });
+        // 任意触摸操作重置空闲计时；1 分钟无操作自动滚到底部
+        chatView.setUserInteractionCallback(this::resetIdleScrollToBottom);
+        scheduleIdleScrollToBottom();
+    }
+
+    private void onIdleScrollToBottom() {
+        if (!isAdded() || chatView == null || chatView.getMessageListView() == null) {
+            return;
+        }
+        // 用户上滑后 isStartScroll=true，普通 scrollToEnd 不会滚到底，需强制
+        chatView.getMessageListView().forceScrollToEnd();
+        scheduleIdleScrollToBottom();
+    }
+
+    private void scheduleIdleScrollToBottom() {
+        if (mHandler == null) {
+            return;
+        }
+        mHandler.removeCallbacks(idleScrollToBottomRunnable);
+        mHandler.postDelayed(idleScrollToBottomRunnable, IDLE_SCROLL_TO_BOTTOM_MS);
+    }
+
+    private void resetIdleScrollToBottom() {
+        scheduleIdleScrollToBottom();
+    }
+
+    private void stopIdleScrollToBottom() {
+        if (mHandler != null) {
+            mHandler.removeCallbacks(idleScrollToBottomRunnable);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        scheduleIdleScrollToBottom();
+    }
+
+    @Override
+    public void onPause() {
+        stopIdleScrollToBottom();
+        super.onPause();
     }
 
     private void loadConfig() {
@@ -1868,6 +1919,10 @@ public abstract class ChatBaseFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         ALog.d(LIB_TAG, LOG_TAG, "onDestroyView");
+        stopIdleScrollToBottom();
+        if (chatView != null) {
+            chatView.setUserInteractionCallback(null);
+        }
         super.onDestroyView();
         NIMClient.getService(AuthServiceObserver.class).observeOnlineStatus(loginObserver, false);
         if (chatView != null && chatView.getMessageListView() != null) {

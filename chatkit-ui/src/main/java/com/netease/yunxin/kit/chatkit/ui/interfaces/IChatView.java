@@ -8,6 +8,8 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import androidx.annotation.Nullable;
+
 import com.netease.nimlib.sdk.msg.model.AttachmentProgress;
 import com.netease.yunxin.kit.chatkit.ui.ChatUIConfig;
 import com.netease.yunxin.kit.chatkit.ui.IChatFactory;
@@ -104,4 +106,7 @@ public interface IChatView {
   void setMultiSelectEnable(boolean enable);
 
   View getRootView();
+
+  /** 用户有触摸等操作时回调，用于空闲自动滚到底等逻辑 */
+  void setUserInteractionCallback(@Nullable Runnable callback);
 }

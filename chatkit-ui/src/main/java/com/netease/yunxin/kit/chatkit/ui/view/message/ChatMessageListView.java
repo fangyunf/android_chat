@@ -329,6 +329,19 @@ public class ChatMessageListView extends RecyclerView implements IMessageData {
       }
     }
   }
+
+  /** 强制滚到底部（忽略用户上滑标记），用于空闲自动回底等场景 */
+  public void forceScrollToEnd() {
+    if (messageAdapter == null) {
+      return;
+    }
+    int itemCount = messageAdapter.getItemCount();
+    if (itemCount <= 0) {
+      return;
+    }
+    isStartScroll = false;
+    post(() -> scrollToPosition(itemCount - 1));
+  }
   private boolean isRecyclerViewAtBottom() {
     LinearLayoutManager layoutManager = (LinearLayoutManager) getLayoutManager();
     int lastVisiblePosition = layoutManager.findLastCompletelyVisibleItemPosition() + 1;
