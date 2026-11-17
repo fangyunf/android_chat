@@ -81,6 +81,7 @@ import com.netease.yunxin.kit.corekit.im.repo.SettingRepo;
 import com.netease.yunxin.nertc.ui.CallKitNotificationConfig;
 import com.netease.yunxin.nertc.ui.CallKitUI;
 import com.netease.yunxin.nertc.ui.CallKitUIOptions;
+import com.yaoxin.appbase.model.GroupInfoBean;
 import com.yaoxin.appbase.model.NetData;
 import com.yaoxin.appbase.model.ParamsBean;
 import com.yaoxin.appbase.model.RegisterBean;

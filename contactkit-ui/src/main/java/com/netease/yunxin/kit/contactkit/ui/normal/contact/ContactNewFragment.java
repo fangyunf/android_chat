@@ -76,6 +76,8 @@ import com.yaoxin.appbase.utils.PinnedHeaderDecoration;
 import com.yaoxin.appbase.utils.StatusBarUtils;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -129,10 +131,24 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
 
         _initViews();
         _requestData();
+        EventBus.getDefault().register(this);
 
         return binding.getRoot();
     }
 
+    @Override
+    public void onDestroyView() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroyView();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(BaseEvent event) {
+        if (event != null && "refreshFriendList".equals(event.getTag())) {
+            getMessageCount();
+            loadFriendList();
+        }
+    }
 
     @Override
     public void onResume() {
@@ -163,7 +179,9 @@ public class ContactNewFragment extends BaseFragment implements View.OnClickList
 //                        friendAdapter.friendApplyNum = applyNumBean.friendApplyNum;
 //                        friendAdapter.groupApplyNum = applyNumBean.groupApplyNum;
                 // friendAdapter.notifyDataSetChanged();
-                headerAdapter.notifyItemChanged(0);
+                if (headerAdapter != null) {
+                    headerAdapter.notifyItemChanged(0);
+                }
 //                        if (applyNumBean.groupApplyNum > 0) {
 //                            binding.contactNewFragmentGroupNoticeTv.setText(applyNumBean.groupApplyNum + "");
 //                            binding.contactNewFragmentGroupNoticeTv.setVisibility(View.VISIBLE);

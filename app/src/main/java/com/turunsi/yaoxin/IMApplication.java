@@ -216,6 +216,11 @@ public class IMApplication extends MultiDexApplication {
                                     BaseEvent baseEvent = new BaseEvent("refresh_notice");
                                     baseEvent.customMsgBean = msgBean;
                                     EventBus.getDefault().post(baseEvent);
+                                } else if (msgBean.type == 15 || msgBean.type == 2) {
+                                    // 好友申请/好友变动：刷新通讯录角标，无需点进通讯录
+                                    BaseEvent baseEvent = new BaseEvent("refreshFriendList");
+                                    baseEvent.customMsgBean = msgBean;
+                                    EventBus.getDefault().post(baseEvent);
                                 }
                             }
                             // 根据需要处理通知内容
