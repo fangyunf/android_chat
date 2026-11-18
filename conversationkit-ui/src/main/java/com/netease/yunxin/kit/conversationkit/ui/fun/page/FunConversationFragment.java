@@ -307,42 +307,45 @@ public class FunConversationFragment extends ConversationBaseFragment {
         if (_type == 0 || _type == 3) {
 
 
-            HttpUtil.apiW().customer_systemAppUser(new RegisterBean())
+            HttpUtil.apiW().aideNews_systemAppUser(new RegisterBean())
                     .enqueue(new CommonCallback<NetData>() {
                         @Override
                         public void Successful(Call<NetData> call, Response<NetData> response, NetData body) {
+                            // 回包形如 {"memberCode":"987809053","id":"2102997911255261184"}
+                            // id 作客服 userId，memberCode 直接 addFriends（id 超长不能用 int）
                             String kefuId = "";
                             String kefuMemberCode = "";
                             try {
-                                String raw = body.data == null ? "" : body.data.toString();
+                                String raw = body.data == null ? "" : body.data.toString().trim();
                                 if (raw.startsWith("{")) {
-                                    UserBean kefuBean = new Gson().fromJson(raw, UserBean.class);
-                                    if (kefuBean != null) {
-                                        if (!TextUtils.isEmpty(kefuBean.userId)) {
-                                            kefuId = kefuBean.userId;
-                                        } else if (kefuBean.id > 0) {
-                                            kefuId = String.valueOf(kefuBean.id);
-                                        }
-                                        // 关闭爆粉：直接用接口下发的码，禁止再 searchByUserId 反查
-                                        if (!TextUtils.isEmpty(kefuBean.serviceMemberCode)) {
-                                            kefuMemberCode = kefuBean.serviceMemberCode;
-                                        } else {
-                                            kefuMemberCode = kefuBean.memberCode;
-                                        }
+                                    com.google.gson.JsonObject obj =
+                                            com.google.gson.JsonParser.parseString(raw).getAsJsonObject();
+                                    if (obj.has("memberCode") && !obj.get("memberCode").isJsonNull()) {
+                                        kefuMemberCode = obj.get("memberCode").getAsString().trim();
+                                    }
+                                    if (obj.has("id") && !obj.get("id").isJsonNull()) {
+                                        kefuId = obj.get("id").getAsString().trim();
+                                    }
+                                    if (TextUtils.isEmpty(kefuId)
+                                            && obj.has("userId")
+                                            && !obj.get("userId").isJsonNull()) {
+                                        kefuId = obj.get("userId").getAsString().trim();
                                     }
                                 } else {
-                                    kefuId = raw.replace("\"", "");
+                                    kefuId = raw.replace("\"", "").trim();
                                 }
                             } catch (Exception e) {
-                                kefuId = body.data.toString().replace("\"", "");
+                                if (body.data != null) {
+                                    kefuId = body.data.toString().replace("\"", "").trim();
+                                }
                             }
-                            if (TextUtils.isEmpty(kefuId)) {
+                            if (TextUtils.isEmpty(kefuMemberCode)) {
                                 return;
                             }
-                            DataUtil.putKeFuId(kefuId);
-                            if (!TextUtils.isEmpty(kefuMemberCode)) {
-                                DataUtil.putKeFuMemberCode(kefuMemberCode);
+                            if (!TextUtils.isEmpty(kefuId)) {
+                                DataUtil.putKeFuId(kefuId);
                             }
+                            DataUtil.putKeFuMemberCode(kefuMemberCode);
                             requestKefu(kefuId, kefuMemberCode);
 
                             String xiaozhushouId = "10086";
@@ -401,18 +404,20 @@ public class FunConversationFragment extends ConversationBaseFragment {
         });
     }
 
-    /** 客服加好友：只用接口直接给的 serviceMemberCode/memberCode，禁止 searchByUserIdF 反查 */
+    /** 客服加好友：接口已下发 memberCode，直接 addFriends，不走 searchByUserIdAOS */
     void requestKefu(String kefuId, String kefuMemberCode) {
         if (TextUtils.isEmpty(kefuMemberCode) || "0".equals(kefuMemberCode)) {
             return;
         }
-        List<GroupInfoBean> friends = DataUtil.getFriendInfoList();
-        if (friends != null) {
-            for (GroupInfoBean friend : friends) {
-                if (friend != null
-                        && !TextUtils.isEmpty(friend.userId)
-                        && friend.userId.equals(kefuId)) {
-                    return;
+        if (!TextUtils.isEmpty(kefuId)) {
+            List<GroupInfoBean> friends = DataUtil.getFriendInfoList();
+            if (friends != null) {
+                for (GroupInfoBean friend : friends) {
+                    if (friend != null
+                            && !TextUtils.isEmpty(friend.userId)
+                            && friend.userId.equals(kefuId)) {
+                        return;
+                    }
                 }
             }
         }
@@ -426,8 +431,10 @@ public class FunConversationFragment extends ConversationBaseFragment {
                             @Override
                             public void Successful(
                                     Call<NetData> call, Response<NetData> response, NetData body) {
-                                NIMClient.getService(MsgService.class)
-                                        .clearChattingHistory(kefuId, SessionTypeEnum.P2P);
+                                if (!TextUtils.isEmpty(kefuId)) {
+                                    NIMClient.getService(MsgService.class)
+                                            .clearChattingHistory(kefuId, SessionTypeEnum.P2P);
+                                }
                             }
 
                             @Override

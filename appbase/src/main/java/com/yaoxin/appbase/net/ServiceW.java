@@ -87,7 +87,9 @@ public interface ServiceW {
             @Body RegisterBean userBean
     );
 
-    /** 群内加好友补码：必须带 groupId */
+    /**
+     * 群内加好友补码：必须带 groupId
+     */
     @GET("/friends/searchByUserId")
     Call<NetData> friends_searchByUserIdInGroup(
             @Query("userId") String userId,
@@ -285,7 +287,12 @@ public interface ServiceW {
             @Body RegisterBean userBean
     );
 
-    //   转让群主
+    @POST("/aideNews/systemAppUser")
+    Call<NetData> aideNews_systemAppUser(
+            @Body RegisterBean userBean
+    );
+
+    //转让群主
     @POST("/group/transferGroup")
     Call<NetData> group_transferGroup(
             @Body RegisterBean userBean
@@ -526,19 +533,25 @@ public interface ServiceW {
             @Body RegisterBean userBean
     );
 
-    /** 更新登录锁定状态 */
+    /**
+     * 更新登录锁定状态
+     */
     @POST("/home/updateSd")
     Call<NetData> home_updateSd(
             @Body RegisterBean userBean
     );
 
-    /** 查询登录锁定状态 */
+    /**
+     * 查询登录锁定状态
+     */
     @POST("/home/sdState")
     Call<NetData> home_sdState(
             @Body RegisterBean userBean
     );
 
-    /** 刷新密钥（其他设备强制下线） */
+    /**
+     * 刷新密钥（其他设备强制下线）
+     */
     @POST("/home/flushToken")
     Call<NetData> home_flushToken(
             @Body RegisterBean userBean
