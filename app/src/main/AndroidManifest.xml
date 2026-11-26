@@ -101,12 +101,7 @@
         android:roundIcon="@mipmap/yaoxin_icon"
         android:supportsRtl="true"
         android:theme="@style/Theme.Xkit">
-        <!--        <meta-data-->
-        <!--            android:name="com.netease.nim.appKey"-->
-        <!--            android:value="2a6664a3c43a1fd51133b7dff030c575" />-->
-        <meta-data
-            android:name="com.netease.nim.appKey"
-            android:value="b20337cd3f58458a1eb9ede2e9e19f32" />
+        <!-- 云信 AppKey 由启动接口 /customer/yunxinId 下发，不在本地硬编码 -->
 
         <meta-data
             android:name="com.amap.api.v2.apikey"

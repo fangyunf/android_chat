@@ -33,8 +33,12 @@ public class AESUtil {
      * @throws Exception
      */
     public static String aesEncrypt(String sSrc) throws Exception {
+        return aesEncrypt(sSrc, Constant.ENCODE_KEY);
+    }
+
+    public static String aesEncrypt(String sSrc, String key) throws Exception {
         Cipher cipher = Cipher.getInstance(CipherMode);
-        byte[] raw = Constant.ENCODE_KEY.getBytes("UTF-8");
+        byte[] raw = key.getBytes("UTF-8");
         SecretKeySpec skeySpec = new SecretKeySpec(raw, CipherMode);
         cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
         byte[] encrypted = cipher.doFinal(sSrc.getBytes("UTF-8"));
@@ -42,8 +46,12 @@ public class AESUtil {
     }
 
     public static String aseDecrypt(String strToDecrypt) throws Exception {
+        return aseDecrypt(strToDecrypt, Constant.ENCODE_KEY);
+    }
+
+    public static String aseDecrypt(String strToDecrypt, String key) throws Exception {
         Cipher cipher = Cipher.getInstance(CipherMode);
-        byte[] raw = Constant.ENCODE_KEY.getBytes("UTF-8");
+        byte[] raw = key.getBytes("UTF-8");
         SecretKeySpec skeySpec = new SecretKeySpec(raw, CipherMode);
         cipher.init(Cipher.DECRYPT_MODE, skeySpec);
         byte[] decodedBytes = Base64.decode(strToDecrypt, Base64.DEFAULT);

@@ -100,22 +100,34 @@ import java.util.Objects;
 public class IMApplication extends MultiDexApplication {
 
     private static final String TAG = "IMApplication";
+    private static IMApplication instance;
+    private volatile boolean nimSdkInitialized = false;
     private static boolean coldStart = false;
     private static int foregroundActCount = 0;
     private Activity currentActivity;
     private MediaPlayer mediaPlayer;
     Vibrator vibrator;
 
+    public static IMApplication getInstance() {
+        return instance;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
+        instance = this;
         ALog.d(Constant.PROJECT_TAG, TAG, "onCreate");
         //app init
         registerActivityLifeCycle();
         AppCrashHandler.getInstance().initCrashHandler(this);
         Thread.setDefaultUncaughtExceptionHandler(AppCrashHandler.getInstance());
 
-        initUIKit();
+        // 启动页需先调 /customer/yunxinId 拿 AppKey 再 initSdk，此处先初始化 AppProxy / Hawk
+        AppProxy.getInstance().init(this)
+                .setIsDebug(BuildConfig.DEBUG)
+                .setVersionName(BuildConfig.VERSION_NAME);
+        Hawk.init(this).build();
+
         // temp register for mine
         XKitRouter.registerRouter(RouterConstant.PATH_MINE_INFO_PAGE, MineInfoActivity.class);
         XKitRouter.registerRouter(AccountDetailActivityKey, AccountDetailActivity.class);
@@ -125,9 +137,6 @@ public class IMApplication extends MultiDexApplication {
         XKitRouter.registerRouter(com.yaoxin.appbase.net.Constant.BaseWebViewActivityKey, BaseWebViewActivity.class);
         XKitRouter.registerRouter(com.yaoxin.appbase.net.Constant.XiaoZhuShouActivityKey, XiaoZhuShouActivity.class);
         XKitRouter.registerRouter("BuyGroupFeatureActivity", BuyGroupFeatureActivity.class);
-        AppProxy.getInstance().init(this)
-                .setIsDebug(BuildConfig.DEBUG)
-                .setVersionName(BuildConfig.VERSION_NAME);
         RedPacketAutoManager.get().init(this);
         initThirdPart();
         mediaPlayer = MediaPlayer.create(this, R.raw.msg);
@@ -146,7 +155,6 @@ public class IMApplication extends MultiDexApplication {
     }
 
     private void initThirdPart() {
-        Hawk.init(this).build();
         SmartRefreshLayout.setDefaultRefreshHeaderCreator(new DefaultRefreshHeaderCreator() {
             @NonNull
             @Override
@@ -168,10 +176,22 @@ public class IMApplication extends MultiDexApplication {
         });
     }
 
-    private void initUIKit() {
-        SDKOptions options = NimSDKOptionConfig.getSDKOptions(this, DataUtils.readAppKey(this));
+    /**
+     * 拿到服务端下发的 AppKey 后初始化云信 SDK（进程内只初始化一次）。
+     */
+    public synchronized boolean initSdk(String appKey) {
+        if (nimSdkInitialized) {
+            return true;
+        }
+        if (android.text.TextUtils.isEmpty(appKey)) {
+            return false;
+        }
+        DataUtils.setYunxinAppKey(appKey);
+        SDKOptions options = NimSDKOptionConfig.getSDKOptions(this, appKey.trim());
+        options.teamNotificationMessageMarkUnread = true;
         IMKitClient.init(this, null, options);
-        ALog.d(Constant.PROJECT_TAG, TAG, "initUIKit");
+        nimSdkInitialized = true;
+        ALog.d(Constant.PROJECT_TAG, TAG, "initSdk done");
 
         if (IMKitUtils.isMainProcess(this)) {
             ALog.d(Constant.PROJECT_TAG, TAG, "initUIKit:isMainProcess");
@@ -350,6 +370,7 @@ public class IMApplication extends MultiDexApplication {
 
             CrashReport.initCrashReport(getApplicationContext(), "54b5046e41", false);
         }
+        return true;
     }
 
     private final List<Activity> activities = new ArrayList<>();
