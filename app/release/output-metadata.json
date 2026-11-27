@@ -4,16 +4,16 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.turunsi.sixsix",
+  "applicationId": "com.turunsi.huacai",
   "variantName": "release",
   "elements": [
     {
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 104,
-      "versionName": "1.0.4",
-      "outputFile": "sixsix_release_v1.0.4.apk"
+      "versionCode": 100,
+      "versionName": "1.0.0",
+      "outputFile": "huacai_release_v1.0.0.apk"
     }
   ],
   "elementType": "File"
