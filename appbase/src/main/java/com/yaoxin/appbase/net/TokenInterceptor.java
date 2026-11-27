@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import com.google.gson.Gson;
 import com.yaoxin.appbase.utils.AESUtil;
 import com.yaoxin.appbase.utils.DataUtil;
+import com.yaoxin.appbase.utils.YunxinIdAesKey;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -36,7 +37,10 @@ public class TokenInterceptor implements Interceptor {
             String oldBody = buffer.readUtf8();
 
             // 修改请求体
-            String newBody = modifyRequestBody(oldBody);
+            String customAesKey = original.url().encodedPath().endsWith("/customer/yunxinId")
+                    ? YunxinIdAesKey.aesKey()
+                    : null;
+            String newBody = modifyRequestBody(oldBody, customAesKey);
 
             // 创建新的请求体
             RequestBody newRequestBody = RequestBody.create(newBody, originalBody.contentType());
@@ -63,16 +67,18 @@ public class TokenInterceptor implements Interceptor {
         return chain.proceed(original);
     }
     // 模拟修改请求体的方法
-    private String modifyRequestBody(String oldBody) {
+    private String modifyRequestBody(String oldBody, String customAesKey) {
         // 这里可以对请求体进行任何操作，比如增加、修改参数等
         String s;
         try {
-            s = AESUtil.aesEncrypt(oldBody);
+            s = customAesKey != null
+                    ? AESUtil.aesEncrypt(oldBody, customAesKey)
+                    : AESUtil.aesEncrypt(oldBody);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        HashMap map = new HashMap();
-        map.put("param",s);
+        HashMap<String, String> map = new HashMap<>();
+        map.put("param", s);
         return new Gson().toJson(map);
     }
 

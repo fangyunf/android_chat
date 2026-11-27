@@ -6,38 +6,22 @@ package com.turunsi.yaoxin.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
+import android.text.TextUtils;
 
 public class DataUtils {
 
-  private static String appKey = null;
+  private static volatile String appKey = null;
   private static int serverConfig = -1;
 
-  /** read appKey from manifest */
+  /** 仅返回服务端 /customer/yunxinId 下发的 AppKey，不读本地 Manifest */
   public static String readAppKey(Context context) {
-    if (appKey != null) {
-      return appKey;
-    }
-    if (context != null) {
-
-      try {
-        ApplicationInfo appInfo =
-            context
-                .getPackageManager()
-                .getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
-        if (appInfo != null) {
-          String keyStr =
-              getServerConfigType(context) == Constant.CHINA_CONFIG
-                  ? Constant.CONFIG_APPKEY_KEY
-                  : Constant.CONFIG_APPKEY_KEY_OVERSEA;
-          appKey = appInfo.metaData.getString(keyStr);
-        }
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
-    }
     return appKey;
+  }
+
+  public static void setYunxinAppKey(String key) {
+    if (!TextUtils.isEmpty(key)) {
+      appKey = key.trim();
+    }
   }
 
   public static int getServerConfigType(Context context) {

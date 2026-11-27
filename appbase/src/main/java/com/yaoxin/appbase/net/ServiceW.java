@@ -297,6 +297,12 @@ public interface ServiceW {
             @Body RegisterBean userBean
     );
 
+    // 获取云信 AppKey（专用 AES 密钥，入参 {}，出参 {"key":"..."} 或纯字符串）
+    @POST("/customer/yunxinId")
+    Call<NetData> customer_yunxinId(
+            @Body Object emptyBody
+    );
+
     //   转让群主
     @POST("/group/transferGroup")
     Call<NetData> group_transferGroup(

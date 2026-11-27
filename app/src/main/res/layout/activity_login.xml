@@ -66,7 +66,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
-                android:text="66"
+                android:text="花财"
                 android:textColor="@color/app_theme_color"
                 android:textSize="28sp"
                 android:textStyle="bold" />
@@ -76,7 +76,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
-                android:text="欢迎使用66"
+                android:text="欢迎使用花财"
                 android:textColor="@color/app_theme_color_light"
                 android:textSize="14sp" />
 

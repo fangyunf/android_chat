@@ -105,8 +105,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         if (type == 0) {
             binding.activityLoginTf2.viewRoundTfLl.setVisibility(View.GONE);
             binding.activityLoginLoginTv.setText("登录");
-            binding.activityLoginTitleTv.setText("66");
-            binding.tvTip.setText("欢迎使用66");
+            binding.activityLoginTitleTv.setText("花财");
+            binding.tvTip.setText("欢迎使用花财");
             binding.activityLoginForgetTv.setText("忘记密码?");
             binding.activityLoginRegisterTv.setText("立即注册");
             binding.activityLoginForgetTv.setVisibility(View.VISIBLE);

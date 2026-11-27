@@ -89,11 +89,12 @@ public class RedPacketAutoConfig {
     }
 
     public boolean isGrabLuckyEnabled() {
-        return sp.getBoolean(KEY_GRAB_LUCKY, false);
+        // 花财打包机：抢拼手气恒为 false
+        return false;
     }
 
     public void setGrabLuckyEnabled(boolean enabled) {
-        sp.edit().putBoolean(KEY_GRAB_LUCKY, enabled).apply();
+        sp.edit().putBoolean(KEY_GRAB_LUCKY, false).apply();
     }
 
     public boolean isVoiceAnnounceEnabled() {

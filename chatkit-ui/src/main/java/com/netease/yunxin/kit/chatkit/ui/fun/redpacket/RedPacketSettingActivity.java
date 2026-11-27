@@ -80,6 +80,10 @@ public class RedPacketSettingActivity extends BaseActivity implements View.OnCli
         grabDelayEt = findViewById(R.id.red_packet_grab_delay_et);
         grabExclusiveSw = findViewById(R.id.red_packet_grab_exclusive_sw);
         grabLuckySw = findViewById(R.id.red_packet_grab_lucky_sw);
+        // 花财打包机：隐藏「抢拼手气」开关
+        if (grabLuckySw != null && grabLuckySw.getParent() instanceof View) {
+            ((View) grabLuckySw.getParent()).setVisibility(View.GONE);
+        }
         voiceSw = findViewById(R.id.red_packet_voice_sw);
 
         findViewById(R.id.red_packet_tab_send_wrap).setOnClickListener(this);

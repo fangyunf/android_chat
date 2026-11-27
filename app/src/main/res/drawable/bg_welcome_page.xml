@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 登录/欢迎页背景：对齐 iOS 浅蓝 #E8F2FC -->
+<!-- 登录/欢迎页背景：花财暖米底 #FFF5F0 -->
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
-    <solid android:color="#E8F2FC" />
+    <solid android:color="#FFF5F0" />
 </shape>

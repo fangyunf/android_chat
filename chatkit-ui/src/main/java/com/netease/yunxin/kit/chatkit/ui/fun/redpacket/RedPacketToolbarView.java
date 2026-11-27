@@ -50,6 +50,10 @@ public class RedPacketToolbarView extends FrameLayout {
         collapsedLayout = findViewById(R.id.red_packet_toolbar_collapsed);
         btnExclusive = findViewById(R.id.red_packet_btn_exclusive);
         btnLucky = findViewById(R.id.red_packet_btn_lucky);
+        // 花财打包机：关闭且隐藏「抢拼手气」入口
+        if (btnLucky != null) {
+            btnLucky.setVisibility(View.GONE);
+        }
         btnSend = findViewById(R.id.red_packet_btn_send);
         TextView btnSetting = findViewById(R.id.red_packet_btn_setting);
         TextView btnClose = findViewById(R.id.red_packet_btn_close);

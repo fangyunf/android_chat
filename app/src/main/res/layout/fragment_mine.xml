@@ -151,7 +151,8 @@
                             android:layout_width="14dp"
                             android:layout_height="14dp"
                             android:layout_marginStart="8dp"
-                            android:src="@mipmap/mine_index_copy" />
+                            android:src="@mipmap/mine_index_copy"
+                            app:tint="@color/white" />
                     </LinearLayout>
                 </LinearLayout>
 

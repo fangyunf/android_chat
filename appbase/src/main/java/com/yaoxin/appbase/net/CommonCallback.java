@@ -12,6 +12,7 @@ import com.yaoxin.appbase.utils.AppProxy;
 import com.yaoxin.appbase.utils.BaseEvent;
 import com.yaoxin.appbase.utils.DataUtil;
 import com.yaoxin.appbase.utils.ToastUtils;
+import com.yaoxin.appbase.utils.YunxinIdAesKey;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -42,10 +43,16 @@ public abstract class CommonCallback<T> implements Callback<T> {
                     case 200:
                         try {
                             if (netData.data != null) {
-                                netData.data = AESUtil.aseDecrypt(netData.data.toString());
+                                String path = response.raw().request().url().encodedPath();
+                                if (path.endsWith("/customer/yunxinId")) {
+                                    netData.data = AESUtil.aseDecrypt(netData.data.toString(), YunxinIdAesKey.aesKey());
+                                } else {
+                                    netData.data = AESUtil.aseDecrypt(netData.data.toString());
+                                }
                             }
                         } catch (Exception e) {
-                            throw new RuntimeException(e);
+                            onFailure(call, e);
+                            return;
                         }
                         Successful(call, response, t);
                         break;
